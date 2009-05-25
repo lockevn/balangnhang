@@ -36,6 +36,23 @@ namespace TalaAPI.Business
             this.PhomList = new List<Phom>();
         }
 
+        public int GetPreviousSeatIndex(int seatCount)
+        {
+            if (this.Index == 0)
+            {
+                return seatCount;
+            }
+            return this.Index - 1;
+        }
+
+        public int GetNextSeatIndex(int seatCount)
+        {
+            if (this.Index == seatCount)
+            {
+                return 0;
+            }
+            return this.Index + 1;
+        }
 
 
     }
