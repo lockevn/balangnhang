@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalaAPI", "TalaAPI\TalaAPI.csproj", "{60BFBFA3-7265-4961-A25C-7B2AB71D71C0}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{60BFBFA3-7265-4961-A25C-7B2AB71D71C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60BFBFA3-7265-4961-A25C-7B2AB71D71C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60BFBFA3-7265-4961-A25C-7B2AB71D71C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60BFBFA3-7265-4961-A25C-7B2AB71D71C0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
