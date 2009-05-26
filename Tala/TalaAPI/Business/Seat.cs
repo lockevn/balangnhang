@@ -36,22 +36,34 @@ namespace TalaAPI.Business
             this.PhomList = new List<Phom>();
         }
 
-        public int GetPreviousSeatIndex(int seatCount)
+        /// <summary>
+        /// Lấy chỉ số của seat trước so với chỉ số hiện tại của seat. Chỉ số có thể là index hoặc haIndex của Seat
+        /// </summary>
+        /// <param name="currIndex">index hoặc haIndex của Seat</param>
+        /// <param name="seatCount">tổng số seat trong sới</param>
+        /// <returns>chỉ số của seat trước</returns>
+        public static int GetPreviousSeatIndex(int currIndex, int seatCount)
         {
-            if (this.Index == 0)
+            if (currIndex == 0)
             {
                 return seatCount;
             }
-            return this.Index - 1;
+            return currIndex - 1;
         }
 
-        public int GetNextSeatIndex(int seatCount)
+        /// <summary>
+        /// Lấy chỉ số của seat sau so với chỉ số hiện tại của seat. Chỉ số có thể là index hoặc haIndex của Seat
+        /// </summary>
+        /// <param name="currIndex">index hoặc haIndex của Seat</param>
+        /// <param name="seatCount">tổng số seat trong sới</param>
+        /// <returns>chỉ số của seat sau</returns>
+        public static int GetNextSeatIndex(int currIndex, int seatCount)
         {
-            if (this.Index == seatCount)
+            if (currIndex == seatCount)
             {
                 return 0;
             }
-            return this.Index + 1;
+            return currIndex + 1;
         }
 
 
