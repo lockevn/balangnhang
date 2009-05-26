@@ -16,7 +16,10 @@ namespace TalaAPI.community.soi
 
         public override void ProcessRequest(HttpContext context)
         {
+            TalaSecurity security = new TalaSecurity(context);
+
             base.ProcessRequest(context);
         }
+        
     }
 }

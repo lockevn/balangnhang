@@ -67,5 +67,10 @@ namespace TalaAPI.XMLRenderOutput
         {
             return new APICommandStatus(APICommandStatusState.FAIL, "NOT_VALID", "");
         }
+
+        public static APICommandStatus Get_WRONG_AUTHKEY_CommandStatus()
+        {
+            return new APICommandStatus(APICommandStatusState.FAIL, "WRONG_AUTHKEY", " Bạn chưa đăng nhập");
+        }
     }
 }

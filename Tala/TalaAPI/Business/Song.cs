@@ -43,14 +43,32 @@ namespace TalaAPI.Business
         {            
             return Soi[soiid];            
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="authkey"></param>
+        /// <returns>null if can not find</returns>
         public string GetUsernameByAuthkey(string authkey)
         {
-            return ValidAuthkey[authkey];
+            string ret = string.Empty;
+            if (ValidAuthkey.TryGetValue(authkey, out ret))
+            {
+                return ret;
+            }
+            else
+            {
+                return string.Empty;
+            }            
         }
+
         public User GetUserByUsername(string username)
         {
-            return OnlineUser[username];
+            User ret;
+            OnlineUser.TryGetValue(username, out ret);
+            return ret;
         }
+
         public User GetUserByAuthkey(string authkey)
         {
             return GetUserByUsername(GetUsernameByAuthkey(authkey));

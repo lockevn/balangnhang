@@ -12,6 +12,7 @@ using System.Xml.Linq;
 
 using TalaAPI.Lib;
 using TalaAPI.Business;
+using TalaAPI.XMLRenderOutput;
 
 namespace TalaAPI.Business
 {
@@ -37,6 +38,14 @@ namespace TalaAPI.Business
             _context = context;
             _authkey = context.Request["authkey"].ToStringSafetyNormalize();
             _user = Song.Instance.GetUserByUsername(Song.Instance.GetUsernameByAuthkey(_authkey));
+
+            if (_user == null)
+            {
+                XMLHttpHandler httphandler = new XMLHttpHandler();
+                httphandler.Cmd.Add(APICommandStatus.Get_WRONG_AUTHKEY_CommandStatus());
+                httphandler.ProcessRequest(context);
+                context.Response.End();
+            }
         }
 
     }
