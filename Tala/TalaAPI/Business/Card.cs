@@ -123,6 +123,24 @@ namespace TalaAPI.Business
             return (!(c1 > c2));
         }
 
+        /// <summary>
+        /// create a Card object from string with format SoSoChat: vd 01c (át cơ)
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static Card ParseString(string value)
+        {
+            if (value == null || value.Length != 3)
+            {
+                return null;
+            }
+            string so = value.Substring(0, 2);
+            string chat = value.Substring(2, 1);
+            Card card = new Card(so, chat);
+            return card;
+        }
+
+
 
     }
 
