@@ -14,6 +14,7 @@ namespace TalaAPI.Lib
 {
     public class CONST
     {
-        const int MAX_SOI_ALLOW = 100;
+        public const int MAX_SOI_ALLOW = 100;
+        public const string CARD_SEPERATOR_SYMBOL = ",";
     }
 }
