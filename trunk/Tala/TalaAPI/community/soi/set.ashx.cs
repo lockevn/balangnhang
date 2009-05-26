@@ -33,13 +33,24 @@ namespace TalaAPI.community.soi
                     Cmd.Add(cs);
                 }
                 else
-                {
+                {                    
                     //chiprate	Số đơn vị tiền tệ mà một chip đổi được	VD, nếu 1 chip là 3 vcoin, Chiprate:3
                     //gaenable	Có bật chế độ gà hay không, int=[0.1]	gaenable:1
                     //randomposafteru	Có đổi chỗ ngồi sau khi ù không, int=[0,1]	
                     //Turntimeout	Số giây để suy nghĩ khi đến lượt. Nếu quá thời gian này, hệ thống sẽ tự đánh một cây (bên trái ngoài cùng của bài trên tay)	
                     Hashtable htbOption = GURUCORE.Lib.Core.Text.TextHelper.ParseNameValueString(option, '^', ':');
-		            //soi
+                    
+                    int chiprate = 0;
+                    int.TryParse(htbOption["chiprate"] as string, out chiprate);
+                    soi.SoiOption.TiGiaChip = chiprate;
+                    
+                    bool isga = false;
+                    bool.TryParse(htbOption["isga"] as string, out isga);
+                    soi.SoiOption.IsGa = isga;
+
+                    // set option is OK
+                    APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "SOI_OPTION", "1");
+                    Cmd.Add(cs);
                 }
             }
             else

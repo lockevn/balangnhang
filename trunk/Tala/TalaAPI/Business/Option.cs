@@ -14,10 +14,39 @@ namespace TalaAPI.Business
 {
     public class Option
     {
-        public int TiGiaChip;
-        public bool IsUKhan;
-        public bool IsUNoi;
-        public bool IsGa;
-        public bool IsChot;
+        int _TiGiaChip;
+        public int TiGiaChip
+        {
+            get { return _TiGiaChip;  }
+            set { _TiGiaChip = value;  }
+        }
+
+        bool _IsUKhan;
+        public bool IsUKhan
+        {
+            get { return _IsUKhan;  }
+            set { _IsUKhan = value; }
+        }
+
+        bool _IsGuiNoi;
+        public bool IsGuiNoi
+        {
+            get { return _IsGuiNoi; }
+            set { _IsGuiNoi = value; }
+        }
+
+        bool _IsGa;
+        public bool IsGa
+        {
+            get { return _IsGa; }
+            set { _IsGa = value; }
+        }
+
+        bool _IsChot;
+        public bool IsChot
+        {
+            get { return _IsChot; }
+            set { _IsChot = value; }
+        }
     }
 }
