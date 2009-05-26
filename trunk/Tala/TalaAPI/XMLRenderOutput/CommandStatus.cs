@@ -20,30 +20,45 @@ namespace TalaAPI.XMLRenderOutput
 
     public class APICommandStatus
     {
-        public string _sStat;
-        public string _sID;
-        public string _sInfo;
+        string _sStat;
+        public string Stat
+        {
+            get { return _sStat; }
+            set {
+                _sStat = (value == APICommandStatusState.OK ? APICommandStatusState.OK : APICommandStatusState.FAIL);
+            }
+        }
+        string _sID;
+        public string ID
+        {
+            get { return _sID; }
+            set { _sID = value; }
+        }
+        string _sInfo;
+        public string Info
+        {
+            get { return _sInfo; }
+            set { _sInfo = value; }
+        }
 
         public APICommandStatus(string p_sStat, string p_sID, string p_sInfo)
         {
-            if (p_sStat != APICommandStatusState.OK)
-            {
-                p_sStat = APICommandStatusState.FAIL;
-            }
-
-            _sStat = p_sStat;
+            Stat = p_sStat;
             _sID = p_sID;
             _sInfo = p_sInfo;            
         }
 
         public APICommandStatus(bool p_bStat)
         {
-            _sStat = p_bStat ? "ok" : "fail";
+            _sStat = p_bStat ? APICommandStatusState.OK : APICommandStatusState.FAIL;
         }
 
         public override string ToString()
         {
             return string.Format("<e stat='{0}'><id>{1}</id><info>{2}</info></e>", _sStat, _sID, _sInfo);
         }
+
+        public static APICommandStatus NOT_ALLOW_CommandStatus = new APICommandStatus(APICommandStatusState.FAIL, "NOT_ALLOW", "");
+        public static APICommandStatus NOT_VALID_CommandStatus = new APICommandStatus(APICommandStatusState.FAIL, "NOT_VALID", "");
     }
 }

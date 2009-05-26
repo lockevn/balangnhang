@@ -38,5 +38,19 @@ namespace TalaAPI.Business
         public Dictionary<string, string> ValidAuthkey = new Dictionary<string, string>();
         public Dictionary<string, User> OnlineUser = new Dictionary<string,User>();
         public Dictionary<string, Soi> Soi = new Dictionary<string,Soi>();
+
+        public Soi GetSoiByID(string soiid)
+        {            
+            return Soi[soiid];            
+        }
+        public string GetUsernameByAuthkey(string authkey)
+        {
+            return ValidAuthkey[authkey];
+        }
+        public User GetUserByUsername(string username)
+        {
+            return OnlineUser[username];
+        }
+
     }
 }

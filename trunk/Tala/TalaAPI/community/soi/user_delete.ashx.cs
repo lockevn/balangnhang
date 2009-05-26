@@ -7,6 +7,7 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
 using TalaAPI.Lib;
+using TalaAPI.Business;
 
 namespace TalaAPI.community.soi
 {

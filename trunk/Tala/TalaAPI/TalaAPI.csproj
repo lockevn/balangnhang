@@ -69,6 +69,7 @@
     <Compile Include="Business\Option.cs" />
     <Compile Include="Business\Phom.cs" />
     <Compile Include="Business\Seat.cs" />
+    <Compile Include="Business\TalaSecurity.cs" />
     <Compile Include="Business\Soi.cs" />
     <Compile Include="Business\Song.cs" />
     <Compile Include="Business\User.cs" />

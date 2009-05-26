@@ -24,12 +24,34 @@ namespace TalaAPI.Business
         public DateTime EndTime;
         public string Description;
         public List<Seat> SeatList;
-        public string OwnerUsername;
+        
+        string _OwnerUsername;
+        public string OwnerUsername
+        {
+            get { return _OwnerUsername;  }
+            set { _OwnerUsername = value; }
+        }
+
         public Option SoiOption;
+
         public int GaValue;
         public Van CurrVan;
-        public bool IsLocked;
         
+        bool _IsLocked;
+        public bool IsLocked
+        {
+            get
+            {
+                return _IsLocked;
+            }
+            set
+            {
+                _IsLocked = value;
+            }
+        }
+
+
+
 
 
         public Soi(int id, string owner)
