@@ -20,8 +20,8 @@ namespace TalaAPI.Lib
     //[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     public class XMLHttpHandler : IHttpHandler
     {
-        protected ArrayList Data = new ArrayList();
-        protected ArrayList Cmd = new ArrayList();
+        protected internal ArrayList Data = new ArrayList();
+        protected internal ArrayList Cmd = new ArrayList();
 
         /// <summary>
         /// Set ContentType to xml, render Data and Cmd to xml
@@ -56,6 +56,7 @@ namespace TalaAPI.Lib
             context.Response.Write(string.Format("<q stat=''>{0}{1}</q>", sRenderedData, sRenderedCmd));
         }        
                 
+
         public bool IsReusable
         {
             get
