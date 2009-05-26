@@ -15,54 +15,58 @@ namespace TalaAPI.Business
     public class Phom
     {
         public int Id;
-        public Card[] phom;
-        public Seat seat; /*seat ma phom thuoc ve*/
+        public Card[] CardArr;
+        public Seat OfSeat; /*seat ma phom thuoc ve*/
 
-        public Phom()
+        public Phom(Card[] cardArr)
         {
+            this.CardArr = cardArr;
         }
 
         /// <summary>
-        /// Check 1 tập cards có tạo thành phỏm không
+        /// Check 1 tập cards có tạo thành phỏm không, nếu đúng, trả về một Phom
         /// </summary>
         /// <param name="cardArr">mảng Card</param>
-        /// <returns>true/false</returns>
-        public static bool Check(Card[] cardArr)
+        /// <returns>Phom nếu thỏa mãn, null nếu 0 đủ điều kiện tạo phỏm</returns>
+        public static Phom Check(Card[] cardArr)
         {
-            if (cardArr == null || cardArr.Count < 3)
+            if (cardArr == null || cardArr.Length < 3)
             {
-                return false;
+                return null;
             }
-            for (int i = 1; i < cardArr.Count; i++)
+            for (int i = 1; i < cardArr.Length; i++)
             {
                 /*kiem tra phom ngang*/
                 if (cardArr[i].So == cardArr[i - 1].So)
                 {
-                    if (i == cardArr.Count - 1)
+                    if (i == cardArr.Length - 1)
                     {
-                        /*neu da kiem tra den het cardArr*/
-                        return true;
+                        /*neu da kiem tra den het cardArr thi cardArr đủ điều kiện tạo Phỏm*/
+                        Phom phom = new Phom(cardArr);
+
+                        return phom;
                     }
                     continue;
                 }
             }
             /*kiem tra phom doc*/
             /*sap xep lai cac cay trong mang tang dan*/
-            cardArr = Phom.SapXepCardTangDan(cardArr);
-            for (int i = 1; i < cardArr.Count; i++)
+            cardArr = CardArr.SapXepCardTangDan(cardArr);
+            for (int i = 1; i < cardArr.Length; i++)
             {
                 if (cardArr[i].Chat == cardArr[i - 1].Chat &&
                     cardArr[i].So == (cardArr[i - 1].So + 1))
                 {
-                    if (i == cardArr.Count - 1)
+                    if (i == cardArr.Length - 1)
                     {
-                        /*neu da kiem tra den het cardArr*/
-                        return true;
+                        /*neu da kiem tra den het cardArr thi cardArr đủ điều kiện tạo Phỏm*/
+                        Phom phom = new Phom(cardArr);
+                        return phom;
                     }
                     continue;
                 }
             }
-            return false;                        
+            return null;                        
         }
 
         /// <summary>
@@ -76,11 +80,11 @@ namespace TalaAPI.Business
             {
                 return cardArr;
             }
-            for (int i = 0; i < cardArr.Count - 1; i++)
+            for (int i = 0; i < cardArr.Length - 1; i++)
             {
-                for (int j = i + 1; j < cardArr.Count; j++)
+                for (int j = i + 1; j < cardArr.Length; j++)
                 {
-                    if (cardArr[i].So > cardArr[j].So)
+                    if (cardArr[i].So.CompareTo(cardArr[j].So) > 0)
                     {
                         Card tmpCard = cardArr[i];
                         cardArr[i] = cardArr[j];
