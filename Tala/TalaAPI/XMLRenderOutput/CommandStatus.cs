@@ -58,7 +58,14 @@ namespace TalaAPI.XMLRenderOutput
             return string.Format("<e stat='{0}'><id>{1}</id><info>{2}</info></e>", _sStat, _sID, _sInfo);
         }
 
-        public static APICommandStatus NOT_ALLOW_CommandStatus = new APICommandStatus(APICommandStatusState.FAIL, "NOT_ALLOW", "");
-        public static APICommandStatus NOT_VALID_CommandStatus = new APICommandStatus(APICommandStatusState.FAIL, "NOT_VALID", "");
+        public static APICommandStatus Get_NOT_ALLOW_CommandStatus()
+        {
+            return new APICommandStatus(APICommandStatusState.FAIL, "NOT_ALLOW", "");
+        }
+
+        public static APICommandStatus Get_NOT_VALID_CommandStatus()
+        {
+            return new APICommandStatus(APICommandStatusState.FAIL, "NOT_VALID", "");
+        }
     }
 }

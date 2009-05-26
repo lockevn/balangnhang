@@ -15,8 +15,22 @@ namespace TalaAPI.Business
 {
     public class Seat
     {
-        public int Index;
-        public User Player;
+        int _Index;
+        /// <summary>
+        /// Thứ tự chỗ ngồi 0 1 2 3
+        /// </summary>
+        public int Index
+        {
+            get { return _Index; }
+        }
+
+        User _Player;
+        public User Player
+        {
+            get { return _Player; }
+            set { _Player = value; }
+        }
+
         public int HaIndex;
 
         public List<Card> BaiTrenTay;
@@ -26,7 +40,7 @@ namespace TalaAPI.Business
 
         public Seat(int index, User player)
         {
-            this.Index = index;
+            this._Index = index;
             this.Player = player;
 
             this.HaIndex = index;
