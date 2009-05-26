@@ -66,8 +66,22 @@ namespace TalaAPI.Business
             return false;
         }
 
-        
 
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return So + Chat;
+        }
 
         public static bool operator ==(Card c1, Card c2)
         {
