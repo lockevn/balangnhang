@@ -153,7 +153,7 @@ namespace TalaAPI.Business
             }
 
             /*kiểm tra cây chốt*/
-            if (previousSeat.BaiDaDanh.Count == 3 && this.Soi.SoiOption.IsChot())
+            if (previousSeat.BaiDaDanh.Count == 3 && this.Soi.SoiOption.IsChot)
             {
                 ///TODO: chuyen tien cho cay chot
             }
@@ -246,7 +246,7 @@ namespace TalaAPI.Business
                     }
                 }
                 i++;
-                Phom phom = Phom.Check(cardArr);
+                Phom phom = cardArr.IsValidPhom();
                 if (phom == null)
                 {
                     return null;
@@ -313,7 +313,7 @@ namespace TalaAPI.Business
             Card[] tmpCardArr = new Card[cardArr.Length + phom.CardArr.Length];
             phom.CardArr.CopyTo(tmpCardArr, 0);
             cardArr.CopyTo(tmpCardArr, phom.CardArr.Length);
-            Phom tmpPhom = Phom.Check(tmpCardArr);
+            Phom tmpPhom = tmpCardArr.IsValidPhom();
             if (tmpPhom == null)
             {
                 return false;
