@@ -177,7 +177,7 @@ namespace TalaAPI.Business
             /*kiem tra tinh chinh xac cua phom*/
             foreach(Card[] cardArr in phomArr)
             {
-                if(!Phom.Check(cardArr))
+                if(cardArr.IsValidPhom() == null)
                 {
                     return false;
                 }
