@@ -20,7 +20,10 @@ namespace TalaAPI.Business
         public string Chat;
 
         public static string[] SO_SET = new string[13] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"};
-        public static string[] CHAT_SET = new string[4] { "c", "r", "b", "t" };
+        /// <summary>
+        /// Co Do Pich Tep
+        /// </summary>
+        public static string[] CHAT_SET = new string[4] { "c", "d", "p", "t" };
         public static Card[] CARD_SET
         {
             get
@@ -37,11 +40,7 @@ namespace TalaAPI.Business
                 return tmpCardList.ToArray();
             }
         }
-
-        
-
-
-
+                
 
         public Card(string so, string chat)
         {
@@ -67,14 +66,50 @@ namespace TalaAPI.Business
             return false;
         }
 
-        public bool Equal(Card card)
+        
+
+
+        public static bool operator ==(Card c1, Card c2)
         {
-            if (this.So == card.So && this.Chat == card.Chat)
+            if (c1.So == c2.So && c1.Chat == c2.Chat)
             {
                 return true;
             }
-            return false;
+            return false;            
         }
+
+        public static bool operator !=(Card c1, Card c2)
+        {            
+            return (!(c1 == c2));
+        }
+
+        public static bool operator >(Card c1, Card c2)
+        {
+            if (c1.So.CompareTo(c2.So) > 0)
+            {
+                return true;
+            }
+            else if(c1.So == c2.So)
+            {
+                if (c1.Chat.CompareTo(c2.Chat) > 0)
+                {
+                    return true;
+                }
+            }
+            return false;            
+        }
+
+        public static bool operator <(Card c1, Card c2)
+        {
+            if(c1 == c2)
+            {
+                return false;
+            }
+            
+            return (!(c1 > c2));
+        }
+
+
     }
 
     
