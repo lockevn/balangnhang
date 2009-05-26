@@ -23,7 +23,7 @@ namespace TalaAPI.Business
         /// <summary>
         /// Co Do Pich Tep
         /// </summary>
-        public static string[] CHAT_SET = new string[4] { "c", "d", "p", "t" };
+        public static string[] CHAT_SET = new string[4] { "c", "r", "b", "t" };
         public static Card[] CARD_SET
         {
             get
