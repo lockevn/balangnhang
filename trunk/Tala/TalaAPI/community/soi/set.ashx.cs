@@ -55,7 +55,7 @@ namespace TalaAPI.community.soi
             }
             else
             {
-                Cmd.Add(APICommandStatus.NOT_ALLOW_CommandStatus);
+                Cmd.Add(APICommandStatus.Get_NOT_ALLOW_CommandStatus());
             }
 
             base.ProcessRequest(context);

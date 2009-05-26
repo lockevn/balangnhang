@@ -97,33 +97,141 @@ namespace TalaAPI.Business
             return this.GaValue;
         }
 
-        public int JoinSoi(User player)
+
+
+        #region Thêm bớt player
+
+        
+        protected int AddPlayer(User player)
         {
             if (player == null)
             {
-                return -1;
+                // không tìm được online user tương ứng
+                return -2;
             }
-            /*neu soi da het cho thi khong join dc*/
+
             int count = this.SeatList.Count;
             if (count >= 4)
             {
+                // sới đầy rồi, không cho vào
                 return -1;
             }
 
-            /*neu player da join soi thi 0 join dc lan 2 nua*/
-            foreach (Seat seat in this.SeatList)
+            if (player.CurrentSoi != null)
             {
-                if (seat.Player.Username == player.Username)
-                {
-                    return -1;
-                }
+                // vào sới khác rồi còn lớ xớ ở đây làm gì
+                return -1;
             }
 
-            Seat newSeat = new Seat(count, player);
-            this.SeatList.Add(newSeat);
-            /*return new seat index*/
-            return count;
 
+            Seat seatDangNgoiTrongSoi = this.GetSeatOfUserInSoi(player.Username);
+            if (seatDangNgoiTrongSoi == null)
+            {
+                // chưa ngồi thì cho vào ngồi
+                Seat newSeat = new Seat(SeatList.Count, player);
+                this.SeatList.Add(newSeat);
+                player.CurrentSoi = this;  // this sới
+                return newSeat.Index;
+            }
+            else
+            {
+                // ngồi rồi thì trả ra index chỗ đang ngồi
+                return seatDangNgoiTrongSoi.Index;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns>-2 nếu lỗi, player không tồn tại. -1 nếu sới đã đầy chỗ hoặc đã join sới khác rồi. Trả về số > 0 nếu OK, hoặc đã join sới rồi cũng là OK</returns>
+        public int AddPlayer(string username)
+        {
+            User player = Song.Instance.GetUserByUsername(username);
+            return AddPlayer(player);            
+        }
+
+
+
+        protected int RemovePlayer(User player)
+        {
+            // không tìm thấy user này đang online
+            if (player == null)
+            {
+                return -2;
+            }
+
+            // sới chả còn ai            
+            if (this.SeatList.Count <= 0)
+            {
+                return 0;
+            }
+            
+            Seat seatDangNgoi = GetSeatOfUserInSoi(player.Username);
+            if (seatDangNgoi == null)
+            {
+                // không tìm thấy user này đang ngồi trong sới
+                return 0;
+            }
+            else
+            {
+                // đưa ra khỏi sới
+                this.SeatList.Remove(seatDangNgoi);
+                player.CurrentSoi = null;
+                return 1;
+            }
+        }
+
+        /// <summary>
+        /// Bỏ user ra khỏi danh sách người chơi trong sới hiện tại
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns>-2 nếu không đuổi cổ thành công (vì lý do nào đó, player rỗng ...), 0 nếu user vốn không nằm trong sới, 1 nếu đuổi cổ thành công</returns>
+        public int RemovePlayer(string username)
+        {
+            User player = Song.Instance.GetUserByUsername(username);
+            return RemovePlayer(player);
+        }
+        
+        
+        #endregion
+
+
+
+
+        /// <summary>
+        /// Lặp qua các Seat trong sới, nếu username đang ở trong sới, trả về true
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public bool IsUserInSoi(string username)
+        {
+            if (GetSeatOfUserInSoi(username) != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Lặp qua các Seat trong sới, nếu Player của Seat đó có username trùng với đối số thì trả ra Seat đó
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public Seat GetSeatOfUserInSoi(string username)
+        {
+            username = username.ToStringSafetyNormalize();
+            foreach (Seat seat in this.SeatList)
+            {
+                if (seat.Player.Username == username)
+                {
+                    return seat;
+                }
+            }
+            return null;
         }
 
         public void XepChoRandom()

@@ -51,6 +51,10 @@ namespace TalaAPI.Business
         {
             return OnlineUser[username];
         }
+        public User GetUserByAuthkey(string authkey)
+        {
+            return GetUserByUsername(GetUsernameByAuthkey(authkey));
+        }
 
     }
 }

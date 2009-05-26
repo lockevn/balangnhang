@@ -10,6 +10,8 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using TalaAPI.XMLRenderOutput;
+using TalaAPI.Business;
+using TalaAPI.Lib;
 
 namespace TalaAPI.Business
 {
@@ -20,7 +22,7 @@ namespace TalaAPI.Business
         {
             get
             {
-                return _sUsername.ToLower();
+                return _sUsername.ToStringSafetyNormalize();
             }
             set
             {
@@ -38,6 +40,13 @@ namespace TalaAPI.Business
             {
                 _sAuthkey = value;
             }
+        }
+
+        Soi _CurrentSoi;
+        public Soi CurrentSoi
+        {
+            get { return _CurrentSoi; }
+            set { _CurrentSoi = value; }
         }
 
         public User()
