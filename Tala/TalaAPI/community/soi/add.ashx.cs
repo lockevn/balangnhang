@@ -25,9 +25,12 @@ namespace TalaAPI.community.soi
             }
             else
             {
-                Soi soi = new Soi(Song.Instance.Soi.Count+1, sName);
-                Song.Instance.Soi.Add(soi.Id.ToString(), soi);
-                cs = new APICommandStatus(APICommandStatusState.OK, "add_soi", string.Format("{0}#{1}", soi.Id, soi.Name));
+                lock (Song.Instance.Soi)
+                {
+                    Soi soi = new Soi(Song.Instance.Soi.Count + 1, sName);
+                    Song.Instance.Soi.Add(soi.Id.ToString(), soi);
+                    cs = new APICommandStatus(APICommandStatusState.OK, "add_soi", string.Format("{0}#{1}", soi.Id, soi.Name));
+                }                
             }
 
             Cmd.Add(cs);
