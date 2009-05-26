@@ -8,6 +8,7 @@ using System.Web.Services.Protocols;
 using System.Xml.Linq;
 using TalaAPI.Lib;
 using TalaAPI.Business;
+using TalaAPI.XMLRenderOutput;
 
 namespace TalaAPI.community.soi
 {
@@ -15,6 +16,14 @@ namespace TalaAPI.community.soi
     {
         public override void ProcessRequest(HttpContext context)
         {
+            TalaSecurity security = new TalaSecurity(context);
+
+            // lấy current sới, current seat của user AU, đặt cờ ready = true
+            security.CurrentAU.CurrentSoi.GetSeatOfUserInSoi(security.CurrentAU.Username).IsReady = true;
+
+            APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "READY", "1");
+            Cmd.Add(cs);
+
             base.ProcessRequest(context);
         }
     }

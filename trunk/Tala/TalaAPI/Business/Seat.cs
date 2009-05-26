@@ -31,6 +31,15 @@ namespace TalaAPI.Business
             set { _Player = value; }
         }
 
+        bool _IsReady;
+        public bool IsReady
+        {
+            get { return _IsReady; }
+            set { _IsReady = value; }
+        }
+
+
+
         public int HaIndex;
 
         public List<Card> BaiTrenTay;
