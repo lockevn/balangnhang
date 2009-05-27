@@ -7,6 +7,8 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
 using TalaAPI.Lib;
+using TalaAPI.Business;
+using TalaAPI.XMLRenderOutput;
 
 namespace TalaAPI.play.van
 {    
@@ -15,6 +17,11 @@ namespace TalaAPI.play.van
 
         public override void ProcessRequest(HttpContext context)
         {
+            TalaSecurity security = new TalaSecurity(context);
+            
+            // chỉ lấy current sới, current seat của authkey hiện tại, trả ra bài trên tay của Seat đó
+            Data.AddRange(security.CurrentAU.CurrentSoi.GetSeatOfUserInSoi(security.CurrentAU.Username).BaiTrenTay);
+
             base.ProcessRequest(context);
         }
     }

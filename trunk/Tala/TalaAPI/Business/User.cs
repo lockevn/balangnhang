@@ -43,6 +43,9 @@ namespace TalaAPI.Business
         }
 
         int _Money;
+        /// <summary>
+        /// Read only. Thuộc tính này là chỉ đọc, đọc ra số tiền hiện có của User
+        /// </summary>
         public int Money
         {
             get { return _Money; }            

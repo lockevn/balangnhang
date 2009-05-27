@@ -23,7 +23,13 @@ namespace TalaAPI.Business
         public DateTime StartTime;
         public DateTime EndTime;
         public string Description;
-        public List<Seat> SeatList;
+        
+        List<Seat> _SeatList;
+        public List<Seat> SeatList
+        {
+            get { return _SeatList; }
+            set { _SeatList = value; }
+        }
         
         string _OwnerUsername;
         public string OwnerUsername
@@ -49,8 +55,19 @@ namespace TalaAPI.Business
         }
 
         public Van CurrVan;
-        
+        public Van CurrentVan
+        {
+            get { return CurrVan; }
+            set { CurrVan = value; }
+        }
+
+
+        #region Cờ báo trạng thái        
+
         bool _IsLocked;
+        /// <summary>
+        /// Nếu trường này bằng true thì sới này không thay đổi được luật hay option nữa.
+        /// </summary>
         public bool IsLocked
         {
             get
@@ -65,6 +82,9 @@ namespace TalaAPI.Business
 
 
         bool _IsPlaying;
+        /// <summary>
+        /// Nếu trường này bằng true, thì sới này đang có ván đang chơi, ván đang diễn ra. Nếu trường này bằng false, ván chưa bắt đầu hoặc đã kết thúc. Lúc này client cần đọc thông tin về kết quả ván chơi trước , ...
+        /// </summary>
         public bool IsPlaying
         {
             get
@@ -76,6 +96,10 @@ namespace TalaAPI.Business
                 _IsPlaying = value;
             }
         }
+
+        
+
+        #endregion
 
 
 

@@ -7,6 +7,8 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
 using TalaAPI.Lib;
+using TalaAPI.Business;
+using TalaAPI.XMLRenderOutput;
 
 namespace TalaAPI.play.van
 {    
@@ -14,6 +16,10 @@ namespace TalaAPI.play.van
     {
         public override void ProcessRequest(HttpContext context)
         {
+            TalaSecurity security = new TalaSecurity(context);
+
+            Data.Add(security.CurrentAU.CurrentSoi);
+
             base.ProcessRequest(context);
         }
     }

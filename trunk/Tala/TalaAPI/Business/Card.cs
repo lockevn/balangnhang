@@ -16,8 +16,7 @@ namespace TalaAPI.Business
     
     public class Card
     {
-        public string So;
-        public string Chat;
+        #region Các ràng buộc nghiệp vụ về một Card
 
         public static string[] SO_SET = new string[13] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"};
         /// <summary>
@@ -40,7 +39,26 @@ namespace TalaAPI.Business
                 return tmpCardList.ToArray();
             }
         }
-                
+
+        #endregion
+
+
+
+        public string So;
+        public string Chat;
+
+        #region Thuộc tính tạm, chỉ dùng cho việc render XML output
+        
+        int _Pos;
+        public int Pos
+        {
+            get { return _Pos; }
+            set { _Pos = value;  }
+        }
+
+        #endregion
+
+
 
         public Card(string so, string chat)
         {
@@ -56,7 +74,6 @@ namespace TalaAPI.Business
             }
             return false;
         }
-
         public bool IsCungSo(Card card)
         {
             if (this.So == card.So)
@@ -65,6 +82,35 @@ namespace TalaAPI.Business
             }
             return false;
         }
+        
+
+        /// <summary>
+        /// create a Card object from string with format SoSoChat: vd 01c (át cơ)
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static Card ParseString(string value)
+        {
+            Card cardRet = null;
+
+            if (value == null || value.Length != 3)
+            {
+                return cardRet;
+            }
+            string so = value.Substring(0, 2);
+            string chat = value.Substring(2, 1);
+
+            // hợp lệ mới tạo obj Card
+            if (Card.SO_SET.Contains(so) && Card.CHAT_SET.Contains(chat))
+            {
+                cardRet = new Card(so, chat);
+            }
+
+            return cardRet;
+        }
+
+
+
 
 
 
@@ -121,23 +167,6 @@ namespace TalaAPI.Business
             }
             
             return (!(c1 > c2));
-        }
-
-        /// <summary>
-        /// create a Card object from string with format SoSoChat: vd 01c (át cơ)
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Card ParseString(string value)
-        {
-            if (value == null || value.Length != 3)
-            {
-                return null;
-            }
-            string so = value.Substring(0, 2);
-            string chat = value.Substring(2, 1);
-            Card card = new Card(so, chat);
-            return card;
         }
 
 
