@@ -46,8 +46,19 @@ namespace TalaAPI.Business
 
 
 
-        public string So;
-        public string Chat;
+        string _So;
+        public string So
+        {
+            get { return _So; }
+            set { _So = value; }
+        }
+        string _Chat;
+        public string Chat
+        {
+            get { return _Chat; }
+            set { _Chat = value; }
+        }
+
 
         #region Thuộc tính tạm, chỉ dùng cho việc render XML output
         
