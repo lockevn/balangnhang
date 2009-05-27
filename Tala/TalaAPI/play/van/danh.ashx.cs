@@ -29,23 +29,8 @@ namespace TalaAPI.play.van
             }
 
             TalaSecurity security = new TalaSecurity(context);
-            string username = security.CurrentAU.Username;
-            Soi soi = security.CurrentAU.CurrentSoi;
-            if (soi == null)
-            {
-                cs = new APICommandStatus(APICommandStatusState.FAIL, "DANH", "user has not yet joined Soi");
-                this.Cmd.Add(cs);
-                base.ProcessRequest(context);
-            }
-
-            Seat seat = soi.GetSeatOfUserInSoi(username);
-            if (seat == null)
-            {
-                cs = new APICommandStatus(APICommandStatusState.FAIL, "DANH", "user has no seat in Soi");
-                this.Cmd.Add(cs);
-                base.ProcessRequest(context);
-            }
-
+            Soi soi = security.CheckUserJoinedSoi();
+            Seat seat = security.CheckUserJoinedSeat();
             Van van = soi.CurrVan;
             bool result = van.Danh(seat, card);
             if (result)

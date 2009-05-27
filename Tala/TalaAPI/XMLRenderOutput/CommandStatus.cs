@@ -72,5 +72,15 @@ namespace TalaAPI.XMLRenderOutput
         {
             return new APICommandStatus(APICommandStatusState.FAIL, "WRONG_AUTHKEY", " Bạn chưa đăng nhập");
         }
+
+        public static APICommandStatus Get_NOT_JOINED_SOI_CommandStatus()
+        {
+            return new APICommandStatus(APICommandStatusState.FAIL, "NOT_JOINED_SOI", " Bạn chưa vào sới");
+        }
+
+        public static APICommandStatus Get_NOT_JOINED_SEAT_CommandStatus()
+        {
+            return new APICommandStatus(APICommandStatusState.FAIL, "NOT_JOINED_SEAT", " Bạn chưa có chỗ trong sới");
+        }
     }
 }
