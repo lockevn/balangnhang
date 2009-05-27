@@ -34,7 +34,20 @@ namespace TalaAPI.Business
 
         public Option SoiOption;
 
-        public int GaValue;
+        
+        /// <summary>
+        /// tính bằng Chip
+        /// </summary>
+        public int _GaValue;
+        /// <summary>
+        /// tính bằng Chip
+        /// </summary>
+        public int GaValue
+        {
+            get { return _GaValue; }
+            set { _GaValue = value; }
+        }
+
         public Van CurrVan;
         
         bool _IsLocked;
@@ -100,13 +113,21 @@ namespace TalaAPI.Business
 
         }
 
-        public int NopGa(int value)
+
+        /// <summary>
+        /// Nộp chip vào Gà, lấy từ túi User phải nộp. Số chip cần nộp lấy trong thông số của Sới
+        /// </summary>
+        /// <param name="userPhaiNop">Lấy từ túi người này để nộp</param>
+        /// <returns>Số tiền đã nộp</returns>
+        public int NopGa(User userPhaiNop)
         {
-            if (value <= 0)
-            {
-                return -1;
-            }
-            this.GaValue += value;
+            const int TienPhat = 1;
+            // cộng gà lên 1 chip
+            this.GaValue += TienPhat;
+
+            // trừ tiền trong túi user đi
+            userPhaiNop.SubtractMoney(this.SoiOption.TiGiaChip * TienPhat);
+            
             return this.GaValue;
         }
 
