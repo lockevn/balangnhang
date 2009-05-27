@@ -125,5 +125,12 @@ namespace TalaAPI.Business
 
         }
 
+        public Soi CreatSoiMoi(string sName, string ownerUsername)
+        {
+            Soi soi = new Soi(Song.Instance.Soi.Count + 1, sName, ownerUsername);
+            Song.Instance.Soi.Add(soi.Id.ToString(), soi);
+            soi.AddPlayer(ownerUsername);
+            return soi;
+        }
     }
 }
