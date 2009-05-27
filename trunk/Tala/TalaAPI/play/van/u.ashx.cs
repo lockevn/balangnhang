@@ -35,7 +35,6 @@ namespace TalaAPI.play.van
             }
             catch (CardException ce)
             {
-                ce.Source = "U";
                 ce.SendErrorAPICommand(context);                    
             }                
             
@@ -47,7 +46,6 @@ namespace TalaAPI.play.van
             }
             catch (NotInTurnException nite)
             {
-                nite.Source = "U";
                 nite.SendErrorAPICommand(context);
             }
             

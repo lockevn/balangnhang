@@ -61,7 +61,6 @@ namespace TalaAPI.play.van
                     }
                     catch (CardException ce)
                     {
-                        ce.Source = "GUI";
                         ce.SendErrorAPICommand(context);
                     }
                 }
