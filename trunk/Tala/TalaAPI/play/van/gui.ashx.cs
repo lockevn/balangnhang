@@ -25,7 +25,7 @@ namespace TalaAPI.play.van
             /*check if user has joined soi, seat*/
             Soi soi = security.CheckUserJoinedSoi();
             Seat seat = security.CheckUserJoinedSeat();
-            Van van = soi.CurrVan;
+            Van van = soi.CurrentVan;
 
             bool result = false;
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "GUI", "action failed");

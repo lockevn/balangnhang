@@ -32,7 +32,7 @@ namespace TalaAPI.play.van
             TalaSecurity security = new TalaSecurity(context);
             Soi soi = security.CheckUserJoinedSoi();
             Seat seat = security.CheckUserJoinedSeat();
-            Van van = soi.CurrVan;
+            Van van = soi.CurrentVan;
             bool result = false;
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "DANH", "action failed");
             try

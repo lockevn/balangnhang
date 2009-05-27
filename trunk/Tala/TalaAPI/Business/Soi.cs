@@ -55,11 +55,11 @@ namespace TalaAPI.Business
             set { _GaValue = value; }
         }
 
-        public Van CurrVan;
+        Van _CurrentVan;
         public Van CurrentVan
         {
-            get { return CurrVan; }
-            set { CurrVan = value; }
+            get { return _CurrentVan; }
+            set { _CurrentVan = value; }
         }
 
 
@@ -115,17 +115,22 @@ namespace TalaAPI.Business
         }
 
         
-        public Van CreateVan(bool isXepChoRequired)
+        /// <summary>
+        /// hệ thống tạo ván mới, tự chia bài, tự xếp chỗ nếu truyền tham số
+        /// </summary>
+        /// <param name="isXepChoRequired">truyền true để xếp lại random chỗ</param>
+        /// <returns>đối tượng ván vừa tạo</returns>
+        internal Van CreateVan(bool isXepChoRequired)
         {
 
             int newVanIndex = 1;
             /*index van moi = index van cu + 1*/
-            if (this.CurrVan != null)
+            if (this._CurrentVan != null)
             {
-                newVanIndex = this.CurrVan.Index++;
+                newVanIndex = this._CurrentVan.Index++;
             }
             Van newVan = new Van(newVanIndex, this);
-            this.CurrVan = newVan;
+            this._CurrentVan = newVan;
 
             /*xep cho randomly*/
             if (isXepChoRequired)
@@ -135,8 +140,8 @@ namespace TalaAPI.Business
 
             /*chia bai*/
             newVan.ChiaBai();
-            return newVan;
 
+            return newVan;
         }
 
 
@@ -350,8 +355,8 @@ namespace TalaAPI.Business
             // bật cờ đang chơi
             _IsPlaying = true;
             //o	Bắt đầu ván với các lựa chọn của Sới hiện tại
-            //o	Hệ thống sẽ tạo ván mới
-            //o	Chia bài
+            //o	Hệ thống sẽ tạo ván mới, tự chia bài
+            Van van = CreateVan(false);
             
 
             return 0;

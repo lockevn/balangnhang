@@ -125,6 +125,12 @@ namespace TalaAPI.Business
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sName"></param>
+        /// <param name="ownerUsername"></param>
+        /// <returns></returns>
         public Soi CreatSoiMoi(string sName, string ownerUsername)
         {
             Soi soi = new Soi(Song.Instance.Soi.Count + 1, sName, ownerUsername);
