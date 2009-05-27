@@ -42,6 +42,14 @@ namespace TalaAPI.Business
             }
         }
 
+        int _Money;
+        public int Money
+        {
+            get { return _Money; }            
+        }
+
+
+
         Soi _CurrentSoi;
         public Soi CurrentSoi
         {
@@ -56,7 +64,38 @@ namespace TalaAPI.Business
         {
             _sUsername = p_sUsername;
             _sAuthkey = p_sAuthkey;
-
         }
+
+
+        /// <summary>
+        /// cộng tiền cho của user, ghi persist xuống DB
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>trả về số tiền được cập nhật xuống DB</returns>
+        internal int AddMoney(int value)
+        {
+            _Money += value;
+
+            // update xuống DB
+            value = DBUtil.AddMoneyOfUser(this.Username, value);
+
+            return value;
+        }
+
+        /// <summary>
+        /// trừ tiền của user, ghi persist xuống DB
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>trả về số tiền được cập nhật xuống DB</returns>
+        internal int SubtractMoney(int value)
+        {
+            _Money -= value;
+
+            // update xuống DB
+            value = DBUtil.SubtractMoneyOfUser(this.Username, value);
+
+            return value;
+        }
+
     }
 }

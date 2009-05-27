@@ -41,5 +41,37 @@ namespace TalaAPI.Lib
 
             return ret;
         }
+
+        
+        public static int SubtractMoneyOfUser(string p_sUsername, int p_nValue)
+        {
+            MySqlConnection con = new MySqlConnection(DBUtil.ConnectionString);
+            con.Open();
+            string strSQL = string.Format("update `User` set `balance` = ifnull(`balance`,0) - {1} where `u`='{0}';", p_sUsername, p_nValue);
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = strSQL;
+            object oRet = command.ExecuteScalar();
+            con.Close();
+
+            int nRet = -1;
+            int.TryParse(oRet as string, out nRet);
+            return nRet;
+        }
+
+        public static int AddMoneyOfUser(string p_sUsername, int p_nValue)
+        {
+            MySqlConnection con = new MySqlConnection(DBUtil.ConnectionString);
+            con.Open();
+            string strSQL = string.Format("update `User` set `balance` = ifnull(`balance`,0) + {1} where `u`='{0}';", p_sUsername, p_nValue);
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = strSQL;
+            object oRet = command.ExecuteScalar();
+            con.Close();
+
+            int nRet = -1;
+            int.TryParse(oRet as string, out nRet);
+            return nRet;
+        }
+
     }
 }
