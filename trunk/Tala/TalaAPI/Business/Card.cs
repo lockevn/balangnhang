@@ -83,20 +83,20 @@ namespace TalaAPI.Business
             }
             return false;
         }
-        
+
 
         /// <summary>
         /// create a Card object from string with format SoSoChat: vd 01c (át cơ)
         /// </summary>
         /// <param name="value"></param>
-        /// <returns></returns>
+        /// <returns>card object if valid otherwise null</returns>
         public static Card ParseString(string value)
         {
             Card cardRet = null;
 
             if (value == null || value.Length != 3)
             {
-                return cardRet;
+                throw new CardException("invalid card string format: " + value);
             }
             string so = value.Substring(0, 2);
             string chat = value.Substring(2, 1);
@@ -106,11 +106,13 @@ namespace TalaAPI.Business
             {
                 cardRet = new Card(so, chat);
             }
+            else
+            {
+                throw new CardException("card is not valid (from 01-13, from c r b t: " + value);
+            }
 
             return cardRet;
-        }
-
-        
+        }        
         
 
 
@@ -170,22 +172,7 @@ namespace TalaAPI.Business
         }
 
 
-        /// <summary>
-        /// create a Card object from string with format SoSoChat: vd 01c (át cơ)
-        /// </summary>
-        /// <param name="value"></param>
-    /// <returns>card object if valid otherwise null</returns>
-        public static Card ParseString(string value)
-        {
-            if (value == null || value.Length != 3)
-            {
-                throw new CardException("invalid card string format: " + value);
-            }
-            string so = value.Substring(0, 2);
-            string chat = value.Substring(2, 1);
-            Card card = new Card(so, chat);
-            return card;
-        }
+       
 
 
 
