@@ -114,9 +114,15 @@ namespace TalaAPI.Business
 
         public static bool operator ==(Card c1, Card c2)
         {
-            if (c1.So == c2.So && c1.Chat == c2.Chat)
+            try
             {
-                return true;
+                if (c1.So == c2.So && c1.Chat == c2.Chat)
+                {
+                    return true;
+                }
+            }
+            catch (System.Exception)
+            {
             }
             return false;            
         }

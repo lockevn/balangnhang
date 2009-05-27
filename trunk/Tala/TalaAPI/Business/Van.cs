@@ -357,7 +357,7 @@ namespace TalaAPI.Business
         /// <returns>true/false</returns>
         private bool IsCardInBaiTrenTay(Seat seat, Card card)
         {
-            if (seat == null || seat.BaiTrenTay == null || seat.BaiTrenTay.Count == 0 || card == null || !seat.BaiTrenTay.Contains(card))
+            if (seat == null || seat.BaiTrenTay == null || seat.BaiTrenTay.Count == 0 || card == null || !seat.BaiTrenTay.Contains<Card>(card))
             {
                 return false;
             }
