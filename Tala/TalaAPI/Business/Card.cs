@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Collections.Generic;
+using TalaAPI.Exception;
 
 namespace TalaAPI.Business
 {
@@ -167,6 +168,24 @@ namespace TalaAPI.Business
             }
             
             return (!(c1 > c2));
+        }
+
+
+        /// <summary>
+        /// create a Card object from string with format SoSoChat: vd 01c (át cơ)
+        /// </summary>
+        /// <param name="value"></param>
+    /// <returns>card object if valid otherwise null</returns>
+        public static Card ParseString(string value)
+        {
+            if (value == null || value.Length != 3)
+            {
+                throw new CardException("invalid card string format: " + value);
+            }
+            string so = value.Substring(0, 2);
+            string chat = value.Substring(2, 1);
+            Card card = new Card(so, chat);
+            return card;
         }
 
 

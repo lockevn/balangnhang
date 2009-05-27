@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using TalaAPI.Lib;
 using TalaAPI.Business;
 using TalaAPI.XMLRenderOutput;
+using TalaAPI.Exception;
 
 namespace TalaAPI.play.van
 {    
@@ -16,20 +17,25 @@ namespace TalaAPI.play.van
     {
         public override void ProcessRequest(HttpContext context)
         {
-            APICommandStatus cs;
             TalaSecurity security = new TalaSecurity(context);
 
             Soi soi = security.CheckUserJoinedSoi();
             Seat seat = security.CheckUserJoinedSeat();
             Van van = soi.CurrVan;
-            bool result = van.An(seat);
+            bool result = false;
+            APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "An", "action failed");
+            try
+            {
+                result = van.An(seat);
+            }
+            catch (NotInTurnException nite)
+            {
+                nite.Source = "An";
+                nite.SendErrorAPICommand(context);
+            }
             if (result)
             {
-                cs = new APICommandStatus(APICommandStatusState.OK, "Boc", "valid action");
-            }
-            else
-            {
-                cs = new APICommandStatus(APICommandStatusState.FAIL, "Boc", "action failed");
+                cs = new APICommandStatus(APICommandStatusState.OK, "An", "valid action");
             }
             this.Cmd.Add(cs);
             base.ProcessRequest(context);

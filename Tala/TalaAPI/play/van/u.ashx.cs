@@ -7,6 +7,10 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
 using TalaAPI.Lib;
+using TalaAPI.Business;
+using TalaAPI.XMLRenderOutput;
+using System.Collections.Generic;
+using TalaAPI.Exception;
 
 namespace TalaAPI.play.van
 {    
@@ -14,6 +18,45 @@ namespace TalaAPI.play.van
     {
         public override void ProcessRequest(HttpContext context)
         {
+            
+            string bai = APIParamHelper.CheckEmptyParam("bai", context);                               
+            TalaSecurity security = new TalaSecurity(context);
+            
+            /*check if user has joined soi, seat*/
+            Soi soi = security.CheckUserJoinedSoi();
+            Seat seat = security.CheckUserJoinedSeat();
+            Van van = soi.CurrVan;
+            
+            /*tạo List<Card[]> tu stringArr*/
+            List<Card[]> cardArrList = null;
+            try
+            {
+                cardArrList = BusinessUtil.StringToCardList(bai);
+            }
+            catch (CardException ce)
+            {
+                ce.Source = "U";
+                ce.SendErrorAPICommand(context);                    
+            }                
+            
+            bool result = false;
+            APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "U", "action failed");
+            try
+            {
+                result = van.U(seat, cardArrList);
+            }
+            catch (NotInTurnException nite)
+            {
+                nite.Source = "U";
+                nite.SendErrorAPICommand(context);
+            }
+            
+            if (result)
+            {
+                cs = new APICommandStatus(APICommandStatusState.OK, "U", "valid action");
+            }
+            
+            this.Cmd.Add(cs);
             base.ProcessRequest(context);
         }
     }

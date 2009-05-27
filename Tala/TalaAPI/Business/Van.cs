@@ -11,6 +11,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using TalaAPI.Lib;
+using TalaAPI.Exception;
 
 namespace TalaAPI.Business
 {
@@ -221,15 +222,16 @@ namespace TalaAPI.Business
         /// </summary>
         /// <param name="seat">seat ra lệnh hạ phỏm</param>
         /// <param name="phomArr">một mảng các mảng Card để trở thành tập các Phom</param>
-        /// <returns>mảng Phom với đầy đủ phom.id, phom.seat nếu thỏa mãn điều kiện phỏm, null nếu có một mảng Card không thỏa mãn đk phỏm</returns>
+        /// <returns>true/false</returns>
         /// 
-        public Phom[] Ha(Seat seat, List<Card[]> phomArr)
+        public bool Ha(Seat seat, List<Card[]> phomArr)
         {
-            if (!this.IsSeatInTurn(seat) || phomArr == null || phomArr.Count == 0)
+            //TODO can thay the dieu kien seat.BaiDaDanh.Count < 3
+            if (!this.IsSeatInTurn(seat) || phomArr == null || phomArr.Count == 0 || seat.BaiDaDanh.Count < 3)
             {
-                return null;
+                return false;
             }
-            // TODO: check if currentRound < 4 return null
+            
             List<Phom> phomList = new List<Phom>();            
             List<Card> cardList = new List<Card>();
             int i = 0;
@@ -242,14 +244,14 @@ namespace TalaAPI.Business
                     cardList.Add(card);
                     if (!seat.BaiTrenTay.Contains(card) && !seat.BaiDaAn.Contains(card))
                     {
-                        return null;
+                        return false;
                     }
                 }
                 i++;
                 Phom phom = cardArr.IsValidPhom();
                 if (phom == null)
                 {
-                    return null;
+                    return false;
                 }
                 /*set thêm các property cho phom*/
                 phom.OfSeat = seat;
@@ -273,7 +275,7 @@ namespace TalaAPI.Business
                 }
             }           
 
-            return phomList.ToArray();
+            return true;
         }
 
         /// <summary>
@@ -325,6 +327,7 @@ namespace TalaAPI.Business
             {
                 seat.BaiTrenTay.Remove(card);
             } 
+            
             return true;
         }
 
@@ -338,7 +341,7 @@ namespace TalaAPI.Business
         {
             if (seat.Index != this.CurrentTurnSeatIndex)
             {
-                return false;
+                throw new NotInTurnException("seat " + seat.Index + " is not in turn");
             }
             return true;
         }

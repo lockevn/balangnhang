@@ -10,6 +10,8 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using TalaAPI.Lib;
+using TalaAPI.Exception;
+using System.Collections.Generic;
 
 namespace TalaAPI.Business
 {
@@ -102,5 +104,36 @@ namespace TalaAPI.Business
             return sRet;
         }
 
+        public static Card[] StringArrayToCardArray(string[] cardStrArr) 
+        {
+            Card[] cardArr = new Card[cardStrArr.Length];
+            foreach (string cardStr in cardStrArr)
+            {
+                int i = 0;
+                /*if CardException occurs, throw it to higher level*/
+                Card card = Card.ParseString(cardStr);                
+                cardArr[i] = card;
+            }
+            return cardArr;
+        }
+
+        /// <summary>
+        /// parse string of format "{string,string,…^string,string,…} into List<Card[]>"
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static List<Card[]> StringToCardList(string value)
+        {
+            string[] stringArr = value.Split('^');
+            List<Card[]> cardArrList = new List<Card[]>();
+            /*tạo List<Card[]> tu stringArr*/
+            foreach (string tmpStr in stringArr)
+            {
+                string[] cardStrArr = tmpStr.Split('^');
+                Card[] cardArr = BusinessUtil.StringArrayToCardArray(cardStrArr);
+                cardArrList.Add(cardArr);                
+            }
+            return cardArrList;
+        }
     }
 }
