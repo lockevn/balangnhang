@@ -110,9 +110,8 @@ namespace TalaAPI.Business
             return cardRet;
         }
 
-
-
-
+        
+        
 
 
         public override bool Equals(object obj)
