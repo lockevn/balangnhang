@@ -22,18 +22,31 @@ namespace TalaAPI.community.soi
             //o	Nếu AU không phải player của sới, lỗi, id=NOT_ALLOW
             // bỏ qua chưa giải quyết, vì 1 người chơi đc mỗi 1 sới
 
-            APICommandStatus cs = new APICommandStatus(false, "SOI_START", string.Empty);
+            APICommandStatus cs = new APICommandStatus(false);
             int nRet = security.CurrentAU.CurrentSoi.StartPlaying();
             switch (nRet)
             {
                 case -2:
                     //o	sới đã bắt đầu chơi rồi
+                    cs.ID = "SOI_IS_PLAYING";
+                    cs.Info = "Sới đã chơi rồi";
                     break;
                 case -1:
                     //o	Có người chưa sẵn sàng
+                    cs.ID = "NOT_READY";
+                    foreach (Seat seat in security.CurrentAU.CurrentSoi.SeatList)
+                    {
+                        if (seat.IsReady == false)
+                        {
+                            cs.Info += seat.Player.Username  + ",";
+                        }
+                    }
+                    cs.Info = cs.Info.Trim(',');
                     break;
                 default:
                     cs.Stat = APICommandStatusState.OK;
+                    cs.ID = "SOI_START";
+                    cs.Info = "1";
                     break;
             }
 

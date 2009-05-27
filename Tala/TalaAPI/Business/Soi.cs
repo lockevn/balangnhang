@@ -38,7 +38,7 @@ namespace TalaAPI.Business
         /// <summary>
         /// tính bằng Chip
         /// </summary>
-        public int _GaValue;
+        int _GaValue;
         /// <summary>
         /// tính bằng Chip
         /// </summary>
@@ -335,7 +335,7 @@ namespace TalaAPI.Business
         /// đặt cờ ready tại Seat của user        
         /// </summary>
         /// <param name="user">user giương cờ ready</param>
-        internal void PlayerReady(User user)
+        internal void SetReady(User user)
         {
             // đặt cờ ready
             GetSeatOfUserInSoi(user.Username).IsReady = true;
