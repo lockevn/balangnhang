@@ -61,7 +61,7 @@ namespace TalaAPI.Business
         /// <summary>
         /// Chia bài từ Nọc cho các seat
         /// </summary>
-        public void ChiaBai()
+        internal void ChiaBai()
         {
             if(this.Noc == null || this.Noc.Count != 52)
             {
