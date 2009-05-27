@@ -28,9 +28,7 @@ namespace TalaAPI.community.soi
             {
                 lock (Song.Instance.Soi)
                 {
-                    Soi soi = new Soi(Song.Instance.Soi.Count + 1, sName, sec.CurrentAU.Username);
-                    Song.Instance.Soi.Add(soi.Id.ToString(), soi);
-                    soi.AddPlayer(sec.CurrentAU.Username);
+                    Soi soi = Song.Instance.CreatSoiMoi(sName, sec.CurrentAU.Username);                    
                     cs = new APICommandStatus(APICommandStatusState.OK, "add_soi", string.Format("{0}#{1}", soi.Id, soi.Name));
                 }                
             }
