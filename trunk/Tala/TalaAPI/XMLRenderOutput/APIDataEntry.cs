@@ -36,7 +36,7 @@ namespace TalaAPI.XMLRenderOutput
             }
 
             string sXMLString = string.Empty;
-            PropertyInfo[] arrPro =  this.GetType().GetProperties();
+            PropertyInfo[] arrPro =  this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (PropertyInfo pro in arrPro)
             {                
                 sXMLString += string.Format("<{0}>{1}</{0}>", pro.Name.ToStringSafetyNormalize(), pro.GetValue(this, null));
