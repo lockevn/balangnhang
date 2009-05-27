@@ -19,8 +19,20 @@ namespace TalaAPI.Business
 {
     public class Soi : APIDataEntry
     {
-        public string Name;
-        public int Id;
+         string _Name;
+         public string Name
+         {
+             get { return _Name; }
+             set { _Name = value; }
+         }
+
+         int _Id;
+         public int Id
+         {
+             get { return _Id; }
+             set { _Id = value; }
+         }
+
         public DateTime StartTime;
         public DateTime EndTime;
         public string Description;
