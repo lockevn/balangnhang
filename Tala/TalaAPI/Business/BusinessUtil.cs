@@ -17,6 +17,12 @@ namespace TalaAPI.Business
 {
     public static class BusinessUtil
     {
+        public static Card ToCard(this string s)
+        {
+            return Card.ParseString(s);
+        }
+
+
         /// <summary>
         /// Check 1 tập cards có tạo thành phỏm không, nếu đúng, trả về một Phom
         /// </summary>
@@ -62,8 +68,7 @@ namespace TalaAPI.Business
             }
             return null;
         }
-
-
+        
 
         /// <summary>
         /// Sắp xếp các cây theo thứ tự số tăng dần
