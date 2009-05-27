@@ -19,8 +19,7 @@ namespace TalaAPI.community.soi
             TalaSecurity security = new TalaSecurity(context);
 
             // lấy current sới, current seat của user AU, đặt cờ ready = true
-            security.CurrentAU.CurrentSoi.GetSeatOfUserInSoi(security.CurrentAU.Username).IsReady = true;
-
+            security.CurrentAU.CurrentSoi.PlayerReady(security.CurrentAU);
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "READY", "1");
             Cmd.Add(cs);
 

@@ -51,6 +51,19 @@ namespace TalaAPI.Business
         }
 
 
+        bool _IsPlaying;
+        public bool IsPlaying
+        {
+            get
+            {
+                return _IsPlaying;
+            }
+            set
+            {
+                _IsPlaying = value;
+            }
+        }
+
 
 
 
@@ -269,19 +282,64 @@ namespace TalaAPI.Business
             }
         }
 
-        
-        
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>-1 nếu mọi người chưa sẵn sàng, -2 nếu sới đang chơi, đã bắt đầu chơi rồi. 1 nếu OK</returns>
+        internal int StartPlaying()
+        {
+            if (_IsPlaying)
+            {
+                return -2;
+            }
 
+            if (IsAllPlayerReady() == false)
+            {
+                //o	Nếu có player nào chưa ready, lỗi, id=PLAYER_NOT_READY, trong info sẽ có username chưa ready đó
+                return -1;
+            }
+            
+            // bật cờ đang chơi
+            _IsPlaying = true;
+            //o	Bắt đầu ván với các lựa chọn của Sới hiện tại
+            //o	Hệ thống sẽ tạo ván mới
+            //o	Chia bài
+            
 
+            return 0;
+        }
 
+        /// <summary>        
+        /// đặt cờ ready tại Seat của user        
+        /// </summary>
+        /// <param name="user">user giương cờ ready</param>
+        internal void PlayerReady(User user)
+        {
+            // đặt cờ ready
+            GetSeatOfUserInSoi(user.Username).IsReady = true;
 
+            // thử gọi hàm StartPlaying (trong đấy tự nó kiểm tra điều kiện để bắt đầu ván)
+            try
+            {
+                StartPlaying();
+            }
+            catch { }
+        }
 
-
-
-
-
-
-
+        /// <summary>
+        /// Toàn bộ người chơi trong ván đã ready chưa? Nếu trả về true, có thể gọi StartPlaying được
+        /// </summary>
+        /// <returns></returns>
+        private bool IsAllPlayerReady()
+        {
+            bool bAllPlayerReady = true;
+            foreach (Seat seat in SeatList)
+            {
+                bAllPlayerReady = bAllPlayerReady && seat.IsReady;
+            }
+            return bAllPlayerReady;
+        }
+          
     }
 }
