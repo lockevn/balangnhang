@@ -17,8 +17,7 @@ namespace TalaAPI.Lib
     public class APIParamHelper
     {
         public static string CheckEmptyParam(string paramName, HttpContext context)
-        {
-            
+        {            
             string value = context.Request[paramName].ToStringSafetyNormalize();
             if (value.Length == 0)
             {
@@ -26,8 +25,9 @@ namespace TalaAPI.Lib
                 XMLHttpHandler httphandler = new XMLHttpHandler();
                 httphandler.Cmd.Add(cs);
                 httphandler.ProcessRequest(context);
-                context.Response.End();                
+                context.Response.End();
             }
+            
             return value;            
         }
                 

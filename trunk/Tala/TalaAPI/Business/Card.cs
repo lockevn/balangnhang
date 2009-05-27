@@ -97,11 +97,20 @@ namespace TalaAPI.Business
         }        
 
 
+        /// <summary>
+        /// for use in Compare, Contain ...
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             return Card.Compare(this, obj as Card);
         }
 
+        /// <summary>
+        /// use in HashTable
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();
