@@ -49,13 +49,13 @@ namespace TalaAPI.Business
         string _So;
         public string So
         {
-            get { return _So; }
+            get { return _So.ToLower(); }
             set { _So = value; }
         }
         string _Chat;
         public string Chat
         {
-            get { return _Chat; }
+            get { return _Chat.ToLower(); }
             set { _Chat = value; }
         }
 
@@ -99,7 +99,7 @@ namespace TalaAPI.Business
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            return Card.Compare(this, obj as Card);
         }
 
         public override int GetHashCode()
@@ -112,19 +112,39 @@ namespace TalaAPI.Business
             return So + Chat;
         }
 
-        public static bool operator ==(Card c1, Card c2)
+               
+        public static bool Compare(Card c1, Card c2)
         {
+            string sc1 = string.Empty;
+            string sc2 = string.Empty;
+
             try
             {
-                if (c1.So == c2.So && c1.Chat == c2.Chat)
-                {
-                    return true;
-                }
+                sc1 = c1.ToString();
             }
-            catch (System.Exception)
+            catch 
+            { }
+
+            try
             {
+                sc2 = c2.ToString();
             }
-            return false;            
+            catch 
+            { }          
+
+            if (sc1 == sc2)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool operator ==(Card c1, Card c2)
+        {
+            return Compare(c1,c2);                    
         }
 
         public static bool operator !=(Card c1, Card c2)
