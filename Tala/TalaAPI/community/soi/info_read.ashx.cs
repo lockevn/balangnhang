@@ -15,7 +15,7 @@ namespace TalaAPI.community.soi
     {
         public override void ProcessRequest(HttpContext context)
         {
-            string sID = context.Request["id"].ToStringSafetyNormalize();
+            string sID = context.Request["soiid"].ToStringSafetyNormalize();
 
             if (string.IsNullOrEmpty(sID))
             {

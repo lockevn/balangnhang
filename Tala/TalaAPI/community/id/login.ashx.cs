@@ -21,35 +21,16 @@ namespace TalaAPI.community.id
             string sPassword = context.Request["password"].ToStringSafety();
 
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "LOGIN", "wrong username and/or password");
-            if (sUsername.IsNullOrEmpty() || sPassword.IsNullOrEmpty() )
+
+            User user = Song.Instance.LoginVaoSongChoi(sUsername, sPassword);
+            if (user == null)
             {
             }
             else
             {
-                CryptoUtil cu = new CryptoUtil();
-                sPassword = cu.MD5Hash(sPassword);
-                User user = DBUtil.GetUserByUsernameAndPassword(sUsername, sPassword);
-                if (user != null && user.Username == sUsername)
-                {                    
-                    // if found user with username and password
-                    // generate new authkey
-                    
-                    user.Authkey = TextUtil.GetRandomGUID();
-                    cs = new APICommandStatus(APICommandStatusState.OK, "LOGIN", "authkey=" + user.Authkey);
-                     if (Song.Instance.OnlineUser.ContainsKey(user.Username) == false)
-                     {
-                         // if this is first time login, add to OnlineUser
-                         Song.Instance.OnlineUser.Add(user.Username, user);
-                     }
-                     else
-                     {
-                         // if login again, change the authkey, and replace in
-                         Song.Instance.OnlineUser[user.Username] = user;
-                     }
-                }
-            }
-            this.Cmd.Add(cs);
-            
+                cs = new APICommandStatus(APICommandStatusState.OK, "LOGIN", user.Authkey);
+            }            
+            this.Cmd.Add(cs);            
             base.ProcessRequest(context);
         }
     }

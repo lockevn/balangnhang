@@ -20,6 +20,7 @@ namespace TalaAPI.Lib
     //[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     public class XMLHttpHandler : IHttpHandler
     {
+        protected internal string Stat = "fail";
         protected internal ArrayList Data = new ArrayList();
         protected internal ArrayList Cmd = new ArrayList();
 
@@ -53,7 +54,7 @@ namespace TalaAPI.Lib
                 sRenderedCmd = "<cmd>" + sRenderedCmd + "</cmd>";
             }
 
-            context.Response.Write(string.Format("<q stat=''>{0}{1}</q>", sRenderedData, sRenderedCmd));
+            context.Response.Write(string.Format("<q stat='{0}'>{1}{2}</q>", Stat, sRenderedData, sRenderedCmd));
         }        
                 
 
