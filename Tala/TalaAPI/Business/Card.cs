@@ -11,11 +11,12 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using TalaAPI.Exception;
+using TalaAPI.XMLRenderOutput;
 
 namespace TalaAPI.Business
 {
     
-    public class Card
+    public class Card : APIDataEntry
     {
         #region Các ràng buộc nghiệp vụ về một Card
 
