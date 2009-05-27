@@ -16,7 +16,7 @@ namespace TalaAPI.Lib
 {
     public class DBUtil
     {
-        public static string ConnectionString = "server=quantumme.dnsalias.com;user id=root; password=quantum123!; database=tala; pooling=yes;";
+        public static string ConnectionString = "server=192.168.1.109;user id=root; password=quantum123!; database=tala; pooling=yes;";
         
         /// <summary>
         /// 

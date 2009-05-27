@@ -5,6 +5,12 @@ using System.Data;
 using System.Configuration;
 using System.Linq;
 using System.Xml.Linq;
+using GURUCORE.Lib.Core.Security.Cryptography;
+
+using TalaAPI.Lib;
+using TalaAPI.Business;
+using TalaAPI.XMLRenderOutput;
+
 
 namespace TalaAPI.Business
 {
@@ -77,6 +83,46 @@ namespace TalaAPI.Business
         public User GetUserByAuthkey(string authkey)
         {
             return GetUserByUsername(GetUsernameByAuthkey(authkey));
+        }
+
+        public User LoginVaoSongChoi(string username, string password)
+        {
+            if (username.IsNullOrEmpty() || password.IsNullOrEmpty())
+            {
+                return null;
+            }
+            else
+            {
+                CryptoUtil cu = new CryptoUtil();
+                password = cu.MD5Hash(password);
+                User user = DBUtil.GetUserByUsernameAndPassword(username, password);
+                if (user != null && user.Username == username)
+                {
+                    // if found user with username and password
+                    // generate new authkey
+                    
+                    if (Song.Instance.OnlineUser.ContainsKey(user.Username) == false)
+                    {
+                        // lần đầu, tạo authkey mới, thêm vào các mảng cache
+                        user.Authkey = TextUtil.GetRandomGUID();
+
+                        // TODO: bỏ dòng dưới đi
+                        user.Authkey = user.Username;
+
+                        Song.Instance.OnlineUser.Add(user.Username, user);
+                        Song.Instance.ValidAuthkey.Add(user.Authkey, user.Username);
+                    }
+                    else
+                    {
+                        // lần login lại, với username và password nhập đúng, lấy user cũ ra, trả cũ authkey về
+                        user = Song.Instance.OnlineUser[user.Username];
+                    }
+                }
+
+
+                return user;
+            }
+
         }
 
     }

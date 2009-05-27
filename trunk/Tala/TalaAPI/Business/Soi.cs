@@ -11,12 +11,13 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using TalaAPI.Lib;
 using System.Collections.Generic;
+using TalaAPI.XMLRenderOutput;
 
 
 
 namespace TalaAPI.Business
 {
-    public class Soi
+    public class Soi : APIDataEntry
     {
         public string Name;
         public int Id;
@@ -104,9 +105,10 @@ namespace TalaAPI.Business
 
 
 
-        public Soi(int id, string owner)
+        public Soi(int id, string name, string owner)
         {
             this.Id = id;
+            this.Name = name;
             this.OwnerUsername = owner;
             this.StartTime = System.DateTime.Now;
             this.SeatList = new List<Seat>();

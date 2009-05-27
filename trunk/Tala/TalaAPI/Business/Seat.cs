@@ -10,10 +10,11 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Collections.Generic;
+using TalaAPI.XMLRenderOutput;
 
 namespace TalaAPI.Business
 {
-    public class Seat
+    public class Seat : APIDataEntry
     {
         int _Index;
         /// <summary>
