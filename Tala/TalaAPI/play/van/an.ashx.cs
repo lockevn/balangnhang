@@ -30,7 +30,6 @@ namespace TalaAPI.play.van
             }
             catch (NotInTurnException nite)
             {
-                nite.Source = "An";
                 nite.SendErrorAPICommand(context);
             }
             if (result)

@@ -34,7 +34,6 @@ namespace TalaAPI.play.van
             }
             catch (CardException ce)
             {
-                ce.Source = "Ha";
                 ce.SendErrorAPICommand(context);
             }
 
@@ -46,13 +45,12 @@ namespace TalaAPI.play.van
             }
             catch (NotInTurnException nite)
             {
-                nite.Source = "Ha";
                 nite.SendErrorAPICommand(context);
             }
 
             if (result)
             {
-                cs = new APICommandStatus(APICommandStatusState.OK, "U", "valid action");
+                cs = new APICommandStatus(APICommandStatusState.OK, "Ha", "valid action");
             }
 
             this.Cmd.Add(cs);
