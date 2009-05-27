@@ -109,7 +109,8 @@ namespace TalaAPI.Business
             return sRet;
         }
 
-        public static Card[] StringArrayToCardArray(string[] cardStrArr) 
+
+        public static Card[] StringArrayToCardArray(this string[] cardStrArr) 
         {
             Card[] cardArr = new Card[cardStrArr.Length];
             foreach (string cardStr in cardStrArr)
@@ -121,6 +122,7 @@ namespace TalaAPI.Business
             }
             return cardArr;
         }
+
 
         /// <summary>
         /// parse string of format "{string,string,…^string,string,…} into List<Card[]>"
