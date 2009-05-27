@@ -48,5 +48,32 @@ namespace TalaAPI.Business
             }
         }
 
+        public Soi CheckUserJoinedSoi()
+        {
+            Soi soi = this.CurrentAU.CurrentSoi;
+            if (soi == null)
+            {
+                XMLHttpHandler httphandler = new XMLHttpHandler();
+                httphandler.Cmd.Add(APICommandStatus.Get_NOT_JOINED_SOI_CommandStatus());
+                httphandler.ProcessRequest(this._context);
+                this._context.Response.End();
+            }
+            return soi;
+        }
+
+        public Seat CheckUserJoinedSeat()
+        {
+            Soi soi = this.CurrentAU.CurrentSoi;            
+            Seat seat = soi.GetSeatOfUserInSoi(this.CurrentAU.Username);
+            if (seat == null)
+            {
+                XMLHttpHandler httphandler = new XMLHttpHandler();
+                httphandler.Cmd.Add(APICommandStatus.Get_NOT_JOINED_SEAT_CommandStatus());
+                httphandler.ProcessRequest(this._context);
+                this._context.Response.End();
+            }
+            return seat;
+        }
+
     }
 }
