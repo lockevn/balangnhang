@@ -48,7 +48,7 @@ namespace TalaAPI.Business
         /// 
         /// </summary>
         /// <param name="authkey"></param>
-        /// <returns>null if can not find</returns>
+        /// <returns>trả về string.empty nếu không tìm thấy</returns>
         public string GetUsernameByAuthkey(string authkey)
         {
             string ret = string.Empty;
@@ -62,6 +62,11 @@ namespace TalaAPI.Business
             }            
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>trả về null nếu không tìm thấy username đang online</returns>
         public User GetUserByUsername(string username)
         {
             User ret;

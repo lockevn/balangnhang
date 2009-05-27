@@ -41,17 +41,25 @@ namespace TalaAPI.XMLRenderOutput
             set { _sInfo = value; }
         }
 
+        public APICommandStatus(bool p_bStat)
+        {
+            _sStat = p_bStat ? APICommandStatusState.OK : APICommandStatusState.FAIL;
+        }
+
+        public APICommandStatus(bool p_sStat, string p_sID, string p_sInfo) : this(p_sStat)
+        {            
+            _sID = p_sID;
+            _sInfo = p_sInfo;
+        }
+
         public APICommandStatus(string p_sStat, string p_sID, string p_sInfo)
         {
             Stat = p_sStat;
             _sID = p_sID;
             _sInfo = p_sInfo;            
         }
+        
 
-        public APICommandStatus(bool p_bStat)
-        {
-            _sStat = p_bStat ? APICommandStatusState.OK : APICommandStatusState.FAIL;
-        }
 
         public override string ToString()
         {
