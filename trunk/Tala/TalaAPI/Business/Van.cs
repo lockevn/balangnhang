@@ -103,6 +103,9 @@ namespace TalaAPI.Business
             /*chuyen card tu BaiTrenTay cua seat[i] sang BaiDaDanh cua seat[i]*/
             seat.BaiTrenTay.Remove(card);
             seat.BaiDaDanh.Add(card);
+
+            /*chuyển turn sang next seat*/
+            this.CurrentTurnSeatIndex = Seat.GetNextSeatIndex(seat.Index, this.Soi.SeatList.Count);
             
             return true;
 
