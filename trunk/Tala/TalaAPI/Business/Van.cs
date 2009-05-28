@@ -95,7 +95,7 @@ namespace TalaAPI.Business
         /// <returns>true/false</returns>
         public bool Danh(Seat seat, Card card)
         {
-            if (!this.IsSeatInTurn(seat) || !this.IsCardInBaiTrenTay(seat, card))                                
+            if (!this.IsSeatInTurn(seat) || !this.IsCardInBaiTrenTay(seat, card) || seat.GetTotalCardOnSeat() < 10)                                
             {
                 return false;
             }
@@ -120,7 +120,7 @@ namespace TalaAPI.Business
         {
             if (!this.IsSeatInTurn(seat) 
                 || this.Noc.Count == 0 
-                || (seat.BaiTrenTay.Count + seat.BaiDaAn.Count) > 9)
+                || seat.GetTotalCardOnSeat() > 9)
             {
                 return false;
             }
@@ -139,7 +139,7 @@ namespace TalaAPI.Business
         /// <returns>true/false</returns>
         public bool An(Seat seat)
         {
-            if (!this.IsSeatInTurn(seat))
+            if (!this.IsSeatInTurn(seat) || seat.GetTotalCardOnSeat() > 9)
             {
                 return false;
             }
@@ -200,18 +200,35 @@ namespace TalaAPI.Business
         /// <returns>true/false</returns>
         public bool U(Seat seat, List<Card[]> phomArr)
         {
-            if (!this.IsSeatInTurn(seat) || phomArr == null || phomArr.Count == 0)
+            if (!this.IsSeatInTurn(seat) || phomArr == null || phomArr.Count == 0 || seat.GetTotalCardOnSeat() < 10)
             {
                 return false;
             }
+            int count = 0; /*dem tong so cay cua tat ca cac phom*/
             /*kiem tra tinh chinh xac cua phom*/
             foreach(Card[] cardArr in phomArr)
             {
+                /*kiểm tra các cây ù có thuộc bài trên tay và bài đã ăn của seat không*/                
+                foreach (Card card in cardArr)
+                {
+                    if (!seat.BaiTrenTay.Contains(card) || !seat.BaiDaAn.Contains(card))
+                    {
+                        return false;
+                    }
+                    count++;
+                }
+                
 
                 if(cardArr.IsValidPhom() == null)
                 {
                     return false;
                 }
+            }
+
+            /*nếu tổng tất cả các phỏm hạ không đủ 9 cây*/
+            if (count < 9)
+            {
+                return false;
             }
 
             /*ket thuc van, set winner*/
@@ -230,7 +247,7 @@ namespace TalaAPI.Business
         public bool Ha(Seat seat, List<Card[]> phomArr)
         {
             //TODO can thay the dieu kien seat.BaiDaDanh.Count < 3
-            if (!this.IsSeatInTurn(seat) || phomArr == null || phomArr.Count == 0 || seat.BaiDaDanh.Count < 3)
+            if (!this.IsSeatInTurn(seat) || phomArr == null || phomArr.Count == 0 || seat.BaiDaDanh.Count < 3 || seat.GetTotalCardOnSeat() < 10)
             {
                 return false;
             }
@@ -306,7 +323,7 @@ namespace TalaAPI.Business
                 }
             }            
 
-            /**chỉ được gửi khi BaiDaDanh của seat có từ 3 cây trở lên             
+            /**chỉ được gửi khi BaiDaDanh của seat có từ 3 cây trở lên (gửi xong mới đánh)            
              * seat có haIndex lớn hơn mới đc gửi vào phỏm của seat có haIndex nhỏ hơn             
              */
             if (seat.BaiDaDanh.Count < 3 || seat.HaIndex <= phom.OfSeat.HaIndex)
