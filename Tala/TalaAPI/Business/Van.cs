@@ -324,6 +324,13 @@ namespace TalaAPI.Business
                 return false;
             }
 
+            /*chỉ được gửi nếu seat có phỏm (do đó phải hạ phỏm trước khi gửi)*/
+            if (seat.PhomList == null || seat.PhomList.Count == 0)
+            {
+                return false;
+            }
+
+
             /*kiểmm tra cardArr có nằm trên BaiTrenTay của seat không*/
             foreach (Card card in cardArr)
             {
