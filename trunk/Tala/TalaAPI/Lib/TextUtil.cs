@@ -78,6 +78,10 @@ namespace TalaAPI.Lib
             return string.IsNullOrEmpty(s);
         }
 
+        public static bool String01ToBoolSafety(this string s)
+        {
+            return (s ?? "0") == "1" ? true : false;
+        }
 
     }
 }

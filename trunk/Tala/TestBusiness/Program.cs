@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TalaAPI.Business;
+using TalaAPI.Lib;
 
 namespace TestBusiness
 {
@@ -11,6 +12,27 @@ namespace TestBusiness
         
         static void Main(string[] args)
         {
+            
+            object o = "1";
+
+            bool result;
+            result =  (o as string).String01ToBoolSafety();
+
+
+            bool b = bool.TryParse("0", out result);
+
+            try
+            {
+                result = Convert.ToBoolean("1");
+                result = Convert.ToBoolean("0");
+                result = Convert.ToBoolean("");
+                result = Convert.ToBoolean(string.Empty);
+                result = Convert.ToBoolean(null);
+            }
+            catch { }
+
+
+
             Card c1 = new Card("01","r");
             Card c2 = new Card("01", "t");
             Card c3 = new Card("01", "r");
@@ -25,7 +47,7 @@ namespace TestBusiness
             baitrentay.Add(c1);
             baitrentay.Add(c2);
 
-            bool b = baitrentay.Contains(c3);
+            b = baitrentay.Contains(c3);
 
             if (c4 == null)
             {
