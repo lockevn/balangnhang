@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 using TalaAPI.Exception;
 using TalaAPI.XMLRenderOutput;
+using TalaAPI.Lib;
 
 namespace TalaAPI.Business
 {
@@ -43,16 +44,17 @@ namespace TalaAPI.Business
         }
 
         #endregion
-
-
+        
 
         string _So;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public string So
         {
             get { return _So.ToLower(); }
             set { _So = value; }
         }
         string _Chat;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public string Chat
         {
             get { return _Chat.ToLower(); }
@@ -63,6 +65,7 @@ namespace TalaAPI.Business
         #region Thuộc tính tạm, chỉ dùng cho việc render XML output
         
         int _Pos;
+        [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
         public int Pos
         {
             get { return _Pos; }
@@ -78,6 +81,8 @@ namespace TalaAPI.Business
             this.So = so;
             this.Chat = chat;
         }
+
+
 
         public bool IsCungChat(Card card)
         {
@@ -95,6 +100,8 @@ namespace TalaAPI.Business
             }
             return false;
         }        
+
+
 
 
         /// <summary>
@@ -116,6 +123,10 @@ namespace TalaAPI.Business
             return base.GetHashCode();
         }
 
+        /// <summary>
+        /// Viết Card thành dạng 3 ký tự, ssc (số số chất)
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return So + Chat;
@@ -214,10 +225,7 @@ namespace TalaAPI.Business
             throw new CardException("invalid card string format: " + value);
                         
         }
-
-
-
-
+        
     }
 
     

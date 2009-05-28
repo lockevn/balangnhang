@@ -20,6 +20,7 @@ namespace TalaAPI.Business
     public class Soi : APIDataEntry
     {
          string _Name;
+         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
          public string Name
          {
              get { return _Name; }
@@ -27,6 +28,7 @@ namespace TalaAPI.Business
          }
 
          int _Id;
+         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
          public int Id
          {
              get { return _Id; }
@@ -37,8 +39,9 @@ namespace TalaAPI.Business
         public DateTime EndTime;
         public string Description;
         
-        List<Seat> _SeatList;
-        public List<Seat> SeatList
+        List<APIDataEntry> _SeatList;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric)]
+        public List<APIDataEntry> SeatList
         {
             get { return _SeatList; }
             set { _SeatList = value; }
@@ -123,7 +126,7 @@ namespace TalaAPI.Business
             this.Name = name;
             this.OwnerUsername = owner;
             this.StartTime = System.DateTime.Now;
-            this.SeatList = new List<Seat>();
+            this.SeatList = new List<APIDataEntry>();
         }
 
         
@@ -335,7 +338,7 @@ namespace TalaAPI.Business
             /*pick player from SeatList according to randomArr and add to newPlayerArr*/
             for (int i = 0; i < max; i++)
             {
-                newPlayerArr[i] = this.SeatList.ElementAt(randomArr[i]).Player;
+                newPlayerArr[i] = (this.SeatList.ElementAt(randomArr[i]) as Seat).Player;
             }
 
             /*xep lai SeatList theo newPlayerArr*/

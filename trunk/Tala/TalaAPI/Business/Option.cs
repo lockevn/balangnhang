@@ -9,12 +9,14 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+using TalaAPI.Lib;
 
 namespace TalaAPI.Business
 {
     public class Option
     {
         int _TiGiaChip;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public int TiGiaChip
         {
             get { return _TiGiaChip;  }
@@ -22,6 +24,7 @@ namespace TalaAPI.Business
         }
 
         bool _IsUKhan;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public bool IsUKhan
         {
             get { return _IsUKhan;  }
@@ -29,6 +32,7 @@ namespace TalaAPI.Business
         }
 
         bool _IsGuiNoi;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public bool IsGuiNoi
         {
             get { return _IsGuiNoi; }
@@ -36,6 +40,7 @@ namespace TalaAPI.Business
         }
 
         bool _IsGa;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public bool IsGa
         {
             get { return _IsGa; }
@@ -43,6 +48,7 @@ namespace TalaAPI.Business
         }
 
         bool _IsChot;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public bool IsChot
         {
             get { return _IsChot; }
@@ -50,6 +56,7 @@ namespace TalaAPI.Business
         }
 
         bool _DoiChoSauKhiU;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public bool DoiChoSauKhiU
         {
             get {return _DoiChoSauKhiU;}
@@ -57,6 +64,7 @@ namespace TalaAPI.Business
         }
 
         int _TurnTimeout;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public int TurnTimeout
         {
             get { return _TurnTimeout; }

@@ -24,7 +24,7 @@ namespace TalaAPI.play.van
             // nếu parse thành công thành int, và pos trong khoảng 0:3, tức là truyền pos hợp lệ, trả về bài theo vị trí hợp lệ
             if (int.TryParse(pos, out nPos) && 0 <= nPos && nPos <= 3)
             {
-                Data.AddRange(security.CurrentAU.CurrentSoi.SeatList[nPos].BaiDaAn);
+                Data.AddRange((security.CurrentAU.CurrentSoi.SeatList[nPos] as Seat).BaiDaAn);
                 base.Stat = APICommandStatusState.OK;
             }
             else
