@@ -99,11 +99,10 @@ namespace TalaAPI.Business
                 if (user != null && user.Username == username)
                 {
                     // if found user with username and password
-                    // generate new authkey
-                    
                     if (Song.Instance.OnlineUser.ContainsKey(user.Username) == false)
                     {
                         // lần đầu, tạo authkey mới, thêm vào các mảng cache
+                        // generate new authkey
                         user.Authkey = TextUtil.GetRandomGUID();
 
                         // TODO: bỏ dòng dưới đi
@@ -114,9 +113,14 @@ namespace TalaAPI.Business
                     }
                     else
                     {
-                        // lần login lại, với username và password nhập đúng, lấy user cũ ra, trả cũ authkey về
-                        user = Song.Instance.OnlineUser[user.Username];
+                        // lần login lại, với username và password nhập đúng, lấy user cũ ra, trả authkey cũ về                        
+                        user.Authkey = Song.Instance.OnlineUser[user.Username].Authkey;
+                        Song.Instance.OnlineUser[user.Username] = user;                        
                     }
+                }
+                else
+                {
+                    user = null;
                 }
 
 

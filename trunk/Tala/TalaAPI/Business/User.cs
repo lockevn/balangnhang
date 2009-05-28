@@ -48,7 +48,8 @@ namespace TalaAPI.Business
         /// </summary>
         public int Money
         {
-            get { return _Money; }            
+            get { return _Money; }
+            set { _Money = value; }
         }
 
 

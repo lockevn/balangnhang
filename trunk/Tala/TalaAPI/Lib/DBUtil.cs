@@ -37,6 +37,11 @@ namespace TalaAPI.Lib
             while(reader.Read())
             {
                 ret.Username = reader["u"] as string;
+                try
+                {
+                    ret.Money = Convert.ToInt32(reader["balance"]);
+                }
+                catch(System.Exception ex){}
             }
             con.Close();
 
