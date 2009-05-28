@@ -20,8 +20,9 @@ namespace TalaAPI.community.id
             
             string sUsername = Song.Instance.ValidAuthkey[sAuthkey];
             User AUuser = Song.Instance.OnlineUser[sUsername];            
-            Data.Add(AUuser);            
-            
+            Data.Add(AUuser);
+            base.Stat = APICommandStatusState.OK;
+
             base.ProcessRequest(context);
         }
     }

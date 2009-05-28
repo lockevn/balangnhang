@@ -8,6 +8,7 @@ using System.Web.Services.Protocols;
 using System.Xml.Linq;
 using TalaAPI.Lib;
 using TalaAPI.Business;
+using TalaAPI.XMLRenderOutput;
 
 namespace TalaAPI.community.soi
 {
@@ -17,6 +18,8 @@ namespace TalaAPI.community.soi
         public override void ProcessRequest(HttpContext context)
         {
             Data.AddRange(Song.Instance.Soi.Values);
+            base.Stat = APICommandStatusState.OK;
+
             base.ProcessRequest(context);
         }
     }

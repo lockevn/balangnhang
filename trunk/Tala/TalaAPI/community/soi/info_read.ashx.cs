@@ -8,6 +8,7 @@ using System.Web.Services.Protocols;
 using System.Xml.Linq;
 using TalaAPI.Lib;
 using TalaAPI.Business;
+using TalaAPI.XMLRenderOutput;
 
 namespace TalaAPI.community.soi
 {
@@ -26,6 +27,7 @@ namespace TalaAPI.community.soi
                 if (soi != null)
                 {
                     Data.Add(soi);
+                    base.Stat = APICommandStatusState.OK;
                 }
             }
 

@@ -25,6 +25,7 @@ namespace TalaAPI.play.van
             if (int.TryParse(pos, out nPos) && 0 <= nPos && nPos <= 3)
             {
                 Data.AddRange(security.CurrentAU.CurrentSoi.SeatList[nPos].BaiDaAn);
+                base.Stat = APICommandStatusState.OK;
             }
             else
             {
@@ -34,9 +35,10 @@ namespace TalaAPI.play.van
                     foreach (Card card in seat.BaiDaAn)
                     {
                         card.Pos = seat.Index;
-                        Data.Add(card);
+                        Data.Add(card);                        
                     }
                 }
+                base.Stat = APICommandStatusState.OK;
             }
 
             base.ProcessRequest(context);
