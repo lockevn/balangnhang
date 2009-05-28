@@ -37,7 +37,7 @@ namespace TalaAPI.Business
         /// Khởi tạo, tìm các dữ liệu liên quan của người dùng đang đăng nhập hiện tại (current AU). Nếu không có authkey, sẽ tự động kết thúc request và trả về error notlogin
         /// </summary>
         /// <param name="context"></param>
-        public TalaSecurity(HttpContext context)
+        public TalaSecurity(HttpContext context, bool NeedToEndRequest)
         {
             _context = context;
             _authkey = context.Request["authkey"].ToStringSafetyNormalize();
@@ -45,12 +45,19 @@ namespace TalaAPI.Business
 
             if (_user == null)
             {
-                XMLHttpHandler httphandler = new XMLHttpHandler();
-                httphandler.Cmd.Add(APICommandStatus.Get_WRONG_AUTHKEY_CommandStatus());
-                httphandler.ProcessRequest(context);
-                context.Response.End();
+                if (NeedToEndRequest)
+                {
+                    XMLHttpHandler httphandler = new XMLHttpHandler();
+                    httphandler.Cmd.Add(APICommandStatus.Get_WRONG_AUTHKEY_CommandStatus());
+                    httphandler.ProcessRequest(context);
+                    context.Response.End();
+                }
             }
-        }        
+        }
+
+        public TalaSecurity(HttpContext context) : this(context, true)
+        {
+        }
 
         public Soi CheckUserJoinedSoi()
         {
