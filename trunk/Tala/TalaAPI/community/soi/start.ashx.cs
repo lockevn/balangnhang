@@ -26,6 +26,13 @@ namespace TalaAPI.community.soi
             int nRet = security.CurrentAU.CurrentSoi.StartPlaying();
             switch (nRet)
             {
+                case -3:
+                    //o	số người chơi chưa đúng (1 người ko chơi đc, hơn 4 người không chơi đc)
+                    // Hiện tại đúng 4 mới được chơi
+                    cs.ID = "NUMBER_OF_PLAYER";
+                    cs.Info = "Thiếu người chơi";
+                    break;
+
                 case -2:
                     //o	sới đã bắt đầu chơi rồi
                     cs.ID = "SOI_IS_PLAYING";

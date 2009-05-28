@@ -77,7 +77,7 @@ namespace TalaAPI.Business
 
         #region Cờ báo trạng thái        
 
-        bool _IsLocked;
+        bool _IsLocked = false;
         /// <summary>
         /// Nếu trường này bằng true thì sới này không thay đổi được luật hay option nữa.
         /// </summary>
@@ -94,7 +94,7 @@ namespace TalaAPI.Business
         }
 
 
-        bool _IsPlaying;
+        bool _IsPlaying = false;
         /// <summary>
         /// Nếu trường này bằng true, thì sới này đang có ván đang chơi, ván đang diễn ra. Nếu trường này bằng false, ván chưa bắt đầu hoặc đã kết thúc. Lúc này client cần đọc thông tin về kết quả ván chơi trước , ...
         /// </summary>
@@ -350,7 +350,7 @@ namespace TalaAPI.Business
         /// <summary>
         /// 
         /// </summary>
-        /// <returns>-1 nếu mọi người chưa sẵn sàng, -2 nếu sới đang chơi, đã bắt đầu chơi rồi. 1 nếu OK</returns>
+        /// <returns>-1 nếu mọi người chưa sẵn sàng, -2 nếu sới đang chơi, -3 số người chơi chưa đủ (hiện tại là 4). 1 nếu OK</returns>
         internal int StartPlaying()
         {
             if (_IsPlaying)
@@ -363,13 +363,22 @@ namespace TalaAPI.Business
                 //o	Nếu có player nào chưa ready, lỗi, id=PLAYER_NOT_READY, trong info sẽ có username chưa ready đó
                 return -1;
             }
-            
+
+
+            if (1 < this.SeatList.Count && this.SeatList.Count < 4)
+            {
+                return -3;
+            }
+
+
+
+            // COME HERE MEAN all Condition is OK
+
             // bật cờ đang chơi
             _IsPlaying = true;
             //o	Bắt đầu ván với các lựa chọn của Sới hiện tại
             //o	Hệ thống sẽ tạo ván mới, tự chia bài
-            Van van = CreateVan(false);
-            
+            Van van = CreateVan(false);            
 
             return 0;
         }
@@ -383,12 +392,15 @@ namespace TalaAPI.Business
             // đặt cờ ready
             GetSeatOfUserInSoi(user.Username).IsReady = true;
 
-            // thử gọi hàm StartPlaying (trong đấy tự nó kiểm tra điều kiện để bắt đầu ván)
-            try
-            {
-                StartPlaying();
+            // thử gọi hàm StartPlaying (trong đấy tự nó kiểm tra điều kiện để bắt đầu ván), nếu có 4 người vào rồi
+            if(this.SeatList.Count == 4 && IsAllPlayerReady())
+            {  
+                try
+                {
+                    StartPlaying();
+                }
+                catch { }                
             }
-            catch { }
         }
 
         /// <summary>

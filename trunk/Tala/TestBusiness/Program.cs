@@ -7,12 +7,31 @@ using TalaAPI.Lib;
 
 namespace TestBusiness
 {
+    class TestClass
+    {
+        bool _IsPlaying;
+        /// <summary>
+        /// Nếu trường này bằng true, thì sới này đang có ván đang chơi, ván đang diễn ra. Nếu trường này bằng false, ván chưa bắt đầu hoặc đã kết thúc. Lúc này client cần đọc thông tin về kết quả ván chơi trước , ...
+        /// </summary>
+        public bool IsPlaying
+        {
+            get
+            {
+                return _IsPlaying;
+            }
+            set
+            {
+                _IsPlaying = value;
+            }
+        }
+    }
     class Program
     {
         
         static void Main(string[] args)
         {
-            
+            TestClass t = new TestClass();
+
             object o = "1";
 
             bool result;
