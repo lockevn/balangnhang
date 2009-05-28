@@ -106,7 +106,7 @@ namespace TalaAPI.Business
         {
             return Card.Compare(this, obj as Card);
         }
-
+        
         /// <summary>
         /// use in HashTable
         /// </summary>
