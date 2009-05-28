@@ -48,5 +48,19 @@ namespace TalaAPI.Business
             get { return _IsChot; }
             set { _IsChot = value; }
         }
+
+        bool _DoiChoSauKhiU;
+        public bool DoiChoSauKhiU
+        {
+            get {return _DoiChoSauKhiU;}
+            set {_DoiChoSauKhiU = value;}
+        }
+
+        int _TurnTimeout;
+        public int TurnTimeout
+        {
+            get { return _TurnTimeout; }
+            set { _TurnTimeout = value; }
+        }
     }
 }
