@@ -34,7 +34,22 @@ namespace TalaAPI.community.soi
                 }
                 else
                 {
-                    APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "JOIN_SOI", "Gia nhập sới thất bại");
+                    APICommandStatus cs = new APICommandStatus(false);
+                    switch (sResult)
+                    {
+                        case -1:
+                            cs.ID = "SOI_FULL_PLAYER";
+                            cs.Info = "Sới đầy rồi nhé";
+                            break;
+                        case -2:
+                            cs.ID = "NOT_VALID";
+                            cs.Info = "User này chưa login";
+                            break;
+                        case -3:
+                            cs.ID = "NOT_ALLOW";
+                            cs.Info = "Bạn đã vào sới khác rồi, không vào đây được nữa";
+                            break;
+                    }                    
                     Cmd.Add(cs);
                 }
             }
@@ -57,7 +72,20 @@ namespace TalaAPI.community.soi
                     }
                     else
                     {
-                        APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "JOIN_SOI", "Mời gia nhập sới thất bại");
+                        APICommandStatus cs = new APICommandStatus(false);
+
+                        switch (nResult)
+                        {
+                            case -1:
+                                cs.ID = "SOI_FULL_PLAYER";
+                                cs.Info = "Sới đầy rồi nhé";
+                                break;
+                            case -3:
+                                cs.ID = "GUEST_PLAYER_IS_PLAYING";
+                                cs.Info = "Người bạn mời đã ngồi ở sới khác rồi";
+                                break;                            
+                        }
+                        
                         Cmd.Add(cs);
                     }
                 }                    

@@ -197,7 +197,7 @@ namespace TalaAPI.Business
             if (player.CurrentSoi != null)
             {
                 // vào sới khác rồi còn lớ xớ ở đây làm gì
-                return -1;
+                return -3;
             }
 
 
@@ -220,8 +220,8 @@ namespace TalaAPI.Business
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="player"></param>
-        /// <returns>-2 nếu lỗi, player không tồn tại. -1 nếu sới đã đầy chỗ hoặc đã join sới khác rồi. Trả về số > 0 nếu OK, hoặc đã join sới rồi cũng là OK</returns>
+        /// <param name="username"></param>
+        /// <returns> -3 đã join sới khác rồi, -2 nếu lỗi, player không tồn tại. -1 nếu sới đã đầy chỗ ,. Trả về số > 0 nếu OK, hoặc đã join sới rồi cũng là OK</returns>
         public int AddPlayer(string username)
         {
             User player = Song.Instance.GetUserByUsername(username);
