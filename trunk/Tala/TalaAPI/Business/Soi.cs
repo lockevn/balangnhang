@@ -365,7 +365,7 @@ namespace TalaAPI.Business
             }
 
 
-            if (1 < this.SeatList.Count && this.SeatList.Count < 4)
+            if (4 < this.SeatList.Count && this.SeatList.Count < 2)
             {
                 return -3;
             }
