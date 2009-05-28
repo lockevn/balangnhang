@@ -13,6 +13,7 @@ using System.Web.Services.Protocols;
 using System.Xml.Linq;
 using System.Collections;
 using TalaAPI.XMLRenderOutput;
+using TalaAPI.Business;
 
 namespace TalaAPI.Lib
 {    
@@ -23,6 +24,7 @@ namespace TalaAPI.Lib
         protected internal string Stat = "fail";
         protected internal ArrayList Data = new ArrayList();
         protected internal ArrayList Cmd = new ArrayList();
+
 
         /// <summary>
         /// Set ContentType to xml, render Data and Cmd to xml
@@ -55,7 +57,30 @@ namespace TalaAPI.Lib
                 sRenderedCmd = "<cmd>" + sRenderedCmd + "</cmd>";
             }
 
-            context.Response.Write(string.Format("<q stat='{0}'>{1}{2}</q>", Stat, sRenderedData, sRenderedCmd));
+
+            int nCurrentTurnOfThisRequestContext = -1;
+            /// Cố gắng lấy turn hiện tại nếu người chơi đang chơi dở, sới đang diễn ra
+            TalaSecurity sec = new TalaSecurity(context, false);
+            // người chơi đã login, đã ở trong sới
+            if (sec.CurrentAU != null)
+            {
+                Soi soi = sec.CurrentAU.CurrentSoi;
+                // người chơi hiện tại đã vào sới, sới đang chơi, có ván
+                if (soi != null && soi.IsPlaying && soi.CurrentVan != null)
+                {
+                    // lấy currentTurn ra, ghi vào response
+                    nCurrentTurnOfThisRequestContext = soi.CurrentVan.CurrentTurnSeatIndex;
+                }
+            }
+
+            // nếu turn >= 0 thì mới ghi ra, tiết kiệm tí response trả về
+            context.Response.Write(
+                    string.Format(
+                    "<q stat='{0}' " 
+                    + ((nCurrentTurnOfThisRequestContext < 0) ? string.Empty : "turn='{3}'") 
+                    + ">{1}{2}</q>"
+                    , Stat, sRenderedData, sRenderedCmd, nCurrentTurnOfThisRequestContext)
+                );
         }
 
 
