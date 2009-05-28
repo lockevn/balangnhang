@@ -39,9 +39,9 @@ namespace TalaAPI.Business
         public DateTime EndTime;
         public string Description;
         
-        List<APIDataEntry> _SeatList;
+        List<Seat> _SeatList;
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric)]
-        public List<APIDataEntry> SeatList
+        public List<Seat> SeatList
         {
             get { return _SeatList; }
             set { _SeatList = value; }
@@ -126,7 +126,7 @@ namespace TalaAPI.Business
             this.Name = name;
             this.OwnerUsername = owner;
             this.StartTime = System.DateTime.Now;
-            this.SeatList = new List<APIDataEntry>();
+            this.SeatList = new List<Seat>();
         }
 
         
