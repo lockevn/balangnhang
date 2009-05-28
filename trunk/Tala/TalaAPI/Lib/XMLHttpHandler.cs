@@ -50,13 +50,14 @@ namespace TalaAPI.Lib
                 foreach (APICommandStatus cs in Cmd)
                 {
                     sRenderedCmd += cs.ToString();
+                    Stat = cs.Stat;
                 }
                 sRenderedCmd = "<cmd>" + sRenderedCmd + "</cmd>";
             }
 
             context.Response.Write(string.Format("<q stat='{0}'>{1}{2}</q>", Stat, sRenderedData, sRenderedCmd));
-        }        
-                
+        }
+
 
         public bool IsReusable
         {
