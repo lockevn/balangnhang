@@ -18,7 +18,15 @@ namespace TalaAPI.Business
     public class Van
     {
         public int Index;
-        public int CurrentTurnSeatIndex;
+        
+        int _CurrentTurnSeatIndex;
+        public int CurrentTurnSeatIndex
+        {
+            get { return _CurrentTurnSeatIndex; }
+            set { _CurrentTurnSeatIndex = value; }
+        }
+
+
         public bool IsFinished;
         public int CurrentRound;
         private Soi Soi;

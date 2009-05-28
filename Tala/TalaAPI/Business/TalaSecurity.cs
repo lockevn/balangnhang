@@ -55,6 +55,10 @@ namespace TalaAPI.Business
             }
         }
 
+        /// <summary>
+        /// New TalaSecurity object, if can not find authkey, return fail, end request intermediatelly
+        /// </summary>
+        /// <param name="context"></param>
         public TalaSecurity(HttpContext context) : this(context, true)
         {
         }
