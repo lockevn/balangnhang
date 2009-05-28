@@ -233,6 +233,8 @@ namespace TalaAPI.Business
 
             /*ket thuc van, set winner*/
             this.IsFinished = true;
+            this.Soi.CurrentVan = null;
+            this.CurrentTurnSeatIndex = 0;            
             ///TODO:  set winner, money
             return true;
         }
