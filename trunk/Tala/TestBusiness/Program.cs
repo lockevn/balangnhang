@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using TalaAPI.Business;
@@ -34,11 +35,11 @@ namespace TestBusiness
 
 
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric)]
-        public List<APIDataEntry> ListOfCard
+        public List<Card> ListOfCard
         {
             get
             {
-                List<APIDataEntry> list = new List<APIDataEntry>();
+                List<Card> list = new List<Card>();
                 Card c1 = new Card("01", "c");
                 Card c2 = new Card("02", "c");
                 list.Add(c1);
@@ -67,9 +68,31 @@ namespace TestBusiness
     {        
         static void Main(string[] args)
         {
-            MyClass mc = new MyClass();
-  
-            Console.WriteLine(mc.ToXMLString());
+            //Card cc = new Card("","");
+            //Card[] arrayc = { cc};
+            //List<Card> listc = new List<Card>();
+            //listc.Add(cc);
+
+            //ICollection ic = arrayc as ICollection;
+            //foreach (object o in ic)
+            //{
+            //    Console.WriteLine(((o as APIDataEntry).ToXMLString()));
+            //}
+
+            //ic = listc as ICollection;
+            //foreach (object o in ic)
+            //{
+            //    Console.WriteLine((o as APIDataEntry).ToXMLString());
+            //}
+
+            
+            //MyClass mc = new MyClass();  
+            //Console.WriteLine(mc.ToXMLString());
+
+            Soi soi = new Soi(1,"ân","lockevn");
+            Console.WriteLine(soi.ToXMLString());
+            
+
             Console.ReadLine();
         }
     }

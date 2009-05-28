@@ -41,41 +41,27 @@ namespace TalaAPI.XMLRenderOutput
             foreach (PropertyInfo pro in arrPro)
             {
                 object[] attribs = pro.GetCustomAttributes(typeof(ElementXMLExportAttribute), true);
-                if (attribs.Length < 0)
+                if (attribs.Length <= 0)
                 {
-                    // ko mark attribute, ko sinh ra gì hết
+                    // ko mark attribute, ko xử lý gì hết
                     continue;
                 }
                  
                 ElementXMLExportAttribute at = (ElementXMLExportAttribute)attribs[0];
                 string sName = at.TagName.IsNullOrEmpty() ? pro.Name.ToStringSafetyNormalize() : at.TagName;
+                
+                object xProElement = null;
+                object oProValue = pro.GetValue(this, null);
 
-
-                object child = null;
-                if (at.ListizeType == DataListizeType.Array)
+                /// kiểm tra xem có phải dạng danh sách không (Array  hoặc List)
+                ICollection list = oProValue as ICollection;
+                if (list != null)
                 {
-                    child = new XElement(sName);
-                    Array list = pro.GetValue(this, null) as Array;
-                    if (list != null)
+                    xProElement = new XElement(sName);                
+                    foreach (APIDataEntry entry in list)
                     {
-                        foreach (APIDataEntry entry in list)
-                        {
-                            XElement xEntryInList = entry.ToXElement();
-                            (child as XElement).Add(xEntryInList);
-                        }
-                    }
-                }
-                else if (at.ListizeType == DataListizeType.ListGeneric)
-                {
-                    child = new XElement(sName);
-                    List<APIDataEntry> list = pro.GetValue(this, null) as List<APIDataEntry>;
-                    if (list != null)
-                    {
-                        foreach (APIDataEntry entry in list)
-                        {
-                            XElement xEntryInList = entry.ToXElement();
-                            (child as XElement).Add(xEntryInList);
-                        }
+                        XElement xChildEntryInList = entry.ToXElement();
+                        (xProElement as XElement).Add(xChildEntryInList);
                     }
                 }
                 else
@@ -84,28 +70,24 @@ namespace TalaAPI.XMLRenderOutput
                     if (at.OutputXMLType == DataOutputXMLType.NestedTag)
                     {
                         // nếu là APIDataEntry, render nó tiếp
-                        object oValue = null;
                         if (pro.PropertyType.IsSubclassOf(typeof(APIDataEntry)))
                         {
-                            oValue = (pro.GetValue(this, null) as APIDataEntry).ToXElement();
+                            oProValue = (oProValue as APIDataEntry).ToXElement();
                         }
                         else
                         {
-                            // nếu là đối tượng kiểu thường, ấn thẳng vào, render ra bằng ToString
-                            oValue = pro.GetValue(this, null);
+                            // nếu là đối tượng kiểu thường, ấn thẳng vào, render ra bằng ToString                            
                         }
-                        child = new XElement(sName, oValue);
+                        xProElement = new XElement(sName, oProValue);
                     }
                     else
                     {
                         // nếu là render dạng attrib
-                        object oValue = pro.GetValue(this, null);
-                        child = new XAttribute(sName, oValue);
+                        xProElement = new XAttribute(sName, oProValue);
                     }
                 }
 
-                thisx.Add(child);
-
+                thisx.Add(xProElement);
             }
             return thisx;
         }
