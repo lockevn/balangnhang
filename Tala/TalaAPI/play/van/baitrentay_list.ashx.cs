@@ -21,6 +21,7 @@ namespace TalaAPI.play.van
             
             // chỉ lấy current sới, current seat của authkey hiện tại, trả ra bài trên tay của Seat đó
             Data.AddRange(security.CurrentAU.CurrentSoi.GetSeatOfUserInSoi(security.CurrentAU.Username).BaiTrenTay);
+            base.Stat = APICommandStatusState.OK;
 
             base.ProcessRequest(context);
         }
