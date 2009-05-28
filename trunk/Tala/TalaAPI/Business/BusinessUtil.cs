@@ -48,6 +48,8 @@ namespace TalaAPI.Business
                     }
                     continue;
                 }
+                /*khong phai phom ngang*/
+                break;
             }
             /*kiem tra phom doc*/
             /*sap xep lai cac cay trong mang tang dan*/
@@ -55,7 +57,7 @@ namespace TalaAPI.Business
             for (int i = 1; i < cardArr.Length; i++)
             {
                 if (cardArr[i].Chat == cardArr[i - 1].Chat &&
-                    cardArr[i].So == (cardArr[i - 1].So + 1))
+                    int.Parse(cardArr[i].So) == (int.Parse(cardArr[i - 1].So) + 1))
                 {
                     if (i == cardArr.Length - 1)
                     {
@@ -113,12 +115,13 @@ namespace TalaAPI.Business
         public static Card[] StringArrayToCardArray(this string[] cardStrArr) 
         {
             Card[] cardArr = new Card[cardStrArr.Length];
+            int i = 0;
             foreach (string cardStr in cardStrArr)
-            {
-                int i = 0;
+            {                 
                 /*if CardException occurs, throw it to higher level*/
                 Card card = Card.ParseString(cardStr);                
                 cardArr[i] = card;
+                i++;
             }
             return cardArr;
         }
@@ -136,7 +139,7 @@ namespace TalaAPI.Business
             /*tạo List<Card[]> tu stringArr*/
             foreach (string tmpStr in stringArr)
             {
-                string[] cardStrArr = tmpStr.Split('^');
+                string[] cardStrArr = tmpStr.Split(',');
                 Card[] cardArr = BusinessUtil.StringArrayToCardArray(cardStrArr);
                 cardArrList.Add(cardArr);                
             }

@@ -90,6 +90,18 @@ namespace TalaAPI.Business
             return currIndex + 1;
         }
 
+        /// <summary>
+        /// Lấy tổng số card trên tay lẫn card đã ăn của seat
+        /// </summary>
+        /// <returns></returns>
+        public int GetTotalCardOnSeat()
+        {
+            if (this.BaiTrenTay == null || this.BaiDaAn == null)
+            {
+                return 0;
+            }
+            return this.BaiTrenTay.Count + this.BaiDaAn.Count;
+        }
 
     }
 }
