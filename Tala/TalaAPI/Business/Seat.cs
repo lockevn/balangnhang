@@ -11,6 +11,8 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using TalaAPI.XMLRenderOutput;
+using TalaAPI.Lib;
+
 
 namespace TalaAPI.Business
 {
@@ -20,12 +22,14 @@ namespace TalaAPI.Business
         /// <summary>
         /// Thứ tự chỗ ngồi 0 1 2 3
         /// </summary>
+        [ElementXMLExportAttribute("pos", DataOutputXMLType.Attribute)]
         public int Index
         {
             get { return _Index; }
         }
 
         User _Player;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public User Player
         {
             get { return _Player; }
@@ -33,13 +37,13 @@ namespace TalaAPI.Business
         }
 
         bool _IsReady;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public bool IsReady
         {
             get { return _IsReady; }
             set { _IsReady = value; }
         }
-
-
+        
 
         public int HaIndex;
 
@@ -47,6 +51,9 @@ namespace TalaAPI.Business
         public List<Card> BaiDaDanh;
         public List<Card> BaiDaAn;
         public List<Phom> PhomList;
+
+
+
 
         public Seat(int index, User player)
         {

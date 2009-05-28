@@ -81,11 +81,11 @@ namespace TalaAPI.Business
                 for (int j = 0; j < seatCount; j++)
                 {
                     /*chia bai i+j cho seat[j]*/
-                    this.Soi.SeatList[j].BaiTrenTay.Add(this.Noc.ElementAt(seatCount * i + j));
+                    (this.Soi.SeatList[j] as Seat).BaiTrenTay.Add(this.Noc.ElementAt(seatCount * i + j));
                 }
             }
             /*chia them cho seat[0] 1 cay */
-            this.Soi.SeatList[0].BaiTrenTay.Add(this.Noc.ElementAt(9 * seatCount));
+            (this.Soi.SeatList[0] as Seat).BaiTrenTay.Add(this.Noc.ElementAt(9 * seatCount));
 
             /*xoa cac cay da chia ra khoi Noc*/
             for (int i = 0; i < 9*seatCount + 1; i++)
@@ -156,7 +156,7 @@ namespace TalaAPI.Business
 
             /*chuyen card cuoi cung tu BaiDaDanh cua seat truoc sang seat BaiDaAn cua seat sau*/
             int previousSeatIndex = Seat.GetPreviousSeatIndex(seat.Index, this.Soi.SeatList.Count);
-            Seat previousSeat = this.Soi.SeatList.ElementAt(previousSeatIndex);
+            Seat previousSeat = this.Soi.SeatList.ElementAt(previousSeatIndex) as Seat;
             
             /*kiểm tra previousSeat có bài đã đánh không*/
             if (previousSeat.BaiDaDanh == null || previousSeat.BaiDaDanh.Count == 0)
@@ -183,8 +183,8 @@ namespace TalaAPI.Business
                 /*nếu haIndex = 3 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 2*/
                 /*nếu haIndex = 0 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 3*/            
                 int indexChuyenSang = Seat.GetPreviousSeatIndex(seat.HaIndex, this.Soi.SeatList.Count);
-                Seat seat0 = this.Soi.SeatList.ElementAt(0);
-                Seat seatI = this.Soi.SeatList.ElementAt(indexChuyenSang);
+                Seat seat0 = this.Soi.SeatList.ElementAt(0) as Seat;
+                Seat seatI = this.Soi.SeatList.ElementAt(indexChuyenSang) as Seat;
                 Card chuyenCard = seat0.BaiDaDanh.Last();
                 seatI.BaiDaDanh.Add(chuyenCard);
                 seat0.BaiDaDanh.Remove(chuyenCard);                
@@ -349,9 +349,9 @@ namespace TalaAPI.Business
             }
 
             /*kiểm tra cardArr có tạo phỏm với phom không*/
-            Card[] tmpCardArr = new Card[cardArr.Length + phom.CardArr.Length];
-            phom.CardArr.CopyTo(tmpCardArr, 0);
-            cardArr.CopyTo(tmpCardArr, phom.CardArr.Length);
+            Card[] tmpCardArr = new Card[cardArr.Length + phom.CardArray.Length];
+            phom.CardArray.CopyTo(tmpCardArr, 0);
+            cardArr.CopyTo(tmpCardArr, phom.CardArray.Length);
             Phom tmpPhom = tmpCardArr.IsValidPhom();
             if (tmpPhom == null)
             {
