@@ -61,18 +61,13 @@ namespace TalaAPI.Business
             set { _Chat = value; }
         }
 
-
-        #region Thuộc tính tạm, chỉ dùng cho việc render XML output
-        
-        int _Pos;
+        int _Pos = -1;
         [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
         public int Pos
         {
             get { return _Pos; }
             set { _Pos = value;  }
         }
-
-        #endregion
 
 
 

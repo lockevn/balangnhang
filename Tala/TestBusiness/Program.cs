@@ -34,7 +34,7 @@ namespace TestBusiness
         }
 
 
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric)]
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false)]
         public List<Card> ListOfCard
         {
             get
@@ -49,7 +49,7 @@ namespace TestBusiness
             }
         }
 
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.Array)]
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.Array, false)]
         public Card[] CardArray
         {
             get
@@ -85,9 +85,9 @@ namespace TestBusiness
             //    Console.WriteLine((o as APIDataEntry).ToXMLString());
             //}
 
-            
-            //MyClass mc = new MyClass();  
-            //Console.WriteLine(mc.ToXMLString());
+
+            MyClass mc = new MyClass();
+            Console.WriteLine(mc.ToXMLString());
 
             Soi soi = new Soi(1,"ân","lockevn");
             Console.WriteLine(soi.ToXMLString());

@@ -63,17 +63,33 @@ namespace TalaAPI.Business
         {
         }
 
-        public Soi CheckUserJoinedSoi()
+        /// <summary>
+        /// Trả về sới hiện tại của user, endRequest với lỗi not JOIN_SOI nếu chưa vào sới
+        /// </summary>
+        /// <param name="NeedToEndRequest">nếu true, endrequest luôn, nếu failse</param>
+        /// <returns></returns>
+        public Soi CheckUserJoinedSoi(bool NeedToEndRequest)
         {
             Soi soi = this.CurrentAU.CurrentSoi;
             if (soi == null)
             {
-                XMLHttpHandler httphandler = new XMLHttpHandler();
-                httphandler.Cmd.Add(APICommandStatus.Get_NOT_JOINED_SOI_CommandStatus());
-                httphandler.ProcessRequest(this._context);
-                this._context.Response.End();
+                if (NeedToEndRequest)
+                {
+                    XMLHttpHandler httphandler = new XMLHttpHandler();
+                    httphandler.Cmd.Add(APICommandStatus.Get_NOT_JOINED_SOI_CommandStatus());
+                    httphandler.ProcessRequest(this._context);
+                    this._context.Response.End();
+                }
             }
             return soi;
+        }
+        /// <summary>
+        /// Trả về sới hiện tại của user, endRequest với lỗi not JOIN_SOI nếu chưa vào sới
+        /// </summary>
+        /// <returns></returns>
+        public Soi CheckUserJoinedSoi()
+        {
+            return CheckUserJoinedSoi(true);
         }
 
         public Seat CheckUserJoinedSeat()

@@ -137,10 +137,28 @@ namespace TalaAPI.Business
         /// <returns></returns>
         public Soi CreatSoiMoi(string sName, string ownerUsername)
         {
-            Soi soi = new Soi(Song.Instance.Soi.Count + 1, sName, ownerUsername);
-            Song.Instance.Soi.Add(soi.Id.ToString(), soi);
-            soi.AddPlayer(ownerUsername);
-            return soi;
+            Soi soiRet = null;
+
+            User user = GetUserByUsername(ownerUsername);
+            if (user != null)
+            {
+                if (user.CurrentSoi == null)
+                {
+                    // create new
+                    soiRet = new Soi(Song.Instance.Soi.Count + 1, sName, ownerUsername);
+                    Song.Instance.Soi.Add(soiRet.Id.ToString(), soiRet);
+                    
+                    // nhồi luôn người tạo vào sới
+                    soiRet.AddPlayer(ownerUsername);
+                }
+                else
+                {
+                    // return current Soi
+                    soiRet = user.CurrentSoi;
+                }
+            }           
+            
+            return soiRet;
         }
     }
 }

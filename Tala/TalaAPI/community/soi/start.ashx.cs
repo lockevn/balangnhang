@@ -22,8 +22,9 @@ namespace TalaAPI.community.soi
             //o	Nếu AU không phải player của sới, lỗi, id=NOT_ALLOW
             // bỏ qua chưa giải quyết, vì 1 người chơi đc mỗi 1 sới
 
-            APICommandStatus cs = new APICommandStatus(false);
-            int nRet = security.CurrentAU.CurrentSoi.StartPlaying();
+            APICommandStatus cs = new APICommandStatus(false);            
+            Soi soi =  security.CheckUserJoinedSoi();
+            int nRet = soi.StartPlaying();
             switch (nRet)
             {
                 case -3:

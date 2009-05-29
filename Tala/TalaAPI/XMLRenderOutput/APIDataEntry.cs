@@ -25,21 +25,14 @@ namespace TalaAPI.XMLRenderOutput
 
         public virtual XElement ToXElement()
         {
-            XElement thisx = new XElement(this.GetType().Name.ToStringSafetyNormalize());
+            /// XML Element, đại diện cho chính DataEntry đang được xử lý này
+            XElement thisx = new XElement(this.GetType().Name.ToStringSafetyNormalize());            
 
-            //string sRenderedData = string.Empty;
-            //if (Data.Count > 0)
-            //{
-            //    foreach (APIDataEntry data in Data)
-            //    {
-            //        sRenderedData += data.ToString();
-            //    }
-            //    x.Add(new XElement("data", sRenderedData));
-            //}
-
+            // lấy tất cả các property Public, Instance (không phải tĩnh) của DataEntry
             PropertyInfo[] arrPro = this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (PropertyInfo pro in arrPro)
             {
+                // tìm các Property có đánh dấu
                 object[] attribs = pro.GetCustomAttributes(typeof(ElementXMLExportAttribute), true);
                 if (attribs.Length <= 0)
                 {

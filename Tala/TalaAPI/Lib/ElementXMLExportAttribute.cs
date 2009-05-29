@@ -46,6 +46,12 @@ namespace TalaAPI.Lib
             get { return _ListizeType; }
         }
 
+        bool _RenderWhileEmpty;
+        public bool RenderWhileEmpty
+        {
+            get { return _RenderWhileEmpty; }
+        }
+
 
         /// <summary>
         /// 
@@ -53,11 +59,12 @@ namespace TalaAPI.Lib
         /// <param name="tagname">bỏ trống sẽ dùng chính PropertyName.toLower làm tagname</param>
         /// <param name="type">thích render dạng attrib hay dạng nested tag</param>
         /// <param name="listizetype">Property được đánh dấu là dạng đơn, dạng Array, hay dạng List</param>
-        public ElementXMLExportAttribute(string tagname, DataOutputXMLType type, DataListizeType listizetype)
+        public ElementXMLExportAttribute(string tagname, DataOutputXMLType type, DataListizeType listizetype, bool renderWhileEmpty)
         {
             _TagName = tagname;
             _OutputXMLType = type;
             _ListizeType = listizetype;
+            _RenderWhileEmpty = renderWhileEmpty;
         }
 
 
@@ -67,7 +74,7 @@ namespace TalaAPI.Lib
         /// <param name="tagname">bỏ trống sẽ dùng chính PropertyName.toLower làm tagname</param>
         /// <param name="type">thích render dạng attrib hay dạng nested tag</param>
         public ElementXMLExportAttribute(string tagname, DataOutputXMLType type) 
-            : this(tagname, type, DataListizeType.Single)
+            : this(tagname, type, DataListizeType.Single, false)
         {
         }
 
