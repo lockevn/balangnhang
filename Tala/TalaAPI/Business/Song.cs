@@ -130,7 +130,7 @@ namespace TalaAPI.Business
         }
 
         /// <summary>
-        /// 
+        /// Tạo sới mới, ấn creator vào sới nếu ok. Nếu creator đã có sới rồi, trả lại sới cũ
         /// </summary>
         /// <param name="sName"></param>
         /// <param name="ownerUsername"></param>

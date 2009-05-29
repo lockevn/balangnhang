@@ -34,7 +34,7 @@ namespace TestBusiness
         }
 
 
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false)]
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false, false)]
         public List<Card> ListOfCard
         {
             get
@@ -49,7 +49,7 @@ namespace TestBusiness
             }
         }
 
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.Array, false)]
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.Array, false, false)]
         public Card[] CardArray
         {
             get
