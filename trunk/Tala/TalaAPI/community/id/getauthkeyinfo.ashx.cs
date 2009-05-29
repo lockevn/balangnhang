@@ -17,9 +17,8 @@ namespace TalaAPI.community.id
         public override void ProcessRequest(HttpContext context)
         {
             string sAuthkey = context.Request["authkey"].ToStringSafetyNormalize();
-            
-            string sUsername = Song.Instance.ValidAuthkey[sAuthkey];
-            User AUuser = Song.Instance.OnlineUser[sUsername];            
+
+            User AUuser = Song.Instance.GetUserByAuthkey(sAuthkey);
             Data.Add(AUuser);
             base.Stat = APICommandStatusState.OK;
 

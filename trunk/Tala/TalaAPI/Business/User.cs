@@ -12,13 +12,14 @@ using System.Xml.Linq;
 using TalaAPI.XMLRenderOutput;
 using TalaAPI.Business;
 using TalaAPI.Lib;
-using TalaAPI.Lib;
+
 
 namespace TalaAPI.Business
 {
     public class User : APIDataEntry
     {   
         string _sUsername;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public string Username
         {
             get
@@ -30,7 +31,8 @@ namespace TalaAPI.Business
                 _sUsername = value;
             }
         }
-        string _sAuthkey;
+
+        string _sAuthkey;        
         public string Authkey
         {
             get
@@ -47,13 +49,13 @@ namespace TalaAPI.Business
         /// <summary>
         /// Read only. Thuộc tính này là chỉ đọc, đọc ra số tiền hiện có của User
         /// </summary>
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public int Money
         {
             get { return _Money; }
             set { _Money = value; }
         }
-
-
+        
 
         Soi _CurrentSoi;
         public Soi CurrentSoi
@@ -61,15 +63,18 @@ namespace TalaAPI.Business
             get { return _CurrentSoi; }
             set { _CurrentSoi = value; }
         }
+        
 
         public User()
         {}        
-
         public User(string p_sUsername, string p_sAuthkey)
         {
             _sUsername = p_sUsername;
             _sAuthkey = p_sAuthkey;
         }
+
+
+
 
 
         /// <summary>

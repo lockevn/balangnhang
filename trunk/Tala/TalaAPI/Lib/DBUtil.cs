@@ -41,7 +41,7 @@ namespace TalaAPI.Lib
                 {
                     ret.Money = Convert.ToInt32(reader["balance"]);
                 }
-                catch(System.Exception ex){}
+                catch{}
             }
             con.Close();
 
