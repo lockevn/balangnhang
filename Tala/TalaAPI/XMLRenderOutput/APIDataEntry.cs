@@ -14,6 +14,7 @@ using System.Collections;
 
 using System.Reflection;
 using TalaAPI.Lib;
+using System.Text;
 
 namespace TalaAPI.XMLRenderOutput
 {
@@ -27,9 +28,11 @@ namespace TalaAPI.XMLRenderOutput
         {
             /// XML Element, đại diện cho chính DataEntry đang được xử lý này
             XElement thisx = new XElement(this.GetType().Name.ToStringSafetyNormalize());            
-
+            
             // lấy tất cả các property Public, Instance (không phải tĩnh) của DataEntry
             PropertyInfo[] arrPro = this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+
             foreach (PropertyInfo pro in arrPro)
             {
                 // tìm các Property có đánh dấu
@@ -46,19 +49,38 @@ namespace TalaAPI.XMLRenderOutput
                 object xProElement = null;
                 object oProValue = pro.GetValue(this, null);
 
+                // nếu không muốn render khi giá trị rỗng, bỏ qua vòng foreach với property này luôn
+                if ((oProValue == null || oProValue.ToString().IsNullOrEmpty()) && !at.RenderWhileEmpty)
+                {
+                    continue;
+                }
+
                 /// kiểm tra xem có phải dạng danh sách không (Array  hoặc List)
                 ICollection list = oProValue as ICollection;
                 if (list != null)
                 {
-                    xProElement = new XElement(sName);                
+                    #region  Xử lý render List các APIDataEntry
+                    
                     foreach (APIDataEntry entry in list)
                     {
-                        XElement xChildEntryInList = entry.ToXElement();
-                        (xProElement as XElement).Add(xChildEntryInList);
+                        // muốn ghi các phần tử con của list (Property là list) là con trực tiếp của DataEntry
+                        if (at.AddChildListEntryToParentEntry)
+                        {
+                            thisx.Add(entry.ToXElement());
+                        }
+                        else    // ghi dưới Element có name = PropertyName
+                        {
+                            xProElement = new XElement(sName, entry.ToXElement());
+                        }
                     }
+
+                    #endregion
                 }
-                else
+                else    // đây là trường dữ liệu đơn
                 {
+                    #region Xử lý trường dữ liệu đơn                                       
+                    
+
                     // tuỳ kiểu mà render thành nested tag hay attrib                    
                     if (at.OutputXMLType == DataOutputXMLType.NestedTag)
                     {
@@ -78,15 +100,18 @@ namespace TalaAPI.XMLRenderOutput
                         // nếu là render dạng attrib
                         xProElement = new XAttribute(sName, oProValue);
                     }
+
+                    #endregion
                 }
 
-                thisx.Add(xProElement);
-            }
-            return thisx;
+                thisx.Add(xProElement);                
+            }  // end foreach Property
+
+            return thisx;            
         }
 
         public virtual string ToXMLString()
-        {
+        {  
             return ToXElement().ToString();
         }
 

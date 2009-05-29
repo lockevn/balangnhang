@@ -11,11 +11,18 @@ namespace TestBusiness
 {
     class MyClass : APIDataEntry
     {
+        [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
+        public string EmptyProperty
+        {
+            get { return ""; }
+        }
+
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public string FieldProperty
         {
             get { return "nestedvalue"; }
         }
+
 
         [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
         public string AttribFieldProperty
@@ -29,7 +36,7 @@ namespace TestBusiness
             get 
             {
                 Card c = new Card("13", "c");
-                return c;                
+                return c;
             }
         }
 
@@ -49,7 +56,7 @@ namespace TestBusiness
             }
         }
 
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.Array, false, false)]
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.Array, false, true)]
         public Card[] CardArray
         {
             get
