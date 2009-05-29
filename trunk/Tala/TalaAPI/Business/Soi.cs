@@ -40,7 +40,7 @@ namespace TalaAPI.Business
         public string Description;
         
         List<Seat> _SeatList;
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false)]
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false, false)]
         public List<Seat> SeatList
         {
             get { return _SeatList; }

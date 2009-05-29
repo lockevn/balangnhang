@@ -24,7 +24,7 @@ namespace TalaAPI.Business
         }
 
         Card[] _CardArr;
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.Array, false)]
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.Array, false, true)]
         public Card[] CardArray
         {
             get { return _CardArr; }

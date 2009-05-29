@@ -22,14 +22,14 @@ namespace TalaAPI.community.soi
             string sName = context.Request["name"].ToStringSafetyNormalize();
             if (string.IsNullOrEmpty(sName))
             {
-                cs = new APICommandStatus(APICommandStatusState.FAIL, "add_soi", "Tên không được rỗng");
+                cs = new APICommandStatus(APICommandStatusState.FAIL, "ADD_SOI", "Tên không được rỗng");
             }
             else
             {
                 lock (Song.Instance.Soi)
                 {
-                    Soi soi = Song.Instance.CreatSoiMoi(sName, sec.CurrentAU.Username);                    
-                    cs = new APICommandStatus(APICommandStatusState.OK, "add_soi", string.Format("{0}#{1}", soi.Id, soi.Name));
+                    Soi soi = Song.Instance.CreatSoiMoi(sName, sec.CurrentAU.Username);
+                    cs = new APICommandStatus(APICommandStatusState.OK, "ADD_SOI", string.Format("{0}#{1}", soi.Id, soi.Name));
                 }                
             }
 
