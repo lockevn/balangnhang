@@ -19,7 +19,7 @@ namespace TalaAPI.Business
     
     public class Card : APIDataEntry
     {
-        #region Các ràng buộc nghiệp vụ về một Card
+        #region Các khai báo tĩnh, ràng buộc nghiệp vụ về một Card
 
         public static string[] SO_SET = new string[13] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"};
         /// <summary>
@@ -94,7 +94,45 @@ namespace TalaAPI.Business
                 return true;
             }
             return false;
-        }        
+        }
+
+
+        /// <summary>
+        /// Viết Card thành dạng 3 ký tự, ssc (số số chất)
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return So + Chat;
+        }
+
+        /// <summary>
+        /// create a Card object from string with format SoSoChat: vd 01c (át cơ)
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>card object if valid otherwise null</returns>
+        public static Card ParseString(string value)
+        {
+            Card cardRet = null;
+
+            if (value == null || value.Length != 3)
+            {
+                throw new CardException("invalid card string format: " + value);
+            }
+            string so = value.Substring(0, 2);
+            string chat = value.Substring(2, 1);
+
+            // hợp lệ mới tạo obj Card
+            if (Card.SO_SET.Contains(so) && Card.CHAT_SET.Contains(chat))
+            {
+                cardRet = new Card(so, chat);
+                return cardRet;
+            }
+
+            throw new CardException("invalid card string format: " + value);
+
+        }
+
 
 
 
@@ -118,16 +156,7 @@ namespace TalaAPI.Business
             return base.GetHashCode();
         }
 
-        /// <summary>
-        /// Viết Card thành dạng 3 ký tự, ssc (số số chất)
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return So + Chat;
-        }
-
-               
+                      
         public static bool Compare(Card c1, Card c2)
         {
             string sc1 = string.Empty;
@@ -192,36 +221,6 @@ namespace TalaAPI.Business
             
             return (!(c1 > c2));
         }
-
-
-        /// <summary>
-        /// create a Card object from string with format SoSoChat: vd 01c (át cơ)
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns>card object if valid otherwise null</returns>
-        public static Card ParseString(string value)
-        {
-            Card cardRet = null;
-
-            if (value == null || value.Length != 3)
-            {
-                throw new CardException("invalid card string format: " + value);
-            }
-            string so = value.Substring(0, 2);
-            string chat = value.Substring(2, 1);
-
-            // hợp lệ mới tạo obj Card
-            if (Card.SO_SET.Contains(so) && Card.CHAT_SET.Contains(chat))
-            {
-                cardRet = new Card(so, chat);
-                return cardRet;
-            }
-
-            throw new CardException("invalid card string format: " + value);
-                        
-        }
         
-    }
-
-    
+    }    
 }

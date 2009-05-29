@@ -35,6 +35,7 @@ namespace TalaAPI.Business
              set { _Id = value; }
          }
 
+
         public DateTime StartTime;
         public DateTime EndTime;
         public string Description;
@@ -48,42 +49,45 @@ namespace TalaAPI.Business
         }
         
         string _OwnerUsername;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public string OwnerUsername
         {
             get { return _OwnerUsername;  }
             set { _OwnerUsername = value; }
         }
 
-        public Option SoiOption;
+        
+        Option _SoiOption;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
+        public Option SoiOption
+        {
+            get { return _SoiOption; }
+            set { _SoiOption = value; }
+        }
 
         
         /// <summary>
         /// tính bằng Chip
         /// </summary>
         int _GaValue;
+
+        
         /// <summary>
         /// tính bằng Chip
         /// </summary>
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public int GaValue
         {
             get { return _GaValue; }
             set { _GaValue = value; }
         }
-
-        Van _CurrentVan;
-        public Van CurrentVan
-        {
-            get { return _CurrentVan; }
-            set { _CurrentVan = value; }
-        }
-
-
-        #region Cờ báo trạng thái        
+               
 
         bool _IsLocked = false;
         /// <summary>
         /// Nếu trường này bằng true thì sới này không thay đổi được luật hay option nữa.
         /// </summary>
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public bool IsLocked
         {
             get
@@ -101,6 +105,7 @@ namespace TalaAPI.Business
         /// <summary>
         /// Nếu trường này bằng true, thì sới này đang có ván đang chơi, ván đang diễn ra. Nếu trường này bằng false, ván chưa bắt đầu hoặc đã kết thúc. Lúc này client cần đọc thông tin về kết quả ván chơi trước , ...
         /// </summary>
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public bool IsPlaying
         {
             get
@@ -112,10 +117,14 @@ namespace TalaAPI.Business
                 _IsPlaying = value;
             }
         }
-
         
-
-        #endregion
+        
+        Van _CurrentVan;
+        public Van CurrentVan
+        {
+            get { return _CurrentVan; }
+            set { _CurrentVan = value; }
+        }
 
 
 

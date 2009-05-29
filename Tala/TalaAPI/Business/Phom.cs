@@ -31,8 +31,7 @@ namespace TalaAPI.Business
             set { _CardArr = value; }
         }
         
-
-        public Seat OfSeat; /*seat ma phom thuoc ve*/
+        internal Seat OfSeat; /*seat ma phom thuoc ve*/
 
         public Phom(Card[] cardArr)
         {
