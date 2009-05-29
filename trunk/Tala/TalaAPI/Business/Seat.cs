@@ -51,8 +51,7 @@ namespace TalaAPI.Business
         public List<Card> BaiDaDanh;
         public List<Card> BaiDaAn;
         public List<Phom> PhomList;
-
-
+        
 
 
         public Seat(int index, User player)

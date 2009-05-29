@@ -25,12 +25,15 @@ namespace TalaAPI.Business
             get { return _CurrentTurnSeatIndex; }
             set { _CurrentTurnSeatIndex = value; }
         }
-
+        
 
         public bool IsFinished;
         public int CurrentRound;
         private Soi Soi;
-        public List<Card> Noc;
+        
+        internal List<Card> Noc;
+        
+
 
         public Van(int index, Soi soi)
         {
@@ -42,6 +45,8 @@ namespace TalaAPI.Business
             this.InitializeNoc();
             this.IsFinished = false;
         }
+
+
 
         /// <summary>
         /// Khởi tạo Nọc randomly
@@ -423,8 +428,6 @@ namespace TalaAPI.Business
             return null;
         }
 
-
-        
 
 
     }
