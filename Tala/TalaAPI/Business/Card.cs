@@ -47,14 +47,14 @@ namespace TalaAPI.Business
         
 
         string _So;
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
+        [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
         public string So
         {
             get { return _So.ToLower(); }
             set { _So = value; }
         }
         string _Chat;
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
+        [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
         public string Chat
         {
             get { return _Chat.ToLower(); }

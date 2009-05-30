@@ -18,19 +18,21 @@ namespace TalaAPI.play.van
         {
             TalaSecurity security = new TalaSecurity(context);
 
+            Soi soi = security.CheckUserJoinedSoi();
+
             string pos = context.Request["pos"].ToStringSafetyNormalize();
             int nPos;           
 
             // nếu parse thành công thành int, và pos trong khoảng 0:3, tức là truyền pos hợp lệ, trả về bài theo vị trí hợp lệ
             if (int.TryParse(pos, out nPos) && 0 <= nPos && nPos <= 3)
             {                
-                Data.AddRange ((security.CurrentAU.CurrentSoi.SeatList[nPos] as Seat).BaiDaDanh);
+                Data.AddRange ((soi.SeatList[nPos] as Seat).BaiDaDanh);
                 base.Stat = APICommandStatusState.OK;
             }
             else
             {
                 // tham số không hợp lệ, hoặc không truyền tham số pos, trả về tất cả danh sách bài
-                foreach (Seat seat in security.CurrentAU.CurrentSoi.SeatList)
+                foreach (Seat seat in soi.SeatList)
                 {
                     foreach (Card card in seat.BaiDaDanh)
                     {

@@ -18,9 +18,11 @@ namespace TalaAPI.play.van
         public override void ProcessRequest(HttpContext context)
         {
             TalaSecurity security = new TalaSecurity(context);
-            
+
+            Soi soi = security.CheckUserJoinedSoi();
+
             // chỉ lấy current sới, current seat của authkey hiện tại, trả ra bài trên tay của Seat đó
-            Data.AddRange(security.CurrentAU.CurrentSoi.GetSeatOfUserInSoi(security.CurrentAU.Username).BaiTrenTay);
+            Data.AddRange(soi.GetSeatOfUserInSoi(security.CurrentAU.Username).BaiTrenTay);
             base.Stat = APICommandStatusState.OK;
 
             base.ProcessRequest(context);

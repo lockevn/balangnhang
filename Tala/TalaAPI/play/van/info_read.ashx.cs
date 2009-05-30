@@ -18,7 +18,9 @@ namespace TalaAPI.play.van
         {
             TalaSecurity security = new TalaSecurity(context);
 
-            Data.Add(security.CurrentAU.CurrentSoi);
+            Soi soi = security.CheckUserJoinedSoi();
+            
+            Data.Add(soi);
             base.Stat = APICommandStatusState.OK;
 
             base.ProcessRequest(context);
