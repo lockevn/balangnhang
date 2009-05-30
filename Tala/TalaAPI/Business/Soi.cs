@@ -52,7 +52,10 @@ namespace TalaAPI.Business
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public string OwnerUsername
         {
-            get { return _OwnerUsername;  }
+            get 
+            {                
+                return _OwnerUsername;  
+            }
             set { _OwnerUsername = value; }
         }
 
@@ -190,7 +193,11 @@ namespace TalaAPI.Business
 
         #region Thêm bớt player
 
-        
+        /// <summary>
+        /// Tạo một Seat mới trong sới, Ấn user vào seat, tự động đặt owner
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns> -3 đã join sới khác rồi, -2 nếu lỗi, player không tồn tại. -1 nếu sới đã đầy chỗ ,. Trả về số >= 0 nếu OK, hoặc đã join sới rồi cũng là OK</returns>        
         protected int AddPlayer(User player)
         {
             if (player == null)
@@ -205,22 +212,31 @@ namespace TalaAPI.Business
                 // sới đầy rồi, không cho vào
                 return -1;
             }
-
-            if (player.CurrentSoi != null)
-            {
-                // vào sới khác rồi còn lớ xớ ở đây làm gì
-                return -3;
-            }
-
-
+            
             Seat seatDangNgoiTrongSoi = this.GetSeatOfUserInSoi(player.Username);
             if (seatDangNgoiTrongSoi == null)
             {
-                // chưa ngồi thì cho vào ngồi
-                Seat newSeat = new Seat(SeatList.Count, player);
-                this.SeatList.Add(newSeat);
-                player.CurrentSoi = this;  // this sới
-                return newSeat.Index;
+                if (player.CurrentSoi != null)
+                {
+                    // vào sới khác rồi còn lớ xớ ở đây làm gì
+                    return -3;
+                }
+                else
+                {
+                    // chưa ngồi thì cho vào ngồi
+                    Seat newSeat = new Seat(-1, player);
+                    this.SeatList.Add(newSeat);
+                    this.ReIndexSeatList();
+                    player.CurrentSoi = this;  // this sới
+
+                    if (this.SeatList.Count == 1)
+                    {
+                        // người đầu tiên vào
+                        _OwnerUsername = player.Username;
+                    }
+
+                    return newSeat.Index;
+                }
             }
             else
             {
@@ -230,10 +246,10 @@ namespace TalaAPI.Business
         }
 
         /// <summary>
-        /// 
+        /// Tạo một Seat mới trong sới, Ấn user vào seat, tự động đặt owner
         /// </summary>
         /// <param name="username"></param>
-        /// <returns> -3 đã join sới khác rồi, -2 nếu lỗi, player không tồn tại. -1 nếu sới đã đầy chỗ ,. Trả về số > 0 nếu OK, hoặc đã join sới rồi cũng là OK</returns>
+        /// <returns> -3 đã join sới khác rồi, -2 nếu lỗi, player không tồn tại. -1 nếu sới đã đầy chỗ ,. Trả về số >= 0 nếu OK, hoặc đã join sới rồi cũng là OK</returns>
         public int AddPlayer(string username)
         {
             User player = Song.Instance.GetUserByUsername(username);
@@ -241,7 +257,11 @@ namespace TalaAPI.Business
         }
 
 
-
+        /// <summary>
+        /// Bỏ user ra khỏi danh sách người chơi hiện tại, gỡ bỏ chỗ ngồi
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns>-2 nếu không đuổi cổ thành công (vì lý do nào đó, player rỗng ...), -1 nếu user vốn không nằm trong sới, >=0 nếu đuổi cổ thành công</returns>
         protected int RemovePlayer(User player)
         {
             // không tìm thấy user này đang online
@@ -253,29 +273,42 @@ namespace TalaAPI.Business
             // sới chả còn ai            
             if (this.SeatList.Count <= 0)
             {
-                return 0;
+                return -1;
             }
             
             Seat seatDangNgoi = GetSeatOfUserInSoi(player.Username);
             if (seatDangNgoi == null)
             {
                 // không tìm thấy user này đang ngồi trong sới
-                return 0;
+                return -1;
             }
             else
             {
                 // đưa ra khỏi sới
                 this.SeatList.Remove(seatDangNgoi);
+                this.ReIndexSeatList();
                 player.CurrentSoi = null;
-                return 1;
+
+                if (this.SeatList.Count == 0)
+                {
+                    // không còn ai, xoá tên owner
+                    _OwnerUsername = string.Empty;
+                }
+                else if (this.OwnerUsername == player.Username)
+                {
+                    // owner rời sới, chuyển owner cho người tiếp theo
+                    _OwnerUsername = this.SeatList[0].Player.Username;
+                }
+
+                return 0;
             }
         }
 
         /// <summary>
         /// Bỏ user ra khỏi danh sách người chơi trong sới hiện tại
         /// </summary>
-        /// <param name="player"></param>
-        /// <returns>-2 nếu không đuổi cổ thành công (vì lý do nào đó, player rỗng ...), 0 nếu user vốn không nằm trong sới, 1 nếu đuổi cổ thành công</returns>
+        /// <param name="username"></param>
+        /// <returns>-2 nếu không đuổi cổ thành công (vì lý do nào đó, player rỗng ...), -1 nếu user vốn không nằm trong sới, >=0 nếu đuổi cổ thành công</returns>
         public int RemovePlayer(string username)
         {
             User player = Song.Instance.GetUserByUsername(username);
@@ -428,6 +461,17 @@ namespace TalaAPI.Business
             }
             return bAllPlayerReady;
         }
-          
+        
+
+        /// <summary>
+        /// sắp xếp lại index của các chỗ ngồi trong mảng SeatList. Hàm này cần gọi mỗi khi có sự thay đổi vè chỗ ngồi trong  Sới (thêm bớt player)
+        /// </summary>
+        internal void ReIndexSeatList()
+        {
+            foreach (Seat seat in SeatList)
+            {
+                seat.Index = SeatList.IndexOf(seat);
+            }
+        }
     }
 }

@@ -60,7 +60,9 @@ namespace TalaAPI.XMLRenderOutput
                 if (list != null)
                 {
                     #region  Xử lý render List các APIDataEntry
-                    
+
+                    xProElement = new XElement(sName);
+                        
                     foreach (APIDataEntry entry in list)
                     {
                         // muốn ghi các phần tử con của list (Property là list) là con trực tiếp của DataEntry
@@ -70,9 +72,10 @@ namespace TalaAPI.XMLRenderOutput
                         }
                         else    // ghi dưới Element có name = PropertyName
                         {
-                            xProElement = new XElement(sName, entry.ToXElement());
-                        }
+                            (xProElement as XElement).Add(entry.ToXElement());
+                        }                        
                     }
+                    thisx.Add(xProElement);
 
                     #endregion
                 }
@@ -101,10 +104,12 @@ namespace TalaAPI.XMLRenderOutput
                         xProElement = new XAttribute(sName, oProValue);
                     }
 
+                    thisx.Add(xProElement);
+
                     #endregion
                 }
 
-                thisx.Add(xProElement);                
+                                
             }  // end foreach Property
 
             return thisx;            
@@ -115,30 +120,6 @@ namespace TalaAPI.XMLRenderOutput
             return ToXElement().ToString();
         }
 
-
-
-        //XDocument bookStoreXml = new XDocument(
-        //       new XDeclaration("1.0", "utf-8", "yes"),
-        //       new XComment("Bookstore XML Example"),
-        //       new XElement("bookstore",
-        //        new XElement("genre",
-        //         new XAttribute("name", "Fiction"),
-        //         new XElement("book",
-        //             new XAttribute("ISBN", "10-861003-324"),
-        //             new XAttribute("Title", "A Tale of Two Cities"),
-        //             new XAttribute("Price", "19.99"),
-        //             new XElement("chapter", "Abstract...",
-        //                 new XAttribute("num", "1"),
-        //                 new XAttribute("name", "Introduction")
-        //                 ),
-        //              new XElement("chapter", "Abstract...",
-        //                  new XAttribute("num", "2"),
-        //                  new XAttribute("name", "Body")
-        //                  )
-        //                )
-        //            )
-        //        )
-        //      );
 
         #endregion
     }

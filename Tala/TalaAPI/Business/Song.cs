@@ -46,8 +46,10 @@ namespace TalaAPI.Business
         public Dictionary<string, Soi> Soi = new Dictionary<string,Soi>();
 
         public Soi GetSoiByID(string soiid)
-        {            
-            return Soi[soiid];            
+        {
+            Soi soiRet;
+            Soi.TryGetValue(soiid, out soiRet);
+            return soiRet;
         }
 
         /// <summary>

@@ -26,6 +26,7 @@ namespace TalaAPI.Business
         public int Index
         {
             get { return _Index; }
+            set { _Index = value; }
         }
 
         User _Player;
