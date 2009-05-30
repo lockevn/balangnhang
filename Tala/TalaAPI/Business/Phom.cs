@@ -33,6 +33,14 @@ namespace TalaAPI.Business
         
         internal Seat OfSeat; /*seat ma phom thuoc ve*/
 
+        int _Pos = -1;
+        [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
+        public int Pos
+        {
+            get { return _Pos; }
+            set { _Pos = value; }
+        }
+
         public Phom(Card[] cardArr)
         {
             _CardArr = cardArr;
