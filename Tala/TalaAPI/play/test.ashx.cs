@@ -22,19 +22,18 @@ namespace TalaAPI.play
 
             User dan = song.LoginVaoSongChoi("danhut", "quantum");
             User thach = song.LoginVaoSongChoi("lockevn", "quantum");
-            User lam = song.LoginVaoSongChoi("lamlt", "quantum");
+            // User lam = song.LoginVaoSongChoi("lamlt", "quantum");
             User dung = song.LoginVaoSongChoi("dung", "quantum");
 
 
-            Soi soi = song.CreatSoiMoi("test soi", "danhut");
-                                    
+            Soi soi = song.CreatSoiMoi("test soi", "danhut");                                    
             soi.AddPlayer("lockevn");
-            soi.AddPlayer("lamlt");
+            // soi.AddPlayer("lamlt");
             soi.AddPlayer("dung");
 
             soi.SetReady(dan);
             soi.SetReady(thach);
-            soi.SetReady(lam);
+            //soi.SetReady(lam);
             soi.SetReady(dung);
 
 
