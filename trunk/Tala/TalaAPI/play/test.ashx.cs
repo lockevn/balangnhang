@@ -10,9 +10,6 @@ using TalaAPI.Lib;
 using TalaAPI.Business;
 using TalaAPI.XMLRenderOutput;
 using TalaAPI.Exception;
-using TalaAPI.Business;
-using TalaAPI.Lib;
-using TalaAPI.XMLRenderOutput;
 
 
 namespace TalaAPI.play
