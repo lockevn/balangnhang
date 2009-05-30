@@ -93,12 +93,12 @@ namespace TestBusiness
             //}
 
 
-            MyClass mc = new MyClass();
-            Console.WriteLine(mc.ToXMLString());
+            //MyClass mc = new MyClass();
+            //Console.WriteLine(mc.ToXMLString());
 
-            Soi soi = new Soi(1,"ân","lockevn");
-            Console.WriteLine(soi.ToXMLString());
-            
+            //Soi soi = new Soi(1,"ân","lockevn");
+            //Console.WriteLine(soi.ToXMLString());
+
 
             Console.ReadLine();
         }
