@@ -55,7 +55,25 @@ namespace TalaAPI.Business
             get { return _Money; }
             set { _Money = value; }
         }
-        
+
+        /// <summary>
+        /// For displaying only
+        /// </summary>
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]        
+        public string CurrentPlayingPos
+        {
+            get 
+            {
+                if (_CurrentSoi != null)
+                {
+                    return _CurrentSoi.GetSeatOfUserInSoi(_sUsername).Index.ToString();
+                }
+                else 
+                {
+                    return null; 
+                }
+            }
+        }
 
         Soi _CurrentSoi;
         public Soi CurrentSoi
