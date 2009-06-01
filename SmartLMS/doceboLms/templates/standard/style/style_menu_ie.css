@@ -1,0 +1,14 @@
+/*======================================================================*/
+/* DOCEBO LMS - Learning management system*/
+/* ============================================*/
+/**/
+/* Copyright (c) 2004*/
+/* http://www.docebo.com*/
+/**/
+/* This program is free software. You can redistribute it and/or modify*/
+/* it under the terms of the GNU General Public License as published by*/
+/* the Free Software Foundation; either version 2 of the License.*/
+/*======================================================================*/
+.over_menu_main ul.tray{height:24px;padding:0px;}
+.over_menu_main ul.tray li a.om_first{padding:5px 4px 4px 32px;zoom:1;}
+ul.tray li ul.om_under_menu{top:26px;}

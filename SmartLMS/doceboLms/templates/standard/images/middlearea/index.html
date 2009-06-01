@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="it">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="Copyright" content="Docebo srl" />
+		<title>
+			DoceboLMS 3.5
+		</title>
+		<style>
+		
+		    body {
+			    font-size: 0.8em;
+			}
+
+			a {
+				color: #000;
+			}
+
+			.menu_over {
+			    margin: 8px 0;
+			    padding: 1px 0;
+			    text-align: right;
+				border-bottom: 1px solid #666;
+			}
+			
+			.menu_over ul {
+			    margin: 0;
+			    padding: 2px 0;
+			    list-style-type: none;
+				background: #abcbf4;
+			}
+
+			p.ico,
+			p.fixed,
+			.menu_over ul li {
+				display: inline;
+				margin: 4px 8px;
+				padding: 2px 26px 2px 26px;
+                background: url('./fixed.png') no-repeat 2px 2px;
+                position: relative;
+			}
+			
+			.use_area {
+				position: absolute;
+				top:0px;
+				right:2px;
+				display:block;
+				height: 22px;
+				overflow:hidden;
+                text-indent: 12em;
+                width:22px;
+                background: url('./unpublish.gif') no-repeat 2px 2px;
+			}
+			
+			
+			.disabled .use_area {
+                background: url('./publish.gif') no-repeat 2px 2px;
+			}
+
+			p.ico,
+			.menu_over ul li.ico {
+                background: url('./ico.png') no-repeat 2px 2px;
+			}
+
+			.align_right { text-align: right; }
+
+			.disabled,
+			p.disabled,
+			.menu_over ul li.disabled {
+			    background: url('./fixed.png') no-repeat 2px 2px #efefef;
+			}
+			
+			div.disabled {
+				background: #efefef;
+			}
+			
+
+			.disabled a {color: #666; }
+			.disabled a {color: #666; }
+			
+			
+			.colum_container {
+				position: relative;
+				margin:0;
+			}
+			
+			.left_col {
+				margin: 0 250px 0 0;
+			    padding:0;
+			}
+			
+			.right_col {
+			    float: right;
+			    margin:0;
+			    padding:0;
+
+				width: 240px;
+			}
+			
+			.box {
+			    position:relative;
+			    margin: 0 5px 5px;
+				padding: 8px;
+				border: 1px solid #666;
+			}
+			
+			.footer {
+			    clear:both;
+				background: #cdf;
+			}
+		</style>
+	</head>
+	<body>
+	
+	    <div class="menu_over">
+	        <ul>
+				<li>I miei corsi</li>
+				<li class="ico"><a href="">Aggiungi corso</a><a class="use_area" href="">Usa</a></li>
+				<li class="ico"><a href="">Catalogo corsi</a><a class="use_area" href="">Usa</a></li>
+				<li class="ico disabled"><a href="">La mia area</a><a class="use_area" href="">Usa</a></li>
+				<li class="ico disabled"><a href="">Messaggi</a><a class="use_area" href="">Usa</a></li>
+				<li>Amministrazione</li>
+				<li>Esci</li>
+			</ul>
+	    </div>
+	    
+	    <div class="colum_container">
+	    
+	        <div class="right_col">
+	            <div class="box">
+
+					<p class="ico"><a href="">Dettagli utente riassunto</a></p>
+					<a class="use_area" href="">Usa</a>
+				</div>
+	            <div class="box disabled">
+
+					<p class="ico "><a href="">Dettagli utente completo</a></p>
+					<a class="use_area" href="">Usa</a>
+				</div>
+	            <div class="box disabled">
+
+					<p class="ico"><a href="">Carriera</a></p>
+					<a class="use_area" href="">Usa</a>
+				</div>
+	            <div class="box">
+
+					<p class="ico"><a href="">News</a></p>
+					<a class="use_area" href="">Usa</a>
+				</div>
+	        </div>
+	        
+	        <div class="left_col">
+	            <div class="box">
+
+					<p class="align_right ico"><a href="">LO Plan / LO History</a><a class="use_area" href="">Usa</a></p>
+				</div>
+	            <div class="box">
+
+					<p class="fixed">I miei corsi</p>
+				</div>
+	        </div>
+
+		</div>
+	    
+	</body>
+</html>

@@ -1,0 +1,53 @@
+/*======================================================================*/
+/* DOCEBO LMS - Learning management system*/
+/* ============================================*/
+/**/
+/* Copyright (c) 2006*/
+/* http://www.docebo.com*/
+/**/
+/* This program is free software. You can redistribute it and/or modify*/
+/* it under the terms of the GNU General Public License as published by*/
+/* the Free Software Foundation; either version 2 of the License.*/
+/*======================================================================*/
+div.epf_space_my_portfoli{margin:3em 0 0 0;}
+td.epf_title{width:25%;}
+#choose_zone{margin:0 15px 1.5em 15px;padding:0;font-size:1.10em;}
+h2#curriculum_zone{font-size:1.20em;margin:0 10px;padding:4px 40px;border:0px none;background:url('../images/eportfolio/curriculum.gif') no-repeat 10px 50% transparent;}
+p.curriculum_zone_description{margin:0 10px 0;padding:2px 6px;}
+.curriculum_loaded{margin:0 10px 2em;padding:2px 6px;}
+.curriculum_not_loaded{margin:0 10px 2em;padding:2px 6px;}
+h2#pdp_zone{font-size:1.20em;margin:0 10px;padding:4px 40px;border:0px none;background:url('../images/eportfolio/pdp.gif') no-repeat 10px 50% transparent;}
+h2#competence_zone{font-size:1.20em;margin:0 10px;padding:4px 40px;border:0px none;background:url('../images/eportfolio/competences.gif') no-repeat 10px 50% transparent;}
+h2#presentation_zone{font-size:1.20em;margin:0 10px;padding:4px 40px;border:0px none;background:url('../images/eportfolio/competences.gif') no-repeat 10px 50% transparent;}
+p.epf_zone_description{margin:0 10px 2em;padding:6px;}
+div.pdp_question_display{margin:6px 6px 2em;padding:6px 6px 1.2em;border:1px solid #369;}
+div.pdp_question_display h2{font-size:1.10em;font-weight:bold;text-align:left;padding:0 0 0.6em 0;}
+div.pdp_question_display p.pdp_add_answer{margin:0.80em 0 0;padding:0;font-style:italic;}
+div.pdp_question_display p.pdp_add_answer a{color:#f00;text-decoration:none;font-style:normal;text-decoration:underline;}
+table.epf_answer{color:#444;width:100% !important;margin:0 auto;padding:0;empty-cells:show;border-spacing:0;}
+table.epf_answer caption{font-size:1.10em;font-weight:bold;text-align:left;padding:0 0 0.6em 0;color:#000;}
+table.epf_answer th{text-align:left;border-bottom:1px solid #000;}
+table.epf_answer td{padding:2px 6px 1em;}
+table.epf_answer th.epf_post_date,table.epf_answer td.epf_post_date, th.epf_post_date,td.epf_post_date{width:1%;vertical-align:top;text-align:center;white-space:nowrap;}
+table.epf_answer th.image,table.epf_answer td.image{width:1%;height:1%;text-align:center;vertical-align:top;}
+p.limit_date_answer{text-align:right;padding:0;margin:0.80em 3em 0.30em 0.30em;font-weight:bold;font-size:0.80em;}
+p.forever_answer{text-align:right;padding:0;margin:0.80em 3.6em 0.30em 0.30em;font-weight:bold;font-size:0.80em;}
+.give_an_answer{font-size:1.20em;margin:0;padding:4px 20px;}
+.epf_competence_score{width:100% !important;margin:0 auto;padding:0;empty-cells:show;border-spacing:0;border-top:1px solid #000;border-left:0px none;border-bottom:1px solid #000;border-right:1px solid #000;}
+.epf_competence_score td.competence_score{text-align:center;}
+.epf_competence_score tr th{border-bottom:1px solid #000;}
+.epf_competence_score tr td,.epf_competence_score tr th{border-left:1px solid #000;padding:0.20em;}
+.epf_competence_score tr.line td{background:#ccddff;}
+.epf_competence_score tr th.assign_score,.epf_competence_score tr td.assign_score{vertical-align:top;}
+.epf_competence_score tr th.assign_score_little,.epf_competence_score tr td.assign_score_little{width:1%;white-space:nowrap;text-align:center;vertical-align:top;}
+p.eportfolio_invite_request{margin:0.80em;height:22px;background:url('../images/eportfolio/evaluate.gif') 0 2px no-repeat;}
+p.eportfolio_invite_request a{padding:2px 0 5px 26px;}
+p.eportfolio_invite_refuse{margin:0.80em;height:22px;text-align:right;}
+p.eportfolio_invite_refuse a{padding:2px 0 5px 26px;background:url('../images/standard/rem.gif') 0 2px no-repeat;}
+div.epf_usercard{line-height:1.8em;margin:1em 1em 2em;padding:0.5em;background:#ccddff;border:1px solid #666666;}
+div.epf_usercard img{float:left;margin:0 10px 0 5px;}
+div.epf_usercard div.user_message{margin:0.2em 8em 0.2em 170px;padding:0.3em;line-height:1.3em;font-size:0.8em;background:#ffffff;border:1px solid #666666;}
+p.epfsendinvite{margin:0.80em;height:22px;background:url('../images/eportfolio/evaluate.gif') 0 2px no-repeat;}
+p.epfsendinvite a{padding:2px 0 5px 26px;}
+p.epf_pres_invite{margin:0.80em;height:22px;background:url('../images/eportfolio/send.gif') 0 2px no-repeat;}
+p.epf_pres_invite a{padding:2px 0 5px 26px;}

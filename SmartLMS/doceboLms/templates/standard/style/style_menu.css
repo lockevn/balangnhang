@@ -1,0 +1,102 @@
+/*======================================================================*/
+/* DOCEBO LMS - Learning management system*/
+/* ============================================*/
+/**/
+/* Copyright (c) 2004*/
+/* http://www.docebo.com*/
+/**/
+/* This program is free software. You can redistribute it and/or modify*/
+/* it under the terms of the GNU General Public License as published by*/
+/* the Free Software Foundation;either version 2 of the License.*/
+/*======================================================================*/
+.over_menu_main{height:26px;padding:0 15px;text-align:right;background:#e1ebf4;border-top:2px solid #485581;border-bottom:2px solid #485581;}
+.over_menu_main ul.tray{height:26px;margin:0;padding:4px;list-style:none;}
+.over_menu_main ul.tray li{display:inline;position:relative;margin:0 2px 0 0;padding:0;z-index:21;height:24px;vertical-align:middle;}
+.over_menu_main ul.tray li a.om_first{margin:0;padding:8px 4px 5px 32px;color:#485581;font-size:83%;font-weight:bold;white-space:nowrap;text-decoration:none;background-repeat:no-repeat;background-position:3px 50%;}
+.over_menu_main ul.tray li a.om_first:hover{background-color:#a4bce4;}
+ul.tray li a.om_course{background-image:url('../images/standard/campus.gif');}
+ul.tray li a.om_coursecatalogue{background-image:url('../images/course/lesson.gif');}
+ul.tray li a.om_myarea{background-image:url('../images/menu_over/user.gif');}
+ul.tray li a.om_message{background-image:url('../images/message/send.gif');}
+ul.tray li a.om_admin{background-image:url('../images/standard/goto_admin.gif');}
+ul.tray li a.om_profile{background-image:url('../images/course/profile.gif');}
+ul.tray li a.om_cart{background-image:url('../images/course/cart.gif');}
+ul.tray li a.om_mycertificate{background-image:url('../images/course/certificate.gif');}
+ul.tray li a.om_selfregistr{background-image:url('../images/course/selfregister.gif');}
+ul.tray li a.om_forum{background-image:url('../images/course/community.gif');}
+
+ul.tray li a.om_myfiles{background-image:url('../images/lobject/item.gif');}
+ul.tray li a.om_mygroup{background-image:url('../images/standard/groups.gif');}
+ul.tray li a.om_myfriends{background-image:url('../images/course/community.gif');}
+ul.tray li a.om_eportfolio{background-image:url('../images/profile/publications.gif');}
+ul.tray li a.om_userevent{background-image:url('../images/standard/event_man.gif');}
+ul.tray li a.om_mycompetences{background-image:url('../images/course/competences.gif');}
+.over_menu_main ul.tray li a.om_logout{font-weight:bold;color:#ee2400;background-image:url('../images/standard/logout.gif');}
+.over_menu_main ul.tray li a.om_logout:hover{background-color:#fff;}
+ul.tray li.menu_open ul.om_under_menu{visibility:visible;}
+ul.tray li.menu_close ul.om_under_menu{visibility:hidden;}
+ul.tray li ul.om_under_menu{z-index:10;position:absolute;top:20px;left:0px;margin:0;padding:2px 0;list-style:none;width:15em;border-top:1px solid #215588;border-bottom:1px solid #215588;border-left:1px solid #215588;border-right:1px solid #215588;background:#ffffff;}
+ul.tray li ul.om_under_menu li{float:none;display:block !important;display:inline;position:relative;margin:0;padding:0;height:auto;}
+ul.tray li ul.om_under_menu li a{float:none;display:block;width:auto;margin:1px 0;padding:3px 20px;color:#444;font-size:83%;text-decoration:none;white-space:normal;text-align:left;border-top:0px none;border-bottom:0px none;bakground-position:100% 50%;background-repeat:no-repeat;background-image: none;}
+ul.tray li ul.om_under_menu li a:hover{background-color:#e1ebf4;}
+/* Lateral menu =========================================================================== */
+ul.lat_menu_main{margin:0;padding:0;list-style:square inside;}
+ul.lat_menu_main li{margin:0 0 4px 0;padding:4px 0 4px 12px;color:#fff;background:url('../images/trama_1.gif') repeat-x 0 0 #ffffff;}
+ul.lat_menu_main li a{color:#ffffff;font-weight:bold;text-decoration:none;}
+ul.lat_menu_main li.lat_menu_open{background-image:url('../images/trama_2.gif');}
+ul.lat_menu_main ul{margin:8px 0 0 -12px;padding:4px 0 4px 0;font-size:0.8em;border:1px solid #286b9c;background:url('../images/back_menu.gif') repeat-x 0 0 #E1EBF7;}
+ul.lat_menu_main li li{margin:0;padding:2px 0 2px 16px;background:none;color:#276a9c;list-style:square inside;}
+ul.lat_menu_main li li a{color:#276a9c;font-weight:normal;font-size:1.2em;}
+ul.lat_menu_main li li a:hover{text-decoration:underline;}
+ul.lat_menu_main li li.selected{background:#276a9c;color:#ffffff;}
+ul.lat_menu_main li li.selected a{color:#ffffff;}
+/* course info blog ============================================================ */
+.course_descr_box{margin:8px;padding:6px 8px;color:#276a9c;border:1px solid #215588;background:url('../images/back_menu.gif') repeat-x 0 0 #E1EBF7;}
+.course_descr_box b{}
+#course_stats, #user_stats{font-size:0.8em;padding:0;margin:10px auto 5px;width:96%;}
+#course_stats tr th, #user_stats tr th{padding:2px;margin:5px;width:33%;text-align:center;font-weight:normal;}
+#course_stats tr td, #user_stats tr td{padding:2px;margin:5px;text-align:center;background:#3289c9;font-weight:bold;color:#fff;}
+#course_stats tr td{background:#485581;}
+#course_stats tr td a, #user_stats tr td a{color:#fff;}
+#course_progress{margin:5px 0px;}
+#onair{margin:10px 5px 5px;}
+#onair img{vertical-align:middle;}
+/* XXX:First line of the menu (Logout,Admin,Course name,Campus) =====*/
+div.info_strip{clear:both;margin:4px 0 0 0;padding:0;line-height:1.3em;border-bottom:1px solid #336699;height:22px;}
+.info_strip a.general_voice{float:left;margin:0 0 0 5px;padding:0 8px 0 30px;color:#000000;font-size:1em;font-weight:bold;height:22px;background:url('../images/standard/campus.gif') 4px 50% no-repeat;}
+.info_strip a.general_voice:hover{text-decoration:none;}
+h1.course_name{float:left;margin:0;padding:0px 5px;color:#000000;font-size:1.00em;font-weight:bold;height:22px;}
+a.goto_admin{float:right;margin:0;padding:0 8px 0 30px;color:#000000;font-size:1em;font-weight:bold;height:22px;background:url('../images/standard/goto_admin.gif') 4px 50% no-repeat;}
+a.logout_voice{float:right;margin:0 5px 0 0;padding:0 8px 0 30px;color:#f00;font-size:1em;font-weight:bold;height:22px;background:url('../images/standard/logout.gif') 4px 50% no-repeat;}
+/* XXX:Second line of the menu,course dependent ===============*/
+.menu_strip{clear:both;border-bottom:1px solid #336699;margin:0;padding:0;height:22px;background:#ffffff;}
+.menu_strip ul.menu_list_strip{clear:both;margin:0;padding:0px;list-style-type:none;height:22px;}
+.menu_strip ul.menu_list_strip li{display:inline;margin:2px 0px;padding:0;vertical-align:middle;}
+.menu_strip ul.menu_list_strip a.bar{padding:2px 10px 4px;font-size:1em;border:0px none;border-right:1px solid #336699;}
+.menu_strip ul.menu_list_strip a.bar:hover{background:#aabbff;}
+.menu_strip ul.menu_list_strip em.select{padding:2px 10px 4px;font-size:1em;border:0px none;font-size:1em;font-weight:bold;font-style:normal;border-right:1px solid #336699;}
+/* XXX:Lateral menu (Modules) ====================*/
+.menu_box{margin:8px;padding:0;}
+.menu_box .menu_intest{margin:0;padding:0.40em 0.80em 0.80em 0.80em;font-size:1.20em;font-weight:bold;}
+.menu_box .menu_intest img{margin:0 0.40em 0 0;padding:0;vertical-align:middle;}
+.menu_box a.voice{display:block;font-size:1em;padding:0.20em 0.40em 0.40em 0.80em;margin:0.20em 0;}
+.menu_box a.voice:hover{background:#aabbff;}
+/* NOTE:under menu box */
+.menu_box .menu_box_under{margin:0.00em 0.00em 0.40em 1.00em;padding:0.00em;border-left:1px solid #000000;border-bottom:1px solid #000000;}
+.menu_box ul.menu_box_list{margin:0;padding:0;list-style-type:none;}
+.menu_box ul.menu_box_list li{margin:0;padding:0;}
+.menu_box ul.menu_box_list li strong.voice_selected{display:block;font-size:1em;padding:0.20em 0.40em 0.40em 0.80em;margin:0.20em 0;background:#aabbff;border:1px solid #336699;border-width:1px 0px;}
+/* NOTE:extra menu (not used now) ==================================*/
+.menu_box_extra{margin:0.40em;padding:0.40em;background:#ffffff;border:1px solid #000000;}
+.menu_box_extra img{margin:0 0.40em 0 0;}
+/* XXX:Dashboard for the course (Username,time,progress) ====================*/
+.course_intest_box{margin:0.40em 0.40em;padding:0.20em;background:#ffffff;border:1px solid #000000;}
+.course_intest_box img.course_logo{margin:0.60em 0.40em 0.20em 0.20em;max-width:150px;}
+/* XXX:Progress bar ==============================================*/
+.progress_title{}
+.box_progress_bar{clear:both;position:relative;height:14px;margin:0;padding:0;border:1px solid #000000;background:#ffffff;overflow:hidden;line-height:1.3em;}
+.box_progress_complete{clear:both;position:relative;height:16px;margin:0;padding:0;border:1px solid #000000;background:url('../images/standard/back_green.png') 0 0 repeat-x #0caa0c;}
+.box_progress_failed{clear:both;position:relative;height:16px;margin:0;padding:0;border:1px solid #000000;background:url('../images/standard/back_yellow.png') 0 0 repeat-x #ffcf31;}
+.bar_complete{float:left;height:16px;margin:0;padding:0;border-right:1px solid #000000;background:url('../images/standard/back_green.png') 0 0 repeat-x #0caa0c;}
+.bar_failed{float:left;height:16px;margin:0;padding:0;border-right:1px solid #000000;background:url('../images/standard/back_yellow.png') 0 0 repeat-x #ffcf31;}
+.box_whois_online{clear:both;}

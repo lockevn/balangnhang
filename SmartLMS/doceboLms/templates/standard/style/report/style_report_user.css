@@ -1,0 +1,128 @@
+
+/************************************************************************/
+/* DOCEBO LMS - Learning managment system									*/
+/* ============================================							*/
+/*																			*/
+/* Copyright (c) 2005														*/
+/* http://www.docebo.com													*/
+/*																			*/
+/* This program is free software. You can redistribute it and/or modify	*/
+/* it under the terms of the GNU General Public License as published by	*/
+/* the Free Software Foundation; either version 2 of the License.		*/
+/************************************************************************/
+
+table.report_table {
+	width: 100% !important;
+	margin: 0 0.3em;
+	padding: 0;
+	font-size: 1.00em;
+	empty-cells: show;
+	border-spacing: 0;
+	border-collapse: collapse;
+
+	border: 1px solid #000;
+}
+	
+	table.report_table caption {
+		margin: 0 0 0.60em 0;
+		font-size: 1.00em;
+		font-weight: bold;
+		color: #000;
+	}
+	
+	table.report_table tr th {
+		margin: 0;
+		padding: 0.20em;
+		font-weight: bold;
+		font-size: 0.80em;
+		color: #000;
+		background: #fff;
+		border: 1px solid #000;
+	}
+
+		table.report_table th a {
+			color: #000;
+			text-decoration: underline;
+		}
+
+			table.report_table th a:hover {
+				text-decoration: none;
+			}
+
+		table.report_table th img {
+			vertical-align: middle;
+		}
+
+	/*= NOTE: td for report_table=*/
+	table.report_table tr td {
+		border-left: 1px solid #000;
+		border-right: 1px solid #000;
+		padding: 0.20em;
+		font-size: 0.80em;
+	}
+
+	/*= NOTE: report_table line 1=*/
+	table.report_table tr.row-col td {
+		background: #cdf;
+	}
+
+	/*= NOTE: report_table line 2=*/
+	table.report_table tr.row td {
+		background: #abf;
+	}
+	
+	
+	/*= NOTE: report_table line 2=*/
+	table.report_table tfoot tr td {
+		border-top: 1px solid #000;
+		background: #fff;
+	}
+		
+	/* data summary */
+	
+	div.datasummary {
+		margin: 3em 0.3em 1em;
+		padding: 0.4em;
+		font-size: 0.8em;
+		border: 1px solid #000000;
+	}
+
+#report_info {
+	color: #666;
+	margin: 15px 0;
+	padding: 2px 5px;
+	font-size: 80%;
+	background: #FFFFEE;
+	border: 1px solid #CCCC99;
+	display: inline-block;
+}
+
+.export_list {
+	display: inline-block;
+	padding: 1px 4px 4px;
+	margin: 0;
+	background-color: #FFFFEE;
+	border: 1px solid #CCCC99;
+}
+
+	.export_htm,
+	.export_csv,
+	.export_xls {
+		margin: 0;
+		padding: 1px 2px 2px 19px;
+		height: 22px;
+		vertical-align: middle;
+		font-weight: normal;
+		font-size: 83%;
+		background-repeat: no-repeat;
+		background-position: left center;
+	}
+	.export_htm {
+		background-image: url('../../images/report/export_htm.gif');
+	}
+	.export_csv {
+		background-image: url('../../images/report/export_csv.gif');
+	}
+	.export_xls {
+		background-image: url('../../images/report/export_xls.gif');
+	}
