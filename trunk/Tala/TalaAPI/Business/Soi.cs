@@ -204,18 +204,18 @@ namespace TalaAPI.Business
             {
                 // không tìm được online user tương ứng
                 return -2;
-            }
-
-            int count = this.SeatList.Count;
-            if (count >= 4)
-            {
-                // sới đầy rồi, không cho vào
-                return -1;
-            }
+            }            
             
             Seat seatDangNgoiTrongSoi = this.GetSeatOfUserInSoi(player.Username);
             if (seatDangNgoiTrongSoi == null)
             {
+                int count = this.SeatList.Count;
+                if (count >= 4)
+                {
+                    // sới đầy rồi, không cho vào
+                    return -1;
+                }
+
                 if (player.CurrentSoi != null)
                 {
                     // vào sới khác rồi còn lớ xớ ở đây làm gì

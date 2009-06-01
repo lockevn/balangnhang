@@ -22,24 +22,30 @@ namespace TalaAPI.play
 
             User dan = song.LoginVaoSongChoi("danhut", "quantum");
             User thach = song.LoginVaoSongChoi("lockevn", "quantum");
-            // User lam = song.LoginVaoSongChoi("lamlt", "quantum");
+            User lam = song.LoginVaoSongChoi("lamlt", "quantum");
             User dung = song.LoginVaoSongChoi("dung", "quantum");
+            
+            context.Response.Write("4 người login rồi");
 
+            Soi soi = song.CreatSoiMoi("test soi", "lamlt");
+            context.Response.Write("lamlt tạo sới");
 
-            Soi soi = song.CreatSoiMoi("test soi", "danhut");                                    
             soi.AddPlayer("lockevn");
-            // soi.AddPlayer("lamlt");
+            context.Response.Write("lockevn vào");
+            //soi.AddPlayer("lamlt");
             soi.AddPlayer("dung");
+            context.Response.Write("dung vào");
+            soi.AddPlayer("danhut");
+            context.Response.Write("danhut vào");
 
             soi.SetReady(dan);
-            soi.SetReady(thach);
-            //soi.SetReady(lam);
+            soi.SetReady(thach);            
             soi.SetReady(dung);
+            context.Response.Write("dan lockevn dung ready");
 
+            //soi.SetReady(lam);
 
-            context.Response.Write("ok");
-            
-                                                            
+            context.Response.Write("all ok");                   
         }    
     }
 }
