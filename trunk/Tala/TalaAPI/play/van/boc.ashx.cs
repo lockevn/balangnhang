@@ -28,14 +28,15 @@ namespace TalaAPI.play.van
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "Boc", "action failed");
             try
             {
-                result = van.Boc(seat);
+                Card cardBoc = van.Boc(seat);
             }
             catch (NotInTurnException nite)
             {
                 nite.SendErrorAPICommand(context);
             }
-            if (result)
+            if (cardBoc != null)
             {
+                this.Data.Add(cardBoc);
                 cs = new APICommandStatus(APICommandStatusState.OK, "Boc", "valid action");
             }
             this.Cmd.Add(cs);
