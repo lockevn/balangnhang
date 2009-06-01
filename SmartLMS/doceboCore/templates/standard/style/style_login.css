@@ -1,0 +1,29 @@
+/*======================================================================*/
+/* DOCEBO LMS - Learning management system*/
+/* ============================================*/
+/**/
+/* Copyright (c) 2004*/
+/* http://www.docebo.com*/
+/**/
+/* This program is free software. You can redistribute it and/or modify*/
+/* it under the terms of the GNU General Public License as published by*/
+/* the Free Software Foundation; either version 2 of the License.*/
+/*=======================================================================*/
+.form_login_ext{margin:0;padding:0;}
+.form_login{margin:0.40em;padding:0.40em;background:#ffffff;border:1px solid #336699;}
+fieldset.fieldset_login{margin:0;padding:0;line-height:1.3em;border:0px none;}
+fieldset.fieldset_login legend{display:none;}
+.form_login .line_field{clear:both;margin:0;padding:0 0 12px 0;line-height:1.3em;}
+.form_login .line_field p{margin:0;padding:0;display:inline;}
+.form_login label.label_login{float:left;width:45%;min-width:80px;margin:0;padding:0;font-size:1em;font-weight:bold;}
+.form_login .log_textfield{width:45%;min-width:80px;margin:0;padding:0;border:1px solid #336699;}
+.form_login .log_dropdown{width:45%;min-width:80px;margin:0;padding:0;border:1px solid #336699;}
+.form_login .line_button{clear:both;margin:0.20em;padding:0;text-align:right;}
+.form_login .line_button .log_button{margin:0 0 5px 0;padding:0 5px;background:#ccddff;border:1px solid #336699;font-size:1em;width:auto;overflow:visible;}
+.form_login .line_button .log_button_access{margin:0 0 5px 0;padding:0 5px 0 26px;height:24px;background:url('../images/standard/log_access.gif') 2px 50% no-repeat #ccddff;border:1px solid #336699;font-size:1em;width:auto;overflow:visible;}
+p.log_advice{margin:0.20em 0.20em 1em;padding:0.20em 0.40em;font-weight:bold;border:1px solid #336699;}
+p.log_action{margin:0;padding:0;text-align:right;}
+p.log_action a{font-size:1em;}
+p.log_action .button_as_link{font-size:1em;width:auto;overflow:visible;}
+p.noaccess{margin:0.20em 0.20em 1em;padding:0.20em 0.40em;color:#ff0000;border:1px solid #ff0000;}
+p.logout_action{margin:0.20em 0.20em 1em;padding:0.20em 0.40em;color:#000000;border:1px solid #336699;}

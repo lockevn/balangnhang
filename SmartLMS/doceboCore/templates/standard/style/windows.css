@@ -1,0 +1,22 @@
+/*=====================================================================*/
+/* DOCEBO CORE - Framework*/
+/* ============================================*/
+/**/
+/* Copyright (c) 2004*/
+/* http://www.docebo.com*/
+/**/
+/* This program is free software. You can redistribute it and/or modify*/
+/* it under the terms of the GNU General Public License as published by*/
+/* the Free Software Foundation; either version 2 of the License.*/
+/*======================================================================*/
+.window_object{margin:0px;padding:2px;text-align:left;border:2px solid #666;background-color:#ffffff;position:absolute;display:block;visibility:visible;z-index:1000;opacity:1;width:auto;}
+.window_object .title_bar{padding:2px 2px 2px .5em;text-align:right;white-space:nowrap;background:#336699;cursor:default;height:14px;}
+.window_object .title_bar h1{float:left;padding:0;margin:0;color:#fff;font-size:0.8em;font-weight:bold;}
+.window_object a.close_button{position:absolute;overflow:hidden;cursor:default;right:4px;display:block;width:14px;height:14px;background:url('../images/windows/close.gif') 0% 0% no-repeat transparent;}
+.window_object a.close_button span{position:absolute;z-index:-1;}
+.window_object a.close_button:hover{background-color:#5588bb;}
+.window_object .w_content{padding:3px;margin:0px;line-height:1.5em;background:#ffffff;}
+.window_object .w_content p{padding:0px;margin:0px;}
+.window_object .line_for_button{text-align:right;padding:3px;border-top:1px solid #666;background:#ffffff;}
+.window_object .line_for_button form{margin:0;padding:0;}
+.window_object .line_for_button input{width:auto;margin:0 4px;padding:0 6px;font-size:0.8em;}

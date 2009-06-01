@@ -1,0 +1,54 @@
+/************************************************************************/
+/* DOCEBO CORE - Framework*/
+/* ============================================*/
+/**/
+/* Copyright (c) 2004*/
+/* http://www.docebo.com*/
+/**/
+/* This program is free software. You can redistribute it and/or modify*/
+/* it under the terms of the GNU General Public License as published by*/
+/* the Free Software Foundation; either version 2 of the License.*/
+/************************************************************************/
+/* XXX:Layout classes **************************************************/
+div.layout_header{margin:0;padding:0;height:10px;background-color:#369;overflow:hidden;border-bottom:1px solid;}
+div.layout_header .left_logo{display:none;float:left;}
+div.layout_header .right_logo{display:none;float:right;margin:29px 0 0 0;}
+div.layout_menu_over{margin:0;padding:0;}
+div.layout_colum_container{margin:0;padding:0;}
+div.layout_colum_left{margin:0;padding:0;}
+div.layout_colum_right{margin:0;padding:0;}
+div.layout_footer{margin:0;margin-top:10px;padding:0;height:10px;border-top:3px double #369;}
+.valid{margin:8px 4px 0 0;}
+/* XXX:menu over *******************************************************/
+ul.base_over{list-style:none;margin:0.40em 1em 0;padding:0;}
+ul.base_over li{display:inline;margin:0 0.5em;padding:0;background:#ccc;border:1px solid #369;}
+ul.base_over li a{padding:0 1em;}
+ul.base_over li a:hover{background:#abf;text-decoration:none;}
+ul.base_over li.active{color:#369;background:#fff;border:2px solid #369;border-bottom:1px solid #fff;}
+ul.base_over li.active a{font-weight:bold;color:#369;}
+ul.base_over li.logout{background:#fff;}
+li.logout a{font-weight:bold;color:#f20;}
+/* XXX:menu lateral ****************************************************/
+.popup_menu{margin:0 0.4em 1em 0.4em;padding:0.00em;background:#fff;}
+.popup_menu .intest{display:none;padding:0;margin:0;}
+.popup_menu .intest img{margin:0 1.00em 0 0;height:32px;}
+.popup_menu .intest span{font-size:1.40em;}
+.popup_menu ul{margin:0;padding:3px;list-style:none;border:1px dashed #369;background:#fff;}
+.popup_menu ul li{margin:0;display:inline;}
+.popup_menu ul li a{padding:2px;}
+.popup_menu ul li a:hover{background:#cdf;}
+.popup_menu ul li a.selected{background:#cdf;}
+.popup_menu ul li a.selected:hover{background:#fff;}
+/* XXX:legenda**********************************************************/
+div.layout_legenda{margin:0.40em;padding:0.00em;background:#fff;border:1px solid #369;}
+div.layout_legenda .title{font-weight:bold;font-size:1.00em;text-align:center;}
+div.layout_legenda .legenda_line{margin:0.40em 0.40em 0.20em;padding:0.10em 0.40em;font-size:0.80em;border-bottom:1px solid #369;}
+.legenda_line img{margin-right:0.40em;vertical-align:middle;}
+/* XXX:content area ****************************************************/
+.area_block{margin:0.40em 0.40em 0;padding:0.20em 0.20em 0.60em 0.20em;background:#fff;border:1px solid #369;border-bottom:0px none;}
+.area_block img{height:22px;margin:0 0.5em 0 1em;vertical-align:bottom;}
+.area_block span{color:#369;font-size:1.00em;}
+.area_block .main_title{font-weight:bold;}
+.std_block{margin:0 0.40em 0.20em;padding:0.20em;padding-bottom:0.8em;background:#fff;border:1px solid #369;border-top:0px none;}
+.preview80{width:80px;}
+.preview80 img{width:80px;}
