@@ -12,10 +12,11 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 using TalaAPI.Lib;
 using TalaAPI.Exception;
+using TalaAPI.XMLRenderOutput;
 
 namespace TalaAPI.Business
 {
-    public class Van
+    public class Van : APIDataEntry
     {
         public int Index;
         
