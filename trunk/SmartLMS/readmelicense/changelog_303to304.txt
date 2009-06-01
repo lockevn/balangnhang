@@ -1,0 +1,81 @@
+bug id: ( 90 ) "[3.0.3] Newsletter error with aphostropes and stripslashed chars"
+Newsletter shows a white page after filling in a subject and/or body that contains some characters like aphostropes that are stripslashed. The fix puts the stripslashes function on mail sending instead that in newsletter database setup and set the UTF-8 charset for the sent e-mail
+---------------------------------------------------------------------------------------------
+bug id: ( 79 ) "[3.0.3] modify FAQ duplicate LO"
+When you try to modify the body of a FAQ, the LO is duplicated in a new copy.The results in Admin LO is:a) the old LO without modifyb) a new LO created as old modifiedEverytime you try to modify the LO, a new copy is created, but only the old copy is published in Course material (student view)
+---------------------------------------------------------------------------------------------
+bug id: ( 82 ) "[3.0.3] ghost activity is tracked"
+ghost activity is tracked.It's not good, because this level should be used for special case in wich user activities should not be tracked.
+---------------------------------------------------------------------------------------------
+bug id: ( 91 ) "[3.0.3] Sub-admin course columns"
+The system don't hide the button in the column when a permission is disabled
+---------------------------------------------------------------------------------------------
+bug id: ( 99 ) "[3.0.3] Notice on lib.course.php"
+Notice: Only variable references should be returned by reference in /var/www/htdocs/www.e-romagna.it/doceboLms/lib/lib.course.php on line 851 
+---------------------------------------------------------------------------------------------
+bug id: ( 100 ) "[3.0.3] User in session subscribed"
+When a user is subscribed to a course and have an active session the system say "you can't access" when try to access to the new course
+---------------------------------------------------------------------------------------------
+bug id: ( 103 ) "[3.0.3] feedread block is missing"
+In the 3.0.3 suite package the file containing the code of the feedreader block in cms was missing.
+---------------------------------------------------------------------------------------------
+bug id: ( 104 ) "[3.0.3] wrong default language"
+When a user didn't selected any language it was automatically set to the suite default language but this language may have not been inserted in the cms. The fix check that the default language is present in/as cms content and if not it sets the default cms content language as default language.
+---------------------------------------------------------------------------------------------
+bug id: ( 105 ) "[3.0.3] Forum block answer"
+In cms, When, as moderator, i lock answer to forum, as normal user i can't see discussion thread because the system show the thread as "closed".
+---------------------------------------------------------------------------------------------
+bug id: ( 110 ) "[3.0.3] copy Lo survey/pool doesn't work"
+When you copy a survey-pool into a new LO, the anwser are not copied into new LO survey destination.the error  _POOL_ERR_COPY_QUEST for module storage in platform lms: Choiche question( 21)  is printed on screen
+---------------------------------------------------------------------------------------------
+bug id: ( 120 ) "[3.0.3] Delete feed function returns error"
+When trying to delete a rss feed it returns this error message: Fatal error: Call to undefined function: deletefeed()
+---------------------------------------------------------------------------------------------
+bug id: ( 121 ) "[3.0.3] Lost template if different"
+If I have a different template in CMS and LMS when i switch from CMS to LMS teplate is lost in session.
+---------------------------------------------------------------------------------------------
+bug id: ( 140 ) "[3.0.3] LO properties: impossible to back to infinite play"
+in LO properties when you change the "number of watching" preferences to "until is not completed/passed" or "only one time", is no more possible to come back to "infinite" choose (default value)
+---------------------------------------------------------------------------------------------
+bug id: ( 141 ) "[3.0.3] Wrong block permissions when login from other platforms"
+When user does login from another platform and then switch to cms the block permissions are not refreshed if the user did visited the cms before performing the login action. Could be related to bug 115.
+---------------------------------------------------------------------------------------------
+bug id: ( 144 ) "[3.0.3] Scorm tracking don't register student first/last name."
+In scorm tracking the student firstname and lastname was blank.
+---------------------------------------------------------------------------------------------
+bug id: ( 145 ) "[3.0.3] Security PHP bugs and Shared session bugs"
+IF php is not patched there is a security bug with globals, also security bug in shared session. [patch updated 13-06-2006]
+---------------------------------------------------------------------------------------------
+bug id: ( 146 ) "[3.0.3] LO Properties can't be eidted"
+Once set, the property relted to "how many you can see a LO" can't be changed
+---------------------------------------------------------------------------------------------
+bug id: ( 147 ) "[3.0.3] Menu does not display correctly current level items"
+As reported in this forum thread the "show only current level items" option of the menu block doesn't work correctly (it displays also the items of the same level that are not child of the same parent).
+---------------------------------------------------------------------------------------------
+bug id: ( 68 ) "[3.0.3] messages issues"
+2 issues about messages:- when i write a message without a subject Docebo return an error message but i lost the text of message. It should be better to memorize it and leave that user complete the operation simply addind the subject- in Sent messages, in messages list there's no "to" information. Also when you open the message the adressee ("to") information is missing
+---------------------------------------------------------------------------------------------
+bug id: ( 80 ) "[3.0.3] wrong language key in admin menu - project permission"
+When you try to assign permission for Project module in a course menu, the ALT definition used for icon are the same as forum. It's wrong: e.g. the ALT print forum related text is "Add new forum" instead of "Add a new project"
+---------------------------------------------------------------------------------------------
+bug id: ( 86 ) "[3.0.3] blank password cannot be changed"
+If you create a single user without specify a password, the password remains blank (null).Problably this policy is incorrect, a password should be generated by Docebo anyway, I suppose.Then, if the user try to change his password Docebo returns a correct operaton, but the password IS NOT changed, so a blank password remains forever blank.
+---------------------------------------------------------------------------------------------
+bug id: ( 106 ) "[3.0.3] Fourm block answer (to verify in LMS)"
+We must verify if in LMS we have the same forum bug as in CMS:"In cms, When, as moderator, i lock answer to forum, as normal user i can't see discussion thread because the system show the thread as "closed"."
+---------------------------------------------------------------------------------------------
+bug id: ( 108 ) "[3.0.3] In certain monitor resolution question disappear"
+In test module, in association field, only (obiviously) in Internet Explorer, when i resise window or i go above 1280 x 768 screen resolution the question disappear. is this a pekaboo bug?
+---------------------------------------------------------------------------------------------
+bug id: ( 126 ) "[3.0.3] invisible to user option are shown"
+In CMS module, the invisible fields on profile page are shown.A similar bug was fixed in LMS module, please check bug 32...
+---------------------------------------------------------------------------------------------
+bug id: ( 127 ) "[3.0.3] Division by zero in poll stats"
+A "division by zero" error occured in line 558 of file: doceboLms/modules/question_poll/class.choice.php when attempting to view the statistics of a poll that hasn't been filled by anyone yet.
+---------------------------------------------------------------------------------------------
+bug id: ( 128 ) "[3.0.3] attempted polls wrongly considered as valid"
+A subtle bug occured when a user attempted a poll without completing it (i.e. leaving the poll page without clicking on the submit button). When the user got back attempting the poll he/she could have wrongly a "you have already answered this poll" message.
+---------------------------------------------------------------------------------------------
+bug id: ( 142 ) "[3.0.3] Missing translation: _MODIFY_UPLOAD"
+Undefined language key: _MODIFY_UPLOAD for module field in platform framework
+---------------------------------------------------------------------------------------------

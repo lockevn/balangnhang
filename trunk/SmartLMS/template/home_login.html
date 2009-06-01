@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{--general:lang_code--}">
+	<head>
+		<docebo:general-meta />
+		<title>
+			<docebo:general-title />
+		</title>	
+		<docebo:general-style from="lms" file="reset-min.css" />
+		<docebo:general-style from="lms" file="style_home.css" />
+		
+		<docebo:general-zone name="page_head" />
+	</head>
+	<body class="yui-skin-sam">
+		<docebo:general-zone name="blind_navigation" />
+		<div id="main_line">
+			<h1 id="main_title"><a href="index.php">{--language:login:_MAIN_TITLE--}</a></h1>
+			<docebo:login-menu id="main_menu" />
+		</div>
+		<div id="main_container">
+			<docebo:login-language_selection id="language_selection" />
+			<div id="login_form">
+				<h1>{--language:login:_LOGIN--}</h1>
+				<div class="keys">
+				</div>
+				<docebo:login-login_form id="form_login" />
+				<docebo:login-links id="link" />
+			</div>
+			<docebo:login-service_msg id="service_msg" />
+		</div>
+		<div id="footer_container">
+			<div class="box_full">
+				<h1>{--language:login:_HOMEPAGE--}</h1>
+				<p>
+					<img class="intro_image" src="{--general:path_template--}images/login/intro_54.gif" alt="{--language:login:_HOMEPAGE--}" />
+					{--language:login:_INTRO_STD_TEXT--}
+				</p>
+			</div>
+			<div style="clear:both">
+			</div>
+		</div>
+		<docebo:general-zone name="def_lang" />
+	</body>
+</html>
