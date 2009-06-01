@@ -1,0 +1,128 @@
+bug id: ( 92 )
+[3.0.4] gradebook error when test is not in root
+Bug related to : Public Lms
+
+When you duplicate a LO test in a folder (not in root) of Course Object tree, all information about test are lost in Gradebook.If a student make a test, you can't see any results or answer in Gradebook. You've lost anything.The problem doesn't occur when you copy the test in the root
+-------------------------------------------------------------------------------------------------
+bug id: ( 93 )
+[3.0.4] gradebook: required point is not uptated
+Bug related to : Public Lms
+
+the problem occur when you modify the "required score" in a test LO.The gradebook is not updated to new required score and remains as first value.
+-------------------------------------------------------------------------------------------------
+bug id: ( 94 )
+[3.0.4] gradebook: number to don't show
+Bug related to : Public Lms
+
+Gradebook.When you want to see the answers of a user in a test, a strange number is printed after user name and before answer.Problably it's a number related to score for some programming debugging
+-------------------------------------------------------------------------------------------------
+bug id: ( 96 )
+[3.0.4] data and comment not showed in report card
+Bug related to : Public Lms
+
+in report card, for each grade row, the data and the comment are not showed.
+-------------------------------------------------------------------------------------------------
+bug id: ( 97 )
+[3.0.4] wrong bonus in gradebook for test
+Bug related to : Public Lms
+
+when in a test there are question to grade manually by instructor, the bonus is not correct. The grade is not correctly calculated
+-------------------------------------------------------------------------------------------------
+bug id: ( 107 )
+[3.0.4] Datetime custom filed
+Bug related to : Admin framework
+
+When i create a "datetime" custom filed i have an error because the datetime filled name is filled only in default language
+-------------------------------------------------------------------------------------------------
+bug id: ( 112 )
+[3.0.4] survey-pool without questions in loop
+Bug related to : Public Lms
+
+when a LO survey-pool has not questions and a user try to take the survey, Docebo print the "next" and "previous/back" button and so on in a loop.
+-------------------------------------------------------------------------------------------------
+bug id: ( 115 )
+[3.0.4] Wrong block permissions after login
+Bug related to : Public Cms
+
+As reported in the forum by nellibus the block permissions are not correctly refreshed in the page a user is performing the login action from.
+-------------------------------------------------------------------------------------------------
+bug id: ( 117 )
+[3.0.4] Rss and Version check delay
+Bug related to : Admin framework
+
+When the system can't retrieve version check and rss we have to set the timeout to 10 seconds.[in 304 is set to 15, i think that is enought]
+-------------------------------------------------------------------------------------------------
+bug id: ( 118 )
+[3.0.4] Change status
+Bug related to : Public Lms
+
+“Fatal error: Call to undefined function: savetrackstatuschange() in /doceboLms/modules/organization/organization.php on line 215”.
+-------------------------------------------------------------------------------------------------
+bug id: ( 124 )
+[3.0.4] links: error in LO organization when opening a link
+Bug related to : Public Lms
+
+When you open a link, the browser with Docebo should remain in same page (list of all links), instead the following errors occurs:- With IE the Docebo browser clear LO and shows only menus- With Firefox is shows the entrire LO organization with expanded folderThe right solution would be that Docebo should remain on LO page (list of all links)
+-------------------------------------------------------------------------------------------------
+bug id: ( 134 )
+[3.0.4] Registered users number counts anonymous too
+Bug related to : Admin framework
+
+In the framework welcome page the registered users total does include the anonymous entry as a registered user. the correct result should be one user less than the one displayed.
+-------------------------------------------------------------------------------------------------
+bug id: ( 150 )
+[3.0.4] forum: no last post when deleting the last post
+Bug related to : Public Lms
+
+In forum: if the last post of forum is deleted, nothing is displayed as last post for the forumthe right solution should be the post before the last post deleted became the new last postAlso, the thread where the post was deleted become the last in thread list (the list is not resorted as order of last post)
+-------------------------------------------------------------------------------------------------
+bug id: ( 156 )
+[3.0.4] Bug in Documents (selectable) block
+Bug related to : Public Cms
+
+Seems that this block doesn't work. Every file I choose from admin is not shown in the public cms block.The bug is described in this forum message
+-------------------------------------------------------------------------------------------------
+bug id: ( 157 )
+[3.0.4] The mail From is not set correctly when sending mail from DoceboCMS
+Bug related to : Public Cms
+
+When CMS send a mail (ie. forgot password, registration form, etc..) the "From" field is set to empty.So, sendmail replace it with a default value like "Apache <apache@localhost.localdomain>".In php code the From mail is set from the variable "$GLOBALS['lms']['admin_mail']", but unfortunately this value is empty, even if the value comes correctly set up in the Admin LMS configuration.The bug is described in this forum message.
+-------------------------------------------------------------------------------------------------
+bug id: ( 158 )
+[3.0.4] more than one slash in media files path
+Bug related to : Admin Cms
+
+The WYSIWYG editor add more than one slash "/" when an image or media file is added to the page (editing a page content from administration).The img path is like this:<img src="../../../../files///doceboCms/media/113838905260_myfile.gif" />or this:<img src="../../../../files//doceboCms/media/113838905260_myfile.gif" />Sometimes the path appear with 2 slash, in other case, the path appear with 3 slash.This cause an html validation error and some browser is unable to resolve some images.
+-------------------------------------------------------------------------------------------------
+bug id: ( 160 )
+[3.0.4] Users cannot upload personal image in fck
+Bug related to : Admin framework
+
+The image management in the fck editor does not work, simply  display the message "You cannot upload images" -- second version --
+-------------------------------------------------------------------------------------------------
+bug id: ( 161 )
+[3.0.4] Fatal error with image preview
+Bug related to : Admin Cms
+
+When you upload an image the php die with this fatal error: Fatal error: Call to undefined function: getmediatype() in /xxx/doceboCms/modules/media/functions.php on line 586  
+-------------------------------------------------------------------------------------------------
+bug id: ( 159 )
+[3.0.4] wrong id name blind_avigation
+Bug related to : Public Cms
+
+In lib.pagewriter.php the id name for blind navigation is "blind_avigation" instead of "blind_navigation".Problem is on rows 381 and 475.The problem is also present in version 3.0.3.I've attached the fixed version.
+-------------------------------------------------------------------------------------------------
+bug id: ( 95 )
+[3.0.4] test
+Bug related to : Public Lms
+
+when you duplicate a LO test (B as copy of A) and a student has already compiled the test used as source A of new test B, Docebo tell to the user that he has already compiled the new test B
+-------------------------------------------------------------------------------------------------
+bug id: ( 130 )
+[3.0.4] Scorm pre-requisites
+Bug related to : Public Lms
+
+Seems that, from the 3.0.3 version, pre-requisites trough sco's are not shown
+-------------------------------------------------------------------------------------------------
+bug id: (noid) 
+[3.0.4] Bug fix for cms permission
