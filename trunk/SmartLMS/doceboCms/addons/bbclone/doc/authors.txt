@@ -1,0 +1,37 @@
+The BBClone team are:
+---------------------
+
+Christoph Brill
+egore911 [ at ] egore911 [ dot ] de
+(maintainer)
+
+Retired team members:
+---------------------
+
+Joachim Kuwan:
+jkuwan [ at ] t [ dash ] online [ dot ] de
+(developer, server and forum administration)
+
+Rob Farnell:
+rjfarnell [ at ] msn [ dot ] com
+(public relations, forum moderation)
+
+Amaury Amblard-Ladurantie:
+amaury [ at ] mandrakesoft [ dot ] com
+(original author)
+
+Laurent Jacques:
+ljacques [ at ] fyma [ dot ] ucl [ dot ] ac [ dot ] be
+(former maintainer)
+
+Matthijs van Wageningen:
+matthys [ at ] vanwageningen [ dot ] net
+(former developer)
+
+Olliver Wichmann:
+olliver [ dot ] wichmann [ at ] gmx [ dot ] net
+(former maintainer)
+
+Dave Higgins:
+dave [ at ] higginsnet [ dot ] com
+(former developer)
