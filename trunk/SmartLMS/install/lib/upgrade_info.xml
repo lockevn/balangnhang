@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<upgrade_info>
+	<module_set>
+		<module platform="framework" mname="directory">
+			<class_name>Upgrade_Directory</class_name>
+			<class_file>class.directory.php</class_file>
+			<description>This module manage the users, the role and the groups</description>
+		</module>
+		<module platform="framework" mname="field">
+			<class_name>Upgrade_Field</class_name>
+			<class_file>class.field.php</class_file>
+			<description>This module manage the personal field for catalogation</description>
+		</module>
+		<module platform="lms" mname="advice">
+			<class_name>Upgrade_Advice</class_name>
+			<class_file>class.advice.php</class_file>
+			<description>This module manage the lms advice system</description>
+		</module>
+		<module platform="lms" mname="catalogue">
+			<class_name>Upgrade_Catalogue</class_name>
+			<class_file>class.catalogue.php</class_file>
+			<description>This module manage the courses catalogues</description>
+		</module>
+		<module platform="lms" mname="category">
+			<class_name>Upgrade_Category</class_name>
+			<class_file>class.category.php</class_file>
+			<description>This module manage the courses categorization</description>
+		</module>
+	</module_set>
+	<upgrade_step>
+		<start_version>2.0.4</start_version>
+		<end_version>3.0</end_version>
+		<module_upgrade_sequence>
+			<step platform="framework" mname="directory" />
+			<step platform="framework" mname="field" />
+			<step platform="lms" mname="advice" />
+			<step platform="lms" mname="catalogue" />
+			<step platform="lms" mname="category" />
+		</module_upgrade_sequence>
+	</upgrade_step>
+</upgrade_info>
