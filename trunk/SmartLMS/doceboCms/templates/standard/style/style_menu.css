@@ -1,0 +1,220 @@
+
+.menuover {
+	clear: both;
+	background: #1f538d;
+	position: relative;
+}
+
+
+
+
+/*** Dropdown menu *************************************************/
+
+		/* first menu line */
+
+		ul.main_menu_over {
+			z-index: 3000;
+
+			height: 20px;
+			margin: 0px;
+			padding: 0px;
+			background: #1f538d;
+			border: 1px solid #666;
+			list-style-type: none;
+			height: 22px;
+		}
+
+		ul.main_menu_over ul {
+			top: 22px;
+			position: absolute;
+		}
+
+			ul.main_menu_over li {
+				float: left;
+				height: 22px;
+				margin: 0px;
+				padding: 0px;
+				position: relative;
+			}
+
+			ul.main_menu_over a {
+				float: left;
+				position: relative;
+				display: block;
+				height: 22px;
+				margin: 0px;
+				padding: 0px;
+				text-decoration: none;
+				color: #FFF;
+				padding-left: 1.0em;
+				padding-right: 1.0em;
+				font-weight: bold;
+				font-size: 13px;
+				border-right: 1px solid #bcc9d2;
+			}
+
+			ul.main_menu_over a:hover {
+				/* padding: 1px;
+				background: #e1ebf7;*/
+				border: 0px solid #aabfe6;
+				border-right: 1px solid #bcc9d2;
+				text-decoration: none;
+				background: #EEF;
+			}
+
+			ul.main_menu_over li.menu_open a.first_line {
+				position: relative;
+			}
+
+			ul.main_menu_over a.little_link {
+				float: left;
+				height: 50px;
+				width: 50px;
+				margin: 30px 10px 0px;
+				padding: 1px;
+				overflow: hidden;
+				white-space: nowrap;
+				/*font-size: 1.00em;*/
+				text-align: center;
+				text-decoration: none;
+				color: #000;
+			}
+
+			ul.main_menu_over li.menu_open a.little_link {
+				padding: 1px;
+				background: #e1ebf7;
+				border: 1px solid #aabfe6;
+			}
+
+			ul.main_menu_over a.little_link:hover {
+				padding: 1px;
+				background: #e1ebf7;
+				border: 1px solid #aabfe6;
+			}
+
+				ul.main_menu_over img.platform_icon {
+					margin: 4px 0 0;
+					padding: 0;
+					width: 48px;
+					height: 48px;
+					border: 0px none;
+				}
+
+				ul.main_menu_over img.little_icon {
+					margin: 4px 0 0;
+					padding: 0;
+					width: 22px;
+					height: 22px;
+					border: 0px none;
+				}
+
+			ul.main_menu_over li.menu_close ul {
+				visibility: hidden;
+			}
+
+			ul.main_menu_over li.menu_open ul {
+				visibility: visible;
+			}
+
+			ul.main_menu_over .menu_icon {
+				height: 16px;
+				width: 16px;
+				margin: 1px 10px 1px 2px;
+				padding: 0;
+				vertical-align: middle;
+				border: 0px none;
+			}
+
+		/* first orizontal menu */
+
+		ul.list_modules {
+			position: absolute;
+			top: 19px;
+			left: 0px;
+			z-index: 3200;
+			display: block;
+			height: auto;
+
+			margin: 0;
+			padding: 0;
+			list-style:none;
+			width: 19em;
+			border-top: 1px solid #666;
+			border-bottom: 1px solid #666;
+			background: url('../images/menu/back_menu.png') 0px 0px repeat-y #fff;
+		}
+
+			ul.list_modules li {
+				float: none;
+				display: block !important;
+				display: inline;
+				position: relative;
+				margin: 0;
+				padding: 0;
+			}
+
+			/* second orizontal menu */
+
+			ul.list_modules li ul {
+				position:absolute;
+				top: -1px;
+				left: 19em;
+				margin:0 0 0 -1px;
+				display: block;
+				height: auto;
+
+				padding: 0;
+				list-style:none;
+				width: 19em;
+				border-top: 1px solid #666;
+				border-bottom: 1px solid #666;
+				background: url('../images/menu/back_menu.png') 0px 0px repeat-y #fff;
+			}
+
+			ul.list_modules li.menu_open ul {
+				visibility: visible;
+				display: block;
+			}
+
+			ul.list_modules li.menu_close ul {
+				visibility: hidden;
+			}
+
+		ul.list_modules a {
+			float: none;
+			font-size: 0.8em;
+			display: block;
+			height: 22px;
+			width: auto;
+			margin: 0;
+			padding: 1px 0px;
+			padding-left: 30px;
+			color: #444;
+			text-decoration: none;
+			white-space: normal;
+			text-align: left;
+			border-left: 1px solid #666;
+			border-right: 1px solid #666;
+			border-top: 0px none;
+			border-bottom: 0px none;
+			font-weight: normal;
+			background: url('../images/menu/blank_left.png') 100% 50% no-repeat transparent;
+		}
+
+		ul.list_modules a:hover {
+			padding: 0px;
+			padding-left: 30px;
+			text-decoration: none;
+			background: #fff;
+			color: #000;
+			border: 1px solid #215588;
+			background: url('../images/menu/blank_left_hover.png') 100% 50% no-repeat #fff;
+		}
+
+			ul.list_modules a.arrow_left {
+				background: url('../images/menu/arrow_left.png') 100% 50% no-repeat transparent;
+			}
+
+			ul.list_modules a.arrow_left:hover {
+				background: url('../images/menu/arrow_left_hover.png') 100% 50% no-repeat #fff;
+			}
