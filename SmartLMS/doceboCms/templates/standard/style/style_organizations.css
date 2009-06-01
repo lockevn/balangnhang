@@ -1,0 +1,224 @@
+.OrgItemImage {
+	/* nothing today */
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+input.OrgProperties {
+	/* transparent submit */
+	float:right;
+	background-image: url("../images/organizations/configure.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+input.OrgPlay {
+	/* transparent submit */
+	float:right;
+	background-image: url("../images/organizations/play.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+input.OrgLocked {
+		/* transparent submit */
+	float:right;
+	background-image: url("../images/organizations/locked.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+img.OrgStatus {
+	float:right;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+input.OrgUp {
+	/* transparent submit */
+	float:right;
+	background-image: url("../images/standard/up.gif");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+input.OrgDown {
+	/* transparent submit */
+	float:right;
+	background-image: url("../images/standard/down.gif");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+input.OrgDefAction {
+	background-color: #acf;
+	border-style:solid;
+	border-width: 1px;
+	border-color: black;
+	margin: 5px;
+}
+
+input.PrerequisitesListSel {
+	background-image: url("../images/standard/dx.gif");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 22px;
+	height: 22px;
+}
+
+input.PrerequisitesListNoSel {
+	background-image: url("../images/standard/sx.gif");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 22px;
+	height: 22px;
+}
+
+
+input.OrgRenFolder, input.TVActionRename {
+	/* transparent submit */
+	float:right;
+	background-image: url("../images/treeview/rename.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+
+input.OrgDelFolder, input.TVActionDelete {
+	/* transparent submit */
+	float:right;
+	background-image: url("../images/standard/rem.gif");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+
+
+input.TVActionMove, input.TVActionMove {
+	/* transparent submit */
+	float:right;
+	background-image: url("../images/treeview/move.gif");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+input.publishbtn {
+	/* transparent submit */
+	background-image: url("../images/standard/publish.gif");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	cursor: pointer;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 22px;
+	height: 22px;
+}
+
+
+input.unpublishbtn {
+	/* transparent submit */
+	background-image: url("../images/standard/unpublish.gif");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	cursor: pointer;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 22px;
+	height: 22px;
+}
+
+
+td.align_center {
+	text-align: center;
+}
+
+button.calbtn {
+	
+	background-image: url("../images/standard/date.png");
+	background-repeat: no-repeat;
+	background-color: transparent;	
+	width: 22px;
+	height: 22px;	
+	margin: 0px;
+	padding: 0px;
+	border: 0px none;
+	
+}

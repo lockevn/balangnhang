@@ -1,0 +1,356 @@
+
+
+.tree_view_image {
+	margin: 0px 3px;
+	float: right;
+}
+
+
+
+div.TreeViewContainer {
+	background-color: #abf;
+	border-width: 1px;
+	border-style: solid;
+	border-color: black;
+	padding: 3px;
+}
+
+div.TreeViewActionContainer {
+	border-top-width: 0px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-style: solid;
+	border-color: black;
+	padding-left: 3px;
+	padding-right: 0px;
+}
+
+	div.TreeViewActionContainer img {
+		vertical-align: middle;
+	}
+
+input.TreeViewAction {
+	font-family: tahoma, verdana, arial, sans-serif;
+	font-size: 8pt;
+	text-decoration: underline;
+	text-align: left;
+	background-color: white;
+	border-style: none;
+	font-weight: bold;
+	padding-top: 3px;
+	padding-left: 0px;
+	padding-right: 0px;
+	margin: 0px;
+
+	width: auto;
+	overflow: visible;
+}
+
+div.TreeViewRowOdd {
+	padding: 0px;
+	margin: 0px;
+	height: 24px;
+}
+
+	div.TreeViewRowOdd img {
+		vertical-align: middle;
+	}
+
+div.TreeViewRowOdd:hover {
+	background-color: #ddf;
+	padding: 0px;
+	margin: 0px;
+	height: 24px;
+}
+
+div.TreeViewRowEven {
+	background-color: #bcf;
+	padding: 0px;
+	margin: 0px;
+	height: 24px;
+}
+
+div.TreeViewRowEven img {
+	vertical-align: middle;
+}
+
+div.TreeViewRowEven:hover {
+	background-color: #ddf;
+	padding: 0px;
+	margin: 0px;
+	height: 24px;
+}
+
+div.TreeViewRowBase {
+	float:left;
+	padding: 0px;
+	margin: 0px;
+	height: 24px;
+}
+
+img.TreeViewImage {
+	/* nothing today */
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+input.TreeViewOpExpandCorner {
+	/* transparent submit */
+	background-image: url("../images/treeview/menu_corner_plus.gif");
+	background-color: transparent;
+	background-repeat: no-repeat;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+
+input.TreeViewOpCollapseCorner {
+	/* transparent submit */
+	background-image: url("../images/treeview/menu_corner_minus.gif");
+	background-color: transparent;
+	background-repeat: no-repeat;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+
+input.TreeViewOpExpandInter {
+	/* transparent submit */
+	background-image: url("../images/treeview/menu_tee_plus.gif");
+	background-color: transparent;
+	background-repeat: no-repeat;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+
+input.TreeViewOpCollapseInter {
+	/* transparent submit */
+	background-image: url("../images/treeview/menu_tee_minus.gif");
+	background-color: transparent;
+	background-repeat: no-repeat;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+
+
+input.TreeItem {
+	/* transparent submit */
+	font-family: tahoma, verdana, arial, sans-serif;
+	font-size: 8pt;
+	text-decoration: underline;
+	text-align: left;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	border-style:none;
+	padding: 0px;
+	margin: 0px;
+
+	width: auto;
+	overflow: visible;
+}
+
+input.TreeItemSelected {
+	/* transparent submit */
+	font-family: tahoma, verdana, arial, sans-serif;
+	font-size: 8pt;
+	text-decoration: underline;
+	text-align: left;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	border: 0px none;
+	font-weight: bold;
+	padding: 0px;
+	margin: 0px;
+
+	width: auto;
+	overflow: visible;
+}
+
+input.TVActionDelete {
+	float:right;
+	background: url("../images/standard/rem.gif") no-repeat center;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+
+input.TVActionMove {
+	float:right;
+	background: url("../images/treeview/move.gif") no-repeat center;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+
+input.TVActionRename {
+	float:right;
+	background: url("../images/standard/mod.gif") no-repeat center;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+
+input.TVActionPlay {
+	float:right;
+	background: url("../images/standard/view.gif") no-repeat center;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+
+input.TVActionEdit {
+	float:right;
+	background: url("../images/standard/mod.gif") no-repeat center;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+
+input.TVActionCopy {
+	float:right;
+	background: url("../images/standard/editcopy.gif") no-repeat center;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+
+div.tree_view_spacer {
+	float:right;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+div.TVActionEmpty {
+	float:right;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+
+div.LVShowItem {
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+input.LVShowItem {
+	/* transparent submit */
+	background-image: url("../images/treeview/showitem.gif");
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	left:0;
+	top:0;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+input.LVDeleteItem {
+	/* transparent submit */
+	background-image: url("../images/standard/rem.gif");
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	left:0;
+	top:0;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+input.LVMoveItem {
+	/* transparent submit */
+	background-image: url("../images/standard/move.gif");
+	background-color: transparent;
+	overflow: hidden;
+	border-style:none;
+	border-width: 0px;
+	left:0;
+	top:0;
+	padding: 0px;
+	margin: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+input.LVAction {
+	font-family: tahoma, verdana, arial, sans-serif;
+	font-size: 8pt;
+	text-decoration: underline;
+	text-align: left;
+	background-color: white;
+	border-style: none;
+	border-width: 0px;
+	font-weight: bold;
+	padding: 3px;
+	margin: 0px;
+	cursor: pointer;
+}
+
