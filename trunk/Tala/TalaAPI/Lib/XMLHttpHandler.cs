@@ -59,6 +59,8 @@ namespace TalaAPI.Lib
 
 
             int nCurrentTurnOfThisRequestContext = -1;
+            int nIsPlaying = -1;
+            int nIsVanFinished = -1;
             /// Cố gắng lấy turn hiện tại nếu người chơi đang chơi dở, sới đang diễn ra
             TalaSecurity sec = new TalaSecurity(context, false);
             // người chơi đã login, đã ở trong sới
@@ -70,6 +72,8 @@ namespace TalaAPI.Lib
                 {
                     // lấy currentTurn ra, ghi vào response
                     nCurrentTurnOfThisRequestContext = soi.CurrentVan.CurrentTurnSeatIndex;
+                    nIsPlaying = soi.IsPlaying ? 1 : 0;
+                    nIsVanFinished = soi.CurrentVan.IsFinished ? 1 : 0;
                 }
             }
 
@@ -77,9 +81,11 @@ namespace TalaAPI.Lib
             context.Response.Write(
                     string.Format(
                     "<q stat='{0}' " 
-                    + ((nCurrentTurnOfThisRequestContext < 0) ? string.Empty : "turn='{3}'") 
+                    + ((nCurrentTurnOfThisRequestContext < 0) ? string.Empty : "turn='{3}' ")
+                    + ((nIsPlaying < 0) ? string.Empty : "isplaying='{4}' ")
+                    + ((nIsVanFinished < 0) ? string.Empty : "isvanfinished='{5}' ")
                     + ">{1}{2}</q>"
-                    , Stat, sRenderedData, sRenderedCmd, nCurrentTurnOfThisRequestContext)
+                    , Stat, sRenderedData, sRenderedCmd, nCurrentTurnOfThisRequestContext, nIsPlaying, nIsVanFinished)
                 );
         }
 
