@@ -1,51 +1,55 @@
 ﻿using System;
 using System.Collections;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
-using System.Web.Services;
-using System.Web.Services.Protocols;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+
 using TalaAPI.Lib;
 using TalaAPI.Business;
 using TalaAPI.XMLRenderOutput;
 using TalaAPI.Exception;
 
-
-namespace TalaAPI.play
-{    
-    public class test : XMLHttpHandler
+namespace TalaAPI.test
+{
+    public partial class p1 : TalaPage
     {
-        public override void ProcessRequest(HttpContext context)
+        protected void Page_Load(object sender, EventArgs e)
         {
-            Song song = Song.Instance;            
+            Song song = Song.Instance;
 
             User dan = song.LoginVaoSongChoi("danhut", "quantum");
             User thach = song.LoginVaoSongChoi("lockevn", "quantum");
             User lam = song.LoginVaoSongChoi("lamlt", "quantum");
             User dung = song.LoginVaoSongChoi("dung", "quantum");
-            
-            context.Response.Write("4 người login rồi");
+
+            pln("4 người login rồi");
 
             Soi soi = song.CreatSoiMoi("test soi", "lamlt");
-            context.Response.Write("lamlt tạo sới");
+            pln("lamlt tạo sới");
 
             soi.AddPlayer("lockevn");
-            context.Response.Write("lockevn vào");
+            pln("lockevn vào");
             //soi.AddPlayer("lamlt");
             soi.AddPlayer("dung");
-            context.Response.Write("dung vào");
+            pln("dung vào");
             soi.AddPlayer("danhut");
-            context.Response.Write("danhut vào");
+            pln("danhut vào");
 
             soi.SetReady(dan);
-            soi.SetReady(thach);            
+            soi.SetReady(thach);
             soi.SetReady(dung);
-            context.Response.Write("dan lockevn dung ready");
+            pln("dan lockevn dung ready");
 
             //soi.SetReady(lam);
 
-            context.Response.Write("all ok");                   
-        }    
+            pln("all ok");   
+        }        
     }
 }
