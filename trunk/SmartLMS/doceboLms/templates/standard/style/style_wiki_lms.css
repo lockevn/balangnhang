@@ -1,0 +1,14 @@
+div.wiki_box .wiki_description{margin:4px 0 12px; padding:0; font-size:0.9em; }
+div.wiki_box .wiki_description p{margin:0; padding:0; font-size:1em; }
+ul.wiki_related_actions{margin:10px 0px; padding:0; list-style:none; }
+ul.wiki_related_actions li{margin:0 6px; padding:0; display:inline; font-size:0.8em; }
+ul.wiki_related_actions li a{padding:2px 0 2px 20px; background:0 50% no-repeat; }
+ul.wiki_related_actions li a span{white-space:nowrap; }
+ul.wiki_related_actions li.wiki_perm a{background-image:url('../images/wiki/moduser.png'); }
+ul.wiki_related_actions li.edit_wiki a{background-image:url('../images/wiki/mod.png'); }
+ul.wiki_related_actions li.delete_wiki a{background-image:url('../images/wiki/del.png'); }
+ul.wiki_related_actions li.wiki_add a{background-image:url('../images/wiki/add.png'); }
+ul.wiki_related_actions li.wiki_select a{background-image:url('../images/wiki/select_wiki.png'); }
+div.wiki_actions_box{margin-top:1em;border-top:1px solid #369;padding:0em;}
+div.wiki_box{margin-bottom:1.8em;}
+div.wiki_box h2{margin:0 0 4px 0;padding:0;font-size:1.2em;color:#47a;}

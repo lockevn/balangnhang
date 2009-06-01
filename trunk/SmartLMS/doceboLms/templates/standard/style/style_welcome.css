@@ -1,0 +1,19 @@
+.welcome_container{margin:0px 6px 0;padding:0 0;line-height:1.3em;background:#586592;}
+.welcome_block{float:left;margin:0 0 0 0;padding:0;width:64%;overflow:hidden;}
+.welcome_block_right{float:left;margin:0 0 0 0;padding:0;width:36%;}
+.welcome_course{clear:both;margin:0px;padding:0px;}
+h1.wb_intest{margin:0;padding:3px 4px;color:#fff;font-size:1em;background:url('../images/bg_topright.png') 100% 0 no-repeat;}
+.wb_course_intest{text-align:left;margin:0;padding:3px 4px;color:#fff;font-size:1em;background:url('../images/bg_topleft.png') 0 0 no-repeat;}
+.welcome_block table{margin:5px 0 0 5px;width:97%;empty-cells:show;border-spacing:0;}
+.welcome_block table th{text-align:left;border-top:1px solid #fff;border-bottom:1px solid #fff;}
+.welcome_block table th.image,.welcome_block table td.image{width:1%;text-align:center;}
+.welcome_block table td{background:#8997c2;border-bottom:6px solid #586592;}
+.other_courses{margin:0px 6px 40px;height:24px;vertical-align:bottom;background:url('../images/bg_bottomleft.png') 0 100% no-repeat #3e4866;}
+.other_courses a{display:block;text-align:right;height:24px;padding:0 38px 0 0;background:url('../images/bg_bottomright.png') 100% 100% no-repeat;text-decoration:none;}
+.other_courses a:hover{text-decoration:underline;}
+.welcome_course table{padding-bottom:20px;background:url('../images/course_bottomright.gif') 100% 100% no-repeat #3e4866;}
+.welcome_course table caption{margin:0;padding:3px 5px;color:#fff;font-size:1em;text-align:left;background:url('../images/course_topleft.gif') 0 0 no-repeat #50a603;}
+.welcome_course table td{background:#6a78a5;}
+.more_courses{margin:0px 6px;text-align:right;font-size:0.80em;}
+p.become_teacher{margin:0;padding:142px 0 0;background:url('../images/image.jpg') 0 0 no-repeat #586592;}
+p.become_teacher a{display:block;padding:3px 28px 0px 0px;height:21px;text-align:right;font-weight:bold;color:#4b536b;text-decoration:none;background:url('../images/become_teacher.png') 100% 0 no-repeat #fcedb0;}

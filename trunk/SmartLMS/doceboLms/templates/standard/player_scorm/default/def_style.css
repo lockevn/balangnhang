@@ -1,0 +1,26 @@
+
+.default_back {
+	background: #E1EBF4;
+}
+
+.default_menu {
+	background: #E1EBF4;
+}
+
+.default_menu .TreeRowClass {
+	border-bottom: 1px solid #a5a3a6;
+	background: url('./back_item.gif') 0 0 repeat-y #E1EBF4;
+}
+
+.default_menu .TreeRowFolder {
+	border-bottom: 1px solid #a5a3a6;
+	background: url('./back_folder.gif') 0 0 repeat-y #E1EBF4;
+}
+
+.default_menu #treecontent {
+	background: #E1EBF4;
+}
+
+.default_menu #treeBody {
+	background: #E1EBF4;
+}

@@ -1,0 +1,32 @@
+.TreeRowClass, .TreeRowFolderw {
+	display: block;
+	margin:4px;
+}
+
+.TreeRoot {
+	display: block;
+	margin:4px;
+}
+
+.TreeRowFolder {
+	display:block;
+	margin:4px;
+}
+
+.TreeRowClass:hover {
+	background-color: rgb(204,255,102);
+}
+
+.report_on_tree:hover {
+	background-color: rgb(204,255,102);
+}
+
+.scorm_report_label {
+	font-weight: bold;
+}
+
+.scorm_report_value {
+	width: 400px;
+	float: right;
+	margin-left: 200px;
+}

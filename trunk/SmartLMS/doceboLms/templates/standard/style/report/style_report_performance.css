@@ -1,0 +1,113 @@
+
+/************************************************************************/
+/* DOCEBO LMS - Learning managment system									*/
+/* ============================================							*/
+/*																			*/
+/* Copyright (c) 2005														*/
+/* http://www.docebo.com													*/
+/*																			*/
+/* This program is free software. You can redistribute it and/or modify	*/
+/* it under the terms of the GNU General Public License as published by	*/
+/* the Free Software Foundation; either version 2 of the License.		*/
+/************************************************************************/
+
+table.report_table {
+	width: 100% !important;
+	margin: 0 auto;
+	padding: 0;
+	font-size: 1.00em;
+	empty-cells: show;
+	border-spacing: 0;
+
+	border-top: 1px solid #000;
+	border-left: 0px none;
+	border-bottom: 1px solid #000;
+	border-right: 1px solid #000;
+}
+	
+	table.report_table caption {
+		margin: 0 0 0.60em 0;
+		font-size: 1.00em;
+		font-weight: bold;
+		color: #000;
+	}
+	
+	table.report_table tr th {
+		margin: 0;
+		padding: 0.20em;
+		font-weight: bold;
+		font-size: 0.80em;
+		color: #000;
+		background: #fff;
+		border-left: 1px solid #000;
+		border-bottom: 1px solid #000;
+	}
+
+		table.report_table th a {
+			color: #000;
+			text-decoration: underline;
+		}
+
+			table.report_table th a:hover {
+				text-decoration: none;
+			}
+
+		table.report_table tr td.image{
+			vertical-align: middle;
+			text-align: center;
+		}
+		
+		table.report_table th img {
+			vertical-align: middle;
+		}
+
+	/*= NOTE: td for report_table=*/
+	table.report_table tr td {
+		border-left: 1px solid #000;
+		padding: 0.20em;
+		font-size: 0.80em;
+	}
+
+	/*= NOTE: report_table line 1=*/
+	table.report_table tr.row-col td {
+		background: #cdf;
+	}
+
+	/*= NOTE: report_table line 2=*/
+	table.report_table tr.row td {
+		background: #abf;
+	}
+	
+	
+	/*= NOTE: report_table line 2=*/
+	table.report_table tfoot tr td {
+		border-top: 1px solid #000;
+		background: #fff;
+	}
+	
+	tr.total td {
+		border-top: 3px solid #000;
+	}
+	
+	.export_cvs {
+		margin: 0;
+		padding: 2px 0.2em 2px 24px;
+		height: 26px;
+		vertical-align: middle;
+		font-weight: normal;
+		cursor: pointer;
+		border: 0px solid;
+		background: transparent;
+		background-image: url('../../images/report/export_cvs.gif');
+		background-repeat: no-repeat;
+		background-position: left middle;
+	}
+
+	/* data summary */
+	
+	div.datasummary {
+		margin: 3em 0.3em 1em;
+		padding: 0.4em;
+		font-size: 0.8em;
+		border: 1px solid #000000;
+	}

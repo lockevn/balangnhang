@@ -1,0 +1,312 @@
+/*======================================================================*/
+/* DOCEBO LMS - Learning management system*/
+/* ====================================================================*/
+/**/
+/* Copyright (c) 2004*/
+/* http://www.docebo.com*/
+/**/
+/* This program is free software. You can redistribute it and/or modify*/
+/* it under the terms of the GNU General Public License as published by*/
+/* the Free Software Foundation;either version 2 of the License.*/
+/*======================================================================*/
+/* XXX:xhtml tag style definition =========================================== */
+html{height:100%;}
+body{height:100%;margin:0 auto;padding:0;color:#000000;background:#ffffff;font-family:Verdana, Arial, Sans-Serif;font-size:0.8em;position:relative;}
+a{color:#336699;}
+a:hover{}
+img{border:0px none;font-style:italic;margin:0;padding:0;vertical-align:middle;}
+form{margin:0;padding:0;}
+.padding05{margin:0;padding:0.5em;}
+/* XXX:Layout classes ======================================================= */
+div.layout_header{margin:0;padding:0;height:96px;background:#fffff;overflow:hidden;}
+div.layout_header .left_logo{margin:5px 25px;}
+div.layout_header .right_logo{float:right;margin:0;}
+div.layout_menu_over{margin:0;padding:0;}
+div.layout_colum_container{margin:0;padding:0;border-bottom:1px solid #ffffff;}
+div.layout_colum_left{float:left;padding:0;width:24%;}
+div.layout_colum_right{float:right;margin:0 0 0;padding:0;width:73.2%;}
+div.layout_footer{clear:both;margin:0.80em 0 0 0;padding:3px;background-image:url('../images/footer_back.png');background-position:center center;background-repeat:repeat-x;}
+div.layout_footer a{color:#ffffff;}
+.powered_by{vertical-align:middle;text-align:right;}
+.powered_by img{margin:0 8px 0 0;}
+/* XXX:content area ========================================================= */
+.area_block{margin:8px 0px 0;padding:6px 8px;}
+.area_block h1{margin:0;padding:4px 9px;font-weight:bold;font-size:1.40em;letter-spacing:1px;color:#fff;background:#485580;border-bottom:4px solid #65a3ce;}
+.area_block ul.navigation{list-style:none;padding:0px 4px 2px 20px;margin:6px 0 0 0;font-size:0.8em;background:#E1EBF7;}
+.area_block ul.navigation li{display:inline;padding:0;margin:0;}
+.area_block ul.navigation li a{margin:0 0.2em;}
+.std_block{margin:10px 8px 8px 8px;padding:0.60em;background:#ffffff;border:1px solid #485580;}
+.std_block_closeover{border:1px solid #000000;}
+#coursecatalogue{margin-top:0px; }
+/* XXX:external webpages list =============================================== */
+.login_menu_box{margin:0.40em;padding:0;background:#ffffff;border:1px solid #336699;}
+.login_menu_box ul.log_list{margin:0;padding:0.20em;list-style-type:none;}
+.login_menu_box ul.log_list li{margin:0;padding:0.20em;}
+.login_menu_box a.voice{display:block;padding:2px 6px;color:#336699;line-height:1.3em;font-size:1em;background:#E1EBF4;vertical-align:middle;border:1px solid #ffffff;}
+.login_menu_box a.voice:hover{background:#E1EBF7;}
+/* XXX:home block (container of web-pages)=================================== */
+.home_block{margin:0.40em;padding:0.40em;background:#ffffff;border:1px solid #336699;}
+.home_block h1{margin:0.40em 1em;padding:0;font-size:1.20em;}
+.home_block .home_textof{}
+/* XXX:news block (container of news list)=================================== */
+.home_news_block{margin:0.40em;padding:0.40em;background:#ffffff;border:1px solid #336699;}
+.home_news_block h1{font-size:1.1em;margin:0 0 12px 8px;padding:0;}
+.home_news_block h2{font-size:1.0em;margin:0;padding:0;}
+.home_news_block p{margin:0 0 1em 0;padding:0;}
+.home_news_block p span{font-size:0.80em;color:#666;}
+.news_block{margin:0.40em;padding:0.40em;background:#ffffff;border:1px solid #336699;}
+.news_block h1{margin:0;padding:3px 0 0 32px;background-image:url('../images/news/news_home.gif');background-position:2px 2px;background-repeat:no-repeat;font-size:1.20em;height:24px;width:24px;}
+.news_block div.news_list{}
+.news_block div.news_list h2{margin:0.70em 0 0 0;padding:0;font-weight:normal;font-size:1.00em;}
+.news_block div.news_list p{margin:0;padding:0;}
+.news_block div.news_list .news_data{font-weight:bold;font-size:0.80em;}
+.news_title_reading{}
+.news_block .news_title{}
+.news_block .news_data{}
+.news_block .news_textof{}
+/* XXX:First line of the menu (Logout,Admin,Course name,Campus) ============= */
+div.info_strip{clear:both;margin:4px 0 0 0;padding:0;line-height:1.3em;border-bottom:1px solid #336699;height:22px;}
+.info_strip a.general_voice{float:left;margin:0 0 0 5px;padding:0 8px 0 30px;color:#000000;font-size:1em;font-weight:bold;height:22px;background:url('../images/standard/campus.gif') 4px 50% no-repeat;}
+.info_strip a.general_voice:hover{text-decoration:none;}
+h1.course_name{float:left;margin:0;padding:0px 5px;color:#000000;font-size:1.00em;font-weight:bold;height:22px;}
+a.goto_admin{float:right;margin:0;padding:0 8px 0 30px;color:#000000;font-size:1em;font-weight:bold;height:22px;background:url('../images/standard/goto_admin.gif') 4px 50% no-repeat;}
+a.logout_voice{float:right;margin:0 5px 0 0;padding:0 8px 0 30px;color:#f00;font-size:1em;font-weight:bold;height:22px;background:url('../images/standard/logout.gif') 4px 50% no-repeat;}
+.admin_right{}
+a.admin_logout_voice{}
+/* XXX:Dashboard for the course (Username,time,progress) ==================== */
+.course_intest_box{margin:0.40em 0.40em;padding:0.20em;background:#ffffff;border:1px solid #000000;}
+.course_intest_box img.course_logo{margin:0.60em 0.40em 0.20em 0.20em;max-width:150px;}
+/* XXX:course list ========================================================== */
+.infocourse_materials{float:right;width:50%;}
+.infocourse_attachment{float:right;width:25%;margin:4em 0.50em 0.50em;padding:0.20em;font-size:0.80em;}
+.cd_name{margin:2px 4px;padding:20px 0 4px 38px;font-weight:bold;font-size:1.2em;letter-spacing:0.2em;text-align:left;background:url('../images/course/course_details.gif') 4px 85% no-repeat;border-bottom:1px solid #30374f;}
+table.cd_course_info{margin:0 4px 0px;font-size:0.8em;line-height:1.5em;width:68%;}
+table.cd_course_info tr th{text-align:left;padding:2px 8px 2px 0;vertical-align:top;border:0px none;background:transparent;white-space:nowrap;}
+table.type-one table.cd_course_info tr td, table.cd_course_info tr td{text-align:left;padding:2px 4px 2px 0;vertical-align:top;border:0px none;background:transparent;}
+table.cd_course_info tr.cd_course_file{background:#E1EBF4;}
+table.cd_course_info tr.cd_course_file th{padding:0px 24px 0px 6px;letter-spacing:0.2em;}
+h2.cd_course_teacher{margin:2px 4px;width:86%;font-size:1.0em;padding:2px 24px 2px 6px;letter-spacing:0.2em;background:#E1EBF4;}
+div.cd_course_teacher_container{margin:2px 4px;width:76%;padding:4px 24px 4px 6px;}
+.cd_action{text-align:left;margin:2px 4px;width:86%;font-size:1.0em;padding:2px 24px 2px 6px;background:#E1EBF4;}
+h2.cd_edition{margin:2px 4px;width:82%;font-size:1.0em;padding:2px 24px 2px 6px;letter-spacing:0.2em;background:#E1EBF4;}
+div.cd_edition_container{margin:2px 4px;width:74%;padding:4px 24px 4px 6px;}
+td.td_edition_line{background:#f0f3fa;}
+/*=========================================================================== */
+.img_courselist{width:22px;margin:0 2px;}
+.course_enter{font-weight:bold;color:#336699;}
+.course_locked{font-weight:bold;color:#666666;}
+.course_path{font-weight:bold;color:#360;}
+table.course_path_block{width:100% !important;width:98%;margin:0 auto 2.00em;padding:0;empty-cells:show;border-spacing:0;}
+table.course_path_block tr th{background:#9f9;border-top:1px solid #360;border-bottom:1px solid #360;text-align:left;font-size:1em;}
+table.course_path_block tr .image{text-align:center;vertical-align:middle;width:1px;padding:0;margin:0;}
+table.course_path_block caption{font-weight:bold;}
+table.course_path_block .status_course{font-size:0.90em;}
+table.course_path_block tr .code_course{padding-left:0.40em;width:10%;}
+table.course_path_block tr .subscribe_course{padding-left:0.40em;width:25%;}
+table.course_path_block tr td.code_course{padding-left:0.40em;width:10%;}
+table.course_path_block tr td{vertical-align:top;padding:0.40em 0 0.40em 0;border-bottom:1px solid #360;}
+div.course_path_info{font-size:0.90em;}
+div.course_path_info span{font-weight:bold;}
+table.course_block{width:100% !important;width:98%;margin:0 auto 2.00em;padding:0;empty-cells:show;border-spacing:0;}
+table.course_block_cell{margin:0 auto;border-left:1px solid #336699;}
+table.course_block tr th{font-size:1em;background:#E1EBF7;border-top:1px solid #336699;border-bottom:1px solid #336699;text-align:left;}
+table.course_block tr .image{text-align:center;vertical-align:middle;width:1%;padding:0 0.20em;margin:0;}
+table.course_block caption{font-weight:bold;}
+table.course_block .status_course{font-size:0.90em;vertical-align:top;}
+table.course_block tr .subscribe_course{padding-left:0.40em;width:25%;}
+table.course_block tr td{font-size:1em;vertical-align:top;padding:0.40em 0 0.40em 0;border-bottom:1px solid #336699;}
+table.course_block tr .code_course{padding-left:0.40em;width:10%;}
+table.course_block tr td.level_course{padding-left:0.40em;}
+div.course_extra_info{font-size:1.0em;}
+div.course_extra_info span{font-weight:bold;}
+table.edition_block{margin:0.6em;margin-left:1em;margin-right:1em;}
+table.edition_block tr th{font-size:1em;background:#6b7ea4;color:#FFF;border-top:1px solid #336699;border-bottom:1px solid #336699;text-align:left;}
+/* XXX:course info ========================================================== */
+.infocourse_coursename{font-size:1.20em;font-weight:bold;padding:0 0 0.80em 0.40em;}
+.infocourse_code span{font-weight:bold;}
+.infocourse_descr{font-weight:bold;}
+.infocourse_leveluserlist{margin:1.0em 0;}
+.infocourse_leveluserlist span{font-weight:bold;}
+.infocourse_lineextra{padding:0 0 0.40em 0;}
+.infocourse_lineextra span{font-weight:bold;}
+/* XXX:test ================================================================= */
+.test_answer{width:100% !important;width:90%;margin:0 0 2.00em 0;padding:0;empty-cells:show;border-spacing:0;background:#dddddd;border-top:1px solid #000000;border-right:1px solid #000000;}
+.test_answer caption{font-weight:bold;text-align:left;padding:0.40em 0.80em 0.20em;}
+.test_answer th{padding:0.10em 0.20em;color:#ffffff;background:#336699;border-left:1px solid #000000;border-bottom:1px solid #000000;}
+.test_answer tr.line_answer td{padding:0.10em 0.20em;border-left:1px solid #000000;border-bottom:1px solid #000000;}
+.test_answer .test_text_answer{border:1px solid #000000;width:95%;}
+.test_answer .test_comment{margin:0 2%;vertical-align:top;border:1px solid #000000;width:95%;}
+.test_answer .test_area_answer{margin:0 0 0 0.40em;vertical-align:top;border:1px solid #000000;}
+.test_answer .test_point{border:1px solid #000000;text-align:right;}
+.test_answer .test_ifcorrect{font-weight:bold;font-style:italic;}
+ul.test_info_list{margin:0 0 0 0.60em;padding:0.50em 2.00em;list-style:disc;}
+ul.test_info_list li{margin:0 0 0.20em 0;padding:0;}
+/* NOTE:play test */
+.test_title_play{margin:0;padding:0;font-weight:bold;font-size:1.20em;color:#336699;text-align:center;}
+.test_time_left{text-align:center;background:#E1EBF7;padding:0.50em;border:1px solid #336699;}
+.test_time_left span{font-weight:bold;color:#ff0000;}
+.test_answer_space{margin:0.40em;padding:0.00em;background:#ffffff;line-height:1.3em;}
+/*= NOTE:this is for the question type 'title'=*/
+.test_answer_space .quest_title, .test_answer_space .quest_title_review{font-style:italic;display:block;margin:0.40em 0 1.00em 0;padding:0.30em;background:#E1EBF7;border:1px solid #E1EBF4;}
+.test_answer_space .quest_title_review{margin:0.40em 0 2.00em 0;}
+/*= NOTE:container for one question=*/
+.test_answer_space .play_question{margin:1.00em 0 0 0;padding:0;background:#E1EBF7;border:1px solid #E1EBF4;}
+/*= NOTE:container of the question's title=*/
+.test_answer_space .title_question{margin:0;padding:4px;font-weight:bold;}
+.test_answer_space .associate_colum_float{float:left;width:40%;}
+/*= NOTE:answers of the question=*/
+.test_answer_space .answer_question{margin:3px 0 0 20px;padding:5px;background:#ffffff;}
+.test_answer_space .text_answer{}
+.test_answer_space .text_answer_none{}
+.test_answer_space .text_answer_ht{font-weight:bold;}
+.test_answer_space .text_answer_ht_none{font-weight:bold;}
+.test_answer_space .test_inline_select{margin:0 0.20em;vertical-align:middle;}
+.test_answer_space .test_te_input{margin:0 0.20em;vertical-align:middle;font-weight:bold;}
+.test_answer_space .test_as_select{clear:both;vertical-align:middle;}
+.set_time_row{margin:0 5.00em 0 0;text-align:right;}
+.set_time_row input.button_nowh{margin:0 0 0 3em;}
+.test_button_space{margin:0;padding:0.40em 1.40em;text-align:right;}
+.test_button_space .test_button{margin:0 1.00em;padding:0 1.00em;font-weight:bold;background:#dddddd;border:1px solid #666666;}
+.test_message{margin:1.00em 3.00em 2.00em;}
+.test_score_note{font-weight:bold;margin:0 0 0.40em 0;}
+.test_quest_review_container{margin:1.0em 0 0;padding:0;}
+.test_quest_review_container div.test_answer_comment_nomargin, .test_quest_review_container div.test_answer_comment{margin:0.0em 0 2.0em;padding:0.4em;border-right:1px solid #E1EBF4;border-bottom:1px solid #E1EBF4;border-left:1px solid #E1EBF4;}
+.test_quest_review_container div.test_answer_comment_nomargin{margin:0;}
+.test_quest_review_container .test_answer_correct{margin:0 0.5em;color:#0022ff;font-weight:bold;}
+.test_quest_review_container .test_answer_incorrect{color:#ff0000;font-weight:bold;}
+.test_quest_review_container .test_score_positive{color:#0022ff;}
+.test_quest_review_container .test_score_negative{color:#ff0000;}
+.test_edit_scores{margin:0.20em 0 2em;}
+table.category_score{padding:0;empty-cells:show;}
+table.category_score tr th{margin:0 auto;padding:2px 8px;empty-cells:show;border-bottom:1px solid #ccc;}
+table.category_score tr td{margin:0 auto;padding:0px 8px;}
+table.category_score tr td.number{text-align:center;}
+/*= XXX:advice ============================================================== */
+.advice_box{margin:1em 0.50em 1.50em;border-bottom:1px solid #000000;}
+.advice_box .advice_title{padding:0.10em 0.40em;font-size:1.20em;font-weight:bold;background:#E1EBF7;}
+.advice_box .advice_title img{margin:0 0.40em 0;}
+.advice_box .advice_who_when{font-size:0.90em;text-align:right;padding:0.10em 0.40em;}
+.advice_box .advice_text{padding:0.40em;}
+.advice_box .advice_op_line{text-align:right;padding:0.10em 0.40em;}
+/* XXX:user profile ========================================================= */
+table.profile_images{width:100%;}
+table.profile_images td{font-size:0.90em;text-align:center;}
+/* XXX:forum ================================================================ */
+.forum_table{margin:0.40em 0 2.00em 0;padding:0;border-spacing:0;width:100%;border-bottom:1px solid #000000;}
+.forum_table tr.forum_header th{padding:0.20em 0.40em;text-align:left;font-weight:normal;background:#E1EBF4;font-size:1em;}
+.forum_table .forum_title{font-size:1.40em;}
+.forum_table .forum_title a{color:#000000;}
+.forum_table .forum_title a:hover{color:#000000;}
+.forum_table td{vertical-align:top;}
+.forum_notread{color:#336699;font-size:0.90em;font-weight:bold;}
+.forum_table .image{text-align:center;vertical-align:middle;width:1%;}
+.forum_table .forum_lastpost{font-size:0.90em;font-style:italic;}
+.forum_table .forum_manag{text-align:right;padding:0.20em 0 0 0;}
+.forum_action_top{margin:0.80em 0 0.80em 0;padding:0.20em;text-align:left;background:#E1EBF7;border:1px solid #336699;}
+.forum_action_bottom{margin:0.80em 0 0.80em 0;padding:0.20em;text-align:right;background:#E1EBF7;border:1px solid #336699;}
+.mess_author{font-weight:bold;font-size:0.8em;}
+.forum_sender{width:20%;vertical-align:top;}
+.forum_text{width:auto;vertical-align:top;}
+div.forum_author{font-weight:bold;font-size:1.10em;margin:0.40em 0.6em 0.20em;}
+div.forum_level{margin:0 1.6em;font-size:0.8em;}
+img.forum_avatar{margin:0.6em 0.6em;max-width:100px;max-height:100px;}
+div.forum_numpost{margin:0 0.6em;}
+.forum_sender .list_user_actions{list-style-type:none;margin:0 0 10px 0;padding:0;float:right;}
+/* XXX:forum post */
+.forum_post_posted{font-size:0.90em;margin:0.40em 2em 0.60em;}
+.forum_post_locked{font-size:1.20em;color:#ff0000;margin:1em;}
+.forum_post_title{font-size:1.10em;font-weight:bold;}
+.forum_post_attach{text-align:right;}
+.forum_post_text{margin:1.00em 0.60em 0.60em 0.60em;}
+.forum_post_modified_by{font-weight:bold;margin:1.4em 0em 0.20em 0.2em;}
+.forum_post_sign_separator{border-top:1px solid #000000;width:40%;margin:2em 0 0.60em 0;}
+.forum_post_sign{margin:0.40em 0.40em 0.60em 0.60em;}
+.forum_action{text-align:right;}
+.forum_action a{margin:0 0.2em 0 0.4em;}
+.forum_quote{background:#dddddd;border:1px solid #666666;padding:0.40em;margin:0.20em;}
+.search_mask{text-align:right;margin:0.20em 3em 2em 1em;}
+/* XXX:corse report ========================================================= */
+.transparent_test_button{margin:0;background:transparent;border:0px none;vertical-align:top;font-weight:bold;cursor:pointer;text-decoration:underline;color:#ffffff;width:auto;overflow:visible;}
+.line_users{width:20%;}
+.cr_not_check{color:#000000;}
+.cr_not_passed{color:#ff0000;}
+.cr_passed{color:#00ff00;}
+.cr_max_score{font-weight:bold;color:#336699;}
+/* XXX:statistics =========================================================== */
+.statsistic_for_selected{padding:0 0.30em;font-weight:bold;background:#E1EBF4;}
+div.container_graphic{padding:0.80em;margin:1.0em;background:#ffffff;border:1px solid #000000;}
+div.container_graphic table{width:100% !important;height:170px;border:1px solid #000000;empty-cells:show;border-spacing:0;}
+tr.colum_isto td{padding:0;margin:0;color:#336699;font-size:0.80em;text-align:center;vertical-align:bottom;}
+tr.colum_isto td div{padding:0;margin:0 -1px -1px 0;vertical-align:bottom;border:1px solid #000000;border-bottom:0px;}
+tr.colum_index td{padding:0;color:#ffffff;font-weight:bold;font-size:0.80em;background:#336699;text-align:center;border-top:1px solid #000000;height:1%;}
+.colored_isto{background:#E1EBF4;}
+/* XXX:Progress bar ========================================================= */
+.progress_title{}
+.box_progress_bar{clear:both;position:relative;height:14px;margin:0;padding:0;border:1px solid #000000;background:#ffffff;overflow:hidden;line-height:1.3em;}
+.box_progress_complete{clear:both;position:relative;height:16px;margin:0;padding:0;border:1px solid #000000;
+/*background:#0caa0c;*/
+background:url('../images/standard/back_green.png') 0 0 repeat-x #0caa0c;}
+.box_progress_failed{clear:both;position:relative;height:16px;margin:0;padding:0;border:1px solid #000000;
+/*background:#ffcf31;*/
+background:url('../images/standard/back_yellow.png') 0 0 repeat-x #ffcf31;}
+.bar_complete{float:left;height:16px;margin:0;padding:0;border-right:1px solid #000000;
+/*background:#0caa0c;*/
+background:url('../images/standard/back_green.png') 0 0 repeat-x #0caa0c;}
+.bar_failed{float:left;height:16px;margin:0;padding:0;border-right:1px solid #000000;
+/*background:#ffcf31;*/
+background:url('../images/standard/back_yellow.png') 0 0 repeat-x #ffcf31;}
+.box_whois_online{clear:both;}
+/* XXX:poll ================================================================= */
+table.poll_report{width:100% !important;margin:0 auto;padding:0;font-size:1.00em;empty-cells:show;border-spacing:0;border:0px none;}
+table.poll_report th{text-align:left;}
+table.poll_report th.text_answer{width:30%;}
+div.colored_row{height:16px;text-align:center;background:#E1EBF4;border:1px solid #000000;}
+/* XXX:project ============================================================== */
+.pagebox{margin:0.00em 0.00em 0.20em;padding:0.30em;color:#033000;background:#ffffff;border:1px solid #666666;}
+img.prjprogbar{height:12px;margin:0px;padding:0px;border:1px solid #0049ad;}
+img.prjprogbar_g{height:12px;margin:0px;padding:0px;border:1px solid #006409;}
+img.prjprogbar_r{height:12px;margin:0px;padding:0px;border:1px solid #7a0000;}
+.container_elem{margin:1px 0.00em 1.00em 0.00em;padding:0.20em;background:#dddddd;border-width:0px 1px 1px 1px;border-style:dashed;border-color:#666666;}
+table.prjcontainer{border-spacing:0;width:100%;}
+table.prjcontainer td{vertical-align:top;padding:0.00em 0.20em;}
+.prjaddrow{margin:0.60em 0 0 0;padding:0.20em 0.20em;background:#F4F4F4;}
+.descr_prj{margin:1.00em;padding:0.60em;border:1px solid #bbbbbb;}
+.titleBlu{margin:0.00em;padding:0.10em;font-weight:bold;background:#336699;color:#ffeeee;border:1px solid #666666;}
+td.image_td{width:22px;}
+td.progress_td{width:15%;}
+/* XXX:sysforum ============================================================= */
+.forumAction{text-align:right;}
+/* XXX:theacher profile ===================================================== */
+.teacher_profile_container{margin:0px 2px 0;padding:0;float:right;}
+.teacher_profile_container img{margin:0 0 0;padding:1px;background:#fff;border:1px solid #c0aa95;}
+.teacher_profile_container img.image_limit{width:150px;}
+.mf_action_line{margin:0.2em 0.5em 1em;padding:0px 8px;text-align:right;background:#dedede;border:1px solid #3972a9;}
+.cp_quota_bar{width:200px;}
+.htmlfront_container{margin:0 0.4em;padding:1em;}
+.wp_alert_div{display:none;position:absolute;top:200px;left:100px;z-index:20;border:2px solid #000;background:#fff;padding:0.6em;}
+.goto_conference{margin:0;padding:3px 0 0 22px;background:url('../images/standard/goto.gif') 0 70% no-repeat;height:16px;}
+/* XXX:certificate section ================================================== */
+.course_certificate_list{margin:12px 0;padding:0 0 14px 0;border:2px solid #E1EBF7;}
+.course_certificate_list h2{margin:0;padding:2px 12px 4px;font-size:1.2em;background:#E1EBF7;}
+.course_certificate_list p{margin:4px 10px;padding:0;}
+.certificate_list{margin:10px;padding:6px;border-bottom:1px solid #afafaf;}
+.certificate_list h3{margin:0;padding:0;font-size:1.0em;}
+.certificate_list .certificate_description{margin:4px 16px;padding:0;}
+.certificate_list .cert_action{margin-top:10px;font-size:0.8em;}
+/* XXX:repository section =================================================== */
+.repository_container{margin:12px 0;padding:0 0 14px 0;border:2px solid #E1EBF7;}
+.repository_container h2{margin:0;padding:2px 12px 4px;font-size:1.2em;background:#E1EBF7;}
+.repository_container div, .repository_container .descr{margin:4px 10px;padding:0;font-size:0.8em;}
+.repository_container ul.adjac_link{margin-top:10px;text-align:right;}
+.certificate_list{margin:10px;padding:6px;border-bottom:1px solid #afafaf;}
+.certificate_list h3{margin:0;padding:0;font-size:1.0em;}
+.certificate_list .certificate_description{margin:4px 16px;padding:0;}
+.certificate_list .cert_action{margin-top:10px;font-size:0.8em;}
+.coursereport-div{width:98%;padding:10px;}
+.coursereport-title{border-bottom:2px solid #cccccc;padding:10px 0 10px 0;}
+.coursereport-table{width:100%;margin:0;padding:0;border-collapse:collapse;}
+.coursereport-table td{border-bottom:2px solid #cccccc;padding:10px 0 10px 0;margin:0;}
+.coursereport-graph{width:650px;padding:10px;}
+.coursereport-bar{margin:0 0 0px 0;}
+.coursereport-position{position:relative;width:48px;height:48px;background:url('../images/graph/aim2.png') no-repeat 0 0;}
+.coursereport-bartitle{font-family:Georgia, serif;font-size:120%;color:#000;font-weight:bold;margin:10px;padding:0;}

@@ -1,0 +1,21 @@
+/*Ie hack in order to resolve several ie bug,just rememberDo not use 'height' if in standard mode you have and 'inline' element,in this case use 'display:inline-block' or 'zoom:1'*/
+.area_block{height:0; }
+.std_block{height:0; }
+.form_elem{height:0; }
+.form_line_l{height:0; }
+.form_right{height:0; }
+.course_info_container ul.course_score{left:-105px; }
+.over_menu_main ul.tray li a.om_first{height:1%;}
+#mycoursepath_list, #mycourse_asses, #mycourse_list{height:1%;}
+div.course_container{height:1%;}
+div.course_container h2{height:1%;}
+div.course_container img{margin-top:2px;}
+.layout_colum_container #mycourse_list div.course_container h2 a{display:inline;width:auto;height:0;}
+#mycoursepath_list{height:1%;}
+#mycoursepath_list .coursepath_container h2{height:0;}
+.layout_colum_container #mycoursepath_list ul div.course_container h2 a{display:inline;width:auto;height:0;}
+ù.user_presentation .avatar_photo p{height:1%;}
+.TabView_container ul.TabView_tabspace li{padding:3px 12px 2px; }
+.up_main{height:1%;}
+#coursecatalogue div.course_container, .course_info_container{height:1%;}
+#coursecatalogue div.course_container h2{height:1%;}
