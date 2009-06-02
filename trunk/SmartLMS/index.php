@@ -19,7 +19,6 @@
 // INFO: LockeVN: thiết lập các thông số về đường dẫn và file cho các module
 // phần này dần dần chỉnh thành hằng số trong Class là yên tâm, hoặc dùng kỹ thuật ABSPATH như qAPI
 
-
 //framework position
 $GLOBALS['where_framework_relative'] = './doceboCore';
 $GLOBALS['where_framework'] = dirname(__FILE__).'/doceboCore';
@@ -50,8 +49,11 @@ $GLOBALS['where_files_relative'] = './files';
 // config with db info position
 $GLOBALS['where_config'] = dirname(__FILE__);
 
-/*Information needed for database access**********************************/
 
+
+
+
+/*Information needed for database access**********************************/
 if(isset($_REQUEST['GLOBALS'])) die('GLOBALS overwrite attempt detected');
 
 define("IN_DOCEBO", true);
@@ -64,8 +66,10 @@ if($dir = trim(dirname($_SERVER['SCRIPT_NAME']), '\,/')) $GLOBALS['base_url'] = 
 require(dirname(__FILE__).'/config.php');
 
 
-/*Start buffer************************************************************/
 
+
+
+/*Start buffer************************************************************/
 ob_start();
 
 /*Start database connection***********************************************/
@@ -87,18 +91,14 @@ if( !$GLOBALS['dbConn'] ) {
 }
 
 if( !@mysql_select_db($dbname, $GLOBALS['dbConn']) ) {
-	
-	if(file_exists(dirname(__FILE__).'/install/index.php')) {
-		
-		Header('Location: http://'.$_SERVER['HTTP_HOST']
-			.( strlen(dirname($_SERVER['SCRIPT_NAME'])) != 1 ? dirname($_SERVER['SCRIPT_NAME']) : '' )
-			.'/install/');
-	}
 	die( "Database [$dbname] not found. Check configurations" );
 }
 
+// INFO: LockeVN: load setting, file setting này nạp các dữ liệu trong bảng _setting của từng module
 require_once($GLOBALS['where_framework'].'/setting.php');
 require_once($GLOBALS['where_lms'].'/setting.php');
+
+
 
 if($GLOBALS['framework']['do_debug'] == 'on') {
 	@error_reporting(E_ALL);
@@ -107,22 +107,25 @@ if($GLOBALS['framework']['do_debug'] == 'on') {
 	@error_reporting(E_COMPILE_ERROR|E_ERROR|E_CORE_ERROR);
 }
 
+
+// INFO: LockeVN: chuyển charset của Mysql sang dạng theo như cấu hình, tuy nhiên phần này có thể bỏ quả để tăng tốc độ
+// trong my.ini có thể setup sẵn để hỗ trợ tốt tiếng Việt
 @mysql_query("SET NAMES '".$GLOBALS['db_conn_names']."'", $GLOBALS['dbConn']);
 @mysql_query("SET CHARACTER SET '".$GLOBALS['db_conn_char_set']."'", $GLOBALS['dbConn']);
 
-$query_platform = "
-SELECT platform  
-FROM ".$GLOBALS['prefix_fw']."_platform 
-WHERE main = 'true'
-LIMIT 0, 1";
-list($sel) = mysql_fetch_row(mysql_query($query_platform));
 
+// INFO: LockeVN: tìm module chính, nếu là CMS, redirect sang
+$query_platform = "SELECT platform  FROM ".$GLOBALS['prefix_fw']."_platform WHERE main = 'true' LIMIT 0, 1";
+list($sel) = mysql_fetch_row(mysql_query($query_platform));
 if($sel == 'cms') {
 	Header('Location: http://'.$_SERVER['HTTP_HOST']
 			.( strlen(dirname($_SERVER['SCRIPT_NAME'])) != 1 ? dirname($_SERVER['SCRIPT_NAME']) : '' )
 			.'/doceboCms/');
 	exit();
 }
+
+
+
 /*Start session***********************************************************/
 
 //cookie lifetime
@@ -134,18 +137,23 @@ session_name("docebo_session");
 session_start();
 
 // load regional setting
+// INFO: LockeVN: nạp lớp quản lý các thiết lập hiển thị theo vùng miền, kiểu hiển thị ngày giờ, ...
 require_once($GLOBALS['where_framework']."/lib/lib.regset.php");
 $GLOBALS['regset'] = new RegionalSettings();
 
+
+
+// INFO: AUTHENTICATION SECURITY
 // load current user from session
 require_once($GLOBALS['where_framework'].'/lib/lib.user.php');
 $GLOBALS['current_user'] =& DoceboUser::createDoceboUserFromSession('public_area');
 
-if($GLOBALS['current_user']->isLoggedIn()) {
-	
+if($GLOBALS['current_user']->isLoggedIn()) {	
 	require_once($GLOBALS['where_framework'].'/lib/lib.utils.php');
 	jumpTo('./doceboLms/');
 }
+
+
 
 // Utils and so on
 require($GLOBALS['where_lms'].'/lib/lib.php');
@@ -172,7 +180,6 @@ $glang->setGlobal();
 
 $module_cfg = false;
 if(isset($GLOBALS['modname']) && $GLOBALS['modname'] != '') {
-
 	//create the class for management the called module
 	$module_cfg =& createModule($GLOBALS['modname']);
 }
