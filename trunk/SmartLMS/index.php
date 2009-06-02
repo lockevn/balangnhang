@@ -1,5 +1,6 @@
 <?php
 
+
 /************************************************************************/
 /* DOCEBO LMS - Learning Managment System                               */
 /* ============================================                         */
@@ -13,6 +14,11 @@
 /* your opinion, any later version. 									*/
 /*                                                                      */
 /************************************************************************/
+
+
+// INFO: LockeVN: thiết lập các thông số về đường dẫn và file cho các module
+// phần này dần dần chỉnh thành hằng số trong Class là yên tâm, hoặc dùng kỹ thuật ABSPATH như qAPI
+
 
 //framework position
 $GLOBALS['where_framework_relative'] = './doceboCore';
@@ -66,14 +72,18 @@ ob_start();
 
 $GLOBALS['dbConn'] = @mysql_connect($GLOBALS['dbhost'], $GLOBALS['dbuname'], $GLOBALS['dbpass']);
 if( !$GLOBALS['dbConn'] ) {
+	// INFO: không tìm thấy DB, chuyển sang phần Install, mình sẽ gỡ bỏ phần này ra cho đỡ chậm. Install này là ko cần thiết.
 	
-	if(file_exists(dirname(__FILE__).'/install/index.php')) {
-		
-		Header('Location: http://'.$_SERVER['HTTP_HOST']
-    		.( strlen(dirname($_SERVER['SCRIPT_NAME'])) != 1 ? dirname($_SERVER['SCRIPT_NAME']) : '' )
-			.'/install/');
-	}
-	die( "Can't connect to db. Check configurations" );
+	// HACKED LockeVN comment
+//	if(file_exists(dirname(__FILE__).'/install/index.php')) {
+//		
+//		Header('Location: http://'.$_SERVER['HTTP_HOST']
+//			.( strlen(dirname($_SERVER['SCRIPT_NAME'])) != 1 ? dirname($_SERVER['SCRIPT_NAME']) : '' )
+//			.'/install/');
+//	}
+	// END HACKED
+	
+	die( "Can't connect to dbhost [" .$GLOBALS['dbhost']. "]. Check configurations" );
 }
 
 if( !@mysql_select_db($dbname, $GLOBALS['dbConn']) ) {
@@ -81,10 +91,10 @@ if( !@mysql_select_db($dbname, $GLOBALS['dbConn']) ) {
 	if(file_exists(dirname(__FILE__).'/install/index.php')) {
 		
 		Header('Location: http://'.$_SERVER['HTTP_HOST']
-    		.( strlen(dirname($_SERVER['SCRIPT_NAME'])) != 1 ? dirname($_SERVER['SCRIPT_NAME']) : '' )
+			.( strlen(dirname($_SERVER['SCRIPT_NAME'])) != 1 ? dirname($_SERVER['SCRIPT_NAME']) : '' )
 			.'/install/');
 	}
-	die( "Database not found. Check configurations" );
+	die( "Database [$dbname] not found. Check configurations" );
 }
 
 require_once($GLOBALS['where_framework'].'/setting.php');
@@ -109,9 +119,9 @@ list($sel) = mysql_fetch_row(mysql_query($query_platform));
 
 if($sel == 'cms') {
 	Header('Location: http://'.$_SERVER['HTTP_HOST']
-	    	.( strlen(dirname($_SERVER['SCRIPT_NAME'])) != 1 ? dirname($_SERVER['SCRIPT_NAME']) : '' )
+			.( strlen(dirname($_SERVER['SCRIPT_NAME'])) != 1 ? dirname($_SERVER['SCRIPT_NAME']) : '' )
 			.'/doceboCms/');
-    exit();
+	exit();
 }
 /*Start session***********************************************************/
 
