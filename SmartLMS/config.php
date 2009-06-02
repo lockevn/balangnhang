@@ -14,10 +14,12 @@ define(ABSPATH, dirname(__FILE__).'/'); // LockeVN: ABSPATH has value=where this
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
-$GLOBALS['dbhost'] 		= 'localhost';					//host where the database is
-$GLOBALS['dbuname'] 	= '';						//database username
-$GLOBALS['dbpass'] 		= '';							//database password for the user
-$GLOBALS['dbname'] 		= '';					//database name
+// INFO: LockeVN ấn các tham số config vào Global, có thể chỉnh dần sang CONST trong Class
+
+$GLOBALS['dbhost'] 		= 'smartlms.dyndns.org';					//host where the database is
+$GLOBALS['dbuname'] 	= 'root';						//database username
+$GLOBALS['dbpass'] 		= 'guruunited2008';							//database password for the user
+$GLOBALS['dbname'] 		= 'docebo';					//database name
 
 $GLOBALS['prefix_fw'] 	= 'core';					//prefix for tables
 $GLOBALS['prefix_lms'] 	= 'learning';				//prefix for tables
