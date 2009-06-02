@@ -115,7 +115,10 @@ class DoceboLanguage {
 
 		$composedKey = DoceboLangManager::composeKey($lang_code,$module,$platform);
 		if( !isset( $globDoceboLanguageInstances[$composedKey]) )
+		{
 			$globDoceboLanguageInstances[$composedKey] = new DoceboLanguage($module, $lang_code, $platform);
+		}
+			
 		return $globDoceboLanguageInstances[$composedKey];
 	}
 
@@ -608,7 +611,7 @@ class DoceboLangManager {
 	 * delete a key and all associated translations
 	 * @param string $key the key to search or the composed key if $module is FALSE
 	 * @param mixed $module the module to search or FALSE if $key is composed key
- 	 * @param mixed $platform the platform to search or FALSE if $key or $module are composed key
+	 * @param mixed $platform the platform to search or FALSE if $key or $module are composed key
 	 * @return bool TRUE if success, FALSE otherwise
 	 */
 	function deleteKey( $key, $module = FALSE, $platform = FALSE) {
@@ -656,14 +659,14 @@ class DoceboLangManager {
 	}
 
 	/**
- 	 * update a key
- 	 * @param string $key the key to search or the composed key if $module is FALSE
- 	 * @param mixed $module the module to search or FALSE if $key is composed key
- 	 * @param mixed $platform the platform to search or FALSE if $key or $module are composed key
+	 * update a key
+	 * @param string $key the key to search or the composed key if $module is FALSE
+	 * @param mixed $module the module to search or FALSE if $key is composed key
+	 * @param mixed $platform the platform to search or FALSE if $key or $module are composed key
 	 * @param mixed $description the description of the key of FALSE for skip
 	 * @param mixed $attributes the attributes of key (accessibility,sms)
 	 * @return bool TRUE if success, FALSE otherwise
- 	 */
+	 */
 	function updateKey( $key, $module = FALSE, $platform = FALSE, $description = FALSE, $attributes = FALSE, $overwrite = TRUE, $no_add = FALSE) {
 		if( $module === FALSE )
 			list($key,$module,$platform) = $this->decomposeKey( $key );
@@ -1105,11 +1108,11 @@ function getLanguage() {
 
 	if(!isset($_SESSION['custom_lang'])) {
 
-        if($GLOBALS['current_user']->isAnonymous()) {
-            $_SESSION['custom_lang'] = $GLOBALS['globLangManager']->findLanguageFromBrowserCode();
-        } else {
+		if($GLOBALS['current_user']->isAnonymous()) {
+			$_SESSION['custom_lang'] = $GLOBALS['globLangManager']->findLanguageFromBrowserCode();
+		} else {
 			$_SESSION['custom_lang'] = $GLOBALS['current_user']->preference->getLanguage();
-        }
+		}
 		// the lang exists?
 		if(!$GLOBALS['globLangManager']->existLanguage($_SESSION['custom_lang'])) {
 
@@ -1121,8 +1124,8 @@ function getLanguage() {
 			elseif(array_search('english', $all_language)) $_SESSION['custom_lang'] = 'english';
 			else $_SESSION['custom_lang'] = array_pop($all_language);
 		}
-    }
-    return $_SESSION['custom_lang'];
+	}
+	return $_SESSION['custom_lang'];
 }
 
 function getDefaultLanguage() {

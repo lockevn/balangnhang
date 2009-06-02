@@ -21,6 +21,8 @@ $GLOBALS['dbuname'] 	= 'root';						//database username
 $GLOBALS['dbpass'] 		= 'guruunited2008';							//database password for the user
 $GLOBALS['dbname'] 		= 'docebo';					//database name
 
+
+// INFO: LockeVN: các prefix để phân biệt bảng của các module trong docebo
 $GLOBALS['prefix_fw'] 	= 'core';					//prefix for tables
 $GLOBALS['prefix_lms'] 	= 'learning';				//prefix for tables
 $GLOBALS['prefix_cms'] 	= 'cms';					//prefix for tables
@@ -28,8 +30,9 @@ $GLOBALS['prefix_scs'] 	= 'conference';				//prefix for tables
 $GLOBALS['prefix_ecom'] = 'ecom';					//prefix for tables
 $GLOBALS['prefix_crm'] = 'crm';						//prefix for tables
 
-/*file upload information************************************************/
 
+
+/*file upload information************************************************/
 $GLOBALS['uploadType'] = 'fs';
 
 $GLOBALS['ftphost'] 	= 'localhost';					// normally this settings is ok

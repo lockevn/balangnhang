@@ -30,7 +30,6 @@
  * @return mixed 	the class istance
  */
 function &createModule($module_name, $class_name = NULL) {
-
 	if(!isset($_SESSION['current_action_platform']))
 		$_SESSION['current_action_platform'] = 'framework';
 	
@@ -70,12 +69,13 @@ function &createModule($module_name, $class_name = NULL) {
 		require_once($where.'/class.module/class.'.$module_name.'.php');
 		if( $class_name === NULL ) $class_name = $def_class_name.'_'.ucfirst($module_name);
 	}
-	elseif(file_exists($GLOBALS['where_framework'].'/class.module/class.'.$module_name.'.php')) {
-
+	elseif(file_exists($GLOBALS['where_framework'].'/class.module/class.'.$module_name.'.php')) 
+	{
 		require_once($GLOBALS['where_framework'].'/class.module/class.'.$module_name.'.php');
 		if( $class_name === NULL ) $class_name = $def_class_name.'_'.ucfirst($module_name);
-	} else {
-
+	} 
+	else 
+	{
 		require_once($where.'/class.module/class.definition.php');
 		$class_name = $def_class_name;
 	}
