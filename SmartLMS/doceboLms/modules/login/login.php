@@ -14,8 +14,7 @@
 
 if(!defined('IN_DOCEBO')) die('You cannot access this file directly');
 
-function loadWebPage() {
-	
+function loadWebPage() {	
 	//load info
 	if(isset($_GET['idPages'])) {
 		$textQuery = "
@@ -172,7 +171,7 @@ function register() {
 	$user_manager = new UserManager();
 	
 	$link = 'http://'.$_SERVER['HTTP_HOST']
-    		.( strlen(dirname($_SERVER['PHP_SELF'])) != 1 ? dirname($_SERVER['PHP_SELF']) : '' )
+			.( strlen(dirname($_SERVER['PHP_SELF'])) != 1 ? dirname($_SERVER['PHP_SELF']) : '' )
 			.'/index.php?modname=login&amp;op=register_opt';
 	
 	$GLOBALS['page']->add(
