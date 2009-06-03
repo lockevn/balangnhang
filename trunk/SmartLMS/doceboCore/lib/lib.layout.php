@@ -15,9 +15,8 @@
 if(!defined("IN_DOCEBO")) die("You can't access this file directly!");
 
 class Layout {
-
+	
 	function heading() {
-
 		$html = '';
 		return $html;
 	}
@@ -70,8 +69,7 @@ class Layout {
 	 * Insipirated from roundcube project
 	 * Author: Thomas Bruederli <roundcube@gmail.com>
 	 */
-	function parse_template($path = '', $exit = TRUE) {
-		
+	function parse_template($path = '', $exit = TRUE) {		
 		if(!isset($GLOBALS['tag_var_instances'])) $GLOBALS['tag_var_instances'] = array();
 		
 		$browser_code = $GLOBALS['globLangManager']->getLanguageBrowsercode(getLanguage());
