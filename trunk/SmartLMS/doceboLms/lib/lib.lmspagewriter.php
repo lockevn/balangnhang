@@ -58,7 +58,7 @@ class LmsPageWriter extends PageWriter {
 			.'	<meta http-equiv="Content-Type" content="text/html; charset='.getUnicode().'" />'."\n"
 			.'	<meta name="Copyright" content="Docebo srl" />'."\n"
 			.'	<link rel="Copyright" href="http://www.docebo.com" title="Copyright Notice" />'."\n"
-			.'	<link href="'.getPathTemplate().'images/favicon.ico" rel="shortcut icon" />'."\n",
+			.'	<link href="/favicon.ico" rel="shortcut icon" />'."\n",
 			'page_head' );
 		$this->addEnd( '</head>'."\n"
 			.'<body class="yui-skin-docebo yui-skin-sam">'."\n", 
