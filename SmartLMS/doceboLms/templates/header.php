@@ -21,7 +21,8 @@
 $GLOBALS['page']->add('<title>'.$GLOBALS['title_page'].'</title>'."\n", 'page_head');
 
 $GLOBALS['page']->add(
-		'	<link href="'.getPathTemplate('framework').'style/style.css" rel="stylesheet" type="text/css" />'."\n"
+		'<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">'."\n"
+		.'	<link href="'.getPathTemplate('framework').'style/style.css" rel="stylesheet" type="text/css" />'."\n"
 		.'	<link href="'.getPathTemplate().'style/style.css" rel="stylesheet" type="text/css" />'."\n"
 		
 		.'	<link href="'.getPathTemplate('framework').'style/style_form.css" rel="stylesheet" type="text/css" />'."\n"
@@ -39,6 +40,8 @@ $GLOBALS['page']->add(
 		.'	<!--[if IE 7]>'."\n"
 		.'		<link href="'.getPathTemplate().'style/style_ie_7.css" rel="stylesheet" type="text/css" />'."\n"
 		.'	<![endif]-->'."\n"
+		.'<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>'
+		
 		
 , 'page_head');
 

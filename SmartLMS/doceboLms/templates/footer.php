@@ -21,13 +21,9 @@
 
 $GLOBALS['page']->setWorkingZone('footer');
 $GLOBALS['page']->add(
-	'<div class="powered_by">'
-	.'<img class="valid" src="'.getPathImage().'valid-xhtml11.png" alt="Valid xhmtl 1.1" />'
-	.'<img class="valid" src="'.getPathImage().'valid-css.png" alt="Valid css" />'
-	.'<a href="http://www.docebo.org"
-		onclick="window.open(\'http://www.docebo.org\'); return false;"
-		onkeypress="window.open(\'http://www.docebo.org\'); return false;">'
-	.'<img src="'.getPathImage().'powered.png" alt="Docebo" title="Powered by Docebo.com" /></a>'
-	.'</div>' );
+	'<div class="powered_by">'	
+	.'<a href="http://sites.google.com/a/gurucore.com/messio/smartcom" >GURUCORE Documentation</a>
+	GURUCORE team (danhut, lockevn) base on Docebo
+	</div>' );
 
 ?>
