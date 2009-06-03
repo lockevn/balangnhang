@@ -74,7 +74,7 @@ ob_start();
 
 /*Start database connection***********************************************/
 
-$GLOBALS['dbConn'] = @mysql_connect($GLOBALS['dbhost'], $GLOBALS['dbuname'], $GLOBALS['dbpass']);
+$GLOBALS['dbConn'] = @mysql_pconnect($GLOBALS['dbhost'], $GLOBALS['dbuname'], $GLOBALS['dbpass']);
 if( !$GLOBALS['dbConn'] ) {
 	// INFO: không tìm thấy DB, chuyển sang phần Install, mình sẽ gỡ bỏ phần này ra cho đỡ chậm. Install này là ko cần thiết.
 	
