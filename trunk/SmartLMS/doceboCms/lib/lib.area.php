@@ -291,16 +291,20 @@ function doSubdivision($idArea, $idSubdivision, $rip) {
 	$q=mysql_query($qtxt);
 
 	if (($q) && (mysql_num_rows($q) > 0)) {
-
 		//-------------------- COUNTER ---------------------------
 		$row=mysql_fetch_array($q);
 		$areatitle=$row["title"];
-		if (!defined("_BBCLONE_DIR"))
-			define("_BBCLONE_DIR", $GLOBALS["where_cms"]."/addons/bbclone/");
-		if (!defined("COUNTER"))
-			define("COUNTER", _BBCLONE_DIR."cms_mark_page.php");
+
+		
+		// HACK: LockeVN : I remove this section of code
+		//if (!defined("_BBCLONE_DIR"))
+//			define("_BBCLONE_DIR", $GLOBALS["where_cms"]."/addons/bbclone/");
+//		if (!defined("COUNTER"))
+//			define("COUNTER", _BBCLONE_DIR."cms_mark_page.php");
 		//--------------------------------------------------------
 
+		
+		
 		//finding area tree
 		$reSubdivision = mysql_query("
 		SELECT idSubdivision, areaWidth, areaType, margin
