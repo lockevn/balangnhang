@@ -1,32 +1,18 @@
 <?php
 
-/************************************************************************/
-/* DOCEBO CORE - Framework												*/
-/* ============================================							*/
-/*																		*/
-/* Copyright (c) 2005													*/
-/* http://www.docebo.com												*/
-/*																		*/
-/* This program is free software. You can redistribute it and/or modify	*/
-/* it under the terms of the GNU General Public License as published by	*/
-/* the Free Software Foundation; either version 2 of the License.		*/
-/************************************************************************/
-
 if(isset($_REQUEST['GLOBALS'])) die('GLOBALS overwrite attempt detected');
 
 if(!defined("IN_DOCEBO")) define("IN_DOCEBO", true);
 define("IN_CORE", true);
 
 /*Start buffer************************************************************/
-
 ob_start();
 
 require_once(dirname(__FILE__).'/config.php');
 require_once($GLOBALS['where_config'].'/config.php');
 
 /*Start database connection***********************************************/
-
-$GLOBALS['dbConn'] = mysql_connect($GLOBALS['dbhost'], $GLOBALS['dbuname'], $GLOBALS['dbpass']);
+$GLOBALS['dbConn'] = mysql_pconnect($GLOBALS['dbhost'], $GLOBALS['dbuname'], $GLOBALS['dbpass']);
 if( !$GLOBALS['dbConn'] ) 
 	die( "Can't connect to db. Check configurations" );
 
