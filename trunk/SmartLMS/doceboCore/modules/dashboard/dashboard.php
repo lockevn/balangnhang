@@ -97,72 +97,10 @@ function dashboard() {
 
 		
 	// print out rss feed -----------------------------------------------------------
-	$GLOBALS['page']->add('<div class="no_float"></div>');
+	$GLOBALS['page']->add('<div class="no_float"></div>');	
 
-	if($GLOBALS['framework']['welcome_use_feed'] == 'on') {
-
-		$GLOBALS['page']->add('<div class="action_line">'
-			.'<a href="index.php?modname=dashboard&amp;op=deactivate">'.$lang->def('_DEACTIVATE_FEED').'</a>'
-			.'</div>');
-
-		$rss 		= new FeedReader();
-		$rss_man 	= new FeedReaderManager();
-
-		$append ='-'.( getLanguage() == 'italian' ? 'italian' : 'english');
-		$rss->setAppendToUrl(_DOCEBO_CORP_BLOG_FEED_ID, $append);
-		$feed_to_display = $rss_man->getFeedListByZone('dashboard');
-
-		while(list($id_feed, $custom_title) = each($feed_to_display)) {
-
-			$GLOBALS['page']->add('<div class="rss_shadow">'
-				.'<div class="rss_block">' );
-
-			$readed_rss = $rss->readFeed( $id_feed );
-
-			// feed header --------------------------------------------------
-			if(isset($readed_rss['description'])) $readed_rss['description'] = $rss->cleanEntry($readed_rss['description']);
-			elseif(isset($readed_rss['title'])) $readed_rss['description'] = $rss->cleanEntry($readed_rss['title']);
-			else $readed_rss['description'] = $lang->def('_UNTITLED_RSS');
-
-			$GLOBALS['page']->add(
-				'<h1>'
-				.( isset($readed_rss['link'])
-					? '<a class="rss_global_link" href="'.$readed_rss['link'].'"'
-							.' onclick="window.open(this.href); return false;"'
-							.' onkeypress="window.open(this.href); return false;">'
-						.'<img src="'.getPathImage('fw').'standard/goto.gif" title="'.$lang->def('_GOTO_TITLE').'" alt="'.$lang->def('_GOTO').'" />'
-						.'</a>'
-					: '' )
-				.( $lang->isDef($readed_rss['description']) ? $lang->def($readed_rss['description']) : $readed_rss['description'] )
-				.'</h1>', 'content');
-
-			// feed contents ------------------------------------------------
-			for($i = 0; $i < $readed_rss['items_count'] && $i < DASH_MAX_RSS_NEWS; $i++) {
-
-				$current_news =& $readed_rss['items'][$i];
-				$GLOBALS['page']->add(
-					'<h2 class="news_rss">'
-					.'<a href="'.$current_news['link'].'"'
-							.' onclick="window.open(this.href); return false;"'
-							.' onkeypress="window.open(this.href); return false;">'
-						.$rss->cleanEntry($current_news['title'])
-					.'</a>'
-					.'</h2>'
-					.'<div class="'.( $i != ($readed_rss['items_count']-1) && $i != (DASH_MAX_RSS_NEWS-1) ? 'news_rss' : 'news_rss_noborder' ) .'">'
-						.$rss->cleanEntry($current_news['description'])
-					.'</div>'
-				, 'content');
-			}
-			$GLOBALS['page']->add('</div></div>', 'content');
-		}
-	} else {
-		$GLOBALS['page']->add('<div class="action_line">'
-			.'<a href="index.php?modname=dashboard&amp;op=activate">'.$lang->def('_ACTIVATE_FEED').'</a>'
-			.'</div>');
-	}
-
+	
 	// close main block ------------------------------------------------
-
 	$GLOBALS['page']->add('
 			<div class="no_float"></div>
 		</div>', 'content');
