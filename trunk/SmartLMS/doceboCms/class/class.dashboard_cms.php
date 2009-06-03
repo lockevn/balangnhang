@@ -31,20 +31,20 @@ class Dashboard_Cms extends Dashboard {
 
 		$lang =& DoceboLanguage::createInstance('dashboard', 'framework');
 
-		require_once(_BBCLONE_DIR."cms_constants.php");
+		//require_once(_BBCLONE_DIR."cms_constants.php");
 
-		$stats = getPageViewArray();
 		$html = array();
-		$html[] = '<h2 class="course_main_title">'.$lang->def('_CMS_PANEL').'</h2>'
-			.'<p class="cms_main">'
-				.$lang->def('_CMS_STAT_LAST_DAY').': <b>'.$stats['last_day'].'</b>;<br />'
-				.$lang->def('_CMS_STAT_LAST_WEEK').': <b>'.$stats['last_week'].'</b>;<br />'
-				.$lang->def('_CMS_STAT_LAST_MONTH').': <b>'.$stats['last_month'].'</b>;<br />'
-				.$lang->def('_CMS_STAT_LAST_YEAR').': <b>'.$stats['last_year'].'</b>;'
-			.'</p><p>'
-				.$lang->def('_CMS_STAT_TOTALVISIT').': <b>'.$stats['totalvisit'].'</b>;<br />'
-				.$lang->def('_CMS_STAT_TOTALUNIQUE').': <b>'.$stats['totalunique'].'</b>;'
-			.'</p>';
+//		$stats = getPageViewArray();
+//		$html[] = '<h2 class="course_main_title">'.$lang->def('_CMS_PANEL').'</h2>'
+//			.'<p class="cms_main">'
+//				.$lang->def('_CMS_STAT_LAST_DAY').': <b>'.$stats['last_day'].'</b>;<br />'
+//				.$lang->def('_CMS_STAT_LAST_WEEK').': <b>'.$stats['last_week'].'</b>;<br />'
+//				.$lang->def('_CMS_STAT_LAST_MONTH').': <b>'.$stats['last_month'].'</b>;<br />'
+//				.$lang->def('_CMS_STAT_LAST_YEAR').': <b>'.$stats['last_year'].'</b>;'
+//			.'</p><p>'
+//				.$lang->def('_CMS_STAT_TOTALVISIT').': <b>'.$stats['totalvisit'].'</b>;<br />'
+//				.$lang->def('_CMS_STAT_TOTALUNIQUE').': <b>'.$stats['totalunique'].'</b>;'
+//			.'</p>';
 
 		return $html;
 	}

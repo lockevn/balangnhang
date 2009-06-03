@@ -30,7 +30,7 @@ if(!$GLOBALS['current_user']->isAnonymous()) {
 	$mo_lang 	= DoceboLanguage::createInstance('menu_over', 'lms');
 	$ml_lang 	= DoceboLanguage::createInstance('menu_course');
 
-    $user_level = $GLOBALS['current_user']->getUserLevelId();
+	$user_level = $GLOBALS['current_user']->getUserLevelId();
 	
 	require_once($GLOBALS['where_framework'].'/lib/lib.message.php');
 	$msg = new Man_Message();
@@ -74,7 +74,7 @@ if(!$GLOBALS['current_user']->isAnonymous()) {
 						).'</a>'
 						.'</li>';
 			}
-            elseif($m_info != NULL)
+			elseif($m_info != NULL)
 			{
 				if (strstr($m_info, 'type=public_admin') && checkPerm($token, true, $module_name,  true) )
 				{
@@ -85,8 +85,8 @@ if(!$GLOBALS['current_user']->isAnonymous()) {
 							.'</li>';
 				}
 			}
-            else
-            {
+			else
+			{
 
 				$GLOBALS['page']->add(
 						'<li><a class="om_first om_'.$module_name.'" href="index.php?modname='.$module_name.'&amp;op='.$def_op.'&amp;id_module_sel='.$id_m.'&amp;id_main_sel='.$id_main.'&amp;sop=unregistercourse">'
@@ -180,9 +180,9 @@ if(!$GLOBALS['current_user']->isAnonymous()) {
 			.'</a></li>', 'menu_over');
 	}
 	$GLOBALS['page']->add(
-		'<li><a class="om_first om_logout" href="index.php?modname=login&amp;op=logout">'
+		'<li><a class="om_first om_logout" href="/doceboLms/index.php?modname=login&op=logout">'
 			.$mo_lang->def('_LOGOUT')
-		.'</a></li>', 'menu_over');
+		.' LMS</a></li>', 'menu_over');
 
 	$GLOBALS['page']->add(
 		'</ul>'
