@@ -2,6 +2,35 @@
 
 define(ABSPATH, dirname(__FILE__).'/'); // LockeVN: ABSPATH has value=where this config.php lay
 
+require_once(ABSPATH."Lib/External/Savant3.php");
+// init share Template Savant engine here
+$tpl = new Savant3();
+$tpl->setPath('template', 'template');
+class Config
+{
+	const CDN_FTP_ADDRESS = 'ftp://mediaqqq:luftenuplinhtinhxoe2009@media.TiuTit.com';
+	
+	const API_URL = 'http://api.TiuTit.com';
+	const AVATAR_URL = 'http://media.tiutit.com/dynamic/qblog/image/avatar/';
+	const GROUP_AVATAR_URL = 'http://media.tiutit.com/dynamic/qblog/image/groupavatar/';
+
+	const IMG_URL = 'http://media.tiutit.com/dynamic/qblog/image/';
+	const WEB_URL = 'http://www.tiutit.com/';
+
+	const AVATARSIZE = 70;
+	const AVATARSMALLSIZE = 20;
+	const AVATARMEDIUMSIZE = 30;
+	const AVATARBIGSIZE = 100;
+
+	const POST_IMG_WIDTH = 120;
+
+	const ITEMPERPAGE = 20;
+	
+	const CFG_QBLOG_EMAIL = 'TiuTit.com <no-reply@loop.vn>';
+}
+
+
+
 /************************************************************************/
 /* DOCEBO CORE - Framework                                              */
 /* ============================================                         */
