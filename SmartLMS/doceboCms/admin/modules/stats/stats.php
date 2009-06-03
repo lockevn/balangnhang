@@ -20,27 +20,28 @@ $GLOBALS["page"]->add(getTitleArea($lang->def("_STATS"), "stats"));
 
 $GLOBALS["page"]->add("<div class=\"std_block\">\n", "content");
 
+$GLOBALS["page"]->add("LockeVN removed this section of useless BBClone", "content");
 
-define("_BBCLONE_DIR", $GLOBALS["where_cms"]."/addons/bbclone/");
-$op=importVar("op");
-switch($op) {
-	case "stats" : {
-		require_once(_BBCLONE_DIR."cms_show_global.php");
-	};break;
-	case "statsdetails" : {
-		require_once(_BBCLONE_DIR."cms_show_detailed.php");
-	};break;
-	case "statstemporal" : {
-		require_once(_BBCLONE_DIR."cms_show_time.php");
-	};break;
-	case "showviews" : {
-		require_once(_BBCLONE_DIR."cms_show_views.php");
-	};break;
+//define("_BBCLONE_DIR", $GLOBALS["where_cms"]."/addons/bbclone/");
+//$op=importVar("op");
+//switch($op) {
+//	case "stats" : {
+//		require_once(_BBCLONE_DIR."cms_show_global.php");
+//	};break;
+//	case "statsdetails" : {
+//		require_once(_BBCLONE_DIR."cms_show_detailed.php");
+//	};break;
+//	case "statstemporal" : {
+//		require_once(_BBCLONE_DIR."cms_show_time.php");
+//	};break;
+//	case "showviews" : {
+//		require_once(_BBCLONE_DIR."cms_show_views.php");
+//	};break;
 
-}
+//}
 
 $GLOBALS["page"]->add("</div>\n", "content");
 
-require_once(_BBCLONE_DIR."cms_stats_head.php");
+// require_once(_BBCLONE_DIR."cms_stats_head.php");
 
 ?>
