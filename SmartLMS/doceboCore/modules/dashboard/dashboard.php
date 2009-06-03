@@ -95,6 +95,7 @@ function dashboard() {
 		.'</div>'
 		.'</div>' );
 
+		
 	// print out rss feed -----------------------------------------------------------
 	$GLOBALS['page']->add('<div class="no_float"></div>');
 
