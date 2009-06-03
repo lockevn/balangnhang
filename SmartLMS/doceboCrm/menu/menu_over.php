@@ -23,7 +23,7 @@ if(!$GLOBALS['current_user']->isAnonymous()) {
 	$GLOBALS['page']->add('<div id="main_menu" class="info_strip">', 'menu_over');
 
 	$GLOBALS['page']->add(
-		'<a class="logout_voice" href="index.php?modname=login&amp;op=logout" '
+		'<a class="logout_voice" href="/doceboLms/index.php?modname=login&op=logout" '
 		.( $GLOBALS['framework']['use_accesskey'] == 'on' ?
 			'accesskey="l">'.$lang->def('_LOGOUT').' <em class="shortcut">[L]</em>' :
 			'>'.$lang->def('_LOGOUT') )

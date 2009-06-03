@@ -53,8 +53,7 @@ class Login_TagVar extends TagVar {
 				
 		// execute command
 		switch ($tag) {
-			case "menu" : {
-				
+			case "menu" : {				
 				$li = '';
 				$ul = '<ul id="'.( isset($args['id']) ? $args['id'] : 'main_menu' ).'">';
 				
@@ -91,8 +90,8 @@ class Login_TagVar extends TagVar {
 				
 				return ( $li != '' ? $ul.$li.'</ul>' : '' );
 			};break;
-			case "language_selection" : {
-				
+			
+			case "language_selection" : {				
 				$lang_sel = getLanguage();
 				
 				$langs_var = $GLOBALS['globLangManager']->getAllLanguages();
@@ -111,10 +110,11 @@ class Login_TagVar extends TagVar {
 				
 				return $html;
 			};break;
+			
 			case "login_form" : {
 				/*
 				$html = '<form method="post" action="#">
-				    <div>
+					<div>
 						<label for="username">'.$lang->def('_USERNAME').'</label>
 						<input class="textfield" type="text" id="username" name="username" value="" maxlenght="255" />
 						<br />
@@ -138,8 +138,8 @@ class Login_TagVar extends TagVar {
 				
 				return $html;
 			};break;
-			case "links" : {
-				
+			
+			case "links" : {				
 				$user_manager = new UserManager();
 				$html = '<div id="'.( isset($args['id']) ? $args['id'] : 'link' ).'">'
 					.'<a href="index.php?modname=login&amp;op=lostpwd">'.$lang->def('_LOG_LOSTPWD').'</a>';
@@ -150,8 +150,8 @@ class Login_TagVar extends TagVar {
 				$html .= '</div>';
 				return $html;
 			};break;
-			case "service_msg" : {
-				
+			
+			case "service_msg" : {				
 				$html = '';
 				if(isset($_GET['access_fail']) || isset($_GET['logout'])) {
 					

@@ -37,6 +37,10 @@ class PlatformManager {
 		else return mysql_query($query);
 	}
 
+	/**
+	* @desc 
+	* @return PlatformManager
+	*/
 	function &createInstance() {
 
 		if(!isset($GLOBALS['platform_manager'])) {

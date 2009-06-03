@@ -173,8 +173,8 @@ if($GLOBALS['current_user']->isLoggedIn()) {
 		.'</li>');
 	$GLOBALS['page']->add(
 		'<li>'
-			.'<a class="little_link" href="index.php?modname=login&amp;op=logout">'
-			.'<img class="little_icon" src="'.getPathImage('fw').'platform/logout'.$img_ext.'" alt=".:" 	/><br />'
+			.'<a class="little_link" href="/doceboLms/index.php?modname=login&op=logout">'
+			.'<img class="little_icon" src="'.getPathImage('fw').'platform/logout'.$img_ext.'" alt=".:" rel="logout Core" /><br />'
 			.def('_LOGOUT', 'menu_over', 'framework').'</a>'
 		.'</li>');
 	$GLOBALS['page']->add('</ul><div class="no_float"></div></div>');
