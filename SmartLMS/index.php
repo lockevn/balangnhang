@@ -184,6 +184,9 @@ if(isset($GLOBALS['modname']) && $GLOBALS['modname'] != '') {
 	$module_cfg =& createModule($GLOBALS['modname']);
 }
 
+
+// INFO: Dựng trang, mã dựng trang khá lằng nhằng.
+
 // create instance of LmsPageWriter
 require_once($GLOBALS['where_framework'].'/lib/lib.pagewriter.php');
 emptyPageWriter::createInstance();
@@ -192,27 +195,28 @@ emptyPageWriter::createInstance();
 
 $template = 'home';
 if($op == '') $op = 'login';
-switch ($op) {
+
+switch ($op) {	
+	case 'login': {		
+		$template = 'home_login';		
+	};
+	break;
 	
-	case 'login': {
-		
-		$template = 'home_login';
-		
-	};break;
-	default: {
-				
+	default: {				
 		$module_cfg->loadBody();
-	};break;
+	};
+	break;
 }
 
 /*Save user info*/
 if( $GLOBALS['current_user']->isLoggedIn() )
+{
 	$GLOBALS['current_user']->SaveInSession();
+}
 
 /*End database connection*************************************************/
 
 /*Add google stat code if used*********************************************/
-
 if (($GLOBALS['google_stat_in_lms'] == 1) && (!empty($GLOBALS['google_stat_code']))) {
 	$GLOBALS['page']->addEnd($GLOBALS['google_stat_code'], 'footer');
 }
@@ -220,7 +224,6 @@ if (($GLOBALS['google_stat_in_lms'] == 1) && (!empty($GLOBALS['google_stat_code'
 /*Flush buffer************************************************************/
 
 /* output all */
-
 $GLOBALS['page']->add(ob_get_contents(), 'debug');
 ob_clean();
 //echo $GLOBALS['page']->getContent();
