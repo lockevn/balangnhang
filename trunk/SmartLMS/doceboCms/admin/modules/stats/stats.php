@@ -19,11 +19,10 @@ $GLOBALS["page"]->add(getTitleArea($lang->def("_STATS"), "stats"));
 
 
 $GLOBALS["page"]->add("<div class=\"std_block\">\n", "content");
+
+
 define("_BBCLONE_DIR", $GLOBALS["where_cms"]."/addons/bbclone/");
-
-
 $op=importVar("op");
-
 switch($op) {
 	case "stats" : {
 		require_once(_BBCLONE_DIR."cms_show_global.php");
