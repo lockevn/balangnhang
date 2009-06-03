@@ -181,8 +181,9 @@ echo $GLOBALS['page']->getContent();
 ob_end_flush(); //-debug-// print_r($_SESSION);
 
 
+// HACK: LockeVN: gỡ cái stat của nợ này ra (từ 2008, tự chạy, nặng)
 /* Includes the counter************************************************************/
-if (($GLOBALS['cms']['use_bbclone'] == 1) && (defined("COUNTER")) && (is_readable(COUNTER))) {
-	require_once(COUNTER); // The "COUNTER" constant has been defined in lib.area.php
-}
+//if (($GLOBALS['cms']['use_bbclone'] == 1) && (defined("COUNTER")) && (is_readable(COUNTER))) {
+//	require_once(COUNTER); // The "COUNTER" constant has been defined in lib.area.php
+//}
 ?>
