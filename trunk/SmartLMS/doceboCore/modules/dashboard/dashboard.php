@@ -72,12 +72,8 @@ function dashboard() {
 
 	$links = '<h2 class="user_main_title">'.$lang->def('_SUPPORT_SITE').'</h2>'
 			.'<ul id="support_site">'
-			.'<li><a href="http://www.docebo.org/"'
-				.' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"'
-				.' title="'.$lang->def('_TITLE_URL_SUPPORTLMS').' '.$lang->def('_OPEN_IN_NEW_WINDOW').'">'.$lang->def('_URL_SUPPORTLMS').'</a></li>'
-			.'<li><a href="http://www.docebo.com/"'
-				.' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"'
-				.' title="'.$lang->def('_TITLE_URL_COMPANY').' '.$lang->def('_OPEN_IN_NEW_WINDOW').'">'.$lang->def('_URL_COMPANY').'</a></li>'
+			.'<li>danhut</li>'
+			.'<li>lockevn</li>'
 			.'</ul>';
 
 	// block on the left ------------------------------------------------------------
