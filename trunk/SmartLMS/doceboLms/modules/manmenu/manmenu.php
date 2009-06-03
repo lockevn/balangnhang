@@ -688,6 +688,7 @@ function upmodule() {
 		$idlevel = $map_idst_level[$lv];
 		foreach($perm_to_add_idst[$lv] as $idrole => $v) {
 			
+		//Thêm role cho 1 group
 			$acl_man->addToRole( $idrole, $idlevel );
 		}
 		foreach($perm_to_del_idst[$lv] as $idrole => $v) {
