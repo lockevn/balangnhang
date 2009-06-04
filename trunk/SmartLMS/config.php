@@ -48,11 +48,11 @@ $GLOBALS['prefix_ecom'] = 'ecom';					//prefix for tables
 $GLOBALS['prefix_crm'] = 'crm';						//prefix for tables
 
 /*file upload information************************************************/
-$GLOBALS['uploadType'] = 'fs';
-$GLOBALS['ftphost'] 	= 'localhost';					// normally this settings is ok
+$GLOBALS['uploadType'] = 'ftp';
+$GLOBALS['ftphost'] 	= 'smartlms.dyndns.org';					// normally this settings is ok
 $GLOBALS['ftpport'] 	= '21';							// same as above
-$GLOBALS['ftpuser'] 	= '';
-$GLOBALS['ftppass'] 	= '';
+$GLOBALS['ftpuser'] 	= 'smartlms';
+$GLOBALS['ftppass'] 	= 'guruunited2008';
 $GLOBALS['ftppath'] 	= '/';
 
 $GLOBALS['where_files']  = '/files';
