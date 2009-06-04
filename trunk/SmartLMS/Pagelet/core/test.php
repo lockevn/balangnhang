@@ -7,9 +7,7 @@ $db = DBHelper::GetInstance();
 $db->DBLink('docebo');
 $result = $db->GetRecords('select * from core_setting');
 
-print_r($result[0]);
-
-$FILENAME = 'test';
-$$FILENAME = $tpl->fetch("$FILENAME.tpl.php");
+$FILENAME = 'core/test';
+${PageBuilder::PAGELET_PREFIX.$FILENAME} = $tpl->fetch("$FILENAME.tpl.php");
 
 ?>

@@ -20,7 +20,6 @@ $tab = GetParamSafe('tab');
 
 $tpl->assign('mod', $mod);
 $tpl->assign('tab', $tab);
-$tpl->assign('CFG', $configs);
 $tpl->assign('URL', $_SERVER['REQUEST_URI']);
 
 
@@ -81,59 +80,64 @@ $tpl->assign('gid', $ginfo['id']);
 $tpl->assign('gcode', strtolower($ginfo['code']));
 
 
+// RENDER HTML BASE ON RENDER TYPE
 $rendertype = GetParamSafe('rendertype');
 if($rendertype === "Pagelet")
-{    
-	$pagelet = preg_replace('/[\W]+/', '', GetParamSafe('pagelet'));
-	$customlayout = preg_replace('/[\W]+/', '', GetParamSafe('customlayout'));    
-	$customlayout = in_array($customlayout, array_values(PageBuilder::$PageLayoutMap), true) ? $customlayout : 'raw_empty_for_pagelet';     
+{
+	$pagelet = Text::removeNonAlphaNumericChar(GetParamSafe('pagelet'));
+	$customlayout = Text::removeNonAlphaNumericChar(GetParamSafe('customlayout'));
 	
 	$zonecontent = '';
 	require_once(ABSPATH."Pagelet/$pagelet.php");
 	$zonecontent .= $$pagelet;    
 	$tpl->assign('ZONE', $zonecontent);
 	
-	$tpl->display("LAYOUT.$customlayout.tpl.php");
-	die();
-}
-
-//********************* PAGELET RENDER **********************//
-if(in_array($mod, PageBuilder::$AllowedCustomModule))
-{
-	require_once(ABSPATH."Page/$mod.php");
+	// if customlayout is allow, use it.
+	$customlayout = in_array($customlayout, array_values(PageBuilder::$PageLayoutMap), true) ? $customlayout : 'raw_empty_for_pagelet';
+	$tpl->display("LAYOUT.$customlayout.tpl.php");	
 }
 else
-{
-	if(array_key_exists($mod, PageBuilder::$PageMap))
+{		
+	// not single pagelet render, we continue with PAGE RENDER
+	//********************* PAGE RENDER **********************//
+	if(in_array($mod, PageBuilder::$AllowedCustomModule))
 	{
-		PageBuilder::Render($mod, $tpl);
+		// if use "manual setting" Page
+		require_once(ABSPATH."Page/$mod.php");
 	}
 	else
 	{
-		HttpNavigation::OutputRedirectToBrowser('/pagenotfound.php');
+		// render page by render each pagelet, then add to page
+		if(array_key_exists($mod, PageBuilder::$PageMap))
+		{
+			PageBuilder::Render($mod, $tpl);
+		}
+		else
+		{
+			// if page is not configured, echo not found
+			HttpNavigation::OutputRedirectToBrowser('/pagenotfound.php');
+		}
+	}
+
+	/************ EVERY PAGE HAS HEADER AND FOOTER, So render it manually here to avoid configure Header and Footer in each PageConfig ****************/
+	require_once(ABSPATH."Pagelet/header.php");
+	$tpl->assign('ZONE_TopBar', ${PageBuilder::PAGELET_PREFIX.'header'});
+	require_once(ABSPATH."Pagelet/footer.php");
+	$tpl->assign('ZONE_Footer', ${PageBuilder::PAGELET_PREFIX.'footer'});
+
+	// if page use customlayout
+	if(array_key_exists($mod, PageBuilder::$PageLayoutMap))
+	{
+		// use custom layout define in PageBuilder    
+		$customlayout = PageBuilder::$PageLayoutMap[$mod];
+		$tpl->display("LAYOUT.$customlayout.tpl.php");
+	}
+	else
+	{
+		// use default LAYOUT.DEFAULT.tpl.php
+		$tpl->display('LAYOUT.DEFAULT.tpl.php');
 	}
 }
 
-
-require_once(ABSPATH."Pagelet/header.php");
-//require_once(ABSPATH."Pagelet/my_toolbar.php");
-$tpl->assign('ZONE_TopBar', $header . $my_toolbar);
-
-
-require_once(ABSPATH."Pagelet/footer.php");
-$tpl->assign('ZONE_Footer', $footer);
-
-
-if(array_key_exists($mod, PageBuilder::$PageLayoutMap))
-{
-	// use custom layout define in PageBuilder    
-	$customlayout = PageBuilder::$PageLayoutMap[$mod];
-	$tpl->display("LAYOUT.$customlayout.tpl.php");
-}
-else
-{
-	// use default LAYOUT.index.tpl.php
-	$tpl->display('LAYOUT.index.tpl.php');
-}
 
 ?>

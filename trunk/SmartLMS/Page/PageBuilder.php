@@ -2,6 +2,7 @@
 
 class PageBuilder
 {
+	const PAGELET_PREFIX = 'pagelet_';
 	/**
 	*@desc assocarray (key = pagename (mod name), value = assocarray (key = 'zonename', 'pageletname1,pageletname2'))
 	*/
@@ -10,11 +11,6 @@ class PageBuilder
 		'dashboard' => array(
 			'ZONE_MainContent' => array('core/test', '',''),                
 			'ZONE_Right' => array('', '')
-		),
-
-
-		'public_msg' => array(
-			'ZONE_MainContent' => array('post_msg', 'msglist')
 		)
 	);
 
@@ -39,7 +35,7 @@ class PageBuilder
 				if($pagelet)
 				{
 					require_once(ABSPATH."Pagelet/$pagelet.php");
-					$zonecontent .= $$pagelet;
+					$zonecontent .= ${PageBuilder::PAGELET_PREFIX.$pagelet};
 				}
 			}
 			$tpl->assign($zonename, $zonecontent);

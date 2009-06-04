@@ -3,6 +3,6 @@
 require_once(ABSPATH."Lib/External/Savant3.php");
 
 $FILENAME = 'header';
-$$FILENAME = $tpl->fetch("$FILENAME.tpl.php");
+${PageBuilder::PAGELET_PREFIX.$FILENAME} = $tpl->fetch("$FILENAME.tpl.php");
 
 ?>
