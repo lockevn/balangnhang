@@ -145,5 +145,6 @@ namespace TalaAPI.Business
             }
             return cardArrList;
         }
+        
     }
 }

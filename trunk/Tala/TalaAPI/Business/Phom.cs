@@ -10,10 +10,11 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using TalaAPI.Lib;
+using TalaAPI.XMLRenderOutput;
 
 namespace TalaAPI.Business
 {
-    public class Phom
+    public class Phom : APIDataEntry
     {
         int _Id;
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
