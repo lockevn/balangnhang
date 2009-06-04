@@ -157,33 +157,33 @@ function sl_upload_fs( $srcFile, $dstFile ) {
  */
 function sl_copyr($source, $dest)
 {
-    // Simple copy for a file
-    if (is_file($GLOBALS['where_files_relative'].$source)) {
-        return sl_copy($source, $dest);
-    }
+	// Simple copy for a file
+	if (is_file($GLOBALS['where_files_relative'].$source)) {
+		return sl_copy($source, $dest);
+	}
  
-    // Make destination directory
-    if (!is_dir($GLOBALS['where_files_relative'].$dest)) {
-        sl_mkdir($dest);
-    }
+	// Make destination directory
+	if (!is_dir($GLOBALS['where_files_relative'].$dest)) {
+		sl_mkdir($dest);
+	}
  
-    // Loop through the folder
-    $dir = dir($GLOBALS['where_files_relative'].$source);
-    while (false !== $entry = $dir->read()) {
-        // Skip pointers
-        if ($entry == '.' || $entry == '..') {
-            continue;
-        }
+	// Loop through the folder
+	$dir = dir($GLOBALS['where_files_relative'].$source);
+	while (false !== $entry = $dir->read()) {
+		// Skip pointers
+		if ($entry == '.' || $entry == '..') {
+			continue;
+		}
  
-        // Deep copy directories
-        if ($dest !== "$source/$entry") {
-            sl_copyr("$source/$entry", "$dest/$entry");
-        }
-    }
+		// Deep copy directories
+		if ($dest !== "$source/$entry") {
+			sl_copyr("$source/$entry", "$dest/$entry");
+		}
+	}
  
-    // Clean up
-    $dir->close();
-    return true;
+	// Clean up
+	$dir->close();
+	return true;
 }
 
 
@@ -225,7 +225,7 @@ function sl_close_fileoperations_ftp() {
 }
 
 function sl_upload_ftp( $srcFile, $dstFile ) {
-	$ftppath = $GLOBALS['ftppath'].$GLOBALS['where_files'];
+	$ftppath = $GLOBALS['ftppath'].PATH::FILE;
 	$ftpConn = $GLOBALS['ftpConn'];
 	doDebug("sl_upload_ftp( $srcFile, $dstFile )");
 	
@@ -241,7 +241,7 @@ function sl_upload_ftp( $srcFile, $dstFile ) {
 }
 
 function sl_mkdir_ftp( $path, $mode = FALSE) {
-	$ftppath = $GLOBALS['ftppath'].$GLOBALS['where_files'];
+	$ftppath = $GLOBALS['ftppath'].PATH::FILE;
 	$ftpConn = $GLOBALS['ftpConn'];
 	doDebug("sl_mkdir_ftp( $path, $mode ");
 
@@ -260,17 +260,17 @@ function sl_mkdir_ftp( $path, $mode = FALSE) {
 }
 
 function sl_fopen_ftp( $file, $mode ) {
- 	// only create file then open it with fopen
-	$ftppath = $GLOBALS['ftppath'].$GLOBALS['where_files'];
+	// only create file then open it with fopen
+	$ftppath = $GLOBALS['ftppath'].PATH::FILE;
 	$ftpConn = $GLOBALS['ftpConn'];
 	if( !file_exists( $GLOBALS['where_files_relative'].$file ) ) {
-   		if( !ftp_put( $ftpConn, $ftppath.$file, dirname(__FILE__)."/nullfile", FTP_BINARY ) ) {
-  			return FALSE;
-  		} else {
-      		if( ftp_site( $ftpConn, "CHMOD 0666 $ftppath"."$file" ) === FALSE )
-      			return FALSE;
-	 	}
-  	}
+		if( !ftp_put( $ftpConn, $ftppath.$file, dirname(__FILE__)."/nullfile", FTP_BINARY ) ) {
+			return FALSE;
+		} else {
+			if( ftp_site( $ftpConn, "CHMOD 0666 $ftppath"."$file" ) === FALSE )
+				return FALSE;
+		}
+	}
 	$ret = @fopen( $GLOBALS['where_files_relative'].$file, $mode );
 	return $ret;
 }
@@ -290,8 +290,8 @@ function sl_upload_cgi( $srcFile, $dstFile ) {
   $hfileDst = fopen( $dstFile, "wb" );
   
   while (!feof($hfileSrc)) {
-  	$buffer = fread($hfileSrc, 8192);
-  	fwrite( $hfileDst, $buffer );
+	$buffer = fread($hfileSrc, 8192);
+	fwrite( $hfileDst, $buffer );
   }
   
   fclose( $hfileSrc );
