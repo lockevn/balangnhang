@@ -31,7 +31,7 @@ var PAGE = {AUpu : '<?= $this->AUpu ?>', AUpid : <?= (empty($this->AUpid) ? 0 : 
 	</div>
 	<hr />
 	<div id="logobar" class="span-24 aqua last">
-		<div class="span-5"><a href="/dashboard">SmartCom Logo</a></div>
+		<div class="span-5"><a href="/dashboard"><img src="http://smartlms.dyndns.org:8080/image/logo.jpg" alt="SmartCom Logo" /></a></div>
 		<div class="span-19 last"><?php echo $this->ZONE_Top ?></div>
 	</div>
 	<hr />
