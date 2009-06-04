@@ -2,34 +2,6 @@
 
 define(ABSPATH, dirname(__FILE__).'/'); // LockeVN: ABSPATH has value=where this config.php lay
 
-require_once(ABSPATH."Lib/External/Savant3.php");
-// init share Template Savant engine here
-$tpl = new Savant3();
-$tpl->setPath('template', 'template');
-
-class GCONFIG
-{	
-	const API_URL = 'http://smartlms.dyndns.org/api/';
-	const WEB_URL = 'http://smartlms.dyndns.org/';	
-	const ITEMPERPAGE = 20;	
-	const CFG_QBLOG_EMAIL = 'SmartCom.vn <no-reply@smartcom.vn>';
-}
-
-class DB_PREFIX
-{
-	const CORE = 'core';
-	const LMS = 'learning';
-	const CMS = 'cms';
-	const SCS = 'conference';
-	const ECOM = 'ecom';
-	const CRM = 'crm';	
-}
-
-class PATH
-{
-	const FILE = '/files';
-}
-
 /************************************************************************/
 /* DOCEBO CORE - Framework                                              */
 /************************************************************************/
@@ -60,5 +32,47 @@ $GLOBALS['where_files']  = '/files';
 $GLOBALS['db_conn_names'] = 'utf8';
 $GLOBALS['db_conn_char_set'] = 'utf8';
 $GLOBALS['mail_br'] = "\r\n";
+
+
+require_once(ABSPATH."Lib/External/Savant3.php");
+// LockeVN: init share Template Savant engine here
+$tpl = new Savant3();
+$tpl->setPath('template', 'template');
+
+class GCONFIG
+{    
+	const API_URL = 'http://smartlms.dyndns.org/api/';
+	const WEB_URL = 'http://smartlms.dyndns.org/';    
+	const ITEMPERPAGE = 20;    
+	const CFG_QBLOG_EMAIL = 'SmartCom.vn <no-reply@smartcom.vn>';
+	
+	/**
+	*@desc you put server name, you get serverinfo (address,username,password)
+	*/
+	public static $DB_Server_Mapping =
+	array(
+		'docebo'=>
+		array(
+			'address'=>'smartlms.dyndns.org',
+			'username'=>'root',
+			'password'=>'guruunited2008'
+		)
+	);    
+}
+
+class DB_PREFIX
+{
+	const CORE = 'core';
+	const LMS = 'learning';
+	const CMS = 'cms';
+	const SCS = 'conference';
+	const ECOM = 'ecom';
+	const CRM = 'crm';    
+}
+
+class PATH
+{
+	const FILE = '/files';
+}
 
 ?>
