@@ -6,7 +6,8 @@ require_once(ABSPATH."Lib/External/Savant3.php");
 // init share Template Savant engine here
 $tpl = new Savant3();
 $tpl->setPath('template', 'template');
-class Config
+
+class GCONFIG
 {
 	const CDN_FTP_ADDRESS = 'ftp://mediaqqq:luftenuplinhtinhxoe2009@media.TiuTit.com';
 	
