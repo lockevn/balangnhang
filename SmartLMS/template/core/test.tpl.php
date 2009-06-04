@@ -1,0 +1,1 @@
+HTML of core/test Pagelet
