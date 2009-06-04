@@ -1252,7 +1252,7 @@ function addthread() {
 function save_file($file) {
 	require_once($GLOBALS['where_framework'].'/lib/lib.upload.php');
 
-	$path = $GLOBALS['where_files'].'/doceboCms/'.$GLOBALS['cms']['pathforum'];
+	$path = PATH::FILE.'/doceboCms/'.$GLOBALS['cms']['pathforum'];
 
 	if($file['name'] != '') {
 
@@ -1274,7 +1274,7 @@ function save_file($file) {
 function delete_file( $name ) {
 	require_once($GLOBALS['where_framework'].'/lib/lib.upload.php');
 
-	$path = $GLOBALS['where_files'].'/doceboCms/'.$GLOBALS['cms']['pathforum'];
+	$path = PATH::FILE.'/doceboCms/'.$GLOBALS['cms']['pathforum'];
 	if($name != '') return sl_unlink($path.$name);
 }
 
