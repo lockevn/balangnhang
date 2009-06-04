@@ -24,11 +24,12 @@ namespace TalaAPI.play.van
             Seat seat = security.CheckUserJoinedSeat();
             Van van = soi.CurrentVan;
 
-            bool result = false;
+            
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "Boc", "action failed");
+            Card cardBoc = null;
             try
             {
-                Card cardBoc = van.Boc(seat);
+                cardBoc = van.Boc(seat);
             }
             catch (NotInTurnException nite)
             {

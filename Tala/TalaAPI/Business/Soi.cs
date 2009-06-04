@@ -471,6 +471,9 @@ namespace TalaAPI.Business
             foreach (Seat seat in SeatList)
             {
                 seat.Index = SeatList.IndexOf(seat);
+                seat.HaIndex = seat.Index;
+                
+                
             }
         }
     }

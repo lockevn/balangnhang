@@ -121,6 +121,11 @@ namespace TalaAPI.Business
             /*chuyển turn sang next seat*/
             this.CurrentTurnSeatIndex = Seat.GetNextSeatIndex(seat.Index, this.Soi.SeatList.Count);
             
+            /*nếu là seat đánh cuối cùng ở vòng cuối cùng thì end game (kiểm tra qua Nọc)*/
+            if (this.Noc.Count == 0)
+            {
+                this.EndVan();
+            }
             return true;
 
         }
@@ -130,19 +135,19 @@ namespace TalaAPI.Business
         /// </summary>
         /// <param name="seat">seat ra lệnh bốc</param>
         /// <returns>true/false</returns>
-        public bool Boc(Seat seat)
+        public Card Boc(Seat seat)
         {
             if (!this.IsSeatInTurn(seat) 
                 || this.Noc.Count == 0 
                 || seat.GetTotalCardOnSeat() > 9)
             {
-                return false;
+                return null;
             }
             /*chuyển 1 cây ở Nọc lên BaiTrenTay của seat*/
             Card cardBoc = this.Noc.ElementAt(0);
             seat.BaiTrenTay.Add(cardBoc);
             this.Noc.RemoveAt(0);
-            return true;
+            return cardBoc;
             
         }
 
@@ -151,11 +156,11 @@ namespace TalaAPI.Business
         /// </summary>
         /// <param name="seat">seat ra lệnh ăn</param>
         /// <returns>true/false</returns>
-        public bool An(Seat seat)
+        public Card An(Seat seat)
         {
             if (!this.IsSeatInTurn(seat) || seat.GetTotalCardOnSeat() > 9)
             {
-                return false;
+                return null;
             }
             
             ///TODO kiem tra an 1 con tren cung 1 phom
@@ -167,7 +172,7 @@ namespace TalaAPI.Business
             /*kiểm tra previousSeat có bài đã đánh không*/
             if (previousSeat.BaiDaDanh == null || previousSeat.BaiDaDanh.Count == 0)
             {
-                return false;
+                return null;
             }
 
             /*kiểm tra cây chốt*/
@@ -175,7 +180,7 @@ namespace TalaAPI.Business
             {
                 ///TODO: chuyen tien cho cay chot
             }
-
+                         
             /*lấy cây vừa đánh của seat trước chuyển sang BaiDaAn của seat */
             Card anCard = previousSeat.BaiDaDanh.Last();
             seat.BaiDaAn.Add(anCard);
@@ -202,7 +207,7 @@ namespace TalaAPI.Business
                 tmpSeat.HaIndex = Seat.GetPreviousSeatIndex(tmpSeat.HaIndex, this.Soi.SeatList.Count);
             }
 
-            return true;
+            return anCard;
             
         }               
 
@@ -245,10 +250,15 @@ namespace TalaAPI.Business
                 return false;
             }
 
-            /*ket thuc van, set winner*/
-            this.IsFinished = true;
-            this.Soi.CurrentVan = null;
-            this.CurrentTurnSeatIndex = 0;            
+            /*neu bai da an cua seat == 3, previous seat phai den*/
+            if (seat.BaiDaAn.Count == 3)
+            {
+                int previousIndex = Seat.GetPreviousSeatIndex(seat.Index, this.Soi.SeatList.Count);
+                Seat previousSeat = this.Soi.SeatList.ElementAt(previousIndex) as Seat;
+                ///TODO: previousSeat phải đền 
+            }
+            /*ket thuc van, set winner*/            
+            this.EndVan();
             ///TODO:  set winner, money
             return true;
         }
@@ -274,14 +284,20 @@ namespace TalaAPI.Business
             /*kiem tra tinh chinh xac cua phom*/
             foreach (Card[] cardArr in phomArr)
             {
-                /*kiểm tra card trong cardArr có thuộc BaiTrenTay hoặc BaiDaAn của seat không*/
+                
                 foreach (Card card in cardArr)
                 {
-                    cardList.Add(card);
+                    /*kiểm tra client hạ láo: trong phomArr có card trùng nhau*/
+                    if(cardList.Contains(card))
+                    {
+                        return false;
+                    }
+                    /*kiểm tra client hạ láo: card trong cardArr có thuộc BaiTrenTay hoặc BaiDaAn của seat không*/
                     if (!seat.BaiTrenTay.Contains(card) && !seat.BaiDaAn.Contains(card))
                     {
                         return false;
                     }
+                    cardList.Add(card);
                 }
                 i++;
                 Phom phom = cardArr.IsValidPhom();
@@ -294,6 +310,15 @@ namespace TalaAPI.Business
                 /*một seat có tối đa 3 phỏm, set id cho phỏm để phỏm id là duy nhất trong 1 sới*/
                 phom.Id = seat.Index * 3 + i; 
                 phomList.Add(phom);
+            }
+
+            /*kiểm tra hạ láo --> đền, end van*/
+            if(this.checkHaLao(seat, phomList))
+            {
+                /*đền*/
+
+                /*end van*/
+                this.EndVan();
             }
             /*set phom cho seat*/
             seat.PhomList = phomList;
@@ -309,7 +334,7 @@ namespace TalaAPI.Business
                 {
                     seat.BaiDaAn.Remove(card);
                 }
-            }           
+            }                       
 
             return true;
         }
@@ -365,10 +390,13 @@ namespace TalaAPI.Business
             }
             /*cập nhật phỏm sau khi đc gửi*/
             phom = tmpPhom;
-            /*remove các cây đã gửi khỏi BaiTrenTay của seat*/
+            /*remove các cây đã gửi khỏi BaiTrenTay của seat
+             đồng thời thêm các cây này vào bài đã gửi của seat
+             */
             foreach (Card card in cardArr)
             {
                 seat.BaiTrenTay.Remove(card);
+                seat.BaiDaGui.Add(card);
             } 
             
             return true;
@@ -429,6 +457,75 @@ namespace TalaAPI.Business
             return null;
         }
 
+        private void EndVan()
+        {
+            this.IsFinished = true;
+            this.Soi.IsPlaying = false;
+        }
+        
+
+       /// <summary>
+        /// check seat Hạ láo --> đền
+       /// </summary>
+       /// <param name="seat">seat ha</param>
+       /// <param name="phomList">danh sach phom ma seat da ha</param>
+       /// <returns>true/false</returns>
+
+
+        private bool checkHaLao(Seat seat, List<Phom> phomList)
+        {
+            if (phomList == null || phomList.Count == 0)
+            {
+                return false;
+            }
+           
+            /*có 1 phỏm chứa > 1 cây đã ăn --> hạ láo*/
+            foreach (Phom phom in phomList)
+            {
+                bool found = false; /*chua tim thay card nao trong bai da an co mat trong phom*/             
+                foreach (Card card in seat.BaiDaAn)
+                {
+                    /*nếu đã tìm thấy 1 card trong bài đã ăn có mặt trong phom, mà lại tìm thấy card nữa
+                     cũng có mặt trong phỏm thì là hạ láo*/
+                    if (phom.CardArray.Contains(card) && found)
+                    {
+                        return true;
+                    }
+                    if (phom.CardArray.Contains(card))
+                    {
+                        found = true;
+                    }                    
+                }                
+            }
+
+            /*kiểm tra cây đã ăn phải thuộc 1 và chỉ 1 phỏm*/
+            foreach (Card card in seat.BaiDaAn)
+            {
+                bool found = false; /*card chua nam trong phom nao*/
+                int index = 0;
+                foreach(Phom phom in phomList)
+                {
+                    /*nếu bài đã ăn đã nằm trong 1 phỏm mà lại nằm tiếp trong phỏm khác --> hạ láo*/
+                    if (phom.CardArray.Contains(card) && found)
+                    {
+                        return true;
+                    }
+                    if(phom.CardArray.Contains(card))
+                    {
+                        found = true;
+                    }
+                    index++;
+                }
+                /*bài đã ăn không thuộc phỏm nào --> hạ láo*/
+                if (!found && index == phomList.Count - 1)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
 
 
     }

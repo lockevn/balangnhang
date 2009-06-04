@@ -51,7 +51,11 @@ namespace TalaAPI.Business
         public List<Card> BaiTrenTay;
         public List<Card> BaiDaDanh;
         public List<Card> BaiDaAn;
+
+        public List<Card> BaiDaGui;
+
         public List<Phom> PhomList;
+
         
 
 
@@ -64,6 +68,7 @@ namespace TalaAPI.Business
             this.BaiTrenTay = new List<Card>();
             this.BaiDaDanh = new List<Card>();
             this.BaiDaAn = new List<Card>();
+            this.BaiDaGui = new List<Card>();
             this.PhomList = new List<Phom>();
         }
 
@@ -77,7 +82,7 @@ namespace TalaAPI.Business
         {
             if (currIndex == 0)
             {
-                return seatCount;
+                return seatCount - 1;
             }
             return currIndex - 1;
         }
@@ -90,7 +95,7 @@ namespace TalaAPI.Business
         /// <returns>chỉ số của seat sau</returns>
         public static int GetNextSeatIndex(int currIndex, int seatCount)
         {
-            if (currIndex == seatCount)
+            if (currIndex == seatCount - 1)
             {
                 return 0;
             }
@@ -103,12 +108,31 @@ namespace TalaAPI.Business
         /// <returns></returns>
         public int GetTotalCardOnSeat()
         {
-            if (this.BaiTrenTay == null || this.BaiDaAn == null)
+            if (this.BaiTrenTay == null || this.BaiDaAn == null || this.PhomList == null || this.BaiDaGui == null)
             {
                 return 0;
             }
-            return this.BaiTrenTay.Count + this.BaiDaAn.Count;
+            return this.BaiTrenTay.Count + this.BaiDaAn.Count + this.GetTotalCardsInAllPhom() + this.BaiDaGui.Count;
         }
+
+        private int GetTotalCardsInAllPhom()
+        {
+            if (this.PhomList == null || this.PhomList.Count == 0)
+            {
+                return 0;
+            }
+            int count = 0;
+            foreach (Phom phom in this.PhomList)
+            {
+                count += phom.CardArray.Length;
+            }
+            return count;
+        }
+
+        
+
+
+
 
     }
 }

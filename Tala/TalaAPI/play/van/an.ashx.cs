@@ -21,19 +21,20 @@ namespace TalaAPI.play.van
 
             Soi soi = security.CheckUserJoinedSoi();
             Seat seat = security.CheckUserJoinedSeat();
-            Van van = soi.CurrentVan;
-            bool result = false;
+            Van van = soi.CurrentVan;            
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "An", "action failed");
+            Card anCard = null;
             try
             {
-                result = van.An(seat);
+                anCard = van.An(seat);
             }
             catch (NotInTurnException nite)
             {
                 nite.SendErrorAPICommand(context);
             }
-            if (result)
+            if (anCard != null)
             {
+                this.Data.Add(anCard);
                 cs = new APICommandStatus(APICommandStatusState.OK, "An", "valid action");
             }
             this.Cmd.Add(cs);
