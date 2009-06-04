@@ -12,36 +12,13 @@ class DBHelper
 	*@desc a mysqli object
 	*/
 	public $mysqli;
-	private $m_eid;
-	private $m_shardentity;
-	/**
-	*@desc Use with care, use when you use DBLink_ByDatabase() only
-	*/
-	public function SetEntityID($p_eid)
-	{
-		$this->m_eid = $p_eid;
-	}
-	/**
-	*@desc Use with care, use when you use DBLink_ByDatabase() only
-	*/
-	public function SetShardEntity($p_shardentity)
-	{
-		$this->m_shardentity = $p_shardentity;
-	}
-
-
-
-
-	// private $oShardHelper;
-
-	private static $instance;
-
-
+	
+	private static $instance;	
 	protected function DBHelper()
 	{	}
 
 
-	public static function GetDBHelperInstance()
+	public static function GetInstance()
 	{
 		if(!isset(DBHelper::$instance) || DBHelper::$instance->mysqli == null)
 		{
@@ -50,78 +27,26 @@ class DBHelper
 		return DBHelper::$instance;
 	}
 
-	/**
-	* @author dannm, LockeVN
-	* @desc return dblink to database which contains non-shard tables. Use ShardConfig::$NonShardEntity_DB_Name_Mapping
-	* @param enity: entity name
-	* @returns databaselink if OK, false if not.
-	*/
-	function DBLinkNonShard($entity)
-	{
-		if(array_key_exists($entity, ShardConfig::$NonShardEntity_DB_Name_Mapping))
-		{
-			// HACK: LockeVN: $this->dbname = ShardConfig::$NonShardEntity_DB_Name_Mapping[$entity];
-			$this->dbname = ShardHelper::GetDB(0, $entity);
-		}
-		else
-		{
-			return false;
-		}
-
-
-		$ServerInfo = ShardHelper::GetServer($this->dbname);
-		if( $this->dbhost == $ServerInfo['address'] &&
-			$this->dbuser == $ServerInfo['username'] &&
-			$this->dbpass == $ServerInfo['password'])
-		{
-			return $this->ChangeDB();
-		}
-		else
-		{
-			$this->dbhost = $ServerInfo['address'];
-			$this->dbuser = $ServerInfo['username'];
-			$this->dbpass = $ServerInfo['password'];
-			return $this->OpenDBConnection();
-		}
-	}
-
+	
 
 	/**
 	* @author LockeVN
-	* @desc link to server, select database, base on shardentityID.
-	* Eg: DBLink(1, ENTITY_USER) will link to database contain user.userid = 1,
-	* @returns database link
+	* @desc STATIC FUNCTION. Get ServerInfo by DB name. Server = f(DB).
+	* @param string DB name
+	* @returns ServerInfo as asocciate array('address'=>,'username'=>,'password'=>)
 	*/
-	public function DBLink($p_eid, $p_shardentity = ENTITY_USER)
+	public final function GetServer($DB)
 	{
-		if(!$this->IsNewConnectionRequired($p_eid, $p_shardentity))
+		$ServerInfo = GCONFIG::$DB_Server_Mapping[$DB];
+
+		if($ServerInfo == false)
 		{
-			return $this->ChangeDB();
+			die("<error>SEngine: DBServerMapping error, no server is configured for [$DB]</error>");			
 		}
-		else
-		{
-			$ServerInfo = ShardHelper::GetServer($this->dbname);
-			$this->dbhost =  $ServerInfo['address'];
-			$this->dbuser = $ServerInfo['username'];
-			$this->dbpass = $ServerInfo['password'];
-			return $this->OpenDBConnection();
-		}
+		
+		return $ServerInfo;
 	}
 	
-	/**
-	* @author dannm
-	* @desc link to DB server specified by serverinfo{address, username, password, dbname} 
-	* @returns databaselink
-	*/
-	public function DBLink_ByServerInfo($serverInfo)
-	{
-		$this->dbhost = $serverInfo['address'];
-		$this->dbpass = $serverInfo['password'];
-		$this->dbuser = $serverInfo['username'];
-		$this->dbname = $serverInfo['dbname'];
-		return $this->OpenDBConnection();
-	}
-
 
 	/**
 	* @author LockeVN
@@ -129,10 +54,10 @@ class DBHelper
 	* You will get failure if DBLInk_ByDatabase, and then GetRecord of ShardingEntity (Msg, MsgGroup, Friend, ...). If you really want to use with ShardingEntity, set your own p_eid and shardEntity by using SetEntityID() and SetShardEntity()
 	* @returns databaselink
 	*/
-	public function DBLink_ByDatabase($DB)
+	public function DBLink($DB)
 	{
 		$this->dbname = $DB;
-		$ServerInfo = ShardHelper::GetServer($this->dbname);
+		$ServerInfo = $this->GetServer($this->dbname);
 		if($this->dbhost ==  $ServerInfo['address'] &&
 			$this->dbuser == $ServerInfo['username'] &&
 			$this->dbpass == $ServerInfo['password'])
@@ -195,14 +120,13 @@ class DBHelper
 	function ChangeDB()
 	{
 		if($this->mysqli->ping())
-		{
-			$this->mysqli->select_db($this->dbname);
+		{			
 		}
 		else
 		{
-			$this->OpenDBConnection();
+			$this->OpenDBConnection();            
 		}
-
+		$this->mysqli->select_db($this->dbname);
 		return $this->mysqli;
 	}
 
@@ -225,125 +149,23 @@ class DBHelper
 
 	/**
 	* @author LockeVN
-	* @desc fetched data from database
-	* @param mixed from what?
-	* @param mixed field list
-	* @param mixed where condition
-	* @param mixed order
-	* @param mixed page, start from 1
-	* @param mixed item per page
+	* @desc fetched data from database	
+	* @param string SQL query string
 	* @return mixed array of assocarray, each assocarray is a row
 	*/
-	function GetRecords($fromEntity, $fl, $where='', $order='', $page, $ipp)
+	function GetRecords($q)
 	{
-		/***** SHARDING ****/
-		$table = ShardHelper::GetTable($fromEntity, $this->m_eid, $this->m_shardentity);
-		/***** SHARDING ****/
-
-		$q = "select $fl from `$table` ";
-
-		if($where)
-		{
-			$q .= " where $where";
-		}
-		if($order)
-		{
-			$q .= " order by $order";
-		}
-
-
-		if(empty($page))
-		{
-			$page = 1;
-		}
-
-		// this check can be omit, because of we check in URLParamHelper.GetITEMPERPAGE()
-		// remove this check if API work OK for more 5 revision.
-		// HACK: LockeVN: revision 2000, 07/02/2009
-		if(empty($ipp))
-		{
-			$ipp = APIConfig::EXTERNAL_DEFAULT_RECORD_PER_QUERY;
-		}
-
-
-		$start = ($page-1)*$ipp;
-		$q .= " limit $start,$ipp";
-
 		$result = $this->mysqli->query($q);
 		return DBHelper::GetAssocArray($result);
 	}
-
-	function GetRecordsWithJoin($fromEntity, $join, $fl, $where='', $order='', $page, $ipp) {
-		 /***** SHARDING ****/
-		$table = ShardHelper::GetTable($fromEntity, $this->m_eid, $this->m_shardentity);
-		/***** SHARDING ****/
-
-		$q = "select $fl from `$table` ";
-
-		if($join)
-		{
-			$q .= " $join";
-		}
-
-		if($where)
-		{
-			$q .= " where $where";
-		}
-		if($order)
-		{
-			$q .= " order by $order";
-		}
+	
 
 
-		if(empty($page))
-		{
-			$page = 1;
-		}
-		if(empty($ipp))
-		{
-			$ipp = APIConfig::EXTERNAL_DEFAULT_RECORD_PER_QUERY;
-		}
-
-		$start = ($page-1)*$ipp;
-		$q .= " limit $start,$ipp";
-
-		$result = $this->mysqli->query($q);
-		return DBHelper::GetAssocArray($result);
-	}
-
-	/**
-	* @desc get only first record
-	*/
-	function GetRecord($fromEntity, $fl, $where='')
-	{
-		return $this->GetRecords($fromEntity, $fl, $where, '', 1, 1);
-	}
+	
 
 
-
-	/**
-	* @author LockeVN
-	* @desc STATIC FUNCTION. fetch dbresult to assoc array, free result.
-	* @param resource dbresult
-	* @returns array of assoc array. each assoc array is a record as database row.
-	*/
-	public static function GetAssocArray($dbresult)
-	{
-		if(!$dbresult)
-		{
-			return false;
-		}
-
-		while ($rec = $dbresult->fetch_assoc())
-		{
-			$arrRecs[] = $rec; // append to end of array
-		}
-		$dbresult->close();
-
-		return $arrRecs;
-	}
-
-
+	
+	
 
 	/**
 	* @author dannm
@@ -482,6 +304,10 @@ class DBHelper
 		return $rec_count;
 	}
 
+	
+	
+	
+	
 	/**
 	* @author dannm
 	* @desc execute a stored procedure.
@@ -513,7 +339,8 @@ class DBHelper
 	}
 
 	/**
-	*@desc
+	*@desc run query, return single object
+	* @return object first object returned
 	*/
 	public function ExecuteAggregate($querystring)
 	{
@@ -527,6 +354,31 @@ class DBHelper
 		return $rec[0];
 	}
 
+	
+	
+	/**
+	* @author LockeVN
+	* @desc STATIC FUNCTION. fetch dbresult to assoc array, free result.
+	* @param resource dbresult
+	* @returns array of assoc array. each assoc array is a record as database row.
+	*/
+	public static function GetAssocArray($dbresult)
+	{
+		if(!$dbresult)
+		{
+			return false;
+		}
+
+		while ($rec = $dbresult->fetch_assoc())
+		{
+			$arrRecs[] = $rec; // append to end of array
+		}
+		$dbresult->close();
+
+		return $arrRecs;
+	}
+	
+	
 }   // end class
 
 ?>

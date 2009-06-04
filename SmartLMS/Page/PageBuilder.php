@@ -8,9 +8,7 @@ class PageBuilder
 	public static $PageMap = array(        
 
 		'dashboard' => array(
-			'ZONE_MainContent' => array('', 
-			'',''
-				),                
+			'ZONE_MainContent' => array('core/test', '',''),                
 			'ZONE_Right' => array('', '')
 		),
 
