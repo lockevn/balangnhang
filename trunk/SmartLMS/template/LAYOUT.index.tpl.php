@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="expires" content="0">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>TiuTit.com - chia se thong tin nhanh chong de biet moi nguoi dang lam gi, moi luc moi noi su dung PC hoac dien thoai di dong mobile</title>
+<title>Smartcom.vn - hoc tieng Anh truc tuyen hieu qua, lop hoc tieng Anh, luyen thi, tieng Anh</title>
 
 <!-- Framework CSS -->
 <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection">
@@ -18,14 +18,11 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="/js/jquery/plugin/jquery.blockUI.js"></script>
 <script type="text/javascript" >
-var QAPI_URL = "http://api.tiutit.com";var AVATAR_URL = "http://media.tiutit.com/dynamic/qblog/image/avatar/";var GROUP_AVATAR_URL = "http://media.tiutit.com/dynamic/qblog/image/groupavatar/";
+var QAPI_URL = "http://smartlms.dyndns.org";
 var PAGE = {AUpu : '<?= $this->AUpu ?>', AUpid : <?= (empty($this->AUpid) ? 0 : $this->AUpid) ?>, pu : '<?= $this->pu ?>', pid : <?= (empty($this->pid) ? 0 : $this->pid) ?>, mod : '<?= $this->mod ?>', tab : '<?= $this->tab ?>'};
 </script>
 <script type="text/javascript" src="/js/app.js"></script>
 <script type="text/javascript" language="javascript" src="/js/lib/jtpl.js" ></script>
-<script language = 'javascript'>
-// placeholder for setup user defined layout
-</script>
 </head>
 <body>
 <div class="container">
@@ -69,8 +66,7 @@ var PAGE = {AUpu : '<?= $this->AUpu ?>', AUpid : <?= (empty($this->AUpid) ? 0 : 
 <!-- prettyPhoto -->
 
 <script language="javascript">
-$(document).ready(function(){
-	alert('GURUCORE: Welcome to jQuery code');
+$(document).ready(function(){	
 });
 </script>
 </body>
