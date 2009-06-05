@@ -38,8 +38,9 @@ if (isset($_SERVER['HTTP_USER_AGENT']) && (stripos($_SERVER['HTTP_USER_AGENT'], 
 //********************* SECURITY ACCESS RESITRICT **********************//
 $arrayNotAllowGuest = array(
 	'home','setting', 'resetpwd',
-	'advanced_post',
-	'group_invite_owner', 'create_group', 'invite_friend');
+	'advanced_post'
+);
+
 if(in_array($mod, $arrayNotAllowGuest))
 {
 	$authkey = Security::GetCurrentAUauthkey(true);
