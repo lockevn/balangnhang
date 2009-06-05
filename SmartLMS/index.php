@@ -1,11 +1,11 @@
-<?php
+<?php require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
 // INFO: LockeVN: thiết lập các thông số về đường dẫn và file cho các module
 // phần này dần dần chỉnh thành hằng số trong Class là yên tâm, hoặc dùng kỹ thuật ABSPATH như qAPI
 
 //framework position
 $GLOBALS['where_framework_relative'] = './doceboCore';
-$GLOBALS['where_framework'] = dirname(__FILE__).'/doceboCore';
+$GLOBALS['where_framework'] = ABSPATH_CORE;
 
 //lms position
 $GLOBALS['where_lms_relative'] = './doceboLms';
@@ -45,10 +45,6 @@ define("IN_DOCEBO", true);
 $GLOBALS['platform'] = 'lms';
 $GLOBALS['base_url'] = 'http' . ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 's' : '' ).'://' .$_SERVER['HTTP_HOST'];
 if($dir = trim(dirname($_SERVER['SCRIPT_NAME']), '\,/')) $GLOBALS['base_url'] = '/'.$dir;
-
-//get config with position of the others application
-require(dirname(__FILE__).'/config.php');
-
 
 
 
