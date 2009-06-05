@@ -1,6 +1,19 @@
 <?php
 
-define(ABSPATH, dirname(__FILE__).'/'); // LockeVN: ABSPATH has value=where this config.php lay
+define(ABSPATH, dirname(__FILE__).'/'); // LockeVN: ABSPATH has value=where this config.php is laid
+
+define(ABSPATH_CORE, ABSPATH . '/doceboCore');
+define(ABSPATH_LMS, ABSPATH . '/doceboLms');
+define(ABSPATH_CMS, ABSPATH . '/doceboCms');
+define(ABSPATH_CRM, ABSPATH . '/doceboCrm');
+define(ABSPATH_ECOM, ABSPATH . '/doceboEcom');
+define(ABSPATH_SCS, ABSPATH . '/doceboScs');
+
+class PATH
+{
+	const FILE = '/files';    
+}
+
 
 /************************************************************************/
 /* DOCEBO CORE - Framework                                              */
@@ -68,11 +81,6 @@ class DB_PREFIX
 	const SCS = 'conference';
 	const ECOM = 'ecom';
 	const CRM = 'crm';    
-}
-
-class PATH
-{
-	const FILE = '/files';
 }
 
 ?>

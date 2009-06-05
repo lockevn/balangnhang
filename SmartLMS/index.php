@@ -1,21 +1,5 @@
 <?php
 
-
-/************************************************************************/
-/* DOCEBO LMS - Learning Managment System                               */
-/* ============================================                         */
-/*                                                                      */
-/* Copyright (c) 2003-2008                                              */
-/* http://www.docebo.com                                                */
-/*                                                                      */
-/* This program is free software. You can redistribute it and/or modify */
-/* it under the terms of the GNU General Public License as published by */
-/* the Free Software Foundation; either version 2 of the License or, at */
-/* your opinion, any later version. 									*/
-/*                                                                      */
-/************************************************************************/
-
-
 // INFO: LockeVN: thiết lập các thông số về đường dẫn và file cho các module
 // phần này dần dần chỉnh thành hằng số trong Class là yên tâm, hoặc dùng kỹ thuật ABSPATH như qAPI
 
