@@ -1,5 +1,8 @@
 <?php
 
+/************************************************************************/
+/* GURUCORE - Mô tả các hằng số dùng cho đường dẫn tuyệt đối, để include ở chỗ khác */
+/************************************************************************/
 define(ABSPATH, dirname(__FILE__).'/'); // LockeVN: ABSPATH has value=where this config.php is laid
 
 define(ABSPATH_CORE, ABSPATH . '/doceboCore');
@@ -13,7 +16,6 @@ class PATH
 {
 	const FILE = '/files';    
 }
-
 
 
 /************************************************************************/
