@@ -6,16 +6,19 @@ class PageBuilder
 	/**
 	*@desc assocarray (key = pagename (mod name), value = assocarray (key = 'zonename', 'pageletname1,pageletname2'))
 	*/
-	public static $PageMap = array(        
-
-		'dashboard' => array(
-			'ZONE_MainContent' => array('core/test', '',''),                
+	public static $PageMap = array(
+		'SmartMoney/search' => array(
+			'ZONE_MainContent' => array('SmartMoney/Pagelet/search_prepaidcard', '',''),                
+			'ZONE_Right' => array('', '')
+		),		
+		'doceboLms/search' => array(
+			'ZONE_MainContent' => array('doceboLms/Pagelet/search', '',''),                
 			'ZONE_Right' => array('', '')
 		)
 	);
 
 
-	public static $AllowedCustomModule = array(        
+	public static $AllowedCustomModule = array(
 	);
 	
 	public static $PageLayoutMap = array(		
@@ -34,7 +37,7 @@ class PageBuilder
 			{
 				if($pagelet)
 				{
-					require_once(ABSPATH."Pagelet/$pagelet.php");
+					require_once(ABSPATH."$pagelet.php");
 					$zonecontent .= ${PageBuilder::PAGELET_PREFIX.$pagelet};
 				}
 			}
