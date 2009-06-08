@@ -53,7 +53,8 @@ $GLOBALS['mail_br'] = "\r\n";
 require_once(ABSPATH."Lib/External/Savant3.php");
 // LockeVN: init share Template Savant engine here
 $tpl = new Savant3();
-$tpl->setPath('template', array('/doceboLms/Template'));
+$tpl->setPath('template', array('template'));
+
 
 class GCONFIG
 {    
