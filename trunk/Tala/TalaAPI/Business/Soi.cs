@@ -149,7 +149,6 @@ namespace TalaAPI.Business
         /// <returns>đối tượng ván vừa tạo</returns>
         internal Van CreateVan(bool isXepChoRequired)
         {
-
             int newVanIndex = 1;
             /*index van moi = index van cu + 1*/
             if (this._CurrentVan != null)
