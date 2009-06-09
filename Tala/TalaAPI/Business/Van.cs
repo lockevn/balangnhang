@@ -72,6 +72,15 @@ namespace TalaAPI.Business
             }
         }
 
+        //private void InitializeNoc()
+        //{
+        //    this.Noc = new List<Card>();
+           
+        //    for (int i = 0; i < 52; i++)
+        //    {
+        //        this.Noc.Add(Card.CARD_SET[i]);
+        //    }
+        //}
         /// <summary>
         /// Chia bài từ Nọc cho các seat
         /// </summary>
@@ -194,8 +203,8 @@ namespace TalaAPI.Business
                 /*nếu haIndex = 3 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 2*/
                 /*nếu haIndex = 0 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 3*/            
                 int indexChuyenSang = Seat.GetPreviousSeatIndex(seat.HaIndex, this.Soi.SeatList.Count);
-                Seat seat0 = this.Soi.SeatList.ElementAt(0) as Seat;
-                Seat seatI = this.Soi.SeatList.ElementAt(indexChuyenSang) as Seat;
+                Seat seat0 = this.Soi.getSeatByHaIndex(0) as Seat;
+                Seat seatI = this.Soi.getSeatByHaIndex(indexChuyenSang) as Seat;
                 Card chuyenCard = seat0.BaiDaDanh.Last();
                 seatI.BaiDaDanh.Add(chuyenCard);
                 seat0.BaiDaDanh.Remove(chuyenCard);                
@@ -230,7 +239,7 @@ namespace TalaAPI.Business
                 /*kiểm tra các cây ù có thuộc bài trên tay và bài đã ăn của seat không*/                
                 foreach (Card card in cardArr)
                 {
-                    if (!seat.BaiTrenTay.Contains(card) || !seat.BaiDaAn.Contains(card))
+                    if (!seat.BaiTrenTay.Contains(card) && !seat.BaiDaAn.Contains(card))
                     {
                         return false;
                     }
@@ -389,7 +398,8 @@ namespace TalaAPI.Business
                 return false;
             }
             /*cập nhật phỏm sau khi đc gửi*/
-            phom = tmpPhom;
+            phom.CardArray = new Card[cardArr.Length + phom.CardArray.Length];
+            tmpCardArr.CopyTo(phom.CardArray, 0);
             /*remove các cây đã gửi khỏi BaiTrenTay của seat
              đồng thời thêm các cây này vào bài đã gửi của seat
              */
@@ -525,6 +535,40 @@ namespace TalaAPI.Business
 
             return false;
 
+        }
+
+        /// <summary>
+        /// Tính điểm bài trên tay còn lại của tất cả các seat
+        /// 
+        /// </summary>
+        /// <returns>mảng các giá trị int là điểm của seat với index tương ứng</returns>
+        public int[] TinhDiemBaiTrenTay()
+        {
+            int[] tmpArr = new int[this.Soi.SeatList.Count];
+
+            foreach (Seat seat in this.Soi.SeatList)
+            {
+                /*neu seat bi mom, set diem = vo cung*/
+                if (seat.PhomList.Count == 0)
+                {
+                    tmpArr[seat.Index] = Card.MOM_VALUE;
+                }
+                else
+                {
+                    tmpArr[seat.Index] = this.TinhDiemCards(seat.BaiTrenTay);
+                }
+            }
+            return tmpArr;
+        }
+
+        private int TinhDiemCards(List<Card> cardList)
+        {
+            int tmpVal = 0;
+            foreach (Card card in cardList)
+            {
+                tmpVal += card.Value;
+            }
+            return tmpVal;
         }
 
 

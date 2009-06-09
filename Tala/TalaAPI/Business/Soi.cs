@@ -476,5 +476,23 @@ namespace TalaAPI.Business
                 
             }
         }
+
+        /// <summary>
+        /// Tìm seat theo hạIndex 
+        /// </summary>
+        /// <param name="haIndex"></param>
+        /// <returns>seat</returns>
+        public Seat getSeatByHaIndex(int haIndex)
+        {
+            foreach (Seat seat in this.SeatList)
+            {
+                if (seat.HaIndex == haIndex)
+                {
+                    return seat;
+                }
+            }
+            return null;
+
+        }
     }
 }

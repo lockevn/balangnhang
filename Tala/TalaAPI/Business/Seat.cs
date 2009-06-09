@@ -124,7 +124,10 @@ namespace TalaAPI.Business
             int count = 0;
             foreach (Phom phom in this.PhomList)
             {
-                count += phom.CardArray.Length;
+                if (phom.CardArray != null)
+                {
+                    count += phom.CardArray.Length;
+                }
             }
             return count;
         }

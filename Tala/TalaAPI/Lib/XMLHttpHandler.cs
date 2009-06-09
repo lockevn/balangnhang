@@ -68,7 +68,7 @@ namespace TalaAPI.Lib
             {
                 Soi soi = sec.CurrentAU.CurrentSoi;
                 // người chơi hiện tại đã vào sới, sới đang chơi, có ván
-                if (soi != null && soi.IsPlaying && soi.CurrentVan != null)
+                if (soi != null && soi.CurrentVan != null)
                 {
                     // lấy currentTurn ra, ghi vào response
                     nCurrentTurnOfThisRequestContext = soi.CurrentVan.CurrentTurnSeatIndex;
