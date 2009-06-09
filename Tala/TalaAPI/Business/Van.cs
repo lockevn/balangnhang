@@ -603,9 +603,20 @@ namespace TalaAPI.Business
             return tmpVal;
         }
 
+        /// <summary>
+        /// thêm mới một thông điệp của ván (sự kiện của ván). Sự kiện mới sẽ có ID mới (tự động, số tự tăng)
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="msg"></param>
+        /// <returns>thông điệp đã được thêm</returns>
         Message AddMessage(string code, string msg)
         {
             Message message = new Message(code, msg);
+            if (_MessageList.Count > 0)
+            {
+                message.ID = _MessageList.Last().ID + 1;
+            }
+            
             _MessageList.Add(message);
             return message;
         }

@@ -19,6 +19,14 @@ namespace TalaAPI.Business
     
     public class Message : APIDataEntry
     {
+        int _id = 0;
+        [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
+        public int ID
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
         string _code;
         [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
         public string Code
@@ -26,8 +34,9 @@ namespace TalaAPI.Business
             get { return _code.ToLower(); }
             set { _code = value; }
         }
+
         string _msg;
-        [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public string Msg
         {
             get { return _msg.ToLower(); }
