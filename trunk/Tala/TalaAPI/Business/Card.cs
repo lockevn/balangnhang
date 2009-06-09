@@ -25,7 +25,7 @@ namespace TalaAPI.Business
         /// <summary>
         /// Co Do Pich Tep
         /// </summary>
-        public static string[] CHAT_SET = new string[4] { "c", "d", "p", "t" };
+        public static string[] CHAT_SET = new string[4] { "c", "d", "p", "t" };        
         public static Card[] CARD_SET
         {
             get
@@ -39,6 +39,14 @@ namespace TalaAPI.Business
                         tmpCardList.Add(tmpCard);
                     }
                 }
+                //foreach (string chat in CHAT_SET)
+                //{
+                //    foreach (string so in SO_SET)
+                //    {
+                //        Card tmpCard = new Card(so, chat);
+                //        tmpCardList.Add(tmpCard);
+                //    }
+                //}
                 return tmpCardList.ToArray();
             }
         }
@@ -69,6 +77,17 @@ namespace TalaAPI.Business
             set { _Pos = value;  }
         }
 
+        public int Value
+        {
+            get
+            {
+                int tmpVal = 0;
+                int.TryParse(this.So, out tmpVal);
+                return tmpVal;
+            }
+        }
+
+        public static int MOM_VALUE = 1000;
 
 
         public Card(string so, string chat)
@@ -221,6 +240,8 @@ namespace TalaAPI.Business
             
             return (!(c1 > c2));
         }
+
+        
         
     }    
 }
