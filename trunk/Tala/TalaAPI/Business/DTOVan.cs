@@ -42,5 +42,7 @@ namespace TalaAPI.Business
             get { return _BaiDaDanh; }
             set { _BaiDaDanh = value; }
         }
+
+        
     }
 }

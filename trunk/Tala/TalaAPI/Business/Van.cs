@@ -39,7 +39,16 @@ namespace TalaAPI.Business
         private Soi Soi;
         
         internal List<Card> Noc;
-        
+
+
+        List<Message> _MessageList = new List<Message>();
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false, false)]
+        public List<Message> MessageList
+        {
+            get { return _MessageList; }
+            set { _MessageList = value; }
+        }
+
 
 
         public Van(int index, Soi soi)
@@ -592,6 +601,13 @@ namespace TalaAPI.Business
                 tmpVal += card.Value;
             }
             return tmpVal;
+        }
+
+        Message AddMessage(string code, string msg)
+        {
+            Message message = new Message(code, msg);
+            _MessageList.Add(message);
+            return message;
         }
 
 
