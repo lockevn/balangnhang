@@ -18,7 +18,13 @@ namespace TalaAPI.Business
 {
     public class Van : APIDataEntry
     {
-        public int Index;
+        int _Index;
+        [ElementXMLExportAttribute("id", DataOutputXMLType.NestedTag)]
+        public int Index
+        {
+            get { return _Index; }
+            set { _Index = value; }
+        }
         
         int _CurrentTurnSeatIndex;
         public int CurrentTurnSeatIndex

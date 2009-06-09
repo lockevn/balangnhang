@@ -6,7 +6,6 @@
 <head runat="server">
     <title>Untitled Page</title>
 </head>
-<body>
-    
+<body>    
 </body>
 </html>
