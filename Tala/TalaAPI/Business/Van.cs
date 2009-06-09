@@ -51,6 +51,23 @@ namespace TalaAPI.Business
             
             this.InitializeNoc();
             this.IsFinished = false;
+
+            /*xóa bài của tất cả các seat trong seatList*/
+            List<Seat> seatList = this.Soi.SeatList;
+            if (seatList != null)
+            {
+                foreach (Seat seat in seatList)
+                {
+                    seat.PhomList = new List<Phom>();
+                    seat.BaiTrenTay = new List<Card>();
+                    seat.BaiDaAn = new List<Card>();
+                    seat.BaiDaDanh = new List<Card>();
+                    seat.BaiDaGui = new List<Card>();                                        
+
+                    /*reset HaIndex*/
+                    seat.HaIndex = seat.Index;
+                }
+            }
         }
 
 
@@ -81,7 +98,7 @@ namespace TalaAPI.Business
         //private void InitializeNoc()
         //{
         //    this.Noc = new List<Card>();
-           
+
         //    for (int i = 0; i < 52; i++)
         //    {
         //        this.Noc.Add(Card.CARD_SET[i]);
