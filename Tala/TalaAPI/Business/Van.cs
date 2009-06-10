@@ -202,9 +202,7 @@ namespace TalaAPI.Business
             if (!this.IsSeatInTurn(seat) || seat.GetTotalCardOnSeat() > 9)
             {
                 return null;
-            }
-            
-            ///TODO kiem tra an 1 con tren cung 1 phom
+            }                        
 
             /*chuyen card cuoi cung tu BaiDaDanh cua seat truoc sang seat BaiDaAn cua seat sau*/
             int previousSeatIndex = Seat.GetPreviousSeatIndex(seat.Index, this.Soi.SeatList.Count);
@@ -219,7 +217,23 @@ namespace TalaAPI.Business
             /*kiểm tra cây chốt*/
             if (previousSeat.BaiDaDanh.Count == 3 && this.Soi.SoiOption.IsChot)
             {
-                ///TODO: chuyen tien cho cay chot
+                if (this.Soi.SoiOption.IsChot)
+                {
+                    /* tinh tien cho cay chot */
+                    int money = Option.CHIP_AN_CHOT * this.Soi.SoiOption.TiGiaChip;
+                    this.AddMessage("Ăn cây chốt", previousSeat.Player.Username + " nộp " + Option.CHIP_AN_CHOT + " chip cho " + seat.Player.Username);
+                    /*tru tien vao tai khoan cua nguoi bi an chot*/
+                    previousSeat.Player.SubtractMoney(money);
+                    /*cong tien vao tai khoan cua nguoi an chot*/
+                    seat.Player.AddMoney(money);
+                }
+            }
+
+            /*nộp gà*/
+            if (this.Soi.SoiOption.IsGa)
+            {
+                this.AddMessage("Nộp gà", previousSeat.Player.Username + " nộp " + Option.CHIP_NOP_GA + " vào gà");
+                this.Soi.NopGa(previousSeat.Player);
             }
                          
             /*lấy cây vừa đánh của seat trước chuyển sang BaiDaAn của seat */
@@ -247,6 +261,8 @@ namespace TalaAPI.Business
             {
                 tmpSeat.HaIndex = Seat.GetPreviousSeatIndex(tmpSeat.HaIndex, this.Soi.SeatList.Count);
             }
+
+            
 
             return anCard;
             
@@ -296,11 +312,16 @@ namespace TalaAPI.Business
             {
                 int previousIndex = Seat.GetPreviousSeatIndex(seat.Index, this.Soi.SeatList.Count);
                 Seat previousSeat = this.Soi.SeatList.ElementAt(previousIndex) as Seat;
-                ///TODO: previousSeat phải đền 
+                /*kết thúc ván khi có thằng ù và có thằng phải đền*/
+                this.EndVan(seat, previousSeat);
+                
             }
-            /*ket thuc van, set winner*/            
-            this.EndVan();
-            ///TODO:  set winner, money
+            else
+            {
+                /*nếu không ai phải đền, mỗi người nộp chip cho người ù*/
+                this.EndVan(seat, null);
+
+            }                        
             return true;
         }
 
@@ -355,11 +376,10 @@ namespace TalaAPI.Business
 
             /*kiểm tra hạ láo --> đền, end van*/
             if(this.checkHaLao(seat, phomList))
-            {
-                /*đền*/
-
-                /*end van*/
-                this.EndVan();
+            {                
+                /*end van và đền*/
+                this.EndVan(seat);
+                return true;
             }
             /*set phom cho seat*/
             seat.PhomList = phomList;
@@ -499,11 +519,145 @@ namespace TalaAPI.Business
             return null;
         }
 
+        /// <summary>
+        /// End van trong truong hop co thang ha lao
+        /// </summary>
+        /// <param name="haLaoSeat"></param>
+        private void EndVan(Seat haLaoSeat)
+        {
+            this.IsFinished = true;
+            this.Soi.IsPlaying = false;
+
+            /*tru tien thằng hạ láo*/
+            int chipHaLao = Option.CHIP_DEN * this.Soi.SeatList.Count;
+            haLaoSeat.Player.SubtractMoney(chipHaLao * this.Soi.SoiOption.TiGiaChip);
+            /*thong bao*/
+            this.AddMessage("Hạ láo", haLaoSeat.Player.Username + " hạ láo, phạt " + chipHaLao + " chip");
+
+            /*cong tien cho cac player con lai*/
+            foreach (Seat seat in this.Soi.SeatList)
+            {
+                if (seat.Index != haLaoSeat.Index)
+                {
+                    seat.Player.AddMoney(Option.CHIP_DEN * this.Soi.SoiOption.TiGiaChip);
+                    this.AddMessage("Ăn tiền hạ láo", seat.Player.Username + " ăn " + Option.CHIP_DEN + " chip");
+                }
+            }
+
+        }
+
+
+        /// <summary>
+        /// kết thúc ván bình thường và tính điểm, xác định thắng thua, sang tiền
+        /// </summary>
         private void EndVan()
         {
             this.IsFinished = true;
             this.Soi.IsPlaying = false;
+
+            /*tính điểm*/
+            int[] pointArr = this.TinhDiemBaiTrenTay();
+
+            /*xác định danh sách seat tăng dần theo điểm*/
+            Seat[] resultSeatArr = this.SapXep(ref pointArr);
+            int totalWinnerChip = 0;
+            for (int i = 1; i < pointArr.Length; i++ )
+            {
+                Seat seat = resultSeatArr[i];
+                int chip = 0; /*so chip phai nop*/
+                if (pointArr[i] < Card.MOM_VALUE)
+                {
+                    this.AddMessage("Điểm", "Về thứ " + (i + 1) + ": " + seat.Player.Username + ": " + pointArr[i] + " điểm");                    
+                    /*vị trí i sẽ phải trả i chip cho thằng nhất*/
+                    chip = i ;                    
+                }
+                else
+                {
+                    this.AddMessage("Điểm", "Về thứ " + i + ": " + seat.Player.Username + ": Móm");                    
+                    /*nộp móm*/
+                    chip = Option.CHIP_MOM;                                        
+                }
+                this.AddMessage("Nộp tiền", seat.Player.Username + ": " + chip + " chip");
+                /*trừ tiền*/
+                seat.Player.SubtractMoney(chip * this.Soi.SoiOption.TiGiaChip);                    
+                totalWinnerChip += chip;
+            }
+
+            /*sang tiền cho thằng nhất*/
+            Seat winner = resultSeatArr[0];
+            winner.Player.AddMoney(totalWinnerChip * this.Soi.SoiOption.TiGiaChip);
+            this.AddMessage("Winner", "Winner: " + winner.Player.Username + ": " + totalWinnerChip + " chip");
+            
         }
+
+        /// <summary>
+        /// xác định danh sách seat xếp theo điểm tăng dần
+        /// </summary>
+        /// <param name="pointArr"></param>
+        /// <returns></returns>
+        private Seat[] SapXep(ref int[] pointArr)
+        {
+            
+            Seat[] tmpSeatArr = this.Soi.SeatList.ToArray();
+            for (int i = 0; i < pointArr.Length - 1; i++)
+            {
+                for (int j = i + 1; j < pointArr.Length; j++)
+                {
+                    if (pointArr[i] > pointArr[j])
+                    {
+                        /*sắp xếp lại tmpSeatArr va pointArr*/
+                        Seat tmpSeat = tmpSeatArr[j];
+                        int tmpInt = pointArr[j];
+                        tmpSeatArr[j] = tmpSeatArr[i];
+                        pointArr[j] = pointArr[i];
+                        tmpSeatArr[i] = tmpSeat;
+                        pointArr[i] = tmpInt;
+                    }
+                }
+            }            
+            return tmpSeatArr;
+        }
+
+
+        /*end van khi co người ù*/
+        private void EndVan(Seat uSeat, Seat denSeat)
+        {
+            this.IsFinished = true;
+            this.Soi.IsPlaying = false;
+
+            /*nếu có thằng phải đền*/
+            if (denSeat != null)
+            {
+                /*trừ tiền tài khỏan thằng phải đền*/
+                int chipDen = Option.CHIP_DEN * this.Soi.SeatList.Count;
+                denSeat.Player.SubtractMoney(chipDen * this.Soi.SoiOption.TiGiaChip);
+                /*thong bao*/
+                this.AddMessage("Đền ù", denSeat.Player.Username + " đền ù " + chipDen + " chip");
+            }
+            else
+            {
+                /*mỗi thằng nộp 5 chip cho thằng ù*/
+                foreach (Seat seat in this.Soi.SeatList)
+                {
+                    if (seat != uSeat)
+                    {
+                        seat.Player.SubtractMoney(Option.CHIP_U * this.Soi.SoiOption.TiGiaChip);
+                        /*thong bao*/
+                        this.AddMessage("Nộp ù", seat.Player.Username + " nộp ù " + Option.CHIP_U + " chip");
+                    }
+                }                
+            }
+            /*cộng tiền cho thằng ù*/
+            int uVal = Option.CHIP_U * this.Soi.SeatList.Count + this.Soi.GaValue;
+            uSeat.Player.AddMoney(uVal * this.Soi.SoiOption.TiGiaChip);
+            /*thong bao*/
+            this.AddMessage("Ăn ù", uSeat.Player.Username + " ăn ù " + uVal + " chip, bao gồm gà: " + this.Soi.GaValue + " chip");
+
+            /*reset gà*/
+            this.Soi.GaValue = 0;
+            
+        }
+        
         
 
        /// <summary>
@@ -580,10 +734,10 @@ namespace TalaAPI.Business
 
             foreach (Seat seat in this.Soi.SeatList)
             {
-                /*neu seat bi mom, set diem = vo cung*/
+                /*neu seat bi mom, set diem = vo cung + hạ Index*/
                 if (seat.PhomList.Count == 0)
                 {
-                    tmpArr[seat.Index] = Card.MOM_VALUE;
+                    tmpArr[seat.Index] = Card.MOM_VALUE + seat.HaIndex;
                 }
                 else
                 {
