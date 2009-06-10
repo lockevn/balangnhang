@@ -139,6 +139,7 @@ namespace TalaAPI.Business
             this.OwnerUsername = owner;
             this.StartTime = System.DateTime.Now;
             this.SeatList = new List<Seat>();
+            this.SoiOption = new Option();
         }
 
         
@@ -178,9 +179,9 @@ namespace TalaAPI.Business
         /// <returns>Số tiền đã nộp</returns>
         public int NopGa(User userPhaiNop)
         {
-            const int TienPhat = 1;
+            int TienPhat = Option.CHIP_NOP_GA;
             // cộng gà lên 1 chip
-            this.GaValue += TienPhat;
+            this.GaValue += Option.CHIP_NOP_GA;
 
             // trừ tiền trong túi user đi
             userPhaiNop.SubtractMoney(this.SoiOption.TiGiaChip * TienPhat);
