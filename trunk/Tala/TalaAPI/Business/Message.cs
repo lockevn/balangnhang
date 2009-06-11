@@ -36,7 +36,7 @@ namespace TalaAPI.Business
         }
 
         string _msg;
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
+        [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
         public string Msg
         {
             get { return _msg.ToLower(); }

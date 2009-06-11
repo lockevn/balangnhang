@@ -155,6 +155,13 @@ namespace TalaAPI.Business
                 return false;
             }
 
+            /*kiểm tra nếu đến lượt phải hạ phỏm, thằng này có ăn cây nào mà không hạ phỏm k*/
+            if (seat.BaiDaDanh.Count == 3 && (seat.PhomList == null || seat.PhomList.Count == 0) && seat.BaiDaAn.Count > 0)
+            {
+                this.EndVan(seat);
+                return true;
+            }
+
             /*chuyen card tu BaiTrenTay cua seat[i] sang BaiDaDanh cua seat[i]*/
             seat.BaiTrenTay.Remove(card);
             seat.BaiDaDanh.Add(card);
@@ -532,7 +539,7 @@ namespace TalaAPI.Business
             int chipHaLao = Option.CHIP_DEN * this.Soi.SeatList.Count;
             haLaoSeat.Player.SubtractMoney(chipHaLao * this.Soi.SoiOption.TiGiaChip);
             /*thong bao*/
-            this.AddMessage("Hạ láo", haLaoSeat.Player.Username + " hạ láo, phạt " + chipHaLao + " chip");
+            this.AddMessage("Phạt", haLaoSeat.Player.Username + " " + chipHaLao + " chip");
 
             /*cong tien cho cac player con lai*/
             foreach (Seat seat in this.Soi.SeatList)
@@ -540,7 +547,7 @@ namespace TalaAPI.Business
                 if (seat.Index != haLaoSeat.Index)
                 {
                     seat.Player.AddMoney(Option.CHIP_DEN * this.Soi.SoiOption.TiGiaChip);
-                    this.AddMessage("Ăn tiền hạ láo", seat.Player.Username + " ăn " + Option.CHIP_DEN + " chip");
+                    this.AddMessage("Thưởng", seat.Player.Username + " " + Option.CHIP_DEN + " chip");
                 }
             }
 
@@ -567,17 +574,18 @@ namespace TalaAPI.Business
                 int chip = 0; /*so chip phai nop*/
                 if (pointArr[i] < Card.MOM_VALUE)
                 {
-                    this.AddMessage("Điểm", "Về thứ " + (i + 1) + ": " + seat.Player.Username + ": " + pointArr[i] + " điểm");                    
                     /*vị trí i sẽ phải trả i chip cho thằng nhất*/
-                    chip = i ;                    
+                    chip = i;                    
+                    this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: " + pointArr[i] + "     Số chip: -" + chip);                    
+                    
                 }
                 else
                 {
-                    this.AddMessage("Điểm", "Về thứ " + i + ": " + seat.Player.Username + ": Móm");                    
                     /*nộp móm*/
-                    chip = Option.CHIP_MOM;                                        
-                }
-                this.AddMessage("Nộp tiền", seat.Player.Username + ": " + chip + " chip");
+                    chip = Option.CHIP_MOM;   
+                    this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: Móm     Số chip: -" + chip );                    
+                                                         
+                }                
                 /*trừ tiền*/
                 seat.Player.SubtractMoney(chip * this.Soi.SoiOption.TiGiaChip);                    
                 totalWinnerChip += chip;
@@ -586,7 +594,7 @@ namespace TalaAPI.Business
             /*sang tiền cho thằng nhất*/
             Seat winner = resultSeatArr[0];
             winner.Player.AddMoney(totalWinnerChip * this.Soi.SoiOption.TiGiaChip);
-            this.AddMessage("Winner", "Winner: " + winner.Player.Username + ": " + totalWinnerChip + " chip");
+            this.AddMessage("Thắng cuộc", winner.Player.Username + " Điểm: " + pointArr[0] + "    Số chip: +" + totalWinnerChip);
             
         }
 
@@ -632,7 +640,7 @@ namespace TalaAPI.Business
                 int chipDen = Option.CHIP_DEN * this.Soi.SeatList.Count;
                 denSeat.Player.SubtractMoney(chipDen * this.Soi.SoiOption.TiGiaChip);
                 /*thong bao*/
-                this.AddMessage("Đền ù", denSeat.Player.Username + " đền ù " + chipDen + " chip");
+                this.AddMessage("Đền ù", denSeat.Player.Username + "    -" + chipDen + " chip");
             }
             else
             {
@@ -643,7 +651,7 @@ namespace TalaAPI.Business
                     {
                         seat.Player.SubtractMoney(Option.CHIP_U * this.Soi.SoiOption.TiGiaChip);
                         /*thong bao*/
-                        this.AddMessage("Nộp ù", seat.Player.Username + " nộp ù " + Option.CHIP_U + " chip");
+                        this.AddMessage("Nộp ù", seat.Player.Username + "   -" + Option.CHIP_U + " chip");
                     }
                 }                
             }
@@ -651,7 +659,7 @@ namespace TalaAPI.Business
             int uVal = Option.CHIP_U * this.Soi.SeatList.Count + this.Soi.GaValue;
             uSeat.Player.AddMoney(uVal * this.Soi.SoiOption.TiGiaChip);
             /*thong bao*/
-            this.AddMessage("Ăn ù", uSeat.Player.Username + " ăn ù " + uVal + " chip, bao gồm gà: " + this.Soi.GaValue + " chip");
+            this.AddMessage("Ăn ù", uSeat.Player.Username + " " + uVal + " chip, bao gồm gà: " + this.Soi.GaValue + " chip");
 
             /*reset gà*/
             this.Soi.GaValue = 0;
