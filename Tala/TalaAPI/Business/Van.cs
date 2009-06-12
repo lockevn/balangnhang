@@ -130,7 +130,7 @@ namespace TalaAPI.Business
                 for (int j = 0; j < nSeatCount; j++)
                 {
                     /*chia bai i+j cho seat[j]*/
-                    (this.Soi.SeatList[j] as Seat).BaiTrenTay.Add(this.Noc.ElementAt(nSeatCount * i + j));
+                    this.Soi.SeatList[j].BaiTrenTay.Add(this.Noc[nSeatCount * i + j]);
                 }
             }
 
@@ -140,7 +140,7 @@ namespace TalaAPI.Business
                 seatDanhDauTien = Soi.SeatList[0];
             }
             /*chia them cho seat đánh đầu tiên 1 cay */
-            seatDanhDauTien.BaiTrenTay.Add(this.Noc.ElementAt(9 * nSeatCount));
+            seatDanhDauTien.BaiTrenTay.Add(this.Noc[9 * nSeatCount]);
 
             /*xoa cac cay da chia ra khoi Noc*/
             for (int i = 0; i < 9*nSeatCount + 1; i++)
