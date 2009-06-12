@@ -156,6 +156,8 @@ namespace TalaAPI.Business
             {
                 newVanIndex = this._CurrentVan.Index++;
             }
+
+            Van oldVan = this._CurrentVan;
             Van newVan = new Van(newVanIndex, this);
             this._CurrentVan = newVan;
 
@@ -165,8 +167,8 @@ namespace TalaAPI.Business
                 this.XepChoRandom();
             }
 
-            /*chia bai*/
-            newVan.ChiaBai();
+            /*chia bai*/            
+            newVan.ChiaBai(oldVan.WinnerUsername);
 
             return newVan;
         }
@@ -423,8 +425,8 @@ namespace TalaAPI.Business
             _IsPlaying = true;
             //o	Bắt đầu ván với các lựa chọn của Sới hiện tại
             //o	Hệ thống sẽ tạo ván mới, tự chia bài
-            Van van = CreateVan(false);            
-
+            
+            CreateVan(false);
             return 0;
         }
 
