@@ -168,7 +168,7 @@ namespace TalaAPI.Business
             }
 
             /*chia bai*/            
-            newVan.ChiaBai(oldVan.WinnerUsername);
+            newVan.ChiaBai(oldVan == null? "" : oldVan.WinnerUsername);
 
             return newVan;
         }
