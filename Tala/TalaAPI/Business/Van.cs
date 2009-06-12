@@ -156,7 +156,7 @@ namespace TalaAPI.Business
             }
 
             /*kiểm tra nếu đến lượt phải hạ phỏm, thằng này có ăn cây nào mà không hạ phỏm k*/
-            if (seat.BaiDaDanh.Count == 3 && (seat.PhomList == null || seat.PhomList.Count == 0) && seat.BaiDaAn.Count > 0)
+            if (seat.BaiDaDanh.Count == 3 && seat.PhomList.Count < seat.BaiDaAn.Count)
             {
                 this.EndVan(seat);
                 return true;
@@ -222,7 +222,7 @@ namespace TalaAPI.Business
             }
 
             /*kiểm tra cây chốt*/
-            if (previousSeat.BaiDaDanh.Count == 3 && this.Soi.SoiOption.IsChot)
+            if (seat.BaiDaDanh.Count == 3 && this.Soi.SoiOption.IsChot)
             {
                 if (this.Soi.SoiOption.IsChot)
                 {
@@ -398,10 +398,11 @@ namespace TalaAPI.Business
                 {
                     seat.BaiTrenTay.Remove(card);
                 }
-                if (seat.BaiDaAn.Contains(card))
-                {
-                    seat.BaiDaAn.Remove(card);
-                }
+                /*không được remove card khỏi bài đã ăn, nếu remove thì 0 kiểm tra đc trường hợp ăn cây để tái phỏm mà 0 hạ*/
+                //if (seat.BaiDaAn.Contains(card))
+                //{
+                //    seat.BaiDaAn.Remove(card);
+                //}
             }                       
 
             return true;
