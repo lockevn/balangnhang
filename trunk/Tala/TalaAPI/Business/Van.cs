@@ -238,7 +238,7 @@ namespace TalaAPI.Business
                 {
                     /* tinh tien cho cay chot */
                     int money = Option.CHIP_AN_CHOT * this.Soi.SoiOption.TiGiaChip;
-                    this.AddMessage("Ăn cây chốt", previousSeat.Player.Username + " nộp " + Option.CHIP_AN_CHOT + " chip cho " + seat.Player.Username);
+                    this.AddMessage("Ăn cây chốt", previousSeat.Player.Username + " nộp " + money + " cho " + seat.Player.Username);
                     /*tru tien vao tai khoan cua nguoi bi an chot*/
                     previousSeat.Player.SubtractMoney(money);
                     /*cong tien vao tai khoan cua nguoi an chot*/
@@ -249,8 +249,8 @@ namespace TalaAPI.Business
             /*nộp gà*/
             if (this.Soi.SoiOption.IsGa)
             {
-                this.AddMessage("Nộp gà", previousSeat.Player.Username + " nộp " + Option.CHIP_NOP_GA + " vào gà");
-                this.Soi.NopGa(previousSeat.Player);
+                int nTienPhatVaoGa = this.Soi.NopGa(previousSeat.Player);
+                this.AddMessage("Nộp gà", previousSeat.Player.Username + " nộp " + nTienPhatVaoGa + " vào gà");                
             }
                          
             /*lấy cây vừa đánh của seat trước chuyển sang BaiDaAn của seat */

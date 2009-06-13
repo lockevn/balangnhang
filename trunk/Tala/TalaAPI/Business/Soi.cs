@@ -180,14 +180,14 @@ namespace TalaAPI.Business
         /// <returns>Số tiền đã nộp</returns>
         public int NopGa(User userPhaiNop)
         {
-            int TienPhat = Option.CHIP_NOP_GA;
+            int nTienPhat = Option.CHIP_NOP_GA * this.SoiOption.TiGiaChip;
             // cộng gà lên 1 chip
-            this.GaValue += Option.CHIP_NOP_GA;
+            this.GaValue += nTienPhat;
 
             // trừ tiền trong túi user đi
-            userPhaiNop.SubtractMoney(this.SoiOption.TiGiaChip * TienPhat);
-            
-            return this.GaValue;
+            userPhaiNop.SubtractMoney(nTienPhat);
+
+            return nTienPhat;
         }
 
 
