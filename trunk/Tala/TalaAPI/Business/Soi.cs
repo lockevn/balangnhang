@@ -169,7 +169,6 @@ namespace TalaAPI.Business
 
             /*chia bai*/            
             newVan.ChiaBai(oldVan == null? "" : oldVan.WinnerUsername);
-
             return newVan;
         }
 
@@ -430,8 +429,8 @@ namespace TalaAPI.Business
             return 0;
         }
 
-        /// <summary>        
-        /// đặt cờ ready tại Seat của user        
+        /// <summary>
+        /// đặt cờ ready tại Seat của user
         /// </summary>
         /// <param name="user">user giương cờ ready</param>
         internal void SetReady(User user)
@@ -440,13 +439,9 @@ namespace TalaAPI.Business
             GetSeatOfUserInSoi(user.Username).IsReady = true;
 
             // thử gọi hàm StartPlaying (trong đấy tự nó kiểm tra điều kiện để bắt đầu ván), nếu có 4 người vào rồi
-            if(this.SeatList.Count == 4 && IsAllPlayerReady())
-            {  
-                try
-                {
-                    StartPlaying();
-                }
-                catch { }                
+            if (this.SeatList.Count == 4 && IsAllPlayerReady())
+            {
+                StartPlaying();
             }
         }
 

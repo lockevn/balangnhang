@@ -147,6 +147,8 @@ namespace TalaAPI.Business
             {
                 this.Noc.RemoveAt(0);
             }
+
+            this.CurrentTurnSeatIndex = seatDanhDauTien.Index;
         }        
 
 
@@ -547,7 +549,7 @@ namespace TalaAPI.Business
             this.Soi.IsPlaying = false;
 
             /*tru tien thằng hạ láo*/
-            int chipHaLao = Option.CHIP_DEN * this.Soi.SeatList.Count;
+            int chipHaLao = Option.CHIP_DEN * (this.Soi.SeatList.Count -1);
             haLaoSeat.Player.SubtractMoney(chipHaLao * this.Soi.SoiOption.TiGiaChip);
             /*thong bao*/
             this.AddMessage("Phạt", haLaoSeat.Player.Username + " " + chipHaLao + " chip");
@@ -621,7 +623,7 @@ namespace TalaAPI.Business
             if (denSeat != null)
             {
                 /*trừ tiền tài khỏan thằng phải đền*/
-                int chipDen = Option.CHIP_DEN * this.Soi.SeatList.Count;
+                int chipDen = Option.CHIP_DEN * (this.Soi.SeatList.Count - 1);
                 denSeat.Player.SubtractMoney(chipDen * this.Soi.SoiOption.TiGiaChip);
                 /*thong bao*/
                 this.AddMessage("Đền ù", denSeat.Player.Username + "    -" + chipDen + " chip");
@@ -640,7 +642,7 @@ namespace TalaAPI.Business
                 }
             }
             /*cộng tiền cho thằng ù*/
-            int uVal = Option.CHIP_U * this.Soi.SeatList.Count + this.Soi.GaValue;
+            int uVal = Option.CHIP_U * (this.Soi.SeatList.Count -1) + this.Soi.GaValue;
             uSeat.Player.AddMoney(uVal * this.Soi.SoiOption.TiGiaChip);
             /*thong bao*/
             this.AddMessage("Ăn ù", uSeat.Player.Username + " " + uVal + " chip, bao gồm gà: " + this.Soi.GaValue + " chip");
