@@ -17,13 +17,11 @@ namespace TalaAPI.play.van
         public override void ProcessRequest(HttpContext context)
         {
             TalaSecurity security = new TalaSecurity(context);
-
             Soi soi = security.CheckUserJoinedSoi();
 
             DTOVan dtoVan = new DTOVan();
             dtoVan.VanInfo = soi.CurrentVan;
           
-
             foreach (Seat seat in soi.SeatList)
             {
                 foreach (Card card in seat.BaiDaAn)
@@ -36,6 +34,16 @@ namespace TalaAPI.play.van
                     card.Pos = seat.Index;
                     dtoVan.BaiDaDanh.Add(card);
                 }
+
+                #region Phỏm đã hạ
+
+                foreach (Phom phom in seat.PhomList)
+                {
+                    phom.Pos = seat.Index;
+                    dtoVan.PhomDaHa.Add(phom);
+                }
+        
+                #endregion
             }
 
             Data.Add(dtoVan);
