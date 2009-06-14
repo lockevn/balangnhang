@@ -43,6 +43,14 @@ namespace TalaAPI.Business
             set { _BaiDaDanh = value; }
         }
 
+
+        List<Phom> _PhomDaHa = new List<Phom>();
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false, false)]
+        public List<Phom> PhomDaHa
+        {
+            get { return _PhomDaHa; }
+            set { _PhomDaHa = value; }
+        }
         
     }
 }
