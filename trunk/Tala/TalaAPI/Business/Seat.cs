@@ -56,6 +56,7 @@ namespace TalaAPI.Business
 
         public List<Phom> PhomList;
 
+        public int SoCayGuiToiSeat; /*số cây gửi vào các phỏm của seat, dùng để tính toán tổng số cây thực sự của 1 seat*/
         
 
 
@@ -70,6 +71,7 @@ namespace TalaAPI.Business
             this.BaiDaAn = new List<Card>();
             this.BaiDaGui = new List<Card>();
             this.PhomList = new List<Phom>();
+            this.SoCayGuiToiSeat = 0;
         }
 
         /// <summary>
@@ -129,7 +131,7 @@ namespace TalaAPI.Business
                     count += phom.CardArray.Length;
                 }
             }
-            return count;
+            return count - this.SoCayGuiToiSeat;
         }
 
         

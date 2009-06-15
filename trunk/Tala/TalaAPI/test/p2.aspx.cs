@@ -15,7 +15,6 @@ using TalaAPI.XMLRenderOutput;
 
 using TalaAPI.Lib;
 using TalaAPI.Business;
-using TalaAPI.XMLRenderOutput;
 using TalaAPI.Exception;
 
 namespace TalaAPI.test

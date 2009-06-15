@@ -76,6 +76,8 @@ namespace TalaAPI.Business
 
                     /*reset HaIndex*/
                     seat.HaIndex = seat.Index;
+                    /*reset SoCayGui*/
+                    seat.SoCayGuiToiSeat = 0;
                 }
             }
         }
@@ -166,7 +168,7 @@ namespace TalaAPI.Business
             }
 
             /*kiểm tra nếu đến lượt phải hạ phỏm, thằng này có ăn cây nào mà không hạ phỏm k*/
-            if (seat.BaiDaDanh.Count == 3 && seat.PhomList.Count < seat.BaiDaAn.Count)
+            if (seat.BaiDaDanh.Count == 3 && seat.BaiDaAn.Count > 0)
             {
                 this.EndVan(seat);
                 return true;
@@ -408,11 +410,11 @@ namespace TalaAPI.Business
                 {
                     seat.BaiTrenTay.Remove(card);
                 }
-                /*không được remove card khỏi bài đã ăn, nếu remove thì 0 kiểm tra đc trường hợp ăn cây để tái phỏm mà 0 hạ*/
-                //if (seat.BaiDaAn.Contains(card))
-                //{
-                //    seat.BaiDaAn.Remove(card);
-                //}
+                /*Remove card khỏi bài đã ăn*/
+                if (seat.BaiDaAn.Contains(card))
+                {
+                    seat.BaiDaAn.Remove(card);
+                }
             }                       
 
             return true;
@@ -469,6 +471,9 @@ namespace TalaAPI.Business
             }
             /*cập nhật phỏm sau khi đc gửi*/
             phom.CardArray = new Card[cardArr.Length + phom.CardArray.Length];
+            /*cập nhật số cây gửi của seat có phỏm đc gửi đến*/
+            phom.OfSeat.SoCayGuiToiSeat += cardArr.Length;
+
             tmpCardArr.CopyTo(phom.CardArray, 0);
             /*remove các cây đã gửi khỏi BaiTrenTay của seat
              đồng thời thêm các cây này vào bài đã gửi của seat
