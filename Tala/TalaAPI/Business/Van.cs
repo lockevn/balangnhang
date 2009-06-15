@@ -74,8 +74,7 @@ namespace TalaAPI.Business
                     seat.BaiDaDanh = new List<Card>();
                     seat.BaiDaGui = new List<Card>();                                        
 
-                    /*reset HaIndex*/
-                    seat.HaIndex = seat.Index;
+                    
                     /*reset SoCayGui*/
                     seat.SoCayGuiToiSeat = 0;
                 }
