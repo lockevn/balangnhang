@@ -169,6 +169,16 @@ namespace TalaAPI.Business
 
             /*chia bai*/            
             newVan.ChiaBai(oldVan == null? "" : oldVan.WinnerUsername);
+
+            /*reset HaIndex*/
+            Seat tmpSeat = this.SeatList[newVan.CurrentTurnSeatIndex];
+            for(int i=0; i<this.SeatList.Count; i++)
+            {
+                tmpSeat.HaIndex = i ;
+                int nextIndex = Seat.GetNextSeatIndex(tmpSeat.Index, this.SeatList.Count);
+                tmpSeat = this.SeatList[nextIndex];
+            }
+
             return newVan;
         }
 
