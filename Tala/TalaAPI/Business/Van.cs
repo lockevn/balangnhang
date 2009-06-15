@@ -358,8 +358,7 @@ namespace TalaAPI.Business
             {
                 return false;
             }
-            
-            List<Phom> phomList = new List<Phom>();            
+                        
             List<Card> cardList = new List<Card>();
             int i = 0;
             /*kiem tra tinh chinh xac cua phom*/
@@ -389,19 +388,19 @@ namespace TalaAPI.Business
                 /*set thêm các property cho phom*/
                 phom.OfSeat = seat;
                 /*một seat có tối đa 3 phỏm, set id cho phỏm để phỏm id là duy nhất trong 1 sới*/
-                phom.Id = seat.Index * 3 + i; 
-                phomList.Add(phom);
+                phom.Id = seat.Index * 3 + i;
+                seat.PhomList.Add(phom);
             }
 
             /*kiểm tra hạ láo --> đền, end van*/
-            if(this.checkHaLao(seat, phomList))
+            if (this.checkHaLao(seat, seat.PhomList))
             {                
                 /*end van và đền*/
                 this.EndVan(seat);
                 return true;
             }
-            /*set phom cho seat*/
-            seat.PhomList = phomList;
+            
+
 
             /*remove Card ở BaiTrenTay và BaiDaAn của seat*/            
             foreach (Card card in cardList)
