@@ -44,9 +44,16 @@ namespace TalaAPI.Business
             get { return _IsReady; }
             set { _IsReady = value; }
         }
-        
 
+        
         public int HaIndex;
+
+        [ElementXMLExportAttribute("haindex", DataOutputXMLType.Attribute)]
+        public int HaIndexProperty
+        {
+            get { return HaIndex; }
+            set { HaIndex = value; }
+        }
 
         public List<Card> BaiTrenTay;
         public List<Card> BaiDaDanh;

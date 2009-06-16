@@ -106,6 +106,9 @@ namespace TalaAPI.Business
             }
         }
 
+        /// <summary>
+        /// for testing only
+        /// </summary>
         //private void InitializeNoc()
         //{
         //    this.Noc = new List<Card>();
@@ -359,6 +362,7 @@ namespace TalaAPI.Business
             }
                         
             List<Card> cardList = new List<Card>();
+            List<Phom> phomList = new List<Phom>();
             int i = 0;
             /*kiem tra tinh chinh xac cua phom*/
             foreach (Card[] cardArr in phomArr)
@@ -388,7 +392,8 @@ namespace TalaAPI.Business
                 phom.OfSeat = seat;
                 /*một seat có tối đa 3 phỏm, set id cho phỏm để phỏm id là duy nhất trong 1 sới*/
                 phom.Id = seat.Index * 3 + i;
-                seat.PhomList.Add(phom);
+                phomList.Add(phom);
+                
             }
 
             /*kiểm tra hạ láo --> đền, end van*/
@@ -399,7 +404,11 @@ namespace TalaAPI.Business
                 return true;
             }
             
-
+            /*cap nhat phomList vao seat.phomList*/
+            foreach (Phom phom in phomList)
+            {
+                seat.PhomList.Add(phom);
+            }
 
             /*remove Card ở BaiTrenTay và BaiDaAn của seat*/            
             foreach (Card card in cardList)
