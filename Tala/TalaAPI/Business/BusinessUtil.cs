@@ -67,6 +67,7 @@ namespace TalaAPI.Business
                     }
                     continue;
                 }
+                return null;
             }
             return null;
         }

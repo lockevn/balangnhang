@@ -25,6 +25,7 @@ namespace TalaAPI.Business
         /// <summary>
         /// Co Do Pich Tep
         /// </summary>
+        
         public static string[] CHAT_SET = new string[4] { "c", "d", "p", "t" };        
         //public static string[] CHAT_SET = new string[4] { "c", "d", "t", "p" };        
         public static Card[] CARD_SET
@@ -32,6 +33,7 @@ namespace TalaAPI.Business
             get
             {
                 List<Card> tmpCardList = new List<Card>();
+                
                 foreach (string so in SO_SET)
                 {
                     foreach (string chat in CHAT_SET)
