@@ -36,7 +36,7 @@ namespace TalaAPI.Business
         
         public bool IsFinished;
         public int CurrentRound;
-        private Soi Soi;
+        public Soi Soi;
         
         internal List<Card> Noc;
 

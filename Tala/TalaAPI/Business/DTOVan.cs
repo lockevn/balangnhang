@@ -51,6 +51,23 @@ namespace TalaAPI.Business
             get { return _PhomDaHa; }
             set { _PhomDaHa = value; }
         }
-        
+
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
+        public int IsCurrentPlayerDaBoc
+        {
+            get 
+            {
+                Seat seatCurrentInTurn = _VanInfo.Soi.GetSeatOfCurrentInTurn();
+                if (seatCurrentInTurn.GetTotalCardOnSeat() > 9)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
     }
 }
