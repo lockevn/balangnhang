@@ -302,6 +302,7 @@ namespace TalaAPI.Business
                 return false;
             }
             int count = 0; /*dem tong so cay cua tat ca cac phom*/
+            List<Phom> tmpPhomList = new List<Phom>();
             /*kiem tra tinh chinh xac cua phom*/
             foreach(Card[] cardArr in phomArr)
             {
@@ -314,12 +315,17 @@ namespace TalaAPI.Business
                     }
                     count++;
                 }
-                
 
-                if(cardArr.IsValidPhom() == null)
+                Phom tmpPhom = cardArr.IsValidPhom();
+                if ( tmpPhom == null)
                 {
                     return false;
                 }
+                else
+                {
+                    tmpPhomList.Add(tmpPhom);
+                }
+
             }
 
             /*nếu tổng tất cả các phỏm hạ không đủ 9 cây*/
@@ -327,6 +333,9 @@ namespace TalaAPI.Business
             {
                 return false;
             }
+
+            /*cap nhat thong tin phom cua seat vua u*/
+            seat.PhomList = tmpPhomList;
 
             /*neu bai da an cua seat == 3, previous seat phai den*/
             if (seat.BaiDaAn.Count == 3)
@@ -397,7 +406,7 @@ namespace TalaAPI.Business
             }
 
             /*kiểm tra hạ láo --> đền, end van*/
-            if (this.checkHaLao(seat, seat.PhomList))
+            if (this.checkHaLao(seat, phomList))
             {                
                 /*end van và đền*/
                 this.EndVan(seat);
@@ -708,12 +717,12 @@ namespace TalaAPI.Business
        /// <param name="phomList">danh sach phom ma seat da ha</param>
        /// <returns>true/false</returns>
 
-
+        
         private bool checkHaLao(Seat seat, List<Phom> phomList)
         {
             if (phomList == null || phomList.Count == 0)
             {
-                return false;
+                return true;
             }
            
             /*có 1 phỏm chứa > 1 cây đã ăn --> hạ láo*/
