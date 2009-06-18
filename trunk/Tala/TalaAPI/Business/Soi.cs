@@ -367,6 +367,12 @@ namespace TalaAPI.Business
             return null;
         }
 
+        public Seat GetSeatOfCurrentInTurn()
+        {
+            Seat seatRet = this._SeatList[this._CurrentVan.CurrentTurnSeatIndex];
+            return seatRet;
+        }
+
         public void XepChoRandom()
         {
             int max = this.SeatList.Count;
