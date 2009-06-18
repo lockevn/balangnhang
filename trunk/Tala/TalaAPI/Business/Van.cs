@@ -223,7 +223,7 @@ namespace TalaAPI.Business
             if (!this.IsSeatInTurn(seat) || seat.GetTotalCardOnSeat() > 9)
             {
                 return null;
-            }                        
+            }
 
             /*chuyen card cuoi cung tu BaiDaDanh cua seat truoc sang seat BaiDaAn cua seat sau*/
             int previousSeatIndex = Seat.GetPreviousSeatIndex(seat.Index, this.Soi.SeatList.Count);
