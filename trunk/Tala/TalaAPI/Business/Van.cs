@@ -462,7 +462,7 @@ namespace TalaAPI.Business
             /**chỉ được gửi khi BaiDaDanh của seat có từ 3 cây trở lên (gửi xong mới đánh)            
              * seat có haIndex lớn hơn mới đc gửi vào phỏm của seat có haIndex nhỏ hơn             
              */
-            if (seat.BaiDaDanh.Count < 3 || seat.HaIndex <= phom.OfSeat.HaIndex)
+            if (seat.BaiDaDanh.Count < 3)
             {
                 return false;
             }
