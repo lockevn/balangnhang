@@ -18,10 +18,10 @@ namespace TalaAPI.play.van
         public override void ProcessRequest(HttpContext context)
         {
             TalaSecurity security = new TalaSecurity(context);
-
             Soi soi = security.CheckUserJoinedSoi();
             Seat seat = security.CheckUserJoinedSeat();
-            Van van = soi.CurrentVan;            
+            Van van = soi.CurrentVan;
+
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "An", "action failed");
             Card anCard = null;
             try
@@ -32,11 +32,13 @@ namespace TalaAPI.play.van
             {
                 nite.SendErrorAPICommand(context);
             }
+
             if (anCard != null)
             {
                 this.Data.Add(anCard);
-                cs = new APICommandStatus(APICommandStatusState.OK, "An", "valid action");
+                cs = new APICommandStatus(APICommandStatusState.OK, "An", string.Format("Ăn cây {0} thành công", anCard) );
             }
+
             this.Cmd.Add(cs);
             base.ProcessRequest(context);
 
