@@ -180,6 +180,17 @@ namespace TalaAPI.Business
             seat.BaiTrenTay.Remove(card);
             seat.BaiDaDanh.Add(card);
 
+            /*nếu sau khi đánh mà bài trên tay của seat count=0 --> ù thuong
+             --> giải quyết trường hợp gửi xong còn 1 cây trên tay đánh nốt.
+             */
+            if (seat.BaiTrenTay.Count == 0)
+            {
+                /*cho seat U va endVan*/
+                this.EndVan(seat, null, false);
+                return true;
+            }
+
+
             /*chuyển turn sang next seat*/
             this.CurrentTurnSeatIndex = Seat.GetNextSeatIndex(seat.Index, this.Soi.SeatList.Count);
             
@@ -342,14 +353,18 @@ namespace TalaAPI.Business
             {
                 int previousIndex = Seat.GetPreviousSeatIndex(seat.Index, this.Soi.SeatList.Count);
                 Seat previousSeat = this.Soi.SeatList.ElementAt(previousIndex) as Seat;
-                /*kết thúc ván khi có thằng ù và có thằng phải đền*/
-                this.EndVan(seat, previousSeat);
+                /*kết thúc ván khi có thằng ù và có thằng phải đền
+                 kiểm tra count để xác định ù tròn hay ù thường
+                 */                
+                this.EndVan(seat, previousSeat, count == 10);
                 
             }
             else
             {
-                /*nếu không ai phải đền, mỗi người nộp chip cho người ù*/
-                this.EndVan(seat, null);
+                /*nếu không ai phải đền, mỗi người nộp chip cho người ù
+                 kiểm tra count để xác định ù tròn hay ù thường
+                 */
+                this.EndVan(seat, null, count == 10);
 
             }                        
             return true;
@@ -499,6 +514,12 @@ namespace TalaAPI.Business
                 seat.BaiTrenTay.Remove(card);
                 seat.BaiDaGui.Add(card);
             } 
+
+            /*nếu sau khi gửi mà bài trên tay count == 0 --> ù tròn*/
+            if (seat.BaiTrenTay.Count == 0)
+            {
+                this.EndVan(seat, null, true);
+            }
             
             return true;
         }
@@ -635,16 +656,23 @@ namespace TalaAPI.Business
         }
 
         /*end van khi co người ù*/
-        private void EndVan(Seat uSeat, Seat denSeat)
+        private void EndVan(Seat uSeat, Seat denSeat, bool uTron)
         {
             this.IsFinished = true;
             this.Soi.IsPlaying = false;
+
+            int chipAnU = Option.CHIP_U;
+            
+            if (uTron)
+            {
+                chipAnU = Option.CHIP_U_TRON;                
+            }
 
             /*nếu có thằng phải đền*/
             if (denSeat != null)
             {
                 /*trừ tiền tài khỏan thằng phải đền*/
-                int chipDen = Option.CHIP_DEN * (this.Soi.SeatList.Count - 1);
+                int chipDen = chipAnU * (this.Soi.SeatList.Count - 1);
                 denSeat.Player.SubtractMoney(chipDen * this.Soi.SoiOption.TiGiaChip);
                 /*thong bao*/
                 this.AddMessage("Đền ù", denSeat.Player.Username + "    -" + chipDen + " chip");
@@ -656,14 +684,14 @@ namespace TalaAPI.Business
                 {
                     if (seat != uSeat)
                     {
-                        seat.Player.SubtractMoney(Option.CHIP_U * this.Soi.SoiOption.TiGiaChip);
+                        seat.Player.SubtractMoney(chipAnU * this.Soi.SoiOption.TiGiaChip);
                         /*thong bao*/
-                        this.AddMessage("Nộp ù", seat.Player.Username + "   -" + Option.CHIP_U + " chip");
+                        this.AddMessage("Nộp ù", seat.Player.Username + "   -" + chipAnU + " chip");
                     }
                 }
             }
             /*cộng tiền cho thằng ù*/
-            int uVal = Option.CHIP_U * (this.Soi.SeatList.Count -1) + this.Soi.GaValue;
+            int uVal = chipAnU * (this.Soi.SeatList.Count - 1) + this.Soi.GaValue;
             uSeat.Player.AddMoney(uVal * this.Soi.SoiOption.TiGiaChip);
             /*thong bao*/
             this.AddMessage("Ăn ù", uSeat.Player.Username + " " + uVal + " chip, bao gồm gà: " + this.Soi.GaValue + " chip");
