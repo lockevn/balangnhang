@@ -632,16 +632,16 @@ namespace TalaAPI.Business
                 {
                     /*vị trí i sẽ phải trả i chip cho thằng nhất*/
                     chip = i;                    
-                    this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: " + pointArr[i] + "     Số chip: -" + chip);                    
-                    
+                    this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: " + pointArr[i] + "     Số chip: -" + chip);
                 }
                 else
                 {
                     /*nộp móm*/
                     chip = Option.CHIP_MOM;   
-                    this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: Móm     Số chip: -" + chip );                    
-                                                         
-                }                
+                    this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: Móm     Số chip: -" + chip );
+                }
+                
+
                 /*trừ tiền*/
                 seat.Player.SubtractMoney(chip * this.Soi.SoiOption.TiGiaChip);                    
                 totalWinnerChip += chip;
@@ -655,7 +655,13 @@ namespace TalaAPI.Business
             WinnerUsername = winner.Player.Username;
         }
 
-        /*end van khi co người ù*/
+
+        /// <summary>
+        /// Kết thúc ván khi có người Ù
+        /// </summary>
+        /// <param name="uSeat"></param>
+        /// <param name="denSeat"></param>
+        /// <param name="uTron"></param>
         private void EndVan(Seat uSeat, Seat denSeat, bool uTron)
         {
             this.IsFinished = true;
@@ -703,8 +709,6 @@ namespace TalaAPI.Business
         }
 
 
-
-
         /// <summary>
         /// xác định danh sách seat xếp theo điểm tăng dần
         /// </summary>
@@ -734,18 +738,13 @@ namespace TalaAPI.Business
         }
 
 
-        
-        
-        
 
        /// <summary>
         /// check seat Hạ láo --> đền
        /// </summary>
        /// <param name="seat">seat ha</param>
        /// <param name="phomList">danh sach phom ma seat da ha</param>
-       /// <returns>true/false</returns>
-
-        
+       /// <returns>true/false</returns>        
         private bool checkHaLao(Seat seat, List<Phom> phomList)
         {
             if (phomList == null || phomList.Count == 0)

@@ -15,8 +15,16 @@ using System.Collections.Generic;
 
 namespace TalaAPI.Business
 {
-    public static class BusinessUtil
+    /// <summary>
+    /// chứa các hàm mở rộng, hàm tĩnh để thao tác trên các đối tượng dữ liệu của tá lả
+    /// </summary>
+    public static class TalaBusinessUtil
     {
+        /// <summary>
+        /// Chuyển từ string sang Card
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static Card ToCard(this string s)
         {
             return Card.ParseString(s);
@@ -24,7 +32,7 @@ namespace TalaAPI.Business
 
 
         /// <summary>
-        /// Check 1 tập cards có tạo thành phỏm không, nếu đúng, trả về một Phom
+        /// Check 1 dãy các Cards có tạo thành phỏm không, nếu đúng, trả về một Phom
         /// </summary>
         /// <param name="cardArr">mảng Card</param>
         /// <returns>Phom nếu thỏa mãn, null nếu 0 đủ điều kiện tạo phỏm</returns>
@@ -34,6 +42,7 @@ namespace TalaAPI.Business
             {
                 return null;
             }
+
             for (int i = 1; i < cardArr.Length; i++)
             {
                 /*kiem tra phom ngang*/
@@ -48,9 +57,12 @@ namespace TalaAPI.Business
                     }
                     continue;
                 }
+
                 /*khong phai phom ngang*/
                 break;
             }
+
+
             /*kiem tra phom doc*/
             /*sap xep lai cac cay trong mang tang dan*/
             cardArr = cardArr.SapXepCardTangDan();
@@ -100,7 +112,11 @@ namespace TalaAPI.Business
             return cardArr;
         }
 
-        
+        /// <summary>
+        /// Ghép các chuỗi card (Card.ToString) bằng CONST.CARD_SEPERATOR_SYMBOL
+        /// </summary>
+        /// <param name="cardArr"></param>
+        /// <returns></returns>
         public static string ToTalaString(this Card[] cardArr)
         {
             string sRet = string.Empty;
@@ -108,11 +124,16 @@ namespace TalaAPI.Business
             {
                 sRet += c.ToString() + CONST.CARD_SEPERATOR_SYMBOL;
             }
-            sRet = sRet.TrimEnd(',');
+
+            sRet = sRet.TrimEnd(CONST.CARD_SEPERATOR_SYMBOL[0]);
             return sRet;
         }
 
-
+        /// <summary>
+        /// Convert một string theo kiểu 00x,00y,00z thành mảng Card
+        /// </summary>
+        /// <param name="cardStrArr"></param>
+        /// <returns></returns>
         public static Card[] StringArrayToCardArray(this string[] cardStrArr) 
         {
             Card[] cardArr = new Card[cardStrArr.Length];
@@ -135,15 +156,18 @@ namespace TalaAPI.Business
         /// <returns></returns>
         public static List<Card[]> StringToCardList(string value)
         {
-            string[] stringArr = value.Split('^');
+            string[] stringArr = value.Split(CONST.CARDLLIST_SEPERATOR_SYMBOL);
+            
             List<Card[]> cardArrList = new List<Card[]>();
+            
             /*tạo List<Card[]> tu stringArr*/
-            foreach (string tmpStr in stringArr)
+            foreach (string s in stringArr)
             {
-                string[] cardStrArr = tmpStr.Split(',');
-                Card[] cardArr = BusinessUtil.StringArrayToCardArray(cardStrArr);
+                string[] cardStrArr = s.Split(',');
+                Card[] cardArr = TalaBusinessUtil.StringArrayToCardArray(cardStrArr);
                 cardArrList.Add(cardArr);                
             }
+
             return cardArrList;
         }
         

@@ -30,7 +30,7 @@ namespace TalaAPI.play.van
             List<Card[]> cardArrList = null;
             try
             {
-                cardArrList = BusinessUtil.StringToCardList(bai);
+                cardArrList = TalaBusinessUtil.StringToCardList(bai);
             }
             catch (CardException ce)
             {

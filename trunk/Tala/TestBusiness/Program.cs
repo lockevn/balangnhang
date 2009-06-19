@@ -93,8 +93,8 @@ namespace TestBusiness
             //}
 
 
-            //MyClass mc = new MyClass();
-            //Console.WriteLine(mc.ToXMLString());
+            MyClass mc = new MyClass();
+            // Console.WriteLine(string.Join(CONST.CARD_SEPERATOR_SYMBOL, mc.ListOfCard.ToArray<string>()));
 
             //Soi soi = new Soi(1,"ân","lockevn");
             //Console.WriteLine(soi.ToXMLString());
