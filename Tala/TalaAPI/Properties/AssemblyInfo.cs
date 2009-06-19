@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TalaAPI")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("XML HTTP API")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("G")]
+[assembly: AssemblyCompany("Quantum Media")]
 [assembly: AssemblyProduct("TalaAPI")]
-[assembly: AssemblyCopyright("Copyright © G 2009")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Copyright © Quantum Media 2009")]
+[assembly: AssemblyTrademark("Quantum Media TalaAPI")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

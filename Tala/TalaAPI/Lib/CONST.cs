@@ -14,7 +14,19 @@ namespace TalaAPI.Lib
 {
     public class CONST
     {
-        public const int MAX_SOI_ALLOW = 100;
+        /// <summary>
+        /// Số sới tối đa có thể tạo cho Server này
+        /// </summary>
+        public const int MAX_SOI_ALLOW = 300;
+        
+        /// <summary>
+        /// Dấu phân cách các quân bài trong một CardList (VD 1 phỏm gồm 3 cây, phân cách nhau bởi dấu này
+        /// </summary>
         public const string CARD_SEPERATOR_SYMBOL = ",";
+        /// <summary>
+        /// Dấu phân cách các CardList(VD 2 phỏm liên tiếp, cách nhau bởi dấu này)
+        /// </summary>
+        public const char CARDLLIST_SEPERATOR_SYMBOL = '^';
+
     }
 }

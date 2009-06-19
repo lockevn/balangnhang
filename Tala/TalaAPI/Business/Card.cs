@@ -16,18 +16,26 @@ using TalaAPI.Lib;
 
 namespace TalaAPI.Business
 {
-    
+    /// <summary>
+    /// Đại diện cho một quân bài
+    /// </summary>
     public class Card : APIDataEntry
     {
         #region Các khai báo tĩnh, ràng buộc nghiệp vụ về một Card
 
-        public static string[] SO_SET = new string[13] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"};
         /// <summary>
-        /// Co Do Pich Tep
+        /// Tập hợp các số có thể của bộ bài, từ 01 đến 13
         /// </summary>
+        public static string[] SO_SET = new string[13] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"};
         
+        /// <summary>
+        /// Cơ Dô Pích Tép (theo thứ tự  C D P T)
+        /// </summary>        
         public static string[] CHAT_SET = new string[4] { "c", "d", "p", "t" };        
-        //public static string[] CHAT_SET = new string[4] { "c", "d", "t", "p" };        
+        
+        /// <summary>
+        /// Khởi tạo và trả về một bộ bài mới nguyên, chưa tráo, từ nhỏ đến to
+        /// </summary>
         public static Card[] CARD_SET
         {
             get
@@ -42,14 +50,7 @@ namespace TalaAPI.Business
                         tmpCardList.Add(tmpCard);
                     }
                 }
-                //foreach (string chat in CHAT_SET)
-                //{
-                //    foreach (string so in SO_SET)
-                //    {
-                //        Card tmpCard = new Card(so, chat);
-                //        tmpCardList.Add(tmpCard);
-                //    }
-                //}
+                
                 return tmpCardList.ToArray();
             }
         }
@@ -89,6 +90,8 @@ namespace TalaAPI.Business
                 return tmpVal;
             }
         }
+
+
 
         public static int MOM_VALUE = 1000;
 
