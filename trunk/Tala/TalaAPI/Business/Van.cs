@@ -263,7 +263,7 @@ namespace TalaAPI.Business
             /*nộp gà*/
             if (this.SoiDangChoi.SoiOption.IsGa)
             {
-                int nTienPhatVaoGa = this.SoiDangChoi.NopGa(previousSeat.Player);
+                int nTienPhatVaoGa = Cashier.NopGa(this.SoiDangChoi, previousSeat.Player);
                 this.AddMessage("Nộp gà", previousSeat.Player.Username + " nộp " + nTienPhatVaoGa + " vào gà");                
             }
                          
