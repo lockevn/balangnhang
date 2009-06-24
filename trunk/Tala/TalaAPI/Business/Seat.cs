@@ -2,41 +2,31 @@
 using System.Data;
 using System.Configuration;
 using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Collections.Generic;
+
 using TalaAPI.XMLRenderOutput;
 using TalaAPI.Lib;
 
 
 namespace TalaAPI.Business
 {
+    /// <summary>
+    /// biểu diễn một chỗ ngồi trong một sới. Chỗ ngồi sẽ có thông tin về người ngồi chơi, các cây bài thuộc về chỗ ngồi (khi đang đánh mới có)
+    /// </summary>
     public class Seat : APIDataEntry
     {
-        int _Index;
+        int _Pos;
         /// <summary>
         /// Thứ tự chỗ ngồi 0 1 2 3
         /// </summary>
         [ElementXMLExportAttribute("pos", DataOutputXMLType.Attribute)]
-        public int Index
+        public int Pos
         {
-            get { return _Index; }
-            set { _Index = value; }
+            get { return _Pos; }
+            set { _Pos = value; }
         }
-
-        User _Player;
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
-        public User Player
-        {
-            get { return _Player; }
-            set { _Player = value; }
-        }
-
+        
         bool _IsReady;
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public bool IsReady
@@ -44,37 +34,50 @@ namespace TalaAPI.Business
             get { return _IsReady; }
             set { _IsReady = value; }
         }
-
         
-        public int HaIndex;
+        [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
+        public int HaIndex { get; set; }
 
-        [ElementXMLExportAttribute("haindex", DataOutputXMLType.Attribute)]
-        public int HaIndexProperty
+
+
+
+        User _Player;
+        /// <summary>
+        /// User nào đang ngồi ở chỗ này
+        /// </summary>
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
+        public User Player
         {
-            get { return HaIndex; }
-            set { HaIndex = value; }
+            get { return _Player; }
+            set { _Player = value; }
         }
 
         public List<Card> BaiTrenTay;
         public List<Card> BaiDaDanh;
         public List<Card> BaiDaAn;
-
         public List<Card> BaiDaGui;
-
         public List<Phom> PhomList;
 
         /// <summary>
-        /// /*số cây gửi vào các phỏm của seat này, dùng để tính toán tổng số cây thực sự của 1 seat*/
+        /// số cây gửi vào các phỏm của seat này, dùng để tính toán tổng số cây thực sự của 1 seat
         /// </summary>
         public int SoCayGuiToiSeat { get; set; }
 
 
-        public Seat(int index, User player)
+
+
+
+        /// <summary>
+        /// tạo một chỗ ngồi cho player tại vị trí xác định
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="player"></param>
+        public Seat(int pos, User player)
         {
-            this._Index = index;
+            this._Pos = pos;
             this.Player = player;
 
-            this.HaIndex = index;
+            this.HaIndex = pos;
             this.BaiTrenTay = new List<Card>();
             this.BaiDaDanh = new List<Card>();
             this.BaiDaAn = new List<Card>();
@@ -82,6 +85,7 @@ namespace TalaAPI.Business
             this.PhomList = new List<Phom>();
             this.SoCayGuiToiSeat = 0;
         }
+
 
         /// <summary>
         /// Lấy chỉ số của seat trước so với chỉ số hiện tại của seat. Chỉ số có thể là index hoặc haIndex của Seat
@@ -114,7 +118,7 @@ namespace TalaAPI.Business
         }
 
         /// <summary>
-        /// Lấy tổng số card trên tay lẫn card đã ăn của seat
+        /// Lấy tổng số card trên tay + card đã ăn + Các Card trong các phỏm + các cây đã gửi đi bài khác
         /// </summary>
         /// <returns></returns>
         public int GetTotalCardOnSeat()
@@ -126,6 +130,10 @@ namespace TalaAPI.Business
             return this.BaiTrenTay.Count + this.BaiDaAn.Count + this.GetTotalCardsInAllPhom() + this.BaiDaGui.Count;
         }
 
+        /// <summary>
+        /// lấy số lượng các cây trong các phỏm của người chơi ngồi ở Seat này (không tính các cây người khác gửi vào phỏm)
+        /// </summary>
+        /// <returns></returns>
         private int GetTotalCardsInAllPhom()
         {
             if (this.PhomList == null || this.PhomList.Count == 0)
@@ -145,10 +153,6 @@ namespace TalaAPI.Business
             /// bỏ qua các cây của người khác gửi tới seat này
             return count - this.SoCayGuiToiSeat;
         }
-
-        
-
-
 
 
     }

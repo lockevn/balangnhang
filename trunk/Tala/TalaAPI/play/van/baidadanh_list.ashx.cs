@@ -36,7 +36,7 @@ namespace TalaAPI.play.van
                 {
                     foreach (Card card in seat.BaiDaDanh)
                     {
-                        card.Pos = seat.Index;
+                        card.Pos = seat.Pos;
                         Data.Add(card);                        
                     }
                 }

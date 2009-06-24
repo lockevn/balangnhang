@@ -175,7 +175,7 @@ namespace TalaAPI.Business
             for(int i=0; i<this.SeatList.Count; i++)
             {
                 tmpSeat.HaIndex = i ;
-                int nextIndex = Seat.GetNextSeatIndex(tmpSeat.Index, this.SeatList.Count);
+                int nextIndex = Seat.GetNextSeatIndex(tmpSeat.Pos, this.SeatList.Count);
                 tmpSeat = this.SeatList[nextIndex];
             }
 
@@ -246,13 +246,13 @@ namespace TalaAPI.Business
                         _OwnerUsername = player.Username;
                     }
 
-                    return newSeat.Index;
+                    return newSeat.Pos;
                 }
             }
             else
             {
                 // ngồi rồi thì trả ra index chỗ đang ngồi
-                return seatDangNgoiTrongSoi.Index;
+                return seatDangNgoiTrongSoi.Pos;
             }
         }
 
@@ -483,8 +483,8 @@ namespace TalaAPI.Business
         {
             foreach (Seat seat in SeatList)
             {
-                seat.Index = SeatList.IndexOf(seat);
-                seat.HaIndex = seat.Index;
+                seat.Pos = SeatList.IndexOf(seat);
+                seat.HaIndex = seat.Pos;
                 
                 
             }
