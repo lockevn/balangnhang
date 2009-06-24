@@ -17,7 +17,7 @@ namespace TalaAPI
         protected void Application_Start(object sender, EventArgs e)
         {
             Song value = Song.Instance;
-            this.Application.Add("song", value);
+            this.Application.Add("song", value);            
         }
 
         protected void Session_Start(object sender, EventArgs e)

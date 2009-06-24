@@ -17,7 +17,7 @@ namespace TalaAPI.community.soi
 
         public override void ProcessRequest(HttpContext context)
         {
-            Data.AddRange(Song.Instance.Soi.Values);
+            Data.AddRange(Song.Instance.DicSoi.Values);
             base.Stat = APICommandStatusState.OK;
 
             base.ProcessRequest(context);
