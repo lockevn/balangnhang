@@ -34,15 +34,19 @@ namespace TalaAPI.Lib
             command.CommandText = strSQL;
             MySqlDataReader reader = command.ExecuteReader();
 
-            User ret = new User();            
-            while(reader.Read())
+            User ret = null;
+            if (reader.HasRows)
             {
-                ret.Username = reader["u"] as string;
-                try
+                ret = new User();
+                while (reader.Read())
                 {
-                    ret.Money = Convert.ToInt32(reader["balance"]);
+                    ret.Username = reader["u"] as string;
+                    try
+                    {
+                        ret.Money = Convert.ToInt32(reader["balance"]);
+                    }
+                    catch { }
                 }
-                catch{}
             }
             con.Close();
 
