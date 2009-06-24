@@ -104,6 +104,19 @@ namespace TalaAPI.Business
 
 
 
+        /// <summary>
+        /// Viết Card thành dạng 3 ký tự, ssc (số số chất)
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return So + Chat;
+        }
+
+
+
+
+
         public bool IsCungChat(Card card)
         {
             if (this.Chat == card.Chat)
@@ -120,21 +133,6 @@ namespace TalaAPI.Business
             }
             return false;
         }
-
-
-
-
-        /// <summary>
-        /// Viết Card thành dạng 3 ký tự, ssc (số số chất)
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return So + Chat;
-        }
-
-        
-
 
 
         /// <summary>
