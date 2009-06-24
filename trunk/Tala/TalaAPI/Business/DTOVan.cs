@@ -17,6 +17,9 @@ using TalaAPI.Lib;
 
 namespace TalaAPI.Business
 {
+    /// <summary>
+    /// DTO dành cho hiển thị thông tin về ván
+    /// </summary>
     public class DTOVan : APIDataEntry
     {
         Van _VanInfo;
