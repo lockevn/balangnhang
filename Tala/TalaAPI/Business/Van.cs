@@ -628,7 +628,7 @@ namespace TalaAPI.Business
             {
                 Seat seat = resultSeatArr[i];
                 int chip = 0; /*so chip phai nop*/
-                if (pointArr[i] < Card.MOM_VALUE)
+                if (pointArr[i] < CONST.MOM_POINTVALUE)
                 {
                     /*vị trí i sẽ phải trả i chip cho thằng nhất*/
                     chip = i;                    
@@ -814,7 +814,7 @@ namespace TalaAPI.Business
                 /*neu seat bi mom, set diem = vo cung + hạ Index*/
                 if (seat.PhomList.Count == 0)
                 {
-                    tmpArr[seat.Index] = Card.MOM_VALUE + seat.HaIndex;
+                    tmpArr[seat.Index] = CONST.MOM_POINTVALUE + seat.HaIndex;
                 }
                 else
                 {
@@ -829,7 +829,7 @@ namespace TalaAPI.Business
             int tmpVal = 0;
             foreach (Card card in cardList)
             {
-                tmpVal += card.Value;
+                tmpVal += card.PointValue;
             }
             return tmpVal;
         }
