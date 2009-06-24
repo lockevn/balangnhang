@@ -155,6 +155,9 @@ namespace TalaAPI.Business
             CryptoUtil cu = new CryptoUtil();
             password = cu.MD5Hash(password);
             User user = DBUtil.GetUserByUsernameAndPassword(username, password);
+
+
+            /// nếu tìm thấy user ở một kho lưu nào đó (DB của Quantum hoặc AuthenStore của đơn vị khác)
             if (user != null && user.Username == username)
             {
                 // if found user with username and password, authenticate OK
@@ -162,9 +165,9 @@ namespace TalaAPI.Business
                 {
                     // lần đầu, tạo authkey mới, thêm vào các mảng cache
                     // generate new authkey
-                    user.Authkey = TextUtil.GetRandomGUID();
+                    user.Authkey = user.Username + TextUtil.GetRandomGUID();
 
-                    // TODO: đây chỉ cho test, bỏ dòng dưới đi
+                    // TODO: chỗ này chỉ dùng test, bỏ dòng dưới đi
                     #if DEBUG
                     user.Authkey = user.Username;
                     #endif
