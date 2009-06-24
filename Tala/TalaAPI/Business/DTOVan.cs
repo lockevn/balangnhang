@@ -60,7 +60,7 @@ namespace TalaAPI.Business
         {
             get 
             {
-                Seat seatCurrentInTurn = _VanInfo.Soi.GetSeatOfCurrentInTurn();
+                Seat seatCurrentInTurn = _VanInfo.SoiDangChoi.GetSeatOfCurrentInTurn();
                 if (seatCurrentInTurn.GetTotalCardOnSeat() > 9)
                 {
                     return 1;

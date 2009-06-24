@@ -63,8 +63,10 @@ namespace TalaAPI.Business
 
         public List<Phom> PhomList;
 
-        public int SoCayGuiToiSeat; /*số cây gửi vào các phỏm của seat, dùng để tính toán tổng số cây thực sự của 1 seat*/
-        
+        /// <summary>
+        /// /*số cây gửi vào các phỏm của seat này, dùng để tính toán tổng số cây thực sự của 1 seat*/
+        /// </summary>
+        public int SoCayGuiToiSeat { get; set; }
 
 
         public Seat(int index, User player)
@@ -130,6 +132,7 @@ namespace TalaAPI.Business
             {
                 return 0;
             }
+
             int count = 0;
             foreach (Phom phom in this.PhomList)
             {
@@ -138,6 +141,8 @@ namespace TalaAPI.Business
                     count += phom.CardArray.Length;
                 }
             }
+            
+            /// bỏ qua các cây của người khác gửi tới seat này
             return count - this.SoCayGuiToiSeat;
         }
 

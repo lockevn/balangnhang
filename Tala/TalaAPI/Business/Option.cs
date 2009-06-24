@@ -8,9 +8,15 @@ using TalaAPI.Lib;
 
 namespace TalaAPI.Business
 {
+    /// <summary>
+    /// Lớp này chỉ dùng để chứa dữ liệu, không đưa method vào đây
+    /// </summary>
     public class Option
     {
         int _TiGiaChip;
+        /// <summary>
+        /// Trong ván sẽ trừ điểm cộng điểm bằng chip. Vậy các bạn chơi muốn đổi 1 chip thành mấy VCoin?
+        /// </summary>
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public int TiGiaChip
         {
@@ -73,7 +79,8 @@ namespace TalaAPI.Business
 
 
         /// <summary>
-        /// Khởi tạo option mặc định cho Sới. Tính chốt, tính gà, cho gửi nối, cho ù khan, tỉ giá chíp = 1, không đổi chỗ sau gửi, timeout = 60s
+        /// Khởi tạo option mặc định cho Sới. 
+        /// Tính chốt, tính gà, cho gửi nối, cho ù khan, tỉ giá chíp = 1, không đổi chỗ sau gửi, timeout = 60s
         /// </summary>
         public Option()
         {

@@ -2,13 +2,8 @@
 using System.Data;
 using System.Configuration;
 using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+
 using TalaAPI.Lib;
 using TalaAPI.XMLRenderOutput;
 
@@ -32,9 +27,15 @@ namespace TalaAPI.Business
             set { _CardArr = value; }
         }
         
-        internal Seat OfSeat; /*seat ma phom thuoc ve*/
-
+        /// <summary>
+        /// Phỏm này thuộc Seat nào
+        /// </summary>
+        internal Seat OfSeat { get; set; }
+        
         int _Pos = -1;
+        /// <summary>
+        /// Nếu Pos có giá trị -1 nghĩa là chưa đc gán, Pos vô nghĩa
+        /// </summary>
         [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
         public int Pos
         {
@@ -42,6 +43,10 @@ namespace TalaAPI.Business
             set { _Pos = value; }
         }
 
+        /// <summary>
+        /// Tạo phỏm từ một mảng card
+        /// </summary>
+        /// <param name="cardArr"></param>
         public Phom(Card[] cardArr)
         {
             _CardArr = cardArr;
