@@ -122,6 +122,8 @@ namespace TalaAPI.Business
         }
 
 
+
+
         /// <summary>
         /// Viết Card thành dạng 3 ký tự, ssc (số số chất)
         /// </summary>
@@ -131,34 +133,7 @@ namespace TalaAPI.Business
             return So + Chat;
         }
 
-        /// <summary>
-        /// create a Card object from string with format SoSoChat: vd 01c (át cơ)
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns>card object if valid otherwise null</returns>
-        public static Card ParseString(string value)
-        {
-            Card cardRet = null;
-
-            if (value == null || value.Length != 3)
-            {
-                throw new CardException("invalid card string format: " + value);
-            }
-            string so = value.Substring(0, 2);
-            string chat = value.Substring(2, 1);
-
-            // hợp lệ mới tạo obj Card
-            if (Card.SO_SET.Contains(so) && Card.CHAT_SET.Contains(chat))
-            {
-                cardRet = new Card(so, chat);
-                return cardRet;
-            }
-
-            throw new CardException("invalid card string format: " + value);
-
-        }
-
-
+        
 
 
 
