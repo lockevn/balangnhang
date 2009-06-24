@@ -46,7 +46,7 @@ namespace TalaAPI.Business
        
                 
         /// <summary>
-        /// số tiền đang ở trong Gà, tính bằng Chip
+        /// số CHIP đang ở trong Gà
         /// </summary>
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public int GaValue { get; set; }
@@ -503,27 +503,6 @@ namespace TalaAPI.Business
             }
         }
 
-
-        
-
-
-
-        /// <summary>
-        /// Nộp chip vào Gà, lấy từ túi User phải nộp. Số chip cần nộp lấy trong thông số của Sới
-        /// </summary>
-        /// <param name="userPhaiNop">Lấy từ túi người này để nộp</param>
-        /// <returns>Số tiền đã nộp</returns>
-        public int NopGa(User userPhaiNop)
-        {
-            int nTienPhat = Cashier.CHIP_NOP_GA * this.SoiOption.TiGiaChip;
-            // cộng gà lên 1 chip
-            this.GaValue += nTienPhat;
-
-            // trừ tiền trong túi user đi
-            userPhaiNop.SubtractMoney(nTienPhat);
-
-            return nTienPhat;
-        }
     
     }
 }

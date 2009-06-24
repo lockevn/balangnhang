@@ -6,7 +6,7 @@ using System.Linq;
 namespace TalaAPI.Business
 {
     /// <summary>
-    /// Quầy thu ngân, tính cước của trò chơi
+    /// Quầy thu ngân, tính cước của trò chơi. Tất cả các giao dịch dính đến TIỀN hay CHIP đều thực hiện ở đây
     /// </summary>
     public class Cashier
     {
@@ -24,5 +24,26 @@ namespace TalaAPI.Business
         public const int CHIP_BA = 2; /*số chip người ba phải nộp cho người nhất*/
         public const int CHIP_NHI = 1; /*số chip người nhì phải nộp cho người nhất*/
 
+
+
+        /// <summary>
+        /// Nộp 1 CHIP vào Gà của Sới, lấy TIỀN từ túi User phải nộp (có tính tỷ giá chip).
+        /// Số chip cần nộp lấy trong thông số của Sới
+        /// </summary>
+        /// <param name="soi">Sới mà User đang chơi</param>
+        /// <param name="userPhaiNop">Lấy từ túi người này để nộp</param>
+        /// <returns>Số tiền đã nộp</returns>
+        public static int NopGa(Soi soi, User userPhaiNop)
+        {            
+            int nTienPhat = Cashier.CHIP_NOP_GA * soi.SoiOption.TiGiaChip;            
+            // trừ tiền trong túi user đi
+            userPhaiNop.SubtractMoney(nTienPhat);
+
+            // cộng gà lên 1 chip
+            soi.GaValue += 1;
+
+            return nTienPhat;
+        }
+    
     }
 }
