@@ -22,7 +22,7 @@ namespace TalaAPI.play.van
             Card card = null;
             try
             {
-                card = Card.ParseString(cay);
+                card = cay.ToCard();
             }
             catch (CardException ce)
             {

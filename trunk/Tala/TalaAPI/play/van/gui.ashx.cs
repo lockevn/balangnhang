@@ -56,7 +56,7 @@ namespace TalaAPI.play.van
                     string cardStr = stringCardArr[i];
                     try
                     {
-                        Card tmpCard = Card.ParseString(cardStr);
+                        Card tmpCard = cardStr.ToCard();
                         cardList.Add(tmpCard);
                     }
                     catch (CardException ce)

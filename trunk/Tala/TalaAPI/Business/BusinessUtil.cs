@@ -20,14 +20,31 @@ namespace TalaAPI.Business
     /// </summary>
     public static class TalaBusinessUtil
     {
+        
         /// <summary>
-        /// Chuyển từ string sang Card
+        /// Chuyển từ string sang Card, create a Card object from string with format SoSoChat: vd 01c (át cơ)
         /// </summary>
         /// <param name="s"></param>
-        /// <returns></returns>
-        public static Card ToCard(this string s)
+        /// <returns>card object if valid, otherwise null</returns>
+        public static Card ToCard(this string p_s)
         {
-            return Card.ParseString(s);
+            Card cardRet = null;
+
+            if (p_s == null || p_s.Length != 3)
+            {
+                throw new CardException("invalid card string format: " + p_s);
+            }
+
+            string so = p_s.Substring(0, 2);
+            string chat = p_s.Substring(2, 1);
+            // hợp lệ mới tạo obj Card
+            if (Card.SO_SET.Contains(so) && Card.CHAT_SET.Contains(chat))
+            {
+                cardRet = new Card(so, chat);
+                return cardRet;
+            }
+
+            throw new CardException("invalid card string format: " + p_s);
         }
 
 
@@ -141,7 +158,7 @@ namespace TalaAPI.Business
             foreach (string cardStr in cardStrArr)
             {                 
                 /*if CardException occurs, throw it to higher level*/
-                Card card = Card.ParseString(cardStr);                
+                Card card = cardStr.ToCard();                
                 cardArr[i] = card;
                 i++;
             }
