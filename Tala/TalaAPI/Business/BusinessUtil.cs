@@ -125,12 +125,12 @@ namespace TalaAPI.Business
                 sRet += c.ToString() + CONST.CARD_SEPERATOR_SYMBOL;
             }
 
-            sRet = sRet.TrimEnd(CONST.CARD_SEPERATOR_SYMBOL[0]);
+            sRet = sRet.TrimEnd(CONST.CARD_SEPERATOR_SYMBOL);
             return sRet;
         }
 
         /// <summary>
-        /// Convert một string theo kiểu 00x,00y,00z thành mảng Card
+        /// Convert một string[] theo kiểu {"00x", "00y", "00z"} thành Card[]
         /// </summary>
         /// <param name="cardStrArr"></param>
         /// <returns></returns>
@@ -163,7 +163,7 @@ namespace TalaAPI.Business
             /*tạo List<Card[]> tu stringArr*/
             foreach (string s in stringArr)
             {
-                string[] cardStrArr = s.Split(',');
+                string[] cardStrArr = s.Split(CONST.CARD_SEPERATOR_SYMBOL);
                 Card[] cardArr = TalaBusinessUtil.StringArrayToCardArray(cardStrArr);
                 cardArrList.Add(cardArr);                
             }
