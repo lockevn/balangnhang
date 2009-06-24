@@ -50,6 +50,8 @@ namespace TalaAPI.Business
             set { _IsChot = value; }
         }
 
+
+
         bool _DoiChoSauKhiU;
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public bool DoiChoSauKhiU
@@ -59,22 +61,29 @@ namespace TalaAPI.Business
         }
 
         int _TurnTimeout;
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
+        /// <summary>
+        /// Số giây mà hệ thống chờ user thực hiện thao tác khi đến lượt, nếu timeout hệ thống sẽ xử lý
+        /// </summary>
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]        
         public int TurnTimeout
         {
             get { return _TurnTimeout; }
             set { _TurnTimeout = value; }
         }
 
+
+        /// <summary>
+        /// Khởi tạo option mặc định cho Sới. Tính chốt, tính gà, cho gửi nối, cho ù khan, tỉ giá chíp = 1, không đổi chỗ sau gửi, timeout = 60s
+        /// </summary>
         public Option()
         {
-            this._IsChot = true;
-            this._IsGa = true;
-            this._IsGuiNoi = true;
-            this._IsUKhan = true;
             this._TiGiaChip = 1;
-            
-            
+            this._IsUKhan = true;
+            this._IsGuiNoi = true;
+            this._IsGa = true; 
+            this._IsChot = true;
+            this._DoiChoSauKhiU = false;
+            this._TurnTimeout = 60;            
         }
 
 
