@@ -137,7 +137,7 @@ namespace TalaAPI.Business
                 }
             }
 
-            Seat seatDanhDauTien = SoiDangChoi.GetSeatOfUserInSoi(p_sOldWinnerUsername);
+            Seat seatDanhDauTien = SoiDangChoi.GetSeatByUsername(p_sOldWinnerUsername);
             if (seatDanhDauTien == null)
             {
                 seatDanhDauTien = SoiDangChoi.SeatList[0];
@@ -280,8 +280,8 @@ namespace TalaAPI.Business
                 /*nếu haIndex = 3 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 2*/
                 /*nếu haIndex = 0 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 3*/            
                 int indexChuyenSang = Seat.GetPreviousSeatIndex(seat.HaIndex, this.SoiDangChoi.SeatList.Count);
-                Seat seat0 = this.SoiDangChoi.getSeatByHaIndex(0) as Seat;
-                Seat seatI = this.SoiDangChoi.getSeatByHaIndex(indexChuyenSang) as Seat;
+                Seat seat0 = this.SoiDangChoi.GetSeatByHaIndex(0) as Seat;
+                Seat seatI = this.SoiDangChoi.GetSeatByHaIndex(indexChuyenSang) as Seat;
                 Card chuyenCard = seat0.BaiDaDanh.Last();
                 seatI.BaiDaDanh.Add(chuyenCard);
                 seat0.BaiDaDanh.Remove(chuyenCard);                

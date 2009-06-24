@@ -95,7 +95,7 @@ namespace TalaAPI.Business
         public Seat CheckUserJoinedSeat()
         {
             Soi soi = this.CurrentAU.CurrentSoi;            
-            Seat seat = soi.GetSeatOfUserInSoi(this.CurrentAU.Username);
+            Seat seat = soi.GetSeatByUsername(this.CurrentAU.Username);
             if (seat == null)
             {
                 XMLHttpHandler httphandler = new XMLHttpHandler();

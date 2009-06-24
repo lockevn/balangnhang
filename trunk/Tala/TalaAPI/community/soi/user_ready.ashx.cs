@@ -21,6 +21,14 @@ namespace TalaAPI.community.soi
             // lấy current sới, current seat của user AU, đặt cờ ready = true
             Soi soi = security.CheckUserJoinedSoi();
             soi.SetReady(security.CurrentAU);
+
+            /// nếu sới đầy chỗ rồi
+            /// thử gọi hàm StartPlaying (trong đấy tự nó kiểm tra điều kiện để bắt đầu ván)
+            if (soi.SeatList.Count == CONST.MAX_SEAT_IN_SOI_ALLOW && soi.IsAllPlayerReady())
+            {
+                soi.StartPlaying();
+            }
+
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "READY", "1");
             Cmd.Add(cs);
 

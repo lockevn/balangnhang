@@ -66,7 +66,7 @@ namespace TalaAPI.Business
             {
                 if (_CurrentSoi != null)
                 {
-                    return _CurrentSoi.GetSeatOfUserInSoi(_sUsername).Pos.ToString();
+                    return _CurrentSoi.GetSeatByUsername(_sUsername).Pos.ToString();
                 }
                 else 
                 {
