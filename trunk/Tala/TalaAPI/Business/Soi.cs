@@ -2,89 +2,54 @@
 using System.Data;
 using System.Configuration;
 using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
-using TalaAPI.Lib;
 using System.Collections.Generic;
-using TalaAPI.XMLRenderOutput;
 
+using TalaAPI.Lib;
+using TalaAPI.XMLRenderOutput;
 
 
 namespace TalaAPI.Business
 {
     public class Soi : APIDataEntry
     {
-         string _Name;
-         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
-         public string Name
-         {
-             get { return _Name; }
-             set { _Name = value; }
-         }
-
-         int _Id;
-         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
-         public int Id
-         {
-             get { return _Id; }
-             set { _Id = value; }
-         }
-
-
-        public DateTime StartTime;
-        public DateTime EndTime;
-        public string Description;
-        
-        List<Seat> _SeatList;
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false, false)]
-        public List<Seat> SeatList
+        int _Id;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
+        public int Id
         {
-            get { return _SeatList; }
-            set { _SeatList = value; }
+            get { return _Id; }
+            set { _Id = value; }
+        }
+
+        string _Name;
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
+        public string Name
+        {
+            get { return _Name; }
+            set { _Name = value; }
         }
         
         string _OwnerUsername;
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public string OwnerUsername
         {
-            get 
-            {                
-                return _OwnerUsername;  
+            get
+            {
+                return _OwnerUsername;
             }
             set { _OwnerUsername = value; }
         }
 
-        
-        Option _SoiOption;
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
-        public Option SoiOption
-        {
-            get { return _SoiOption; }
-            set { _SoiOption = value; }
-        }
-
-        
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Description { get; set; }
+       
+                
         /// <summary>
-        /// tính bằng Chip
-        /// </summary>
-        int _GaValue;
-
-        
-        /// <summary>
-        /// tính bằng Chip
+        /// số tiền đang ở trong Gà, tính bằng Chip
         /// </summary>
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
-        public int GaValue
-        {
-            get { return _GaValue; }
-            set { _GaValue = value; }
-        }
-               
+        public int GaValue { get; set; }
 
         bool _IsLocked = false;
         /// <summary>
@@ -102,8 +67,7 @@ namespace TalaAPI.Business
                 _IsLocked = value;
             }
         }
-
-
+        
         bool _IsPlaying = false;
         /// <summary>
         /// Nếu trường này bằng true, thì sới này đang có ván đang chơi, ván đang diễn ra. Nếu trường này bằng false, ván chưa bắt đầu hoặc đã kết thúc. Lúc này client cần đọc thông tin về kết quả ván chơi trước , ...
@@ -120,9 +84,37 @@ namespace TalaAPI.Business
                 _IsPlaying = value;
             }
         }
-        
-        
+
+
+
+
+
+        List<Seat> _SeatList;
+        /// <summary>
+        /// Danh sách các chỗ ngồi chơi trong sới
+        /// </summary>
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false, false)]
+        public List<Seat> SeatList
+        {
+            get { return _SeatList; }
+            set { _SeatList = value; }
+        }
+
+        Option _SoiOption;
+        /// <summary>
+        /// Các tuỳ chọn của Sới này, setup khi bắt đầu sới mới
+        /// </summary>
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
+        public Option SoiOption
+        {
+            get { return _SoiOption; }
+            set { _SoiOption = value; }
+        }
+
         Van _CurrentVan;
+        /// <summary>
+        /// Ván đang chơi của Sới hiện tại
+        /// </summary>
         public Van CurrentVan
         {
             get { return _CurrentVan; }
@@ -132,6 +124,13 @@ namespace TalaAPI.Business
 
 
 
+
+        /// <summary>
+        /// Khởi tạo đối tượng sới, cho các Player gia nhập
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="owner"></param>
         public Soi(int id, string name, string owner)
         {
             this.Id = id;
@@ -140,9 +139,11 @@ namespace TalaAPI.Business
             this.StartTime = System.DateTime.Now;
             this.SeatList = new List<Seat>();
             this.SoiOption = new Option();
+
+            // ván sẽ được khởi tạo sau
         }
 
-        
+
         /// <summary>
         /// hệ thống tạo ván mới, tự chia bài, tự xếp chỗ nếu truyền tham số
         /// </summary>
@@ -167,14 +168,14 @@ namespace TalaAPI.Business
                 this.XepChoRandom();
             }
 
-            /*chia bai*/            
-            newVan.ChiaBai(oldVan == null? "" : oldVan.WinnerUsername);
+            /*chia bai*/
+            newVan.ChiaBai(oldVan == null ? "" : oldVan.WinnerUsername);
 
             /*reset HaIndex*/
             Seat tmpSeat = this.SeatList[newVan.CurrentTurnSeatIndex];
-            for(int i=0; i<this.SeatList.Count; i++)
+            for (int i = 0; i < this.SeatList.Count; i++)
             {
-                tmpSeat.HaIndex = i ;
+                tmpSeat.HaIndex = i;
                 int nextIndex = Seat.GetNextSeatIndex(tmpSeat.Pos, this.SeatList.Count);
                 tmpSeat = this.SeatList[nextIndex];
             }
@@ -183,22 +184,6 @@ namespace TalaAPI.Business
         }
 
 
-        /// <summary>
-        /// Nộp chip vào Gà, lấy từ túi User phải nộp. Số chip cần nộp lấy trong thông số của Sới
-        /// </summary>
-        /// <param name="userPhaiNop">Lấy từ túi người này để nộp</param>
-        /// <returns>Số tiền đã nộp</returns>
-        public int NopGa(User userPhaiNop)
-        {
-            int nTienPhat = Cashier.CHIP_NOP_GA * this.SoiOption.TiGiaChip;
-            // cộng gà lên 1 chip
-            this.GaValue += nTienPhat;
-
-            // trừ tiền trong túi user đi
-            userPhaiNop.SubtractMoney(nTienPhat);
-
-            return nTienPhat;
-        }
 
 
 
@@ -215,8 +200,8 @@ namespace TalaAPI.Business
             {
                 // không tìm được online user tương ứng
                 return -2;
-            }            
-            
+            }
+
             Seat seatDangNgoiTrongSoi = this.GetSeatOfUserInSoi(player.Username);
             if (seatDangNgoiTrongSoi == null)
             {
@@ -264,7 +249,7 @@ namespace TalaAPI.Business
         public int AddPlayer(string username)
         {
             User player = Song.Instance.GetUserByUsername(username);
-            return AddPlayer(player);            
+            return AddPlayer(player);
         }
 
 
@@ -286,7 +271,7 @@ namespace TalaAPI.Business
             {
                 return -1;
             }
-            
+
             Seat seatDangNgoi = GetSeatOfUserInSoi(player.Username);
             if (seatDangNgoi == null)
             {
@@ -325,8 +310,8 @@ namespace TalaAPI.Business
             User player = Song.Instance.GetUserByUsername(username);
             return RemovePlayer(player);
         }
-        
-        
+
+
         #endregion
 
 
@@ -440,7 +425,7 @@ namespace TalaAPI.Business
             _IsPlaying = true;
             //o	Bắt đầu ván với các lựa chọn của Sới hiện tại
             //o	Hệ thống sẽ tạo ván mới, tự chia bài
-            
+
             CreateVan(false);
             return 0;
         }
@@ -474,7 +459,7 @@ namespace TalaAPI.Business
             }
             return bAllPlayerReady;
         }
-        
+
 
         /// <summary>
         /// sắp xếp lại index của các chỗ ngồi trong mảng SeatList. Hàm này cần gọi mỗi khi có sự thay đổi vè chỗ ngồi trong  Sới (thêm bớt player)
@@ -485,8 +470,8 @@ namespace TalaAPI.Business
             {
                 seat.Pos = SeatList.IndexOf(seat);
                 seat.HaIndex = seat.Pos;
-                
-                
+
+
             }
         }
 
@@ -507,5 +492,25 @@ namespace TalaAPI.Business
             return null;
 
         }
+
+
+
+        /// <summary>
+        /// Nộp chip vào Gà, lấy từ túi User phải nộp. Số chip cần nộp lấy trong thông số của Sới
+        /// </summary>
+        /// <param name="userPhaiNop">Lấy từ túi người này để nộp</param>
+        /// <returns>Số tiền đã nộp</returns>
+        public int NopGa(User userPhaiNop)
+        {
+            int nTienPhat = Cashier.CHIP_NOP_GA * this.SoiOption.TiGiaChip;
+            // cộng gà lên 1 chip
+            this.GaValue += nTienPhat;
+
+            // trừ tiền trong túi user đi
+            userPhaiNop.SubtractMoney(nTienPhat);
+
+            return nTienPhat;
+        }
+    
     }
 }
