@@ -152,7 +152,7 @@ namespace TalaAPI.Business
         internal Van CreateVan(bool isXepChoRequired)
         {
             int newVanIndex = 1;
-            /*index van moi = index van cu + 1*/
+            /// index van moi = index van cu + 1
             if (this._CurrentVan != null)
             {
                 newVanIndex = this._CurrentVan.Index++;
@@ -162,16 +162,16 @@ namespace TalaAPI.Business
             Van newVan = new Van(newVanIndex, this);
             this._CurrentVan = newVan;
 
-            /*xep cho randomly*/
+            /// xep cho randomly
             if (isXepChoRequired)
             {
                 this.XepChoRandom();
             }
 
-            /*chia bai*/
+            /// Chia bài, chia cho người thắng ván cũ trước (nếu có)
             newVan.ChiaBai(oldVan == null ? "" : oldVan.WinnerUsername);
 
-            /*reset HaIndex*/
+            /// reset HaIndex
             Seat tmpSeat = this.SeatList[newVan.CurrentTurnSeatIndex];
             for (int i = 0; i < this.SeatList.Count; i++)
             {
@@ -202,7 +202,7 @@ namespace TalaAPI.Business
                 return -2;
             }
 
-            Seat seatDangNgoiTrongSoi = this.GetSeatOfUserInSoi(player.Username);
+            Seat seatDangNgoiTrongSoi = this.GetSeatByUsername(player.Username);
             if (seatDangNgoiTrongSoi == null)
             {
                 int count = this.SeatList.Count;
@@ -272,7 +272,7 @@ namespace TalaAPI.Business
                 return -1;
             }
 
-            Seat seatDangNgoi = GetSeatOfUserInSoi(player.Username);
+            Seat seatDangNgoi = GetSeatByUsername(player.Username);
             if (seatDangNgoi == null)
             {
                 // không tìm thấy user này đang ngồi trong sới
@@ -324,7 +324,7 @@ namespace TalaAPI.Business
         /// <returns></returns>
         public bool IsUserInSoi(string username)
         {
-            if (GetSeatOfUserInSoi(username) != null)
+            if (GetSeatByUsername(username) != null)
             {
                 return true;
             }
@@ -335,11 +335,11 @@ namespace TalaAPI.Business
         }
 
         /// <summary>
-        /// Lặp qua các Seat trong sới, nếu Player của Seat đó có username trùng với đối số thì trả ra Seat đó
+        /// Lặp qua các Seat trong sới, nếu Player của Seat đó có username trùng với đối số thì trả ra Seat đó, nếu không thì trả về null
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        public Seat GetSeatOfUserInSoi(string username)
+        public Seat GetSeatByUsername(string username)
         {
             username = username.ToStringSafetyNormalize();
             foreach (Seat seat in this.SeatList)
@@ -352,12 +352,38 @@ namespace TalaAPI.Business
             return null;
         }
 
+        /// <summary>
+        /// Lấy Seat đang có lượt
+        /// </summary>
+        /// <returns></returns>
         public Seat GetSeatOfCurrentInTurn()
         {
             Seat seatRet = this._SeatList[this._CurrentVan.CurrentTurnSeatIndex];
             return seatRet;
         }
 
+        /// <summary>
+        /// Tìm seat theo hạIndex 
+        /// </summary>
+        /// <param name="haIndex"></param>
+        /// <returns>seat hoặc null nếu không tìm thấy</returns>
+        public Seat GetSeatByHaIndex(int haIndex)
+        {
+            foreach (Seat seat in this.SeatList)
+            {
+                if (seat.HaIndex == haIndex)
+                {
+                    return seat;
+                }
+            }
+            return null;
+        }
+
+
+
+        /// <summary>
+        /// Xếp lại chỗ Random các vị trí trong Sới
+        /// </summary>
         public void XepChoRandom()
         {
             int max = this.SeatList.Count;
@@ -366,14 +392,14 @@ namespace TalaAPI.Business
                 return;
             }
 
-            /*generate a temp Arr of max elements*/
+            /// generate a temp Arr of max elements
             int[] tmpArr = new int[max];
             for (int i = 0; i < max; i++)
             {
                 tmpArr[i] = i;
             }
 
-            /*randomly reindexing tmpArr*/
+            /// randomly reindexing tmpArr
             int[] randomArr = TextUtil.ReindexArrayRandomly(tmpArr);
 
 
@@ -430,27 +456,29 @@ namespace TalaAPI.Business
             return 0;
         }
 
+               
         /// <summary>
         /// đặt cờ ready tại Seat của user
         /// </summary>
-        /// <param name="user">user giương cờ ready</param>
-        internal void SetReady(User user)
+        /// <param name="user">user cần giương cờ ready</param>
+        /// <returns>Seat của user đó nếu Seat đã có cờ ready OK, nếu fail thì trả về null</returns>
+        internal Seat SetReady(User user)
         {
             // đặt cờ ready
-            GetSeatOfUserInSoi(user.Username).IsReady = true;
-
-            // thử gọi hàm StartPlaying (trong đấy tự nó kiểm tra điều kiện để bắt đầu ván), nếu có 4 người vào rồi
-            if (this.SeatList.Count == 4 && IsAllPlayerReady())
+            Seat seatOfUser = GetSeatByUsername(user.Username);
+            if (null != seatOfUser)
             {
-                StartPlaying();
-            }
+                seatOfUser.IsReady = true;
+            }           
+
+            return seatOfUser;
         }
 
         /// <summary>
-        /// Toàn bộ người chơi trong ván đã ready chưa? Nếu trả về true, có thể gọi StartPlaying được
+        /// Quét qua các Seat, xem toàn bộ người chơi trong ván đã ready chưa? Nếu trả về true, có thể gọi StartPlaying được
         /// </summary>
         /// <returns></returns>
-        private bool IsAllPlayerReady()
+        public bool IsAllPlayerReady()
         {
             bool bAllPlayerReady = true;
             foreach (Seat seat in SeatList)
@@ -462,7 +490,9 @@ namespace TalaAPI.Business
 
 
         /// <summary>
-        /// sắp xếp lại index của các chỗ ngồi trong mảng SeatList. Hàm này cần gọi mỗi khi có sự thay đổi vè chỗ ngồi trong  Sới (thêm bớt player)
+        /// sắp xếp lại index của các chỗ ngồi trong mảng SeatList. 
+        /// Hàm này cần phải gọi mỗi khi có sự thay đổi vè chỗ ngồi trong  Sới (thêm bớt player)
+        /// Hàm sẽ gán Pos của mỗi Seat = chính index của Seat đó trong SeatList của sới
         /// </summary>
         internal void ReIndexSeatList()
         {
@@ -470,28 +500,11 @@ namespace TalaAPI.Business
             {
                 seat.Pos = SeatList.IndexOf(seat);
                 seat.HaIndex = seat.Pos;
-
-
             }
         }
 
-        /// <summary>
-        /// Tìm seat theo hạIndex 
-        /// </summary>
-        /// <param name="haIndex"></param>
-        /// <returns>seat</returns>
-        public Seat getSeatByHaIndex(int haIndex)
-        {
-            foreach (Seat seat in this.SeatList)
-            {
-                if (seat.HaIndex == haIndex)
-                {
-                    return seat;
-                }
-            }
-            return null;
 
-        }
+        
 
 
 
