@@ -18,11 +18,11 @@ namespace TalaAPI.community.id
         {
             string sAuthkey = context.Request["authkey"].ToStringSafetyNormalize();
 
-            string sUsername = Song.Instance.ValidAuthkey[sAuthkey];
+            string sUsername = Song.Instance.DicValidAuthkey[sAuthkey];
             try
             {
-                Song.Instance.ValidAuthkey.Remove(sAuthkey);
-                Song.Instance.OnlineUser.Remove(sUsername);
+                Song.Instance.DicValidAuthkey.Remove(sAuthkey);
+                Song.Instance.DicOnlineUser.Remove(sUsername);
             }
             catch { }
 

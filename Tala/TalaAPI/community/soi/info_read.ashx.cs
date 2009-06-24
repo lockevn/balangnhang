@@ -23,7 +23,7 @@ namespace TalaAPI.community.soi
             }
             else
             {
-                Soi soi = Song.Instance.Soi.ContainsKey(sID) ? Song.Instance.Soi[sID] : null;
+                Soi soi = Song.Instance.DicSoi.ContainsKey(sID) ? Song.Instance.DicSoi[sID] : null;
                 if (soi != null)
                 {
                     Data.Add(soi);

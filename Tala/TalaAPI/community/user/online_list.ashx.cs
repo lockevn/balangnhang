@@ -17,7 +17,7 @@ namespace TalaAPI.community.user
 
         public override void ProcessRequest(HttpContext context)
         {
-            Data.AddRange(Song.Instance.OnlineUser.Values);
+            Data.AddRange(Song.Instance.DicOnlineUser.Values);
             base.Stat = APICommandStatusState.OK;
 
             base.ProcessRequest(context);
