@@ -17,7 +17,7 @@ using TalaAPI.Lib;
 namespace TalaAPI.Business
 {
     /// <summary>
-    /// Đại diện cho một quân bài
+    /// Biểu diễn một quân bài
     /// </summary>
     public class Card : APIDataEntry
     {
@@ -81,7 +81,11 @@ namespace TalaAPI.Business
             set { _Pos = value;  }
         }
 
-        public int Value
+        
+        /// <summary>
+        /// giá trị của cây bài, dùng để tính điểm khi cuối ván kết thúc bằng tính điểm
+        /// </summary>
+        public int PointValue
         {
             get
             {
@@ -90,10 +94,6 @@ namespace TalaAPI.Business
                 return tmpVal;
             }
         }
-
-
-
-        public static int MOM_VALUE = 1000;
 
 
         public Card(string so, string chat)

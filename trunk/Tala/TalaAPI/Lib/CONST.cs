@@ -28,5 +28,7 @@ namespace TalaAPI.Lib
         /// </summary>
         public const char CARDLLIST_SEPERATOR_SYMBOL = '^';
 
+
+        public static int MOM_POINTVALUE = 1000;
     }
 }
