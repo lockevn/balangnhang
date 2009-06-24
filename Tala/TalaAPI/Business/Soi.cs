@@ -190,7 +190,7 @@ namespace TalaAPI.Business
         /// <returns>Số tiền đã nộp</returns>
         public int NopGa(User userPhaiNop)
         {
-            int nTienPhat = Option.CHIP_NOP_GA * this.SoiOption.TiGiaChip;
+            int nTienPhat = Cashier.CHIP_NOP_GA * this.SoiOption.TiGiaChip;
             // cộng gà lên 1 chip
             this.GaValue += nTienPhat;
 

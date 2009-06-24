@@ -252,7 +252,7 @@ namespace TalaAPI.Business
                 if (this.Soi.SoiOption.IsChot)
                 {
                     /* tinh tien cho cay chot */
-                    int money = Option.CHIP_AN_CHOT * this.Soi.SoiOption.TiGiaChip;
+                    int money = Cashier.CHIP_AN_CHOT * this.Soi.SoiOption.TiGiaChip;
                     this.AddMessage("Ăn cây chốt", previousSeat.Player.Username + " nộp " + money + " cho " + seat.Player.Username);
                     /*tru tien vao tai khoan cua nguoi bi an chot*/
                     previousSeat.Player.SubtractMoney(money);
@@ -591,7 +591,7 @@ namespace TalaAPI.Business
             this.Soi.IsPlaying = false;
 
             /*tru tien thằng hạ láo*/
-            int chipHaLao = Option.CHIP_DEN * (this.Soi.SeatList.Count -1);
+            int chipHaLao = Cashier.CHIP_DEN * (this.Soi.SeatList.Count - 1);
             haLaoSeat.Player.SubtractMoney(chipHaLao * this.Soi.SoiOption.TiGiaChip);
             /*thong bao*/
             this.AddMessage("Phạt", haLaoSeat.Player.Username + " " + chipHaLao + " chip");
@@ -601,8 +601,8 @@ namespace TalaAPI.Business
             {
                 if (seat.Index != haLaoSeat.Index)
                 {
-                    seat.Player.AddMoney(Option.CHIP_DEN * this.Soi.SoiOption.TiGiaChip);
-                    this.AddMessage("Thưởng", seat.Player.Username + " " + Option.CHIP_DEN + " chip");
+                    seat.Player.AddMoney(Cashier.CHIP_DEN * this.Soi.SoiOption.TiGiaChip);
+                    this.AddMessage("Thưởng", seat.Player.Username + " " + Cashier.CHIP_DEN + " chip");
                 }
             }
 
@@ -637,7 +637,7 @@ namespace TalaAPI.Business
                 else
                 {
                     /*nộp móm*/
-                    chip = Option.CHIP_MOM;   
+                    chip = Cashier.CHIP_MOM;   
                     this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: Móm     Số chip: -" + chip );
                 }
                 
@@ -667,11 +667,11 @@ namespace TalaAPI.Business
             this.IsFinished = true;
             this.Soi.IsPlaying = false;
 
-            int chipAnU = Option.CHIP_U;
+            int chipAnU = Cashier.CHIP_U;
             
             if (uTron)
             {
-                chipAnU = Option.CHIP_U_TRON;                
+                chipAnU = Cashier.CHIP_U_TRON;                
             }
 
             /*nếu có thằng phải đền*/
