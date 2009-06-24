@@ -38,7 +38,7 @@ namespace TalaAPI.play.van
                 {
                     foreach (Phom phom in seat.PhomList)
                     {
-                        phom.Pos = seat.Index;
+                        phom.Pos = seat.Pos;
                         Data.Add(phom);                        
                     }
                 }

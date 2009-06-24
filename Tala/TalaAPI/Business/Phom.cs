@@ -20,6 +20,9 @@ namespace TalaAPI.Business
         }
 
         Card[] _CardArr;
+        /// <summary>
+        /// Các cây chứa trong phỏm
+        /// </summary>
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.Array, false, true)]
         public Card[] CardArray
         {

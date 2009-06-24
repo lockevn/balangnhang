@@ -151,7 +151,7 @@ namespace TalaAPI.Business
                 this.Noc.RemoveAt(0);
             }
 
-            this.CurrentTurnSeatIndex = seatDanhDauTien.Index;
+            this.CurrentTurnSeatIndex = seatDanhDauTien.Pos;
         }        
 
 
@@ -191,7 +191,7 @@ namespace TalaAPI.Business
 
 
             /*chuyển turn sang next seat*/
-            this.CurrentTurnSeatIndex = Seat.GetNextSeatIndex(seat.Index, this.SoiDangChoi.SeatList.Count);
+            this.CurrentTurnSeatIndex = Seat.GetNextSeatIndex(seat.Pos, this.SoiDangChoi.SeatList.Count);
             
             /*nếu là seat đánh cuối cùng ở vòng cuối cùng thì end game (kiểm tra qua Nọc)*/
             if (this.Noc.Count == 0)
@@ -236,7 +236,7 @@ namespace TalaAPI.Business
             }
 
             /*chuyen card cuoi cung tu BaiDaDanh cua seat truoc sang seat BaiDaAn cua seat sau*/
-            int previousSeatIndex = Seat.GetPreviousSeatIndex(seat.Index, this.SoiDangChoi.SeatList.Count);
+            int previousSeatIndex = Seat.GetPreviousSeatIndex(seat.Pos, this.SoiDangChoi.SeatList.Count);
             Seat previousSeat = this.SoiDangChoi.SeatList.ElementAt(previousSeatIndex) as Seat;
             
             /*kiểm tra previousSeat có bài đã đánh không*/
@@ -350,7 +350,7 @@ namespace TalaAPI.Business
             /*neu bai da an cua seat == 3, previous seat phai den*/
             if (seat.BaiDaAn.Count == 3)
             {
-                int previousIndex = Seat.GetPreviousSeatIndex(seat.Index, this.SoiDangChoi.SeatList.Count);
+                int previousIndex = Seat.GetPreviousSeatIndex(seat.Pos, this.SoiDangChoi.SeatList.Count);
                 Seat previousSeat = this.SoiDangChoi.SeatList.ElementAt(previousIndex) as Seat;
                 /*kết thúc ván khi có thằng ù và có thằng phải đền
                  kiểm tra count để xác định ù tròn hay ù thường
@@ -414,7 +414,7 @@ namespace TalaAPI.Business
                 /*set thêm các property cho phom*/
                 phom.OfSeat = seat;
                 /*một seat có tối đa 3 phỏm, set id cho phỏm để phỏm id là duy nhất trong 1 sới*/
-                phom.Id = seat.Index * 3 + i;
+                phom.Id = seat.Pos * 3 + i;
                 phomList.Add(phom);
                 
             }
@@ -535,9 +535,9 @@ namespace TalaAPI.Business
         /// <returns>true/false</returns>
         private bool IsSeatInTurn(Seat seat)
         {
-            if (seat.Index != this.CurrentTurnSeatIndex)
+            if (seat.Pos != this.CurrentTurnSeatIndex)
             {
-                throw new NotInTurnException("seat " + seat.Index + " is not in turn");
+                throw new NotInTurnException("seat " + seat.Pos + " is not in turn");
             }
             return true;
         }
@@ -603,7 +603,7 @@ namespace TalaAPI.Business
             /*cong tien cho cac player con lai*/
             foreach (Seat seat in this.SoiDangChoi.SeatList)
             {
-                if (seat.Index != haLaoSeat.Index)
+                if (seat.Pos != haLaoSeat.Pos)
                 {
                     seat.Player.AddMoney(Cashier.CHIP_DEN * this.SoiDangChoi.SoiOption.TiGiaChip);
                     this.AddMessage("Thưởng", seat.Player.Username + " " + Cashier.CHIP_DEN + " chip");
@@ -818,11 +818,11 @@ namespace TalaAPI.Business
                 /*neu seat bi mom, set diem = vo cung + hạ Index*/
                 if (seat.PhomList.Count == 0)
                 {
-                    tmpArr[seat.Index] = CONST.MOM_POINTVALUE + seat.HaIndex;
+                    tmpArr[seat.Pos] = CONST.MOM_POINTVALUE + seat.HaIndex;
                 }
                 else
                 {
-                    tmpArr[seat.Index] = this.TinhDiemCards(seat.BaiTrenTay);
+                    tmpArr[seat.Pos] = this.TinhDiemCards(seat.BaiTrenTay);
                 }
             }
             return tmpArr;

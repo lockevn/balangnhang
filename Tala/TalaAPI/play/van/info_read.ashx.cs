@@ -26,12 +26,12 @@ namespace TalaAPI.play.van
             {
                 foreach (Card card in seat.BaiDaAn)
                 {
-                    card.Pos = seat.Index;
+                    card.Pos = seat.Pos;
                     dtoVan.BaiDaAn.Add(card);
                 }
                 foreach (Card card in seat.BaiDaDanh)
                 {
-                    card.Pos = seat.Index;
+                    card.Pos = seat.Pos;
                     dtoVan.BaiDaDanh.Add(card);
                 }
 
@@ -39,7 +39,7 @@ namespace TalaAPI.play.van
 
                 foreach (Phom phom in seat.PhomList)
                 {
-                    phom.Pos = seat.Index;
+                    phom.Pos = seat.Pos;
                     dtoVan.PhomDaHa.Add(phom);
                 }
         
