@@ -7,7 +7,8 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 using System.Xml.Linq;
-using TalaAPI.Business;
+using Quantum.Tala.Service.Business;
+using Quantum.Tala.Lib;
 
 namespace TalaAPI
 {
@@ -16,8 +17,14 @@ namespace TalaAPI
 
         protected void Application_Start(object sender, EventArgs e)
         {
+            string sWebRootPhysicalPath = Server.MapPath("/");
+            //System.Diagnostics.Debug.Print(sWebRootPhysicalPath);
+            DBHelper.Instance.Init(sWebRootPhysicalPath);
+
+
             Song value = Song.Instance;
-            this.Application.Add("song", value);            
+            this.Application.Add("song", value);
+            
         }
 
         protected void Session_Start(object sender, EventArgs e)

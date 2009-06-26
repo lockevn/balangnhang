@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.Services;
-using System.Web.Services.Protocols;
-using System.Xml.Linq;
+﻿using System.Web;
 using TalaAPI.Lib;
-using TalaAPI.Business;
-using TalaAPI.XMLRenderOutput;
+using Quantum.Tala.Service.Business;
+using Quantum.Tala.Lib.XMLOutput;
 
 namespace TalaAPI.community.user
 {

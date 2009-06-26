@@ -1,19 +1,8 @@
-﻿using System;
-using System.Data;
-using System.Configuration;
-using System.Linq;
+﻿using System.Collections;
 using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.Services;
-using System.Web.Services.Protocols;
-using System.Xml.Linq;
-using System.Collections;
-using TalaAPI.XMLRenderOutput;
-using TalaAPI.Business;
+using Quantum.Tala.Lib.XMLOutput;
+using Quantum.Tala.Service.Business;
+using Quantum.Tala.Service.Exception;
 
 namespace TalaAPI.Lib
 {    
@@ -96,6 +85,18 @@ namespace TalaAPI.Lib
             {
                 return false;
             }
+        }
+
+
+
+
+        public virtual void SendErrorAPICommand(BusinessException bex, HttpContext context)
+        {
+            APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, bex.Source, bex.ErrorMessage);
+            XMLHttpHandler httphandler = new XMLHttpHandler();
+            httphandler.Cmd.Add(cs);
+            httphandler.ProcessRequest(context);
+            context.Response.End();
         }
     }
 }

@@ -6,10 +6,11 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
-using TalaAPI.Lib;
-using TalaAPI.XMLRenderOutput;
+using TalaAPI.Lib;using Quantum.Tala.Lib;
+using Quantum.Tala.Lib.XMLOutput;
 using GURUCORE.Lib.Core.Security.Cryptography;
-using TalaAPI.Business;
+using Quantum.Tala.Service.Business;
+using Quantum.Tala.Service.Authentication;
 
 namespace TalaAPI.community.id
 {
@@ -22,7 +23,7 @@ namespace TalaAPI.community.id
 
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "LOGIN", "wrong username and/or password");
 
-            User user = Song.Instance.LoginVaoSongChoi(sUsername, sPassword);
+            TalaUser user = Song.Instance.LoginVaoSongChoi(sUsername, sPassword);
             if (user == null)
             {
             }

@@ -11,10 +11,11 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 
-using TalaAPI.Lib;
-using TalaAPI.Business;
-using TalaAPI.XMLRenderOutput;
-using TalaAPI.Exception;
+using TalaAPI.Lib;using Quantum.Tala.Lib;
+using Quantum.Tala.Service.Business;
+using Quantum.Tala.Lib.XMLOutput;
+using Quantum.Tala.Service.Exception;
+using Quantum.Tala.Service.Authentication;
 
 namespace TalaAPI.test
 {
@@ -24,10 +25,10 @@ namespace TalaAPI.test
         {
             Song song = Song.Instance;
 
-            User dan = song.LoginVaoSongChoi("danhut", "quantum");
-            User thach = song.LoginVaoSongChoi("lockevn", "quantum");
-            User lam = song.LoginVaoSongChoi("lamlt", "quantum");
-            User dung = song.LoginVaoSongChoi("dung", "quantum");
+            TalaUser dan = song.LoginVaoSongChoi("danhut", "quantum");
+            TalaUser thach = song.LoginVaoSongChoi("lockevn", "quantum");
+            TalaUser lam = song.LoginVaoSongChoi("lamlt", "quantum");
+            TalaUser dung = song.LoginVaoSongChoi("dung", "quantum");
 
             pln("4 người login rồi");
 

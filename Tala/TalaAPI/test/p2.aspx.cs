@@ -10,12 +10,13 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
-using TalaAPI.XMLRenderOutput;
+using Quantum.Tala.Lib.XMLOutput;
 
 
-using TalaAPI.Lib;
-using TalaAPI.Business;
-using TalaAPI.Exception;
+using TalaAPI.Lib;using Quantum.Tala.Lib;
+using Quantum.Tala.Service.Business;
+using Quantum.Tala.Service.Exception;
+using Quantum.Tala.Service.Authentication;
 
 namespace TalaAPI.test
 {
@@ -28,33 +29,35 @@ namespace TalaAPI.test
 
             pln("<pre>");
 
-            User dan = song.LoginVaoSongChoi("danhut", "quantum");
-            User thach = song.LoginVaoSongChoi("lockevn", "quantum");
-            User lam = song.LoginVaoSongChoi("lamlt", "quantum");
-            User dung = song.LoginVaoSongChoi("dung", "quantum");
+            TalaUser v1 = song.LoginVaoSongChoi("v1", "quantum");
+            TalaUser v2 = song.LoginVaoSongChoi("v2", "quantum");
+            TalaUser v3 = song.LoginVaoSongChoi("v3", "quantum");
+            TalaUser v4 = song.LoginVaoSongChoi("v4", "quantum");
 
             pln("4 người login rồi");
 
-            Soi soi = song.CreatSoiMoi("test soi", "lamlt");
-            pln("lamlt tạo sới");
+            Soi soi = song.CreatSoiMoi("test soi", v1.Username);
+            pln(v1.Username + " tạo sới");
 
-            soi.AddPlayer("lockevn");
-            pln("lockevn vào");
-            //soi.AddPlayer("lamlt");
-            soi.AddPlayer("dung");
-            pln("dung vào");
-            soi.AddPlayer("danhut");
-            pln("danhut vào");
+            soi.AddPlayer(v2.Username);
+            pln(v2.Username + " vào");
+            soi.AddPlayer(v3.Username);
+            pln(v3.Username + " vào");
+            soi.AddPlayer(v4.Username);
+            pln(v4.Username + " vào");
+            
+            
 
-            soi.SetReady(dan);
-            soi.SetReady(thach);
-            soi.SetReady(dung);
-            soi.SetReady(lam);
-            pln("dan lockevn dung lamlt ready");
+            soi.SetReady(v1);
+            soi.SetReady(v2);
+            soi.SetReady(v3);
+            soi.SetReady(v4);
+            pln("4 user ready");
             pln("all ok");
             pln("Ván start");
             pln("================================================================================");
 
+            soi.StartPlaying();
             
             for (int i = 0; i < 16; i++)
             {
@@ -70,6 +73,13 @@ namespace TalaAPI.test
                 soi.CurrentVan.Danh(seat, seat.BaiTrenTay[0]);
 
                 pln("---------");
+            }
+
+            pln("---------");
+            pln("---------");
+            foreach (Message msg in soi.CurrentVan.MessageList)
+            {
+                pln(msg.Msg);                                
             }
 
         }

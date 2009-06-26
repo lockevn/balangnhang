@@ -5,8 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using MySql.Data.MySqlClient;
-using TalaAPI.Lib;
-using TalaAPI.XMLRenderOutput;
+using TalaAPI.Lib;using Quantum.Tala.Lib;
+using Quantum.Tala.Lib.XMLOutput;
 
 namespace TalaAPI.test
 {

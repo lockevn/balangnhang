@@ -3,18 +3,14 @@ using System.Data;
 using System.Configuration;
 using System.Linq;
 using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 
-using TalaAPI.Lib;
-using TalaAPI.Business;
-using TalaAPI.XMLRenderOutput;
+using Quantum.Tala.Lib;
+using Quantum.Tala.Service.Business;
+using Quantum.Tala.Service.Authentication;
+using Quantum.Tala.Lib.XMLOutput;
 
-namespace TalaAPI.Business
+namespace TalaAPI.Lib
 {
     public class TalaSecurity
     {
@@ -27,8 +23,8 @@ namespace TalaAPI.Business
                 return _authkey;
             }
         }
-        User _user;
-        public User CurrentAU
+        TalaUser _user;
+        public TalaUser CurrentAU
         {
             get { return _user; }
         }

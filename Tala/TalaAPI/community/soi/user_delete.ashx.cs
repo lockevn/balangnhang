@@ -6,9 +6,10 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
-using TalaAPI.Lib;
-using TalaAPI.Business;
-using TalaAPI.XMLRenderOutput;
+using TalaAPI.Lib;using Quantum.Tala.Lib;
+using Quantum.Tala.Service.Business;
+using Quantum.Tala.Lib.XMLOutput;
+using Quantum.Tala.Service.Authentication;
 
 namespace TalaAPI.community.soi
 {
@@ -50,7 +51,7 @@ namespace TalaAPI.community.soi
                     // Owner đuổi player khác
                     if (security.CurrentAU.Username == soi.OwnerUsername)
                     {
-                        User userNeedToRemove = Song.Instance.GetUserByUsername(pu);
+                        TalaUser userNeedToRemove = Song.Instance.GetUserByUsername(pu);
                         int nResult = soi.RemovePlayer(userNeedToRemove.Username);
                         if (nResult >= 0)
                         {
