@@ -10,9 +10,18 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 
-namespace TalaAPI.XMLRenderOutput
+namespace TalaAPI.Lib
 {
-    public class XMLOutputAttribute : System.Attribute
+    public class TalaPage : System.Web.UI.Page
     {
+        protected virtual void p(string s)
+        {
+            Response.Write(s);
+        }
+        protected virtual void pln(string s)
+        {
+            Response.Write(s + "<br />");
+        }
+
     }
 }

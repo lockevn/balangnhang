@@ -6,10 +6,10 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
-using TalaAPI.Lib;
-using TalaAPI.Business;
-using TalaAPI.Exception;
-using TalaAPI.XMLRenderOutput;
+using TalaAPI.Lib;using Quantum.Tala.Lib;
+using Quantum.Tala.Service.Business;
+using Quantum.Tala.Service.Exception;
+using Quantum.Tala.Lib.XMLOutput;
 using System.Collections.Generic;
 
 namespace TalaAPI.play.van
@@ -61,7 +61,7 @@ namespace TalaAPI.play.van
                     }
                     catch (CardException ce)
                     {
-                        ce.SendErrorAPICommand(context);
+                        this.SendErrorAPICommand(ce, context);
                     }
                 }
                 /*gui cardList vào phomID*/                

@@ -6,9 +6,10 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
-using TalaAPI.Lib;
-using TalaAPI.Business;
-using TalaAPI.XMLRenderOutput;
+using TalaAPI.Lib;using Quantum.Tala.Lib;
+using Quantum.Tala.Service.Business;
+using Quantum.Tala.Lib.XMLOutput;
+using Quantum.Tala.Service.Authentication;
 
 namespace TalaAPI.community.soi
 {
@@ -63,7 +64,7 @@ namespace TalaAPI.community.soi
                 else
                 {
                     // player mời người khác vào chơi
-                    User usertoadd = Song.Instance.GetUserByUsername(pu);
+                    TalaUser usertoadd = Song.Instance.GetUserByUsername(pu);
                     if (usertoadd == null)
                     {
                         APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "JOIN_SOI", "Người bạn mời đã rời mạng");

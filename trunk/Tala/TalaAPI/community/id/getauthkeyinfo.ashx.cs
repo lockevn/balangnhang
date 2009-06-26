@@ -6,9 +6,10 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
-using TalaAPI.Lib;
-using TalaAPI.XMLRenderOutput;
-using TalaAPI.Business;
+using TalaAPI.Lib;using Quantum.Tala.Lib;
+using Quantum.Tala.Lib.XMLOutput;
+using Quantum.Tala.Service.Business;
+using Quantum.Tala.Service.Authentication;
 
 namespace TalaAPI.community.id
 {
@@ -18,7 +19,7 @@ namespace TalaAPI.community.id
         {
             string sAuthkey = context.Request["authkey"].ToStringSafetyNormalize();
 
-            User AUuser = Song.Instance.GetUserByAuthkey(sAuthkey);
+            TalaUser AUuser = Song.Instance.GetUserByAuthkey(sAuthkey);
             Data.Add(AUuser);
             base.Stat = APICommandStatusState.OK;
 

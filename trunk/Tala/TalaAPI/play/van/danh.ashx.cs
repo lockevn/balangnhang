@@ -6,10 +6,10 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Linq;
-using TalaAPI.Lib;
-using TalaAPI.Business;
-using TalaAPI.XMLRenderOutput;
-using TalaAPI.Exception;
+using TalaAPI.Lib;using Quantum.Tala.Lib;
+using Quantum.Tala.Service.Business;
+using Quantum.Tala.Lib.XMLOutput;
+using Quantum.Tala.Service.Exception;
 
 namespace TalaAPI.play.van
 {    
@@ -26,7 +26,7 @@ namespace TalaAPI.play.van
             }
             catch (CardException ce)
             {
-                ce.SendErrorAPICommand(context);
+                this.SendErrorAPICommand(ce, context);
             }
 
             TalaSecurity security = new TalaSecurity(context);
@@ -41,7 +41,7 @@ namespace TalaAPI.play.van
             }
             catch (NotInTurnException nite)
             {
-                nite.SendErrorAPICommand(context);
+                this.SendErrorAPICommand(nite, context);
             }
             if (result)
             {

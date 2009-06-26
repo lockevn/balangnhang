@@ -9,8 +9,8 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
-using TalaAPI.XMLRenderOutput;
-
+using Quantum.Tala.Lib.XMLOutput;
+using Quantum.Tala.Lib;
 
 namespace TalaAPI.Lib
 {
