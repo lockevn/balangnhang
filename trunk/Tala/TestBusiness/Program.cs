@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using TalaAPI.Business;
-using TalaAPI.Lib;
-using TalaAPI.XMLRenderOutput;
+
+using Quantum.Tala.Service.Authentication;
+using Quantum.Tala.Lib.XMLOutput;
+using Quantum.Tala.Service.Business;
+
 
 namespace TestBusiness
 {
@@ -75,6 +74,11 @@ namespace TestBusiness
     {        
         static void Main(string[] args)
         {
+            IUser u = AuthenticationProvider.Authenticate("*","vu1","quantum");            
+            Console.WriteLine(u.Username);
+            IUser u2 = AuthenticationProvider.Authenticate("*", "v2", "quantum");
+            Console.WriteLine(u2.Username);
+            
             //Card cc = new Card("","");
             //Card[] arrayc = { cc};
             //List<Card> listc = new List<Card>();
