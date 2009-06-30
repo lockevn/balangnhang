@@ -150,30 +150,11 @@ namespace TestBusiness
             //Console.WriteLine(u.Username);
             //IUser u2 = AuthenticationProvider.Authenticate("*", "v2", "quantum");
             //Console.WriteLine(u2.Username);
-            
-            //Card cc = new Card("","");
-            //Card[] arrayc = { cc};
-            //List<Card> listc = new List<Card>();
-            //listc.Add(cc);
 
-            //ICollection ic = arrayc as ICollection;
-            //foreach (object o in ic)
-            //{
-            //    Console.WriteLine(((o as APIDataEntry).ToXMLString()));
-            //}
-
-            //ic = listc as ICollection;
-            //foreach (object o in ic)
-            //{
-            //    Console.WriteLine((o as APIDataEntry).ToXMLString());
-            //}
-
-
-            //MyClass mc = new MyClass();
-            // Console.WriteLine(string.Join(CONST.CARD_SEPERATOR_SYMBOL, mc.ListOfCard.ToArray<string>()));
-
-            //Soi soi = new Soi(1,"ân","lockevn");
-            //Console.WriteLine(soi.ToXMLString());
+            Card cc = new Card("01c", "");
+            Card[] arrayc = { cc };
+            List<Card> listc = new List<Card>();
+            listc.Add(cc);
 
 
             Console.ReadLine();
