@@ -57,7 +57,7 @@
     <Compile Include="Authentication\IUser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Authentication\VTCUser.cs" />
+    <Compile Include="Authentication\TalaUser.cs" />
     <Compile Include="Business\BusinessUtil.cs" />
     <Compile Include="Business\Card.cs" />
     <Compile Include="Business\Cashier.cs" />

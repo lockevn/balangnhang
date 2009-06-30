@@ -44,6 +44,12 @@ namespace Quantum.Tala.Service.Authentication
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p_sUsername"></param>
+        /// <param name="p_sPassword"></param>
+        /// <returns>null if fail</returns>
         public static IUser AuthenticateQuantum(string p_sUsername, string p_sPassword)
         {
             CryptoUtil cu = new CryptoUtil();
@@ -64,23 +70,59 @@ namespace Quantum.Tala.Service.Authentication
                 while (reader.Read())
                 {
                     ret.Username = reader["u"] as string;
+
+                    #region Temporary, get the money from the same DB record
+                                        
                     try
                     {
                         ret.Money = Convert.ToInt32(reader["balance"]);
                     }
                     catch { }
+                    
+                    #endregion
                 }
             }
             con.Close();
+
+
+            // TODO: 
+            // lấy thông số tiền của user hiện tại bằng một hàm khác
+
+
 
             return ret;
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p_sUsername"></param>
+        /// <param name="p_sPassword"></param>
+        /// <returns>null if fail</returns>
         public static IUser AuthenticateVTC(string p_sUsername, string p_sPassword)
         {        
+            object oReturnStatus = null;
+            bool bAuthenticateOK = false;
+
+
+
             // TODO: add VTC authentication process here, to verify username password against VTC System
-            return new TalaUser();
+            
+
+            if (oReturnStatus == null)
+            {
+                bAuthenticateOK = true;
+            }
+
+            if (bAuthenticateOK)
+            {
+                return new TalaUser();
+            }
+            else
+            {
+                return null;
+            }
         }
 
     }    
