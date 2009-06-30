@@ -1,8 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Web;
+using System.Xml.Linq;
 using Quantum.Tala.Lib.XMLOutput;
 using Quantum.Tala.Service.Business;
 using Quantum.Tala.Service.Exception;
+using System.Text;
 
 namespace TalaAPI.Lib
 {    
@@ -10,41 +13,73 @@ namespace TalaAPI.Lib
     //[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     public class XMLHttpHandler : IHttpHandler
     {
-        protected internal string Stat = "fail";
+        /// <summary>
+        /// Mặc định là fail. Sau khi xử lý xong trong API, mọi thứ đều đúng, phải set lại thành OK
+        /// </summary>
+        protected internal string Stat = APICommandStatusState.FAIL;
         protected internal ArrayList Data = new ArrayList();
         protected internal ArrayList Cmd = new ArrayList();
+        protected internal List<XElement> XElementData = new List<XElement>();
 
+        /// <summary>
+        /// Nhồi trực tiếp đoạn text này vào dưới root tag của response trả về
+        /// </summary>
+        protected internal string StringDirectUnderRoot = string.Empty;
+        
 
         /// <summary>
         /// Set ContentType to xml, render Data and Cmd to xml
         /// </summary>
         /// <param name="context"></param>
         public virtual void ProcessRequest(HttpContext context)
-        {            
+        {
+            /// change the response content type
             context.Response.ContentType = "text/xml";
-            string sRenderedData = string.Empty;
+
+            #region sRenderedData
+                        
+            StringBuilder sRenderedData = new StringBuilder();
             if(Data.Count > 0)
             {
                 foreach (APIDataEntry data in Data)
                 {
                     if (data != null)
                     {
-                        sRenderedData += data.ToXMLString();
+                        sRenderedData.Append(data.ToXMLString());
                     }
                 }
-                sRenderedData = "<data>" + sRenderedData + "</data>";
+                sRenderedData.Insert(0, "<data>");
+                sRenderedData.Append("</data>");
             }
+            
+            #endregion
 
+
+            #region Rendered CommandStatus
+                        
             string sRenderedCmd = string.Empty;
             if(Cmd.Count > 0)
             {
                 foreach (APICommandStatus cs in Cmd)
                 {
-                    sRenderedCmd += cs.ToString();
+                    sRenderedCmd += cs.ToXMLString();
                     Stat = cs.Stat;
                 }
                 sRenderedCmd = "<cmd>" + sRenderedCmd + "</cmd>";
             }
+            #endregion
+
+
+            #region Rendered XMLData
+            
+            
+            StringBuilder sRenderedXElementData = new StringBuilder();
+            foreach (XElement x in XElementData)
+            {
+                sRenderedXElementData.Append(x.ToString());
+            }
+            
+            #endregion
 
 
             int nCurrentTurnOfThisRequestContext = -1;
@@ -70,11 +105,12 @@ namespace TalaAPI.Lib
             context.Response.Write(
                     string.Format(
                     "<q stat='{0}' " 
-                    + ((nCurrentTurnOfThisRequestContext < 0) ? string.Empty : "turn='{3}' ")
-                    + ((nIsPlaying < 0) ? string.Empty : "isplaying='{4}' ")
-                    + ((nIsVanFinished < 0) ? string.Empty : "isvanfinished='{5}' ")
-                    + ">{1}{2}</q>"
-                    , Stat, sRenderedData, sRenderedCmd, nCurrentTurnOfThisRequestContext, nIsPlaying, nIsVanFinished)
+                    + ((nCurrentTurnOfThisRequestContext < 0) ? string.Empty : "turn='{1}' ")
+                    + ((nIsPlaying < 0) ? string.Empty : "isplaying='{2}' ")
+                    + ((nIsVanFinished < 0) ? string.Empty : "isvanfinished='{3}' ")
+                    + ">{4}{5}{6}{7}</q>"
+                    , Stat, nCurrentTurnOfThisRequestContext, nIsPlaying, nIsVanFinished,
+                    sRenderedData.ToString(), sRenderedCmd, sRenderedXElementData.ToString(), StringDirectUnderRoot)
                 );
         }
 
@@ -89,7 +125,11 @@ namespace TalaAPI.Lib
 
 
 
-
+        /// <summary>
+        /// Hàm giúp send nhanh một COmmandStatus báo cho client biết khi gặp lỗi Exception, cần phun ra
+        /// </summary>
+        /// <param name="bex"></param>
+        /// <param name="context"></param>
         public virtual void SendErrorAPICommand(BusinessException bex, HttpContext context)
         {
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, bex.Source, bex.ErrorMessage);
@@ -98,5 +138,7 @@ namespace TalaAPI.Lib
             httphandler.ProcessRequest(context);
             context.Response.End();
         }
+
+
     }
 }
