@@ -112,8 +112,8 @@ namespace Quantum.Tala.Lib.XMLOutput
 
 
         public virtual string ToXMLString()
-        {  
-            return ToXElement().ToString();
+        {
+            return ToXElement().ToString(SaveOptions.DisableFormatting);
         }
 
 

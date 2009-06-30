@@ -10,6 +10,9 @@ using System.Xml.Linq;
 using Quantum.Tala.Service.Business;
 using Quantum.Tala.Lib;
 
+// Load the configuration from the 'WebApp.dll.log4net' file
+[assembly: log4net.Config.XmlConfigurator(ConfigFileExtension = "log4net", Watch = true)]
+
 namespace TalaAPI
 {
     public class Global : System.Web.HttpApplication
