@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AABD5431-60C9-451D-AF35-BC42C82BF63D}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -60,6 +60,7 @@
     <Compile Include="Authentication\TalaUser.cs" />
     <Compile Include="Business\BusinessUtil.cs" />
     <Compile Include="Business\Card.cs" />
+    <Compile Include="Business\CardMatrix.cs" />
     <Compile Include="Business\Cashier.cs" />
     <Compile Include="Business\DTOVan.cs" />
     <Compile Include="Business\Message.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Business\Seat.cs" />
     <Compile Include="Business\Soi.cs" />
     <Compile Include="Business\Song.cs" />
+    <Compile Include="Business\UUtil.cs" />
     <Compile Include="Business\Van.cs" />
     <Compile Include="CONST.cs" />
     <Compile Include="Exception\BusinessException.cs" />
