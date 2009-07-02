@@ -82,6 +82,41 @@ namespace Quantum.Tala.Service.Business
             set { _Pos = value;  }
         }
 
+        /// <summary>
+        /// get Row index of this card in the 2-dimension array model
+        /// </summary>
+        public int SoIndex
+        {
+            get
+            {
+                int so = -1;
+                int.TryParse(this._So, out so);
+                if(so > 0)
+                {
+                    return so - 1;
+                }
+                return so;
+            }
+        }
+
+        /// <summary>
+        /// get Column index of this card in the 2-dimension array model
+        /// </summary>
+        public int ChatIndex
+        {
+            get
+            {
+                for(int i=0; i < Card.CHAT_SET.Length; i++)
+
+                if (this._Chat == Card.CHAT_SET[i])
+                {
+                    return i;
+                }
+                return -1;
+            }            
+        }
+
+
         
         /// <summary>
         /// giá trị của cây bài, dùng để tính điểm khi cuối ván kết thúc bằng tính điểm
@@ -114,6 +149,7 @@ namespace Quantum.Tala.Service.Business
             return So + Chat;
         }
 
+        
 
 
 
