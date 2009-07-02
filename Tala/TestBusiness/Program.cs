@@ -75,7 +75,7 @@ namespace TestBusiness
 
     class Program
     {        
-        static void Main(string[] args)
+        /*static void Main(string[] args)
         {
             #region Test performance with XElement and StringBuilder
             
@@ -158,6 +158,64 @@ namespace TestBusiness
 
 
             Console.ReadLine();
+        }*/
+
+        /// <summary>
+        /// Test U
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main(string[] args)
+        {
+            List<Card> cardList = new List<Card>();
+
+            //Card card = new Card("02", "c");
+            //cardList.Add(card);
+            //card = new Card("02", "d");
+            //cardList.Add(card);
+            //card = new Card("02", "p");
+            //cardList.Add(card);
+            //card = new Card("02", "t");
+            //cardList.Add(card);
+            //card = new Card("03", "d");
+            //cardList.Add(card);
+            //card = new Card("04", "d");
+            //cardList.Add(card);
+            //card = new Card("05", "d");
+            //cardList.Add(card);
+            //card = new Card("06", "d");
+            //cardList.Add(card);
+            //card = new Card("05", "c");
+            //cardList.Add(card);
+            //card = new Card("05", "p");
+            //cardList.Add(card);
+
+            Card card = new Card("01", "t");
+            cardList.Add(card);
+            card = new Card("02", "c");
+            cardList.Add(card);
+            card = new Card("02", "d");
+            cardList.Add(card);
+            card = new Card("02", "p");
+            cardList.Add(card);
+            card = new Card("02", "t");
+            cardList.Add(card);
+            card = new Card("03", "t");
+            cardList.Add(card);
+            card = new Card("04", "t");
+            cardList.Add(card);
+            card = new Card("05", "c");
+            cardList.Add(card);
+            card = new Card("05", "d");
+            cardList.Add(card);
+            card = new Card("05", "t");
+            cardList.Add(card);
+
+            int count = UUtil.CheckU(cardList);
+            System.Console.Out.WriteLine("========== U result: " + count + "====== ");                                   
+
+            Console.ReadLine();
         }
+
+        
     }
 }
