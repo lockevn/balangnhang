@@ -113,6 +113,9 @@
     <Compile Include="community\soi\list.ashx.cs">
       <DependentUpon>list.ashx</DependentUpon>
     </Compile>
+    <Compile Include="community\tournament\list.ashx.cs">
+      <DependentUpon>list.ashx</DependentUpon>
+    </Compile>
     <Compile Include="community\user\online_list.ashx.cs">
       <DependentUpon>online_list.ashx</DependentUpon>
     </Compile>
@@ -258,9 +261,6 @@
   <ItemGroup>
     <Content Include="crossdomain.xml" />
     <Content Include="play\van\phomdaha_list.ashx" />
-    <Content Include="Silverlight.js" />
-    <Content Include="TalaSVLTestPage.aspx" />
-    <Content Include="TalaSVLTestPage.html" />
     <Content Include="test\p1.aspx" />
     <Content Include="test\p2.aspx" />
     <Content Include="test\p3.aspx" />
@@ -277,6 +277,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="community\server\list.ashx" />
+    <Content Include="community\tournament\list.ashx" />
     <None Include="db.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
