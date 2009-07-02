@@ -6,6 +6,7 @@ using GURUCORE.Lib.Core.Security.Cryptography;
 using Quantum.Tala.Lib;
 using System.Data.Common;
 using MySql.Data.MySqlClient;
+using Quantum.Tala.Service.Business;
 
 namespace Quantum.Tala.Service.Authentication
 {
@@ -87,8 +88,7 @@ namespace Quantum.Tala.Service.Authentication
 
             // TODO: 
             // lấy thông số tiền của user hiện tại bằng một hàm khác
-
-
+            
 
             return ret;
         }
