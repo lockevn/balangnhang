@@ -7,6 +7,8 @@ using Quantum.Tala.Service.Business;
 using System.Xml.Linq;
 using System.Threading;
 using System.Text;
+using System.IO;
+using CH.Combinations;
 
 
 namespace TestBusiness
@@ -189,6 +191,11 @@ namespace TestBusiness
             //card = new Card("05", "p");
             //cardList.Add(card);
 
+            DateTime start;
+            DateTime end;
+            TimeSpan elap;
+
+            start = DateTime.Now;
             Card card = new Card("01", "t");
             cardList.Add(card);
             card = new Card("02", "c");
@@ -211,11 +218,65 @@ namespace TestBusiness
             cardList.Add(card);
 
             int count = UUtil.CheckU(cardList);
-            System.Console.Out.WriteLine("========== U result: " + count + "====== ");                                   
+            end = DateTime.Now;
+            elap = end.Subtract(start);
+            System.Console.Out.WriteLine("========== U result: " + count + "====== elapse: " + elap.TotalMilliseconds);
 
             Console.ReadLine();
         }
 
-        
+        //static int uCount = 0;
+
+        //static void Main(string[] args)
+        //{
+        //    Card[] input = Card.CARD_SET;
+        //    Combinations<Card> combinations = new Combinations<Card>(input, 10);
+        //    int i=0;
+        //    FileStream fs = new FileStream("C:/u.txt", FileMode.Create, FileAccess.Write);
+        //    StreamWriter sw = new StreamWriter(fs);
+        //    sw.WriteLine("Combination lists: ");
+        //    foreach (Card[] combination in combinations)
+        //    {
+        //        MakeCardListAndCheckU(combination, sw);
+        //        i++;
+        //    }
+        //    sw.WriteLine("=====================");
+        //    sw.WriteLine("Total Combination count: " + i);
+        //    sw.WriteLine("Total U Combination count: " + uCount);
+
+        //    sw.Close();
+        //    fs.Close();
+        //    Console.WriteLine("DONE!!!");
+        //    Console.ReadLine();
+            
+        //}
+
+        //static void MakeCardListAndCheckU(Card[] cardArr, StreamWriter sw)
+        //{
+        //    List<Card> cardList = new List<Card>(10);
+        //    for (int i = 0; i < cardArr.Length; i++)
+        //    {
+        //        cardList.Add(cardArr[i]);                
+        //    }
+        //    int count = UUtil.CheckU(cardList);
+        //    if (count >= 9)
+        //    {
+        //        sw.WriteLine("Combination " + uCount + ": Count = " + count);
+        //        WriteCombination(cardArr, sw);
+        //        uCount++;
+        //    }
+        //}
+
+        //static void WriteCombination(Card[] combination, StreamWriter sw)
+        //{
+        //    for (int i = 0; i < combination.Length; i++)
+        //    {
+        //        Card card = combination[i];
+        //        sw.Write(card.ToString() + " ");
+        //    }
+        //    sw.WriteLine("");
+        //    sw.WriteLine("=======================");
+        //}
+
     }
 }

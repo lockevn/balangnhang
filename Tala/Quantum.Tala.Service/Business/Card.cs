@@ -20,7 +20,7 @@ namespace Quantum.Tala.Service.Business
     /// <summary>
     /// Biểu diễn một quân bài
     /// </summary>
-    public class Card : APIDataEntry
+    public class Card : APIDataEntry, IComparable
     {
         #region Các khai báo tĩnh, ràng buộc nghiệp vụ về một Card
 
@@ -28,6 +28,7 @@ namespace Quantum.Tala.Service.Business
         /// Tập hợp các số có thể của bộ bài, từ 01 đến 13
         /// </summary>
         public static string[] SO_SET = new string[13] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"};
+        //public static string[] SO_SET = new string[5] { "01", "03", "05", "07", "08"};
         
         /// <summary>
         /// Cơ Dô Pích Tép (theo thứ tự  C D P T)
@@ -256,6 +257,19 @@ namespace Quantum.Tala.Service.Business
             
             return (!(c1 > c2));
         }
+
+        public int CompareTo(Object obj)
+        {
+            Card card = (Card)obj;
+            if (this == obj)
+            {
+                return 0;
+            }
+            return -1;
+        }
+    
+    
+
 
         
         
