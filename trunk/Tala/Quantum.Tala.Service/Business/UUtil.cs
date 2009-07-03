@@ -20,8 +20,8 @@ namespace Quantum.Tala.Service.Business
             int maxCount = 0;
 
             //System.Console.Out.WriteLine("Phom ngang count: " + phomNgangCount + " Direction list: " + directionList.Count);
-            System.Console.Out.WriteLine("======== original matrix ======= ");
-            cardMatrix.PrintArrArr();
+            //System.Console.Out.WriteLine("======== original matrix ======= ");
+            //cardMatrix.PrintArrArr();
             /*quét matrix theo các tổ hợp quét*/
             foreach (int[] directionSet in directionList)
             {
@@ -39,7 +39,7 @@ namespace Quantum.Tala.Service.Business
                     CardMatrix tmpMatrix = matrixArr[i];
                     int count = tmpMatrix.ScanMatrix(directionSet);                    
 
-                    System.Console.Out.WriteLine("======== matrix " + i + " count = " + count);
+                    //System.Console.Out.WriteLine("======== matrix " + i + " count = " + count);
                     if (maxCount < count)
                     {
                         maxCount = count;

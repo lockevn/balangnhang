@@ -149,11 +149,10 @@ namespace Quantum.Tala.Service.Business
 
         /// <summary>
         /// lật các phần tử của ma trận theo trục đối xứng dọc
-        /// không làm thay đổi input matrix
+        /// không làm thay đổi this
         /// a[i,j] = a[i,3-j] (j=0,1)
-        /// </summary>
-        /// <param name="inputMatrix"></param>
-        /// <returns></returns>
+        /// </summary>        
+        /// <returns>new matrix</returns>
         public CardMatrix CreateVerticalSymmetricMatrix()
         {
             int[,] tmpIntMatrix = new int[this.RowLength, 4];
@@ -172,9 +171,8 @@ namespace Quantum.Tala.Service.Business
         /// lật các phần tử của ma trận theo trục đối xứng ngang
         /// không làm thay đổi this
         /// a[i,j] = a[rowLength - 1 - i, j] (i=0, rowLength / 2)
-        /// </summary>
-        /// <param name="inputMatrix"></param>
-        /// <returns></returns>
+        /// </summary>        
+        /// <returns>new matrix</returns>
         public CardMatrix CreateHorizontalSymmetricMatrix()
         {
             int[,] tmpIntMatrix = new int[this.RowLength, 4];
