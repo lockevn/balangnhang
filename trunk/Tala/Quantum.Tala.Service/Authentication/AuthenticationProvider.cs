@@ -22,7 +22,7 @@ namespace Quantum.Tala.Service.Authentication
         public static IUser Authenticate(string p_sServiceCode, string p_sUsername, string p_sPassword)
         {
             IUser user = null;
-
+            
             p_sServiceCode = p_sServiceCode.ToStringSafetyNormalize();
             if (string.IsNullOrEmpty(p_sServiceCode))
             {
