@@ -298,42 +298,42 @@ namespace Quantum.Tala.Service.Business
         /// <summary>
         /// Ù
         /// </summary>
-        /// <param name="seat">seat ra lệnh ù</param>
-        /// <param name="phomArr">tập các phỏm để ù</param>
+        /// <param name="seat">seat ra lệnh ù</param>        
         /// <returns>true/false</returns>
-        public bool U(Seat seat, List<Card[]> phomArr)
+        public bool U(Seat seat)
         {
-            if (!this.IsSeatInTurn(seat) || phomArr == null || phomArr.Count == 0 || seat.GetTotalCardOnSeat() < 10)
+            if (!this.IsSeatInTurn(seat) || seat.GetTotalCardOnSeat() < 10)
             {
                 return false;
             }
-            int count = 0; /*dem tong so cay cua tat ca cac phom*/
-            List<Phom> tmpPhomList = new List<Phom>();
+            //int count = 0; /*dem tong so cay cua tat ca cac phom*/
+            //List<Phom> tmpPhomList = new List<Phom>();
             /*kiem tra tinh chinh xac cua phom*/
-            foreach(Card[] cardArr in phomArr)
-            {
-                /*kiểm tra các cây ù có thuộc bài trên tay và bài đã ăn của seat không*/                
-                foreach (Card card in cardArr)
-                {
-                    if (!seat.BaiTrenTay.Contains(card) && !seat.BaiDaAn.Contains(card))
-                    {
-                        return false;
-                    }
-                    count++;
-                }
+            //foreach(Card[] cardArr in phomArr)
+            //{
+            //    /*kiểm tra các cây ù có thuộc bài trên tay và bài đã ăn của seat không*/                
+            //    foreach (Card card in cardArr)
+            //    {
+            //        if (!seat.BaiTrenTay.Contains(card) && !seat.BaiDaAn.Contains(card))
+            //        {
+            //            return false;
+            //        }
+            //        count++;
+            //    }
 
-                Phom tmpPhom = cardArr.IsValidPhom();
-                if ( tmpPhom == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    tmpPhomList.Add(tmpPhom);
-                }
+            //    Phom tmpPhom = cardArr.IsValidPhom();
+            //    if ( tmpPhom == null)
+            //    {
+            //        return false;
+            //    }
+            //    else
+            //    {
+            //        tmpPhomList.Add(tmpPhom);
+            //    }
 
-            }
+            //}
 
+            int count = UUtil.CheckU(seat.BaiTrenTay, seat.BaiDaAn);
             /*nếu tổng tất cả các phỏm hạ không đủ 9 cây*/
             if (count < 9)
             {
@@ -341,7 +341,8 @@ namespace Quantum.Tala.Service.Business
             }
 
             /*cap nhat thong tin phom cua seat vua u*/
-            seat.PhomList = tmpPhomList;
+            //seat.PhomList = tmpPhomList;
+            ///TODO: thay vì xác định các phỏm của bài ù, có thể thêm 1 element bài Ù và add tòan bộ bài trên tay của seat Ù vào đó để các client có thể view đc
 
             /*neu bai da an cua seat == 3, previous seat phai den*/
             if (seat.BaiDaAn.Count == 3)

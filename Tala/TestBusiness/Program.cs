@@ -200,12 +200,12 @@ namespace TestBusiness
             cardList.Add(card);
             card = new Card("02", "c");
             cardList.Add(card);
-            card = new Card("02", "d");
-            cardList.Add(card);
-            card = new Card("02", "p");
-            cardList.Add(card);
-            card = new Card("02", "t");
-            cardList.Add(card);
+            //card = new Card("02", "d");
+            //cardList.Add(card);
+            //card = new Card("02", "p");
+            //cardList.Add(card);
+            //card = new Card("02", "t");
+            //cardList.Add(card);
             card = new Card("03", "t");
             cardList.Add(card);
             card = new Card("04", "t");
@@ -217,7 +217,12 @@ namespace TestBusiness
             card = new Card("05", "t");
             cardList.Add(card);
 
-            int count = UUtil.CheckU(cardList);
+            List<Card> baiDaAn = new List<Card>();
+            baiDaAn.Add(new Card("02", "t"));
+            baiDaAn.Add(new Card("02", "p"));
+            baiDaAn.Add(new Card("02", "d"));
+
+            int count = UUtil.CheckU(cardList, baiDaAn);
             end = DateTime.Now;
             elap = end.Subtract(start);
             System.Console.Out.WriteLine("========== U result: " + count + "====== elapse: " + elap.TotalMilliseconds);
