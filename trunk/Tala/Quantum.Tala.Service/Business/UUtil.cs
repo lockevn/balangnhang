@@ -8,9 +8,17 @@ namespace Quantum.Tala.Service.Business
     public static class UUtil
     {
 
-        public static int CheckU(List<Card> cardList)
+        public static int CheckU(List<Card> baiTrenTay, List<Card> baiDaAn)
         {
-            CardMatrix cardMatrix = CardMatrix.ParseCardListToCardMatrix(cardList);
+            if (baiTrenTay == null
+                || baiDaAn == null
+                || (baiTrenTay.Count + baiDaAn.Count) < 10)
+            {
+                return 0;
+            }
+
+
+            CardMatrix cardMatrix = CardMatrix.ParseCardListToCardMatrix(baiTrenTay, baiDaAn);
             cardMatrix = cardMatrix.Compress();
             int phomNgangCount = cardMatrix.CountPhomNgang();
 
@@ -20,8 +28,8 @@ namespace Quantum.Tala.Service.Business
             int maxCount = 0;
 
             //System.Console.Out.WriteLine("Phom ngang count: " + phomNgangCount + " Direction list: " + directionList.Count);
-            //System.Console.Out.WriteLine("======== original matrix ======= ");
-            //cardMatrix.PrintArrArr();
+            System.Console.Out.WriteLine("======== original matrix ======= ");
+            cardMatrix.PrintArrArr();
             /*quét matrix theo các tổ hợp quét*/
             foreach (int[] directionSet in directionList)
             {

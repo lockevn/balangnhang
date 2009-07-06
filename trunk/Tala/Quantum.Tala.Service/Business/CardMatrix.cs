@@ -98,7 +98,7 @@ namespace Quantum.Tala.Service.Business
                 /*check if row i contains all zero*/
                 for (int j = 0; j < 4; j++)
                 {                   
-                    if (this.IntMatrix[i, j] == 1)
+                    if (this.IntMatrix[i, j] != 0)
                     {
                         isAllZero = false;
                         notEmptyRowStartIndex = i;
@@ -120,7 +120,7 @@ namespace Quantum.Tala.Service.Business
                 /*check if row i contains all zero*/
                 for (int j = 0; j < 4; j++)
                 {
-                    if (this.IntMatrix[i, j] == 1)
+                    if (this.IntMatrix[i, j] != 0)
                     {
                         isAllZero = false;
                         notEmptyRowEndIndex = i;
@@ -203,13 +203,22 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         /// <param name="cardList"></param>
         /// <returns></returns>
-        public static CardMatrix ParseCardListToCardMatrix(List<Card> cardList)
+        public static CardMatrix ParseCardListToCardMatrix(List<Card> baiTrenTay, List<Card> baiDaAn)
         {
             int[,] intArrArr = new int[13, 4];
 
-            foreach (Card card in cardList)
+            /*đánh dấu các cây ở bài trên tay với giá trị = 1*/
+            foreach (Card card in baiTrenTay)
             {
                 intArrArr[card.SoIndex, card.ChatIndex] = 1;
+            }
+
+            /*đánh dấu các cây đã ăn với giá trị = 10
+             lấy giá trị = 10 để kiểm tra phỏm có chứa 2 cây đã ăn không (tổng các phần tử trên row hoặc col >= 20)
+             */
+            foreach (Card card in baiDaAn)
+            {
+                intArrArr[card.SoIndex, card.ChatIndex] = 10;
             }
             CardMatrix tmpCardArrArr = new CardMatrix(intArrArr, 13);
             return tmpCardArrArr;
@@ -235,7 +244,7 @@ namespace Quantum.Tala.Service.Business
         /// <param name="rowIndex"></param>        
         /// <param name="resetRequired">có cần set các phần tử 1 về 0 không</param>        
         /// <returns>số card tạo phỏm hợp lệ, nếu không tìm đc phỏm return 0</returns>
-        private int ScanSingleRow(int rowIndex, bool resetRequired)
+        private int ScanSingleRow(int rowIndex, bool resetRequired, bool check2Cay1PhomRequired)
         {
             if (rowIndex >= this.RowLength || rowIndex < 0)
             {
@@ -244,11 +253,13 @@ namespace Quantum.Tala.Service.Business
             List<int> indexList = new List<int>();
             
             int found = 0;
+            int rowValue = 0;
             for (int i = 0; i < 4; i++)
             {
-                if (this.IntMatrix[rowIndex, i] == 1)
+                if (this.IntMatrix[rowIndex, i] != 0)
                 {
                     found++;
+                    rowValue += this.IntMatrix[rowIndex, i];
                     /*đánh dấu lại vị trí phần tử để sau này reset nếu tạo phỏm*/
                     if (resetRequired)
                     {
@@ -256,9 +267,12 @@ namespace Quantum.Tala.Service.Business
                     }
                 }
             }
-            /*reset matrix elements đã tạo phỏm*/
-            if (found >= 3)
+            /*nếu tìm thấy phỏm và phỏm không chứa > 1 cây trên bài đã ăn, 
+             * reset các phần tử đã duyệt và trả về số cây trong phỏm*/
+            if (check2Cay1PhomRequired && found >= 3 && rowValue < 20 
+                || !check2Cay1PhomRequired && found >=3)
             {
+                /*reset matrix elements đã tạo phỏm*/
                 if (resetRequired)
                 {
                     foreach (int colIndex in indexList)
@@ -288,11 +302,12 @@ namespace Quantum.Tala.Service.Business
             bool found = false;
             int foundCount = 0;
             List<int> indexList = new List<int>();
+            int colValue = 0; /*tính giá trị của column*/
             for (int i = 0; i < this.RowLength; i++)
             {
-                if (this.IntMatrix[i, colIndex] == 1)
+                if (this.IntMatrix[i, colIndex] != 0)
                 {
-                    
+                    colValue += this.IntMatrix[i, colIndex];
                     int count = i - startIndex;
                     /*lưu vị trí của phần tử này lại để reset sau này nếu tạo đc phỏm*/
                     if (resetRequired)
@@ -314,12 +329,19 @@ namespace Quantum.Tala.Service.Business
                         break;
                     }
                     startIndex = i;
-                    /*xóa các vị trí đã đánh dấu trong indexList*/
+                    /*xóa các vị trí đã đánh dấu trong indexList để check 1 phỏm mới*/
                     if (resetRequired)
                     {
                         indexList.Clear();
                     }
+                    /*reset colValue về 0 để check 1 phỏm mới*/
+                    colValue = 0;
                 }
+            }
+            /*nếu phỏm chứa 2 cây đã ăn trở lên -> return 0*/
+            if (colValue >= 20)
+            {
+                return 0;
             }
             /*nếu đã tìm đc phỏm thì reset các phần tử đã đánh dấu, và return số cây tạo phỏm*/
             if (found)
@@ -401,7 +423,7 @@ namespace Quantum.Tala.Service.Business
                 {
                     for (int rowIndex = 0; rowIndex < this.RowLength; rowIndex++)
                     {
-                        tmpCount = this.ScanSingleRow(rowIndex, true);
+                        tmpCount = this.ScanSingleRow(rowIndex, true, true);
                         /*nếu tìm thấy phỏm thì dừng lại để đọc direction tiếp theo*/
                         if (tmpCount >= 3)
                         {                           
@@ -437,7 +459,7 @@ namespace Quantum.Tala.Service.Business
             int phomCount = 0;
             for (int i = 0; i < this.RowLength; i++)
             {
-                int tmp = this.ScanSingleRow(i, false);
+                int tmp = this.ScanSingleRow(i, false, false);
                 if (tmp > 0)
                 {
                     phomCount++;
