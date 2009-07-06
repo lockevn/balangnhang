@@ -115,6 +115,9 @@
     <Compile Include="community\tournament\list.ashx.cs">
       <DependentUpon>list.ashx</DependentUpon>
     </Compile>
+    <Compile Include="community\user\info_read.ashx.cs">
+      <DependentUpon>info_read.ashx</DependentUpon>
+    </Compile>
     <Compile Include="community\user\online_list.ashx.cs">
       <DependentUpon>online_list.ashx</DependentUpon>
     </Compile>
@@ -277,6 +280,7 @@
   <ItemGroup>
     <Content Include="community\server\list.ashx" />
     <Content Include="community\tournament\list.ashx" />
+    <Content Include="community\user\info_read.ashx" />
     <None Include="db.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
