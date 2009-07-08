@@ -96,7 +96,9 @@ namespace Quantum.Tala.Service.Business
             for (int i = 0; i < 52; i++)
             {
                 this.Noc.Add(Card.CARD_SET[randomArr[i]]);
+                System.Diagnostics.Debug.WriteLine("card " + i + ": " + Card.CARD_SET[randomArr[i]].ToString());
             }
+            
         }
 
         /// <summary>
@@ -852,6 +854,105 @@ namespace Quantum.Tala.Service.Business
             _MessageList.Add(message);
             return message;
         }
+
+        #region temporary code for load testing only
+
+        /// <summary>
+        /// Constructor for load testing only
+        /// Chia bai theo mot mau xac dinh
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="soi"></param>
+        /// <param name="forTesting"></param>
+        public Van(int index, Soi soi, bool forTesting)
+        {
+            this.Index = index;
+            this.SoiDangChoi = soi;
+            this.CurrentRound = 1;
+            this.CurrentTurnSeatIndex = 0;
+            if (forTesting)
+            {
+                this.InitializeNocForTesting();
+            }
+            this.IsFinished = false;
+
+            /*xóa bài của tất cả các seat trong seatList*/
+            List<Seat> seatList = this.SoiDangChoi.SeatList;
+            if (seatList != null)
+            {
+                foreach (Seat seat in seatList)
+                {
+                    seat.PhomList = new List<Phom>();
+                    seat.BaiTrenTay = new List<Card>();
+                    seat.BaiDaAn = new List<Card>();
+                    seat.BaiDaDanh = new List<Card>();
+                    seat.BaiDaGui = new List<Card>();
+
+                    /*reset SoCayGui*/
+                    seat.SoCayGuiToiSeat = 0;
+                }
+            }
+        }        
+
+
+        private void InitializeNocForTesting()
+        {
+            this.Noc = new List<Card>();
+            this.Noc.Add(new Card("08", "c"));
+            this.Noc.Add(new Card("05", "t"));
+            this.Noc.Add(new Card("11", "c"));
+            this.Noc.Add(new Card("08", "d"));
+            this.Noc.Add(new Card("01", "t"));
+            this.Noc.Add(new Card("10", "d"));
+            this.Noc.Add(new Card("07", "p"));
+            this.Noc.Add(new Card("08", "p"));
+            this.Noc.Add(new Card("05", "c"));
+            this.Noc.Add(new Card("05", "p"));
+            this.Noc.Add(new Card("09", "c"));
+            this.Noc.Add(new Card("02", "t"));
+            this.Noc.Add(new Card("03", "c"));
+            this.Noc.Add(new Card("06", "d"));
+            this.Noc.Add(new Card("11", "p"));
+            this.Noc.Add(new Card("05", "d"));
+            this.Noc.Add(new Card("01", "d"));
+            this.Noc.Add(new Card("01", "c"));
+            this.Noc.Add(new Card("04", "p"));
+            this.Noc.Add(new Card("08", "t"));
+            this.Noc.Add(new Card("11", "d"));
+            this.Noc.Add(new Card("06", "c"));
+            this.Noc.Add(new Card("13", "p"));
+            this.Noc.Add(new Card("02", "c"));
+            this.Noc.Add(new Card("02", "d"));
+            this.Noc.Add(new Card("03", "p"));
+            this.Noc.Add(new Card("12", "t"));
+            this.Noc.Add(new Card("09", "t"));
+            this.Noc.Add(new Card("03", "t"));
+            this.Noc.Add(new Card("02", "p"));
+            this.Noc.Add(new Card("04", "d"));
+            this.Noc.Add(new Card("12", "p"));
+            this.Noc.Add(new Card("10", "p"));
+            this.Noc.Add(new Card("13", "c"));
+            this.Noc.Add(new Card("12", "d"));
+            this.Noc.Add(new Card("06", "t"));
+            this.Noc.Add(new Card("09", "p"));
+            this.Noc.Add(new Card("11", "t"));
+            this.Noc.Add(new Card("13", "d"));
+            this.Noc.Add(new Card("09", "d"));
+            this.Noc.Add(new Card("07", "d"));
+            this.Noc.Add(new Card("04", "t"));
+            this.Noc.Add(new Card("10", "t"));
+            this.Noc.Add(new Card("03", "d"));
+            this.Noc.Add(new Card("01", "p"));
+            this.Noc.Add(new Card("07", "t"));
+            this.Noc.Add(new Card("10", "c"));
+            this.Noc.Add(new Card("06", "p"));
+            this.Noc.Add(new Card("13", "t"));
+            this.Noc.Add(new Card("12", "c"));
+            this.Noc.Add(new Card("07", "c"));
+            this.Noc.Add(new Card("04", "c"));
+
+        }
+        #endregion
 
 
     }

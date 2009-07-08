@@ -194,6 +194,9 @@
     <Compile Include="Lib\TalaPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="test\user_ready.ashx.cs">
+      <DependentUpon>user_ready.ashx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="community\id\login.ashx" />
@@ -298,6 +301,7 @@
     </None>
     <None Include="serverlist.config" />
     <None Include="TalaAPI.dll.log4net" />
+    <Content Include="test\user_ready.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -321,7 +325,7 @@
           <DevelopmentServerPort>2222</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost/TalaAPI</IISUrl>
-          <NTLMAuthentication>True</NTLMAuthentication>
+          <NTLMAuthentication>False</NTLMAuthentication>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
