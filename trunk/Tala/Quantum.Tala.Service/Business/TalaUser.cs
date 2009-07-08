@@ -13,6 +13,7 @@ using Quantum.Tala.Service.Authentication;
 
 namespace Quantum.Tala.Service.Business
 {
+    [ElementXMLExportAttribute("user", DataOutputXMLType.NestedTag)]
     public class TalaUser : APIDataEntry, IUser
     {
 

@@ -260,8 +260,8 @@ namespace Quantum.Tala.Service.Business
 
         public int CompareTo(Object obj)
         {
-            Card card = (Card)obj;
-            if (this == obj)
+            Card card = obj as Card;
+            if (this == card)
             {
                 return 0;
             }
