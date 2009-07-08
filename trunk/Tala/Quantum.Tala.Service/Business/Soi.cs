@@ -458,6 +458,8 @@ namespace Quantum.Tala.Service.Business
             return 0;
         }
 
+        
+
                
         /// <summary>
         /// đặt cờ ready tại Seat của user
@@ -505,6 +507,84 @@ namespace Quantum.Tala.Service.Business
             }
         }
 
-    
+
+        #region temporary code for load testing
+
+        /// <summary>
+        /// for testing only
+        /// Create van mới, chia bài theo 1 cách xác định 
+        /// </summary>
+        /// <returns></returns>
+        public int StartPlayingForTesting()
+        {
+            if (_IsPlaying)
+            {
+                return -2;
+            }
+
+            if (IsAllPlayerReady() == false)
+            {
+                //o	Nếu có player nào chưa ready, lỗi, id=PLAYER_NOT_READY, trong info sẽ có username chưa ready đó
+                return -1;
+            }
+
+
+            if (4 < this.SeatList.Count || this.SeatList.Count < 2)
+            {
+                return -3;
+            }
+
+
+
+            // COME HERE MEAN all Condition is OK
+
+            // bật cờ đang chơi
+            _IsPlaying = true;
+            //o	Bắt đầu ván với các lựa chọn của Sới hiện tại
+            //o	Hệ thống sẽ tạo ván mới, tự chia bài
+
+            CreateVanForTesting(false);
+            return 0;
+        }
+
+        /// <summary>
+        /// hệ thống tạo ván mới, tự chia bài, tự xếp chỗ nếu truyền tham số
+        /// </summary>
+        /// <param name="isXepChoRequired">truyền true để xếp lại random chỗ</param>
+        /// <returns>đối tượng ván vừa tạo</returns>
+        internal Van CreateVanForTesting(bool isXepChoRequired)
+        {
+            int newVanIndex = 1;
+            /// index van moi = index van cu + 1
+            if (this._CurrentVan != null)
+            {
+                newVanIndex = this._CurrentVan.Index++;
+            }
+
+            Van oldVan = this._CurrentVan;
+            Van newVan = new Van(newVanIndex, this, true);
+            this._CurrentVan = newVan;
+
+            /// xep cho randomly
+            if (isXepChoRequired)
+            {
+                this.XepChoRandom();
+            }
+
+            /// Chia bài, chia cho người thắng ván cũ trước (nếu có)
+            newVan.ChiaBai(oldVan == null ? "" : oldVan.WinnerUsername);
+
+            /// reset HaIndex
+            Seat tmpSeat = this.SeatList[newVan.CurrentTurnSeatIndex];
+            for (int i = 0; i < this.SeatList.Count; i++)
+            {
+                tmpSeat.HaIndex = i;
+                int nextIndex = Seat.GetNextSeatIndex(tmpSeat.Pos, this.SeatList.Count);
+                tmpSeat = this.SeatList[nextIndex];
+            }
+
+            return newVan;
+        }
+        #endregion
     }
 }

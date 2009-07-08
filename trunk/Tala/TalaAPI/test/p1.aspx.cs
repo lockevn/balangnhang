@@ -25,23 +25,23 @@ namespace TalaAPI.test
         {
             Song song = Song.Instance;
 
-            TalaUser dan = song.LoginVaoSongChoi("danhut", "quantum");
-            TalaUser thach = song.LoginVaoSongChoi("lockevn", "quantum");
-            TalaUser lam = song.LoginVaoSongChoi("lamlt", "quantum");
-            TalaUser dung = song.LoginVaoSongChoi("dung", "quantum");
+            TalaUser dan = song.LoginVaoSongChoi("v1", "vtc");
+            TalaUser thach = song.LoginVaoSongChoi("v2", "vtc");
+            TalaUser lam = song.LoginVaoSongChoi("v3", "vtc");
+            TalaUser dung = song.LoginVaoSongChoi("v4", "vtc");
 
             pln("4 người login rồi");
 
-            Soi soi = song.CreatSoiMoi("test soi", "lamlt");
+            Soi soi = song.CreatSoiMoi("test soi", "v1");
             pln("lamlt tạo sới");
 
-            soi.AddPlayer("lockevn");
-            pln("lockevn vào");
+            soi.AddPlayer("v2");
+            pln("v2 vào");
             //soi.AddPlayer("lamlt");
-            soi.AddPlayer("dung");
-            pln("dung vào");
-            soi.AddPlayer("danhut");
-            pln("danhut vào");
+            soi.AddPlayer("v3");
+            pln("v3 vào");
+            soi.AddPlayer("v4");
+            pln("v4 vào");
 
             soi.SetReady(dan);
             soi.SetReady(thach);
