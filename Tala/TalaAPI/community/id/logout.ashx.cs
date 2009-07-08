@@ -27,7 +27,7 @@ namespace TalaAPI.community.id
                     // TODO: tìm sới đang đánh, gỡ ra khỏi seatlist                    
                 }
                 catch { }
-                context.Session.Clear();
+                // context.Session.Clear();                
                 cs = new APICommandStatus(APICommandStatusState.OK, "LOGOUT", "authkey=" + sAuthkey + "u=" + sUsername);
             }            
             
