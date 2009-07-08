@@ -21,7 +21,21 @@ namespace Quantum.Tala.Lib.XMLOutput
         public virtual XElement ToXElement()
         {
             /// XML Element, đại diện cho chính DataEntry đang được xử lý này
-            XElement thisx = new XElement(this.GetType().Name.ToStringSafetyNormalize());            
+            string sThisElementName = string.Empty;
+            object[] classNameAttribs = this.GetType().GetCustomAttributes(typeof(ElementXMLExportAttribute), false);
+            
+            sThisElementName = this.GetType().Name.ToStringSafetyNormalize(); 
+            if (classNameAttribs.Length <= 0)
+            {                
+            }
+            else                
+            {
+                ElementXMLExportAttribute at = (ElementXMLExportAttribute)classNameAttribs[0];
+                sThisElementName = at.TagName.IsNullOrEmpty() ? sThisElementName : at.TagName;
+            }
+
+
+            XElement thisx = new XElement(sThisElementName);
             
             // lấy tất cả các property Public, Instance (không phải tĩnh) của DataEntry
             PropertyInfo[] arrPro = this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);

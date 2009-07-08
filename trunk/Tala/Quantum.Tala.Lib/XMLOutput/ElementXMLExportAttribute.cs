@@ -19,7 +19,7 @@ namespace Quantum.Tala.Lib.XMLOutput
     /// <summary>
     /// Attrib này dùng để mark trên các Property của APIDataEntry. Nếu được mark, bộ XMLHttpHandler mới expose Property ấy để render XML
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class)]
     public class ElementXMLExportAttribute : System.Attribute
     {
         string _TagName;
