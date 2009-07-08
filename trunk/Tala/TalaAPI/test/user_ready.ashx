@@ -1,1 +1,1 @@
-﻿<%@ WebHandler Language="C#" CodeBehind="user_ready.ashx.cs" Class="TalaAPI.community.soi.user_ready" %>
+﻿<%@ WebHandler Language="C#" CodeBehind="user_ready.ashx.cs" Class="TalaAPI.test.user_ready" %>
