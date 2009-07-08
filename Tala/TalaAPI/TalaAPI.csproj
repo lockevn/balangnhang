@@ -70,11 +70,17 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="admin\game\soi_delete.ashx.cs">
+      <DependentUpon>soi_delete.ashx</DependentUpon>
+    </Compile>
     <Compile Include="community\id\checkauthkey.ashx.cs">
       <DependentUpon>checkauthkey.ashx</DependentUpon>
     </Compile>
     <Compile Include="community\id\getauthkeyinfo.ashx.cs">
       <DependentUpon>getauthkeyinfo.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="community\id\login_gettokenquestion.ashx.cs">
+      <DependentUpon>login_gettokenquestion.ashx</DependentUpon>
     </Compile>
     <Compile Include="community\id\logout.ashx.cs">
       <DependentUpon>logout.ashx</DependentUpon>
@@ -114,6 +120,9 @@
     </Compile>
     <Compile Include="community\tournament\list.ashx.cs">
       <DependentUpon>list.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="community\tournament\user_add.ashx.cs">
+      <DependentUpon>user_add.ashx</DependentUpon>
     </Compile>
     <Compile Include="community\user\info_read.ashx.cs">
       <DependentUpon>info_read.ashx</DependentUpon>
@@ -281,6 +290,9 @@
     <Content Include="community\server\list.ashx" />
     <Content Include="community\tournament\list.ashx" />
     <Content Include="community\user\info_read.ashx" />
+    <Content Include="community\id\login_gettokenquestion.ashx" />
+    <Content Include="admin\game\soi_delete.ashx" />
+    <Content Include="community\tournament\user_add.ashx" />
     <None Include="db.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -289,6 +301,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Config\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />

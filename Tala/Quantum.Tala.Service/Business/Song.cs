@@ -47,8 +47,7 @@ namespace Quantum.Tala.Service.Business
         #endregion
 
 
-        public string Text { get; set; }
-        
+
         private Dictionary<string, string> _DicValidAuthkey = new Dictionary<string, string>();
         /// <summary>
         /// map (validauthkey - username)
@@ -68,6 +67,12 @@ namespace Quantum.Tala.Service.Business
             get { return _DicOnlineUser; }
             //set { _DicOnlineUser = value; }
         }
+
+
+
+
+
+        public string Text { get; set; }
 
         private Dictionary<string, Soi> _DicSoi = new Dictionary<string, Soi>();
         /// <summary>
@@ -220,5 +225,25 @@ namespace Quantum.Tala.Service.Business
         }
 
 
+        /// <summary>
+        /// Xoá một sới theo ID cho trước
+        /// </summary>
+        /// <param name="sSoiID"></param>
+        /// <returns></returns>
+        public bool DeleteSoi(string sSoiID)
+        {   
+            return Song.Instance.DicSoi.Remove(sSoiID);            
+        }
+
+
+        public bool ProcessSoiValidity()
+        {
+            bool bRet = false;
+
+            // TODO: xử lý các trường hợp đúng sai trong logic game, mỗi khi có một lần gọi đến hàm này
+            /// 
+
+            return bRet;
+        }
     }
 }
