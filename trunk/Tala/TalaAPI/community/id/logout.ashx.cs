@@ -13,17 +13,25 @@ namespace TalaAPI.community.id
         {
             string sAuthkey = context.Request["authkey"].ToStringSafetyNormalize();
 
-            string sUsername = Song.Instance.DicValidAuthkey[sAuthkey];
-            try
+            APICommandStatus cs = APICommandStatus.Get_WRONG_AUTHKEY_CommandStatus();
+
+            string sUsername = string.Empty;
+            if (Song.Instance.DicValidAuthkey.TryGetValue(sAuthkey, out sUsername))
             {
-                Song.Instance.DicValidAuthkey.Remove(sAuthkey);
-                Song.Instance.DicOnlineUser.Remove(sUsername);
-            }
-            catch { }
-
-            APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "LOGOUT", "authkey=" + sAuthkey + "u=" + sUsername);
+                // nếu tìm thấy authkey
+                try
+                {
+                    Song.Instance.DicValidAuthkey.Remove(sAuthkey);
+                    Song.Instance.DicOnlineUser.Remove(sUsername);
+                    
+                    // TODO: tìm sới đang đánh, gỡ ra khỏi seatlist                    
+                }
+                catch { }
+                context.Session.Clear();
+                cs = new APICommandStatus(APICommandStatusState.OK, "LOGOUT", "authkey=" + sAuthkey + "u=" + sUsername);
+            }            
+            
             this.Cmd.Add(cs);
-
             base.ProcessRequest(context);
         }
     }

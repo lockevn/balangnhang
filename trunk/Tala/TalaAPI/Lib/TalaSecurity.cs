@@ -15,18 +15,19 @@ namespace TalaAPI.Lib
     public class TalaSecurity
     {
         HttpContext _context;
-        string _authkey;
+
+        string _CurrentAuthkey;
         public string CurrentAuthkey
         {
             get
             {                
-                return _authkey;
+                return _CurrentAuthkey;
             }
         }
-        TalaUser _user;
+        TalaUser _CurrentAU;
         public TalaUser CurrentAU
         {
-            get { return _user; }
+            get { return _CurrentAU; }
         }
 
         /// <summary>
@@ -36,10 +37,10 @@ namespace TalaAPI.Lib
         public TalaSecurity(HttpContext context, bool NeedToEndRequest)
         {
             _context = context;
-            _authkey = context.Request["authkey"].ToStringSafetyNormalize();
-            _user = Song.Instance.GetUserByUsername(Song.Instance.GetUsernameByAuthkey(_authkey));
+            _CurrentAuthkey = context.Request["authkey"].ToStringSafetyNormalize();
+            _CurrentAU = Song.Instance.GetUserByUsername(Song.Instance.GetUsernameByAuthkey(_CurrentAuthkey));
 
-            if (_user == null)
+            if (_CurrentAU == null)
             {
                 if (NeedToEndRequest)
                 {

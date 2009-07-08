@@ -16,6 +16,12 @@ namespace TalaAPI.play.van
     {
         public override void ProcessRequest(HttpContext context)
         {
+            // TODO: Thêm business mới
+            /// Nếu authkey không phải là thành viên của sới player
+            /// kiểm tra xem có nằm trong danh sách cho xem không?
+            /// nếu ok, cho xem (bài đã đánh, đã ăn, phỏm đã hạ của ván)
+            /// nếu không ok, trả về stat=fail, not allow như cũ
+
             TalaSecurity security = new TalaSecurity(context);
             Soi soi = security.CheckUserJoinedSoi();
 
