@@ -73,6 +73,7 @@
     <Compile Include="Business\Seat.cs" />
     <Compile Include="Business\Soi.cs" />
     <Compile Include="Business\Song.cs" />
+    <Compile Include="Business\TournamentType.cs" />
     <Compile Include="Business\UUtil.cs" />
     <Compile Include="Business\Van.cs" />
     <Compile Include="CONST.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Exception\CardException.cs" />
     <Compile Include="Exception\NotInTurnException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TournamentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quantum.Tala.Lib\Quantum.Tala.Lib.csproj">
