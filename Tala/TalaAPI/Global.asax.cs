@@ -20,7 +20,7 @@ namespace TalaAPI
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            string sWebRootPhysicalPath = Server.MapPath("/");
+            string sWebRootPhysicalPath = Server.MapPath("/Config");
             //System.Diagnostics.Debug.Print(sWebRootPhysicalPath);
             DBHelper.Instance.Init(sWebRootPhysicalPath);
 
