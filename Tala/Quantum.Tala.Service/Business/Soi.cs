@@ -157,7 +157,7 @@ namespace Quantum.Tala.Service.Business
             /// index van moi = index van cu + 1
             if (this._CurrentVan != null)
             {
-                newVanIndex = this._CurrentVan.Index++;
+                newVanIndex = this._CurrentVan.ID++;
             }
 
             Van oldVan = this._CurrentVan;
@@ -558,7 +558,7 @@ namespace Quantum.Tala.Service.Business
             /// index van moi = index van cu + 1
             if (this._CurrentVan != null)
             {
-                newVanIndex = this._CurrentVan.Index++;
+                newVanIndex = this._CurrentVan.ID++;
             }
 
             Van oldVan = this._CurrentVan;

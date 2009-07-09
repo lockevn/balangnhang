@@ -36,6 +36,30 @@ namespace TalaAPI.community.id
             }
             this.Cmd.Add(cs);
             base.ProcessRequest(context);
+
+
+
+            // TODO: Admin account Use tokencard
+//If(Check(username && password) == true)
+//{
+//// display random token question
+//If(tokenIsOK)
+//{
+//// write authkey to session
+//Session["adminauthkey"] = "randomstring";
+//// redirect to admin account panel
+//}
+//Else
+//{
+//// display fail
+//}
+//}
+//Else
+//{
+//// display fail
+//}
+
+
         }
     }
 }

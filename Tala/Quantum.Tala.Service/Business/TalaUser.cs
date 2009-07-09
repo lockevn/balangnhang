@@ -129,7 +129,7 @@ namespace Quantum.Tala.Service.Business
             _Money += value;
 
             // update xuống DB
-            value = Cashier.AddMoneyOfUser(this.Username, value);
+            value = Cashier.AddGoldOfUser(this.Username, value, 1);
 
             return value;
         }
@@ -144,7 +144,7 @@ namespace Quantum.Tala.Service.Business
             _Money -= value;
 
             // update xuống DB
-            value = Cashier.SubtractMoneyOfUser(this.Username, value);
+            value = Cashier.SubtractGoldOfUser(this.Username, value, 1);
 
             return value;
         }

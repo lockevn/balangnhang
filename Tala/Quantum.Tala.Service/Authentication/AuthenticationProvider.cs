@@ -101,20 +101,22 @@ namespace Quantum.Tala.Service.Authentication
         /// <param name="p_sPassword"></param>
         /// <returns>null if fail</returns>
         public static IUser AuthenticateVTC(string p_sUsername, string p_sPassword)
-        {        
-            object oReturnStatus = null;
+        {
             bool bAuthenticateOK = false;
-
-
-
-            // TODO: add VTC authentication process here, to verify username password against VTC System
             
-
-            if (oReturnStatus == null)
-            {
+            // TODO: add VTC authentication process here, to verify username password against VTC System
+            string sResponse = "ok";    //HttpRequestHelper.Open(VTCAuthenticationURL);
+            if (sResponse == "ok")
+            {                
+                // check more
+                // login ok
                 bAuthenticateOK = true;
             }
-
+            else
+            {
+                // Login fail
+            }           
+            
             if (bAuthenticateOK)
             {
                 return new TalaUser();

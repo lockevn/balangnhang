@@ -9,17 +9,18 @@ using System.Collections.Generic;
 using Quantum.Tala.Lib;
 using Quantum.Tala.Lib.XMLOutput;
 using Quantum.Tala.Service.Exception;
+using System.Text;
 
 namespace Quantum.Tala.Service.Business
 {
     public class Van : APIDataEntry
     {
-        int _Index;
+        int _ID;
         [ElementXMLExportAttribute("id", DataOutputXMLType.NestedTag)]
-        public int Index
+        public int ID
         {
-            get { return _Index; }
-            set { _Index = value; }
+            get { return _ID; }
+            set { _ID = value; }
         }
         
         int _CurrentTurnSeatIndex;
@@ -48,7 +49,7 @@ namespace Quantum.Tala.Service.Business
 
         public Van(int index, Soi soi)
         {
-            this.Index = index;
+            this.ID = index;
             this.SoiDangChoi = soi;
             this.CurrentRound = 1;
             this.CurrentTurnSeatIndex = 0;
@@ -419,7 +420,7 @@ namespace Quantum.Tala.Service.Business
             }
 
             /*kiểm tra hạ láo --> đền, end van*/
-            if (this.checkHaLao(seat, phomList))
+            if (this.CheckHaLao(seat, phomList))
             {                
                 /*end van và đền*/
                 this.EndVan(seat);
@@ -748,7 +749,7 @@ namespace Quantum.Tala.Service.Business
        /// <param name="seat">seat ha</param>
        /// <param name="phomList">danh sach phom ma seat da ha</param>
        /// <returns>true/false</returns>        
-        private bool checkHaLao(Seat seat, List<Phom> phomList)
+        private bool CheckHaLao(Seat seat, List<Phom> phomList)
         {
             if (phomList == null || phomList.Count == 0)
             {
@@ -758,18 +759,18 @@ namespace Quantum.Tala.Service.Business
             /*có 1 phỏm chứa > 1 cây đã ăn --> hạ láo*/
             foreach (Phom phom in phomList)
             {
-                bool found = false; /*chua tim thay card nao trong bai da an co mat trong phom*/             
+                bool bFound = false; /*chua tim thay card nao trong bai da an co mat trong phom*/             
                 foreach (Card card in seat.BaiDaAn)
                 {
                     /*nếu đã tìm thấy 1 card trong bài đã ăn có mặt trong phom, mà lại tìm thấy card nữa
                      cũng có mặt trong phỏm thì là hạ láo*/
-                    if (phom.CardArray.Contains(card) && found)
+                    if (phom.CardArray.Contains(card) && bFound)
                     {
                         return true;
                     }
                     if (phom.CardArray.Contains(card))
                     {
-                        found = true;
+                        bFound = true;
                     }                    
                 }                
             }
@@ -855,6 +856,34 @@ namespace Quantum.Tala.Service.Business
             return message;
         }
 
+
+
+
+        public string AutomaticDetermineAndExecuteAction()
+        {
+            StringBuilder sRet = new StringBuilder();
+
+            // TODO: mỗi hành động tự làm, đều append vào sRet
+
+
+            // TODO: 
+            // TODO: 
+            // TODO: 
+            // TODO: 
+            // TODO: 
+            // TODO: 
+            // TODO: 
+            // TODO: 
+            // TODO: 
+            
+            /// 
+            /// trả lại chuỗi kết quả ra ngoài
+            /// có thể để còn log
+
+            return sRet.ToString();
+        }
+
+
         #region temporary code for load testing only
 
         /// <summary>
@@ -866,10 +895,13 @@ namespace Quantum.Tala.Service.Business
         /// <param name="forTesting"></param>
         public Van(int index, Soi soi, bool forTesting)
         {
-            this.Index = index;
+            this.ID = index;
             this.SoiDangChoi = soi;
             this.CurrentRound = 1;
             this.CurrentTurnSeatIndex = 0;
+            
+            
+            // TEST: về sau phải bỏ đi
             if (forTesting)
             {
                 this.InitializeNocForTesting();
@@ -895,8 +927,12 @@ namespace Quantum.Tala.Service.Business
         }        
 
 
+        /// <summary>
+        /// test, bỏ đi
+        /// </summary>
         private void InitializeNocForTesting()
         {
+            // TEST: về sau phải bỏ đi
             this.Noc = new List<Card>();
             this.Noc.Add(new Card("08", "c"));
             this.Noc.Add(new Card("05", "t"));
@@ -950,7 +986,6 @@ namespace Quantum.Tala.Service.Business
             this.Noc.Add(new Card("12", "c"));
             this.Noc.Add(new Card("07", "c"));
             this.Noc.Add(new Card("04", "c"));
-
         }
         #endregion
 

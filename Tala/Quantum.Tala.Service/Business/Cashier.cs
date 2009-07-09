@@ -48,8 +48,13 @@ namespace Quantum.Tala.Service.Business
             return nTienPhat;
         }
 
-        public static int SubtractMoneyOfUser(string p_sUsername, int p_nValue)
+        public static int SubtractGoldOfUser(string p_sUsername, int p_nValue, int p_nTourID)
         {
+            // TODO: cập nhật bản ghi user_stat
+            // TODO: cập nhật bản ghi user_tournament
+            // TODO: cập nhật bản ghi
+
+
             DbConnection con = DBHelper.Instance.GetDbConnection("quantum");
             con.Open();
             string strSQL = string.Format("update `User` set `balance` = ifnull(`balance`,0) - {1} where `u`='{0}';", p_sUsername, p_nValue);
@@ -63,7 +68,7 @@ namespace Quantum.Tala.Service.Business
             return nRet;
         }
 
-        public static int AddMoneyOfUser(string p_sUsername, int p_nValue)
+        public static int AddGoldOfUser(string p_sUsername, int p_nValue, int p_nTourID)
         {
             DbConnection con = DBHelper.Instance.GetDbConnection("quantum");
             con.Open();
