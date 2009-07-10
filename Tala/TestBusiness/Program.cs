@@ -11,6 +11,10 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Collections;
 using System.Diagnostics;
+using Quantum.Tala.Service;
+using GURUCORE.Framework.Business;
+using Quantum.Tala.Service.DTO;
+using GURUCORE.Framework.Core;
 //using CH.Combinations;
  
 
@@ -23,12 +27,18 @@ namespace TestBusiness
     }
 
     class Program
-    {
-        
+    {       
 
 
         static void Main(string[] args)
         {
+            TestApplication ta = new TestApplication();
+            ta.Start(".");
+            ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
+            tournamentDTO tour = new tournamentDTO();
+            tour.name = "test";
+            int nRet = toursvc.CreateTournament(tour);
+
             ABCTest a = new ABCTest();
             
             a.Player = new TalaUser("danhut", "danhitauthkey");

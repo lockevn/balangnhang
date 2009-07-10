@@ -12,42 +12,25 @@ using GURUCORE.Framework.Business;
 
 //using GURUCORE.Portal.Module.Ad.Service.Business.DTO;
 using GURUCORE.Framework.Business.DTO;
+using Quantum.Tala.Service.DTO;
 
 
 namespace Quantum.Tala.Service
 {
-    public class TournamentService : BusinessService
+    public class TournamentService : BusinessService, Quantum.Tala.Service.ITournamentService
     {
-        //public DTOTournament Create()
-        //{
-        //    // TODO: Create new tournament
-        //    //Tournament tour = New Tournament();
-        //    //Tour.Name = sTourName;
-        //    //Tour.Desc = sTourDesc;
-        //    //Tour.StartTime = dtStartTime;
-        //    //Tour.EndTime = dtEndTime;
-        //    //Tour.MinRequiredPlayer = nMinRequirePlayer;
-        //    //Tour.StartupPoint = nStartupPoint;
-        //    //Tour.Enabled = false;
-        //    //Tour.Start = false;
-        //    return null;
-        //}
-
-        //[TransactionBound]
-        //public virtual int PostBanner(BannerDTO p_dtoBanner)
-        //{
-        //    DAU.AddObject<BannerDTO>(p_dtoBanner);
-
-        //    return 0;
-        //}
-
-	
-        //[TransactionBound]
-        //public virtual MediaTypeDTO[] GetMediaTypeList()
-        //{
-        //    DTOCollection<MediaTypeDTO> arrMediaType = DAU.GetObjects<MediaTypeDTO>(default(Criteria));
-        //    return arrMediaType.ToArray();
-        //}
+        [TransactionBound]
+        public virtual int CreateTournament(tournamentDTO p_dto)
+        {
+            return DAU.AddObject<tournamentDTO>(p_dto).id;
+        }
+                
+        [TransactionBound]
+        public virtual tournamentDTO[] GetTournamentList()
+        {
+            DTOCollection<tournamentDTO> arr = DAU.GetObjects<tournamentDTO>();
+            return arr.ToArray();
+        }
 
 	
         //[TransactionBound]
@@ -108,12 +91,8 @@ namespace Quantum.Tala.Service
         //    return DAU.GetObject<BlockDTO>(BlockDTO.BLOCKID_FLD, p_nBlockID);
         //}
 
-		
-        //[TransactionBound]
-        //public virtual int CreateBlock(BlockDTO p_dtoBlock)
-        //{
-        //    return DAU.AddObject<BlockDTO>(p_dtoBlock).BlockID;
-        //}
+
+        
 		
 		
         //[TransactionBound]
