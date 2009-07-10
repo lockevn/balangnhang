@@ -865,8 +865,10 @@ namespace Quantum.Tala.Service.Business
 
             // TODO: mỗi hành động tự làm, đều append vào sRet
 
+            // TODO: tìm lượt hiện tại, tìm user của lượt hiện tại
+            /// kiểm tra với 
 
-            // TODO: 
+            // TODO: neeus 
             // TODO: 
             // TODO: 
             // TODO: 
