@@ -8,8 +8,44 @@ namespace GURUCORE.GForm.CodeGenerator
 		private string m_sType;
 		private bool m_bIdentity;
 		private bool m_bReadOnly;
-		
 		private bool m_bLocalizable;
+
+        public string Name
+        {
+            get
+            {
+                return m_sName;
+            }
+        }
+        public string Type
+        {
+            get
+            {
+                return m_sType;
+            }
+        }
+        public bool Identity
+        {
+            get
+            {
+                return m_bIdentity;
+            }
+        }
+        public bool ReadOnly
+        {
+            get
+            {
+                return m_bReadOnly;
+            }
+        }
+        public bool Localizable
+        {
+            get
+            {
+                return m_bLocalizable;
+            }
+        }
+
 
 		public SchemaObjectProperty(string p_sName, string p_sType, bool p_bIdentity, bool p_bReadOnly, bool p_bLocalizable)
 		{
@@ -20,44 +56,5 @@ namespace GURUCORE.GForm.CodeGenerator
 			m_bLocalizable = p_bLocalizable;
 		}
 
-		public string Name
-		{
-			get
-			{
-				return m_sName;
-			}
-		}
-
-		public string Type
-		{
-			get
-			{
-				return m_sType;
-			}
-		}
-
-		public bool Identity
-		{
-			get
-			{
-				return m_bIdentity;
-			}
-		}
-
-		public bool ReadOnly
-		{
-			get
-			{
-				return m_bReadOnly;
-			}
-		}
-
-		public bool Localizable
-		{
-			get
-			{
-				return m_bLocalizable;
-			}
-		}
-	}
+    }
 }

@@ -1,6 +1,6 @@
 ﻿namespace GURUCORE.GForm.CodeGenerator
 {
-    partial class ConnectMySql
+    partial class FormConnectSqlServer
     {
         /// <summary>
         /// Required designer variable.
@@ -43,7 +43,7 @@
             // txtPassword
             // 
             this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPassword.Location = new System.Drawing.Point(80, 78);
+            this.txtPassword.Location = new System.Drawing.Point(75, 81);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(313, 20);
@@ -52,7 +52,7 @@
             // txtUser
             // 
             this.txtUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtUser.Location = new System.Drawing.Point(80, 54);
+            this.txtUser.Location = new System.Drawing.Point(75, 57);
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(313, 20);
             this.txtUser.TabIndex = 12;
@@ -60,7 +60,7 @@
             // txtDatabase
             // 
             this.txtDatabase.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtDatabase.Location = new System.Drawing.Point(80, 30);
+            this.txtDatabase.Location = new System.Drawing.Point(75, 33);
             this.txtDatabase.Name = "txtDatabase";
             this.txtDatabase.Size = new System.Drawing.Size(313, 20);
             this.txtDatabase.TabIndex = 11;
@@ -68,14 +68,14 @@
             // txtServer
             // 
             this.txtServer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtServer.Location = new System.Drawing.Point(80, 6);
+            this.txtServer.Location = new System.Drawing.Point(75, 9);
             this.txtServer.Name = "txtServer";
             this.txtServer.Size = new System.Drawing.Size(313, 20);
             this.txtServer.TabIndex = 9;
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(12, 80);
+            this.label4.Location = new System.Drawing.Point(7, 83);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(62, 18);
             this.label4.TabIndex = 10;
@@ -83,7 +83,7 @@
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(12, 54);
+            this.label3.Location = new System.Drawing.Point(7, 57);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 18);
             this.label3.TabIndex = 18;
@@ -92,7 +92,7 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(12, 30);
+            this.label2.Location = new System.Drawing.Point(7, 33);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 18);
             this.label2.TabIndex = 17;
@@ -101,7 +101,7 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(12, 6);
+            this.label1.Location = new System.Drawing.Point(7, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 18);
             this.label1.TabIndex = 16;
@@ -112,7 +112,7 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Location = new System.Drawing.Point(307, 111);
+            this.btnCancel.Location = new System.Drawing.Point(302, 114);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(88, 24);
             this.btnCancel.TabIndex = 15;
@@ -122,19 +122,20 @@
             // btnConnect
             // 
             this.btnConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConnect.Location = new System.Drawing.Point(211, 111);
+            this.btnConnect.Location = new System.Drawing.Point(206, 114);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(88, 24);
             this.btnConnect.TabIndex = 14;
             this.btnConnect.Text = "Connect";
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
-            // ConnectMySql
+            // FormConnectSqlServer
             // 
             this.AcceptButton = this.btnConnect;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(406, 191);
+            this.ClientSize = new System.Drawing.Size(396, 153);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUser);
             this.Controls.Add(this.txtDatabase);
@@ -145,10 +146,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConnect);
-            this.Name = "ConnectMySql";
-            this.Opacity = 0.9;
-            this.Text = "ConnectMySql";
-            this.Load += new System.EventHandler(this.ConnectMySql_Load);
+            this.Name = "FormConnectSqlServer";
+            this.Text = "FormConnectSqlServer";
+            this.Load += new System.EventHandler(this.FormConnectSqlServer_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

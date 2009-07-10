@@ -458,6 +458,7 @@ namespace GURUCORE.GForm.CodeGenerator
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 GlobalOptions.GetInstance().WriteFileRepository();
             }
 		}
@@ -469,17 +470,22 @@ namespace GURUCORE.GForm.CodeGenerator
 
 		private void LoadObjects()
 		{
-			Connect frmConnect;
+            FormConnect frmConnect;
 			switch (cboProvider.SelectedIndex)
 			{
 				case 0:
 				{
-					frmConnect = new ConnectSqlServer();
+					frmConnect = new FormConnectSqlServer();
 					break;
 				}
+                case 1:
+                {
+                    frmConnect = new FormConnectSqlServer();
+                    break;
+                }
                 case 2:
                 {
-                    frmConnect = new ConnectMySql();
+                    frmConnect = new FormConnectMySql();
                     break;
                 }
 				default:
@@ -559,6 +565,8 @@ namespace GURUCORE.GForm.CodeGenerator
 		{
 			LoadObjects();
 		}
+
+
 
 		private void btnGenerate_Click(object sender, System.EventArgs e)
 		{

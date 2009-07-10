@@ -19,21 +19,29 @@ namespace GURUCORE.GForm.CodeGenerator
 			TypeMapper oTypeMapper = new TypeMapper("MySql5.xml");
 			ArrayList arrResult = new ArrayList();
 			string sSQL;
-			//get all table
-            sSQL =
-"				select " +
-" v1.TABLE_NAME,  v1.TABLE_TYPE,  v3.COLUMN_NAME " +
-" from   INFORMATION_SCHEMA.TABLES v1 " +
-" left join INFORMATION_SCHEMA.TABLE_CONSTRAINTS v2 " +
-" on v1.TABLE_NAME = v2.TABLE_NAME " +
-" and v2.CONSTRAINT_TYPE = 'PRIMARY KEY' " +
+			//get all table, and its fields, of current database
+            sSQL = string.Format(
+@"select
+v1.TABLE_NAME,  v1.TABLE_TYPE,  v2.COLUMN_NAME
+from   (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = '{0}') as v1
+
+left join 
+(
+SELECT k.TABLE_SCHEMA, k.TABLE_NAME, k.column_name
+FROM information_schema.table_constraints t
+JOIN information_schema.key_column_usage k
+USING(constraint_name,table_schema,table_name)
+WHERE t.constraint_type='PRIMARY KEY'
+  AND t.table_schema='{0}'
+) v2
+  
+on v1.TABLE_SCHEMA = v2.TABLE_SCHEMA
+and v1.TABLE_NAME = v2.TABLE_NAME
+;"
+
+            , this.m_oDbConn.Database);
             
-" left join INFORMATION_SCHEMA.COLUMNS v3 " +
-" on  v1.TABLE_SCHEMA = v3.TABLE_SCHEMA " +
-" and v1.TABLE_NAME = v3.TABLE_NAME ";
-
 			m_oDbConn.Open();
-
 			IDbCommand oDbCmdTbl = m_oDbConn.CreateCommand();
 			oDbCmdTbl.CommandType = CommandType.Text;
 			oDbCmdTbl.CommandText = sSQL;
@@ -44,7 +52,9 @@ namespace GURUCORE.GForm.CodeGenerator
 				string sPrimaryKey = (oDrTbl["COLUMN_NAME"] == DBNull.Value) ? string.Empty : oDrTbl["COLUMN_NAME"].ToString();
 				SchemaObject oSchemaObject = new SchemaObject(oDrTbl["TABLE_TYPE"].ToString(),sName,sPrimaryKey,oTypeMapper);
 
-                if (sName.StartsWith(GlobalOptions.GetInstance().CurrentProfile.TablePrefixes))
+                string sTablePrefixInConfig = GlobalOptions.GetInstance().CurrentProfile.TablePrefixes;
+                if (string.IsNullOrEmpty(sTablePrefixInConfig) /*if Not config*/ ||
+                    sName.StartsWith(sTablePrefixInConfig))
 				{
 					arrResult.Add(oSchemaObject);
 				}
@@ -56,14 +66,9 @@ namespace GURUCORE.GForm.CodeGenerator
 				string sName = oSchemaObject.Name;
 				string sPrimaryKey = oSchemaObject.PrimaryKey;
 				//select all column
-				sSQL = 
-					" select " +
-					" 	COLUMN_NAME, " +
-					" 	DATA_TYPE " +
-					" from " +
-					" 	INFORMATION_SCHEMA.COLUMNS " +
-					" where " +
-					" TABLE_NAME = '" + sName + "'";					
+				sSQL = string.Format(
+					@" select COLUMN_NAME, DATA_TYPE from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='{0}'", 
+                    sName);					
 
 				IDbCommand oDbCmdCol = m_oDbConn.CreateCommand();
 				oDbCmdCol.CommandType = CommandType.Text;
