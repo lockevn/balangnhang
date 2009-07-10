@@ -60,7 +60,7 @@ namespace GURUCORE.GForm.CodeGenerator
 			}
 			else
 			{
-				return "";
+                return string.Empty;
 			}
 		}
 	}

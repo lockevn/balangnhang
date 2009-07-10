@@ -12,7 +12,7 @@ namespace GURUCORE.GForm.CodeGenerator
 
 		public override ArrayList GetSchemaObjects()
 		{
-			TypeMapper oTypeMapper = new TypeMapper("SQLServer2000.xml");
+			TypeMapper oTypeMapper = new TypeMapper("TypeMapper_SQLServer2000.xml");
 			ArrayList arrResult = new ArrayList();
 			string sSQL;
 			//get all table

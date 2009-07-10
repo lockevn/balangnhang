@@ -16,7 +16,7 @@ namespace GURUCORE.GForm.CodeGenerator
 
 		public override ArrayList GetSchemaObjects()
 		{
-			TypeMapper oTypeMapper = new TypeMapper("MySql5.xml");
+			TypeMapper oTypeMapper = new TypeMapper("TypeMapper_MySql5.xml");
 			ArrayList arrResult = new ArrayList();
 			string sSQL;
 			//get all table, and its fields, of current database

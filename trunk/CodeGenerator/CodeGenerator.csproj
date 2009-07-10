@@ -124,13 +124,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GURUCORE.ico" />
-    <Content Include="MySql5.xml">
+    <Content Include="TypeMapper_MySql5.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Profiles.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SQLServer2000.xml">
+    <Content Include="TypeMapper_SQLServer2000.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Compile Include="FormConnectMySql.cs">
