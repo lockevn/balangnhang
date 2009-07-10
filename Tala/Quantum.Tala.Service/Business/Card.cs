@@ -61,14 +61,14 @@ namespace Quantum.Tala.Service.Business
         
 
         string _So;
-        [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
+        [ElementXMLExport("", DataOutputXMLType.Attribute)]
         public string So
         {
             get { return _So.ToLower(); }
             set { _So = value; }
         }
         string _Chat;
-        [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
+        [ElementXMLExport("", DataOutputXMLType.Attribute)]
         public string Chat
         {
             get { return _Chat.ToLower(); }
@@ -76,7 +76,7 @@ namespace Quantum.Tala.Service.Business
         }
 
         int _Pos = -1;
-        [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
+        [ElementXMLExport("", DataOutputXMLType.Attribute)]
         public int Pos
         {
             get { return _Pos; }
