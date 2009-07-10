@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AABD5431-60C9-451D-AF35-BC42C82BF63D}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -31,9 +31,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DataSign, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Component\DataSign.dll</HintPath>
+    </Reference>
+    <Reference Include="GURUCORE.Framework.Business, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Component\GURUCORE.Framework.Business.dll</HintPath>
+    </Reference>
+    <Reference Include="GURUCORE.Framework.Core, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Component\GURUCORE.Framework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GURUCORE.Framework.DataAccess, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Component\GURUCORE.Framework.DataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="GURUCORE.Lib.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Component\GURUCORE.Lib.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Component\log4net.dll</HintPath>
     </Reference>
     <Reference Include="mysql.data, Version=6.0.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -65,7 +85,7 @@
     <Compile Include="Business\Card.cs" />
     <Compile Include="Business\CardMatrix.cs" />
     <Compile Include="Business\Cashier.cs" />
-    <Compile Include="Business\DTOTournament.cs" />
+    <Compile Include="DTO\TournamentDTO.cs" />
     <Compile Include="Business\DTOVan.cs" />
     <Compile Include="Business\Message.cs" />
     <Compile Include="Business\Option.cs" />
