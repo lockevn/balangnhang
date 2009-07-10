@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <profiles>
-  <profile name="Comparious">
-    <TablePrefixes>CPA_</TablePrefixes>
-    <DefaultNameSpace>GURUCORE.Portal.Module.Comparious.Service.Business.DTO</DefaultNameSpace>
-    <SaveFolder>F:\GURUCORE\CodeCharlies\Technical\03.Construction\Code\Development\Comparious\Comparious.Service.Business\DTO</SaveFolder>
-    <ServerName>192.168.1.3</ServerName>
-    <Database>Comparious</Database>
-    <User>sa</User>
-    <Password>sa</Password>
-  </profile>
-  <profile name="Tala">
+  <profile name="MySQLTala">
     <TablePrefixes>game</TablePrefixes>
     <DefaultNameSpace>Quantum.Tala.Service.DTO</DefaultNameSpace>
     <SaveFolder>C:\</SaveFolder>
@@ -17,95 +8,5 @@
     <Database>Tala</Database>
     <User>root</User>
     <Password>quantum123!</Password>
-  </profile>
-  <profile name="Report">
-    <TablePrefixes>Rpt_</TablePrefixes>
-    <DefaultNameSpace>GURUCORE.Framework.Report.DTO</DefaultNameSpace>
-    <SaveFolder>C:\</SaveFolder>
-    <ServerName>192.168.1.3</ServerName>
-    <Database>procon</Database>
-    <User>sa</User>
-    <Password>sa</Password>
-  </profile>
-  <profile name="Directory">
-    <TablePrefixes>Dir_</TablePrefixes>
-    <DefaultNameSpace>GURUCORE.Portal.Module.Directory.Service.Business.DTO</DefaultNameSpace>
-    <SaveFolder>F:\GURUCORE\CodeCharlies\Technical\03.Construction\Code\Development\Directory\Directory.Service.Business\DTO</SaveFolder>
-    <ServerName>192.168.1.2</ServerName>
-    <Database>Storad</Database>
-    <User>sa</User>
-    <Password>sa</Password>
-  </profile>
-  <profile name="System">
-    <TablePrefixes>System_</TablePrefixes>
-    <DefaultNameSpace>System</DefaultNameSpace>
-    <SaveFolder>c:\</SaveFolder>
-    <ServerName>127.0.0.1</ServerName>
-    <Database>GURUCORE</Database>
-    <User>sa</User>
-    <Password>sasa</Password>
-  </profile>
-  <profile name="Ad">
-    <TablePrefixes>Ad_</TablePrefixes>
-    <DefaultNameSpace>GURUCORE.Portal.Module.Ad.Service.Business.DTO</DefaultNameSpace>
-    <SaveFolder>F:\GURUCORE\CodeCharlies\Technical\03.Construction\Code\Development\Ad\Ad.Service.Business\DTO</SaveFolder>
-    <ServerName>.</ServerName>
-    <Database>hoanggia</Database>
-    <User>sa</User>
-    <Password>sasa</Password>
-  </profile>
-  <profile name="Showroom">
-    <TablePrefixes>Show_</TablePrefixes>
-    <DefaultNameSpace>GURUCORE.Portal.Module.Showroom.Service.Business.DTO</DefaultNameSpace>
-    <SaveFolder>c:\</SaveFolder>
-    <ServerName>chungkhoanotc.vn</ServerName>
-    <Database>Toy</Database>
-    <User>alpwebsite</User>
-    <Password>alpwebsite</Password>
-  </profile>
-  <profile name="Procon">
-    <TablePrefixes></TablePrefixes>
-    <DefaultNameSpace>Procon.Business.DTO</DefaultNameSpace>
-    <SaveFolder>C:\</SaveFolder>
-    <ServerName>192.168.2.3\sqlserver2005</ServerName>
-    <Database>Proconv2.1</Database>
-    <User>sa</User>
-    <Password>sa12</Password>
-  </profile>
-  <profile name="News">
-    <TablePrefixes>News_</TablePrefixes>
-    <DefaultNameSpace>GURUCORE.Portal.Module.News.Service.Business.DTO</DefaultNameSpace>
-    <SaveFolder>F:\GURUCORE\CodeCharlies\Technical\03.Construction\Code\Development\News\News.Service.Business\DTO</SaveFolder>
-    <ServerName>.</ServerName>
-    <Database>website</Database>
-    <User>sa</User>
-    <Password>sasa</Password>
-  </profile>
-  <profile name="Security">
-    <TablePrefixes>Security_</TablePrefixes>
-    <DefaultNameSpace>Security</DefaultNameSpace>
-    <SaveFolder>c:\</SaveFolder>
-    <ServerName>127.0.0.1</ServerName>
-    <Database>GURUCORE</Database>
-    <User>sa</User>
-    <Password>sasa</Password>
-  </profile>
-  <profile name="GForm Luuker">
-    <TablePrefixes>LUK_</TablePrefixes>
-    <DefaultNameSpace>GURUCORE.GForm.Luuker.DTO</DefaultNameSpace>
-    <SaveFolder>C:\</SaveFolder>
-    <ServerName>192.168.1.3</ServerName>
-    <Database>procon</Database>
-    <User>sa</User>
-    <Password>sa</Password>
-  </profile>
-  <profile name="Common">
-    <TablePrefixes>Common_</TablePrefixes>
-    <DefaultNameSpace>GURUCORE.Portal.Module.Common.Service.Business.DTO</DefaultNameSpace>
-    <SaveFolder>F:\GURUCORE\CodeCharlies\Technical\03.Construction\Code\Development\Common\Common.Service.Business\DTO</SaveFolder>
-    <ServerName>.</ServerName>
-    <Database>HoangGia</Database>
-    <User>sa</User>
-    <Password>sasa</Password>
   </profile>
 </profiles>

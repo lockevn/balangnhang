@@ -10,9 +10,9 @@ using MySql.Data.MySqlClient;
 
 namespace GURUCORE.GForm.CodeGenerator 
 {
-    public partial class ConnectMySql : CodeGenerator.Connect
+    public partial class FormConnectMySql : FormConnect
     {
-        public ConnectMySql()
+        public FormConnectMySql()
         {
             InitializeComponent();
         }

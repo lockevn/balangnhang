@@ -42,7 +42,9 @@ namespace GURUCORE.GForm.CodeGenerator
 				string sPrimaryKey = (oDrTbl["COLUMN_NAME"] == DBNull.Value) ? string.Empty : oDrTbl["COLUMN_NAME"].ToString();
 				SchemaObject oSchemaObject = new SchemaObject(oDrTbl["TABLE_TYPE"].ToString(),sName,sPrimaryKey,oTypeMapper);
 
-                if (sName.StartsWith(GlobalOptions.GetInstance().CurrentProfile.TablePrefixes))
+                string sTablePrefixInConfig = GlobalOptions.GetInstance().CurrentProfile.TablePrefixes;
+                if (string.IsNullOrEmpty(sTablePrefixInConfig) /*if Not config*/ ||
+                    sName.StartsWith(sTablePrefixInConfig))
 				{
 					arrResult.Add(oSchemaObject);
 				}
@@ -54,14 +56,9 @@ namespace GURUCORE.GForm.CodeGenerator
 				string sName = oSchemaObject.Name;
 				string sPrimaryKey = oSchemaObject.PrimaryKey;
 				//select all column
-				sSQL = 
-					" select " +
-					" 	COLUMN_NAME, " +
-					" 	DATA_TYPE " +
-					" from " +
-					" 	INFORMATION_SCHEMA.COLUMNS " +
-					" where " +
-					" TABLE_NAME = '" + sName + "'";					
+                sSQL = string.Format(
+                    @" select COLUMN_NAME, DATA_TYPE from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='{0}'",
+                    sName);
 
 				IDbCommand oDbCmdCol = m_oDbConn.CreateCommand();
 				oDbCmdCol.CommandType = CommandType.Text;
