@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AABD5431-60C9-451D-AF35-BC42C82BF63D}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -85,7 +85,6 @@
     <Compile Include="Business\Card.cs" />
     <Compile Include="Business\CardMatrix.cs" />
     <Compile Include="Business\Cashier.cs" />
-    <Compile Include="DTO\TournamentDTO.cs" />
     <Compile Include="Business\DTOVan.cs" />
     <Compile Include="Business\Message.cs" />
     <Compile Include="Business\Option.cs" />
@@ -97,9 +96,12 @@
     <Compile Include="Business\UUtil.cs" />
     <Compile Include="Business\Van.cs" />
     <Compile Include="CONST.cs" />
+    <Compile Include="DTO\_soiDTO.gen.cs" />
+    <Compile Include="DTO\_tournamentDTO.gen.cs" />
     <Compile Include="Exception\BusinessException.cs" />
     <Compile Include="Exception\CardException.cs" />
     <Compile Include="Exception\NotInTurnException.cs" />
+    <Compile Include="ITournamentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TournamentService.cs" />
   </ItemGroup>
@@ -111,9 +113,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DTO\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

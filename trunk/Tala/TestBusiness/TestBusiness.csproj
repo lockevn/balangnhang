@@ -35,6 +35,22 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Component\DataSign.dll</HintPath>
     </Reference>
+    <Reference Include="GURUCORE.Framework.Business, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Component\GURUCORE.Framework.Business.dll</HintPath>
+    </Reference>
+    <Reference Include="GURUCORE.Framework.Core, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Component\GURUCORE.Framework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GURUCORE.Framework.DataAccess, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Component\GURUCORE.Framework.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="GURUCORE.Lib.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Component\GURUCORE.Lib.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -62,6 +78,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="TestApplication.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quantum.Tala.Lib\Quantum.Tala.Lib.csproj">
@@ -97,6 +114,12 @@
     <None Include="Service References\WSVTCGateTopup\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Config\db.config" />
+    <None Include="Config\serverlist.config" />
+    <Content Include="Config\System\Config.config" />
+    <None Include="Config\System\DataProvider.config" />
+    <Content Include="Config\System\DataSource.config" />
+    <Content Include="Config\System\Service.config" />
     <None Include="Service References\WSVTCGateTopup\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
