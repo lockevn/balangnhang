@@ -7,12 +7,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("GURUCORE.GForm.CodeGenerator")]
+[assembly: AssemblyTitle("CodeGenerator for Messio Data Access Framework")]
 [assembly: AssemblyDescription("GURUCORE.GForm.CodeGenerator")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GURUCORE Inc")]
 [assembly: AssemblyProduct("GURUCORE.GForm.CodeGenerator")]
-[assembly: AssemblyCopyright("GURUCORE 2007")]
+[assembly: AssemblyCopyright("GURUCORE 2007-2009")]
 [assembly: AssemblyTrademark("GURUCORE CodeGenerator")]
 [assembly: AssemblyCulture("")]		
 

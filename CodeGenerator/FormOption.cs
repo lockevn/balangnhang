@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace GURUCORE.GForm.CodeGenerator
 {	
-	public class Option : System.Windows.Forms.Form
+	public class FormOption : System.Windows.Forms.Form
 	{
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
@@ -33,7 +33,7 @@ namespace GURUCORE.GForm.CodeGenerator
 		/// </summary>
 		private System.ComponentModel.Container components = null;
 
-		public Option()
+		public FormOption()
 		{
 			//
 			// Required for Windows Form Designer support
@@ -63,7 +63,7 @@ namespace GURUCORE.GForm.CodeGenerator
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Option));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormOption));
             this.label1 = new System.Windows.Forms.Label();
             this.txtTablePrefixes = new System.Windows.Forms.TextBox();
             this.txtDefaultNameSpace = new System.Windows.Forms.TextBox();

@@ -12,7 +12,7 @@ using NVelocity.Context;
 
 namespace GURUCORE.GForm.CodeGenerator
 {	
-	public class MainForm : GURUCORE.GForm.Core.FrmBase
+	public class FormMain : GURUCORE.GForm.Core.FrmBase
 	{
 		private System.Windows.Forms.ComboBox cboProvider;
 		private System.Windows.Forms.ListBox lstObjects;
@@ -49,7 +49,7 @@ namespace GURUCORE.GForm.CodeGenerator
         private MenuItem mnuFileGenerate;
         private IContainer components;
 
-		public MainForm()
+		public FormMain()
 		{
 			//
 			// Required for Windows Form Designer support
@@ -80,7 +80,7 @@ namespace GURUCORE.GForm.CodeGenerator
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.cboProvider = new System.Windows.Forms.ComboBox();
             this.lstObjects = new System.Windows.Forms.ListBox();
             this.btnGenerate = new System.Windows.Forms.Button();
@@ -454,7 +454,7 @@ namespace GURUCORE.GForm.CodeGenerator
             // any case, dumb the Profiles in the program to file()
             try
             {
-                Application.Run(new MainForm());
+                Application.Run(new FormMain());
             }
             catch (Exception ex)
             {
@@ -496,7 +496,7 @@ namespace GURUCORE.GForm.CodeGenerator
 			}
 
 			lstObjects.Items.Clear();
-			foreach (Code frmCode in this.MdiChildren)
+			foreach (FormCode frmCode in this.MdiChildren)
 			{
 				frmCode.Close();
 			}
@@ -511,9 +511,9 @@ namespace GURUCORE.GForm.CodeGenerator
 			}
 		}
 
-        private Code FindCodeForm(string p_sName)
+        private FormCode FindCodeForm(string p_sName)
         {
-            foreach (Code frmCode in this.MdiChildren)
+            foreach (FormCode frmCode in this.MdiChildren)
             {
                 if (frmCode.FileName == p_sName)
                 {
@@ -523,7 +523,7 @@ namespace GURUCORE.GForm.CodeGenerator
             MenuItem mnuCodeWindow = new MenuItem(p_sName);
             // mnuCodeWindow.Click += new EventHandler(mnuCodeWindow_Click);
             mnuWindows.MenuItems.Add(mnuCodeWindow);
-            return new Code(p_sName);
+            return new FormCode(p_sName);
         }
 
         public void RemoveWindowMenu(string p_sName)
@@ -576,7 +576,7 @@ namespace GURUCORE.GForm.CodeGenerator
 
 
 				//find form
-                Code frmCode = FindCodeForm((new TemplateTool(GlobalOptions.GetInstance().CurrentProfile.TablePrefixes)).TruncatePrefix(((SchemaObject)m_arrSchemaObjects[nIdx]).Name) + "DTO.cs");
+                FormCode frmCode = FindCodeForm((new TemplateTool(GlobalOptions.GetInstance().CurrentProfile.TablePrefixes)).TruncatePrefix(((SchemaObject)m_arrSchemaObjects[nIdx]).Name) + "DTO.cs");
 				frmCode.MdiParent = this;
 				frmCode.SourceCode = sSourceCode;
 				frmCode.Show();
@@ -604,7 +604,7 @@ namespace GURUCORE.GForm.CodeGenerator
 			string sSourceCode = GenCode((SchemaObject)m_arrSchemaObjects[lstObjects.SelectedIndex]);
 
 			//find form
-            Code frmCode = FindCodeForm((new TemplateTool(GlobalOptions.GetInstance().CurrentProfile.TablePrefixes)).TruncatePrefix(((SchemaObject)m_arrSchemaObjects[lstObjects.SelectedIndex]).Name) + "DTO.cs");
+            FormCode frmCode = FindCodeForm((new TemplateTool(GlobalOptions.GetInstance().CurrentProfile.TablePrefixes)).TruncatePrefix(((SchemaObject)m_arrSchemaObjects[lstObjects.SelectedIndex]).Name) + "DTO.cs");
 			frmCode.MdiParent = this;
 			frmCode.SourceCode = sSourceCode;
 			frmCode.Show();
@@ -613,19 +613,19 @@ namespace GURUCORE.GForm.CodeGenerator
 
 		private void mnuFileSave_Click(object sender, System.EventArgs e)
 		{
-			Code frmCode = (Code)this.ActiveMdiChild;
+			FormCode frmCode = (FormCode)this.ActiveMdiChild;
 			frmCode.Save();
 		}
 
 		private void mnuToolOptions_Click(object sender, System.EventArgs e)
 		{
-			Option frmOption = new Option();
+			FormOption frmOption = new FormOption();
 			frmOption.ShowDialog(this);
 		}
 
 		private void mnuFileSaveAs_Click(object sender, System.EventArgs e)
 		{
-			Code frmCode = (Code)this.ActiveMdiChild;
+			FormCode frmCode = (FormCode)this.ActiveMdiChild;
             dlgSave.FileName = GlobalOptions.GetInstance().CurrentProfile.SaveFolder + "\\" + frmCode.Text;
 			if (dlgSave.ShowDialog(this) == DialogResult.OK)
 			{
@@ -635,7 +635,7 @@ namespace GURUCORE.GForm.CodeGenerator
 
 		private void mnuFileSaveAll_Click(object sender, System.EventArgs e)
 		{
-			foreach (Code frmCode in MdiChildren)
+			foreach (FormCode frmCode in MdiChildren)
 			{
 				frmCode.Save();
 			}
@@ -663,7 +663,7 @@ namespace GURUCORE.GForm.CodeGenerator
 
         private void mnuHelpAbout_Click(object sender, EventArgs e)
         {
-            FrmAbout frm = new FrmAbout();
+            FormAboutBox frm = new FormAboutBox();
             frm.ShowDialog(this);
         }
 
