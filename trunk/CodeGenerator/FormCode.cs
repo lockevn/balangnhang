@@ -8,7 +8,7 @@ using System.Text;
 
 namespace GURUCORE.GForm.CodeGenerator
 {	
-	public class Code : System.Windows.Forms.Form
+	public class FormCode : System.Windows.Forms.Form
 	{
         /// <summary>
         /// the underscore  "_"   sign, prefix of each auto-generated DTO, seperate with user-code addition DTO
@@ -25,7 +25,7 @@ namespace GURUCORE.GForm.CodeGenerator
 		/// </summary>
 		private System.ComponentModel.Container components = null;
 
-		public Code(string p_sFileName)
+		public FormCode(string p_sFileName)
 		{
 			//
 			// Required for Windows Form Designer support
@@ -57,7 +57,7 @@ namespace GURUCORE.GForm.CodeGenerator
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Code));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCode));
             this.txtCode = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -90,7 +90,7 @@ namespace GURUCORE.GForm.CodeGenerator
 
 		private void Code_Closed(object sender, System.EventArgs e)
 		{
-			((MainForm)this.ParentForm).RemoveWindowMenu(this.Text);
+			((FormMain)this.ParentForm).RemoveWindowMenu(this.Text);
 		}
 
 		private void Code_Activated(object sender, System.EventArgs e)

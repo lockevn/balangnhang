@@ -1,10 +1,5 @@
-using System;
-using Microsoft.Win32;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 
-using System.Globalization;
 using System.IO;
 using System.Xml;
 
@@ -14,6 +9,7 @@ namespace GURUCORE.GForm.CodeGenerator
 	{
 		private static object m_oLock = new object();
 		private static GlobalOptions m_oInstance;
+
         private HybridDictionary m_htProfile = new HybridDictionary();
         private string m_sCurrentProfileName;
         public string CurrentProfileName
@@ -206,44 +202,6 @@ namespace GURUCORE.GForm.CodeGenerator
 
             return profile;
         }       
-
-
-        #region OBSOLETE Read Single profile from Registry
-
-
-        //public void ReadFromRegistry()
-        //{
-        //    RegistryKey oBaseKey = Registry.LocalMachine;
-        //    RegistryKey oSubKey = oBaseKey.CreateSubKey("SOFTWARE\\GURUCORE\\Portal\\CodeGenerator");
-        //    try
-        //    {
-        //        m_sTablePrefixes = oSubKey.GetValue("TablePrefixes").ToString();
-        //        m_sDefaultNameSpace = oSubKey.GetValue("DefaultNameSpace").ToString();
-        //        m_sSaveFolder = oSubKey.GetValue("SaveFolder").ToString();
-
-        //        m_sServerName = oSubKey.GetValue("ServerName").ToString();
-        //        m_sDatabase = oSubKey.GetValue("Database").ToString();
-        //        m_sUser = oSubKey.GetValue("User").ToString();
-        //        m_sPassword = oSubKey.GetValue("Password").ToString();
-        //    }
-        //    catch {}
-        //}
-
-        //public void WriteToRegistry()
-        //{
-        //    RegistryKey oBaseKey = Registry.LocalMachine;
-        //    RegistryKey oSubKey = oBaseKey.CreateSubKey("SOFTWARE\\AlphanamICT\\WAF\\CodeGenerator");
-        //    oSubKey.SetValue("TablePrefixes",m_sTablePrefixes);
-        //    oSubKey.SetValue("DefaultNameSpace",m_sDefaultNameSpace);
-        //    oSubKey.SetValue("SaveFolder",m_sSaveFolder);
-
-        //    oSubKey.SetValue("ServerName",m_sServerName);
-        //    oSubKey.SetValue("Database",m_sDatabase);
-        //    oSubKey.SetValue("User",m_sUser);
-        //    oSubKey.SetValue("Password",m_sPassword);
-        //}
-
-        #endregion
 
 	}
 }
