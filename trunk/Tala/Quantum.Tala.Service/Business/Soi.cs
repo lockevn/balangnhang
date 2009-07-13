@@ -9,6 +9,7 @@ using Quantum.Tala.Lib;
 
 using Quantum.Tala.Lib.XMLOutput;
 using Quantum.Tala.Service.Authentication;
+using System.Text;
 
 
 namespace Quantum.Tala.Service.Business
@@ -507,6 +508,15 @@ namespace Quantum.Tala.Service.Business
             }
         }
 
+        public string Autorun()
+        {
+            StringBuilder sRet = new StringBuilder();
+
+            // TODO: /// khi bắt đầu ván, tự đuổi nếu quá timeout ready
+            
+
+            return sRet.ToString();
+        }
 
         #region temporary code for load testing
 
