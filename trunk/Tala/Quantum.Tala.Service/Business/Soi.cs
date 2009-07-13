@@ -10,6 +10,7 @@ using Quantum.Tala.Lib;
 using Quantum.Tala.Lib.XMLOutput;
 using Quantum.Tala.Service.Authentication;
 using System.Text;
+using System.Web;
 
 
 namespace Quantum.Tala.Service.Business
@@ -205,6 +206,7 @@ namespace Quantum.Tala.Service.Business
                 return -2;
             }
 
+            int nRet = 0;    // temp
             Seat seatDangNgoiTrongSoi = this.GetSeatByUsername(player.Username);
             if (seatDangNgoiTrongSoi == null)
             {
@@ -234,14 +236,22 @@ namespace Quantum.Tala.Service.Business
                         _OwnerUsername = player.Username;
                     }
 
-                    return newSeat.Pos;
+                    nRet = newSeat.Pos;
                 }
             }
             else
             {
                 // ngồi rồi thì trả ra index chỗ đang ngồi
-                return seatDangNgoiTrongSoi.Pos;
+                nRet = seatDangNgoiTrongSoi.Pos;
             }
+
+            if (nRet > 0)
+            {
+                // HACK: autorun
+                string sCacheKey = AutorunService.GetCacheKey_Autorun_InStartingVan(player);
+                HttpContext.Current.Cache.Insert(sCacheKey, player, null, DateTime.MaxValue, TimeSpan.FromSeconds(30));
+            }
+            return nRet;
         }
 
         /// <summary>
@@ -424,9 +434,9 @@ namespace Quantum.Tala.Service.Business
 
 
         /// <summary>
-        /// 
+        /// Nếu tất cả sẵn sàng, sới chưa bắt đầu, số người chơi đầy đủ hợp lệ, create ra ván mới, cho anh em chơi
         /// </summary>
-        /// <returns>-1 nếu mọi người chưa sẵn sàng, -2 nếu sới đang chơi, -3 số người chơi chưa đủ (hiện tại là 4). 1 nếu OK</returns>
+        /// <returns>Trả về 1 nếu OK.Trả về -1 nếu mọi người chưa sẵn sàng, -2 nếu sới đang chơi, -3 số người chơi không hợp lệ (< 2 hoặc  >4)</returns>
         public int StartPlaying()
         {
             if (_IsPlaying)
@@ -440,22 +450,23 @@ namespace Quantum.Tala.Service.Business
                 return -1;
             }
 
-
-            if (4 < this.SeatList.Count || this.SeatList.Count < 2)
+            // ít hơn 2 chú thì ko chơi đc, hơn 4 chú cũng không chơi đc
+            if (this.SeatList.Count < 2 || this.SeatList.Count > 4)
             {
                 return -3;
             }
 
 
+            /* ---------------------------------------------------------------*/
+            // COME HERE MEAN all Condition is OK           
 
-            // COME HERE MEAN all Condition is OK
+            //o	Bắt đầu ván với các lựa chọn của Sới hiện tại
+            //o	Hệ thống sẽ tạo ván mới, tự chia bài
+            CreateVan(false);
 
             // bật cờ đang chơi
             _IsPlaying = true;
-            //o	Bắt đầu ván với các lựa chọn của Sới hiện tại
-            //o	Hệ thống sẽ tạo ván mới, tự chia bài
 
-            CreateVan(false);
             return 0;
         }
 

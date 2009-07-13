@@ -18,9 +18,9 @@ namespace TalaAPI.community.soi
         public override void ProcessRequest(HttpContext context)
         {
             TalaSecurity security = new TalaSecurity(context);
-
             //o	Nếu AU không phải player của sới, lỗi, id=NOT_ALLOW
             // bỏ qua chưa giải quyết, vì 1 người chơi đc mỗi 1 sới
+
 
             APICommandStatus cs = new APICommandStatus(false);            
             Soi soi =  security.CheckUserJoinedSoi();
@@ -28,19 +28,18 @@ namespace TalaAPI.community.soi
             switch (nRet)
             {
                 case -3:
-                    //o	số người chơi chưa đúng (1 người ko chơi đc, hơn 4 người không chơi đc)
-                    // Hiện tại đúng 4 mới được chơi
+                    // số người chơi chưa đúng (1 người ko chơi đc, hơn 4 người không chơi đc)                    
                     cs.ID = "NUMBER_OF_PLAYER";
                     cs.Info = "Thiếu người chơi";
                     break;
 
                 case -2:
-                    //o	sới đã bắt đầu chơi rồi
+                    // sới đã bắt đầu chơi rồi
                     cs.ID = "SOI_IS_PLAYING";
                     cs.Info = "Sới đã chơi rồi";
                     break;
                 case -1:
-                    //o	Có người chưa sẵn sàng
+                    // Có người chưa sẵn sàng
                     cs.ID = "NOT_READY";
                     foreach (Seat seat in security.CurrentAU.CurrentSoi.SeatList)
                     {
@@ -59,7 +58,6 @@ namespace TalaAPI.community.soi
             }
 
             Cmd.Add(cs);
-
             base.ProcessRequest(context);
         }
         

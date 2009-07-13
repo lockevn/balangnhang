@@ -24,10 +24,14 @@ namespace Quantum.Tala.Service.Business
         }
         
         int _CurrentTurnSeatIndex;
+        /// <summary>
+        /// Lượt hiện tại đang ở Seat nào? Seat nào có lượt, thì số này = index của Seat đó trong SeatList
+        /// </summary>
         public int CurrentTurnSeatIndex
         {
             get { return _CurrentTurnSeatIndex; }
-            set { _CurrentTurnSeatIndex = value; }
+            // HACK: không cho truy xuất từ bên ngoài trực tiếp vào biến Turn này, tránh sai sót.
+            // set { _CurrentTurnSeatIndex = value; }
         }
         
         public bool IsFinished { get; set; }
@@ -52,7 +56,7 @@ namespace Quantum.Tala.Service.Business
             this.ID = index;
             this.SoiDangChoi = soi;
             this.CurrentRound = 1;
-            this.CurrentTurnSeatIndex = 0;
+            this._CurrentTurnSeatIndex = 0;
             
             this.InitializeNoc();
             this.IsFinished = false;
@@ -75,85 +79,11 @@ namespace Quantum.Tala.Service.Business
             }
         }
 
+        
 
-
-        /// <summary>
-        /// Khởi tạo Nọc randomly
-        /// </summary>
-        private void InitializeNoc()
-        {
-            this.Noc = new List<Card>();
-
-            /*generate a temporary array of 52 elements*/
-            int[] tmpArr = new int[52];
-            for (int i = 0; i < 52; i++)
-            {
-                tmpArr[i] = i;
-            }
-            /*randomly reindexing the tmpArr*/
-            int[] randomArr = FunctionExtension.ReindexArrayRandomly(tmpArr);
-
-            /*randomly pick a Card in CARD_SET and add to Noc*/
-            for (int i = 0; i < 52; i++)
-            {
-                this.Noc.Add(Card.CARD_SET[randomArr[i]]);
-                System.Diagnostics.Debug.WriteLine("card " + i + ": " + Card.CARD_SET[randomArr[i]].ToString());
-            }
-            
-        }
-
-        /// <summary>
-        /// for testing only
-        /// </summary>
-        //private void InitializeNoc()
-        //{
-        //    this.Noc = new List<Card>();
-
-        //    for (int i = 0; i < 52; i++)
-        //    {
-        //        this.Noc.Add(Card.CARD_SET[i]);
-        //    }
-        //}
-
-
-        /// <summary>
-        /// Chia bài từ Nọc cho các seat, chia cho Winner của ván trước đầu tiên
-        /// </summary>
-        internal void ChiaBai(string p_sOldWinnerUsername)
-        {
-            if (this.Noc == null || this.Noc.Count != 52)
-            {
-                return;
-            }            
-            
-            int nSeatCount = this.SoiDangChoi.SeatList.Count;
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < nSeatCount; j++)
-                {
-                    /*chia bai i+j cho seat[j]*/
-                    this.SoiDangChoi.SeatList[j].BaiTrenTay.Add(this.Noc[nSeatCount * i + j]);
-                }
-            }
-
-            Seat seatDanhDauTien = SoiDangChoi.GetSeatByUsername(p_sOldWinnerUsername);
-            if (seatDanhDauTien == null)
-            {
-                seatDanhDauTien = SoiDangChoi.SeatList[0];
-            }
-            /*chia them cho seat đánh đầu tiên 1 cay */
-            seatDanhDauTien.BaiTrenTay.Add(this.Noc[9 * nSeatCount]);
-
-            /*xoa cac cay da chia ra khoi Noc*/
-            for (int i = 0; i < 9*nSeatCount + 1; i++)
-            {
-                this.Noc.RemoveAt(0);
-            }
-
-            this.CurrentTurnSeatIndex = seatDanhDauTien.Pos;
-        }        
-
-
+        
+               
+        
         /// <summary>
         /// Đánh một cây trên BaiTrenTay của seat
         /// </summary>
@@ -178,7 +108,7 @@ namespace Quantum.Tala.Service.Business
             seat.BaiTrenTay.Remove(card);
             seat.BaiDaDanh.Add(card);
 
-            /*nếu sau khi đánh mà bài trên tay của seat count=0 --> ù thuong
+            /*nếu sau khi đánh mà bài trên tay của seat count=0 --> ù thường
              --> giải quyết trường hợp gửi xong còn 1 cây trên tay đánh nốt.
              */
             if (seat.BaiTrenTay.Count == 0)
@@ -187,10 +117,9 @@ namespace Quantum.Tala.Service.Business
                 this.EndVan(seat, null, false);
                 return true;
             }
-
-
+            
             /*chuyển turn sang next seat*/
-            this.CurrentTurnSeatIndex = Seat.GetNextSeatIndex(seat.Pos, this.SoiDangChoi.SeatList.Count);
+            this.AdvanceCurrentTurnIndex();            
             
             /*nếu là seat đánh cuối cùng ở vòng cuối cùng thì end game (kiểm tra qua Nọc)*/
             if (this.Noc.Count == 0)
@@ -200,7 +129,7 @@ namespace Quantum.Tala.Service.Business
             return true;
 
         }
-
+        
         /// <summary>
         /// Bốc 1 cây ở dưới nọc
         /// </summary>
@@ -528,60 +457,7 @@ namespace Quantum.Tala.Service.Business
         }
 
         
-        /// <summary>
-        /// Kiểm tra seat có đang giữ quyền đánh hay không
-        /// </summary>
-        /// <param name="seat"></param>
-        /// <returns>true/false</returns>
-        private bool IsSeatInTurn(Seat seat)
-        {
-            if (seat.Pos != this.CurrentTurnSeatIndex)
-            {
-                throw new NotInTurnException("seat " + seat.Pos + " is not in turn");
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Kiểm tra card có nằm trên BaiTrentay của seat hay không
-        /// </summary>
-        /// <param name="seat"></param>
-        /// <param name="card"></param>
-        /// <returns>true/false</returns>
-        private bool IsCardInBaiTrenTay(Seat seat, Card card)
-        {
-            if (seat == null 
-                || seat.BaiTrenTay == null 
-                || seat.BaiTrenTay.Count == 0 
-                || card == null 
-                || !seat.BaiTrenTay.Contains<Card>(card))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Get phỏm trong Ván theo phomID
-        /// </summary>
-        /// <param name="phomID"></param>
-        /// <returns>phom hoặc null nếu phomID không tồn tại</returns>
-        private Phom GetPhomByID(int phomID)
-        {            
-            foreach (Seat seat in this.SoiDangChoi.SeatList)
-            {
-                List<Phom> phomList = seat.PhomList;
-                foreach (Phom phom in phomList)
-                {
-                    if (phom.Id == phomID)
-                    {
-                        return phom;
-                    }
-                }
-            }
-            return null;
-        }
+       
 
 
 
@@ -713,6 +589,135 @@ namespace Quantum.Tala.Service.Business
         }
 
 
+
+
+
+        /// <summary>
+        /// Khởi tạo Nọc randomly
+        /// </summary>
+        private void InitializeNoc()
+        {
+            this.Noc = new List<Card>();
+
+            /*generate a temporary array of 52 elements*/
+            int[] tmpArr = new int[52];
+            for (int i = 0; i < 52; i++)
+            {
+                tmpArr[i] = i;
+            }
+            /*randomly reindexing the tmpArr*/
+            int[] randomArr = FunctionExtension.ReindexArrayRandomly(tmpArr);
+
+            /*randomly pick a Card in CARD_SET and add to Noc*/
+            for (int i = 0; i < 52; i++)
+            {
+                this.Noc.Add(Card.CARD_SET[randomArr[i]]);
+                System.Diagnostics.Debug.WriteLine("card " + i + ": " + Card.CARD_SET[randomArr[i]].ToString());
+            }
+
+        }
+
+        /// <summary>
+        /// Chia bài từ Nọc cho các seat, chia cho Winner của ván trước đầu tiên
+        /// </summary>
+        internal void ChiaBai(string p_sOldWinnerUsername)
+        {
+            if (this.Noc == null || this.Noc.Count != 52)
+            {
+                return;
+            }
+
+            int nSeatCount = this.SoiDangChoi.SeatList.Count;
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < nSeatCount; j++)
+                {
+                    /*chia bai i+j cho seat[j]*/
+                    this.SoiDangChoi.SeatList[j].BaiTrenTay.Add(this.Noc[nSeatCount * i + j]);
+                }
+            }
+
+            Seat seatDanhDauTien = SoiDangChoi.GetSeatByUsername(p_sOldWinnerUsername);
+            if (seatDanhDauTien == null)
+            {
+                seatDanhDauTien = SoiDangChoi.SeatList[0];
+            }
+            /*chia them cho seat đánh đầu tiên 1 cay */
+            seatDanhDauTien.BaiTrenTay.Add(this.Noc[9 * nSeatCount]);
+
+            /*xoa cac cay da chia ra khoi Noc*/
+            for (int i = 0; i < 9 * nSeatCount + 1; i++)
+            {
+                this.Noc.RemoveAt(0);
+            }
+
+            _CurrentTurnSeatIndex = seatDanhDauTien.Pos;
+        }        
+
+        /// <summary>
+        /// Chuyển lượt đánh cho Seat kế tiếp
+        /// </summary>
+        private int AdvanceCurrentTurnIndex()
+        {
+            _CurrentTurnSeatIndex = Seat.GetNextSeatIndex(this.CurrentTurnSeatIndex, this.SoiDangChoi.SeatList.Count);
+            return this.CurrentTurnSeatIndex;
+        }
+        
+        /// <summary>
+        /// Kiểm tra seat có đang giữ quyền đánh hay không
+        /// </summary>
+        /// <param name="seat"></param>
+        /// <returns>true/false</returns>
+        private bool IsSeatInTurn(Seat seat)
+        {
+            if (seat.Pos != this.CurrentTurnSeatIndex)
+            {
+                throw new NotInTurnException("seat " + seat.Pos + " is not in turn");
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Kiểm tra card có nằm trên BaiTrentay của seat hay không
+        /// </summary>
+        /// <param name="seat"></param>
+        /// <param name="card"></param>
+        /// <returns>true/false</returns>
+        private bool IsCardInBaiTrenTay(Seat seat, Card card)
+        {
+            if (seat == null
+                || seat.BaiTrenTay == null
+                || seat.BaiTrenTay.Count == 0
+                || card == null
+                || !seat.BaiTrenTay.Contains<Card>(card))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Get phỏm trong Ván theo phomID
+        /// </summary>
+        /// <param name="phomID"></param>
+        /// <returns>phom hoặc null nếu phomID không tồn tại</returns>
+        private Phom GetPhomByID(int phomID)
+        {
+            foreach (Seat seat in this.SoiDangChoi.SeatList)
+            {
+                List<Phom> phomList = seat.PhomList;
+                foreach (Phom phom in phomList)
+                {
+                    if (phom.Id == phomID)
+                    {
+                        return phom;
+                    }
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// xác định danh sách seat xếp theo điểm tăng dần
         /// </summary>
@@ -740,9 +745,7 @@ namespace Quantum.Tala.Service.Business
             }            
             return tmpSeatArr;
         }
-
-
-
+        
        /// <summary>
         /// check seat Hạ láo --> đền
        /// </summary>
@@ -803,14 +806,19 @@ namespace Quantum.Tala.Service.Business
             return false;
 
         }
+        
+
+
 
         /// <summary>
         /// Tính điểm bài trên tay còn lại của tất cả các seat
         /// 
         /// </summary>
         /// <returns>mảng các giá trị int là điểm của seat với index tương ứng</returns>
-        public int[] TinhDiemBaiTrenTay()
+        private int[] TinhDiemBaiTrenTay()
         {
+            // TODO: với thể thức DeathMatch, tính điểm ăn láo thành 2000, 2001, 2002, 2003
+
             int[] tmpArr = new int[this.SoiDangChoi.SeatList.Count];
 
             foreach (Seat seat in this.SoiDangChoi.SeatList)
@@ -838,6 +846,10 @@ namespace Quantum.Tala.Service.Business
             return tmpVal;
         }
 
+
+
+
+
         /// <summary>
         /// thêm mới một thông điệp của ván (sự kiện của ván). Sự kiện mới sẽ có ID mới (tự động, số tự tăng)
         /// </summary>
@@ -859,7 +871,21 @@ namespace Quantum.Tala.Service.Business
 
 
 
-        
+
+
+
+        /// <summary>
+        /// for testing only
+        /// </summary>
+        //private void InitializeNoc()
+        //{
+        //    this.Noc = new List<Card>();
+
+        //    for (int i = 0; i < 52; i++)
+        //    {
+        //        this.Noc.Add(Card.CARD_SET[i]);
+        //    }
+        //}
 
 
         #region temporary code for load testing only
@@ -876,7 +902,7 @@ namespace Quantum.Tala.Service.Business
             this.ID = index;
             this.SoiDangChoi = soi;
             this.CurrentRound = 1;
-            this.CurrentTurnSeatIndex = 0;
+            _CurrentTurnSeatIndex = 0;
             
             
             // TEST: về sau phải bỏ đi

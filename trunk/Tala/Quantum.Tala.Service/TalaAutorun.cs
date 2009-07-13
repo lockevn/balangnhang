@@ -10,10 +10,11 @@ using Quantum.Tala.Service.Business;
 using Quantum.Tala.Service.Authentication;
 using Quantum.Tala.Lib.XMLOutput;
 using System.Text;
+using Quantum.Tala.Service.Exception;
 
-namespace TalaAPI.Lib
+namespace Quantum.Tala.Service
 {
-    public class TalaAutorun
+    public class AutorunService
     {
         HttpContext _context;        
         TalaUser _CurrentAU;
@@ -22,18 +23,14 @@ namespace TalaAPI.Lib
         /// Autorun hoạt động dựa trên context hiện tại (để truy xuất Cache) và currentAU (để detect ván đang chơi, xử lý trên ván đang chơi)
         /// </summary>
         /// <param name="context"></param>
-        public TalaAutorun(HttpContext context, TalaUser CurrentAU)
-        {
-            new TalaSecurity(context, false);
+        public AutorunService(HttpContext context, TalaUser CurrentAU)
+        {            
             _context = context;
             _CurrentAU = CurrentAU;
 
             if (_CurrentAU == null)
             {
-                XMLHttpHandler httphandler = new XMLHttpHandler();
-                httphandler.Cmd.Add(APICommandStatus.Get_WRONG_AUTHKEY_CommandStatus());
-                httphandler.ProcessRequest(context);
-                context.Response.End();
+                throw new BusinessException("Autorun","không có authkey, không xác định đc các thông số để autorun");
             }
         }
 
@@ -49,7 +46,7 @@ namespace TalaAPI.Lib
             Seat currentInTurnSeat = _CurrentAU.CurrentSoi.GetSeatOfCurrentInTurn();
             TalaUser currentInTurnPlayer = currentInTurnSeat.Player;
             /// kiểm tra với Volatine Repository (ở đây dùng luôn ASP.NET Cache)
-            string sCacheKey = TalaAutorun.GetCacheKey_Autorun_InVan(currentInTurnPlayer);
+            string sCacheKey = AutorunService.GetCacheKey_Autorun_InVan(currentInTurnPlayer);
             object oInCache = _context.Cache[sCacheKey];
             /// oInCache mà null là user đang có turn đã hết vị, timeout
                         
@@ -119,8 +116,15 @@ namespace TalaAPI.Lib
             // TODO: mỗi hành động tự làm, đều append vào sRet
             StringBuilder sRet = new StringBuilder();
 
+            // chơi rồi thì thôi, ko chạy hàm này nữa
+            if(_CurrentAU.CurrentSoi.IsPlaying == true)
+            {
+                return sRet.ToString();
+            }
+
+
             // cập nhật cache cho currentAU (vì họ có hoạt động thật, họ đang chờ chơi thật)
-            string sCacheKey = TalaAutorun.GetCacheKey_Autorun_InStartingVan(_CurrentAU);
+            string sCacheKey = AutorunService.GetCacheKey_Autorun_InStartingVan(_CurrentAU);
             object oTemp = _context.Cache[sCacheKey];
 
             foreach (Seat seat in _CurrentAU.CurrentSoi.SeatList)

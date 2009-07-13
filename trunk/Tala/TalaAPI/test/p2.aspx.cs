@@ -61,7 +61,7 @@ namespace TalaAPI.test
             
             for (int i = 0; i < 16; i++)
             {
-                Seat seat = soi.SeatList[soi.CurrentVan.CurrentTurnSeatIndex];
+                Seat seat = soi.GetSeatOfCurrentInTurn();
                 try
                 {
                     Card caybocduoc = soi.CurrentVan.Boc(seat);
