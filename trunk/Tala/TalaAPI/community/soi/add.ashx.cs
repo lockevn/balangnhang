@@ -23,7 +23,7 @@ namespace TalaAPI.community.soi
                 lock (Song.Instance.DicSoi)
                 {
                     Soi soi = Song.Instance.CreatSoiMoi(sName, sec.CurrentAU.Username);
-                    cs = new APICommandStatus(APICommandStatusState.OK, "ADD_SOI", string.Format("{0}#{1}", soi.Id, soi.Name));
+                    cs = new APICommandStatus(APICommandStatusState.OK, "ADD_SOI", string.Format("{0}#{1}", soi.ID, soi.Name));
                 }                
             }
 
