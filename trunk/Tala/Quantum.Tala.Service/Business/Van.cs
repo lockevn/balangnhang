@@ -100,7 +100,7 @@ namespace Quantum.Tala.Service.Business
             /*kiểm tra nếu đến lượt phải hạ phỏm, thằng này có ăn cây nào mà không hạ phỏm k*/
             if (seat.BaiDaDanh.Count == 3 && seat.BaiDaAn.Count > 0)
             {
-                this.EndVan(seat);
+                this.EndVan_HaLao(seat);
                 return true;
             }
 
@@ -114,7 +114,7 @@ namespace Quantum.Tala.Service.Business
             if (seat.BaiTrenTay.Count == 0)
             {
                 /*cho seat U va endVan*/
-                this.EndVan(seat, null, false);
+                this.EndVan_U(seat, null, false);
                 return true;
             }
             
@@ -124,7 +124,7 @@ namespace Quantum.Tala.Service.Business
             /*nếu là seat đánh cuối cùng ở vòng cuối cùng thì end game (kiểm tra qua Nọc)*/
             if (this.Noc.Count == 0)
             {
-                this.EndVan();
+                this.EndVan_TinhDiem();
             }
             return true;
 
@@ -284,7 +284,7 @@ namespace Quantum.Tala.Service.Business
                 /*kết thúc ván khi có thằng ù và có thằng phải đền
                  kiểm tra count để xác định ù tròn hay ù thường
                  */                
-                this.EndVan(seat, previousSeat, count == 10);
+                this.EndVan_U(seat, previousSeat, count == 10);
                 
             }
             else
@@ -292,7 +292,7 @@ namespace Quantum.Tala.Service.Business
                 /*nếu không ai phải đền, mỗi người nộp chip cho người ù
                  kiểm tra count để xác định ù tròn hay ù thường
                  */
-                this.EndVan(seat, null, count == 10);
+                this.EndVan_U(seat, null, count == 10);
 
             }                        
             return true;
@@ -352,7 +352,7 @@ namespace Quantum.Tala.Service.Business
             if (this.CheckHaLao(seat, phomList))
             {                
                 /*end van và đền*/
-                this.EndVan(seat);
+                this.EndVan_HaLao(seat);
                 return true;
             }
             
@@ -450,25 +450,37 @@ namespace Quantum.Tala.Service.Business
             /*nếu sau khi gửi mà bài trên tay count == 0 --> ù tròn*/
             if (seat.BaiTrenTay.Count == 0)
             {
-                this.EndVan(seat, null, true);
+                this.EndVan_U(seat, null, true);
             }
             
             return true;
         }
 
-        
-       
+
+
+
 
 
 
         /// <summary>
-        /// End van trong truong hop co thang ha lao
+        /// Hàm này sẽ set các cờ,
+        /// các thao tác chung khi kết thúc một ván, dù ván kết thúc theo cách nào thì cũng phải gọi hàm này .
         /// </summary>
-        /// <param name="haLaoSeat"></param>
-        private void EndVan(Seat haLaoSeat)
+        private void FinishVan(string p_sWinnerUsername)
         {
+            WinnerUsername = p_sWinnerUsername;
             this.IsFinished = true;
             this.SoiDangChoi.IsPlaying = false;
+        }
+        
+
+        /// <summary>
+        /// Kết thúc ván trong trường hợp có người hạ láo
+        /// </summary>
+        /// <param name="haLaoSeat"></param>
+        private void EndVan_HaLao(Seat haLaoSeat)
+        {
+            // TODO: sửa, vì với deathmatch, hạ láo ko dừng trận đấu ngay
 
             /*tru tien thằng hạ láo*/
             int chipHaLao = Cashier.CHIP_DEN * (this.SoiDangChoi.SeatList.Count - 1);
@@ -486,18 +498,14 @@ namespace Quantum.Tala.Service.Business
                 }
             }
 
-            WinnerUsername = haLaoSeat.Player.Username;
+            FinishVan(haLaoSeat.Player.Username);
         }
-
-
+        
         /// <summary>
         /// kết thúc ván bình thường và tính điểm, xác định thắng thua, sang tiền
         /// </summary>
-        private void EndVan()
+        private void EndVan_TinhDiem()
         {
-            this.IsFinished = true;
-            this.SoiDangChoi.IsPlaying = false;
-
             /*tính điểm*/
             int[] pointArr = this.TinhDiemBaiTrenTay();
 
@@ -532,21 +540,17 @@ namespace Quantum.Tala.Service.Business
             winner.Player.AddMoney(totalWinnerChip * this.SoiDangChoi.SoiOption.TiGiaChip);
             this.AddMessage("Thắng cuộc", winner.Player.Username + " Điểm: " + pointArr[0] + "    Số chip: +" + totalWinnerChip);
 
-            WinnerUsername = winner.Player.Username;
+            FinishVan(winner.Player.Username);
         }
-
-
+        
         /// <summary>
         /// Kết thúc ván khi có người Ù
         /// </summary>
         /// <param name="uSeat"></param>
         /// <param name="denSeat"></param>
         /// <param name="uTron"></param>
-        private void EndVan(Seat uSeat, Seat denSeat, bool uTron)
+        private void EndVan_U(Seat uSeat, Seat denSeat, bool uTron)
         {
-            this.IsFinished = true;
-            this.SoiDangChoi.IsPlaying = false;
-
             int chipAnU = Cashier.CHIP_U;
             
             if (uTron)
@@ -584,8 +588,8 @@ namespace Quantum.Tala.Service.Business
 
             /*reset gà*/
             this.SoiDangChoi.GaValue = 0;
-
-            WinnerUsername = uSeat.Player.Username;
+            
+            FinishVan(uSeat.Player.Username);
         }
 
 
