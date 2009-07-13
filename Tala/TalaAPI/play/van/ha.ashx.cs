@@ -19,7 +19,7 @@ namespace TalaAPI.play.van
     {
         public override void ProcessRequest(HttpContext context)
         {
-            string bai = APIParamHelper.CheckEmptyParam("bai", context);
+            string bai = APIParamHelper.GetParam("bai", context);
             TalaSecurity security = new TalaSecurity(context);
 
             /*check if user has joined soi, seat*/

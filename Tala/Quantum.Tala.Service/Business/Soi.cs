@@ -16,12 +16,12 @@ namespace Quantum.Tala.Service.Business
 {
     public class Soi : APIDataEntry
     {
-        int _Id;
+        int _ID;
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
-        public int Id
+        public int ID
         {
-            get { return _Id; }
-            set { _Id = value; }
+            get { return _ID; }
+            set { _ID = value; }
         }
 
         string _Name;
@@ -136,7 +136,7 @@ namespace Quantum.Tala.Service.Business
         /// <param name="owner"></param>
         public Soi(int id, string name, string owner)
         {
-            this.Id = id;
+            this.ID = id;
             this.Name = name;
             this.OwnerUsername = owner;
             this.StartTime = System.DateTime.Now;

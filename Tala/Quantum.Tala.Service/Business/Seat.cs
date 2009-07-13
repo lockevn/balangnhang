@@ -120,7 +120,7 @@ namespace Quantum.Tala.Service.Business
         }
 
         /// <summary>
-        /// Lấy tổng số card trên tay + card đã ăn + Các Card trong các phỏm + các cây đã gửi đi bài khác
+        /// Lấy tổng số card trên tay + card đã ăn + Các Card trong các phỏm + các cây đã gửi đi bài khác. Số này luôn = 9 hoặc 10
         /// </summary>
         /// <returns></returns>
         public int GetTotalCardOnSeat()
