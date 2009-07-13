@@ -859,31 +859,7 @@ namespace Quantum.Tala.Service.Business
 
 
 
-        public string AutomaticDetermineAndExecuteAction()
-        {
-            StringBuilder sRet = new StringBuilder();
-
-            // TODO: mỗi hành động tự làm, đều append vào sRet
-
-            // TODO: tìm lượt hiện tại, tìm user của lượt hiện tại
-            /// kiểm tra với 
-
-            // TODO: neeus 
-            // TODO: 
-            // TODO: 
-            // TODO: 
-            // TODO: 
-            // TODO: 
-            // TODO: 
-            // TODO: 
-            // TODO: 
-            
-            /// 
-            /// trả lại chuỗi kết quả ra ngoài
-            /// có thể để còn log
-
-            return sRet.ToString();
-        }
+        
 
 
         #region temporary code for load testing only
