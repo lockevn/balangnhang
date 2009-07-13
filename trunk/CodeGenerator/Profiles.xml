@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <profiles>
   <profile name="MySQLTala">
     <TablePrefixes>game</TablePrefixes>
@@ -7,6 +7,6 @@
     <ServerName>quantummatbao.gurucore.com</ServerName>
     <Database>Tala</Database>
     <User>root</User>
-    <Password>quantum123!</Password>
+    <Password>abc</Password>
   </profile>
 </profiles>
