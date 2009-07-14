@@ -19,6 +19,7 @@ namespace Quantum.Tala.Service.Business
 
         #region IUser Members
 
+        string _Password;
         public string Password
         {
             get
@@ -27,7 +28,7 @@ namespace Quantum.Tala.Service.Business
             }
             set
             {
-                throw new NotImplementedException();
+                _Password = value;
             }
         }
 

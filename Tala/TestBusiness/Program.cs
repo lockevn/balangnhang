@@ -27,9 +27,7 @@ namespace TestBusiness
     }
 
     class Program
-    {       
-
-
+    {
         static void Main(string[] args)
         {
             TestApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());
@@ -40,11 +38,16 @@ namespace TestBusiness
 
             Console.WriteLine(nRet);
 
-            ABCTest a = new ABCTest();
-            
-            a.Player = new TalaUser("danhut", "danhitauthkey");
 
-            Console.WriteLine(a.ToXMLString());
+            IUser u = (new AuthenticationService()).Authenticate("vtc", "vu1", "quantum");
+            try
+            {
+                Console.WriteLine(u.Username);
+            }
+            catch{}
+            
+            IUser u2 = (new AuthenticationService()).Authenticate("vtc", "vtc21", "111111");
+            Console.WriteLine(u2.Username);
 
 
             //string sServiceCode = "1001";
@@ -132,10 +135,7 @@ namespace TestBusiness
             #endregion
 
 
-            //IUser u = AuthenticationProvider.Authenticate("*","vu1","quantum");            
-            //Console.WriteLine(u.Username);
-            //IUser u2 = AuthenticationProvider.Authenticate("*", "v2", "quantum");
-            
+
         }
 
 

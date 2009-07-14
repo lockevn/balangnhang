@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9FB64EAE-2189-4C3D-8B30-DA0A305F70A8}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -51,18 +51,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Component\GURUCORE.Lib.Core.dll</HintPath>
     </Reference>
-    <Reference Include="GURUCORE.Portal.AspNet.Control, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Component\GURUCORE.Portal.AspNet.Control.dll</HintPath>
-    </Reference>
-    <Reference Include="GURUCORE.Portal.Core, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Component\GURUCORE.Portal.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="GURUCORE.Portal.Service.Business, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Component\GURUCORE.Portal.Service.Business.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -102,12 +90,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Config\System\Config.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="App.config" />
     <None Include="Config\System\DataProvider.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
