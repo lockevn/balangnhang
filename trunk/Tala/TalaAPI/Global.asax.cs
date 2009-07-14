@@ -20,10 +20,13 @@ namespace TalaAPI
 
         protected void Application_Start(object sender, EventArgs e)
         {
+            //mount point for GURUCORE GApplication in ASP .NET
+            string sRoot = HttpRuntime.AppDomainAppPath;
+            GURUCORE.Framework.Core.GApplication.GetInstance().Start(sRoot);
+            
             string sWebRootPhysicalPath = Server.MapPath("/Config");
             //System.Diagnostics.Debug.Print(sWebRootPhysicalPath);
             DBHelper.Instance.Init(sWebRootPhysicalPath);
-
 
             Song value = Song.Instance;
             this.Application.Add("song", value);
