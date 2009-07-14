@@ -47,19 +47,19 @@ namespace TestBusiness
             Console.WriteLine(a.ToXMLString());
 
 
-            string sServiceCode = "1001";
-            string sAccount = "danhut";
-            string sMakerCode = "EAC";
+            //string sServiceCode = "1001";
+            //string sAccount = "danhut";
+            //string sMakerCode = "EAC";
 
-            WSVTCGateTopup.VTCGateTopupSoapClient ws = new TestBusiness.WSVTCGateTopup.VTCGateTopupSoapClient();
-            VTCDataSignature.DataSign ds = new VTCDataSignature.DataSign();            
-            string orgrinData = sServiceCode + "-" + sAccount + "-" + sMakerCode;
-            string Sign = ds.GetSignatureXmlKey(orgrinData, "PrivateKeyTest.xml");
+            //WSVTCGateTopup.VTCGateTopupSoapClient ws = new TestBusiness.WSVTCGateTopup.VTCGateTopupSoapClient();
+            //VTCDataSignature.DataSign ds = new VTCDataSignature.DataSign();            
+            //string orgrinData = sServiceCode + "-" + sAccount + "-" + sMakerCode;
+            //string Sign = ds.GetSignatureXmlKey(orgrinData, "PrivateKeyTest.xml");
             
-            string s = ws.CheckAccountEXISTS(sServiceCode, sAccount, sMakerCode,  Sign);
+            //string s = ws.CheckAccountEXISTS(sServiceCode, sAccount, sMakerCode,  Sign);
 
-            Console.WriteLine(Sign); 
-            Console.WriteLine(s);
+            //Console.WriteLine(Sign);
+            //Console.WriteLine(s);
             Console.ReadLine();
 
 
