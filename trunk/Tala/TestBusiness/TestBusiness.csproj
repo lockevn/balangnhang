@@ -105,9 +105,6 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Config\System\Config.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
