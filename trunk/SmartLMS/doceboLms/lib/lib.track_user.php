@@ -111,7 +111,7 @@ class TrackUser {
 		return $tot_time;
 	}
 	
-	function getUserPreviousSessionCourseTime($idst_user, $id_course){
+	static function getUserPreviousSessionCourseTime($idst_user, $id_course){
 		
 		if(isset($_SESSION['is_ghost']) &&  $_SESSION['is_ghost'] === true) return 0;
 		
@@ -127,7 +127,7 @@ class TrackUser {
 		return $tot_time;
 	}
 	
-	function getUserCurrentSessionCourseTime($id_course) {
+	static function getUserCurrentSessionCourseTime($id_course) {
 		
 		if(isset($_SESSION['is_ghost']) &&  $_SESSION['is_ghost'] === true) return 0;
 		
@@ -150,7 +150,7 @@ class TrackUser {
 	 *
 	 * @return int the number of user in the course in the gap of time (logged included)
 	 */
-	function getWhoIsOnline($id_course, $gap_minute = 5) {
+	static function getWhoIsOnline($id_course, $gap_minute = 5) {
 		
 		$gap_time = date("Y-m-d H:i:s", time() - ( 60 * $gap_minute ));
 		$query_time = "
@@ -163,7 +163,7 @@ class TrackUser {
 	}
 	
 	/* the same as above, returning also the array of the idSt's of the users online */
-	function getListWhoIsOnline($id_course, $gap_minute = 5) {
+	static function getListWhoIsOnline($id_course, $gap_minute = 5) {
 		
 		$gap_time = date("Y-m-d H:i:s", time() - ( 60 * $gap_minute ));
 		$query_time = "
@@ -198,7 +198,7 @@ class TrackUser {
 		return $last_access;
 	}
 	
-	function checkSession($id_user) {
+	static function checkSession($id_user) {
 		
 		if(isset($_SESSION['is_ghost']) &&  $_SESSION['is_ghost'] === true) return true;
 		
