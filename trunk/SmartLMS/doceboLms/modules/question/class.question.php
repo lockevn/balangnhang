@@ -173,7 +173,7 @@ class Question {
 	 * @access public
 	 * @author Fabio Pirovano (fabio@docebo.com)
 	 */
-	function edit( $back_test ) {
+	function edit( $back_test, $isInBank=false ) {
 		
 	}
 	
@@ -185,7 +185,7 @@ class Question {
 	 * @access public
 	 * @author Fabio Pirovano (fabio@docebo.com)
 	 */
-	function del() {
+	function del($isInBank=false) {
 		
 		return true;
 	}
