@@ -105,7 +105,7 @@ class LmsPageWriter extends PageWriter {
 	 *
 	 * @access public
 	 */
-	function &createInstance() {
+	static function &createInstance() {
 		if($GLOBALS['page'] === null) {
 			$GLOBALS['page'] = new LmsPageWriter();
 		}
