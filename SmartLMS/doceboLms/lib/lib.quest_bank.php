@@ -17,6 +17,7 @@ if(!defined('IN_DOCEBO')) die('You cannot access this file directly');
 class QuestBankMan {
 	
 	var $_table_category;
+	var $_table_quest;
 	
 	var $last_error = '';
 	
@@ -39,7 +40,7 @@ class QuestBankMan {
 	
 	function QuestBankMan() {
 		$this->_table_category = $GLOBALS['prefix_lms'].'_quest_category';
-		$this->_table_quest = $GLOBALS['prefix_lms'].'_testquest';
+		$this->_table_quest = $GLOBALS['prefix_lms'].'_bankquest';
 	}
 	
 	function getCategoryList($author = false) {
@@ -63,8 +64,8 @@ class QuestBankMan {
 		$quests = array();
 		$re_quest = mysql_query("
 		SELECT idQuest, type_quest 
-		FROM ".$GLOBALS['prefix_lms']."_testquest 
-		WHERE idTest = '0' AND idQuest IN (".implode(',', $arr_quest).") 
+		FROM ".$GLOBALS['prefix_lms']."$this->_table_quest 
+		WHERE idQuest IN (".implode(',', $arr_quest).") 
 		ORDER BY page, sequence");
 		while(list($id_quest, $type_quest) = mysql_fetch_row($re_quest)) {
 			
@@ -77,8 +78,8 @@ class QuestBankMan {
 		
 		$cat_list = array();
 		$qtxt = "SELECT idQuest, idCategory, type_quest, title_quest, difficult, time_assigned " 
-			."FROM ".$this->_table_quest." "
-			."WHERE idTest = 0 ";
+			."FROM ".$this->_table_quest." ";
+			
 		if($quest_category != false) 		$qtxt .= " AND idCategory = '$quest_category' ";
 		if($quest_difficult != false) 	$qtxt .= " AND difficult = '$quest_difficult' ";
 		if($type_quest != false) 		$qtxt .= " AND type_quest = '$type_quest' ";
@@ -92,8 +93,8 @@ class QuestBankMan {
 		
 		$cat_list = array();
 		$qtxt = "SELECT COUNT(*) " 
-			."FROM ".$this->_table_quest." "
-			."WHERE idTest = 0 ";
+			."FROM ".$this->_table_quest." ";
+			
 		if($quest_category != false) 		$qtxt .= " AND idCategory = '$quest_category' ";
 		if($quest_difficult != false) 	$qtxt .= " AND difficult = '$quest_difficult' ";
 		if($type_quest != false) 		$qtxt .= " AND type_quest = '$type_quest' ";
@@ -110,7 +111,7 @@ class QuestBankMan {
 			$re_quest = mysql_query("
 			SELECT type_quest 
 			FROM ".$this->_table_quest." 
-			WHERE idQuest = '".$id_quest."' AND idTest = 0 ");
+			WHERE idQuest = '".$id_quest."'");
 			if(!mysql_num_rows($re_quest)) {
 				$this->last_error = 'quest_not_found';
 				return false;
@@ -163,7 +164,7 @@ class QuestBankMan {
 			return false;
 		}
 		
-		if(!$quest_obj->del()) {
+		if(!$quest_obj->del(true)) {
 			$this->last_error = 'operation_error';
 			return false;
 		}
