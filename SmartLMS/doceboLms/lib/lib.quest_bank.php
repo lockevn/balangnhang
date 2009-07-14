@@ -337,7 +337,8 @@ class QuestBank_Selector {
 		$str .= 'var QB_PATHS = {'
 				.'image:"'.getPathImage().'",'
 				.'mod_link:"index.php?modname=quest_bank&op=modquest&id_quest='.'",'
-				.'del_req:"'.'modules/quest_bank/ajax.quest_bank.php?op=delquest'.'"'
+				//.'del_req:"'.'modules/quest_bank/ajax.quest_bank.php?op=delquest'.'"'
+				.'del_req:"'.'ajax.server.php?plf=lms&mn=quest_bank&op=delquest'.'"'
 			.'};';
 			
 		$str .= 'var QB_DEF = {'
