@@ -157,7 +157,7 @@ namespace Quantum.Tala.Service.Business
                 return null;
             }
             
-            TalaUser user = AuthenticationProvider.Authenticate("quantum", username, password) as TalaUser;
+            TalaUser user = (new AuthenticationService()).Authenticate("quantum", username, password) as TalaUser;
 
             /// nếu tìm thấy user ở một kho lưu nào đó (DB của Quantum hoặc AuthenStore của đơn vị khác)
             if (user != null && user.Username == username)

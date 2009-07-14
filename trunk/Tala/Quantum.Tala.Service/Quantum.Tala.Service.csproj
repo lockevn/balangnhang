@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AABD5431-60C9-451D-AF35-BC42C82BF63D}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -83,7 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authentication\AuthenticationProvider.cs" />
+    <Compile Include="AuthenticationService.cs" />
     <Compile Include="Authentication\IUser.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -104,8 +104,10 @@
     <Compile Include="Business\Van.cs" />
     <Compile Include="CONST.cs" />
     <Compile Include="DeathmatchService.cs" />
+    <Compile Include="DTO\_login_logDTO.gen.cs" />
     <Compile Include="DTO\_soiDTO.gen.cs" />
     <Compile Include="DTO\_tournamentDTO.gen.cs" />
+    <Compile Include="DTO\_userDTO.gen.cs" />
     <Compile Include="Exception\BusinessException.cs" />
     <Compile Include="Exception\CardException.cs" />
     <Compile Include="Exception\NotInTurnException.cs" />
@@ -119,6 +121,7 @@
     </Compile>
     <Compile Include="TalaAutorun.cs" />
     <Compile Include="TournamentService.cs" />
+    <Compile Include="VTCResponseInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quantum.Tala.Lib\Quantum.Tala.Lib.csproj">
@@ -130,10 +133,10 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\VTCBillingService\" />
@@ -141,6 +144,9 @@
   <ItemGroup>
     <None Include="Service References\VTCBillingService\VTCBillingService.disco" />
     <None Include="Service References\VTCBillingService\VTCBillingService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\VTCBillingService\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\VTCBillingService\configuration.svcinfo" />
