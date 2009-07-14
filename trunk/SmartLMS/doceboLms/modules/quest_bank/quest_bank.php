@@ -111,12 +111,12 @@ function modquest(&$url) {
 	
 	list($type_quest) = mysql_fetch_row(mysql_query("
 	SELECT type_quest 
-	FROM ".$GLOBALS['prefix_lms']."_testquest 
-	WHERE idQuest = '".$id_quest."' AND idTest = 0"));
+	FROM ".$GLOBALS['prefix_lms']."_bankquest 
+	WHERE idQuest = '".$id_quest."'"));
 	
 	require_once($GLOBALS['where_lms'].'/modules/question/question.php');
 	
-	quest_edit($type_quest, $id_quest, $url->getUrl());
+	quest_edit($type_quest, $id_quest, $url->getUrl(), true);
 }
 
 function importquest(&$url) {
@@ -229,7 +229,7 @@ function exportquest(&$url) {
 			( author, title, description )
 				VALUES 
 			( '".(int)getLogUserId()."', '".$_POST['title']."', '".$_POST['textof']."' )";
-			//TODO: 
+			
 			if( !mysql_query($ins_query) )
 			{
 				$_SESSION['last_error'] = $lang->def('_TEST_ERR_INSERT');
@@ -241,7 +241,7 @@ function exportquest(&$url) {
 			
 			$reQuest = mysql_query("
 			SELECT q.idQuest, q.type_quest, t.type_file, t.type_class 
-			FROM ".$GLOBALS['prefix_lms']."_testquest AS q JOIN ".$GLOBALS['prefix_lms']."_quest_type AS t 
+			FROM ".$GLOBALS['prefix_lms']."_bankquest AS q JOIN ".$GLOBALS['prefix_lms']."_quest_type AS t 
 			WHERE q.idQuest IN (".implode(',', $quest_selection).") AND q.type_quest = t.type_quest");
 			
 			while( list($idQuest, $type_quest, $type_file, $type_class) = mysql_fetch_row($reQuest) )
@@ -303,6 +303,56 @@ function exportquest(&$url) {
 		
 		require_once($GLOBALS['where_framework'].'/lib/lib.download.php');
 		sendStrAsFile( $quest_export, 'export_'.date("Y-m-d").'.txt' );
+	}
+}
+
+/**
+ * del question from question bank
+ *
+ */
+function delquest() {
+	checkPerm('view', false, 'storage');
+	
+	$lang =& DoceboLanguage::createInstance('test');
+	
+	$idQuest = importVar('idQuest', true, 0);
+	$back_url = urldecode(importVar('back_url'));
+	$url_coded = htmlentities(urlencode($back_url));
+	
+	list($idTest, $title_quest, $type_quest, $seq) = mysql_fetch_row(mysql_query("
+	SELECT idTest, title_quest, type_quest, sequence 
+	FROM ".$GLOBALS['prefix_lms']."_testquest 
+	WHERE idQuest = '".$idQuest."'"));
+	
+	if(isset($_GET['confirm'])) {
+		
+		$quest_obj = istanceQuest($type_quest, $idQuest);
+		if(!$quest_obj->del()) {
+
+			errorCommunication($lang->def('_TEST_ERR_QUESTREM').'index.php?modname=test&amp;op=delquest&amp;idTest='.$idTest.'&amp;back_url='
+				.$url_coded, $lang->def("_BACK") );
+			return;
+		}
+		mysql_query("
+		UPDATE ".$GLOBALS['prefix_lms']."_testquest 
+		SET sequence = sequence -1 
+		WHERE sequence > '$seq'");
+		fixPageSequence($idTest);
+		jumpTo( 'index.php?modname=test&op=modtestgui&idTest='.$idTest.'&back_url='.$url_coded);
+	}
+	else {
+		$GLOBALS['page']->add(
+			'<div class="std_block">'
+			.getDeleteUi(	$lang->def('_TEST_AREYOUSURE'), 
+							'<span class="text_bold">'.$lang->def('_TYPE').' : </span>'
+							.$lang->def('_QUEST_ACRN_'.strtoupper($type_quest)).' - '.$lang->def('_QUEST_'.strtoupper($type_quest)).'<br />'
+							.'<span class="text_bold">'.$lang->def('_TEST_QUEST_TITLE').' : </span>'.$title_quest, 
+							
+							true,
+							'index.php?modname=test&amp;op=delquest&amp;idQuest='.$idQuest.'&amp;back_url='.$url_coded.'&amp;confirm=1', 
+							'index.php?modname=test&amp;op=modtestgui&amp;idTest='.$idTest.'&amp;back_url='.$url_coded
+						)
+			.'</div>', 'content');			
 	}
 }
 
