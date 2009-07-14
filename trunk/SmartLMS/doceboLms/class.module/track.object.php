@@ -255,7 +255,7 @@ class Track_Object {
 	/**
 	 * static function to get status
 	 **/
-	function getStatusFromId( $idReference, $idUser ) {
+	static function getStatusFromId( $idReference, $idUser ) {
 		
 		$query = "SELECT status "
 				." FROM ".$GLOBALS['prefix_lms']."_commontrack"
