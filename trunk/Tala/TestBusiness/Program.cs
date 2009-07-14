@@ -32,12 +32,13 @@ namespace TestBusiness
 
         static void Main(string[] args)
         {
-            TestApplication ta = new TestApplication();
-            ta.Start(".");
+            TestApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());
             ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
             tournamentDTO tour = new tournamentDTO();
             tour.name = "test";
             int nRet = toursvc.CreateTournament(tour);
+
+            Console.WriteLine(nRet);
 
             ABCTest a = new ABCTest();
             

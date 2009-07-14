@@ -32,6 +32,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GURUCORE.Framework.Business, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Component\GURUCORE.Framework.Business.dll</HintPath>
+    </Reference>
+    <Reference Include="GURUCORE.Framework.Core, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Component\GURUCORE.Framework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GURUCORE.Framework.DataAccess, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Component\GURUCORE.Framework.DataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="GURUCORE.Lib.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Component\GURUCORE.Lib.Core.dll</HintPath>
@@ -178,6 +190,7 @@
       <DependentUpon>danh.ashx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TalaProgramApplication.cs" />
     <Compile Include="test\p1.aspx.cs">
       <DependentUpon>p1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
