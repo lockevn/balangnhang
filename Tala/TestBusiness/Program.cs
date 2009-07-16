@@ -40,13 +40,6 @@ namespace TestBusiness
 
 
             IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
-            userDTO u = authensvc.GetUserByUsernameAndHashPassword("v1", "2be94139655922dfda4f5146b3d6e9a0");            
-            try
-            {
-                Console.WriteLine(u.u);
-            }
-            catch{}
-            
             IUser u2 = (new AuthenticationService()).Authenticate("vtc", "vtc21", "111111");
             Console.WriteLine(u2.Username);
 
