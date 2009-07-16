@@ -7,7 +7,7 @@ using GURUCORE.Framework.Business;
 
 namespace TestBusiness
 {
-    class TestApplication : ServiceOrientedApplication
+    class TalaProgramApplication : ServiceOrientedApplication
     {
         public override void Start(object p_oParam)
         {

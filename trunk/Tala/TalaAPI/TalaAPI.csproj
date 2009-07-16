@@ -150,7 +150,6 @@
       <DependentUpon>online_list.ashx</DependentUpon>
     </Compile>
     <None Include="Config\System\DataProvider.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -324,13 +323,10 @@
     </None>
     <None Include="Config\serverlist.config" />
     <Content Include="Config\System\Config.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\System\DataSource.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\System\Service.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="TalaAPI.dll.log4net" />
     <Content Include="test\user_ready.ashx" />

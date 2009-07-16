@@ -7,6 +7,7 @@ using Quantum.Tala.Service.Authentication;
 using Quantum.Tala.Service.Business;
 using Quantum.Tala.Service.DTO;
 using GURUCORE.Lib.Core.Security.Cryptography;
+using System.Data.Common;
 
 
 namespace Quantum.Tala.Service
@@ -51,50 +52,49 @@ namespace Quantum.Tala.Service
         /// <returns>null if fail</returns>
         public IUser AuthenticateQuantum(string p_sUsername, string p_sPassword)
         {
-            
-
-            //DbConnection con = DBHelper.Instance.GetDbConnection("quantum");
-            //con.Open();
-            //string strSQL = string.Format("SELECT * FROM User where u='{0}' and password='{1}';", p_sUsername, p_sPassword);
-            //DbCommand command = con.CreateCommand();
-            //command.CommandText = strSQL;
-            //DbDataReader reader = command.ExecuteReader();
-
-            //TalaUser ret = null;
-            //if (reader.HasRows)
-            //{
-            //    ret = new TalaUser();
-            //    while (reader.Read())
-            //    {
-            //        ret.Username = reader["u"] as string;
-
-            //        #region Temporary, get the money from the same DB record
-
-            //        try
-            //        {
-            //            ret.Money = Convert.ToInt32(reader["balance"]);
-            //        }
-            //        catch { }
-
-            //        #endregion
-            //    }
-            //}
-            //con.Close();
-
-
             CryptoUtil cu = new CryptoUtil();            
-            userDTO userFromQuantumDB = GetUserByUsernameAndHashPassword(p_sUsername, cu.MD5Hash(p_sPassword));
-            if (userFromQuantumDB != null)
+
+            DbConnection con = Quantum.Tala.Lib.DBHelper.Instance.GetDbConnection("quantum");
+            con.Open();
+            string strSQL = string.Format("SELECT * FROM User where u='{0}' and password='{1}';", p_sUsername, cu.MD5Hash(p_sPassword));
+            DbCommand command = con.CreateCommand();
+            command.CommandText = strSQL;
+            DbDataReader reader = command.ExecuteReader();
+
+            TalaUser ret = null;
+            if (reader.HasRows)
             {
-                TalaUser u = new TalaUser();
-                u.Username = p_sUsername;
-                u.Password = p_sPassword;
-                return u;
+                ret = new TalaUser();
+                while (reader.Read())
+                {
+                    ret.Username = reader["u"] as string;
+
+                    #region Temporary, get the money from the same DB record
+
+                    try
+                    {
+                        ret.Money = Convert.ToInt32(reader["balance"]);
+                    }
+                    catch { }
+
+                    #endregion
+                }
             }
-            else
-            {
-                return null;
-            }
+            con.Close();
+
+            return ret;
+            //userDTO userFromQuantumDB = GetUserByUsernameAndHashPassword(p_sUsername, cu.MD5Hash(p_sPassword));
+            //if (userFromQuantumDB != null)
+            //{
+            //    TalaUser u = new TalaUser();
+            //    u.Username = p_sUsername;
+            //    u.Password = p_sPassword;
+            //    return u;
+            //}
+            //else
+            //{
+            //    return null;
+            //}
         }
 
         
