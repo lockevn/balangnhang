@@ -49,6 +49,8 @@ namespace Quantum.Tala.Service.Business
             set { _PhomDaHa = value; }
         }
 
+
+        // TODO: Test: must remove
         List<Card> _Noc = new List<Card>();
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false, false)]
         public List<Card> Noc

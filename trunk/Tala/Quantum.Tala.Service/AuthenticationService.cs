@@ -12,13 +12,13 @@ using System.Data.Common;
 
 namespace Quantum.Tala.Service
 {
-    public class AuthenticationService : BusinessService
+    public class AuthenticationService : BusinessService, Quantum.Tala.Service.IAuthenticationService
     {
         public const string SERVICE_QUANTUM = "quantum";
         public const string SERVICE_VTC = "vtc";
 
 
-        public IUser Authenticate(string p_sServiceCode, string p_sUsername, string p_sPassword)
+        public virtual IUser Authenticate(string p_sServiceCode, string p_sUsername, string p_sPassword)
         {
             IUser user = null;
 
@@ -50,55 +50,56 @@ namespace Quantum.Tala.Service
         /// <param name="p_sUsername"></param>
         /// <param name="p_sPassword"></param>
         /// <returns>null if fail</returns>
-        public IUser AuthenticateQuantum(string p_sUsername, string p_sPassword)
+        public virtual IUser AuthenticateQuantum(string p_sUsername, string p_sPassword)
         {
             CryptoUtil cu = new CryptoUtil();            
 
-            DbConnection con = Quantum.Tala.Lib.DBHelper.Instance.GetDbConnection("quantum");
-            con.Open();
-            string strSQL = string.Format("SELECT * FROM User where u='{0}' and password='{1}';", p_sUsername, cu.MD5Hash(p_sPassword));
-            DbCommand command = con.CreateCommand();
-            command.CommandText = strSQL;
-            DbDataReader reader = command.ExecuteReader();
+            //DbConnection con = Quantum.Tala.Lib.DBHelper.Instance.GetDbConnection("quantum");
+            //con.Open();
+            //string strSQL = string.Format("SELECT * FROM User where u='{0}' and password='{1}';", p_sUsername, cu.MD5Hash(p_sPassword));
+            //DbCommand command = con.CreateCommand();
+            //command.CommandText = strSQL;
+            //DbDataReader reader = command.ExecuteReader();
 
-            TalaUser ret = null;
-            if (reader.HasRows)
+            //TalaUser ret = null;
+            //if (reader.HasRows)
+            //{
+            //    ret = new TalaUser();
+            //    while (reader.Read())
+            //    {
+            //        ret.Username = reader["u"] as string;
+
+            //        #region Temporary, get the money from the same DB record
+
+            //        try
+            //        {
+            //            ret.Money = Convert.ToInt32(reader["balance"]);
+            //        }
+            //        catch { }
+
+            //        #endregion
+            //    }
+            //}
+            //con.Close();
+
+            //return ret;
+
+            userDTO userFromQuantumDB = GetUserByUsernameAndHashPassword(p_sUsername, cu.MD5Hash(p_sPassword));
+            if (userFromQuantumDB != null)
             {
-                ret = new TalaUser();
-                while (reader.Read())
-                {
-                    ret.Username = reader["u"] as string;
-
-                    #region Temporary, get the money from the same DB record
-
-                    try
-                    {
-                        ret.Money = Convert.ToInt32(reader["balance"]);
-                    }
-                    catch { }
-
-                    #endregion
-                }
+                TalaUser u = new TalaUser();
+                u.Username = p_sUsername;
+                u.Password = p_sPassword;
+                return u;
             }
-            con.Close();
-
-            return ret;
-            //userDTO userFromQuantumDB = GetUserByUsernameAndHashPassword(p_sUsername, cu.MD5Hash(p_sPassword));
-            //if (userFromQuantumDB != null)
-            //{
-            //    TalaUser u = new TalaUser();
-            //    u.Username = p_sUsername;
-            //    u.Password = p_sPassword;
-            //    return u;
-            //}
-            //else
-            //{
-            //    return null;
-            //}
+            else
+            {
+                return null;
+            }
         }
 
-        
-        public IUser AuthenticateVTC(string p_sUsername, string p_sPassword)
+
+        public virtual IUser AuthenticateVTC(string p_sUsername, string p_sPassword)
         {
             bool bAuthenticateOK = false;
 
