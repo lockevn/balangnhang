@@ -39,10 +39,11 @@ namespace TestBusiness
             Console.WriteLine(nRet);
 
 
-            IUser u = (new AuthenticationService()).Authenticate("*", "vu1", "quantum");
+            IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
+            userDTO u = authensvc.GetUserByUsernameAndHashPassword("v1", "2be94139655922dfda4f5146b3d6e9a0");            
             try
             {
-                Console.WriteLine(u.Username);
+                Console.WriteLine(u.u);
             }
             catch{}
             

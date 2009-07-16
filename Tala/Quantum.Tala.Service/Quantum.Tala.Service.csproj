@@ -111,6 +111,7 @@
     <Compile Include="Exception\BusinessException.cs" />
     <Compile Include="Exception\CardException.cs" />
     <Compile Include="Exception\NotInTurnException.cs" />
+    <Compile Include="IAuthenticationService.cs" />
     <Compile Include="ITournamentService.cs" />
     <Compile Include="PlayingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
