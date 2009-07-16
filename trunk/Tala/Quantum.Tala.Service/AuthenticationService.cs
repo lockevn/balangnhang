@@ -54,39 +54,8 @@ namespace Quantum.Tala.Service
         public virtual IUser AuthenticateQuantum(string p_sUsername, string p_sPassword)
         {
             CryptoUtil cu = new CryptoUtil();            
-
-            //DbConnection con = Quantum.Tala.Lib.DBHelper.Instance.GetDbConnection("quantum");
-            //con.Open();
-            //string strSQL = string.Format("SELECT * FROM User where u='{0}' and password='{1}';", p_sUsername, cu.MD5Hash(p_sPassword));
-            //DbCommand command = con.CreateCommand();
-            //command.CommandText = strSQL;
-            //DbDataReader reader = command.ExecuteReader();
-
-            //TalaUser ret = null;
-            //if (reader.HasRows)
-            //{
-            //    ret = new TalaUser();
-            //    while (reader.Read())
-            //    {
-            //        ret.Username = reader["u"] as string;
-
-            //        #region Temporary, get the money from the same DB record
-
-            //        try
-            //        {
-            //            ret.Money = Convert.ToInt32(reader["balance"]);
-            //        }
-            //        catch { }
-
-            //        #endregion
-            //    }
-            //}
-            //con.Close();
-
-            //return ret;
-
-            userDTO userFromQuantumDB = GetUserByUsernameAndHashPassword(p_sUsername, cu.MD5Hash(p_sPassword));
-            if (userFromQuantumDB != null)
+            userDTO userFromDB = DAU.GetObject<userDTO>(userDTO.U_FLD, p_sUsername);
+            if (null != userFromDB && userFromDB.password.ToStringSafetyNormalize() == cu.MD5Hash(p_sPassword).ToStringSafetyNormalize())
             {
                 TalaUser u = new TalaUser();
                 u.Username = p_sUsername;
@@ -128,22 +97,6 @@ namespace Quantum.Tala.Service
                 userOK.Username = p_sUsername;
                 userOK.Password = p_sPassword;
                 return userOK;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-
-
-        [TransactionBound]
-        public virtual userDTO GetUserByUsernameAndHashPassword(string username, string hashedPassword)
-        {
-            userDTO userFromDB = DAU.GetObject<userDTO>(userDTO.U_FLD, username);
-            if (userFromDB.password.ToStringSafetyNormalize() == hashedPassword.ToStringSafetyNormalize())
-            {
-                return userFromDB;
             }
             else
             {
