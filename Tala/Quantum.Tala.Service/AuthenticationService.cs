@@ -17,7 +17,7 @@ namespace Quantum.Tala.Service
         public const string SERVICE_QUANTUM = "quantum";
         public const string SERVICE_VTC = "vtc";
 
-
+        [TransactionBound]
         public virtual IUser Authenticate(string p_sServiceCode, string p_sUsername, string p_sPassword)
         {
             IUser user = null;
@@ -50,6 +50,7 @@ namespace Quantum.Tala.Service
         /// <param name="p_sUsername"></param>
         /// <param name="p_sPassword"></param>
         /// <returns>null if fail</returns>
+        [TransactionBound]
         public virtual IUser AuthenticateQuantum(string p_sUsername, string p_sPassword)
         {
             CryptoUtil cu = new CryptoUtil();            
@@ -99,6 +100,7 @@ namespace Quantum.Tala.Service
         }
 
 
+        [TransactionBound]
         public virtual IUser AuthenticateVTC(string p_sUsername, string p_sPassword)
         {
             bool bAuthenticateOK = false;
@@ -139,7 +141,7 @@ namespace Quantum.Tala.Service
         public virtual userDTO GetUserByUsernameAndHashPassword(string username, string hashedPassword)
         {
             userDTO userFromDB = DAU.GetObject<userDTO>(userDTO.U_FLD, username);
-            if (userFromDB.password == hashedPassword)
+            if (userFromDB.password.ToStringSafetyNormalize() == hashedPassword.ToStringSafetyNormalize())
             {
                 return userFromDB;
             }

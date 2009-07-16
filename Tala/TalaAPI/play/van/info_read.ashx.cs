@@ -26,36 +26,49 @@ namespace TalaAPI.play.van
             Soi soi = security.CheckUserJoinedSoi();
 
             DTOVan dtoVan = new DTOVan();
-            dtoVan.VanInfo = soi.CurrentVan;
-          
-            foreach (Seat seat in soi.SeatList)
+
+            if(soi.IsPlaying)
             {
-                foreach (Card card in seat.BaiDaAn)
+                dtoVan.VanInfo = soi.CurrentVan;
+                foreach (Seat seat in soi.SeatList)
                 {
-                    card.Pos = seat.Pos;
-                    dtoVan.BaiDaAn.Add(card);
-                }
-                foreach (Card card in seat.BaiDaDanh)
-                {
-                    card.Pos = seat.Pos;
-                    dtoVan.BaiDaDanh.Add(card);
+                    foreach (Card card in seat.BaiDaAn)
+                    {
+                        card.Pos = seat.Pos;
+                        dtoVan.BaiDaAn.Add(card);
+                    }
+                    foreach (Card card in seat.BaiDaDanh)
+                    {
+                        card.Pos = seat.Pos;
+                        dtoVan.BaiDaDanh.Add(card);
+                    }
+
+                    #region Phỏm đã hạ
+
+                    foreach (Phom phom in seat.PhomList)
+                    {
+                        phom.Pos = seat.Pos;
+                        dtoVan.PhomDaHa.Add(phom);
+                    }
+
+                    #endregion
                 }
 
-                #region Phỏm đã hạ
 
-                foreach (Phom phom in seat.PhomList)
-                {
-                    phom.Pos = seat.Pos;
-                    dtoVan.PhomDaHa.Add(phom);
-                }
-        
-                #endregion
+                ///TODO: for testing only
+                dtoVan.Noc = soi.CurrentVan.Noc;
+
+
+                Data.Add(dtoVan);
+                base.Stat = APICommandStatusState.OK;
             }
-            ///TODO: for testing only
-            dtoVan.Noc = soi.CurrentVan.Noc;
+            else
+            {
+                APICommandStatus cs = APICommandStatus.Get_NOT_VALID_CommandStatus();
+                cs.Info += " . Chưa có ván chơi";
+                Cmd.Add(cs);
+            }
 
-            Data.Add(dtoVan);
-            base.Stat = APICommandStatusState.OK;
 
             base.ProcessRequest(context);
         }
