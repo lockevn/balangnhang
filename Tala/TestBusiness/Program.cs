@@ -30,7 +30,7 @@ namespace TestBusiness
     {
         static void Main(string[] args)
         {
-            TestApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());
+            TalaProgramApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());
             ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
             tournamentDTO tour = new tournamentDTO();
             tour.name = "test";
@@ -39,7 +39,7 @@ namespace TestBusiness
             Console.WriteLine(nRet);
 
 
-            IUser u = (new AuthenticationService()).Authenticate("vtc", "vu1", "quantum");
+            IUser u = (new AuthenticationService()).Authenticate("*", "vu1", "quantum");
             try
             {
                 Console.WriteLine(u.Username);
