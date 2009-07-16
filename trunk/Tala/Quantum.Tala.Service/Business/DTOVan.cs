@@ -49,6 +49,14 @@ namespace Quantum.Tala.Service.Business
             set { _PhomDaHa = value; }
         }
 
+        List<Card> _Noc = new List<Card>();
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false, false)]
+        public List<Card> Noc
+        {
+            get { return _Noc; }
+            set { _Noc = value; }
+        }
+
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public int IsCurrentPlayerDaBoc
         {
