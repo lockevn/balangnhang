@@ -22,7 +22,7 @@ namespace Quantum.Tala.Service.Business
             get { return _ID; }
             set { _ID = value; }
         }
-        
+
         int _CurrentTurnSeatIndex;
         /// <summary>
         /// Lượt hiện tại đang ở Seat nào? Seat nào có lượt, thì số này = index của Seat đó trong SeatList
@@ -33,13 +33,27 @@ namespace Quantum.Tala.Service.Business
             // HACK: không cho truy xuất từ bên ngoài trực tiếp vào biến Turn này, tránh sai sót.
             // set { _CurrentTurnSeatIndex = value; }
         }
-        
+
         public bool IsFinished { get; set; }
         public int CurrentRound { get; set; }
         public Soi SoiDangChoi { get; set; }
-        internal List<Card> Noc { get; set; }
+
+        
+        internal List<Card> _Noc { get; set; }
+
+        public List<Card> Noc        
+        {
+            get
+            {
+                return _Noc;
+            }
+        }
+
+        
 
         public string WinnerUsername { get; set; }
+
+        private List<Seat> _AnChotNguyCoDenList; /*list các seat ăn chốt có nguy cơ đền*/
 
         List<Message> _MessageList = new List<Message>();
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false, false)]
@@ -57,7 +71,7 @@ namespace Quantum.Tala.Service.Business
             this.SoiDangChoi = soi;
             this.CurrentRound = 1;
             this._CurrentTurnSeatIndex = 0;
-            
+
             this.InitializeNoc();
             this.IsFinished = false;
 
@@ -71,19 +85,15 @@ namespace Quantum.Tala.Service.Business
                     seat.BaiTrenTay = new List<Card>();
                     seat.BaiDaAn = new List<Card>();
                     seat.BaiDaDanh = new List<Card>();
-                    seat.BaiDaGui = new List<Card>();                                        
-                                        
+                    seat.BaiDaGui = new List<Card>();
+
                     /*reset SoCayGui*/
                     seat.SoCayGuiToiSeat = 0;
                 }
             }
         }
 
-        
 
-        
-               
-        
         /// <summary>
         /// Đánh một cây trên BaiTrenTay của seat
         /// </summary>
@@ -92,7 +102,7 @@ namespace Quantum.Tala.Service.Business
         /// <returns>true/false</returns>
         public bool Danh(Seat seat, Card card)
         {
-            if (!this.IsSeatInTurn(seat) || !this.IsCardInBaiTrenTay(seat, card) || seat.GetTotalCardOnSeat() < 10)                                
+            if (!this.IsSeatInTurn(seat) || !this.IsCardInBaiTrenTay(seat, card) || seat.GetTotalCardOnSeat() < 10)
             {
                 return false;
             }
@@ -117,19 +127,19 @@ namespace Quantum.Tala.Service.Business
                 this.EndVan_U(seat, null, false);
                 return true;
             }
-            
+
             /*chuyển turn sang next seat*/
-            this.AdvanceCurrentTurnIndex();            
-            
+            this.AdvanceCurrentTurnIndex();
+
             /*nếu là seat đánh cuối cùng ở vòng cuối cùng thì end game (kiểm tra qua Nọc)*/
-            if (this.Noc.Count == 0)
+            if (this._Noc.Count == 0)
             {
                 this.EndVan_TinhDiem();
             }
             return true;
 
         }
-        
+
         /// <summary>
         /// Bốc 1 cây ở dưới nọc
         /// </summary>
@@ -137,18 +147,18 @@ namespace Quantum.Tala.Service.Business
         /// <returns>true/false</returns>
         public Card Boc(Seat seat)
         {
-            if (!this.IsSeatInTurn(seat) 
-                || this.Noc.Count == 0 
+            if (!this.IsSeatInTurn(seat)
+                || this._Noc.Count == 0
                 || seat.GetTotalCardOnSeat() > 9)
             {
                 return null;
             }
             /*chuyển 1 cây ở Nọc lên BaiTrenTay của seat*/
-            Card cardBoc = this.Noc.ElementAt(0);
+            Card cardBoc = this._Noc.ElementAt(0);
             seat.BaiTrenTay.Add(cardBoc);
-            this.Noc.RemoveAt(0);
+            this._Noc.RemoveAt(0);
             return cardBoc;
-            
+
         }
 
         /// <summary>
@@ -166,7 +176,7 @@ namespace Quantum.Tala.Service.Business
             /*chuyen card cuoi cung tu BaiDaDanh cua seat truoc sang seat BaiDaAn cua seat sau*/
             int previousSeatIndex = Seat.GetPreviousSeatIndex(seat.Pos, this.SoiDangChoi.SeatList.Count);
             Seat previousSeat = this.SoiDangChoi.SeatList.ElementAt(previousSeatIndex) as Seat;
-            
+
             /*kiểm tra previousSeat có bài đã đánh không*/
             if (previousSeat.BaiDaDanh == null || previousSeat.BaiDaDanh.Count == 0)
             {
@@ -185,6 +195,13 @@ namespace Quantum.Tala.Service.Business
                     previousSeat.Player.SubtractMoney(money);
                     /*cong tien vao tai khoan cua nguoi an chot*/
                     seat.Player.AddMoney(money);
+
+                    /*ăn chốt có nguy cơ đền*/
+                    if (previousSeat.BaiDaDanh.Count >= 3)
+                    {
+                        /*luu nhung thang an chot co nguy cơ phải đền*/
+                        this._AnChotNguyCoDenList.Add(seat);
+                    }
                 }
             }
 
@@ -192,27 +209,27 @@ namespace Quantum.Tala.Service.Business
             if (this.SoiDangChoi.SoiOption.IsGa)
             {
                 int nTienPhatVaoGa = Cashier.NopGa(this.SoiDangChoi, previousSeat.Player);
-                this.AddMessage("Nộp gà", previousSeat.Player.Username + " nộp " + nTienPhatVaoGa + " vào gà");                
+                this.AddMessage("Nộp gà", previousSeat.Player.Username + " nộp " + nTienPhatVaoGa + " vào gà");
             }
-                         
+
             /*lấy cây vừa đánh của seat trước chuyển sang BaiDaAn của seat */
             Card anCard = previousSeat.BaiDaDanh.Last();
             seat.BaiDaAn.Add(anCard);
             previousSeat.BaiDaDanh.Remove(anCard);
 
-                        
+
             /*nếu seat ăn có haIndex trước khi ăn != 1 thì sẽ phải xếp lại các BaiDaDanh trên sới*/
             if (seat.HaIndex != 1)
             {
                 /*nếu haIndex = 2 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 1*/
                 /*nếu haIndex = 3 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 2*/
-                /*nếu haIndex = 0 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 3*/            
+                /*nếu haIndex = 0 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 3*/
                 int indexChuyenSang = Seat.GetPreviousSeatIndex(seat.HaIndex, this.SoiDangChoi.SeatList.Count);
                 Seat seat0 = this.SoiDangChoi.GetSeatByHaIndex(0) as Seat;
                 Seat seatI = this.SoiDangChoi.GetSeatByHaIndex(indexChuyenSang) as Seat;
                 Card chuyenCard = seat0.BaiDaDanh.Last();
                 seatI.BaiDaDanh.Add(chuyenCard);
-                seat0.BaiDaDanh.Remove(chuyenCard);                
+                seat0.BaiDaDanh.Remove(chuyenCard);
             }
 
             /*cập nhật lại thứ tự hạ cho tất cả các seat*/
@@ -221,11 +238,8 @@ namespace Quantum.Tala.Service.Business
                 tmpSeat.HaIndex = Seat.GetPreviousSeatIndex(tmpSeat.HaIndex, this.SoiDangChoi.SeatList.Count);
             }
 
-            
-
             return anCard;
-            
-        }               
+        }
 
         /// <summary>
         /// Ù
@@ -272,29 +286,34 @@ namespace Quantum.Tala.Service.Business
                 return false;
             }
 
-            /*cap nhat thong tin phom cua seat vua u*/
-            //seat.PhomList = tmpPhomList;
-            ///TODO: thay vì xác định các phỏm của bài ù, có thể thêm 1 element bài Ù và add tòan bộ bài trên tay của seat Ù vào đó để các client có thể view đc
+            Seat denSeat = null; /*không ai phải đền*/
 
+            /*nếu có thằng ăn chốt ở vòng hạ, thằng ăn chốt cuối cùng (khác thằng ù) phải đền*/
+            if(this._AnChotNguyCoDenList.Count != 0)
+            {                
+                denSeat = this._AnChotNguyCoDenList.Last();
+                /*nếu thằng ăn chốt là thằng ù*/
+                if (seat.Pos == denSeat.Pos)
+                {
+                    if(this._AnChotNguyCoDenList.Count > 1)
+                    {
+                        /*nếu trước đó có thằng ăn chốt thì thằng này đền*/
+                        denSeat = this._AnChotNguyCoDenList.ElementAt(this._AnChotNguyCoDenList.Count - 2);
+                    }
+                    else
+                    {
+                        /*nếu không, thì thằng ù là thằng ăn chốt duy nhất thì không ai phải đền*/
+                        denSeat = null;
+                    }
+                }                                                
+            }
             /*neu bai da an cua seat == 3, previous seat phai den*/
-            if (seat.BaiDaAn.Count == 3)
+            else if (seat.BaiDaAn.Count == 3)
             {
                 int previousIndex = Seat.GetPreviousSeatIndex(seat.Pos, this.SoiDangChoi.SeatList.Count);
-                Seat previousSeat = this.SoiDangChoi.SeatList.ElementAt(previousIndex) as Seat;
-                /*kết thúc ván khi có thằng ù và có thằng phải đền
-                 kiểm tra count để xác định ù tròn hay ù thường
-                 */                
-                this.EndVan_U(seat, previousSeat, count == 10);
-                
-            }
-            else
-            {
-                /*nếu không ai phải đền, mỗi người nộp chip cho người ù
-                 kiểm tra count để xác định ù tròn hay ù thường
-                 */
-                this.EndVan_U(seat, null, count == 10);
-
-            }                        
+                denSeat = this.SoiDangChoi.SeatList.ElementAt(previousIndex) as Seat;                                                
+            }                                                      
+            this.EndVan_U(seat, denSeat, count == 10);   
             return true;
         }
 
@@ -312,18 +331,18 @@ namespace Quantum.Tala.Service.Business
             {
                 return false;
             }
-                        
+
             List<Card> cardList = new List<Card>();
             List<Phom> phomList = new List<Phom>();
             int i = 0;
             /*kiem tra tinh chinh xac cua phom*/
             foreach (Card[] cardArr in phomArr)
             {
-                
+
                 foreach (Card card in cardArr)
                 {
                     /*kiểm tra client hạ láo: trong phomArr có card trùng nhau*/
-                    if(cardList.Contains(card))
+                    if (cardList.Contains(card))
                     {
                         return false;
                     }
@@ -345,24 +364,24 @@ namespace Quantum.Tala.Service.Business
                 /*một seat có tối đa 3 phỏm, set id cho phỏm để phỏm id là duy nhất trong 1 sới*/
                 phom.Id = seat.Pos * 3 + i;
                 phomList.Add(phom);
-                
+
             }
 
             /*kiểm tra hạ láo --> đền, end van*/
             if (this.CheckHaLao(seat, phomList))
-            {                
+            {
                 /*end van và đền*/
                 this.EndVan_HaLao(seat);
                 return true;
             }
-            
+
             /*cap nhat phomList vao seat.phomList*/
             foreach (Phom phom in phomList)
             {
                 seat.PhomList.Add(phom);
             }
 
-            /*remove Card ở BaiTrenTay và BaiDaAn của seat*/            
+            /*remove Card ở BaiTrenTay và BaiDaAn của seat*/
             foreach (Card card in cardList)
             {
                 if (seat.BaiTrenTay.Contains(card))
@@ -374,7 +393,7 @@ namespace Quantum.Tala.Service.Business
                 {
                     seat.BaiDaAn.Remove(card);
                 }
-            }                       
+            }
 
             return true;
         }
@@ -389,7 +408,7 @@ namespace Quantum.Tala.Service.Business
         public bool Gui(Seat seat, int phomID, Card[] cardArr)
         {
             #region Exceptional flow, các trường hợp gửi không hợp lệ
-                        
+
             /*kiểm tra phomID có tồn tại không*/
             Phom phom = this.GetPhomByID(phomID);
             if (phom == null)
@@ -402,7 +421,7 @@ namespace Quantum.Tala.Service.Business
             {
                 return false;
             }
-            
+
             /*kiểmm tra cardArr có nằm trên BaiTrenTay của seat không*/
             foreach (Card card in cardArr)
             {
@@ -445,14 +464,14 @@ namespace Quantum.Tala.Service.Business
             {
                 seat.BaiTrenTay.Remove(card);
                 seat.BaiDaGui.Add(card);
-            } 
+            }
 
             /*nếu sau khi gửi mà bài trên tay count == 0 --> ù tròn*/
             if (seat.BaiTrenTay.Count == 0)
             {
                 this.EndVan_U(seat, null, true);
             }
-            
+
             return true;
         }
 
@@ -472,7 +491,7 @@ namespace Quantum.Tala.Service.Business
             this.IsFinished = true;
             this.SoiDangChoi.IsPlaying = false;
         }
-        
+
 
         /// <summary>
         /// Kết thúc ván trong trường hợp có người hạ láo
@@ -500,7 +519,7 @@ namespace Quantum.Tala.Service.Business
 
             FinishVan(haLaoSeat.Player.Username);
         }
-        
+
         /// <summary>
         /// kết thúc ván bình thường và tính điểm, xác định thắng thua, sang tiền
         /// </summary>
@@ -512,26 +531,26 @@ namespace Quantum.Tala.Service.Business
             /*xác định danh sách seat tăng dần theo điểm*/
             Seat[] resultSeatArr = this.SapXep(ref pointArr);
             int totalWinnerChip = 0;
-            for (int i = 1; i < pointArr.Length; i++ )
+            for (int i = 1; i < pointArr.Length; i++)
             {
                 Seat seat = resultSeatArr[i];
                 int chip = 0; /*so chip phai nop*/
                 if (pointArr[i] < CONST.MOM_POINTVALUE)
                 {
                     /*vị trí i sẽ phải trả i chip cho thằng nhất*/
-                    chip = i;                    
+                    chip = i;
                     this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: " + pointArr[i] + "     Số chip: -" + chip);
                 }
                 else
                 {
                     /*nộp móm*/
-                    chip = Cashier.CHIP_MOM;   
-                    this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: Móm     Số chip: -" + chip );
+                    chip = Cashier.CHIP_MOM;
+                    this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: Móm     Số chip: -" + chip);
                 }
-                
+
 
                 /*trừ tiền*/
-                seat.Player.SubtractMoney(chip * this.SoiDangChoi.SoiOption.TiGiaChip);                    
+                seat.Player.SubtractMoney(chip * this.SoiDangChoi.SoiOption.TiGiaChip);
                 totalWinnerChip += chip;
             }
 
@@ -542,7 +561,7 @@ namespace Quantum.Tala.Service.Business
 
             FinishVan(winner.Player.Username);
         }
-        
+
         /// <summary>
         /// Kết thúc ván khi có người Ù
         /// </summary>
@@ -552,10 +571,10 @@ namespace Quantum.Tala.Service.Business
         private void EndVan_U(Seat uSeat, Seat denSeat, bool uTron)
         {
             int chipAnU = Cashier.CHIP_U;
-            
+
             if (uTron)
             {
-                chipAnU = Cashier.CHIP_U_TRON;                
+                chipAnU = Cashier.CHIP_U_TRON;
             }
 
             /*nếu có thằng phải đền*/
@@ -588,7 +607,7 @@ namespace Quantum.Tala.Service.Business
 
             /*reset gà*/
             this.SoiDangChoi.GaValue = 0;
-            
+
             FinishVan(uSeat.Player.Username);
         }
 
@@ -601,7 +620,7 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         private void InitializeNoc()
         {
-            this.Noc = new List<Card>();
+            this._Noc = new List<Card>();
 
             /*generate a temporary array of 52 elements*/
             int[] tmpArr = new int[52];
@@ -615,7 +634,7 @@ namespace Quantum.Tala.Service.Business
             /*randomly pick a Card in CARD_SET and add to Noc*/
             for (int i = 0; i < 52; i++)
             {
-                this.Noc.Add(Card.CARD_SET[randomArr[i]]);
+                this._Noc.Add(Card.CARD_SET[randomArr[i]]);
                 System.Diagnostics.Debug.WriteLine("card " + i + ": " + Card.CARD_SET[randomArr[i]].ToString());
             }
 
@@ -626,7 +645,7 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         internal void ChiaBai(string p_sOldWinnerUsername)
         {
-            if (this.Noc == null || this.Noc.Count != 52)
+            if (this._Noc == null || this._Noc.Count != 52)
             {
                 return;
             }
@@ -637,7 +656,7 @@ namespace Quantum.Tala.Service.Business
                 for (int j = 0; j < nSeatCount; j++)
                 {
                     /*chia bai i+j cho seat[j]*/
-                    this.SoiDangChoi.SeatList[j].BaiTrenTay.Add(this.Noc[nSeatCount * i + j]);
+                    this.SoiDangChoi.SeatList[j].BaiTrenTay.Add(this._Noc[nSeatCount * i + j]);
                 }
             }
 
@@ -647,16 +666,16 @@ namespace Quantum.Tala.Service.Business
                 seatDanhDauTien = SoiDangChoi.SeatList[0];
             }
             /*chia them cho seat đánh đầu tiên 1 cay */
-            seatDanhDauTien.BaiTrenTay.Add(this.Noc[9 * nSeatCount]);
+            seatDanhDauTien.BaiTrenTay.Add(this._Noc[9 * nSeatCount]);
 
             /*xoa cac cay da chia ra khoi Noc*/
             for (int i = 0; i < 9 * nSeatCount + 1; i++)
             {
-                this.Noc.RemoveAt(0);
+                this._Noc.RemoveAt(0);
             }
 
             _CurrentTurnSeatIndex = seatDanhDauTien.Pos;
-        }        
+        }
 
         /// <summary>
         /// Chuyển lượt đánh cho Seat kế tiếp
@@ -666,7 +685,7 @@ namespace Quantum.Tala.Service.Business
             _CurrentTurnSeatIndex = Seat.GetNextSeatIndex(this.CurrentTurnSeatIndex, this.SoiDangChoi.SeatList.Count);
             return this.CurrentTurnSeatIndex;
         }
-        
+
         /// <summary>
         /// Kiểm tra seat có đang giữ quyền đánh hay không
         /// </summary>
@@ -729,7 +748,7 @@ namespace Quantum.Tala.Service.Business
         /// <returns></returns>
         private Seat[] SapXep(ref int[] pointArr)
         {
-            
+
             Seat[] tmpSeatArr = this.SoiDangChoi.SeatList.ToArray();
             for (int i = 0; i < pointArr.Length - 1; i++)
             {
@@ -746,27 +765,27 @@ namespace Quantum.Tala.Service.Business
                         pointArr[i] = tmpInt;
                     }
                 }
-            }            
+            }
             return tmpSeatArr;
         }
-        
-       /// <summary>
+
+        /// <summary>
         /// check seat Hạ láo --> đền
-       /// </summary>
-       /// <param name="seat">seat ha</param>
-       /// <param name="phomList">danh sach phom ma seat da ha</param>
-       /// <returns>true/false</returns>        
+        /// </summary>
+        /// <param name="seat">seat ha</param>
+        /// <param name="phomList">danh sach phom ma seat da ha</param>
+        /// <returns>true/false</returns>        
         private bool CheckHaLao(Seat seat, List<Phom> phomList)
         {
             if (phomList == null || phomList.Count == 0)
             {
                 return true;
             }
-           
+
             /*có 1 phỏm chứa > 1 cây đã ăn --> hạ láo*/
             foreach (Phom phom in phomList)
             {
-                bool bFound = false; /*chua tim thay card nao trong bai da an co mat trong phom*/             
+                bool bFound = false; /*chua tim thay card nao trong bai da an co mat trong phom*/
                 foreach (Card card in seat.BaiDaAn)
                 {
                     /*nếu đã tìm thấy 1 card trong bài đã ăn có mặt trong phom, mà lại tìm thấy card nữa
@@ -778,8 +797,8 @@ namespace Quantum.Tala.Service.Business
                     if (phom.CardArray.Contains(card))
                     {
                         bFound = true;
-                    }                    
-                }                
+                    }
+                }
             }
 
             /*kiểm tra cây đã ăn phải thuộc 1 và chỉ 1 phỏm*/
@@ -787,14 +806,14 @@ namespace Quantum.Tala.Service.Business
             {
                 bool found = false; /*card chua nam trong phom nao*/
                 int index = 0;
-                foreach(Phom phom in phomList)
+                foreach (Phom phom in phomList)
                 {
                     /*nếu bài đã ăn đã nằm trong 1 phỏm mà lại nằm tiếp trong phỏm khác --> hạ láo*/
                     if (phom.CardArray.Contains(card) && found)
                     {
                         return true;
                     }
-                    if(phom.CardArray.Contains(card))
+                    if (phom.CardArray.Contains(card))
                     {
                         found = true;
                     }
@@ -810,7 +829,7 @@ namespace Quantum.Tala.Service.Business
             return false;
 
         }
-        
+
 
 
 
@@ -867,7 +886,7 @@ namespace Quantum.Tala.Service.Business
             {
                 message.ID = _MessageList.Last().ID + 1;
             }
-            
+
             _MessageList.Add(message);
             return message;
         }
@@ -907,8 +926,8 @@ namespace Quantum.Tala.Service.Business
             this.SoiDangChoi = soi;
             this.CurrentRound = 1;
             _CurrentTurnSeatIndex = 0;
-            
-            
+
+
             // TEST: về sau phải bỏ đi
             if (forTesting)
             {
@@ -932,7 +951,7 @@ namespace Quantum.Tala.Service.Business
                     seat.SoCayGuiToiSeat = 0;
                 }
             }
-        }        
+        }
 
 
         /// <summary>
@@ -941,59 +960,59 @@ namespace Quantum.Tala.Service.Business
         private void InitializeNocForTesting()
         {
             // TEST: về sau phải bỏ đi
-            this.Noc = new List<Card>();
-            this.Noc.Add(new Card("08", "c"));
-            this.Noc.Add(new Card("05", "t"));
-            this.Noc.Add(new Card("11", "c"));
-            this.Noc.Add(new Card("08", "d"));
-            this.Noc.Add(new Card("01", "t"));
-            this.Noc.Add(new Card("10", "d"));
-            this.Noc.Add(new Card("07", "p"));
-            this.Noc.Add(new Card("08", "p"));
-            this.Noc.Add(new Card("05", "c"));
-            this.Noc.Add(new Card("05", "p"));
-            this.Noc.Add(new Card("09", "c"));
-            this.Noc.Add(new Card("02", "t"));
-            this.Noc.Add(new Card("03", "c"));
-            this.Noc.Add(new Card("06", "d"));
-            this.Noc.Add(new Card("11", "p"));
-            this.Noc.Add(new Card("05", "d"));
-            this.Noc.Add(new Card("01", "d"));
-            this.Noc.Add(new Card("01", "c"));
-            this.Noc.Add(new Card("04", "p"));
-            this.Noc.Add(new Card("08", "t"));
-            this.Noc.Add(new Card("11", "d"));
-            this.Noc.Add(new Card("06", "c"));
-            this.Noc.Add(new Card("13", "p"));
-            this.Noc.Add(new Card("02", "c"));
-            this.Noc.Add(new Card("02", "d"));
-            this.Noc.Add(new Card("03", "p"));
-            this.Noc.Add(new Card("12", "t"));
-            this.Noc.Add(new Card("09", "t"));
-            this.Noc.Add(new Card("03", "t"));
-            this.Noc.Add(new Card("02", "p"));
-            this.Noc.Add(new Card("04", "d"));
-            this.Noc.Add(new Card("12", "p"));
-            this.Noc.Add(new Card("10", "p"));
-            this.Noc.Add(new Card("13", "c"));
-            this.Noc.Add(new Card("12", "d"));
-            this.Noc.Add(new Card("06", "t"));
-            this.Noc.Add(new Card("09", "p"));
-            this.Noc.Add(new Card("11", "t"));
-            this.Noc.Add(new Card("13", "d"));
-            this.Noc.Add(new Card("09", "d"));
-            this.Noc.Add(new Card("07", "d"));
-            this.Noc.Add(new Card("04", "t"));
-            this.Noc.Add(new Card("10", "t"));
-            this.Noc.Add(new Card("03", "d"));
-            this.Noc.Add(new Card("01", "p"));
-            this.Noc.Add(new Card("07", "t"));
-            this.Noc.Add(new Card("10", "c"));
-            this.Noc.Add(new Card("06", "p"));
-            this.Noc.Add(new Card("13", "t"));
-            this.Noc.Add(new Card("12", "c"));
-            this.Noc.Add(new Card("07", "c"));
-            this.Noc.Add(new Card("04", "c"));
+            this._Noc = new List<Card>();
+            this._Noc.Add(new Card("08", "c"));
+            this._Noc.Add(new Card("05", "t"));
+            this._Noc.Add(new Card("11", "c"));
+            this._Noc.Add(new Card("08", "d"));
+            this._Noc.Add(new Card("01", "t"));
+            this._Noc.Add(new Card("10", "d"));
+            this._Noc.Add(new Card("07", "p"));
+            this._Noc.Add(new Card("08", "p"));
+            this._Noc.Add(new Card("05", "c"));
+            this._Noc.Add(new Card("05", "p"));
+            this._Noc.Add(new Card("09", "c"));
+            this._Noc.Add(new Card("02", "t"));
+            this._Noc.Add(new Card("03", "c"));
+            this._Noc.Add(new Card("06", "d"));
+            this._Noc.Add(new Card("11", "p"));
+            this._Noc.Add(new Card("05", "d"));
+            this._Noc.Add(new Card("01", "d"));
+            this._Noc.Add(new Card("01", "c"));
+            this._Noc.Add(new Card("04", "p"));
+            this._Noc.Add(new Card("08", "t"));
+            this._Noc.Add(new Card("11", "d"));
+            this._Noc.Add(new Card("06", "c"));
+            this._Noc.Add(new Card("13", "p"));
+            this._Noc.Add(new Card("02", "c"));
+            this._Noc.Add(new Card("02", "d"));
+            this._Noc.Add(new Card("03", "p"));
+            this._Noc.Add(new Card("12", "t"));
+            this._Noc.Add(new Card("09", "t"));
+            this._Noc.Add(new Card("03", "t"));
+            this._Noc.Add(new Card("02", "p"));
+            this._Noc.Add(new Card("04", "d"));
+            this._Noc.Add(new Card("12", "p"));
+            this._Noc.Add(new Card("10", "p"));
+            this._Noc.Add(new Card("13", "c"));
+            this._Noc.Add(new Card("12", "d"));
+            this._Noc.Add(new Card("06", "t"));
+            this._Noc.Add(new Card("09", "p"));
+            this._Noc.Add(new Card("11", "t"));
+            this._Noc.Add(new Card("13", "d"));
+            this._Noc.Add(new Card("09", "d"));
+            this._Noc.Add(new Card("07", "d"));
+            this._Noc.Add(new Card("04", "t"));
+            this._Noc.Add(new Card("10", "t"));
+            this._Noc.Add(new Card("03", "d"));
+            this._Noc.Add(new Card("01", "p"));
+            this._Noc.Add(new Card("07", "t"));
+            this._Noc.Add(new Card("10", "c"));
+            this._Noc.Add(new Card("06", "p"));
+            this._Noc.Add(new Card("13", "t"));
+            this._Noc.Add(new Card("12", "c"));
+            this._Noc.Add(new Card("07", "c"));
+            this._Noc.Add(new Card("04", "c"));
         }
         #endregion
 
