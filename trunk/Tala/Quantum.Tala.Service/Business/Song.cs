@@ -11,6 +11,7 @@ using Quantum.Tala.Lib;
 using Quantum.Tala.Service.Business;
 
 using Quantum.Tala.Service.Authentication;
+using GURUCORE.Framework.Business;
 
 
 namespace Quantum.Tala.Service.Business
@@ -156,8 +157,9 @@ namespace Quantum.Tala.Service.Business
             {
                 return null;
             }
-            
-            TalaUser user = (new AuthenticationService()).Authenticate("quantum", username, password) as TalaUser;
+
+            IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
+            TalaUser user = authensvc.Authenticate("*", username, password) as TalaUser;
 
             /// nếu tìm thấy user ở một kho lưu nào đó (DB của Quantum hoặc AuthenStore của đơn vị khác)
             if (user != null && user.Username == username)
