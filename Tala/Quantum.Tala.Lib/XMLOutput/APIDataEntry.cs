@@ -11,6 +11,8 @@ namespace Quantum.Tala.Lib.XMLOutput
     {
         protected ArrayList Data = new ArrayList();
 
+        
+
         #region IAPIData Members
 
         /// <summary>

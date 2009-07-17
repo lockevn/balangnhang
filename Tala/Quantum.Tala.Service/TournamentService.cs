@@ -32,6 +32,13 @@ namespace Quantum.Tala.Service
             return arr.ToArray();
         }
 
+        
+        [TransactionBound]
+        public virtual int CreateSoi(soiDTO p_dto)
+        {
+            return DAU.AddObject<soiDTO>(p_dto).id;
+        }
+         
 	
         //[TransactionBound]
         //public virtual VwBannerLocalizedWithBlockDTO[] GetBannerListForView(int p_nBlockID, int p_nPage, int p_nPageCount)

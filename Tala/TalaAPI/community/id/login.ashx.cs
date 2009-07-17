@@ -18,8 +18,8 @@ namespace TalaAPI.community.id
     {
         public override void ProcessRequest(HttpContext context)
         {
-            string sUsername = context.Request["username"].ToStringSafetyNormalize();
-            string sPassword = context.Request["password"].ToStringSafety();
+            string sUsername = APIParamHelper.GetParam("username", context);
+            string sPassword = APIParamHelper.GetParam("password", context);
 
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "LOGIN", "wrong username and/or password");
 

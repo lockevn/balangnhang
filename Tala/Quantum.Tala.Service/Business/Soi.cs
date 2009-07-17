@@ -11,12 +11,15 @@ using Quantum.Tala.Lib.XMLOutput;
 using Quantum.Tala.Service.Authentication;
 using System.Text;
 using System.Web;
+using Quantum.Tala.Service.DTO;
 
 
 namespace Quantum.Tala.Service.Business
 {
     public class Soi : APIDataEntry
     {
+        soiDTO DBEntry { get; set; }
+
         int _ID;
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public int ID

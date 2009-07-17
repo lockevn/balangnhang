@@ -10,14 +10,14 @@ namespace TalaAPI.community.soi
     {
         public override void ProcessRequest(HttpContext context)
         {
-            string sID = context.Request["soiid"].ToStringSafetyNormalize();
+            string sID = APIParamHelper.GetParam("soiid", context);
 
             if (string.IsNullOrEmpty(sID))
             {
             }
             else
             {
-                Soi soi = Song.Instance.DicSoi.ContainsKey(sID) ? Song.Instance.DicSoi[sID] : null;
+                Soi soi = Song.Instance.GetSoiByID(sID);
                 if (soi != null)
                 {
                     Data.Add(soi);

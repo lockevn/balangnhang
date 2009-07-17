@@ -78,6 +78,12 @@ namespace Quantum.Tala.Service.Business
             set { _TurnTimeout = value; }
         }
 
+        /// <summary>
+        /// có cho người khác vào xem không?
+        /// </summary>
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
+        public bool IsAllowToViewer { get; set; }
+
 
         /// <summary>
         /// Khởi tạo option mặc định cho Sới. 
@@ -91,7 +97,8 @@ namespace Quantum.Tala.Service.Business
             this._IsGa = true; 
             this._IsChot = true;
             this._DoiChoSauKhiU = false;
-            this._TurnTimeout = 60;            
+            this._TurnTimeout = 60;
+            IsAllowToViewer = true;
         }
 
 

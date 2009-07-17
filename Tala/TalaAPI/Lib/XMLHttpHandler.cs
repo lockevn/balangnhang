@@ -31,7 +31,7 @@ namespace TalaAPI.Lib
         /// Set ContentType to xml, render Data and Cmd to xml
         /// </summary>
         /// <param name="context"></param>
-        public virtual void ProcessRequest(HttpContext context)
+        public virtual void ProcessRequest(HttpContext context, bool NeedToEndRequest)
         {
             /// change the response content type
             context.Response.ContentType = "text/xml";
@@ -112,6 +112,20 @@ namespace TalaAPI.Lib
                     , Stat, nCurrentTurnOfThisRequestContext, nIsPlaying, nIsVanFinished,
                     sRenderedData.ToString(), sRenderedCmd, sRenderedXElementData.ToString(), StringDirectUnderRoot)
                 );
+
+            if (NeedToEndRequest)
+            {
+                context.Response.End();
+            }
+        }
+
+        /// <summary>
+        /// Set ContentType to xml, render Data and Cmd to xml. END immediatelly
+        /// </summary>
+        /// <param name="context"></param>
+        public virtual void ProcessRequest(HttpContext context)
+        {
+            this.ProcessRequest(context, true);
         }
 
 
