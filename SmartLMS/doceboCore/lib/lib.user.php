@@ -124,7 +124,7 @@ class DoceboUser {
 	 * @return mixed DoceboUser instance of logged in user if found user in session
 	 *				 FALSE otherwise
 	 **/
-	function &createDoceboUserFromSession($prefix = 'base') {
+	static function &createDoceboUserFromSession($prefix = 'base') {
 		
 		if(!isset($_SESSION['user_enter_time']))
 					$_SESSION['user_enter_time'] = date('Y-m-d H:i:s');

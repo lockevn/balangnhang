@@ -278,7 +278,7 @@ class TreeView {
 	}
 
 
-	/**
+	/**hàm này cũng xử lý các action create, move, rename, delete các element trên cây
 	 * retrieve data from elements of array
 	 * Normally $arrayState is $_POST
 	 * $arrayExpand is $_GET
@@ -407,7 +407,7 @@ class TreeView {
 			$this->op = 'newfolder';
 		}
 
-		// delete folder
+		// INFO delete element
 		if( isSet( $arrayState[$this->_getDeleteFolderId()] )
 			&& !$this->cancel && $this->selectedFolder ) {
 			$folder = $this->tdb->getFolderById( $this->selectedFolder );
