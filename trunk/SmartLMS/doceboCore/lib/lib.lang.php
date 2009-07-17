@@ -107,7 +107,7 @@ class DoceboLanguage {
 	 *			lang_code will be computed with getLanguage()
 	 * @return DoceboLanguage an instance of DoceboLanguage or FALSE.
 	 **/
-	function &createInstance( $module = FALSE, $platform = FALSE, $lang_code = FALSE ) {
+	static function &createInstance( $module = FALSE, $platform = FALSE, $lang_code = FALSE ) {
 		global $globDoceboLanguageInstances;
 		if( $module === FALSE )	$module = importVar('modname');
 		if( $platform === FALSE ) $platform = $GLOBALS['platform'];
@@ -321,7 +321,7 @@ class DoceboLangManager {
 	 * @param mixed $key3 Optional. The third key or FALSE
 	 * @return string composed key
 	 **/
-	function composeKey( $key1, $key2, $key3 = FALSE ) {
+	static function composeKey( $key1, $key2, $key3 = FALSE ) {
 		if( $key3 === FALSE )
 			return $key2."&".$key1;
 		else
@@ -335,7 +335,7 @@ class DoceboLangManager {
 	 * @param string $composed_key the module key composed
 	 * @return array array with 0=>key1 1=>key2 2=>key3
 	 **/
-	function decomposeKey( $composed_key ) {
+	static function decomposeKey( $composed_key ) {
 		$composed_key = str_replace('&amp;', '&', $composed_key);
 		
 		return array_reverse(explode('&', $composed_key, 3));

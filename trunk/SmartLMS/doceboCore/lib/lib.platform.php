@@ -41,7 +41,7 @@ class PlatformManager {
 	* @desc 
 	* @return PlatformManager
 	*/
-	function &createInstance() {
+	static function &createInstance() {
 
 		if(!isset($GLOBALS['platform_manager'])) {
 			$GLOBALS['platform_manager'] = new PlatformManager();
