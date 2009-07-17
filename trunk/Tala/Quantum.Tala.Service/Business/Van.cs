@@ -75,6 +75,8 @@ namespace Quantum.Tala.Service.Business
             this.InitializeNoc();
             this.IsFinished = false;
 
+            this._AnChotNguyCoDenList = new List<Seat>();
+
             /*xóa bài của tất cả các seat trong seatList*/
             List<Seat> seatList = this.SoiDangChoi.SeatList;
             if (seatList != null)
@@ -926,7 +928,7 @@ namespace Quantum.Tala.Service.Business
             this.SoiDangChoi = soi;
             this.CurrentRound = 1;
             _CurrentTurnSeatIndex = 0;
-
+            this._AnChotNguyCoDenList = new List<Seat>();
 
             // TEST: về sau phải bỏ đi
             if (forTesting)
