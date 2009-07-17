@@ -236,6 +236,7 @@ namespace Quantum.Tala.Service.Business
         /// <param name="sSoiID"></param>
         /// <returns></returns>
         public bool DeleteSoi(string sSoiID)
+
         {
             Soi soiToDelete = GetSoiByID(sSoiID);
             if (soiToDelete == null)
@@ -254,6 +255,7 @@ namespace Quantum.Tala.Service.Business
                 soiToDelete.CurrentVan = null;
                 return Song.Instance.DicSoi.Remove(sSoiID);
             }                        
+
         }
 
 
