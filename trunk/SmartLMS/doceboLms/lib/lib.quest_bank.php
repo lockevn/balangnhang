@@ -64,7 +64,7 @@ class QuestBankMan {
 		$quests = array();
 		$re_quest = mysql_query("
 		SELECT idQuest, type_quest 
-		FROM ".$GLOBALS['prefix_lms']."$this->_table_quest 
+		FROM ".$this->_table_quest. " 
 		WHERE idQuest IN (".implode(',', $arr_quest).") 
 		ORDER BY page, sequence");
 		while(list($id_quest, $type_quest) = mysql_fetch_row($re_quest)) {
@@ -204,7 +204,7 @@ class QuestBankMan {
 		return $result;
 	}
 	
-	function export_quest($quest_list, $file_format) {
+	function export_quest($quest_list, $file_format, $isInBank=false) {
 		
 		$quest_export = '';
 		switch($file_format) {
@@ -217,7 +217,7 @@ class QuestBankMan {
 					
 					$oQuest 	= $this->instanceQuestType($id_quest, $type_quest);
 					if($oQuest) {
-						$oRawQuest 	= $oQuest->exportToRaw($id_quest);
+						$oRawQuest 	= $oQuest->exportToRaw($isInBank);
 									
 						$quest_export .= $qgift->writequestion($oRawQuest);
 					} else {
