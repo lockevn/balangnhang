@@ -581,6 +581,15 @@ class Associate_Question extends Question {
 		if(isset($_POST['more_answer'])) ++$num_answer;
 		if(isset($_POST['less_answer']) && ($num_answer > 1) ) --$num_answer;
 
+		if($isInBank)
+		{
+			$tableNamePrefix = "_bank";
+		}
+		else
+		{
+			$tableNamePrefix = "_test";
+		}
+
 		if(isset($_POST['add_question'])) {
 
 			//save second group-----------------------------------------------
@@ -588,26 +597,12 @@ class Associate_Question extends Question {
 			$correct_answer = array();
 			$existent_associate = array();
 
-			/**
-			 * danhut: nếu edit question in test -> lookup in _testquestanswer_
-			 */
-			if($isInBank === false)
-			{
-				$re_answer_asso = mysql_query("
+
+			$re_answer_asso = mysql_query("
 					SELECT idAnswer
-					FROM ".$GLOBALS['prefix_lms']."_testquestanswer_associate 
+					FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer_associate 
 					WHERE idQuest = '".(int)$this->id."'");
-			}
-			else
-			{
-				/**
-				 * danhut: nếu edit question in bank -> lookup in _bankquestanswer_
-				 */
-				$re_answer_asso = mysql_query("
-					SELECT idAnswer
-					FROM ".$GLOBALS['prefix_lms']."_bankquestanswer_associate 
-					WHERE idQuest = '".(int)$this->id."'");
-			}
+
 			while(list($id_aa) = mysql_fetch_row($re_answer_asso)) $existent_associate[$id_aa] = 1;
 
 			for($j = 0; $j < $num_answer; $j++) {
@@ -620,21 +615,13 @@ class Associate_Question extends Question {
 						//must update
 						$id_old_a = $_POST['elem_b_id'][$j];
 						if(isset($existent_associate[$id_old_a])) unset($existent_associate[$id_old_a]);
-						if($isInBank === false)
-						{
 
-							$upd_ans_query = "
-								UPDATE ".$GLOBALS['prefix_lms']."_testquestanswer_associate 
+
+						$upd_ans_query = "
+								UPDATE ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer_associate 
 								SET answer = '".$content."' 
 								WHERE idAnswer = '".(int)$id_old_a."'";
-						}
-						else
-						{
-							$upd_ans_query = "
-								UPDATE ".$GLOBALS['prefix_lms']."_bankquestanswer_associate 
-								SET answer = '".$content."' 
-								WHERE idAnswer = '".(int)$id_old_a."'";
-						}
+
 						if(!mysql_query($upd_ans_query)) {
 
 							errorCommunication($lang->def('_TEST_ERR_INS_ANSWER').getBackUi(ereg_replace('&', '&amp;', $back_test), $lang->def('_BACK')));
@@ -642,22 +629,13 @@ class Associate_Question extends Question {
 						$id_assigned[$j] = $id_old_a;
 					} else {
 						//insert new answer
-						if($isInBank === false)
-						{
-							$ins_answer_query = "
-								INSERT INTO ".$GLOBALS['prefix_lms']."_testquestanswer_associate 
+
+						$ins_answer_query = "
+								INSERT INTO ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer_associate 
 								( idQuest, answer ) VALUES 
 								( 	'".(int)$this->id."', 
 									'".$content."' ) ";
-						}
-						else
-						{
-							$ins_answer_query = "
-								INSERT INTO ".$GLOBALS['prefix_lms']."_bankquestanswer_associate 
-								( idQuest, answer ) VALUES 
-								( 	'".(int)$this->id."', 
-									'".$content."' ) ";
-						}
+
 						if(!mysql_query($ins_answer_query)) {
 
 							errorCommunication($lang->def('_TEST_ERR_INS_ANSWER').getBackUi(ereg_replace('&', '&amp;', $back_test), $lang->def('_BACK')));
@@ -669,18 +647,11 @@ class Associate_Question extends Question {
 
 			while(list($id_aa) = each($existent_associate)) {
 				//i must delete these answer
-				if($isInBank === false)
-				{
-					$del_answer_query = "
-						DELETE FROM ".$GLOBALS['prefix_lms']."_testquestanswer_associate
+
+				$del_answer_query = "
+						DELETE FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer_associate
 						WHERE idQuest = '".(int)$this->id."' AND idAnswer = '".(int)$id_aa."'";
-				}
-				else
-				{
-					$del_answer_query = "
-						DELETE FROM ".$GLOBALS['prefix_lms']."_bankquestanswer_associate
-						WHERE idQuest = '".(int)$this->id."' AND idAnswer = '".(int)$id_aa."'";
-				}
+
 				if(!mysql_query($del_answer_query)) {
 
 					errorCommunication($lang->def('_TEST_ERR_INS_ANSWER').getBackUi(ereg_replace('&', '&amp;', $back_test), $lang->def('_BACK')));
@@ -689,20 +660,12 @@ class Associate_Question extends Question {
 
 			//first group-----------------------------------------------------
 			//find saved answer
-			if($isInBank === false)
-			{
-				$re_answer = mysql_query("
+
+			$re_answer = mysql_query("
 					SELECT idAnswer
-					FROM ".$GLOBALS['prefix_lms']."_testquestanswer 
+					FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer 
 					WHERE idQuest = '".(int)$this->id."'");
-			}
-			else
-			{
-				$re_answer = mysql_query("
-					SELECT idAnswer
-					FROM ".$GLOBALS['prefix_lms']."_bankquestanswer 
-					WHERE idQuest = '".(int)$this->id."'");
-			}
+
 			while(list($id_a) = mysql_fetch_row($re_answer)) $existent_answer[$id_a] = 1;
 
 			for($i = 0; $i < $num_answer; $i++) {
@@ -716,38 +679,24 @@ class Associate_Question extends Question {
 						//must update
 						$idAnswer = $_POST['elem_a_id'][$i];
 						if(isset($existent_answer[$idAnswer])) unset($existent_answer[$idAnswer]);
-						if($isInBank === false)
-						{
 
-							$upd_ans_query = "
-								UPDATE ".$GLOBALS['prefix_lms']."_testquestanswer 
+						$upd_ans_query = "
+								UPDATE ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer 
 								SET is_correct = '".$id_assigned[$elem_asso]."',
 									answer = '".$content."',
 									comment = '".$_POST['comment'][$i]."',
 									score_correct = '".$this->_checkScore($_POST['score_correct'][$i])."', 
 									score_incorrect = '".$this->_checkScore($_POST['score_incorrect'][$i])."'
 								WHERE idAnswer = '".(int)$idAnswer."'";
-						}
-						else
-						{
-							$upd_ans_query = "
-								UPDATE ".$GLOBALS['prefix_lms']."_bankquestanswer 
-								SET is_correct = '".$id_assigned[$elem_asso]."',
-									answer = '".$content."',
-									comment = '".$_POST['comment'][$i]."',
-									score_correct = '".$this->_checkScore($_POST['score_correct'][$i])."', 
-									score_incorrect = '".$this->_checkScore($_POST['score_incorrect'][$i])."'
-								WHERE idAnswer = '".(int)$idAnswer."'";
-						}
+
 						if(!mysql_query($upd_ans_query)) {
 							errorCommunication($lang->def('_TEST_ERR_INS_ANSWER').getBackUi(ereg_replace('&', '&amp;', $back_test), $lang->def('_BACK')));
 						}
 					} else {
 						//insert new answer
-						if($isInBank === false)
-						{
-							$ins_answer_query = "
-								INSERT INTO ".$GLOBALS['prefix_lms']."_testquestanswer 
+
+						$ins_answer_query = "
+								INSERT INTO ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer 
 								( idQuest, is_correct, answer, comment, score_correct, score_incorrect ) VALUES
 								( 	'".$this->id."', 
 									'".$id_assigned[$elem_asso]."', 
@@ -755,19 +704,7 @@ class Associate_Question extends Question {
 									'".$_POST['comment'][$i]."', 
 									'".$this->_checkScore($_POST['score_correct'][$i])."', 
 									'".$this->_checkScore($_POST['score_incorrect'][$i])."') ";
-						}
-						else
-						{
-							$ins_answer_query = "
-								INSERT INTO ".$GLOBALS['prefix_lms']."_bankquestanswer 
-								( idQuest, is_correct, answer, comment, score_correct, score_incorrect ) VALUES
-								( 	'".$this->id."', 
-									'".$id_assigned[$elem_asso]."', 
-									'".$content."', 
-									'".$_POST['comment'][$i]."', 
-									'".$this->_checkScore($_POST['score_correct'][$i])."', 
-									'".$this->_checkScore($_POST['score_incorrect'][$i])."') ";
-						}
+
 						if(!mysql_query($ins_answer_query)) {
 
 							errorCommunication($lang->def('_TEST_ERR_INS_ANSWER').getBackUi(ereg_replace('&', '&amp;', $back_test), $lang->def('_BACK')));
@@ -778,18 +715,11 @@ class Associate_Question extends Question {
 			while(list($idA) = each($existent_answer)) {
 				//i must delete these answer
 
-				if($isInBank === false)
-				{
-					$del_answer_query = "
-						DELETE FROM ".$GLOBALS['prefix_lms']."_testquestanswer
+
+				$del_answer_query = "
+						DELETE FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer
 						WHERE idQuest = '".(int)$this->id."' AND idAnswer = '".(int)$idA."'";
-				}
-				else
-				{
-					$del_answer_query = "
-						DELETE FROM ".$GLOBALS['prefix_lms']."_bankquestanswer
-						WHERE idQuest = '".(int)$this->id."' AND idAnswer = '".(int)$idA."'";
-				}
+
 				if(!mysql_query($del_answer_query)) {
 
 					errorCommunication($lang->def('_TEST_ERR_INS_ANSWER').getBackUi(ereg_replace('&', '&amp;', $back_test), $lang->def('_BACK')));
@@ -801,10 +731,9 @@ class Associate_Question extends Question {
 
 			//----------------------------------------------------------------------------------------
 			//insert the new question
-			if($isInBank === false)
-			{
-				$ins_query = "
-					UPDATE ".$GLOBALS['prefix_lms']."_testquest
+
+			$ins_query = "
+					UPDATE ".$GLOBALS['prefix_lms'].$tableNamePrefix."quest
 					SET idCategory = '".(int)$_POST['idCategory']."', 
 						type_quest = '".$this->getQuestionType()."', 
 						title_quest = '".$_POST['title_quest']."', 
@@ -812,19 +741,7 @@ class Associate_Question extends Question {
 						time_assigned = '".(int)$_POST['time_assigned']."',
 						shuffle = '".(isset($_POST['shuffle']) ? 1 : 0)."'
 					WHERE idQuest = '".(int)$this->id."'";
-			}
-			else
-			{
-				$ins_query = "
-					UPDATE ".$GLOBALS['prefix_lms']."_bankquest
-					SET idCategory = '".(int)$_POST['idCategory']."', 
-						type_quest = '".$this->getQuestionType()."', 
-						title_quest = '".$_POST['title_quest']."', 
-						difficult = '".(int)$_POST['difficult']."', 
-						time_assigned = '".(int)$_POST['time_assigned']."',
-						shuffle = '".(isset($_POST['shuffle']) ? 1 : 0)."'
-					WHERE idQuest = '".(int)$this->id."'";
-			}
+
 			if(!mysql_query($ins_query)) {
 
 				errorCommunication($lang->def('_TEST_ERR_INS_QUEST')
@@ -842,22 +759,13 @@ class Associate_Question extends Question {
 				}
 			}
 			//load comment and scores
-			if($isInBank === false)
-			{
-				$re_answer = mysql_query("
+
+			$re_answer = mysql_query("
 					SELECT comment, score_correct, score_incorrect 
-					FROM ".$GLOBALS['prefix_lms']."_testquestanswer 
+					FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer 
 					WHERE idQuest = '".(int)$this->id."'
 					ORDER BY idAnswer");
-			}
-			else
-			{
-				$re_answer = mysql_query("
-					SELECT comment, score_correct, score_incorrect 
-					FROM ".$GLOBALS['prefix_lms']."_bankquestanswer 
-					WHERE idQuest = '".(int)$this->id."'
-					ORDER BY idAnswer");
-			}
+
 
 			$i_load = 0;
 			while(list($_POST['comment'][$i_load],
@@ -912,52 +820,29 @@ class Associate_Question extends Question {
 		} else {
 			//load data
 			if(!isset($_POST['elem_a_id'])) {
-				if($isInBank === false)
-				{
-					list($sel_cat, $quest, $sel_diff, $sel_time, $shuffle ) = mysql_fetch_row(mysql_query("
+
+				list($sel_cat, $quest, $sel_diff, $sel_time, $shuffle ) = mysql_fetch_row(mysql_query("
 						SELECT idCategory, title_quest, difficult, time_assigned, shuffle 
-						FROM ".$GLOBALS['prefix_lms']."_testquest 
+						FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."quest 
 						WHERE idQuest = '".(int)$this->id."'"));
 
-					$re_answer = mysql_query("
+				$re_answer = mysql_query("
 						SELECT idAnswer, answer 
-						FROM ".$GLOBALS['prefix_lms']."_testquestanswer 
+						FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer 
 						WHERE idQuest = '".(int)$this->id."'
 						ORDER BY idAnswer");
-				}
-				else
-				{
-					list($sel_cat, $quest, $sel_diff, $sel_time, $shuffle ) = mysql_fetch_row(mysql_query("
-						SELECT idCategory, title_quest, difficult, time_assigned, shuffle 
-						FROM ".$GLOBALS['prefix_lms']."_bankquest 
-						WHERE idQuest = '".(int)$this->id."'"));
 
-					$re_answer = mysql_query("
-						SELECT idAnswer, answer 
-						FROM ".$GLOBALS['prefix_lms']."_bankquestanswer 
-						WHERE idQuest = '".(int)$this->id."'
-						ORDER BY idAnswer");
-				}
 				$j_load = $i_load = 0;
 				while(list($_POST['elem_a_id'][$i_load], $_POST['elem_a'][$i_load]) = mysql_fetch_row($re_answer)){
 					++$i_load;
 				}
-				if($isInBank === false)
-				{
-					$re_answer_2 = mysql_query("
+
+				$re_answer_2 = mysql_query("
 						SELECT idAnswer, answer 
-						FROM ".$GLOBALS['prefix_lms']."_testquestanswer_associate 
+						FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer_associate 
 						WHERE idQuest = '".(int)$this->id."'
 						ORDER BY idAnswer");
-				}
-				else
-				{
-					$re_answer_2 = mysql_query("
-						SELECT idAnswer, answer 
-						FROM ".$GLOBALS['prefix_lms']."_bankquestanswer_associate 
-						WHERE idQuest = '".(int)$this->id."'
-						ORDER BY idAnswer");
-				}
+
 				while(list($_POST['elem_b_id'][$j_load], $_POST['elem_b'][$j_load]) = mysql_fetch_row($re_answer_2)){
 					++$j_load;
 				}
@@ -1041,55 +926,40 @@ class Associate_Question extends Question {
 	 * @author Fabio Pirovano (fabio@docebo.com)
 	 */
 	function del($isInBank=false) {
-		if($isInBank === false)
+		
+	if($isInBank)
 		{
+			$tableNamePrefix = "_bank";
+		}
+		else
+		{
+			$tableNamePrefix = "_test";
 			//delete answer
 			if(!mysql_query("
 				DELETE FROM ".$GLOBALS['prefix_lms']."_testtrack_answer 
-				WHERE idQuest = '".$this->id."'"))
-			{
-				return false;
-			}
+				WHERE idQuest = '".$this->id."'")) return false;
+		}
+		
+		
 
 			//remove answer
 			if(!mysql_query("
-				DELETE FROM ".$GLOBALS['prefix_lms']."_testquestanswer_associate 
+				DELETE FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer_associate 
 				WHERE idQuest = '".$this->id."'")) 
 			{
 				return false;
 			}
 			if(!mysql_query("
-				DELETE FROM ".$GLOBALS['prefix_lms']."_testquestanswer 
+				DELETE FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer 
 				WHERE idQuest = '".$this->id."'")) 
 			{
 				return false;
 			}
 			//remove question
 			return mysql_query("
-				DELETE FROM ".$GLOBALS['prefix_lms']."_testquest 
+				DELETE FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."quest 
 				WHERE idQuest = '".$this->id."'");
-		}
-		else
-		/*delete in Bank*/
-		{
-			//remove answer
-			if(!mysql_query("
-				DELETE FROM ".$GLOBALS['prefix_lms']."_bankquestanswer_associate 
-				WHERE idQuest = '".$this->id."'")) 
-			{
-				return false;
-			}
-			if(!mysql_query("
-				DELETE FROM ".$GLOBALS['prefix_lms']."_bankquestanswer 
-				WHERE idQuest = '".$this->id."'")) 
-			{
-				return false;
-			}
-			//remove question
-			return mysql_query("
-				DELETE FROM ".$GLOBALS['prefix_lms']."_bankquest 
-				WHERE idQuest = '".$this->id."'");
-		}
+				
 	}
 
 	/**
@@ -1100,13 +970,22 @@ class Associate_Question extends Question {
 	 * @access public
 	 * @author Fabio Pirovano (fabio@docebo.com)
 	 */
-	function copy( $new_id_test, $back_test = NULL ) {
+	function copy( $new_id_test, $back_test = NULL, $isInBank = false ) {
 
+		
+		if($isInBank)
+		{
+			$tableNamePrefix = '_bank';
+		}
+		else
+		{
+			$tableNamePrefix = '_test';
+		}
 
 		//retriving question
 		list($sel_cat, $quest, $sel_diff, $time_ass, $sequence, $page, $shuffle) = mysql_fetch_row(mysql_query("
 		SELECT idCategory, title_quest, difficult, time_assigned, sequence, page, shuffle 
-		FROM ".$GLOBALS['prefix_lms']."_testquest 
+		FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."quest 
 		WHERE idQuest = '".(int)$this->id."'")); 
 
 		//insert question
@@ -1130,7 +1009,7 @@ class Associate_Question extends Question {
 		//retriving new answer
 		$re_answer = mysql_query("
 		SELECT idAnswer, answer  
-		FROM ".$GLOBALS['prefix_lms']."_testquestanswer_associate 
+		FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer_associate 
 		WHERE idQuest = '".(int)$this->id."'
 		ORDER BY idAnswer");
 		$new_correct = array();
@@ -1150,7 +1029,7 @@ class Associate_Question extends Question {
 		//retriving new answer
 		$re_answer = mysql_query("
 		SELECT idAnswer, is_correct, answer, comment, score_correct, score_incorrect 
-		FROM ".$GLOBALS['prefix_lms']."_testquestanswer 
+		FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer 
 		WHERE idQuest = '".(int)$this->id."'
 		ORDER BY idAnswer");
 		while(list($idAnswer, $is_correct, $answer, $comment, $score_c, $score_inc) = mysql_fetch_row($re_answer)) {
@@ -1515,9 +1394,9 @@ class Associate_Question extends Question {
 
 		if($id_test === false) $id_test = 0;
 
-		//insert question
+		/*luôn insert vào bank*/
 		$ins_query = "
-		INSERT INTO ".$GLOBALS['prefix_lms']."_testquest 
+		INSERT INTO ".$GLOBALS['prefix_lms']."_bankquest 
 		( idQuest, idTest, idCategory, type_quest, title_quest, difficult, time_assigned, sequence, page ) VALUES 
 		( 	NULL,
 			'".(int)$id_test."', 
@@ -1529,52 +1408,110 @@ class Associate_Question extends Question {
 			'1',
 			'1' ) ";
 		if(!mysql_query($ins_query)) return false;
-
 		//find id of auto_increment colum
-		list($new_id_quest) = mysql_fetch_row(mysql_query("SELECT LAST_INSERT_ID()"));
-		if(!$new_id_quest) return false;
+		list($new_id_questbank) = mysql_fetch_row(mysql_query("SELECT LAST_INSERT_ID()"));
+		if(!$new_id_questbank) return false;
 
-		if(!is_array($raw_quest->answers)) return $new_id_quest;
+		if(!is_array($raw_quest->answers)) return $new_id_questbank;
+
+		//insert question vào test
+		if($id_test != 0)
+		{
+			$ins_query = "
+				INSERT INTO ".$GLOBALS['prefix_lms']."_testquest 
+				( idQuest, idTest, idCategory, type_quest, title_quest, difficult, time_assigned, sequence, page ) VALUES 
+				( 	NULL,
+					'".(int)$id_test."', 
+					'".(int)$raw_quest->id_category."', 
+					'".$this->getQuestionType()."', 
+					'".$raw_quest->quest_text."',
+					'".(int)$raw_quest->difficult."', 
+					'".$raw_quest->time_assigned."',
+					'1',
+					'1' ) ";
+			if(!mysql_query($ins_query)) return false;
+
+			//find id of auto_increment colum
+			list($new_id_quest) = mysql_fetch_row(mysql_query("SELECT LAST_INSERT_ID()"));
+			if(!$new_id_quest) return false;
+
+		}
 
 		//retriving new answer
 		reset($raw_quest->extra_info);
 		while(list($k ,$raw_answer) = each($raw_quest->extra_info)) {
 
-			//insert answer
+			/*luon insert answer vao bank*/
 			$ins_answer_query = "
-			INSERT INTO ".$GLOBALS['prefix_lms']."_testquestanswer_associate 
+			INSERT INTO ".$GLOBALS['prefix_lms']."_bankquestanswer_associate 
 			( idQuest, answer ) VALUES
-			( 	'".(int)$new_id_quest."',
+			( 	'".(int)$new_id_questbank."',
 				'".$raw_answer->text."' ) ";
 			if(!mysql_query($ins_answer_query)) return false;
-			list($new_correct[$k]) = mysql_fetch_row(mysql_query("SELECT LAST_INSERT_ID()"));
+			list($new_correct_bank[$k]) = mysql_fetch_row(mysql_query("SELECT LAST_INSERT_ID()"));
+
+			if($id_test != 0)
+			{
+				//insert answer
+				$ins_answer_query = "
+					INSERT INTO ".$GLOBALS['prefix_lms']."_testquestanswer_associate 
+					( idQuest, answer ) VALUES
+					( 	'".(int)$new_id_quest."',
+						'".$raw_answer->text."' ) ";
+				if(!mysql_query($ins_answer_query)) return false;
+				list($new_correct[$k]) = mysql_fetch_row(mysql_query("SELECT LAST_INSERT_ID()"));
+			}
 		}
 
 		reset($raw_quest->answers);
 		while(list($k, $raw_answer) = each($raw_quest->answers)) {
 
-			//insert answer
+			//insert answer vao bank
 			$ins_answer_query = "
-			INSERT INTO ".$GLOBALS['prefix_lms']."_testquestanswer 
+			INSERT INTO ".$GLOBALS['prefix_lms']."_bankquestanswer 
 			( idQuest, is_correct, answer, comment, score_correct, score_incorrect ) VALUES
-			( 	'".(int)$new_id_quest."', 
-				'".(int)$new_correct[$k]."', 
+			( 	'".(int)$new_id_questbank."', 
+				'".(int)$new_correct_bank[$k]."', 
 				'".$raw_answer->text."', 
 				'".$raw_answer->comment."',
 				'".$this->_checkScore($raw_answer->score_correct)."', 
 				'".$this->_checkScore($raw_answer->score_penalty)."') ";
 			if(!mysql_query($ins_answer_query)) return false;
+				
+			if($id_test != 0)
+			{
+				//insert answer
+				$ins_answer_query = "
+					INSERT INTO ".$GLOBALS['prefix_lms']."_testquestanswer 
+					( idQuest, is_correct, answer, comment, score_correct, score_incorrect ) VALUES
+					( 	'".(int)$new_id_quest."', 
+						'".(int)$new_correct[$k]."', 
+						'".$raw_answer->text."', 
+						'".$raw_answer->comment."',
+						'".$this->_checkScore($raw_answer->score_correct)."', 
+						'".$this->_checkScore($raw_answer->score_penalty)."') ";
+				if(!mysql_query($ins_answer_query)) return false;
+			}
 		}
 
-		return $new_id_quest;
+		return $new_id_questbank;
 	}
 
-	function exportToRaw($id_test = false) {
 
+	function exportToRaw($isInBank = false) {
+
+		if($isInBank)
+		{
+			$tableNamePrefix = "_bank";
+		}
+		else
+		{
+			$tableNamePrefix = "_test";
+		}
 		//retriving question information
 		list($idCategory, $type_quest, $title_quest, $difficult, $time_assigned, ) = mysql_fetch_row(mysql_query("
 		SELECT idCategory, type_quest, title_quest, difficult, time_assigned 
-		FROM ".$GLOBALS['prefix_lms']."_testquest 
+		FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."quest 
 		WHERE idQuest = '".(int)$this->id."'")); 
 
 		//insert the question copy
@@ -1595,7 +1532,7 @@ class Associate_Question extends Question {
 		$corres = array();
 		$re_answer = mysql_query("
 		SELECT idAnswer, is_correct, answer, comment, score_correct, score_incorrect 
-		FROM ".$GLOBALS['prefix_lms']."_testquestanswer 
+		FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer 
 		WHERE idQuest = '".(int)$this->id."'
 		ORDER BY idAnswer");
 		while(list($idAnswer, $is_correct, $answer, $comment, $score_c, $score_inc) = mysql_fetch_row($re_answer)) {
@@ -1616,7 +1553,7 @@ class Associate_Question extends Question {
 		//retriving new answer
 		$re_answer = mysql_query("
 		SELECT idAnswer, answer  
-		FROM ".$GLOBALS['prefix_lms']."_testquestanswer_associate 
+		FROM ".$GLOBALS['prefix_lms'].$tableNamePrefix."questanswer_associate 
 		WHERE idQuest = '".(int)$this->id."'
 		ORDER BY idAnswer");
 
