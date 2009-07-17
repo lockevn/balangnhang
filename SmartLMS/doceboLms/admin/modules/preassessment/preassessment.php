@@ -610,7 +610,40 @@ function preAssessmentDispatch($op) {
 		case "delrule" : {
 			delrule($url);
 		};break;
+		
+		case "applyrule" : {
+			applyrule($url);
+		};break;
 	}
+}
+
+/**
+ * danhut test getCompleteEffectListForAssessmentWithUserResult method
+ *
+ * @param unknown_type $url
+ */
+function applyrule(&$url) {
+	//checkPerm('mod');
+	
+	$id_rule = importVar('id_rule', true, 0);
+	$id_assessment = importVar('id_assess', true, 0);
+	
+	require_once($GLOBALS['where_lms'].'/lib/lib.preassessment.php');
+//	$assess_man = new AssessmentList();
+//	$assess = $assess_man->getAssessment($id_assessment);
+//	
+	$rule_man = new AssessmentRule();
+//	
+//	$rule = $rule_man->getRule($id_rule);
+	
+	$assessArr = array();
+	$assessArr[] = $id_assessment;
+	
+	$resultArr = array();
+	$resultArr[$id_assessment] = 2;
+	$effectArr = $rule_man->getCompleteEffectListForAssessmentWithUserResult($assessArr, $resultArr);
+	
+	$str = $effectArr;
 }
 
 ?>
