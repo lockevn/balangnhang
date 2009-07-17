@@ -248,7 +248,7 @@ function exportquest(&$url) {
 			{
 				require_once($GLOBALS['where_lms'].'/modules/question/'.$type_file);
 				$quest_obj = new $type_class( $idQuest );
-				$new_id = $quest_obj->copy($id_test);
+				$new_id = $quest_obj->copy($id_test, NULL, true);
 			}
 			
 			//Adding the item to the tree
@@ -299,7 +299,7 @@ function exportquest(&$url) {
 	else
 	{
 		$quests = $qb_man->getQuestFromId($quest_selection);
-		$quest_export = $qb_man->export_quest($quests, $file_format);
+		$quest_export = $qb_man->export_quest($quests, $file_format, true);
 		
 		require_once($GLOBALS['where_framework'].'/lib/lib.download.php');
 		sendStrAsFile( $quest_export, 'export_'.date("Y-m-d").'.txt' );

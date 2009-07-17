@@ -70,6 +70,7 @@ switch($GLOBALS['op']) {
 		 */
 		$isInBank = importVar('isInBank', true, 1);
 		$back_test = urldecode(importVar('back_test'));
+		
 		if($isInBank == 0)
 		{
 			quest_edit($type_quest, $idQuest, $back_test, false);
