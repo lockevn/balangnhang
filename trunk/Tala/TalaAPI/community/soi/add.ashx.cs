@@ -13,20 +13,14 @@ namespace TalaAPI.community.soi
             TalaSecurity sec = new TalaSecurity(context);
             APICommandStatus cs;
 
-            string sName = context.Request["name"].ToStringSafetyNormalize();
-            if (string.IsNullOrEmpty(sName))
+            string sName = APIParamHelper.GetParam("name", context);
+            
+            lock (Song.Instance.DicSoi)
             {
-                cs = new APICommandStatus(APICommandStatusState.FAIL, "ADD_SOI", "Tên không được rỗng");
+                Soi soi = Song.Instance.CreatSoiMoi(sName, sec.CurrentAU.Username);
+                cs = new APICommandStatus(APICommandStatusState.OK, "ADD_SOI", string.Format("{0}#{1}", soi.ID, soi.Name));
             }
-            else
-            {
-                lock (Song.Instance.DicSoi)
-                {
-                    Soi soi = Song.Instance.CreatSoiMoi(sName, sec.CurrentAU.Username);
-                    cs = new APICommandStatus(APICommandStatusState.OK, "ADD_SOI", string.Format("{0}#{1}", soi.ID, soi.Name));
-                }                
-            }
-
+            
             Cmd.Add(cs);
             base.ProcessRequest(context);
         }

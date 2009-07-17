@@ -22,13 +22,39 @@ namespace TalaAPI.play.van
             /// nếu ok, cho xem (bài đã đánh, đã ăn, phỏm đã hạ của ván)
             /// nếu không ok, trả về stat=fail, not allow như cũ
 
+            // nếu đã login ok, có 2 trường hợp, 1 là player, 2 là muốn làm viewer
             TalaSecurity security = new TalaSecurity(context);
-            Soi soi = security.CheckUserJoinedSoi();
+            
+            Soi soi = security.CheckUserJoinedSoi(false);
+            if (null == soi)
+            {
+                // là viewer
+                /// cố lấy sới theo soiID truyền vào, mà nếu ko truyền thì cho lượn luôn
+                string sID = APIParamHelper.GetParam("soiid", context);
+                soi = Song.Instance.GetSoiByID(sID);
 
-            DTOVan dtoVan = new DTOVan();
+                if (soi.SoiOption.IsAllowToViewer)
+                {
+                }
+                else
+                {
+                    APICommandStatus cs = APICommandStatus.Get_NOT_VALID_CommandStatus();
+                    cs.Info += "Sới này không cho xem";
+                    Cmd.Add(cs);
+                    base.ProcessRequest(context);
+                    return;
+                }
+            }
+            else
+            {
+                // là player, cho chạy tiếp để view
+            }
 
+            
+            // đến đc đây, là sới != null (hoặc là sới của player, hoặc là sới đc xem, render thôi
             if(soi.IsPlaying)
             {
+                DTOVan dtoVan = new DTOVan();            
                 dtoVan.VanInfo = soi.CurrentVan;
                 foreach (Seat seat in soi.SeatList)
                 {
@@ -65,7 +91,7 @@ namespace TalaAPI.play.van
             else
             {
                 APICommandStatus cs = APICommandStatus.Get_NOT_VALID_CommandStatus();
-                cs.Info += " . Chưa có ván chơi";
+                cs.Info += "Không có ván nào đang chơi";
                 Cmd.Add(cs);
             }
 

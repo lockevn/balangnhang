@@ -209,10 +209,13 @@ namespace Quantum.Tala.Service.Business
             {
                 if (user.CurrentSoi == null)
                 {
+                    ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
+                    // TODO: toursvc.CreateSoi();
+
                     // create new
                     soiRet = new Soi(Song.Instance.DicSoi.Count + 1, sName, ownerUsername);
                     Song.Instance.DicSoi.Add(soiRet.ID.ToString(), soiRet);
-                    
+
                     // nhồi luôn người tạo vào sới
                     soiRet.AddPlayer(ownerUsername);
                 }
@@ -233,8 +236,24 @@ namespace Quantum.Tala.Service.Business
         /// <param name="sSoiID"></param>
         /// <returns></returns>
         public bool DeleteSoi(string sSoiID)
-        {   
-            return Song.Instance.DicSoi.Remove(sSoiID);            
+        {
+            Soi soiToDelete = GetSoiByID(sSoiID);
+            if (soiToDelete == null)
+            {
+                return false;
+            }
+            else
+            {
+                // đuổi hết khách chơi
+                foreach (Seat seat in soiToDelete.SeatList)
+                {
+                    seat.Player.CurrentSoi = null;
+                }
+
+                // huỷ ván
+                soiToDelete.CurrentVan = null;
+                return Song.Instance.DicSoi.Remove(sSoiID);
+            }                        
         }
 
 

@@ -30,7 +30,7 @@ namespace TalaAPI.Lib
             {
                 if (NeedToEndRequest)
                 {
-                    APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "EMPTY_PARAM", "empty parameter: " + paramName);
+                    APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "EMPTY_PARAM", "missing parameter: " + paramName);
                     XMLHttpHandler httphandler = new XMLHttpHandler();
                     httphandler.Cmd.Add(cs);
                     httphandler.ProcessRequest(context);
