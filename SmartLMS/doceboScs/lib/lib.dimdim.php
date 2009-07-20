@@ -148,7 +148,7 @@ class DimDim_Manager {
 		} else {
 			$av="av";
 		}
-		$returnurl="http://".$_SERVER["SERVER_NAME"].$_SERVER["PHP_SELF"]."?modname=conference&op=list";
+		$returnurl="http://".$_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["PHP_SELF"]."?modname=conference&op=list";
 		
 		$error = false;
 		if (getLogUserId()==$conference["idSt"]) {
