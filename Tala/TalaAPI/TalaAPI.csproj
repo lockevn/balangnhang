@@ -82,6 +82,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="admin\game\tournament_reload.ashx.cs">
+      <DependentUpon>tournament_reload.ashx</DependentUpon>
+    </Compile>
     <Compile Include="admin\game\soi_delete.ashx.cs">
       <DependentUpon>soi_delete.ashx</DependentUpon>
     </Compile>
@@ -136,6 +139,9 @@
     </Compile>
     <Compile Include="community\tournament\add.ashx.cs">
       <DependentUpon>add.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="community\tournament\joint_list.ashx.cs">
+      <DependentUpon>joint_list.ashx</DependentUpon>
     </Compile>
     <Compile Include="community\tournament\list.ashx.cs">
       <DependentUpon>list.ashx</DependentUpon>
@@ -319,6 +325,8 @@
     <Content Include="admin\game\soi_delete.ashx" />
     <Content Include="community\tournament\user_add.ashx" />
     <Content Include="community\tournament\add.ashx" />
+    <Content Include="admin\game\tournament_reload.ashx" />
+    <Content Include="community\tournament\joint_list.ashx" />
     <None Include="Config\db.config">
     </None>
     <None Include="Config\serverlist.config" />
