@@ -82,6 +82,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="admin\game\song_reset.ashx.cs">
+      <DependentUpon>song_reset.ashx</DependentUpon>
+    </Compile>
     <Compile Include="admin\game\tournament_reload.ashx.cs">
       <DependentUpon>tournament_reload.ashx</DependentUpon>
     </Compile>
@@ -331,6 +334,7 @@
     <Content Include="admin\game\tournament_reload.ashx" />
     <Content Include="community\tournament\joint_list.ashx" />
     <Content Include="community\soi\auto_user_add.ashx" />
+    <Content Include="admin\game\song_reset.ashx" />
     <None Include="Config\db.config">
     </None>
     <None Include="Config\serverlist.config" />

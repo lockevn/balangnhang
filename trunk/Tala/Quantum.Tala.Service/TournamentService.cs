@@ -41,8 +41,16 @@ namespace Quantum.Tala.Service
         {
             return DAU.AddObject<soiDTO>(p_dto).id;
         }
-         
+
+        public virtual tournamentDTO[] GetTournamentOfUser(string username)
+        {            
+            DTOCollection<tournamentDTO> arr = DAU.GetObjects<tournamentDTO>(
+                new ExpressionSQL("game_tournament.id in (select tournamentid from game_user_tournament where u = '" + username + "')")
+                );
+            return arr.ToArray();
+        }
 	
+
         //[TransactionBound]
         //public virtual VwBannerLocalizedWithBlockDTO[] GetBannerListForView(int p_nBlockID, int p_nPage, int p_nPageCount)
         //{
