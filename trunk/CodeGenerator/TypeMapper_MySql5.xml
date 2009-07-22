@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
+<?xml version="1.0" encoding="utf-8" ?> 
 <TypeMapping>
 	<Type name = "bigint" prefix = "n">Int64</Type>
 	<Type name = "binary" prefix = "o">object</Type>
-	<Type name = "bit" prefix = "b">bool</Type>
+	<Type name = "bit" prefix = "n">int</Type>
 	<Type name = "char" prefix = "c">char</Type>
 	<Type name = "datetime" prefix = "dt">DateTime</Type>
 	<Type name = "decimal" prefix = "dc">decimal</Type>
@@ -19,7 +19,7 @@
 	<Type name = "smallmoney" prefix = "db">double</Type>
 	<Type name = "sql_variant" prefix = "o">object</Type>
 	<Type name = "timestamp" prefix = "o">object</Type>
-	<Type name = "tinyint" prefix = "by">byte</Type>
+	<Type name = "tinyint" prefix = "b">bool</Type>
 	<Type name = "uniqueidentifier" prefix = "o">object</Type>
 	<Type name = "varbinary" prefix = "o">object</Type>
 	<Type name = "varchar" prefix = "s">string</Type>
