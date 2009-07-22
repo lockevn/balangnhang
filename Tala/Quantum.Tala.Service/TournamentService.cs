@@ -28,7 +28,10 @@ namespace Quantum.Tala.Service
         [TransactionBound]
         public virtual tournamentDTO[] GetTournamentList()
         {
-            DTOCollection<tournamentDTO> arr = DAU.GetObjects<tournamentDTO>();
+            DTOCollection<tournamentDTO> arr = DAU.GetObjects<tournamentDTO>(
+                new Expression(tournamentDTO.ISENABLED_FLD, Operator.Eq, 1) *
+                new Expression(tournamentDTO.ENDTIME_FLD, Operator.Gte, DateTime.Now)
+                );
             return arr.ToArray();
         }
 

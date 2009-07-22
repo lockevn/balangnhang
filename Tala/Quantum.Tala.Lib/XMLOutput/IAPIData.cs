@@ -8,7 +8,7 @@ namespace Quantum.Tala.Lib.XMLOutput
     /// <summary>
     /// Lớp nào cài đặt Interface này sẽ có khả năng render ra XML bằng hàm ToXMLString()
     /// </summary>
-    interface IAPIData
+    public interface IAPIData
     {
         string ToXMLString();
     }

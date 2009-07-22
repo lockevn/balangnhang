@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AABD5431-60C9-451D-AF35-BC42C82BF63D}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -105,6 +105,7 @@
     <Compile Include="CONST.cs" />
     <Compile Include="DeathmatchService.cs" />
     <Compile Include="DTO\SoiViewer.cs" />
+    <Compile Include="DTO\tournamentDTO.cs" />
     <Compile Include="DTO\_login_logDTO.gen.cs" />
     <Compile Include="DTO\_soiDTO.gen.cs" />
     <Compile Include="DTO\_tournamentDTO.gen.cs" />
