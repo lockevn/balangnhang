@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Quantum.Tala.Lib.XMLOutput;
+using Quantum.Tala.Lib;
 using System.Xml.Linq;
 
 namespace Quantum.Tala.Service.DTO
@@ -37,20 +38,20 @@ namespace Quantum.Tala.Service.DTO
         }
 
         [ElementXMLExport("", DataOutputXMLType.Attribute)]
-        public DateTime StartTime
+        public string StartTime
         {
             get
             {
-                return m_dtstarttime;
+                return m_dtstarttime.ToUTCString();
             }            
         }
 
         [ElementXMLExport("", DataOutputXMLType.Attribute)]
-        public DateTime EndTime
+        public string EndTime
         {
             get
             {
-                return m_dtendtime;
+                return m_dtendtime.ToUTCString();
             }            
         }
 
