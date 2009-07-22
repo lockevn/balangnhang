@@ -107,11 +107,11 @@
       <DependentUpon>list.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="community\server\list.aspx.designer.cs">
-      <DependentUpon>list.aspx</DependentUpon>
-    </Compile>
     <Compile Include="community\soi\add.ashx.cs">
       <DependentUpon>add.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="community\soi\auto_user_add.ashx.cs">
+      <DependentUpon>auto_user_add.ashx</DependentUpon>
     </Compile>
     <Compile Include="community\soi\info_read.ashx.cs">
       <DependentUpon>info_read.ashx</DependentUpon>
@@ -159,6 +159,9 @@
     </None>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Lib\APIPageASPX.cs">
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Lib\APIParamHelper.cs" />
     <Compile Include="Lib\TalaSecurity.cs" />
@@ -327,6 +330,7 @@
     <Content Include="community\tournament\add.ashx" />
     <Content Include="admin\game\tournament_reload.ashx" />
     <Content Include="community\tournament\joint_list.ashx" />
+    <Content Include="community\soi\auto_user_add.ashx" />
     <None Include="Config\db.config">
     </None>
     <None Include="Config\serverlist.config" />
