@@ -13,11 +13,14 @@ using Quantum.Tala.Service.Authentication;
 
 namespace TalaAPI.community.soi
 {
-    public class auto_user_add : XMLHttpHandler
+    public class user_add_auto : XMLHttpHandler
     {
 
         public override void ProcessRequest(HttpContext context)
         {
+            // TODO:
+
+
             TalaSecurity security = new TalaSecurity(context);
             
             string pu = context.Request["pu"].ToStringSafetyNormalize();

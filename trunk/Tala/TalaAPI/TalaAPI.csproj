@@ -113,8 +113,8 @@
     <Compile Include="community\soi\add.ashx.cs">
       <DependentUpon>add.ashx</DependentUpon>
     </Compile>
-    <Compile Include="community\soi\auto_user_add.ashx.cs">
-      <DependentUpon>auto_user_add.ashx</DependentUpon>
+    <Compile Include="community\soi\user_add_auto.ashx.cs">
+      <DependentUpon>user_add_auto.ashx</DependentUpon>
     </Compile>
     <Compile Include="community\soi\info_read.ashx.cs">
       <DependentUpon>info_read.ashx</DependentUpon>
@@ -333,7 +333,7 @@
     <Content Include="community\tournament\add.ashx" />
     <Content Include="admin\game\tournament_reload.ashx" />
     <Content Include="community\tournament\joint_list.ashx" />
-    <Content Include="community\soi\auto_user_add.ashx" />
+    <Content Include="community\soi\user_add_auto.ashx" />
     <Content Include="admin\game\song_reset.ashx" />
     <None Include="Config\db.config">
     </None>
