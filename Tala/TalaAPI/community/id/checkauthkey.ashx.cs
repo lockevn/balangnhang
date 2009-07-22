@@ -10,7 +10,7 @@ namespace TalaAPI.community.id
     {
         public override void ProcessRequest(HttpContext context)
         {
-            string sAuthkey = context.Request["authkey"].ToStringSafetyNormalize();
+            string sAuthkey = APIParamHelper.GetParam("authkey", context);
 
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "CHECKAUTHKEY", "0");
             if (Song.Instance.DicValidAuthkey.ContainsKey(sAuthkey))

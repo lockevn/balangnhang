@@ -17,9 +17,7 @@ namespace TalaAPI.play.van
     public class u : XMLHttpHandler
     {
         public override void ProcessRequest(HttpContext context)
-        {
-            
-            //string bai = APIParamHelper.CheckEmptyParam("bai", context);                               
+        {   
             TalaSecurity security = new TalaSecurity(context);
             
             /*check if user has joined soi, seat*/
@@ -27,16 +25,7 @@ namespace TalaAPI.play.van
             Seat seat = security.CheckUserJoinedSeat();
             Van van = soi.CurrentVan;
             
-            /*tạo List<Card[]> tu stringArr*/
-            //List<Card[]> cardArrList = null;
-            //try
-            //{
-            //    cardArrList = TalaBusinessUtil.StringToCardList(bai);
-            //}
-            //catch (CardException ce)
-            //{
-            //    this.SendErrorAPICommand(ce, context);                    
-            //}                
+            
             
             bool result = false;
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "U", "action failed");
