@@ -83,6 +83,10 @@ namespace Quantum.Tala.Lib
             return (s ?? "0") == "1" ? true : false;
         }
 
+        public static string ToUTCString(this DateTime dtm)
+        {
+            return GURUCORE.Lib.Core.Text.TextHelper.DateTimeToUTCString(dtm);
+        }
     }
 }
 
