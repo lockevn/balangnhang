@@ -41,7 +41,7 @@ namespace TalaAPI.Lib
             StringBuilder sRenderedData = new StringBuilder();
             if(Data.Count > 0)
             {
-                foreach (APIDataEntry data in Data)
+                foreach (IAPIData data in Data)
                 {
                     if (data != null)
                     {
