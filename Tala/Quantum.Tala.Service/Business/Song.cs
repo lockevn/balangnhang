@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -13,6 +14,7 @@ using Quantum.Tala.Service.Business;
 using Quantum.Tala.Service.Authentication;
 using GURUCORE.Framework.Business;
 using Quantum.Tala.Service.DTO;
+
 
 
 namespace Quantum.Tala.Service.Business
@@ -122,6 +124,16 @@ namespace Quantum.Tala.Service.Business
             return soiRet;
         }
 
+        /// <summary>
+        /// lục tìm trong Dic Soi, chỉ lấy những sới có tourid = tourid đã truyền vào
+        /// </summary>
+        /// <param name="tournamentid"></param>
+        /// <returns></returns>
+        public List<Soi> GetSoiByTournamentID(string tournamentid)
+        {
+            return _DicSoi.Values.Where(soi => soi.DBEntry.tournamentid.ToString() == tournamentid).ToList();
+        }
+
 
         /// <summary>
         /// Lục tìm trong Dictionary ValidAuthkey
@@ -217,12 +229,12 @@ namespace Quantum.Tala.Service.Business
                 
 
         /// <summary>
-        /// Tạo sới mới, ấn creator vào sới nếu ok. Nếu creator đã có sới rồi, trả lại sới cũ
+        /// Tạo sới FREE mới, ấn creator vào sới nếu ok. Nếu creator đã có sới rồi, trả lại sới cũ
         /// </summary>
-        /// <param name="sName"></param>
-        /// <param name="ownerUsername"></param>
+        /// <param name="sName">tên sới, để gợi nhớ</param>
+        /// <param name="ownerUsername">ai tạo sới này</param>
         /// <returns></returns>
-        public Soi CreatSoiMoi(string sName, string ownerUsername)
+        public Soi CreatNewFreeSoi(string sName, string ownerUsername)
         {
             Soi soiRet = null;
 
@@ -232,10 +244,19 @@ namespace Quantum.Tala.Service.Business
                 if (user.CurrentSoi == null)
                 {
                     ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
-                    // TODO: toursvc.CreateSoi();
-
+                    soiDTO soiDBEntry = new soiDTO { 
+                        desc = "",
+                        dt = DateTime.Now,
+                        name = sName,
+                        owner = ownerUsername,
+                        tournamentid = 1 // NOTE: cố định tour free = 1
+                    };
+                    
+                    soiDBEntry.id = toursvc.CreateSoi(soiDBEntry);
                     // create new
-                    soiRet = new Soi(Song.Instance.DicSoi.Count + 1, sName, ownerUsername);
+                    soiRet = new Soi(soiDBEntry.id, sName, ownerUsername);
+                    soiRet.DBEntry = soiDBEntry;
+
                     Song.Instance.DicSoi.Add(soiRet.ID.ToString(), soiRet);
 
                     // nhồi luôn người tạo vào sới

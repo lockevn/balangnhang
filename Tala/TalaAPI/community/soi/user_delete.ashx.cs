@@ -15,15 +15,19 @@ namespace TalaAPI.community.soi
 {
     public class user_delete : XMLHttpHandler
     {
-
         public override void ProcessRequest(HttpContext context)
         {
             TalaSecurity security = new TalaSecurity(context);
 
             string pu = context.Request["pu"].ToStringSafetyNormalize();
-            string soiid = context.Request["soiid"].ToStringSafetyNormalize();
+            string soiid = APIParamHelper.GetParam("soiid", context);
 
-            Soi soi = Song.Instance.GetSoiByID(soiid);
+            Soi soi = security.CheckUserJoinedSoi();
+            if (null == soi)
+            {
+                soi = Song.Instance.GetSoiByID(soiid);
+            }
+                
             if (soi == null)
             {
                 APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "SOI_NOT_FOUND", "không tìm thấy sới");

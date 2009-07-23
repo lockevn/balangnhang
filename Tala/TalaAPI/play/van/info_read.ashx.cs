@@ -16,6 +16,8 @@ namespace TalaAPI.play.van
     {
         public override void ProcessRequest(HttpContext context)
         {
+            VanVO dtoVan = new VanVO();
+
             // TODO: Thêm business mới
             /// Nếu authkey không phải là thành viên của sới player
             /// kiểm tra xem có nằm trong danh sách cho xem không?
@@ -48,13 +50,19 @@ namespace TalaAPI.play.van
             else
             {
                 // là player, cho chạy tiếp để view
+                // ấn luôn bài trên tay vào
+                Seat currentAUSeat = security.CheckUserJoinedSeat();
+                foreach (Card card in currentAUSeat.BaiTrenTay)
+                {
+                    dtoVan.BaiTrenTay.Add(card);
+                }                
             }
 
             
             // đến đc đây, là sới != null (hoặc là sới của player, hoặc là sới đc xem, render thôi
             if(soi.IsPlaying)
             {
-                VanVO dtoVan = new VanVO();            
+                
                 dtoVan.VanInfo = soi.CurrentVan;
                 foreach (Seat seat in soi.SeatList)
                 {
@@ -68,6 +76,7 @@ namespace TalaAPI.play.van
                         card.Pos = seat.Pos;
                         dtoVan.BaiDaDanh.Add(card);
                     }
+
 
                     #region Phỏm đã hạ
 

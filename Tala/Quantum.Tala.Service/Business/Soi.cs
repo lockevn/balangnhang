@@ -18,7 +18,7 @@ namespace Quantum.Tala.Service.Business
 {
     public class Soi : APIDataEntry
     {
-        soiDTO DBEntry { get; set; }
+        public soiDTO DBEntry { get; set; }
 
         int _ID;
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
@@ -469,6 +469,9 @@ namespace Quantum.Tala.Service.Business
 
             // bật cờ đang chơi
             _IsPlaying = true;
+            this.DBEntry.isend = false;
+            this.DBEntry.starttime = DateTime.Now;
+            this.DBEntry.option = this.SoiOption.ToXMLString();
 
             return 0;
         }

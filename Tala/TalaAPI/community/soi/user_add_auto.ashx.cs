@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using System.Linq;
 using System.Collections.Generic;
 using Quantum.Tala.Lib.XMLOutput;
 using Quantum.Tala.Service.Business;
@@ -24,12 +25,13 @@ namespace TalaAPI.community.soi
                 return;
             }
             
-            /// tìm danh sách các sới của tour hiện tại, còn chỗ
-            /// bố trí thu xếp cho user này vào một sới random nào đấy            
-            List<Soi> arrSoiOfTournament = new List<Soi>(); // TODO: 
+            /// tìm danh sách các sới của tour hiện tại, còn chỗ            
+            var arrSoiOfTour = Song.Instance.GetSoiByTournamentID(tournamentid).Where(soi => soi.SeatList.Count < 4).ToList();
+
+            /// bố trí thu xếp cho user này vào một sới random nào đấy
             Random random = new Random(DateTime.Now.Millisecond);
-            int nRandomIndex = random.Next(0, arrSoiOfTournament.Count - 1);                        
-            Soi soiAvailableRandom = arrSoiOfTournament[nRandomIndex];
+            int nRandomIndex = random.Next(0, arrSoiOfTour.Count - 1);
+            Soi soiAvailableRandom = arrSoiOfTour[nRandomIndex];
 
             // AU tự add mình vào, tự join Sới
             int sResult = soiAvailableRandom.AddPlayer(security.CurrentAU.Username);

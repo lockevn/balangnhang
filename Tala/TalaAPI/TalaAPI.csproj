@@ -235,6 +235,9 @@
     <Compile Include="Lib\TalaPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="test\start.ashx.cs">
+      <DependentUpon>start.ashx</DependentUpon>
+    </Compile>
     <Compile Include="test\user_ready.ashx.cs">
       <DependentUpon>user_ready.ashx</DependentUpon>
     </Compile>
@@ -311,7 +314,6 @@
   <ItemGroup>
     <Content Include="community\id\getauthkeyinfo.ashx" />
     <Content Include="Global.asax" />
-    <Content Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="crossdomain.xml" />
@@ -353,6 +355,8 @@
     <Content Include="Config\System\Service.config">
     </Content>
     <None Include="TalaAPI.dll.log4net" />
+    <Content Include="favicon.ico" />
+    <Content Include="test\start.ashx" />
     <Content Include="test\user_ready.ashx" />
   </ItemGroup>
   <ItemGroup>
