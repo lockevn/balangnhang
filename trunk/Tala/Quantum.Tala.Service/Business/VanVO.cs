@@ -14,6 +14,7 @@ namespace Quantum.Tala.Service.Business
     /// <summary>
     /// DTO dành cho hiển thị thông tin về ván. ViewObject
     /// </summary>
+    [ElementXMLExportAttribute("van", DataOutputXMLType.NestedTag)]
     public class VanVO : APIDataEntry
     {
         Van _VanInfo;
@@ -38,6 +39,14 @@ namespace Quantum.Tala.Service.Business
         {
             get { return _BaiDaDanh; }
             set { _BaiDaDanh = value; }
+        }
+
+        List<Card> _BaiTrenTay = new List<Card>();
+        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false, false)]
+        public List<Card> BaiTrenTay
+        {
+            get { return _BaiTrenTay; }
+            set { _BaiTrenTay = value; }
         }
 
 

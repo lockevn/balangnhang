@@ -9,6 +9,7 @@ using Quantum.Tala.Lib;
 using Quantum.Tala.Lib.XMLOutput;
 using Quantum.Tala.Service.Business;
 using Quantum.Tala.Service.Authentication;
+using Quantum.Tala.Service.DTO;
 
 
 namespace Quantum.Tala.Service.Business
@@ -105,6 +106,10 @@ namespace Quantum.Tala.Service.Business
         /// Code thể hiện trạng thái của User hiện tại ngay sau khi họ login. VD: trạng thái: chưa đăng ký, chưa trả tiền, chưa được chơi...
         /// </summary>
         public string StatusCode { get; set; }
+
+
+        
+        public user_statDTO UserStatDBEntry { get; set; }
 
 
 

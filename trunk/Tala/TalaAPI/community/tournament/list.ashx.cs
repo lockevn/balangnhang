@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using System.Linq;
 using TalaAPI.Lib;
 using Quantum.Tala.Service.Business;
 using Quantum.Tala.Lib.XMLOutput;
@@ -10,10 +11,12 @@ namespace TalaAPI.community.tournament
 {
     public class list : XMLHttpHandler
     {
-
         public override void ProcessRequest(HttpContext context)
         {
-            Data.AddRange(Song.Instance.DicTournament.Values);
+            string type = APIParamHelper.GetParam("type", context);
+
+            var listTourOfType = Song.Instance.DicTournament.Values.Where(tour => tour.type.ToString() == type);
+            Data.AddRange(listTourOfType.ToArray());
             base.Stat = APICommandStatusState.OK;
 
             base.ProcessRequest(context);

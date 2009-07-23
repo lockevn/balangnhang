@@ -10,6 +10,7 @@ using TalaAPI.Lib;using Quantum.Tala.Lib;
 using Quantum.Tala.Service.Business;
 using Quantum.Tala.Lib.XMLOutput;
 using Quantum.Tala.Service.Authentication;
+using Quantum.Tala.Service.DTO;
 
 namespace TalaAPI.community.soi
 {
@@ -31,9 +32,21 @@ namespace TalaAPI.community.soi
             }
             else
             {
+                tournamentDTO tour = Song.Instance.GetTournamentByID(soi.DBEntry.tournamentid.ToString());
+                if(tour.type != 1)
+                {
+                    // không phải free tour, không cho vào tự do
+                    APICommandStatus cs = APICommandStatus.Get_NOT_ALLOW_CommandStatus();
+                    cs.Info += string.Format("Tournament {0}:{1} không cho phép vào sới tự do", tour.id, tour.name);
+                    Cmd.Add(cs);
+                    base.ProcessRequest(context);
+                    return;
+                }
+
                 if (pu.IsNullOrEmpty())
                 {
-                    // AU tự add mình vào, tự join Sới
+                    #region // AU tự add mình vào, tự join Sới
+                    
                     int sResult = soi.AddPlayer(security.CurrentAU.Username);
                     if (sResult >= 0)
                     {
@@ -60,10 +73,13 @@ namespace TalaAPI.community.soi
                         }
                         Cmd.Add(cs);
                     }
+
+                    #endregion
                 }
                 else
                 {
-                    // player mời người khác vào chơi
+                    #region // player mời người khác vào chơi                    
+                    
                     TalaUser usertoadd = Song.Instance.GetUserByUsername(pu);
                     if (usertoadd == null)
                     {
@@ -97,6 +113,8 @@ namespace TalaAPI.community.soi
                             Cmd.Add(cs);
                         }
                     }
+
+                    #endregion
                 }
             }
 
