@@ -39,6 +39,12 @@ namespace Quantum.Tala.Lib.XMLOutput
             _sStat = p_bStat ? APICommandStatusState.OK : APICommandStatusState.FAIL;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p_sStat">Stat is OK?</param>
+        /// <param name="p_sID"></param>
+        /// <param name="p_sInfo"></param>
         public APICommandStatus(bool p_sStat, string p_sID, string p_sInfo) : this(p_sStat)
         {            
             _sID = p_sID;

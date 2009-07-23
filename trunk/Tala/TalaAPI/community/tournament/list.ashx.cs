@@ -13,10 +13,7 @@ namespace TalaAPI.community.tournament
 
         public override void ProcessRequest(HttpContext context)
         {
-            // đọc các tournament trong DB, render
-            ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
-            tournamentDTO[] arrRet = toursvc.GetTournamentList();  
-            Data.AddRange(arrRet);
+            Data.AddRange(Song.Instance.DicTournament.Values);
             base.Stat = APICommandStatusState.OK;
 
             base.ProcessRequest(context);
