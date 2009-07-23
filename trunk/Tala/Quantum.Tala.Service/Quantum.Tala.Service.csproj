@@ -92,7 +92,7 @@
     <Compile Include="Business\Card.cs" />
     <Compile Include="Business\CardMatrix.cs" />
     <Compile Include="Business\Cashier.cs" />
-    <Compile Include="Business\DTOVan.cs" />
+    <Compile Include="Business\VanVO.cs" />
     <Compile Include="Business\Message.cs" />
     <Compile Include="Business\Option.cs" />
     <Compile Include="Business\Phom.cs" />

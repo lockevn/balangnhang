@@ -12,6 +12,7 @@ using Quantum.Tala.Service.Business;
 
 using Quantum.Tala.Service.Authentication;
 using GURUCORE.Framework.Business;
+using Quantum.Tala.Service.DTO;
 
 
 namespace Quantum.Tala.Service.Business
@@ -25,16 +26,18 @@ namespace Quantum.Tala.Service.Business
 
         private static readonly Song instance = new Song();
 
+        Song()
+        {
+            /// THIS FUNCTION RUN BEFORE STATIC CONSTRUCTOR
+            // Console.WriteLine("In the internal constructor");            
+        }
+
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
         static Song()
         {
+            // Console.WriteLine("In the static constructor");
         }
-
-        Song()
-        {
-        }
-
 
 
         /// <summary>
@@ -55,8 +58,7 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         public Dictionary<string, string> DicValidAuthkey
         {
-            get { return _DicValidAuthkey; }
-            //set { _DicValidAuthkey = value; }
+            get { return _DicValidAuthkey; }            
         }
 
         private Dictionary<string, TalaUser> _DicOnlineUser = new Dictionary<string, TalaUser>();
@@ -65,15 +67,8 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         public Dictionary<string, TalaUser> DicOnlineUser
         {
-            get { return _DicOnlineUser; }
-            //set { _DicOnlineUser = value; }
-        }
-
-
-
-
-
-        public string Text { get; set; }
+            get { return _DicOnlineUser; }            
+        }    
 
         private Dictionary<string, Soi> _DicSoi = new Dictionary<string, Soi>();
         /// <summary>
@@ -81,12 +76,33 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         public Dictionary<string, Soi> DicSoi
         {
-            get { return _DicSoi; }
-            //set { _DicSoi = value; }
+            get { return _DicSoi; }            
+        }
+
+        private Dictionary<string, tournamentDTO> _DicTournament = new Dictionary<string, tournamentDTO>();
+        /// <summary>
+        /// map (tournamentid - tournamentDTO object)
+        /// </summary>
+        public Dictionary<string, tournamentDTO> DicTournament
+        {
+            get { return _DicTournament; }            
         }
 
 
 
+
+
+        /// <summary>
+        /// Lục tìm trong Dictionary Tournament để tìm với ID đã cho
+        /// </summary>
+        /// <param name="tournamentid"></param>
+        /// <returns>null nếu không tìm thấy</returns>
+        public tournamentDTO GetTournamentByID(string tournamentid)
+        {
+            tournamentDTO tournamentRet;
+            DicTournament.TryGetValue(tournamentid, out tournamentRet);
+            return tournamentRet;
+        }
 
 
         /// <summary>
@@ -100,6 +116,7 @@ namespace Quantum.Tala.Service.Business
             DicSoi.TryGetValue(soiid, out soiRet);
             return soiRet;
         }
+
 
         /// <summary>
         /// Lục tìm trong Dictionary ValidAuthkey
@@ -258,6 +275,12 @@ namespace Quantum.Tala.Service.Business
 
         }
 
+
+
+        public int LoadTournamentFromDB()
+        {
+            return 0;
+        }
 
         public bool ProcessSoiValidity()
         {
