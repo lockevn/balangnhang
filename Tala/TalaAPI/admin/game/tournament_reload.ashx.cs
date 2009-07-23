@@ -14,16 +14,14 @@ namespace TalaAPI.admin.game
         public override void ProcessRequest(HttpContext context)
         {            
             TalaSecurity sec = new TalaSecurity(context);
-            APICommandStatus cs;
-
-            string sSoiID = APIParamHelper.GetParam("soiid", context);
-
-            lock (Song.Instance.DicSoi)            
+            
+            APICommandStatus cs = new APICommandStatus(true, "LOAD_TOURNAMENT", "");
+            lock (Song.Instance)            
             {
-                // TODO: lấy lại các bản ghi Tour trong DB, ghi lại vào bộ nhớ của Engine                
+                Song.Instance.LoadTournamentFromDB();
             }            
+            Cmd.Add(cs);
 
-            // Cmd.Add(cs);
             base.ProcessRequest(context);
         }
     }

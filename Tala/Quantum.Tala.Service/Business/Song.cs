@@ -28,6 +28,11 @@ namespace Quantum.Tala.Service.Business
 
         Song()
         {
+            _DicValidAuthkey = new Dictionary<string, string>();
+            _DicOnlineUser = new Dictionary<string, TalaUser>();
+            _DicSoi = new Dictionary<string, Soi>();
+            _DicTournament = new Dictionary<string, tournamentDTO>();
+            LoadTournamentFromDB();
             /// THIS FUNCTION RUN BEFORE STATIC CONSTRUCTOR
             // Console.WriteLine("In the internal constructor");            
         }
@@ -52,7 +57,7 @@ namespace Quantum.Tala.Service.Business
 
 
 
-        private Dictionary<string, string> _DicValidAuthkey = new Dictionary<string, string>();
+        private Dictionary<string, string> _DicValidAuthkey;
         /// <summary>
         /// map (validauthkey - username)
         /// </summary>
@@ -61,7 +66,7 @@ namespace Quantum.Tala.Service.Business
             get { return _DicValidAuthkey; }            
         }
 
-        private Dictionary<string, TalaUser> _DicOnlineUser = new Dictionary<string, TalaUser>();
+        private Dictionary<string, TalaUser> _DicOnlineUser;
         /// <summary>
         /// map (username - User object)
         /// </summary>
@@ -70,7 +75,7 @@ namespace Quantum.Tala.Service.Business
             get { return _DicOnlineUser; }            
         }    
 
-        private Dictionary<string, Soi> _DicSoi = new Dictionary<string, Soi>();
+        private Dictionary<string, Soi> _DicSoi;
         /// <summary>
         /// map (soiID - Soi object)
         /// </summary>
@@ -79,7 +84,7 @@ namespace Quantum.Tala.Service.Business
             get { return _DicSoi; }            
         }
 
-        private Dictionary<string, tournamentDTO> _DicTournament = new Dictionary<string, tournamentDTO>();
+        private Dictionary<string, tournamentDTO> _DicTournament;
         /// <summary>
         /// map (tournamentid - tournamentDTO object)
         /// </summary>
@@ -276,10 +281,21 @@ namespace Quantum.Tala.Service.Business
         }
 
 
-
-        public int LoadTournamentFromDB()
+        /// <summary>
+        /// lấy các bản ghi trong DB về Tournament, ghi vào bộ nhớ
+        /// </summary>
+        /// <returns></returns>
+        public bool LoadTournamentFromDB()
         {
-            return 0;
+            ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
+            tournamentDTO[] arr = toursvc.GetTournamentList();
+
+            _DicTournament.Clear();
+            foreach (tournamentDTO tour in arr)
+            {
+                _DicTournament.Add(tour.id.ToString(), tour);
+            }
+            return true;
         }
 
         public bool ProcessSoiValidity()

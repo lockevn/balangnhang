@@ -10,6 +10,7 @@ using Quantum.Tala.Lib.XMLOutput;
 using System.Text;
 using Quantum.Tala.Service.Business;
 using TalaAPI.Lib;
+using GURUCORE.Lib.Net.Http;
 
 namespace TalaAPI.community.server
 {
@@ -25,12 +26,22 @@ namespace TalaAPI.community.server
             string sWebRootPhysicalPath = Server.MapPath("/");
             XElement x = XElement.Load(sWebRootPhysicalPath + "Config/serverlist.config");
             foreach (XElement xServer in x.Elements("server"))
-            {
-                XElement xCapacity = xServer.Element("capacity");
+            {   
+                // lấy user count của từng server
+                string sCountUserOfServer = string.Empty;
+                XElement xAddress = xServer.Element("address");
+                string sURL = xAddress.Value + "/community/user/online_count.ashx";                
+                try
+                {
+                    sCountUserOfServer = XHR.HTTPGetRequest(sURL);
+                }
+                catch (Exception ex)
+                {
+                    sCountUserOfServer = ex.Message;
+                }
 
-                // TODO: sửa chỗ này thành lấy thông số thực tế dựa trên các server API thực
-                int nCountUser = Song.Instance.DicOnlineUser.Count;
-                xCapacity.SetValue(string.Format(xCapacity.Value, nCountUser));                
+                XElement xCapacity = xServer.Element("capacity");
+                xCapacity.SetValue(string.Format(xCapacity.Value, sCountUserOfServer));                
                 this.StringDirectUnderRoot += xServer.ToString(SaveOptions.DisableFormatting);
             }
                         

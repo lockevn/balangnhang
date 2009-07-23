@@ -12,7 +12,7 @@ using Quantum.Tala.Lib.XMLOutput;
 namespace Quantum.Tala.Service.Business
 {
     /// <summary>
-    /// DTO dành cho hiển thị thông tin về ván
+    /// DTO dành cho hiển thị thông tin về ván. ViewObject
     /// </summary>
     public class VanVO : APIDataEntry
     {

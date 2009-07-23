@@ -50,7 +50,7 @@ namespace TalaAPI
 
         protected void Application_Error(object sender, EventArgs e)
         {
-
+            // Nếu bung lên exception không catch, tới mức này là sẽ phun ra Response
         }
 
         protected void Session_End(object sender, EventArgs e)
