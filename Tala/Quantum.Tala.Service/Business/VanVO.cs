@@ -14,7 +14,7 @@ namespace Quantum.Tala.Service.Business
     /// <summary>
     /// DTO dành cho hiển thị thông tin về ván
     /// </summary>
-    public class DTOVan : APIDataEntry
+    public class VanVO : APIDataEntry
     {
         Van _VanInfo;
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]

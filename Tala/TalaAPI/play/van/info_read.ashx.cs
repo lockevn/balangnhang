@@ -54,7 +54,7 @@ namespace TalaAPI.play.van
             // đến đc đây, là sới != null (hoặc là sới của player, hoặc là sới đc xem, render thôi
             if(soi.IsPlaying)
             {
-                DTOVan dtoVan = new DTOVan();            
+                VanVO dtoVan = new VanVO();            
                 dtoVan.VanInfo = soi.CurrentVan;
                 foreach (Seat seat in soi.SeatList)
                 {

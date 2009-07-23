@@ -1,107 +1,63 @@
-﻿using System;
-using System.Collections;
-using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.Services;
-using System.Web.Services.Protocols;
-using System.Xml.Linq;
-using TalaAPI.Lib;using Quantum.Tala.Lib;
-using Quantum.Tala.Service.Business;
+﻿using System.Web;
+using System.Collections.Generic;
 using Quantum.Tala.Lib.XMLOutput;
-using Quantum.Tala.Service.Authentication;
+using Quantum.Tala.Service.Business;
+using Quantum.Tala.Service.DTO;
+using TalaAPI.Lib;
+using System;
 
 namespace TalaAPI.community.soi
 {
     public class user_add_auto : XMLHttpHandler
     {
-
         public override void ProcessRequest(HttpContext context)
         {
-            // TODO:
-
-
             TalaSecurity security = new TalaSecurity(context);
             
-            string pu = context.Request["pu"].ToStringSafetyNormalize();
-            string soiid = APIParamHelper.GetParam("soiid", context);
-
-            Soi soi = Song.Instance.GetSoiByID(soiid);
-            if (soi == null)
+            string tournamentid = APIParamHelper.GetParam("tournamentid", context);
+            tournamentDTO tournament = Song.Instance.GetTournamentByID(tournamentid);
+            if (tournament == null)
             {
-                APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "SOI_NOT_FOUND", "không tìm thấy sới");
+                APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "NOT_FOUND", "không tìm thấy tournament");
+                Cmd.Add(cs);
+                base.ProcessRequest(context);
+                return;
+            }
+            
+            /// tìm danh sách các sới của tour hiện tại, còn chỗ
+            /// bố trí thu xếp cho user này vào một sới random nào đấy            
+            List<Soi> arrSoiOfTournament = new List<Soi>(); // TODO: 
+            Random random = new Random(DateTime.Now.Millisecond);
+            int nRandomIndex = random.Next(0, arrSoiOfTournament.Count - 1);                        
+            Soi soiAvailableRandom = arrSoiOfTournament[nRandomIndex];
+
+            // AU tự add mình vào, tự join Sới
+            int sResult = soiAvailableRandom.AddPlayer(security.CurrentAU.Username);
+            if (sResult >= 0)
+            {
+                APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "JOIN_SOI", "Gia nhập sới thành công");
                 Cmd.Add(cs);
             }
             else
             {
-                if (pu.IsNullOrEmpty())
+                APICommandStatus cs = new APICommandStatus(false);
+                switch (sResult)
                 {
-                    // AU tự add mình vào, tự join Sới
-                    int sResult = soi.AddPlayer(security.CurrentAU.Username);
-                    if (sResult >= 0)
-                    {
-                        APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "JOIN_SOI", "Gia nhập sới thành công");
-                        Cmd.Add(cs);
-                    }
-                    else
-                    {
-                        APICommandStatus cs = new APICommandStatus(false);
-                        switch (sResult)
-                        {
-                            case -1:
-                                cs.ID = "SOI_FULL_PLAYER";
-                                cs.Info = "Sới đầy rồi nhé";
-                                break;
-                            case -2:
-                                cs.ID = "NOT_VALID";
-                                cs.Info = "User này chưa login";
-                                break;
-                            case -3:
-                                cs.ID = "NOT_ALLOW";
-                                cs.Info = "Bạn đã vào sới khác rồi, không vào đây được nữa";
-                                break;
-                        }
-                        Cmd.Add(cs);
-                    }
+                    case -1:
+                        cs.ID = "SOI_FULL_PLAYER";
+                        cs.Info = "Sới đầy rồi nhé";
+                        break;
+                    case -2:
+                        cs.ID = "NOT_VALID";
+                        cs.Info = "User này chưa login";
+                        break;
+                    case -3:
+                        cs.ID = "NOT_ALLOW";
+                        cs.Info = "Bạn đã vào sới khác rồi, không vào đây được nữa";
+                        break;
                 }
-                else
-                {
-                    // player mời người khác vào chơi
-                    TalaUser usertoadd = Song.Instance.GetUserByUsername(pu);
-                    if (usertoadd == null)
-                    {
-                        APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "JOIN_SOI", "Người bạn mời đã rời mạng");
-                        Cmd.Add(cs);
-                    }
-                    else
-                    {
-                        int nResult = soi.AddPlayer(usertoadd.Username);
-                        if (nResult >= 0)
-                        {
-                            APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "JOIN_SOI", "Mời gia nhập sới thành công");
-                            Cmd.Add(cs);                            
-                        }
-                        else
-                        {
-                            APICommandStatus cs = new APICommandStatus(false);
-
-                            switch (nResult)
-                            {
-                                case -1:
-                                    cs.ID = "SOI_FULL_PLAYER";
-                                    cs.Info = "Sới đầy rồi nhé";
-                                    break;
-                                case -3:
-                                    cs.ID = "GUEST_PLAYER_IS_PLAYING";
-                                    cs.Info = "Người bạn mời đã ngồi ở sới khác rồi";
-                                    break;
-                            }
-
-                            Cmd.Add(cs);
-                        }
-                    }
-                }
-            }
+                Cmd.Add(cs);
+            }            
 
             base.ProcessRequest(context);
         }
