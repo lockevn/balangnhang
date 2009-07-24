@@ -104,5 +104,19 @@ namespace Quantum.Tala.Service
             }
         }
 
+
+        [TransactionBound]
+        public virtual login_logDTO LogLoginAction(string ip, string profilesnapshot, string username)
+        {
+            login_logDTO logFromDB = new login_logDTO
+            {
+                ip = ip,
+                profile_snapshot = profilesnapshot,
+                u = username
+            };
+
+            logFromDB = DAU.AddObject<login_logDTO>(logFromDB);
+            return logFromDB;
+        }
     }
 }

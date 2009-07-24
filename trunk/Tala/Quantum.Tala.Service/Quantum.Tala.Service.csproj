@@ -103,7 +103,12 @@
     <Compile Include="Business\UUtil.cs" />
     <Compile Include="Business\Van.cs" />
     <Compile Include="CONST.cs" />
+    <Compile Include="IMoneyService.cs" />
+    <Compile Include="IPlayingService.cs" />
+    <Compile Include="ITournamentService.cs" />
+    <Compile Include="MoneyService.cs" />
     <Compile Include="DTO\userDTO.cs" />
+    <Compile Include="IAuthenticationService.cs" />
     <Compile Include="IUserProfileService.cs" />
     <Compile Include="UserProfileService.cs" />
     <Compile Include="DeathmatchService.cs" />
@@ -121,8 +126,6 @@
     <Compile Include="Exception\BusinessException.cs" />
     <Compile Include="Exception\CardException.cs" />
     <Compile Include="Exception\NotInTurnException.cs" />
-    <Compile Include="IAuthenticationService.cs" />
-    <Compile Include="ITournamentService.cs" />
     <Compile Include="PlayingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\VTCBillingService\Reference.cs">

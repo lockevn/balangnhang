@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBHelper.cs" />
-    <Compile Include="TextExtension.cs" />
+    <Compile Include="FunctionExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XMLOutput\APIDataEntry.cs" />
     <Compile Include="XMLOutput\CommandStatus.cs" />

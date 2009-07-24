@@ -15,6 +15,7 @@ namespace Quantum.Tala.Service.Business
     /// <summary>
     /// Biểu diễn Một thông báo phát sinh khi chơi bài
     /// </summary>
+    [ElementXMLExportAttribute("m", DataOutputXMLType.NestedTag)]
     public class Message : APIDataEntry
     {
         int _id = 0;

@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace Quantum.Tala.Service.DTO
 {
-    [ElementXMLExportAttribute("user", DataOutputXMLType.NestedTag)]
+    [ElementXMLExportAttribute("u", DataOutputXMLType.NestedTag)]
     public sealed partial class userDTO : IAPIData
     {
         [ElementXMLExport("", DataOutputXMLType.Attribute)]

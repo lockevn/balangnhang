@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace Quantum.Tala.Service.DTO
 {
-    [ElementXMLExportAttribute("tour", DataOutputXMLType.NestedTag)]
+    [ElementXMLExportAttribute("t", DataOutputXMLType.NestedTag)]
     public sealed partial class tournamentDTO : IAPIData
     {
         [ElementXMLExport("", DataOutputXMLType.Attribute)]

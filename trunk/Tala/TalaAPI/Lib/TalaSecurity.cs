@@ -103,5 +103,22 @@ namespace TalaAPI.Lib
             return seat;
         }
 
+
+        public static string GetClientIP()
+        {
+            HttpContext context = HttpContext.Current;
+            string ip = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (string.IsNullOrEmpty(ip))
+            {
+                ip = context.Request.ServerVariables["REMOTE_ADDR"];
+            }
+            if (string.IsNullOrEmpty(ip))
+            {
+                ip = context.Request.UserHostAddress;
+            }
+
+            return ip;
+        }
+
     }
 }
