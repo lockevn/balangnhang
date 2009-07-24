@@ -1,0 +1,488 @@
+<?php
+
+/*
+ **************************************************************************
+ *                                                                        *
+ *               DDDDD   iii                 dd  iii                      *
+ *               DD  DD      mm mm mmmm      dd      mm mm mmmm           *
+ *               DD   DD iii mmm  mm  mm  ddddd  iii mmm  mm  mm          *
+ *               DD   DD iii mmm  mm  mm dd  dd  iii mmm  mm  mm          *
+ *               DDDDDD  iii mmm  mm  mm  ddddd  iii mmm  mm  mm          *
+ *                                                                        *
+ *																		  *
+ *                  Visit us at http://www.dimdim.com                     *
+ *                  The Friendly Open Source Web Meeting                  *
+ **************************************************************************
+ **************************************************************************
+ * NOTICE OF COPYRIGHT													  *
+ *																		  *
+ * Copyright (C) 2007													  *
+ *																		  *
+ * This program is free software; you can redistribute it and/or modify   *
+ * it under the terms of the GNU General Public License as published by   *
+ * the Free Software Foundation; either version 2 of the License, or      *
+ * (at your option) any later version.					                  *
+ *                                                                        *
+ * This program is distributed in the hope that it will be useful,        *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of         *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          *
+ * GNU General Public License for more details:                           *
+ *                                                                        *
+ *          http://www.gnu.org/copyleft/gpl.html                          *
+ * 													                      *
+ * 															              *
+ *                                                                        *
+ **************************************************************************
+ */
+
+    if (!isset($form->name)) {
+        $form->name = '';
+    }
+    if (!isset($form->intro)) {
+        $form->intro = '';
+    }
+    if (!isset($form->keepdays)) {
+        $form->keepdays = 30;
+    }
+    if (!isset($form->studentlogs)) {
+        $form->studentlogs = 0;
+    }
+    if (!isset($form->dimdimtime)) {
+        $form->dimdimtime = 0;
+    }
+    if (!isset($form->schedule)) {
+        $form->schedule = 0;
+	}
+	if (!isset($form->confkey)) {
+        $form->confkey = 0;
+	}
+	if (!isset($form->emailuser)) {
+        $form->emailuser = '';
+    }
+    if (!isset($form->displayname)) {
+        $form->displayname = '';
+    }
+    if (!isset($form->startnow)) {
+        $form->startnow = 'on';
+    }
+    if (!isset($form->attendees)) {
+        $form->attendees = '';
+    }
+    if (!isset($form->timezone)) {
+        $form->timezone = '';
+    }
+    if (!isset($form->timestr)) {
+        $form->timestr = '';
+    }
+    if (!isset($form->lobby)) {
+        $form->lobby = '';
+    }
+    if (!isset($form->networkprofile)) {
+        $form->networkprofile = '';
+    }
+    if (!isset($form->meetinghours)) {
+        $form->meetinghours = '';
+    }
+    if (!isset($form->meetingminutes)) {
+        $form->meetingminutes = '';
+    }
+    if (!isset($form->maxparticipants)) {
+        $form->maxparticipants = '';
+    }
+    if (!isset($form->audiovideosettings)) {
+        $form->audiovideosettings = 'audio';
+    }
+    if (!isset($form->maxmikes)) {
+    	    $form->maxmikes = 'audio';
+    }
+?>
+
+<style>
+	.Hide { display:none; }
+	.Show { display:block; }
+	#column td
+	{
+	padding: 5px;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #92ceff;
+	border-right-width:1px;
+	border-right-color:#808080;
+	border-right-style:solid;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #92ceff;
+	border-left-width:1px;
+	border-left-color:#808080;
+	border-left-style:solid;
+	font-weight:normal;
+	color:#444;
+	}
+
+.AlignText
+{
+	width:100px;
+	float:left;
+}
+</style>
+<form name="form" id="form" method="post" action="mod.php" class="Show">
+<table id="column" cellspacing="2" cellpadding="6" width="100%" border="0">
+<tr>
+<div class="AlignText">
+		<th> General:</th>
+		</div>
+</tr>
+<tr valign="top" bgcolor="#efefef">
+	    <td align="right"><b><?php print_string('conferencename', 'dimdim')?>:</b></td>
+    <td>
+        <input type="text" name="name" size="30" value="<?php p($form->name) ?>" alt="<?php print_string('dimdimname', 'dimdim') ?>" />
+    </td>
+    <td align="right"><b><?php print_string('dimdimintro', 'dimdim')?>:</b></td>
+	    <td>
+	        <input type="text" name="intro" size="20" value="<?php p($form->intro) ?>" alt="<?php print_string('intro', 'dimdim') ?>" />
+
+	</td>
+            <td colspan=2>
+                &nbsp;
+            </td>
+</tr>
+
+<tr valign="top" id='username' bgcolor="#ffffff">
+	
+</tr>
+
+
+<tr valign="top" bgcolor="#efefef">
+    <td align="right"><b><?php print_string('maxparticipants', 'dimdim') ?>:</b></td>
+    <td><?php
+       unset($options);
+       $options[0]   = get_string('5', 'dimdim');
+       $options[1]  = get_string('10', 'dimdim');
+       $options[2]  = get_string('15', 'dimdim');
+       $options[3]  = get_string('20', 'dimdim');
+       choose_from_menu ($options, 'maxparticipants', $form->maxparticipants, '', '', '');
+    ?></td>
+    <td align="right"><b><?php print_string('startschedule', 'dimdim') ?>:</b></td>
+    <td colspan="2"><?php
+           print_date_selector('dimdimday', 'dimdimmonth', 'dimdimyear', $form->dimdimtime);
+           echo '&nbsp;-&nbsp;';
+           print_time_selector('dimdimhour', 'dimdimminute', $form->dimdimtime);
+    ?></td>
+    <td>
+    	&nbsp;
+    </td>
+    
+</tr>
+
+<tr>
+</tr>
+    
+
+
+<tr>
+<div class="AlignText">
+	<th>AV ,Chat and Recording: </th>
+	</div>
+</tr>
+
+<tr class="Hide">
+	<td class="Hide">
+    	<?php print_textarea($usehtmleditor, 10, 40, 680, 400, 'intro', $form->intro); ?>
+    	</td>
+  </tr>
+
+<tr bgcolor="#efefef">
+    <td align="right"><b><?php print_string('privatechat', 'dimdim') ?>:</b></td>
+	    <td><?php
+	       unset($options);
+	       $options[0]  = get_string('disable', 'dimdim');
+	       $options[1]  = get_string('enable', 'dimdim');
+	       choose_from_menu ($options, 'privatechat', $form->privatechat, '', '', '');
+    ?></td>
+    <td align="right"><b><?php print_string('publicchat', 'dimdim') ?>:</b></td>
+	    <td><?php
+	       unset($options);
+	       $options[0]  = get_string('disable', 'dimdim');
+	       $options[1]  = get_string('enable', 'dimdim');
+	       choose_from_menu ($options, 'publicchat', $form->publicchat, '', '', '');
+    ?></td>
+    <td colspan="2">
+    	&nbsp;
+    </td>
+
+</tr>
+
+<tr bgcolor="#ffffff">
+    <td align="right" class="Hide"><b><?php print_string('maxmikes', 'dimdim') ?>:</b></td>
+    <td class="Hide"><?php
+       unset($options);
+       $options[0]  = get_string('0mike', 'dimdim');
+       $options[1]  = get_string('1mike', 'dimdim');
+       $options[2]  = get_string('2mike', 'dimdim');
+       $options[3]  = get_string('3mike', 'dimdim');
+       choose_from_menu ($options, 'maxmikes', $form->maxmikes, '', '', '');
+    ?></td>
+    <td align="right"><b><?php print_string('Audio Video', 'dimdim') ?>:</b></td>
+    <td><?php
+       unset($options);
+       $options[0]  = get_string('audio', 'dimdim');
+       $options[1]  = get_string('audio-video', 'dimdim');
+       $options[2]  = get_string('Video-Chat', 'dimdim');       
+       $options[3]  = get_string('NoAudioVideo', 'dimdim');
+       choose_from_menu ($options, 'audiovideosettings', $form->audiovideosettings, '', '', '');
+    ?></td>
+
+    <td align="right"><b><?php print_string('featurerecording', 'dimdim') ?>:</b></td>
+	    <td><?php
+	       unset($options);
+	       $options[0]  = get_string('disable', 'dimdim');
+	       $options[1]  = get_string('enable', 'dimdim');
+	       choose_from_menu ($options, 'featurerecording', $form->featurerecording, '', '', '');
+    ?></td>
+    <td colspan=2>
+    &nbsp;        
+    </td>
+
+
+</tr>
+
+<tr >
+<div class="AlignText">
+	<th>Synchro live Resources: </th>
+	</div>
+</tr>
+<tr valign="top" bgcolor="#efefef">
+	<td align="right"><b><?php print_string('screencast', 'dimdim') ?>:</b></td>
+    <td><?php
+       unset($options);
+       $options[0]  = get_string('disable', 'dimdim');
+       $options[1]  = get_string('enable', 'dimdim');
+       choose_from_menu ($options, 'screencast', $form->screencast, '', '', '');
+    ?></td>
+    <td align="right"><b><?php print_string('featuredocshare', 'dimdim') ?>:</b></td>
+    <td><?php
+       unset($options);
+       $options[0]  = get_string('disable', 'dimdim');
+       $options[1]  = get_string('enable', 'dimdim');
+       choose_from_menu ($options, 'featuredocshare', $form->featuredocshare, '', '', '');
+    ?></td>
+        <td colspan="2">
+	    	&nbsp;
+    </td>
+</tr>
+
+<tr bgcolor="#ffffff">
+
+    <td align="right"><b><?php print_string('whiteboard', 'dimdim') ?>:</b></td>
+	    <td><?php
+	       unset($options);
+	       $options[0]  = get_string('disable', 'dimdim');
+	       $options[1]  = get_string('enable', 'dimdim');
+	       choose_from_menu ($options, 'whiteboard', $form->whiteboard, '', '', '');
+    ?></td>
+        <td align="right"><b><?php print_string('featurecobshare', 'dimdim') ?>:</b></td>
+		    <td><?php
+		       unset($options);
+		       $options[0]  = get_string('disable', 'dimdim');
+		       $options[1]  = get_string('enable', 'dimdim');
+		       choose_from_menu ($options, 'featurecobshare', $form->featurecobshare, '', '', '');
+	    ?></td>
+	        <td colspan="2">
+		    	&nbsp;
+    </td>
+</tr>
+
+
+<tr>
+<div class="AlignText">
+	<th>Advanced: </th>
+	</div>
+</tr>
+
+<tr valign="top" bgcolor="#efefef">
+
+        <td align="right"><b><?php print_string('Network', 'dimdim') ?>:</b></td>
+	    <td><?php
+	       unset($options);
+	       $options[0]  = get_string('dial-up', 'dimdim');
+	       $options[1]  = get_string('cable/dsl', 'dimdim');
+	       $options[2]  = get_string('lan', 'dimdim');
+	       choose_from_menu ($options, 'networkprofile', $form->networkprofile, '', '', '');
+	    ?></td>
+
+	<td align="right"><b><?php print_string('displaydialinfo', 'dimdim') ?>:</b></td>
+			    <td><?php
+			       unset($options);
+			       $options[0]  = get_string('disable', 'dimdim');
+			       $options[1]  = get_string('enable', 'dimdim');
+			       choose_from_menu ($options, 'displaydialinfo', $form->displaydialinfo, '', '', '');
+    ?></td>
+
+    <td align="right"><b><?php print_string('allowattendeeinvite', 'dimdim') ?>:</b></td>
+			    <td><?php
+			       unset($options);
+			       $options[0]  = get_string('disable', 'dimdim');
+			       $options[1]  = get_string('enable', 'dimdim');
+			       choose_from_menu ($options, 'allowattendeeinvite', $form->allowattendeeinvite, '', '', '');
+    ?></td>
+</tr>
+
+<tr valign="top" bgcolor="#ffffff">
+    <td align="right"><b><?php print_string('interntoll', 'dimdim')?>:</b></td>
+    <td>
+        <input type="text" name="interntoll" size="20" value="<?php p($form->interntoll) ?>" alt="<?php print_string('interntoll', 'dimdim') ?>" />
+    </td>
+    <td align="right"><b><?php print_string('moderatorpasscode', 'dimdim')?>:</b></td>
+    <td>
+        <input type="text" name="moderatorpasscode" size="20" value="<?php p($form->moderatorpasscode) ?>" alt="<?php print_string('moderatorpasscode', 'dimdim') ?>" />
+    </td>
+    <td align="right"><b><?php print_string('attendeepasscode', 'dimdim')?>:</b></td>
+    <td>
+        <input type="text" name="attendeepasscode" size="20" value="<?php p($form->attendeepasscode) ?>" alt="<?php print_string('attendeepasscode', 'dimdim') ?>" />
+    </td>
+</tr>
+
+<tr valign="top" bgcolor="#efefef">
+    <td align="right"><b><?php print_string('assignmikeonjoin', 'dimdim') ?>:</b></td>
+    <td><?php
+       unset($options);
+       $options[0]  = get_string('disable', 'dimdim');
+       $options[1]  = get_string('enable', 'dimdim');
+       choose_from_menu ($options, 'assignmikeonjoin', $form->assignmikeonjoin, '', '', '');
+    ?></td>
+    <td align="right"><b><?php print_string('handsfreeonload', 'dimdim') ?>:</b></td>
+	    <td><?php
+	       unset($options);
+	       $options[0]  = get_string('disable', 'dimdim');
+	       $options[1]  = get_string('enable', 'dimdim');
+	       choose_from_menu ($options, 'handsfreeonload', $form->handsfreeonload, '', '', '');
+    ?></td>
+    <td align="right"><b><?php print_string('assistantenabled', 'dimdim') ?>:</b></td>
+					    <td><?php
+					       unset($options);
+					       $options[0]  = get_string('disable', 'dimdim');
+					       $options[1]  = get_string('enable', 'dimdim');
+					       choose_from_menu ($options, 'assistantenabled', $form->assistantenabled, '', '', '');
+    ?></td>
+</tr>
+
+
+<tr valign="top" bgcolor="#ffffff">
+    <td align="right"><b><?php print_string('participantlist', 'dimdim') ?>:</b></td>
+		    <td><?php
+		       unset($options);
+		       $options[0]  = get_string('disable', 'dimdim');
+		       $options[1]  = get_string('enable', 'dimdim');
+		       choose_from_menu ($options, 'participantlist', $form->participantlist, '', '', '');
+    ?></td>
+
+     <td align="right"><b><?php print_string('meetinghours', 'dimdim') ?>:</b></td>
+	    <td><?php
+	       unset($options);
+	       $options[0]  = get_string('1hour', 'dimdim');
+	       $options[1]  = get_string('2hour', 'dimdim');
+	       $options[2]  = get_string('3hour', 'dimdim');
+	       $options[3]  = get_string('4hour', 'dimdim');
+	       $options[4]  = get_string('5hour', 'dimdim');
+	       choose_from_menu ($options, 'meetinghours', $form->maxparticipants, '', '', '');
+    ?></td>
+    <td colspan="2">
+    	&nbsp;
+    </td>
+
+</tr>
+
+
+<tr>
+<div class="AlignText">
+	<th>Security: </th>
+	</div>
+</tr>
+<tr valign="top" bgcolor="#efefef">
+    <td align="right"><b><?php print_string('lobby', 'dimdim') ?>:</b></td>
+    <td><?php
+       unset($options);
+       $options[0]  = get_string('disable', 'dimdim');
+       $options[1]  = get_string('enable', 'dimdim');
+       choose_from_menu ($options, 'lobby', $form->lobby, '', '', '');
+    ?></td>
+
+    <td align="right"><b><?php print_string('meetingkey', 'dimdim')?>:</b></td>
+    <td>
+        <input type="text" name="meetingkey" size="30" value="<?php p($form->meetingkey) ?>" alt="<?php print_string('meetingkey', 'dimdim') ?>" />
+    </td>
+    <td align="right"><b><?php print_string('hostkey', 'dimdim')?>:</b></td>
+	    <td>
+	        <input type="text" name="hostkey" size="20" value="<?php p($form->hostkey) ?>" alt="<?php print_string('hostkey', 'dimdim') ?>" />
+	</td>
+</tr>
+
+
+
+<?php
+	$form->displayname = $USER->firstname." ".$USER->lastname;
+	//Random number generator to append for conference key
+		srand((double)microtime()*1000000);
+		$vowels = array("a", "e", "i", "o", "u");
+		$cons = array("b", "c", "d", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "u", "v", "w", "tr",
+		"cr", "br", "fr", "th", "dr", "ch", "ph", "wr", "st", "sp", "sw", "pr", "sl", "cl");
+		$num_vowels = count($vowels);
+		$num_cons = count($cons);
+
+		for($i = 0; $i < 5; $i++){
+			$password .= $cons[rand(0, $num_cons - 1)] . $vowels[rand(0, $num_vowels - 1)];
+			}
+		$random = $password;
+
+	//$form->confkey = $course->id.$CFG->siteidentifier.$form->dimdimtime;
+	$form->confkey = $random;
+	$form->emailuser = $USER->email;
+	$form->startnow = 'on';
+	$form->timezone = 'Asia/Calcutta';
+	$form->timestr = 'February 28, 2007';
+	$form->lobby = 'false';
+	$form->networkprofile = 2;
+	$form->meetinghours = 2;
+	$form->meetingminutes = 0;
+	$form->maxparticipants = 5;
+?>
+
+        <input type="hidden" name="displayname" size="30" value="<?php p($form->displayname) ?>" alt="<?php print_string('dimdimdisplayname', 'dimdim') ?>" />
+        <input type="hidden" name="confkey" size="30" value="<?php p($form->confkey) ?>" alt="<?php print_string('dimdimconfkey', 'dimdim') ?>" />
+        <input type="hidden" name="emailuser" size="30" value="<?php p($form->emailuser) ?>" alt="<?php print_string('dimdimemailuser', 'dimdim') ?>" />
+        <input type="hidden" name="startnow" size="30" value="<?php p($form->startnow) ?>" alt="<?php print_string('dimdimstartnow', 'dimdim') ?>" />
+        <input type="hidden" name="timezone" size="30" value="<?php p($form->timezone) ?>" alt="<?php print_string('dimdimtimezone', 'dimdim') ?>" />
+        <input type="hidden" name="timestr" size="30" value="<?php p($form->timestr) ?>" alt="<?php print_string('dimdimtimestr', 'dimdim') ?>" />
+        <input type="hidden" name="meetingminutes" size="30" value="<?php p($form->meetingminutes) ?>" alt="<?php print_string('dimdimmeetingminutes', 'dimdim') ?>" />
+
+
+
+
+
+
+
+<BR><BR>
+<tr valign="top" class="Hide">
+    <td align="right"><b><?php print_string('repeattimes', 'dimdim') ?>:</b></td>
+    <td><?php
+       unset($options);
+       $options[0]  = get_string('repeatnone', 'dimdim');
+       choose_from_menu ($options, 'schedule', $form->schedule, '', '', '');
+    ?></td>
+</tr>
+</table>
+<center>
+<BR><BR>
+<input type="hidden" name="course"     value="<?php  p($form->course) ?>" />
+<input type="hidden" name="sesskey"    value="<?php  p($form->sesskey) ?>" />
+<input type="hidden" name="coursemodule"  value="<?php  p($form->coursemodule) ?>" />
+<input type="hidden" name="section"    value="<?php  p($form->section) ?>" />
+<input type="hidden" name="module"     value="<?php  p($form->module) ?>" />
+<input type="hidden" name="modulename" value="<?php  p($form->modulename) ?>" />
+<input type="hidden" name="instance"   value="<?php  p($form->instance) ?>" />
+<input type="hidden" name="mode"       value="<?php  p($form->mode) ?>" />
+<input type="submit" value="<?php  print_string('savechanges') ?>" />
+<input type="submit" name="cancel" value="<?php  print_string('cancel') ?>" />
+</center>
+</form>
+
