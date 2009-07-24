@@ -20,6 +20,7 @@ namespace Quantum.Tala.Service.Business
     /// <summary>
     /// Biểu diễn một quân bài
     /// </summary>
+    [ElementXMLExportAttribute("c", DataOutputXMLType.NestedTag)]
     public class Card : APIDataEntry, IComparable
     {
         #region Các khai báo tĩnh, ràng buộc nghiệp vụ về một Card

@@ -6,5 +6,6 @@ namespace Quantum.Tala.Service
         Quantum.Tala.Service.Authentication.IUser Authenticate(string p_sServiceCode, string p_sUsername, string p_sPassword);
         Quantum.Tala.Service.Authentication.IUser AuthenticateQuantum(string p_sUsername, string p_sPassword);
         Quantum.Tala.Service.Authentication.IUser AuthenticateVTC(string p_sUsername, string p_sPassword);
+        Quantum.Tala.Service.DTO.login_logDTO LogLoginAction(string ip, string profilesnapshot, string username);
     }
 }

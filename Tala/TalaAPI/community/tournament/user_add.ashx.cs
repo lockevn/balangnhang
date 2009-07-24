@@ -10,6 +10,9 @@ using TalaAPI.Lib;using Quantum.Tala.Lib;
 using Quantum.Tala.Service.Business;
 using Quantum.Tala.Lib.XMLOutput;
 using Quantum.Tala.Service.Authentication;
+using Quantum.Tala.Service.DTO;
+using Quantum.Tala.Service;
+using GURUCORE.Framework.Business;
 
 namespace TalaAPI.community.tournament
 {
@@ -20,95 +23,61 @@ namespace TalaAPI.community.tournament
         {
             TalaSecurity security = new TalaSecurity(context);
 
-            // TODO: nghiệp vụ một user đóng tiền tham gia tournament
-            /// Kiểm tra lệ phí tối thiểu, thông tin của giải, đã kết thúc chưa ...
-            /// Kiểm tra tiền User
-            /// Nếu đủ tiền tham gia
-            /// Trừ tiền user, gọi sang nghiệp vụ VTC VCoin
-            /// Ghi vào bản danh sách đăng ký tham gia giải
-            /// Cấp point khởi động cho user
-            /// log các hành vi giao dịch tiền, tham gia, ...
+            string tournamentid = APIParamHelper.GetParam("tournamentid", context);
+            string sCoinUsername = APIParamHelper.GetParam("username", context);
+            string sCoinPassword = APIParamHelper.GetParam("password", context);
 
-            //string pu = context.Request["pu"].ToStringSafetyNormalize();
-            //string soiid = context.Request["soiid"].ToStringSafetyNormalize();
+            APICommandStatus cs = APICommandStatus.Get_NOT_VALID_CommandStatus();
 
-            //Soi soi = Song.Instance.GetSoiByID(soiid);
-            //if (soi == null)
-            //{
-            //    APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "SOI_NOT_FOUND", "không tìm thấy sới");
-            //    Cmd.Add(cs);
-            //}
-            //else
-            //{
-            //    if (pu.IsNullOrEmpty())
-            //    {
-            //        // AU tự add mình vào, tự join Sới
-            //        int sResult = soi.AddPlayer(security.CurrentAU.Username);
-            //        if (sResult >= 0)
-            //        {
-            //            APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "JOIN_SOI", "Gia nhập sới thành công");
-            //            Cmd.Add(cs);
-            //        }
-            //        else
-            //        {
-            //            APICommandStatus cs = new APICommandStatus(false);
-            //            switch (sResult)
-            //            {
-            //                case -1:
-            //                    cs.ID = "SOI_FULL_PLAYER";
-            //                    cs.Info = "Sới đầy rồi nhé";
-            //                    break;
-            //                case -2:
-            //                    cs.ID = "NOT_VALID";
-            //                    cs.Info = "User này chưa login";
-            //                    break;
-            //                case -3:
-            //                    cs.ID = "NOT_ALLOW";
-            //                    cs.Info = "Bạn đã vào sới khác rồi, không vào đây được nữa";
-            //                    break;
-            //            }
-            //            Cmd.Add(cs);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        // player mời người khác vào chơi
-            //        TalaUser usertoadd = Song.Instance.GetUserByUsername(pu);
-            //        if (usertoadd == null)
-            //        {
-            //            APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "JOIN_SOI", "Người bạn mời đã rời mạng");
-            //            Cmd.Add(cs);
-            //        }
-            //        else
-            //        {
-            //            int nResult = soi.AddPlayer(usertoadd.Username);
-            //            if (nResult >= 0)
-            //            {
-            //                APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "JOIN_SOI", "Mời gia nhập sới thành công");
-            //                Cmd.Add(cs);                            
-            //            }
-            //            else
-            //            {
-            //                APICommandStatus cs = new APICommandStatus(false);
+            // tìm tournament muốn tham gia
+            tournamentDTO tour = Song.Instance.GetTournamentByID(tournamentid);
+            if (null == tour)
+            {
+                cs = APICommandStatus.Get_NOT_VALID_CommandStatus();
+                cs.Info = string.Format("tounrnament id={0} không tồn tại", tournamentid);
+                Cmd.Add(cs);
+                base.ProcessRequest(context);                
+            }
 
-            //                switch (nResult)
-            //                {
-            //                    case -1:
-            //                        cs.ID = "SOI_FULL_PLAYER";
-            //                        cs.Info = "Sới đầy rồi nhé";
-            //                        break;
-            //                    case -3:
-            //                        cs.ID = "GUEST_PLAYER_IS_PLAYING";
-            //                        cs.Info = "Người bạn mời đã ngồi ở sới khác rồi";
-            //                        break;
-            //                }
+            #region Kiểm tra định danh với kho tiền VTC của user
+            
+            IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
+            if (null == authensvc.AuthenticateVTC(sCoinUsername, sCoinPassword))
+            {
+                cs = APICommandStatus.Get_NOT_VALID_CommandStatus();
+                cs.Info = "Sai Username và/hoặc password, không thể xác thực username và password của bạn với VTC";
+                Cmd.Add(cs);
+                base.ProcessRequest(context);                
+            }
 
-            //                Cmd.Add(cs);
-            //            }
-            //        }
-            //    }
-            //}
+            #endregion
 
+            #region Kiểm tra xem đủ tiền chơi không
+  
+            IMoneyService moneysvc = ServiceLocator.Locate<IMoneyService, MoneyService>();
+            int nRemainBalance = moneysvc.GetBalanceOfVTCUser(sCoinUsername);
+
+            if(tour.enrollfee > nRemainBalance /* thiếu tiền */)
+            {
+                cs = APICommandStatus.Get_NOT_ALLOW_CommandStatus();
+                cs.Info = string.Format("User {0} còn số tiền là {1}, không đủ để gia nhập giải đấu {2}:{3} (lệ phí tham gia là {4})", sCoinUsername, nRemainBalance, tournamentid, tour.name, tour.enrollfee);
+                Cmd.Add(cs);
+                base.ProcessRequest(context);                
+            }
+
+            #endregion
+
+            /// thông tin của giải, đã kết thúc chưa ...
+            if(tour.isenabled /* đã cho chơi */
+                && tour.endtime.CompareTo(DateTime.Now) > 0 /* còn hạn chơi */                
+                )
+            {
+                ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
+                toursvc.AddUserToTournament(security.CurrentAU.Username, sCoinUsername, TalaSecurity.GetClientIP(), tour);               
+            }
+
+            cs = new APICommandStatus(true, "JOIN_TOURNAMENT", "thành công, bạn đã bị trừ tiền mua vé là " + tour.enrollfee);
+            Cmd.Add(cs);
             base.ProcessRequest(context);
         }
     }

@@ -12,6 +12,7 @@ namespace Quantum.Tala.Service.Business
     /// <summary>
     /// Lớp này chỉ dùng để chứa dữ liệu, không đưa method vào đây
     /// </summary>
+    [ElementXMLExportAttribute("o", DataOutputXMLType.NestedTag)]
     public class Option : APIDataEntry
     {
         int _TiGiaChip;

@@ -198,7 +198,8 @@ namespace Quantum.Tala.Service.Business
             /// nếu tìm thấy user ở một kho lưu nào đó (DB của Quantum hoặc AuthenStore của đơn vị khác)
             if (user != null && user.Username == username)
             {
-                // if found user with username and password, authenticate OK
+                // if found user with username and password, authenticate OK                
+
                 if (Song.Instance.DicOnlineUser.ContainsKey(user.Username) == false)
                 {
                     // lần đầu, tạo authkey mới, thêm vào các mảng cache
@@ -221,6 +222,7 @@ namespace Quantum.Tala.Service.Business
             }
             else
             {
+                // login fail
                 user = null;
             }
 

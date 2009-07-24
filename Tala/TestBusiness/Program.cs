@@ -31,14 +31,7 @@ namespace TestBusiness
         static void Main(string[] args)
         {
             TalaProgramApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());
-            ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
-            tournamentDTO tour = new tournamentDTO();
-            tour.name = "test";
-            int nRet = toursvc.CreateTournament(tour);
-
-            Console.WriteLine(nRet);
-
-
+            
             IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
             IUser u2 = (new AuthenticationService()).Authenticate("vtc", "vtc21", "111111");
             Console.WriteLine(u2.Username);

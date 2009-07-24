@@ -54,6 +54,43 @@ namespace Quantum.Tala.Service
         }
 
 
+
+        [TransactionBound]
+        public virtual int AddUserToTournament(string sTalaUsername, string sCoinUsername, string ip, tournamentDTO tour)
+        {            
+            /// Trừ tiền user"+tour.enrollfee+@", gọi sang nghiệp vụ VTC VCoin
+            MoneyService moneysvc = new MoneyService();            
+            string sItemCode = tour.id + "#" + tour.name + "#" + tour.enrollfee;
+            moneysvc.SubtractVCoinOfVTCUser(sCoinUsername, sItemCode, ip, tour.enrollfee);
+            
+            /// log các hành vi giao dịch tiền, tham gia, ...");
+            transactionDTO tranEntry = new transactionDTO
+            {
+                amount = tour.enrollfee,
+                desc = ip,
+                meta = sTalaUsername,
+                meta1 = sItemCode,
+                meta2 = ip,
+                type = 1    /* trừ tiền user */                
+            };
+            tranEntry = DAU.AddObject<transactionDTO>(tranEntry);
+
+            /// Ghi vào bản danh sách đăng ký tham gia giải, Cấp point khởi động cho user
+            user_tournamentDTO ticket = new user_tournamentDTO
+            {
+                desc = "đóng tiền gia nhập tournament",
+                tournamentid = tour.id,
+                transactionid = tranEntry.id,
+                u = sTalaUsername,
+                point = tour.startuppoint
+            };            
+            DAU.AddObject<user_tournamentDTO>(ticket);
+
+            return tranEntry.id;
+        }
+        
+
+
         //[TransactionBound]
         //public virtual VwBannerLocalizedWithBlockDTO[] GetBannerListForView(int p_nBlockID, int p_nPage, int p_nPageCount)
         //{
@@ -103,17 +140,7 @@ namespace Quantum.Tala.Service
         //    DTOCollection<BlockDTO> arrBlock = DAU.GetObjects<BlockDTO>(null, BlockDTO.BLOCKID_FLD, Order.ASC, p_nPage, p_nPageCount);
 
         //    return arrBlock.ToArray();
-        //}
-
-		
-        //[TransactionBound]
-        //public virtual BlockDTO GetBlock(int p_nBlockID)
-        //{
-        //    return DAU.GetObject<BlockDTO>(BlockDTO.BLOCKID_FLD, p_nBlockID);
-        //}
-
-
-        
+        //}       
 		
 		
         //[TransactionBound]
@@ -121,48 +148,6 @@ namespace Quantum.Tala.Service
         //{
         //    return DAU.SaveSingleObject<BlockDTO>(p_dtoBlock);
         //}
-
 		
-        //[TransactionBound]
-        //public virtual int DeleteBlock(int p_nBlockID)
-        //{
-        //    //delete banner block assignment
-        //    DAU._DeleteObjects<BannerBlockDTO>(BannerBlockDTO.BLOCKID_FLD, p_nBlockID);
-
-        //    //delete all translation
-        //    DAU._DeleteObjects<BlockLocalizedDTO>(BlockLocalizedDTO.BLOCKID_FLD, p_nBlockID);
-
-        //    //delete it
-        //    DAU._DeleteObject<BlockDTO>(p_nBlockID);
-
-        //    return 0;
-        //}
-
-		
-        //[TransactionBound]
-        //public virtual VwBannerBlockSelectionDTO[] GetBlockBannerList(int p_nBlockID, int p_nPage, int p_nItemPerPage)
-        //{
-        //    DTOCollection<VwBannerBlockSelectionDTO> arrResult = DAU.GetObjects<VwBannerBlockSelectionDTO>(VwBannerBlockSelectionDTO.BLOCKID_FLD, p_nBlockID,VwBannerBlockSelectionDTO.BANNERID_FLD,Order.ASC,p_nPage,p_nItemPerPage);
-        //    return arrResult.ToArray();
-        //}
-
-		
-        //[TransactionBound]
-        //public virtual int GetBlockBannerPageCount(int p_nBlockID, int p_nItemPerPage)
-        //{
-        //    Expression expFilter = new Expression(
-        //        new FieldOperand(VwBannerBlockSelectionDTO.BLOCKID_FLD),
-        //        Operator.Eq,
-        //        new ConstantOperand(p_nBlockID));
-
-        //    int nCount = (int)DAU.GetAggregateValue<VwBannerBlockSelectionDTO>(string.Empty, expFilter, Aggregation.Count);
-        //    return this.CalculatePageCount(nCount, p_nItemPerPage);
-        //}
-
-        //[TransactionBound]
-        //public virtual int UpdateBanner(BannerDTO p_dtoBanner)
-        //{
-        //    return DAU.SaveSingleObject<BannerDTO>(p_dtoBanner);
-        //}
 	}
 }

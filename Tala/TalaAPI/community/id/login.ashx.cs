@@ -11,6 +11,8 @@ using Quantum.Tala.Lib.XMLOutput;
 using GURUCORE.Lib.Core.Security.Cryptography;
 using Quantum.Tala.Service.Business;
 using Quantum.Tala.Service.Authentication;
+using Quantum.Tala.Service;
+using GURUCORE.Framework.Business;
 
 namespace TalaAPI.community.id
 {
@@ -30,6 +32,33 @@ namespace TalaAPI.community.id
             else
             {
                 cs = new APICommandStatus(APICommandStatusState.OK, "LOGIN", user.Authkey);
+
+                #region Log lại hành vi login này
+
+                try
+                {
+                    IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
+                    
+                    authensvc.LogLoginAction(
+                        TalaSecurity.GetClientIP(),
+                        string.Format("{0}#{1}#{2}", cs.ToXMLString(), context.Request.UserHostName, context.Request.UserAgent),
+                        sUsername);
+                }
+                catch { }               
+
+                #endregion
+
+                #region Tạo stat nếu cần
+
+                try
+                {
+                    IPlayingService playingsvc = ServiceLocator.Locate<IPlayingService, PlayingService>();
+                    playingsvc.CreateUserStat(sUsername);
+                }
+                catch { }
+
+                #endregion
+                
             }            
             this.Cmd.Add(cs);            
             base.ProcessRequest(context);
