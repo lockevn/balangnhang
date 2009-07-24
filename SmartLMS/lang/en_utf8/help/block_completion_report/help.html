@@ -1,0 +1,93 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Help with Configuring Criteria for Completion Report</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+<h2>Completion Report</h2>
+
+<p>This block allows an Administrator, a Teacher, or an Editing Teacher to define course completion requirements 
+in a rubric of four sections, i.e. assignments, quizzes, resources, and manual grade. The Administrator has access
+to all the courses, while the Teachers can only access the courses that they teach.</p>
+
+<p>The assignment grade can be selected from a chosen final project or the average of all assignment. 
+The quiz grade can be similarly selected from a final exam or the average of all quizzes. 
+The resources grade is simple complete or incomplete depending on the list of required resources 
+that the student must visit (such as opening a Word document, PDF file, or visited a web site). 
+The last section is a manually set grade.</p>
+
+<p>The four sections are displayed as columns in a report for each course. 
+If a section is not required for a course, the column is not displayed.</p>
+
+<p>There are six php files in this block:
+<ol>
+<li>block_completion_report - standard block file</li>
+<li>configure.php - configure Completion Requirement Rubric</li>
+<li>report.php - display completion status for all participants in a selected course</li>
+<li>participant.php - display completion status for a selected participant in a selected course</li>
+<li>accessed_resources.php - displays the resources in a course which have been accessed by a participant</li>
+<li>required_resources.php - displays the resources which are required to complete a course </li>
+</ol>
+</p>
+
+<h3>configure.php</h3>
+<p>Use this page to set the rubric of criteria that defines Completion Requirement of a course
+<br />Linked from:
+<br />block_completion_report.php in the block - 'Configure Requirement Rubrics'
+<br />report.php at the top of the page - 'Configure Requirement Rubrics for this course'
+</p>
+
+<p>Each course has its own 13 configuration settings stored in the database table completion_configure 
+The 13 settings can be divided in four areas, in addition to the course id:
+<ol>
+<li>intCourseID - course id in the table 'course'</li>
+<h4>Assignment</h4>
+<li>enable - on, off</li>
+<li>percentage grade - 0 to 100</li>
+<li>grade method - AverageAllAssignments or FinalProject</li>
+<li>FinalProject - assignment id from table 'assignment'</li>
+<h4>Quiz</h4>
+<li>enable - on, off</li>
+<li>percentage grade - 0 to 100</li>
+<li>grade method - AvaregeAllQuizzes or FinalExam</li>
+<li>FinalExam - quiz id from table 'quiz'</li>
+<h4>Resources</h4>
+<li>enable - on, off</li>
+<li>Current Required Resources - string of resource id (from table 'resource'), separated by comma </li>
+<h4>Manual</h4>
+<li>enable - on, off</li>
+<li>percentage grade - 0 to 100</li>
+</ol>
+</p>
+
+<h3>report.php</h3>
+<p>Use this page to display the completion status of all the participants in a selected course.
+<br />Linked from 
+<br />block_completion_report.php in the block - Generate Report
+<br />configure.php at the top of the page - 'Display Completion Report for this course'
+</p>
+
+<p>Each participant has a record in the the database table completion_report: 
+<ul>
+<li>userid - id from table 'user'</li>
+<li>userfirstname - firstname from table 'user'</li>
+<li>userlastname - lastname from table 'user'</li>
+<li>intaverageQuiz - percentage grade - 0 to 100</li>
+<li>intGradeFinalExam - id from table 'quiz'</li>
+<li>intaverageAssignment - percentage grade - 0 to 100</li>
+<li>intGradeFinalProject - id from table 'assignment'</li>
+<li>intGradeManual - percentage grade - 0 to 100</li>
+<li>strCompletedResources - 'Completed' or 'Incomplete'</li>
+<li>courseid - id from table 'course'</li>
+<li>strCompletionStatus - 'Completed' or 'Incomplete'</li>
+</ul>
+</p>
+
+<h3>participant.php</h3>
+<p>Use this page to display the completion status of a selected participant in a selected course.
+Also use it to assign a manual grade to the participant.
+<br />Linked from 
+<br />report.php in the report table - first and last name of the participant
+</p>
+</body>
+</html>
