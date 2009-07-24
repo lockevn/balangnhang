@@ -1,9 +1,0 @@
-/*Ie hack in order to resolve severl ie bug,just rememberDo not use 'height' if in standard mode you have and 'inline' element,in this case use 'display:inline-block' or 'zoom:1'*/
-.area_block{height:0; }
-.std_block{height:0; }
-.form_elem{height:0; }
-.form_line_l{height:0; }
-.form_right{height:0; }
-.course_info_container ul.course_score{left:-105px; }
-.lo_tab ul.flat_tab li a{padding:0px 0 0px 4px; }
-.TabView_container ul.TabView_tabspace li{padding:3px 12px 2px; }
