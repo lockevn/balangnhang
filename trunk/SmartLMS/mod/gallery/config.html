@@ -1,0 +1,125 @@
+<?php // $Id: config.html,v 1.3 2007/01/05 03:17:38 mark-nielsen Exp $
+/**
+ * Gallery Module Configuration File
+ *
+ * @author Mark Nielsen
+ * @version $Id: config.html,v 1.3 2007/01/05 03:17:38 mark-nielsen Exp $
+ * @copyright http://www.gnu.org/copyleft/gpl.html GNU Public License
+ * @package gallery
+ **/
+
+    require_once($CFG->dirroot.'/mod/gallery/lib.php');
+
+    $form->studentpermissions = gallery_decode_permissions($CFG->gallery_studentpermissions);
+    $form->teacherpermissions = gallery_decode_permissions($CFG->gallery_teacherpermissions);
+?>
+
+<form method="post" action="module.php" name="form">
+<input type="hidden" name="sesskey" value="<?php echo sesskey(); ?>" />
+<input type="hidden" name="module" value="gallery" />
+    <table cellpadding="9" cellspacing="0" width="100%" align="center">
+        <tr valign="top">
+            <td align="right" width="50%"><?php print_string('embedpath', 'gallery') ?>:</td>
+            <td valign="bottom" nowrap="nowrap"><input type="text" size="30" id="path" name="embedpath" value="<?php echo $CFG->gallery_embedpath; ?>" />
+                <?php helpbutton('embedpath', get_string('embedpath','gallery'), 'gallery'); ?></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <?php 
+                /// pop-up button to check the path
+                    button_to_popup_window ('/mod/gallery/configpopup.php?path=\' + document.getElementById(\'path\').value + \'',
+                                            'gallerypopup', 
+                                            get_string('checkpath', 'gallery'),
+                                            200, 700);
+                ?>
+            </td>
+        </tr>
+        <tr valign="top">
+            <td align="right"><?php print_string('g2uri', 'gallery') ?>:</td>
+            <td valign="bottom" nowrap="nowrap"><input type="text" size="30" id="pathuri" name="g2uri" value="<?php echo $CFG->gallery_g2uri; ?>" />
+                <?php helpbutton('g2uri', get_string('g2urititle','gallery'), 'gallery'); ?></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <?php 
+                /// pop-up button to check the path
+                    button_to_popup_window ('/mod/gallery/configpopup.php?pathuri=\' + document.getElementById(\'pathuri\').value + \'',
+                                            'gallerypopup', 
+                                            get_string('checkg2uri', 'gallery'),
+                                            200, 700);
+                ?>
+            </td>
+        </tr>
+        <?php 
+            if (!gallery_check_config()) {
+                echo '<tr valig="top"><td colspan="2">';
+                notify(get_string('gallerynotconfigedpleasecomeback', 'gallery'));
+                echo '</td></tr>';
+            } else {
+        ?>
+        <tr valign="top">
+            <td align="right"><?php print_string('handlepermissions', 'gallery') ?>:</td>
+            <td valign="bottom">
+                <?php
+                    $options = array(0 => get_string('no'), 1 => get_string('yes'));
+                    choose_from_menu($options, 'permissions', $CFG->gallery_permissions, '');
+                    helpbutton('permissions', get_string('handlepermissions','gallery'), 'gallery');
+                ?>
+            </td>
+        </tr>        
+        <tr valign="top">
+            <td align="right"><?php print_string('defaultstudentpermissions', 'gallery') ?>:</td>
+            <td>
+                <table align="left">
+                    <tr valign="top">
+                        <td colspan="2">
+                            <?php
+                                $i = 0;
+                                foreach (gallery_get_permissions() as $permission => $text) {
+                                    if (isset($form->studentpermissions[$permission]) and $form->studentpermissions[$permission] == 1) {
+                                        $check = 'checked="checked" ';
+                                    } else {
+                                        $check = '';  // off by default
+                                    }
+
+                                    echo "<input type=\"checkbox\" name=\"studentpermissions[$permission]\" value=\"1\" id=\"studentpermission$i\" $check/>
+                                         <label for=\"studentpermission$i\">$text</label><br />";
+                                    $i++;
+                                }
+                            ?>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr valign="top">
+            <td align="right"><?php print_string('defaultteacherpermissions', 'gallery') ?>:</td>
+            <td>
+                <table align="left">
+                    <tr valign="top">
+                        <td colspan="2">
+                            <?php
+                                $i = 0;
+                                foreach (gallery_get_permissions() as $permission => $text) {
+                                    if (isset($form->teacherpermissions[$permission]) and $form->teacherpermissions[$permission] == 1) {
+                                        $check = 'checked="checked" ';
+                                    } else {
+                                        $check = '';  // off by default
+                                    }
+
+                                    echo "<input type=\"checkbox\" name=\"teacherpermissions[$permission]\" value=\"1\" id=\"teacherpermission$i\" $check/>
+                                         <label for=\"teacherpermission$i\">$text</label><br />";
+                                    $i++;
+                                }
+                            ?>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <?php } // end config set if ?>
+    </table>
+    <div align="center"><input type="submit" value="<?php print_string("savechanges") ?>" /></div>
+</form>
