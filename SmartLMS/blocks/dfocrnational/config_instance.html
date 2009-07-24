@@ -1,0 +1,131 @@
+<?php	
+	function dfselectlisting($min,$max,$selected){
+		$stroptions = NULL;
+		for ($i=$min;$i<=$max;$i++) {
+			$stroptions .= '<option';
+			if ($i == $selected ){
+				$stroptions .= ' selected';
+			}
+			$stroptions .= ">$i</option>";
+		}
+		return $stroptions;
+	}
+?>
+<?php $id = optional_param('id', SITEID, PARAM_INT);?>
+<table cellpadding="9" cellspacing="0">
+ <tr valign="top">
+   <td align="right">Title:</td>
+     <td colspan="6"><input type="text" name="title" size="30" value="<?php echo $this->config->title; ?>" /></td>
+ </tr>
+  <tr valign="top">
+   <td align="right">No. of levels:</td>
+     <td>
+	 <?php 
+	 echo "<select name=\"numberoflevels\">";
+	 if ($this->config->numberoflevels == Null){
+	 	$numberoflevels = 3;
+	 } else {
+		$numberoflevels = $this->config->numberoflevels; 	
+	}
+	$stroptions = dfselectlisting(1,$numberoflevels+3,$numberoflevels);
+	echo $stroptions;
+	echo "</select>";
+	 ?>
+	 </td>
+	 <td colspan="5"></td>
+ </tr>
+ <tr valign="top" bgcolor="#00FFFF">
+   <td align="right"><div align="left"><span class="style1">Level</span></div></td>
+   <td><div align="left"><span class="style1">Initial Letter(s) </span></div></td>
+   <td><span class="style1">Suffix</span></td>
+   <td><div align="left"><span class="style1">Number of Grades </span></div></td>
+   <td class="style1"><div align="left">Success Colour </div></td>
+   <td class="style1">Incomplete Colour </td>
+   <td class="style1"><div align="left">Display</div></td>
+ </tr>
+<?php  
+  //display input form - names start with number of loop
+  for ($i=1;$i<=$numberoflevels;$i++){
+	echo '<tr>';
+	
+	//description
+	if($this->config->descrip{$i} == Null){
+		$descrip="Pass";
+	} else {
+		$descrip = $this->config->descrip{$i};
+	}
+	echo "<td align=\"right\"><input type=\"text\" name=\"descrip[{$i}]\" value=\"$descrip\" size=\"8\"></td>";
+	
+	//prefix
+	if($this->config->begin{$i} == Null){
+		$begin="";
+	} else {
+		$begin = $this->config->begin{$i};
+	}	
+	echo "<td align=\"right\"><input type=\"text\" name =\"begin[{$i}]\" value =\"$begin\" size =\"5\"></td>";
+	
+	//suffix
+	if($this->config->suffix{$i} == Null){
+		$suffixzero="";
+		$suffixone="selected";
+	} else {
+		$suffix = $this->config->suffix{$i};
+		if ($suffix==0){
+			$suffixzero="selected";
+			$suffixone="";
+		} else {
+			$suffixzero="";
+			$suffixone="selected";
+		}
+	}
+	echo "<td align=\"right\"><select name=\"suffix[{$i}]\">";
+	echo "<option value=\"0\" {$suffixzero}>a,b,c,...(alphabetic)</option>";
+	echo "<option value=\"1\" {$suffixone}>1,2,3,...(numeric)</option>";
+	echo "</select></td>";
+	
+	//number of criteria
+	if ($this->config->numberofcriteria{$i} == Null){
+		$nocriteria = 5;
+	} else {
+		$nocriteria = $this->config->numberofcriteria{$i};
+	}
+	echo "<td><select name=\"numberofcriteria[{$i}]\">";
+	$stroptions = dfselectlisting(1,20,$nocriteria);
+	echo $stroptions;
+	echo "</select></td>";
+	
+	//colour of success
+	if ($this->config->colorsuccess{$i} == Null){
+		$colorsuccess = "#00ff00";
+	} else {
+		$colorsuccess = $this->config->colorsuccess{$i};
+	}
+	echo "<td><input type=\"text\" name=\"colorsuccess[{$i}]\" value=\"$colorsuccess\" size=\"8\"></td>";
+	
+	//colour for incomplete
+	if ($this->config->colorincomplete{$i} == Null){
+		$colorincomplete = "#ff0000";
+	} else {
+		$colorincomplete = $this->config->colorincomplete{$i};
+	}
+	echo "<td><input type=\"text\" name=\"colorincomplete[{$i}]\" value=\"$colorincomplete\" size=\"8\"></td>";
+	
+	//display or not checkbox (can use to hide a level) default to 'show'                                
+	echo "<td>";
+    echo "<input type=\"hidden\" name=\"display[{$i}]\" value=\"0\" />";
+	echo "<input type=\"checkbox\" name=\"display[{$i}]\" value=\"1\"";
+	if(!empty($this->config->display{$i})) echo 'checked="checked" />';
+	echo "</td>";
+  } 
+?>
+<tr>
+     <td colspan="7" align="center">
+         <input type="submit" value="<?php print_string('savechanges') ?>" />
+     </td>
+ </tr>
+</table>
+<p>The table will have links to the modules with  names that combine the Initial letter(s) and incremental suffixes. </p>
+<p>For 'manual' grade items the link will open a page that will display the 'iteminfo' that was entered when the manual grade item was created. </p>
+<p>Note that the iteminfo (not entered on this page) can contain html and can be used to enhance the presentation of that info to students.</p>
+</body>
+</html>
