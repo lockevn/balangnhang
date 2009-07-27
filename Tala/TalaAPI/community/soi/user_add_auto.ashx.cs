@@ -21,10 +21,22 @@ namespace TalaAPI.community.soi
             {
                 APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "NOT_FOUND", "không tìm thấy tournament");
                 Cmd.Add(cs);
-                base.ProcessRequest(context);
-                return;
+                base.ProcessRequest(context);                
             }
-            
+
+            // hết thời gian chơi
+            if (tournament.endtime.CompareTo(DateTime.Now) < 0)
+            {
+                APICommandStatus cs = APICommandStatus.Get_NOT_VALID_CommandStatus();
+                cs.Info = "giải đấu đã kết thúc, không cho chơi nữa";
+                Cmd.Add(cs);
+                base.ProcessRequest(context);
+            }
+
+
+            // TODO: không đủ số người chơi cần thiết để lập ván tổ chức giải đấu
+
+
             /// tìm danh sách các sới của tour hiện tại, còn chỗ            
             var arrSoiOfTour = Song.Instance.GetSoiByTournamentID(tournamentid).Where(soi => soi.SeatList.Count < 4).ToList();
 
