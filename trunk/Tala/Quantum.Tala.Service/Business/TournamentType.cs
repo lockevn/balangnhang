@@ -8,16 +8,21 @@ namespace Quantum.Tala.Service.Business
     public enum TournamentType
     {
         /// <summary>
-        /// tập sự, chơi vui lấy danh hiệu
+        /// 1, tập sự, chơi vui lấy danh hiệu
         /// </summary>
-        Free,
+        Free = 1,
         /// <summary>
-        /// nộp phế vào chơi, đánh 1 ván, tiền tươi thóc thật
+        /// 2, nộp phế vào chơi, đánh 1 ván, tiền tươi thóc thật
         /// </summary>
-        DeadMatch,
+        DeadMatch = 2,
         /// <summary>
-        /// Đấu loại trực tiếp, chia nhánh
+        /// 3, giải vô địch theo thời gian, tính điểm từng trận, trao giải cho top player
         /// </summary>
-        TennisTree
+        ChampionShip = 3,
+
+        /// <summary>
+        /// 4, thể thức đấu theo nhánh 4 người một bộ đấu
+        /// </summary>
+        TennisTree = 4
     }
 }

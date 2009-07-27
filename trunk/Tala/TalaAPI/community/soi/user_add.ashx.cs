@@ -70,6 +70,10 @@ namespace TalaAPI.community.soi
                                 cs.ID = "NOT_ALLOW";
                                 cs.Info = "Bạn đã vào sới khác rồi, không vào đây được nữa";
                                 break;
+                            case -4:
+                                cs.ID = "NOT_ALLOW";
+                                cs.Info = "sới này đang chơi rồi, bạn chỉ được vào xem, không gia nhập được";
+                                break;
                         }
                         Cmd.Add(cs);
                     }
@@ -107,6 +111,10 @@ namespace TalaAPI.community.soi
                                 case -3:
                                     cs.ID = "GUEST_PLAYER_IS_PLAYING";
                                     cs.Info = "Người bạn mời đã ngồi ở sới khác rồi";
+                                    break;
+                                case -4:
+                                    cs.ID = "NOT_ALLOW";
+                                    cs.Info = "sới này đang chơi rồi, bạn chỉ được vào xem, không gia nhập được";
                                     break;
                             }
 

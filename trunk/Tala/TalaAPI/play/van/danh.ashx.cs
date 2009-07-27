@@ -18,6 +18,11 @@ namespace TalaAPI.play.van
 
         public override void ProcessRequest(HttpContext context)
         {
+            TalaSecurity security = new TalaSecurity(context);
+            Soi soi = security.CheckUserJoinedSoi();
+            Seat seat = security.CheckUserJoinedSeat();
+            Van van = soi.CurrentVan;
+
             string cay = APIParamHelper.GetParam("cay", context);
             Card card = null;
             try
@@ -28,11 +33,8 @@ namespace TalaAPI.play.van
             {
                 this.SendErrorAPICommand(ce, context);
             }
+            
 
-            TalaSecurity security = new TalaSecurity(context);
-            Soi soi = security.CheckUserJoinedSoi();
-            Seat seat = security.CheckUserJoinedSeat();
-            Van van = soi.CurrentVan;
             bool result = false;
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "DANH", "action failed");
             try
@@ -43,6 +45,8 @@ namespace TalaAPI.play.van
             {
                 this.SendErrorAPICommand(nite, context);
             }
+
+
             if (result)
             {
                 cs = new APICommandStatus(APICommandStatusState.OK, "DANH", "valid action");

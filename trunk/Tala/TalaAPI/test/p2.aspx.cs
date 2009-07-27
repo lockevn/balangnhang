@@ -29,14 +29,14 @@ namespace TalaAPI.test
 
             pln("<pre>");
 
-            TalaUser v1 = song.LoginVaoSongChoi("v1", "quantum");
-            TalaUser v2 = song.LoginVaoSongChoi("v2", "quantum");
-            TalaUser v3 = song.LoginVaoSongChoi("v3", "quantum");
-            TalaUser v4 = song.LoginVaoSongChoi("v4", "quantum");
+            TalaUser v1 = song.LoginVaoSongChoi("v1", "vtc");
+            TalaUser v2 = song.LoginVaoSongChoi("v2", "vtc");
+            TalaUser v3 = song.LoginVaoSongChoi("v3", "vtc");
+            TalaUser v4 = song.LoginVaoSongChoi("v4", "vtc");
 
             pln("4 người login rồi");
 
-            Soi soi = song.CreatNewFreeSoi("test soi", v1.Username);
+            Soi soi = song.CreatNewFreeSoi("test soi" + FunctionExtension.GetRandomGUID(), v1.Username);
             pln(v1.Username + " tạo sới");
 
             soi.AddPlayer(v2.Username);
@@ -45,8 +45,7 @@ namespace TalaAPI.test
             pln(v3.Username + " vào");
             soi.AddPlayer(v4.Username);
             pln(v4.Username + " vào");
-            
-            
+                        
 
             soi.SetReady(v1);
             soi.SetReady(v2);
@@ -59,7 +58,7 @@ namespace TalaAPI.test
 
             soi.StartPlaying();
             
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 15; i++)
             {
                 Seat seat = soi.GetSeatOfCurrentInTurn();
                 try

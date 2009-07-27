@@ -35,6 +35,7 @@ namespace TalaAPI.play.van
             {
                 this.SendErrorAPICommand(nite, context);
             }
+
             if (cardBoc != null)
             {
                 this.Data.Add(cardBoc);

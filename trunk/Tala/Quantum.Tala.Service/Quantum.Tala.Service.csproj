@@ -87,6 +87,7 @@
     <Compile Include="Authentication\IUser.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Business\EnumPlayingResult.cs" />
     <Compile Include="Business\TalaUser.cs" />
     <Compile Include="Business\TalaBusinessUtil.cs" />
     <Compile Include="Business\Card.cs" />

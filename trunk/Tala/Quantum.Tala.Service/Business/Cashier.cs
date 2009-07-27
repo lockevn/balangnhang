@@ -4,12 +4,14 @@ using System.Linq;
 using Quantum.Tala.Service.Authentication;
 using System.Data.Common;
 using Quantum.Tala.Lib;
+using Quantum.Tala.Service.DTO;
+using GURUCORE.Framework.Business;
 
 
 namespace Quantum.Tala.Service.Business
 {
     /// <summary>
-    /// Quầy thu ngân, tính cước của trò chơi. Tất cả các giao dịch dính đến TIỀN hay CHIP đều thực hiện ở đây
+    /// Quầy thu ngân, tính cước của trò chơi. Tất cả các giao dịch dính đến GOLD POINT đều thực hiện ở đây
     /// </summary>
     public class Cashier
     {
@@ -38,49 +40,29 @@ namespace Quantum.Tala.Service.Business
         /// <returns>Số tiền đã nộp</returns>
         public static int NopGa(Soi soi, TalaUser userPhaiNop)
         {            
-            int nTienPhat = Cashier.CHIP_NOP_GA * soi.SoiOption.TiGiaChip;            
+            int nGoldPhat = Cashier.CHIP_NOP_GA * soi.SoiOption.TiGiaChip;            
             // trừ tiền trong túi user đi
-            userPhaiNop.SubtractMoney(nTienPhat);
+            userPhaiNop.SubtractMoney(nGoldPhat, EnumPlayingResult.Nothing);
 
             // cộng gà lên 1 chip
             soi.GaValue += 1;
 
-            return nTienPhat;
+            return nGoldPhat;
         }
 
-        public static int SubtractGoldOfUser(string p_sUsername, int p_nValue, int p_nTourID)
+        public static int SubtractGoldOfUser(string p_sUsername, int p_nValue, EnumPlayingResult p_enumWhy, tournamentDTO p_Tour)
         {
-            // TODO: cập nhật bản ghi user_stat
-            // TODO: cập nhật bản ghi user_tournament
-            // TODO: cập nhật bản ghi
+            IPlayingService playingsvc = ServiceLocator.Locate<IPlayingService, PlayingService>();
+            playingsvc.AdjustGold(p_sUsername, -p_nValue, p_enumWhy, p_Tour.id);            
 
+            return p_nValue;
+        }        
 
-            DbConnection con = DBHelper.Instance.GetDbConnection("quantum");
-            con.Open();
-            string strSQL = string.Format("update `User` set `balance` = ifnull(`balance`,0) - {1} where `u`='{0}';", p_sUsername, p_nValue);
-            DbCommand command = con.CreateCommand();
-            command.CommandText = strSQL;
-            object oRet = command.ExecuteScalar();
-            con.Close();
-
-            int nRet = -1;
-            int.TryParse(oRet as string, out nRet);
-            return nRet;
-        }
-
-        public static int AddGoldOfUser(string p_sUsername, int p_nValue, int p_nTourID)
+        public static int AddGoldOfUser(string p_sUsername, int p_nValue, EnumPlayingResult p_enumWhy, tournamentDTO p_Tour)
         {
-            DbConnection con = DBHelper.Instance.GetDbConnection("quantum");
-            con.Open();
-            string strSQL = string.Format("update `User` set `balance` = ifnull(`balance`,0) + {1} where `u`='{0}';", p_sUsername, p_nValue);
-            DbCommand command = con.CreateCommand();
-            command.CommandText = strSQL;
-            object oRet = command.ExecuteScalar();
-            con.Close();
-
-            int nRet = -1;
-            int.TryParse(oRet as string, out nRet);
-            return nRet;
+            IPlayingService playingsvc = ServiceLocator.Locate<IPlayingService, PlayingService>();
+            playingsvc.AdjustGold(p_sUsername, p_nValue, p_enumWhy, p_Tour.id);
+            return p_nValue;
         }
     
     }

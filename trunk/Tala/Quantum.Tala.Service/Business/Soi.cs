@@ -200,7 +200,7 @@ namespace Quantum.Tala.Service.Business
         /// Tạo một Seat mới trong sới, Ấn user vào seat, tự động đặt owner
         /// </summary>
         /// <param name="player"></param>
-        /// <returns> -3 đã join sới khác rồi, -2 nếu lỗi, player không tồn tại. -1 nếu sới đã đầy chỗ ,. Trả về số >= 0 nếu OK, hoặc đã join sới rồi cũng là OK</returns>        
+        /// <returns> -4 sới đang chơi rồi, -3 đã join sới khác rồi, -2 nếu lỗi, player không tồn tại. -1 nếu sới đã đầy chỗ ,. Trả về số >= 0 nếu OK, hoặc đã join sới rồi cũng là OK</returns>        
         protected int AddPlayer(TalaUser player)
         {
             if (player == null)
@@ -208,6 +208,7 @@ namespace Quantum.Tala.Service.Business
                 // không tìm được online user tương ứng
                 return -2;
             }
+                       
 
             int nRet = 0;    // temp
             Seat seatDangNgoiTrongSoi = this.GetSeatByUsername(player.Username);
@@ -228,6 +229,12 @@ namespace Quantum.Tala.Service.Business
                 else
                 {
                     // chưa ngồi thì cho vào ngồi
+
+                    if (this.IsPlaying)
+                    {
+                        return -4;  // sới đang chơi, chim cút
+                    }
+
                     Seat newSeat = new Seat(-1, player);
                     this.SeatList.Add(newSeat);
                     this.ReIndexSeatList();
@@ -395,7 +402,10 @@ namespace Quantum.Tala.Service.Business
             return null;
         }
 
-
+        public tournamentDTO GetCurrentTournament()
+        {
+            return Song.Instance.GetTournamentByID(this.DBEntry.tournamentid.ToString());
+        }
 
         /// <summary>
         /// Xếp lại chỗ Random các vị trí trong Sới
@@ -469,6 +479,7 @@ namespace Quantum.Tala.Service.Business
 
             // bật cờ đang chơi
             _IsPlaying = true;
+            _IsLocked = true;
             this.DBEntry.isend = false;
             this.DBEntry.starttime = DateTime.Now;
             this.DBEntry.option = this.SoiOption.ToXMLString();
