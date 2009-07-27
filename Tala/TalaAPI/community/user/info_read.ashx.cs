@@ -32,14 +32,7 @@ namespace TalaAPI.community.user
             }
             else
             {
-                userDTO userToView = new userDTO
-                {
-                    Username = pu,
-                    Win = ustat.win,
-                    Lose = ustat.lose,
-                    Point = ustat.point
-                };
-                Data.Add(userToView);
+                Data.Add(ustat);
                 base.Stat = APICommandStatusState.OK;
             }
             

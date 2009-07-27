@@ -77,7 +77,6 @@ namespace TalaAPI.play.van
                         dtoVan.BaiDaDanh.Add(card);
                     }
 
-
                     #region Phỏm đã hạ
 
                     foreach (Phom phom in seat.PhomList)

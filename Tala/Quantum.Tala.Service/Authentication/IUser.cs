@@ -8,8 +8,8 @@ namespace Quantum.Tala.Service.Authentication
     public interface IUser
     {
         string Username { get; set; }
-        string Password { get; set; }
         string Authkey { get; set; }
-        int Money { get; set; }
+        string System { get; set; }
+        string FullIdentity { get; set; }
     }
 }

@@ -1,0 +1,1 @@
+2009-07-25 14:03:26,812 [2472] INFO  TalaAPI.community.id.login [(null)] - <e stat='ok'><id>LOGIN</id><info>vtc21</info></e>#127.0.0.1#Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/530.5 (KHTML, like Gecko) Chrome/2.0.172.28 Safari/530.5#127.0.0.1#vtc21

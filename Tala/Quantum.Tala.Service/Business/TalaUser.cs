@@ -20,20 +20,6 @@ namespace Quantum.Tala.Service.Business
 
         #region IUser Members
 
-        string _Password;
-        public string Password
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                _Password = value;
-            }
-        }
-
-        
         string _sUsername;
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public string Username
@@ -61,19 +47,24 @@ namespace Quantum.Tala.Service.Business
             }
         }
 
-        int _Money;
-        /// <summary>
-        /// Read only. Thuộc tính này là chỉ đọc, đọc ra số tiền hiện có của User
-        /// </summary>
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
-        public int Money
+
+        public string System
         {
-            get { return _Money; }
-            set { _Money = value; }
+            get;
+            set;
+        }
+
+        public string FullIdentity
+        {
+            get;
+            set;
         }
 
         #endregion
 
+
+        public string Password { get; set; }
+        public int Money { get; set; }
         
         
         /// <summary>
@@ -132,7 +123,7 @@ namespace Quantum.Tala.Service.Business
         /// <returns>trả về số tiền được cập nhật xuống DB</returns>
         internal int AddMoney(int value, EnumPlayingResult why)
         {
-            _Money += value;
+            Money += value;
             
             // update xuống DB
             value = Cashier.AddGoldOfUser(this.Username, value, why, this._CurrentSoi.GetCurrentTournament());
@@ -147,16 +138,18 @@ namespace Quantum.Tala.Service.Business
         /// <returns>trả về số tiền được cập nhật xuống DB</returns>
         internal int SubtractMoney(int value, EnumPlayingResult why)
         {
-            _Money -= value;
+            Money -= value;
 
             // update xuống DB
             value = Cashier.SubtractGoldOfUser(this.Username, value, why, this._CurrentSoi.GetCurrentTournament());
 
             return value;
         }
-        
+
+
+
+
 
         
-
     }
 }
