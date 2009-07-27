@@ -14,7 +14,7 @@ namespace Quantum.Tala.Service
         public const int STARTUP_POINT_USER_STAT = 500;
 
         [TransactionBound]
-        public virtual void AdjustGold(string p_sUsername, int p_nValue, EnumPlayingResult p_enumWhy, int p_nTourID)
+        public virtual void AdjustGold(string p_sUsername, int p_nValue, EnumPlayingResult p_enumWhy, tournamentDTO p_Tour)
         {
             string sSQL = "update {0} set {1} point=point+({2}) where u='{3}'";            
 
@@ -28,10 +28,11 @@ namespace Quantum.Tala.Service
             {
                 sWinLose = "lose=lose+1,";
             }
-            string sTablename = "playing_user_stat";            
-            
-            object oRet = DAU._ExecuteNonQuery(string.Format(sSQL, sTablename, sWinLose, p_nValue, p_sUsername));
-            
+            string sTablename = "playing_user_stat";
+
+            /// nếu chơi sới có ratio > 0, điểm tăng nhanh hơn. Mặc định ration sẽ là 1
+            int nGoldRatio = p_Tour.pointratio > 0 ? p_Tour.pointratio : 1;
+            object oRet = DAU._ExecuteNonQuery(string.Format(sSQL, sTablename, sWinLose, nGoldRatio * p_nValue, p_sUsername));            
             if ((int)oRet <= 0)
             {
                 user_statDTO dto = new user_statDTO();
@@ -43,7 +44,7 @@ namespace Quantum.Tala.Service
             }
 
             sTablename = "game_user_tournament";
-            sSQL += " and tournamentid=" + p_nTourID;
+            sSQL += " and tournamentid=" + p_Tour.id;
             oRet = DAU._ExecuteNonQuery(string.Format(sSQL, sTablename, sWinLose, p_nValue, p_sUsername));
         }        
         

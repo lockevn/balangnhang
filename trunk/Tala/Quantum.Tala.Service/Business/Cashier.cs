@@ -53,7 +53,7 @@ namespace Quantum.Tala.Service.Business
         public static int SubtractGoldOfUser(string p_sUsername, int p_nValue, EnumPlayingResult p_enumWhy, tournamentDTO p_Tour)
         {
             IPlayingService playingsvc = ServiceLocator.Locate<IPlayingService, PlayingService>();
-            playingsvc.AdjustGold(p_sUsername, -p_nValue, p_enumWhy, p_Tour.id);            
+            playingsvc.AdjustGold(p_sUsername, -p_nValue, p_enumWhy, p_Tour);            
 
             return p_nValue;
         }        
@@ -61,7 +61,7 @@ namespace Quantum.Tala.Service.Business
         public static int AddGoldOfUser(string p_sUsername, int p_nValue, EnumPlayingResult p_enumWhy, tournamentDTO p_Tour)
         {
             IPlayingService playingsvc = ServiceLocator.Locate<IPlayingService, PlayingService>();
-            playingsvc.AdjustGold(p_sUsername, p_nValue, p_enumWhy, p_Tour.id);
+            playingsvc.AdjustGold(p_sUsername, p_nValue, p_enumWhy, p_Tour);
             return p_nValue;
         }
     
