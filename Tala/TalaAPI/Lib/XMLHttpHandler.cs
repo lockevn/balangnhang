@@ -87,11 +87,16 @@ namespace TalaAPI.Lib
             int nIsVanFinished = -1;
             /// Cố gắng lấy turn hiện tại nếu người chơi đang chơi dở, sới đang diễn ra
             TalaSecurity sec = new TalaSecurity(context, false);
-            // người chơi đã login, đã ở trong sới
+            // người chơi đã login, đã ở trong sới (đang chơi hoặc đang xem)
             if (sec.CurrentAU != null)
             {
                 Soi soi = sec.CurrentAU.CurrentSoi;
-                // người chơi hiện tại đã vào sới, sới đang chơi, có ván
+                if (null == soi)
+                {
+                    // try get from soiid
+                    soi = Song.Instance.GetSoiByID(APIParamHelper.GetParam("soiid", context, false));
+                }
+                
                 if (soi != null && soi.CurrentVan != null)
                 {
                     // lấy currentTurn ra, ghi vào response
