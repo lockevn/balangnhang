@@ -33,12 +33,30 @@ namespace Quantum.Tala.Service
             {
                 user = AuthenticateQuantum(p_sUsername, p_sPassword);
                 bFound = user == null ? false : true;
+                p_sServiceCode = bFound ? SERVICE_QUANTUM : p_sServiceCode;
             }
             if (!bFound && (p_sServiceCode == "*" || p_sServiceCode == SERVICE_VTC))
             {
                 user = AuthenticateVTC(p_sUsername, p_sPassword);
                 bFound = user == null ? false : true;
+                p_sServiceCode = bFound ? SERVICE_VTC : p_sServiceCode;
             }
+
+            user.System = p_sServiceCode;
+            user.FullIdentity = user.Username + "@@" + user.System;
+
+            #region Tạo bản ghi user trong hệ thống tá lả, nếu cần
+
+            if (p_sServiceCode != SERVICE_QUANTUM)
+            {
+                // TODO: Tạo bản ghi user trong hệ thống tá lả, nếu cần
+                userDTO userDBEntry = new userDTO { 
+                    
+                };
+            
+            }
+            
+            #endregion
 
             return user;
         }

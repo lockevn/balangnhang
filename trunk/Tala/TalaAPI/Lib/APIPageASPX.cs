@@ -16,5 +16,14 @@ namespace TalaAPI.Lib
     {
         public string StringDirectUnderRoot { get; set; }
         public string Stat { get; set; }
+
+        protected virtual void p(string s)
+        {
+            Response.Write(s);
+        }
+        protected virtual void pln(string s)
+        {
+            Response.Write(s + "<br />");
+        }
     }
 }

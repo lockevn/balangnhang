@@ -20,19 +20,18 @@ using Quantum.Tala.Service.Authentication;
 
 namespace TalaAPI.test
 {
-    public partial class p2 : TalaPage
+    public partial class p2 : APIPageASPX
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             Song song = Song.Instance;
-
-
+            
             pln("<pre>");
 
             TalaUser v1 = song.LoginVaoSongChoi("v1", "vtc");
             TalaUser v2 = song.LoginVaoSongChoi("v2", "vtc");
-            TalaUser v3 = song.LoginVaoSongChoi("v3", "vtc");
-            TalaUser v4 = song.LoginVaoSongChoi("v4", "vtc");
+            TalaUser v3 = song.LoginVaoSongChoi("vtc23", "111111");
+            TalaUser v4 = song.LoginVaoSongChoi("vtc24", "111111");
 
             pln("4 người login rồi");
 
@@ -45,8 +44,7 @@ namespace TalaAPI.test
             pln(v3.Username + " vào");
             soi.AddPlayer(v4.Username);
             pln(v4.Username + " vào");
-                        
-
+            
             soi.SetReady(v1);
             soi.SetReady(v2);
             soi.SetReady(v3);

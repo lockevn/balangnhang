@@ -10,7 +10,7 @@ using Quantum.Tala.Lib.XMLOutput;
 
 namespace TalaAPI.test
 {
-    public partial class p3 : TalaPage
+    public partial class p3 : APIPageASPX
     {
         protected void Page_Load(object sender, EventArgs e)
         {
