@@ -23,6 +23,7 @@ namespace Quantum.Tala.Service
 
 
         public const int MOM_POINTVALUE = 1000;
+        public const int HALAO_POINTVALUE = 2000;
 
         /// <summary>
         /// 4   , Số Seat tối đa cho phép trong 1 sới

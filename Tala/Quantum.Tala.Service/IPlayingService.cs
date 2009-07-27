@@ -3,6 +3,6 @@ namespace Quantum.Tala.Service
 {
     public interface IPlayingService
     {
-        int CreateUserStat(string username);
+        void AdjustGold(string p_sUsername, int p_nValue, Quantum.Tala.Service.Business.EnumPlayingResult p_enumWhy, int p_nTourID);
     }
 }

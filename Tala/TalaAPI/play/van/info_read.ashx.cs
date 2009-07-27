@@ -89,11 +89,6 @@ namespace TalaAPI.play.van
                     #endregion
                 }
 
-
-                ///TODO: for testing only
-                dtoVan.Noc = soi.CurrentVan.Noc;
-
-
                 Data.Add(dtoVan);
                 base.Stat = APICommandStatusState.OK;
             }

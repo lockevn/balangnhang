@@ -46,18 +46,7 @@ namespace TalaAPI.community.id
                 }
                 catch { }               
 
-                #endregion
-
-                #region Tạo stat nếu cần
-
-                try
-                {
-                    IPlayingService playingsvc = ServiceLocator.Locate<IPlayingService, PlayingService>();
-                    playingsvc.CreateUserStat(sUsername);
-                }
-                catch { }
-
-                #endregion
+                #endregion                
                 
             }            
             this.Cmd.Add(cs);            
