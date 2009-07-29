@@ -137,7 +137,7 @@ namespace Quantum.Tala.Service.Business
             this.AdvanceCurrentTurnIndex();
 
             /*nếu là seat đánh cuối cùng ở vòng cuối cùng thì end game (kiểm tra qua Nọc)*/
-            if (this._Noc.Count == 0)
+            if (this._Noc.Count == 52 - (9+4)* this.SoiDangChoi.SeatList.Count)
             {
                 this.EndVan_TinhDiem();
             }

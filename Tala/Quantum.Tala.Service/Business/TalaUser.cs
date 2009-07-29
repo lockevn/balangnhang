@@ -61,12 +61,21 @@ namespace Quantum.Tala.Service.Business
         }
 
         #endregion
-
-
+        
         public string Password { get; set; }
-        public int Money { get; set; }
-        
-        
+        public int Gold { get; set; }
+
+        /// <summary>
+        /// thông tin để TalaAPI có thể dựa vào đó, đăng nhập hộ, trừ tiền hộ cho User này ở bên VCoin
+        /// </summary>
+        public VTCBankCredential BankCredential { get; set; }
+
+        /// <summary>
+        /// IP của máy khách mà user này login vào. Ghi lại lúc login
+        /// </summary>
+        public string IP { get; set; }
+
+
         /// <summary>
         /// For displaying only
         /// </summary>
@@ -97,12 +106,10 @@ namespace Quantum.Tala.Service.Business
         /// Code thể hiện trạng thái của User hiện tại ngay sau khi họ login. VD: trạng thái: chưa đăng ký, chưa trả tiền, chưa được chơi...
         /// </summary>
         public string StatusCode { get; set; }
-
-
+        
         
         public user_statDTO UserStatDBEntry { get; set; }
-
-
+        
 
         public TalaUser()
         { }
@@ -123,7 +130,7 @@ namespace Quantum.Tala.Service.Business
         /// <returns>trả về số tiền được cập nhật xuống DB</returns>
         internal int AddMoney(int value, EnumPlayingResult why)
         {
-            Money += value;
+            Gold += value;
             
             // update xuống DB
             value = Cashier.AddGoldOfUser(this.Username, value, why, this._CurrentSoi.GetCurrentTournament());
@@ -138,7 +145,7 @@ namespace Quantum.Tala.Service.Business
         /// <returns>trả về số tiền được cập nhật xuống DB</returns>
         internal int SubtractMoney(int value, EnumPlayingResult why)
         {
-            Money -= value;
+            Gold -= value;
 
             // update xuống DB
             value = Cashier.SubtractGoldOfUser(this.Username, value, why, this._CurrentSoi.GetCurrentTournament());

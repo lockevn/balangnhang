@@ -27,6 +27,12 @@ namespace TalaAPI.community.soi
             int nRet = soi.StartPlaying();
             switch (nRet)
             {
+                case -4:
+                    // có người chơi Deathmatch mà lại thiếu tiền
+                    cs.ID = "DEATHMATCH_PLAYER_LACK_OF_MONEY";
+                    cs.Info = "Có người thiếu tiền chơi Deathmatch";
+                    break;
+
                 case -3:
                     // số người chơi chưa đúng (1 người ko chơi đc, hơn 4 người không chơi đc)                    
                     cs.ID = "NUMBER_OF_PLAYER";
