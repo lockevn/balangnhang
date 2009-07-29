@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{60BFBFA3-7265-4961-A25C-7B2AB71D71C0}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -155,6 +155,9 @@
     </Compile>
     <Compile Include="community\tournament\user_add.ashx.cs">
       <DependentUpon>user_add.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="community\user\soi_read.ashx.cs">
+      <DependentUpon>soi_read.ashx</DependentUpon>
     </Compile>
     <Compile Include="community\user\online_count.ashx.cs">
       <DependentUpon>online_count.ashx</DependentUpon>
@@ -342,6 +345,7 @@
     <Content Include="community\soi\user_add_auto.ashx" />
     <Content Include="admin\game\song_reset.ashx" />
     <Content Include="community\user\online_count.ashx" />
+    <Content Include="community\user\soi_read.ashx" />
     <None Include="Config\db.config">
     </None>
     <None Include="Config\serverlist.config" />
@@ -375,9 +379,6 @@
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost/TalaAPI</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
