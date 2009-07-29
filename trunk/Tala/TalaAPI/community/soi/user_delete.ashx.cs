@@ -17,67 +17,66 @@ namespace TalaAPI.community.soi
     {
         public override void ProcessRequest(HttpContext context)
         {
-            TalaSecurity security = new TalaSecurity(context);
-
-            string pu = context.Request["pu"].ToStringSafetyNormalize();
-            string soiid = APIParamHelper.GetParam("soiid", context);
-
+            TalaSecurity security = new TalaSecurity(context);            
             Soi soi = security.CheckUserJoinedSoi();
-            if (null == soi)
-            {
-                soi = Song.Instance.GetSoiByID(soiid);
-            }
-                
+            
             if (soi == null)
             {
-                APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "SOI_NOT_FOUND", "không tìm thấy sới");
+                APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "SOI_NOT_FOUND", "không tìm thấy sới hoặc bạn chưa vào sới nào");
                 Cmd.Add(cs);
+                base.ProcessRequest(context);
             }
-            else
+        
+            
+            string pu = context.Request["pu"].ToStringSafetyNormalize();
+            if (pu.IsNullOrEmpty())
             {
-                if (pu.IsNullOrEmpty())
+                // AU rời khỏi sới
+                int sResult = soi.RemovePlayer(security.CurrentAU.Username);
+                if (sResult >= 0)
                 {
-                    // AU rời khỏi sới
-                    int sResult = soi.RemovePlayer(security.CurrentAU.Username);
-                    if (sResult >= 0)
-                    { 
-                        APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "LEAVE_SOI", "Rời sới thành công");
-                        Cmd.Add(cs);
-                    }
-                    else
-                    {
-                        APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "LEAVE_SOI", "Rời sới thất bại");
-                        Cmd.Add(cs);
-                    }
+                    APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "LEAVE_SOI", "Rời sới thành công");
+                    Cmd.Add(cs);
                 }
                 else
                 {
-                    // Owner đuổi player khác
-                    if (security.CurrentAU.Username == soi.OwnerUsername)
-                    {
-                        TalaUser userNeedToRemove = Song.Instance.GetUserByUsername(pu);
-                        int nResult = soi.RemovePlayer(userNeedToRemove.Username);
-                        if (nResult >= 0)
-                        {
-                            APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "LEAVE_SOI", "đuổi thành công");
-                            Cmd.Add(cs);
-                        }
-                        else
-                        {
-                            APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "LEAVE_SOI", "không đuổi được, có thể do sai tên username");
-                            Cmd.Add(cs);
-                        }
-
-                    }
-                    else
-                    {
-                        // AU không phải là chủ sới, ko cho đuổi
-                        APICommandStatus cs = APICommandStatus.Get_NOT_ALLOW_CommandStatus();
-                        cs.Info = "bạn không phải chủ sới, không kick player được";
-                        Cmd.Add(cs);
-                    }
+                    APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "LEAVE_SOI", "Rời sới thất bại");
+                    Cmd.Add(cs);
                 }
             }
+            else
+            {
+                // Owner đuổi player khác
+                if (security.CurrentAU.Username != soi.OwnerUsername)
+                {
+                    // AU không phải là chủ sới, ko cho đuổi
+                    APICommandStatus cs = APICommandStatus.Get_NOT_ALLOW_CommandStatus();
+                    cs.Info = "bạn không phải chủ sới, không kick player được";
+                    Cmd.Add(cs);
+                    base.ProcessRequest(context);
+                }
+
+                TalaUser userNeedToRemove = Song.Instance.GetUserByUsername(pu);
+                if (null == userNeedToRemove)
+                {
+                    APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "LEAVE_SOI", "username không tồn tại");
+                    Cmd.Add(cs);
+                    base.ProcessRequest(context);
+                }
+
+
+                int nResult = soi.RemovePlayer(userNeedToRemove.Username);
+                if (nResult >= 0)
+                {
+                    APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "LEAVE_SOI", "đuổi thành công");
+                    Cmd.Add(cs);
+                }
+                else
+                {
+                    APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "LEAVE_SOI", "lỗi không đuổi được");
+                    Cmd.Add(cs);
+                }
+            }     
 
             base.ProcessRequest(context);
         }
