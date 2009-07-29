@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AABD5431-60C9-451D-AF35-BC42C82BF63D}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -88,6 +88,7 @@
     <Compile Include="Authentication\IUser.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Business\BankCredential.cs" />
     <Compile Include="Business\EnumPlayingResult.cs" />
     <Compile Include="Business\TalaUser.cs" />
     <Compile Include="Business\TalaBusinessUtil.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="DTO\_user_statDTO.gen.cs" />
     <Compile Include="DTO\_user_tournamentDTO.gen.cs" />
     <Compile Include="DTO\user_statDTO.cs" />
+    <Compile Include="IDeathmatchService.cs" />
     <Compile Include="IMoneyService.cs" />
     <Compile Include="IPlayingService.cs" />
     <Compile Include="ITournamentService.cs" />

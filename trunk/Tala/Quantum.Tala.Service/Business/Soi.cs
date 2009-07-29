@@ -12,6 +12,7 @@ using Quantum.Tala.Service.Authentication;
 using System.Text;
 using System.Web;
 using Quantum.Tala.Service.DTO;
+using GURUCORE.Framework.Business;
 
 
 namespace Quantum.Tala.Service.Business
@@ -449,7 +450,9 @@ namespace Quantum.Tala.Service.Business
         /// <summary>
         /// Nếu tất cả sẵn sàng, sới chưa bắt đầu, số người chơi đầy đủ hợp lệ, create ra ván mới, cho anh em chơi
         /// </summary>
-        /// <returns>Trả về 1 nếu OK.Trả về -1 nếu mọi người chưa sẵn sàng, -2 nếu sới đang chơi, -3 số người chơi không hợp lệ (< 2 hoặc  >4)</returns>
+        /// <returns>Trả về 1 nếu OK.
+        /// Trả về -1 nếu mọi người chưa sẵn sàng, -2 nếu sới đang chơi, -3 số người chơi không hợp lệ (< 2 hoặc  >4)
+        /// trả về -4 nếu tourtype = deathmatch, mà lại có chú thiếu tiền không nộp lệ phí đủ được</returns>
         public int StartPlaying()
         {
             if (_IsPlaying)
@@ -483,6 +486,33 @@ namespace Quantum.Tala.Service.Business
             this.DBEntry.isend = false;
             this.DBEntry.starttime = DateTime.Now;
             this.DBEntry.option = this.SoiOption.ToXMLString();
+
+
+            #region Trừ tiền các đồng chí tham gia, nếu cần (DeathMatch)                        
+
+            if (this.GetCurrentTournament().type == (int)TournamentType.DeadMatch)
+            {
+                List<TalaUser> arrBankCredentialToSubtract = new List<TalaUser>();
+                foreach (Seat seat in SeatList)
+                {
+                    arrBankCredentialToSubtract.Add(seat.Player);
+                }
+
+                IDeathmatchService deathmatchsvc = ServiceLocator.Locate<IDeathmatchService, DeathmatchService>();
+                List<string> arrResult = deathmatchsvc.SubtractVCoinBeforeStartSoi(arrBankCredentialToSubtract, this.GetCurrentTournament());
+                if (arrResult.Count <= 0)
+                {
+                    // không có chú nào thiếu tiền cả, tiền thì trừ rồi, cho chơi thôi
+                    return 0;
+                }
+                else
+                {
+                    return -4;
+                }
+            }
+
+            #endregion
+
 
             return 0;
         }
