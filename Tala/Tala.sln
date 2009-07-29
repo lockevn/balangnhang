@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalaAPI", "TalaAPI\TalaAPI.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBusiness", "TestBusiness\TestBusiness.csproj", "{9FB64EAE-2189-4C3D-8B30-DA0A305F70A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GURUCORE.Framework.DataAccess", "F:\GURUCORE\Technical\Code\Framework\GURUCORE.Framework.DataAccess\GURUCORE.Framework.DataAccess.csproj", "{EF4B736D-FEEA-47A3-843C-B49D0E55372B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,16 +58,6 @@ Global
 		{9FB64EAE-2189-4C3D-8B30-DA0A305F70A8}.Survey_Showroom|Any CPU.Build.0 = Release|Any CPU
 		{9FB64EAE-2189-4C3D-8B30-DA0A305F70A8}.TEST_Program|Any CPU.ActiveCfg = Release|Any CPU
 		{9FB64EAE-2189-4C3D-8B30-DA0A305F70A8}.TEST_Program|Any CPU.Build.0 = Release|Any CPU
-		{EF4B736D-FEEA-47A3-843C-B49D0E55372B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF4B736D-FEEA-47A3-843C-B49D0E55372B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF4B736D-FEEA-47A3-843C-B49D0E55372B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF4B736D-FEEA-47A3-843C-B49D0E55372B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EF4B736D-FEEA-47A3-843C-B49D0E55372B}.Run Portal Server As Debug|Any CPU.ActiveCfg = Run Portal Server As Debug|Any CPU
-		{EF4B736D-FEEA-47A3-843C-B49D0E55372B}.Run Portal Server As Debug|Any CPU.Build.0 = Run Portal Server As Debug|Any CPU
-		{EF4B736D-FEEA-47A3-843C-B49D0E55372B}.Survey_Showroom|Any CPU.ActiveCfg = Survey_Showroom|Any CPU
-		{EF4B736D-FEEA-47A3-843C-B49D0E55372B}.Survey_Showroom|Any CPU.Build.0 = Survey_Showroom|Any CPU
-		{EF4B736D-FEEA-47A3-843C-B49D0E55372B}.TEST_Program|Any CPU.ActiveCfg = TEST_Program|Any CPU
-		{EF4B736D-FEEA-47A3-843C-B49D0E55372B}.TEST_Program|Any CPU.Build.0 = TEST_Program|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
