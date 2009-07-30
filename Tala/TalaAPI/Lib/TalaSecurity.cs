@@ -91,7 +91,12 @@ namespace TalaAPI.Lib
 
         public Seat CheckUserJoinedSeat()
         {
-            Soi soi = this.CurrentAU.CurrentSoi;            
+            Soi soi = this.CurrentAU.CurrentSoi;
+            if (null == soi)
+            {
+                return null;
+            }
+
             Seat seat = soi.GetSeatByUsername(this.CurrentAU.Username);
             if (seat == null)
             {

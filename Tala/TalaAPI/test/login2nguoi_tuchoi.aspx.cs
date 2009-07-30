@@ -28,8 +28,8 @@ namespace TalaAPI.test
             
             pln("<pre>");
             
-            TalaUser v3 = song.LoginVaoSongChoi("vtc23", "111111");
-            TalaUser v4 = song.LoginVaoSongChoi("vtc24", "111111");
+            TalaUser v3 = song.LoginVaoSongChoi("v0", "vtc");
+            TalaUser v4 = song.LoginVaoSongChoi("v1", "vtc");
             pln(v3.Username + " login rồi");
             pln(v4.Username + " login rồi");
             
@@ -50,7 +50,7 @@ namespace TalaAPI.test
             pln("================================================================================");
                         
             
-            for (int i = 0; i < (soi.SeatList.Count * 4 - 1) ; i++)
+            for (int i = 0; i < (soi.SeatList.Count * 4) ; i++)
             {
                 Seat seat = soi.GetSeatOfCurrentInTurn();
                 try

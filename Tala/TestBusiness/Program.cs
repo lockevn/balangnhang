@@ -16,7 +16,6 @@ using GURUCORE.Framework.Business;
 using Quantum.Tala.Service.DTO;
 using GURUCORE.Framework.Core;
 //using CH.Combinations;
- 
 
 namespace TestBusiness
 {
@@ -30,40 +29,70 @@ namespace TestBusiness
     {
         static void Main(string[] args)
         {
-            TalaProgramApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());
-            
-            IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
-            IUser u2 = (new AuthenticationService()).Authenticate("vtc", "vtc21", "111111");
-            Console.WriteLine(u2.Username);
+            //TalaProgramApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());            
+            //IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
+            //IUser u2 = (new AuthenticationService()).Authenticate("quantum", "vtc21", "111111");
+            //Console.WriteLine("Test login with quantum database DB.security_user OK: " + u2.Username);
 
 
-            //string sServiceCode = "1001";
-            //string sAccount = "danhut";
-            //string sMakerCode = "EAC";
+            string sServiceCode = "3006";
+            string sAccount = "vtc21";
+            string sMakerCode = "VTC";
 
-            //WSVTCGateTopup.VTCGateTopupSoapClient ws = new TestBusiness.WSVTCGateTopup.VTCGateTopupSoapClient();
-            //VTCDataSignature.DataSign ds = new VTCDataSignature.DataSign();            
-            //string orgrinData = sServiceCode + "-" + sAccount + "-" + sMakerCode;
-            //string Sign = ds.GetSignatureXmlKey(orgrinData, "PrivateKeyTest.xml");
-            
-            //string s = ws.CheckAccountEXISTS(sServiceCode, sAccount, sMakerCode,  Sign);
+            Quantum.Tala.Service.VTCGateTopup.VTCGateTopupSoapClient ws = new Quantum.Tala.Service.VTCGateTopup.VTCGateTopupSoapClient();
+            VTCDataSignature.DataSign ds = new VTCDataSignature.DataSign();
+            string orgrinData = sServiceCode + "-" + sAccount + "-" + sMakerCode;
+            string sDataSign = ds.GetSignatureXmlKey(orgrinData, "PrivateKeyTest.xml");
+            string s = ws.CheckAccountEXISTS(sServiceCode, sAccount, sMakerCode, sDataSign);
+            Console.WriteLine(s);
 
-            //Console.WriteLine(Sign);
-            //Console.WriteLine(s);
+            int accountID = 1;
+            orgrinData = sServiceCode + "-" + accountID + "-" + sMakerCode;
+            sDataSign = ds.GetSignatureXmlKey(orgrinData, "PrivateKeyTest.xml");
+            var ai = ws.GetAccountInfo(accountID, sMakerCode, sServiceCode, sDataSign);
+            Console.WriteLine(ai.ToString());
+
+            Console.WriteLine("Press enter to quit");
             Console.ReadLine();
+        }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        static void TestPerformanceXMLStringBuilder()
+        {
             #region Test performance with XElement and StringBuilder
-            
+
             // StringBuilder faster 2x with Xelement, but not signical
-            
+
             //XElement superX = new XElement("root");
             //StringBuilder superString = new StringBuilder();
 
             //DateTime start;
             //DateTime end;
             //TimeSpan elap;
-            
+
             //start = DateTime.Now;
             //for (int i = 0; i < 500000; i++)
             //{
@@ -87,7 +116,7 @@ namespace TestBusiness
             //        );
             //    superX.Add(x);//x.ToString();
             //}
-            
+
             //end = DateTime.Now;
             //elap = end.Subtract(start);
             //Console.WriteLine(elap.TotalMilliseconds);
@@ -120,11 +149,7 @@ namespace TestBusiness
             //Console.WriteLine(elap.TotalMilliseconds);
 
             #endregion
-
-
-
         }
-
 
         public static string EncryptString(string inputString, int dwKeySize,
                              string xmlString)
@@ -195,6 +220,13 @@ namespace TestBusiness
         }
 
 
+
+
+
+
+
+
+
         static void TestU()
         {
             List<Card> cardList = new List<Card>();
@@ -259,7 +291,7 @@ namespace TestBusiness
             Console.ReadLine();
         }
 
-        static int uCount = 0;
+        // static int uCount = 0;
 
         static void TestMain(string[] args)
         {
