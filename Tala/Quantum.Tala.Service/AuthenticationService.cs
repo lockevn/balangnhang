@@ -45,7 +45,7 @@ namespace Quantum.Tala.Service
             user.System = p_sServiceCode;
             user.FullIdentity = user.Username + "@@" + user.System;
 
-            #region Tạo bản ghi user trong hệ thống tá lả, nếu cần
+            #region Tạo bản ghi cache user này trong hệ thống tá lả, nếu cần
 
             if (p_sServiceCode != SERVICE_QUANTUM)
             {
@@ -90,13 +90,21 @@ namespace Quantum.Tala.Service
         [TransactionBound]
         public virtual IUser AuthenticateVTC(string p_sUsername, string p_sPassword)
         {
+            CryptoUtil cu = new CryptoUtil();
+            return AuthenticateVTC_MD5HashedPassword(p_sUsername, cu.MD5Hash(p_sPassword));            
+        }
+
+
+        [TransactionBound]
+        public virtual IUser AuthenticateVTC_MD5HashedPassword(string p_sUsername, string p_sHashedPassword)
+        {
             bool bAuthenticateOK = false;
 
             CryptoUtil cu = new CryptoUtil();
-            
-            // TODO: add VTC authentication process here, to verify username password against VTC System
+
+            // VTC authentication process here, to verify username password against VTC System
             VTCBillingService.VTCBillingServiceSoapClient ws = new VTCBillingService.VTCBillingServiceSoapClient("VTCBillingServiceSoap12");
-            string sVTCReturn = ws.Authenticate(p_sUsername, cu.MD5Hash(p_sPassword));
+            string sVTCReturn = ws.Authenticate(p_sUsername, p_sHashedPassword);
             VTCResponseInfo response = VTCResponseInfo.Parse(sVTCReturn);
 
             if (response.ParseOK && int.Parse(response.GetItem(0, "-1")) > 0)
@@ -113,7 +121,16 @@ namespace Quantum.Tala.Service
             {
                 TalaUser userOK = new TalaUser();
                 userOK.Username = p_sUsername;
-                userOK.Password = p_sPassword;
+                userOK.Password = p_sHashedPassword;
+
+                // nếu login bằng VTC, thì BankCredential chính là u/p để login với VTC
+                userOK.BankCredential = new VTCBankCredential
+                {
+                    Username = p_sUsername,
+                    BankUsername = p_sUsername,
+                    BankPassword = p_sHashedPassword
+                };
+
                 return userOK;
             }
             else

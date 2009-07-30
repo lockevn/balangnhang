@@ -214,26 +214,33 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TalaProgramApplication.cs" />
-    <Compile Include="test\p1.aspx.cs">
-      <DependentUpon>p1.aspx</DependentUpon>
+    <Compile Include="test\login2nguoi_tuchoi.aspx.cs">
+      <DependentUpon>login2nguoi_tuchoi.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="test\p1.aspx.designer.cs">
-      <DependentUpon>p1.aspx</DependentUpon>
+    <Compile Include="test\login2nguoi_tuchoi.aspx.designer.cs">
+      <DependentUpon>login2nguoi_tuchoi.aspx</DependentUpon>
     </Compile>
-    <Compile Include="test\p2.aspx.cs">
-      <DependentUpon>p2.aspx</DependentUpon>
+    <Compile Include="test\create50soi.aspx.cs">
+      <DependentUpon>create50soi.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="test\p2.aspx.designer.cs">
-      <DependentUpon>p2.aspx</DependentUpon>
+    <Compile Include="test\create50soi.aspx.designer.cs">
+      <DependentUpon>create50soi.aspx</DependentUpon>
     </Compile>
-    <Compile Include="test\p3.aspx.cs">
-      <DependentUpon>p3.aspx</DependentUpon>
+    <Compile Include="test\login4_taosoi_ready3.aspx.cs">
+      <DependentUpon>login4_taosoi_ready3.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="test\p3.aspx.designer.cs">
-      <DependentUpon>p3.aspx</DependentUpon>
+    <Compile Include="test\login4_taosoi_ready3.aspx.designer.cs">
+      <DependentUpon>login4_taosoi_ready3.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="test\login4nguoi_tuchoiden15luot.aspx.cs">
+      <DependentUpon>login4nguoi_tuchoiden15luot.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="test\login4nguoi_tuchoiden15luot.aspx.designer.cs">
+      <DependentUpon>login4nguoi_tuchoiden15luot.aspx</DependentUpon>
     </Compile>
     <Compile Include="test\start.ashx.cs">
       <DependentUpon>start.ashx</DependentUpon>
@@ -318,9 +325,8 @@
   <ItemGroup>
     <Content Include="crossdomain.xml" />
     <Content Include="play\van\phomdaha_list.ashx" />
-    <Content Include="test\p1.aspx" />
-    <Content Include="test\p2.aspx" />
-    <Content Include="test\p3.aspx" />
+    <Content Include="test\login4_taosoi_ready3.aspx" />
+    <Content Include="test\login4nguoi_tuchoiden15luot.aspx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quantum.Tala.Lib\Quantum.Tala.Lib.csproj">
@@ -357,6 +363,8 @@
     </Content>
     <None Include="TalaAPI.dll.log4net" />
     <Content Include="favicon.ico" />
+    <Content Include="test\login2nguoi_tuchoi.aspx" />
+    <Content Include="test\create50soi.aspx" />
     <Content Include="test\start.ashx" />
     <Content Include="test\user_ready.ashx" />
   </ItemGroup>

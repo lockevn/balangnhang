@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TalaAPI.Lib;
 using Quantum.Tala.Service.Business;
 using Quantum.Tala.Lib.XMLOutput;
+using Quantum.Tala.Lib;
 
 namespace TalaAPI.community.soi
 {
@@ -14,13 +15,15 @@ namespace TalaAPI.community.soi
         {
             string tournamentid = APIParamHelper.GetParam("tournamentid", context, false);
 
+
             if (string.IsNullOrEmpty(tournamentid))
             {
-                tournamentid = "1";
-            }
-            
+                tournamentid = ((int)TournamentType.Free).ToString();
+            }            
             var soiOfTour = Song.Instance.GetSoiByTournamentID(tournamentid);
-            Data.AddRange(soiOfTour.ToArray());
+            Data.AddRange(                
+                soiOfTour.Page(APIParamHelper.GetPagingPage(), APIParamHelper.GetPagingItemPerPage()).ToArray()
+                );
             base.Stat = APICommandStatusState.OK;
 
             base.ProcessRequest(context);

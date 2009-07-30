@@ -30,30 +30,18 @@ namespace Quantum.Tala.Service.Business
         public int CurrentTurnSeatIndex
         {
             get { return _CurrentTurnSeatIndex; }
-            // HACK: không cho truy xuất từ bên ngoài trực tiếp vào biến Turn này, tránh sai sót.
+            // HACK: không cho gán từ bên ngoài trực tiếp vào biến Turn này, tránh sai sót.
             // set { _CurrentTurnSeatIndex = value; }
         }
 
         public bool IsFinished { get; set; }
         public int CurrentRound { get; set; }
-        public Soi SoiDangChoi { get; set; }
-
+        public string WinnerUsername { get; set; }
         
+        public Soi SoiDangChoi { get; set; }        
         internal List<Card> _Noc { get; set; }
 
-        public List<Card> Noc        
-        {
-            get
-            {
-                return _Noc;
-            }
-        }
 
-        
-
-        public string WinnerUsername { get; set; }
-
-        private List<Seat> _AnChotNguyCoDenList; /*list các seat ăn chốt có nguy cơ đền*/
 
         List<Message> _MessageList = new List<Message>();
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false, false)]
@@ -62,6 +50,11 @@ namespace Quantum.Tala.Service.Business
             get { return _MessageList; }
             set { _MessageList = value; }
         }
+
+
+        private List<Seat> _AnChotNguyCoDenList; /*list các seat ăn chốt có nguy cơ đền*/
+
+
 
 
 
@@ -94,6 +87,7 @@ namespace Quantum.Tala.Service.Business
                 }
             }
         }
+
 
 
         /// <summary>
@@ -137,7 +131,7 @@ namespace Quantum.Tala.Service.Business
             this.AdvanceCurrentTurnIndex();
 
             /*nếu là seat đánh cuối cùng ở vòng cuối cùng thì end game (kiểm tra qua Nọc)*/
-            if (this._Noc.Count == 52 - (9+4)* this.SoiDangChoi.SeatList.Count)
+            if (this._Noc.Count <= 52 - (9+4)* this.SoiDangChoi.SeatList.Count)
             {
                 this.EndVan_TinhDiem();
             }

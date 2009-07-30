@@ -35,21 +35,19 @@ namespace TalaAPI.community.id
             }
             else
             {
-                cs = new APICommandStatus(APICommandStatusState.OK, "LOGIN", user.Authkey);
-
-                IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
-                IPlayingService playingsvc = ServiceLocator.Locate<IPlayingService, PlayingService>();
-                
+                user.IP = TalaSecurity.GetClientIP();
+                cs = new APICommandStatus(APICommandStatusState.OK, "LOGIN", user.Authkey);                
 
                 #region Log lại hành vi login này
-                    
+
+                IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();    
                 try
                 {
                     authensvc.LogLoginAction(
                         TalaSecurity.GetClientIP(),
                         string.Format("{0}#{1}#{2}", cs.ToXMLString(), context.Request.UserHostName, context.Request.UserAgent),
                         sUsername);
-                    log.Info(string.Format("{0}#{1}#{2}#{3}#{4}", cs.ToXMLString(), context.Request.UserHostName, context.Request.UserAgent,TalaSecurity.GetClientIP(), sUsername));
+                    log.Info(string.Format("{0}#{1}#{2}#{3}#{4}", cs.ToXMLString(), context.Request.UserHostName, context.Request.UserAgent, user.IP, sUsername));
                 }
                 catch { }               
 

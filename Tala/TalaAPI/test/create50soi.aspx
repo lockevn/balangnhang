@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="p3.aspx.cs" Inherits="TalaAPI.test.p3" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="create50soi.aspx.cs" Inherits="TalaAPI.test.create50soi" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
-    <title></title>
+    <title>Untitled Page</title>
 </head>
 <body>    
 </body>
