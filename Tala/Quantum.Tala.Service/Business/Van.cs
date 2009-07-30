@@ -103,20 +103,26 @@ namespace Quantum.Tala.Service.Business
                 return false;
             }
 
-            /* kiểm tra nếu đến lượt phải hạ phỏm, thằng này có ăn cây nào mà không hạ phỏm k */
-            if (seat.BaiDaDanh.Count == 3 && seat.BaiDaAn.Count > 0)
-            {
-                // TODO: kiểm tra current Tournament Type để quyết định có dừng ván hay không?
-                // this.SoiDangChoi.GetCurrentTournament().type
-                
-                this.EndVan_HaLao(seat);
-                return true;
-            }
-
             /*chuyen card tu BaiTrenTay cua seat[i] sang BaiDaDanh cua seat[i]*/
             seat.BaiTrenTay.Remove(card);
-            seat.BaiDaDanh.Add(card);
+            seat.BaiDaDanh.Add(card);            
 
+            /* kiểm tra nếu đến lượt phải hạ phỏm, thằng này có ăn cây nào mà không hạ phỏm k */
+            if (seat.BaiDaDanh.Count >= 3 && seat.BaiDaAn.Count > 0)
+            {
+                // kiểm tra current Tournament Type để quyết định có dừng ván hay không?
+                if (SoiDangChoi.GetCurrentTournament().type == (int)TournamentType.DeadMatch
+                 || SoiDangChoi.GetCurrentTournament().type == (int)TournamentType.TennisTree)
+                {
+                    // với các thể thức này, không dừng ván ngay mà chơi tiếp, vì bọn hạ láo tính điểm 2000 + HaIndex mà
+                }
+                else
+                {
+                    this.EndVan_HaLao(seat);
+                    return true;
+                }
+            }
+            
             /*nếu sau khi đánh mà bài trên tay của seat count=0 --> ù thường
              --> giải quyết trường hợp gửi xong còn 1 cây trên tay đánh nốt.
              */
@@ -125,18 +131,18 @@ namespace Quantum.Tala.Service.Business
                 /*cho seat U va endVan*/
                 this.EndVan_U(seat, null, false);
                 return true;
-            }
-
-            /*chuyển turn sang next seat*/
-            this.AdvanceCurrentTurnIndex();
+            }            
 
             /*nếu là seat đánh cuối cùng ở vòng cuối cùng thì end game (kiểm tra qua Nọc)*/
             if (this._Noc.Count <= 52 - (9+4)* this.SoiDangChoi.SeatList.Count)
             {
                 this.EndVan_TinhDiem();
             }
-            return true;
 
+            /*chuyển turn sang next seat*/
+            this.AdvanceCurrentTurnIndex();
+
+            return true;
         }
 
         /// <summary>
@@ -557,18 +563,24 @@ namespace Quantum.Tala.Service.Business
             for (int i = 1  ; i < pointArr.Length; i++)
             {
                 Seat seat = resultSeatArr[i];
-                int chip = 0; /*so chip phai nop*/
+                int chip = 0; /* số chip thằng hiện tại phải nộp */
                 if (pointArr[i] < CONST.MOM_POINTVALUE)
                 {
                     /*vị trí i sẽ phải trả i chip cho thằng nhất*/
                     chip = i;
                     this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: " + pointArr[i] + "     Số chip: -" + chip);
                 }
-                else
+                else if (CONST.MOM_POINTVALUE <= pointArr[i] && pointArr[i] < CONST.HALAO_POINTVALUE)
                 {
                     /*nộp móm*/
                     chip = Cashier.CHIP_MOM;
                     this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: Móm     Số chip: -" + chip);
+                }
+                else
+                {
+                    /*hạ láo, gấp đôi móm */
+                    chip = Cashier.CHIP_MOM * 2;
+                    this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: Ăn láo     Số chip: -" + chip);
                 }
 
 
@@ -800,12 +812,13 @@ namespace Quantum.Tala.Service.Business
         /// <returns>true/false</returns>        
         private bool CheckHaLao(Seat seat, List<Phom> phomList)
         {
-            if (phomList == null || phomList.Count == 0)
+            // ăn rồi mà ko chịu hạ phỏm nào
+            if (seat.BaiDaAn.Count > 0 && (phomList == null || phomList.Count == 0))
             {
                 return true;
             }
 
-            /*có 1 phỏm chứa > 1 cây đã ăn --> hạ láo*/
+            // có 1 phỏm chứa > 1 cây đã ăn --> hạ láo
             foreach (Phom phom in phomList)
             {
                 bool bFound = false; /*chua tim thay card nao trong bai da an co mat trong phom*/
@@ -824,7 +837,7 @@ namespace Quantum.Tala.Service.Business
                 }
             }
 
-            /*kiểm tra cây đã ăn phải thuộc 1 và chỉ 1 phỏm*/
+            // kiểm tra cây đã ăn phải thuộc 1 và chỉ 1 phỏm
             foreach (Card card in seat.BaiDaAn)
             {
                 bool found = false; /*card chua nam trong phom nao*/
@@ -856,8 +869,7 @@ namespace Quantum.Tala.Service.Business
 
 
         /// <summary>
-        /// Tính điểm bài trên tay còn lại của tất cả các seat
-        /// 
+        /// Tính điểm bài trên tay còn lại của tất cả các seat        
         /// </summary>
         /// <returns>mảng các giá trị int là điểm của seat với index tương ứng</returns>
         private int[] TinhDiemBaiTrenTay()
@@ -865,21 +877,20 @@ namespace Quantum.Tala.Service.Business
             int[] tmpArr = new int[this.SoiDangChoi.SeatList.Count];
             foreach (Seat seat in this.SoiDangChoi.SeatList)
             {
-                // TODO: với thể thức DeathMatch, tính điểm ăn láo thành 2000, 2001, 2002, 2003
-                if(this.SoiDangChoi.GetCurrentTournament().type == (int)TournamentType.DeadMatch)
-                {
-                    if(this.CheckHaLao(seat, seat.PhomList))
-                    {
-                        // TODO: có bài đã ăn, mà cây ăn chưa hạ, tính là hạ láo
-                        /// chú ý điều kiện để ràng chặt cả chuyện nó ăn 2 cây, hạ 1 phỏm, còn cây kia vẫn là hạ láo
-                        tmpArr[seat.Pos] = CONST.HALAO_POINTVALUE + seat.HaIndex;
-                    }
-                    continue;
-                }
+                // với thể thức DeathMatch, tính điểm ăn láo thành 2000, 2001, 2002, 2003
+                //if(this.SoiDangChoi.GetCurrentTournament().type == (int)TournamentType.DeadMatch
+                //    || this.SoiDangChoi.GetCurrentTournament().type == (int)TournamentType.TennisTree
+                //    )
                 
-                /*nếu seat bị móm, điểm = 1000 + hạ Index*/
-                if (seat.PhomList.Count == 0)
+                if(this.CheckHaLao(seat, seat.PhomList))
                 {
+                    // TODO: có bài đã ăn, mà cây ăn chưa hạ, tính là hạ láo
+                    /// chú ý điều kiện để ràng chặt cả chuyện nó ăn 2 cây, hạ 1 phỏm, còn cây kia vẫn là hạ láo
+                    tmpArr[seat.Pos] = CONST.HALAO_POINTVALUE + seat.HaIndex;
+                }
+                else if (seat.PhomList.Count == 0)
+                {
+                    /*nếu seat bị móm, điểm = 1000 + hạ Index*/
                     tmpArr[seat.Pos] = CONST.MOM_POINTVALUE + seat.HaIndex;
                 }
                 else
