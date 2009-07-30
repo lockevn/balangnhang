@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MySql.Data.Types;
 
 namespace Quantum.Tala.Lib
 {
@@ -87,6 +88,19 @@ namespace Quantum.Tala.Lib
         {
             return GURUCORE.Lib.Core.Text.TextHelper.DateTimeToUTCString(dtm);
         }
+
+        public static string ToUTCString(this MySqlDateTime dtm)
+        {
+            return GURUCORE.Lib.Core.Text.TextHelper.DateTimeToUTCString((DateTime)dtm);
+        }
+
+    
+        //used by LINQ
+        public static IEnumerable<TSource> Page<TSource>(this IEnumerable<TSource> source, int page, int itemperpage)
+        {
+            return source.Skip((page - 1) * itemperpage).Take(itemperpage);
+        }        
+        
     }
 }
 

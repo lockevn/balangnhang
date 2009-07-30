@@ -46,59 +46,64 @@ namespace TalaAPI.play.van
                     base.ProcessRequest(context);
                     return;
                 }
-            }
-            else
-            {
-                // là player, cho chạy tiếp để view
-                // ấn luôn bài trên tay vào
-                Seat currentAUSeat = security.CheckUserJoinedSeat();
-                foreach (Card card in currentAUSeat.BaiTrenTay)
-                {
-                    dtoVan.BaiTrenTay.Add(card);
-                }                
-            }
+            }          
 
             
-            // đến đc đây, là sới != null (hoặc là sới của player, hoặc là sới đc xem, render thôi
-            if(soi.IsPlaying)
+            // đến đc đây, là sới != null (hoặc là sới của player, hoặc là sới đc xem, render thôi)
+                          
+            dtoVan.VanInfo = soi.CurrentVan;
+            foreach (Seat seat in soi.SeatList)
             {
-                
-                dtoVan.VanInfo = soi.CurrentVan;
-                foreach (Seat seat in soi.SeatList)
+                foreach (Card card in seat.BaiDaAn)
                 {
-                    foreach (Card card in seat.BaiDaAn)
-                    {
-                        card.Pos = seat.Pos;
-                        dtoVan.BaiDaAn.Add(card);
-                    }
-                    foreach (Card card in seat.BaiDaDanh)
-                    {
-                        card.Pos = seat.Pos;
-                        dtoVan.BaiDaDanh.Add(card);
-                    }
-
-                    #region Phỏm đã hạ
-
-                    foreach (Phom phom in seat.PhomList)
-                    {
-                        phom.Pos = seat.Pos;
-                        dtoVan.PhomDaHa.Add(phom);
-                    }
-
-                    #endregion
+                    card.Pos = seat.Pos;
+                    dtoVan.BaiDaAn.Add(card);
+                }
+                foreach (Card card in seat.BaiDaDanh)
+                {
+                    card.Pos = seat.Pos;
+                    dtoVan.BaiDaDanh.Add(card);
                 }
 
-                Data.Add(dtoVan);
-                base.Stat = APICommandStatusState.OK;
+                #region Phỏm đã hạ
+
+                foreach (Phom phom in seat.PhomList)
+                {
+                    phom.Pos = seat.Pos;
+                    dtoVan.PhomDaHa.Add(phom);
+                }
+
+                #endregion
+            }
+
+            if (soi.CurrentVan.IsFinished)
+            {
+                // kết thúc rồi, là cuối ván, show hết hàng họ ra thôi, show cả bài trên tay của mọi người
+                foreach (Seat seat in soi.SeatList)
+                {
+                    foreach (Card card in seat.BaiTrenTay)
+                    {
+                        card.Pos = seat.Pos;
+                        dtoVan.BaiTrenTay.Add(card);
+                    }
+                }
             }
             else
             {
-                APICommandStatus cs = APICommandStatus.Get_NOT_VALID_CommandStatus();
-                cs.Info += "Không có ván nào đang chơi";
-                Cmd.Add(cs);
+                // nếu currentAU là player, cho view, ấn luôn bài trên tay của chính họ
+                Seat currentAUSeat = security.CheckUserJoinedSeat();
+                if (null != currentAUSeat)
+                {
+                    foreach (Card card in currentAUSeat.BaiTrenTay)
+                    {
+                        dtoVan.BaiTrenTay.Add(card);
+                    }
+                }
             }
 
-
+            Data.Add(dtoVan);
+            base.Stat = APICommandStatusState.OK;
+           
             base.ProcessRequest(context);
         }
     }

@@ -14,6 +14,7 @@ using Quantum.Tala.Service.Business;
 using Quantum.Tala.Service.Authentication;
 using GURUCORE.Framework.Business;
 using Quantum.Tala.Service.DTO;
+using MySql.Data.Types;
 
 
 
@@ -203,7 +204,7 @@ namespace Quantum.Tala.Service.Business
                 {
                     // lần đầu, tạo authkey mới, thêm vào các mảng cache
                     // generate new authkey
-                    user.Authkey = user.Username + FunctionExtension.GetRandomGUID();
+                    user.Authkey = user.Username + "^" + FunctionExtension.GetRandomGUID();
 
                     // TODO: chỗ này chỉ dùng test, bỏ dòng dưới đi
                     #if DEBUG
@@ -218,6 +219,8 @@ namespace Quantum.Tala.Service.Business
                     // lần login lại, lấy thông tin authenticated cũ ra, trả lại
                     user = Song.Instance.DicOnlineUser[user.Username];
                 }
+                
+                // user.UserStatDBEntry
             }
             else
             {
@@ -247,7 +250,7 @@ namespace Quantum.Tala.Service.Business
                     ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
                     soiDTO soiDBEntry = new soiDTO { 
                         desc = "",
-                        dt = DateTime.Now,
+                        dt = new MySqlDateTime(DateTime.Now),
                         name = sName,
                         owner = ownerUsername,
                         tournamentid = 1 // NOTE: cố định tour free = 1
@@ -270,6 +273,38 @@ namespace Quantum.Tala.Service.Business
                 }
             }           
             
+            return soiRet;
+        }
+
+
+        /// <summary>
+        /// Hàm này chỉ dùng để cho quản trị tạo sới, không được public qua enduser API gọi
+        /// </summary>
+        /// <param name="sName"></param>
+        /// <param name="tournamentid"></param>
+        /// <returns></returns>
+        public Soi CreatNewSoiOfTour(string p_sName, int p_nTournamentid)
+        {
+            Soi soiRet = null;        
+            
+            ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
+            soiDTO soiDBEntry = new soiDTO
+            {
+                desc = "",
+                dt = new MySqlDateTime(DateTime.Now),
+                name = p_sName,                
+                tournamentid = p_nTournamentid
+            };
+
+            // tạo mới trong DB
+            soiDBEntry.id = toursvc.CreateSoi(soiDBEntry);
+            // tạo mới trong bộ nhớ, đính đối tượng trong DB vào
+            soiRet = new Soi(soiDBEntry.id, p_sName, string.Empty);
+            soiRet.DBEntry = soiDBEntry;
+
+            // đẩy vào danh mục trong bộ nhớ
+            Song.Instance.DicSoi.Add(soiRet.ID.ToString(), soiRet);
+
             return soiRet;
         }
 

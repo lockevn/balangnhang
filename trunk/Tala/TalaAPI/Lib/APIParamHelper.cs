@@ -51,6 +51,35 @@ namespace TalaAPI.Lib
         {
             return GetParam(paramName, context, true);
         }
-       
+
+
+        public static int GetPagingPage()
+        {
+            string p = GetParam("p", HttpContext.Current ,false);
+            int nRet;
+            if (int.TryParse(p, out nRet))
+            {
+                return nRet;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static int GetPagingItemPerPage()
+        {
+            string p = GetParam("ipp", HttpContext.Current, false);
+            int nRet;
+            if (int.TryParse(p, out nRet))
+            {
+                return nRet;
+            }
+            else
+            {
+                return 20;
+            }
+        }
+
     }
 }

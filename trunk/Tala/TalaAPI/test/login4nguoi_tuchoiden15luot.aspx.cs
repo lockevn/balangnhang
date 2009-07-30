@@ -20,7 +20,7 @@ using Quantum.Tala.Service.Authentication;
 
 namespace TalaAPI.test
 {
-    public partial class p2 : APIPageASPX
+    public partial class login4nguoi_tuchoiden15luot : APIPageASPX
     {
         protected void Page_Load(object sender, EventArgs e)
         {

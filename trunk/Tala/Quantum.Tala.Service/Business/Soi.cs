@@ -13,6 +13,7 @@ using System.Text;
 using System.Web;
 using Quantum.Tala.Service.DTO;
 using GURUCORE.Framework.Business;
+using MySql.Data.Types;
 
 
 namespace Quantum.Tala.Service.Business
@@ -484,7 +485,7 @@ namespace Quantum.Tala.Service.Business
             _IsPlaying = true;
             _IsLocked = true;
             this.DBEntry.isend = false;
-            this.DBEntry.starttime = DateTime.Now;
+            this.DBEntry.starttime = new MySqlDateTime(DateTime.Now);
             this.DBEntry.option = this.SoiOption.ToXMLString();
 
 

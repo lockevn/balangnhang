@@ -9,8 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace TalaAPI.test {
-    
-    
-    public partial class p1 {
+
+
+    public partial class login4nguoi_tuchoiden15luot
+    {
     }
 }

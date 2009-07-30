@@ -25,7 +25,7 @@ namespace TalaAPI.community.soi
             }
 
             // hết thời gian chơi
-            if (tournament.endtime.CompareTo(DateTime.Now) < 0)
+            if (((DateTime)tournament.endtime).CompareTo(DateTime.Now) < 0)
             {
                 APICommandStatus cs = APICommandStatus.Get_NOT_VALID_CommandStatus();
                 cs.Info = "giải đấu đã kết thúc, không cho chơi nữa";

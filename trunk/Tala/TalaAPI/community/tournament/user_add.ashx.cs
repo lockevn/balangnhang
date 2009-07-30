@@ -69,7 +69,7 @@ namespace TalaAPI.community.tournament
 
             /// thông tin của giải, đã kết thúc chưa ...
             if(tour.isenabled /* đã cho chơi */
-                && tour.endtime.CompareTo(DateTime.Now) > 0 /* còn hạn chơi */                
+                && ((DateTime)tour.endtime).CompareTo(DateTime.Now) > 0 /* còn hạn chơi */                
                 )
             {
                 ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
