@@ -383,7 +383,12 @@ namespace Quantum.Tala.Service.Business
         /// <returns></returns>
         public Seat GetSeatOfCurrentInTurn()
         {
-            Seat seatRet = this._SeatList[this._CurrentVan.CurrentTurnSeatIndex];
+            Seat seatRet = null;
+            if(null != this._CurrentVan)
+            {
+                seatRet = this._SeatList[this._CurrentVan.CurrentTurnSeatIndex];                
+            }
+            
             return seatRet;
         }
 

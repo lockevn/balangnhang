@@ -35,9 +35,11 @@ namespace TalaAPI.test
 
             pln("4 người login rồi");
 
-            Soi soi = song.CreatNewFreeSoi("test soi" + FunctionExtension.GetRandomGUID(), v1.Username);
+            Soi soi = song.CreatNewSoiOfTour("test soi " + FunctionExtension.GetRandomGUID(), 2);
             pln(v1.Username + " tạo sới");
 
+            soi.AddPlayer(v1.Username);
+            pln(v1.Username + " vào");
             soi.AddPlayer(v2.Username);
             pln(v2.Username + " vào");
             soi.AddPlayer(v3.Username);
@@ -59,12 +61,19 @@ namespace TalaAPI.test
             for (int i = 0; i < 15; i++)
             {
                 Seat seat = soi.GetSeatOfCurrentInTurn();
-                try
+
+
+                if (i == 13)
+                {
+                    Card cayanduoc = soi.CurrentVan.An(seat);
+                    pln(seat.Player.Username + " ăn " + cayanduoc);
+                }
+                else
                 {
                     Card caybocduoc = soi.CurrentVan.Boc(seat);
                     pln(seat.Player.Username + " bốc  " + caybocduoc);
                 }
-                catch { }
+
 
                 pln(seat.Player.Username + " đánh " + seat.BaiTrenTay[0]);
                 soi.CurrentVan.Danh(seat, seat.BaiTrenTay[0]);
@@ -72,11 +81,11 @@ namespace TalaAPI.test
                 pln("---------");
             }
 
-            pln("---------");
-            pln("---------");
+            pln("------------------------------------------------------");
+            pln("------------------------------------------------------");            
             foreach (Message msg in soi.CurrentVan.MessageList)
             {
-                pln(msg.Msg);                                
+                pln(msg.Msg);
             }
 
         }

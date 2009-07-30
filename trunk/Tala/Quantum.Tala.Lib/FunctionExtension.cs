@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MySql.Data.Types;
+using System.Collections;
 
 namespace Quantum.Tala.Lib
 {
@@ -99,8 +100,20 @@ namespace Quantum.Tala.Lib
         public static IEnumerable<TSource> Page<TSource>(this IEnumerable<TSource> source, int page, int itemperpage)
         {
             return source.Skip((page - 1) * itemperpage).Take(itemperpage);
-        }        
-        
+        }
+
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> source)
+        {
+            if (null == source)
+            {
+                return true;
+            }
+            if (source.Count() <= 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }
-
