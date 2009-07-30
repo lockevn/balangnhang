@@ -31,7 +31,7 @@ namespace Quantum.Tala.Service
                 string sItemCode = tour.id + "#" + tour.name + "#" + tour.enrollfee;
                 foreach (TalaUser user in arrUser)
                 {
-                    moneysvc.SubtractVCoinOfVTCUser(user.BankCredential.BankUsername, sItemCode, user.IP, tour.enrollfee);
+                    moneysvc.SubtractVCoinOfVTCUser(user.BankCredential.BankUsername, sItemCode, user.IP, tour.enrollfee, new OutputResultObject());
                 }
             }
 

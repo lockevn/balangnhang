@@ -32,8 +32,17 @@ namespace TalaAPI.play.van
             {
                 // là viewer
                 /// cố lấy sới theo soiID truyền vào, mà nếu ko truyền thì cho lượn luôn
-                string sID = APIParamHelper.GetParam("soiid", context);
-                soi = Song.Instance.GetSoiByID(sID);
+                string soiid = APIParamHelper.GetParam("soiid", context);
+                soi = Song.Instance.GetSoiByID(soiid);
+
+                if (null == soi)
+                {
+                    APICommandStatus cs = APICommandStatus.Get_NOT_VALID_CommandStatus();
+                    cs.Info += string.Format("Sới  {0} này không tồn tại", soiid);
+                    Cmd.Add(cs);
+                    base.ProcessRequest(context);
+                }
+
 
                 if (soi.SoiOption.IsAllowToViewer)
                 {

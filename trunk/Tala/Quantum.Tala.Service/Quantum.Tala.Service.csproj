@@ -90,6 +90,8 @@
     </Compile>
     <Compile Include="Business\BankCredential.cs" />
     <Compile Include="Business\EnumPlayingResult.cs" />
+    <Compile Include="Business\MoneyTransactionType.cs" />
+    <Compile Include="Business\OutputResultObject.cs" />
     <Compile Include="Business\TalaUser.cs" />
     <Compile Include="Business\TalaBusinessUtil.cs" />
     <Compile Include="Business\Card.cs" />
@@ -123,6 +125,11 @@
     <Compile Include="ITournamentService.cs" />
     <Compile Include="MoneyService.cs" />
     <Compile Include="IUserProfileService.cs" />
+    <Compile Include="Service References\VTCGateTopup\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="UserProfileService.cs" />
     <Compile Include="DeathmatchService.cs" />
     <Compile Include="DTO\SoiViewer.cs" />
@@ -158,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\VTCBillingService\" />
+    <WCFMetadataStorage Include="Service References\VTCGateTopup\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\VTCBillingService\VTCBillingService.disco" />
@@ -168,6 +176,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\VTCBillingService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\VTCGateTopup\VTCGateTopup.disco" />
+    <None Include="Service References\VTCGateTopup\VTCGateTopup.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\VTCGateTopup\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\VTCGateTopup\Quantum.Tala.Service.VTCGateTopup.AccountInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VTCGateTopup\Quantum.Tala.Service.VTCGateTopup.VTCGateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VTCGateTopup\Quantum.Tala.Service.VTCGateTopup.VTCGateTransStateInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VTCGateTopup\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

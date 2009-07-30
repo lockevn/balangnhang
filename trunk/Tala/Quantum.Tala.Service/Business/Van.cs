@@ -10,6 +10,7 @@ using Quantum.Tala.Lib;
 using Quantum.Tala.Lib.XMLOutput;
 using Quantum.Tala.Service.Exception;
 using System.Text;
+using GURUCORE.Framework.Business;
 
 namespace Quantum.Tala.Service.Business
 {
@@ -495,7 +496,7 @@ namespace Quantum.Tala.Service.Business
         /// các thao tác chung khi kết thúc một ván, dù ván kết thúc theo cách nào thì cũng phải gọi hàm này .
         /// Chỉ gọi ở cuối các hàm EndVan
         /// </summary>
-        private void FinishVan(string p_sWinnerUsername)
+        private TournamentType FinishVan(string p_sWinnerUsername)
         {
             WinnerUsername = p_sWinnerUsername;
             this.IsFinished = true;
@@ -505,15 +506,21 @@ namespace Quantum.Tala.Service.Business
             {
                 case (int)TournamentType.DeadMatch:
                     // TODO: huỷ ván, huỷ sới, đuổi người chơi luôn, cộng tiền thưởng cho người nhất
+                    IMoneyService moneysvc = ServiceLocator.Locate<IMoneyService, MoneyService>();
+                    moneysvc.AddVCoinOfVTCUser(null, null, null, 0);
+                    return TournamentType.DeadMatch;
                     break;
                 case (int)TournamentType.ChampionShip:
                     // kệ cho chơ tiếp
+                    return TournamentType.ChampionShip;
                     break;
                 case (int)TournamentType.TennisTree:
                     // TODO: thiết lập vòng sau
+                    return TournamentType.TennisTree;
                     break;
                 default:
                     // FREE : kệ cho chơ tiếp
+                    return TournamentType.Free;
                     break;
             }
             
@@ -526,9 +533,7 @@ namespace Quantum.Tala.Service.Business
         /// <param name="haLaoSeat"></param>
         private void EndVan_HaLao(Seat haLaoSeat)
         {
-            // TODO: sửa, vì với deathmatch, hạ láo ko dừng trận đấu ngay
-
-            /*tru tien thằng hạ láo*/
+            /*trừ tiền thằng hạ láo*/
             int chipHaLao = Cashier.CHIP_DEN * (this.SoiDangChoi.SeatList.Count - 1);
             haLaoSeat.Player.SubtractMoney(chipHaLao * this.SoiDangChoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
             /*thong bao*/
@@ -579,7 +584,7 @@ namespace Quantum.Tala.Service.Business
                 else
                 {
                     /*hạ láo, gấp đôi móm */
-                    chip = Cashier.CHIP_MOM * 2;
+                    chip = Cashier.CHIP_DEN * 3;
                     this.AddMessage("Về thứ " + (i + 1), seat.Player.Username + " Điểm: Ăn láo     Số chip: -" + chip);
                 }
 

@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Configuration;
-using System.Linq;
 using System.Xml.Linq;
 using GURUCORE.Lib.Core.Security.Cryptography;
 
