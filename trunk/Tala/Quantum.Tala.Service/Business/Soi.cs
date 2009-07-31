@@ -60,39 +60,24 @@ namespace Quantum.Tala.Service.Business
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public int GaValue { get; set; }
 
-        bool _IsLocked = false;
+        
         /// <summary>
         /// Nếu trường này bằng true thì sới này không thay đổi được luật hay option nữa.
         /// </summary>
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public bool IsLocked
         {
-            get
-            {
-                return _IsLocked;
-            }
-            set
-            {
-                _IsLocked = value;
-            }
+            get;
+            set;
         }
         
-        bool _IsPlaying = false;
+        
         /// <summary>
         /// Nếu trường này bằng true, thì sới này đang có ván đang chơi, ván đang diễn ra. Nếu trường này bằng false, ván chưa bắt đầu hoặc đã kết thúc. Lúc này client cần đọc thông tin về kết quả ván chơi trước , ...
         /// </summary>
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
         public bool IsPlaying
-        {
-            get
-            {
-                return _IsPlaying;
-            }
-            set
-            {
-                _IsPlaying = value;
-            }
-        }
+        { get; set; }
 
 
 
@@ -148,6 +133,7 @@ namespace Quantum.Tala.Service.Business
             this.StartTime = System.DateTime.Now;
             this.SeatList = new List<Seat>();
             this.SoiOption = new Option();
+            this.IsPlaying = false;
 
             // ván sẽ được khởi tạo sau
         }
@@ -178,7 +164,7 @@ namespace Quantum.Tala.Service.Business
             }
 
             /// Chia bài, chia cho người thắng ván cũ trước (nếu có)
-            newVan.ChiaBai(oldVan == null ? "" : oldVan.WinnerUsername);
+            newVan.ChiaBai(oldVan == null ? "" : oldVan.Winner.Username);
 
             /// reset HaIndex
             Seat tmpSeat = this.SeatList[newVan.CurrentTurnSeatIndex];
@@ -461,7 +447,7 @@ namespace Quantum.Tala.Service.Business
         /// trả về -4 nếu tourtype = deathmatch, mà lại có chú thiếu tiền không nộp lệ phí đủ được</returns>
         public int StartPlaying()
         {
-            if (_IsPlaying)
+            if (IsPlaying)
             {
                 return -2;
             }
@@ -487,8 +473,8 @@ namespace Quantum.Tala.Service.Business
             CreateVan(false);
 
             // bật cờ đang chơi
-            _IsPlaying = true;
-            _IsLocked = true;
+            IsPlaying = true;
+            IsLocked = true;
             this.DBEntry.isend = false;
             this.DBEntry.starttime = new MySqlDateTime(DateTime.Now);
             this.DBEntry.option = this.SoiOption.ToXMLString();
@@ -498,14 +484,14 @@ namespace Quantum.Tala.Service.Business
 
             if (this.GetCurrentTournament().type == (int)TournamentType.DeadMatch)
             {
-                List<TalaUser> arrBankCredentialToSubtract = new List<TalaUser>();
+                List<TalaUser> arrUserSubtract = new List<TalaUser>();
                 foreach (Seat seat in SeatList)
                 {
-                    arrBankCredentialToSubtract.Add(seat.Player);
+                    arrUserSubtract.Add(seat.Player);
                 }
 
                 IDeathmatchService deathmatchsvc = ServiceLocator.Locate<IDeathmatchService, DeathmatchService>();
-                List<string> arrResult = deathmatchsvc.SubtractVCoinBeforeStartSoi(arrBankCredentialToSubtract, this.GetCurrentTournament());
+                List<string> arrResult = deathmatchsvc.SubtractVCoinBeforeStartSoi(arrUserSubtract, this.GetCurrentTournament());
                 if (arrResult.Count <= 0)
                 {
                     // không có chú nào thiếu tiền cả, tiền thì trừ rồi, cho chơi thôi
@@ -591,7 +577,7 @@ namespace Quantum.Tala.Service.Business
         /// <returns></returns>
         public int StartPlayingForTesting()
         {
-            if (_IsPlaying)
+            if (IsPlaying)
             {
                 return -2;
             }
@@ -613,7 +599,7 @@ namespace Quantum.Tala.Service.Business
             // COME HERE MEAN all Condition is OK
 
             // bật cờ đang chơi
-            _IsPlaying = true;
+            IsPlaying = true;
             //o	Bắt đầu ván với các lựa chọn của Sới hiện tại
             //o	Hệ thống sẽ tạo ván mới, tự chia bài
 
@@ -646,7 +632,7 @@ namespace Quantum.Tala.Service.Business
             }
 
             /// Chia bài, chia cho người thắng ván cũ trước (nếu có)
-            newVan.ChiaBai(oldVan == null ? "" : oldVan.WinnerUsername);
+            newVan.ChiaBai(oldVan == null ? "" : oldVan.Winner.Username);
 
             /// reset HaIndex
             Seat tmpSeat = this.SeatList[newVan.CurrentTurnSeatIndex];

@@ -37,43 +37,11 @@ namespace TestBusiness
     {
         static void Main(string[] args)
         {
-            //TalaProgramApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());            
-            //IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
-            //IUser u2 = (new AuthenticationService()).Authenticate("quantum", "vtc21", "111111");
-            //Console.WriteLine("Test login with quantum database DB.security_user OK: " + u2.Username);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            MySqlDateTime my = new MySqlDateTime();
-
-            // DateTime dtime = my as DateTime;
-
-            object omy = my;
-            T myt = new T();
-            PropertyInfo pi = myt.GetType().GetProperty("t");
-
-            // omy = Convert.ChangeType(omy, typeof(DateTime));            
-            // pi.SetValue(myt, omy, null);
-            myt.t = (DateTime)my;
-            
-
             TalaProgramApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());
 
             IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
             IUser u2 = (new AuthenticationService()).Authenticate("vtc", "vtc21", "111111");
             Console.WriteLine(u2.Username);
-
 
             string sServiceCode = "3006";
             string sAccount = "vtc21";
@@ -95,15 +63,6 @@ namespace TestBusiness
             Console.WriteLine("Press enter to quit");
             Console.ReadLine();
         }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -385,5 +344,4 @@ namespace TestBusiness
         //}
 
     }
-}
 }
