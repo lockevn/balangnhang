@@ -15,6 +15,8 @@ using Quantum.Tala.Service;
 using GURUCORE.Framework.Business;
 using Quantum.Tala.Service.DTO;
 using GURUCORE.Framework.Core;
+using MySql.Data.Types;
+using System.Reflection;
 //using CH.Combinations;
 
 namespace TestBusiness
@@ -25,6 +27,12 @@ namespace TestBusiness
         public TalaUser Player { get; set; }
     }
 
+
+    class T
+    {
+        public DateTime t{get;set;}
+    }
+
     class Program
     {
         static void Main(string[] args)
@@ -33,6 +41,38 @@ namespace TestBusiness
             //IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
             //IUser u2 = (new AuthenticationService()).Authenticate("quantum", "vtc21", "111111");
             //Console.WriteLine("Test login with quantum database DB.security_user OK: " + u2.Username);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            MySqlDateTime my = new MySqlDateTime();
+
+            // DateTime dtime = my as DateTime;
+
+            object omy = my;
+            T myt = new T();
+            PropertyInfo pi = myt.GetType().GetProperty("t");
+
+            // omy = Convert.ChangeType(omy, typeof(DateTime));            
+            // pi.SetValue(myt, omy, null);
+            myt.t = (DateTime)my;
+            
+
+            TalaProgramApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());
+
+            IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
+            IUser u2 = (new AuthenticationService()).Authenticate("vtc", "vtc21", "111111");
+            Console.WriteLine(u2.Username);
 
 
             string sServiceCode = "3006";
@@ -345,4 +385,5 @@ namespace TestBusiness
         //}
 
     }
+}
 }
