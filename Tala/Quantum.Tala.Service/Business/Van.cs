@@ -11,6 +11,7 @@ using Quantum.Tala.Lib.XMLOutput;
 using Quantum.Tala.Service.Exception;
 using System.Text;
 using GURUCORE.Framework.Business;
+using Quantum.Tala.Service.DTO;
 
 namespace Quantum.Tala.Service.Business
 {
@@ -37,7 +38,7 @@ namespace Quantum.Tala.Service.Business
 
         public bool IsFinished { get; set; }
         public int CurrentRound { get; set; }
-        public string WinnerUsername { get; set; }
+        public TalaUser Winner { get; set; }
         
         public Soi SoiDangChoi { get; set; }        
         internal List<Card> _Noc { get; set; }
@@ -496,30 +497,38 @@ namespace Quantum.Tala.Service.Business
         /// các thao tác chung khi kết thúc một ván, dù ván kết thúc theo cách nào thì cũng phải gọi hàm này .
         /// Chỉ gọi ở cuối các hàm EndVan
         /// </summary>
-        private TournamentType FinishVan(string p_sWinnerUsername)
+        private TournamentType FinishVan(TalaUser p_Winner)
         {
-            WinnerUsername = p_sWinnerUsername;
+            Winner = p_Winner;
             this.IsFinished = true;
             this.SoiDangChoi.IsPlaying = false;
             
             switch (this.SoiDangChoi.GetCurrentTournament().type)
             {
                 case (int)TournamentType.DeadMatch:
-                    // TODO: huỷ ván, huỷ sới, đuổi người chơi luôn, cộng tiền thưởng cho người nhất
+                    // cộng tiền thưởng cho người nhất
                     IMoneyService moneysvc = ServiceLocator.Locate<IMoneyService, MoneyService>();
-                    moneysvc.AddVCoinOfVTCUser(null, null, null, 0);
+                    tournamentDTO tour = SoiDangChoi.GetCurrentTournament();
+                    string sItemCode = string.Format("TalaWinner^{0}^{1}", tour.id, tour.name);
+                    int nMoneyToAdd = tour.enrollfee * SoiDangChoi.SeatList.Count * (3/4);
+                    moneysvc.AddVCoinOfVTCUser(Winner.BankCredential.BankUsername, sItemCode, Winner.IP, nMoneyToAdd);
+
+                    // TODO: huỷ ván, huỷ sới, đuổi người chơi luôn, thu xếp được ván khác thì thu xếp
+                    
                     return TournamentType.DeadMatch;
                     break;
-                case (int)TournamentType.ChampionShip:
-                    // kệ cho chơ tiếp
-                    return TournamentType.ChampionShip;
-                    break;
+
                 case (int)TournamentType.TennisTree:
                     // TODO: thiết lập vòng sau
                     return TournamentType.TennisTree;
                     break;
+
+                case (int)TournamentType.ChampionShip:
+                    // kệ cho chơi tiếp
+                    return TournamentType.ChampionShip;
+                    break;
                 default:
-                    // FREE : kệ cho chơ tiếp
+                    // FREE : kệ cho chơi tiếp
                     return TournamentType.Free;
                     break;
             }
@@ -549,7 +558,7 @@ namespace Quantum.Tala.Service.Business
                 }
             }
 
-            FinishVan(haLaoSeat.Player.Username);
+            FinishVan(null);
         }
 
         /// <summary>
@@ -599,7 +608,7 @@ namespace Quantum.Tala.Service.Business
             winner.Player.AddMoney(totalWinnerChip * this.SoiDangChoi.SoiOption.TiGiaChip, EnumPlayingResult.Win);
             this.AddMessage("Thắng cuộc", winner.Player.Username + " Điểm: " + pointArr[0] + "    Số chip: +" + totalWinnerChip);
 
-            FinishVan(winner.Player.Username);
+            FinishVan(winner.Player);
         }
 
         /// <summary>
@@ -648,7 +657,7 @@ namespace Quantum.Tala.Service.Business
             /*reset gà*/
             this.SoiDangChoi.GaValue = 0;
 
-            FinishVan(uSeat.Player.Username);
+            FinishVan(uSeat.Player);
         }
 
 
