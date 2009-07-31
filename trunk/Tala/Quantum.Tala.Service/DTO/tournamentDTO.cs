@@ -43,7 +43,7 @@ namespace Quantum.Tala.Service.DTO
         {
             get
             {
-                return m_dtstarttime.ToUTCString();
+                return ((DateTime)m_dtstarttime).ToUTCString();
             }            
         }
 
@@ -52,7 +52,7 @@ namespace Quantum.Tala.Service.DTO
         {
             get
             {
-                return m_dtendtime.ToUTCString();
+                return ((DateTime)m_dtendtime).ToUTCString();
             }            
         }
 
