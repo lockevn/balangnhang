@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html<?php echo $direction ?>>
+<head>
+    <?php echo $meta ?>
+    <meta name="keywords" content="moodle, <?php echo $title ?> " />
+    <title><?php echo $title ?></title>
+    <link rel="shortcut icon" href="<?php echo $CFG->themewww .'/'. current_theme() ?>/favicon.ico" />
+
+    
+    <?php include("$CFG->javascript"); ?>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+ 
+
+
+
+
+<?php if ($home) {  // This is what gets printed on the home page only
+?>
+    <div id="headwrapper" class="clearfix">
+	
+	 <div class="header-left">
+	 
+<img src="<?php echo 
+        $CFG->themewww.'/'.current_theme() ?>/pix/logo.gif"  alt="logo" title="logo" id="logo" />	
+	</div>
+	
+
+	<div class="header-right">
+	
+	<div class="headerlogin"><?php echo $menu ?></div> 
+	
+	<div style="clear:both"></div>
+
+    
+    
+	<?php include ('menu.html'); ?>
+	
+	
+	
+	</div>
+	
+	</div>
+	
+	
+    
+<?php } 
+
+else if ($heading) {  // This is what gets printed on any other page with a heading
+?>
+    <div id="headwrapper" class="clearfix">
+	
+	 <div class="header-left">
+	 
+<img src="<?php echo 
+        $CFG->themewww.'/'.current_theme() ?>/pix/logo.gif"  alt="logo" title="logo" id="logo" />	
+	</div>
+	
+
+	<div class="header-right">
+	
+	<div class="headerlogin"><?php echo $menu ?>
+	
+	
+	
+	</div> 
+	
+	
+	
+	
+	<div style="clear:both"></div>
+
+    
+    
+	<?php include ('menu.html'); ?>
+	
+	
+	
+	
+	</div>
+	
+	</div>
+	
+	
+    <div class="navbar clearfix">
+    <?php if ($navigation) { // This is the navigation table with breadcrumbs
+    ?>
+	
+        <div class="breadcrumb"><?php print_navigation($navigation); ?></div>
+		<div class="navbutton"><?php echo $button; ?></div>
+       
+    <?php } ?>
+    </div>
+<?php } ?>
+
+
+    <!-- END OF HEADER -->
+<div id="content">
