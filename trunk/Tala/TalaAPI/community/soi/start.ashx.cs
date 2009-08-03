@@ -24,6 +24,8 @@ namespace TalaAPI.community.soi
 
             APICommandStatus cs = new APICommandStatus(false);            
             Soi soi =  security.CheckUserJoinedSoi();
+            soi.Autorun();
+
             int nRet = soi.StartPlaying();
             switch (nRet)
             {

@@ -560,7 +560,14 @@ namespace Quantum.Tala.Service.Business
 
         public string Autorun()
         {   
-            return AutorunService.Check_Autorun_InStartingVan(this);                        
+            if(this.IsPlaying == false)
+            {
+                return AutorunService.Check_Autorun_InStartingVan(this);
+            }
+            else
+            {
+                return AutorunService.Check_Autorun_InVan(this);
+            }
         }
 
         #region temporary code for load testing

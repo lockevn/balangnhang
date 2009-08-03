@@ -19,7 +19,7 @@ namespace TalaAPI.community.user
         public override void ProcessRequest(HttpContext context)
         {
             TalaUser user = null;
-            string pu = APIParamHelper.GetParam("pu", context);            
+            string pu = APIParamHelper.GetParam("pu", context, false);            
             if (string.IsNullOrEmpty(pu))
             {
                 TalaSecurity security = new TalaSecurity(context);
@@ -38,6 +38,7 @@ namespace TalaAPI.community.user
             {
                 if (null != user.CurrentSoi)
                 {
+                    user.CurrentSoi.Autorun();
                     Data.Add(user.CurrentSoi);
                 }
             }

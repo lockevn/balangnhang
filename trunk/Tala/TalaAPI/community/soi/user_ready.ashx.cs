@@ -21,6 +21,8 @@ namespace TalaAPI.community.soi
 
             // lấy current sới, current seat của user AU, đặt cờ ready = true
             Soi soi = security.CheckUserJoinedSoi();
+            soi.Autorun();
+
             soi.SetReady(security.CurrentAU);
 
             /// nếu sới đầy chỗ rồi

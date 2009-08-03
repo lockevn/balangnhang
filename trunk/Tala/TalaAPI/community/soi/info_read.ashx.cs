@@ -10,22 +10,15 @@ namespace TalaAPI.community.soi
     {
         public override void ProcessRequest(HttpContext context)
         {
-            string sID = APIParamHelper.GetParam("soiid", context);
-
-            if (string.IsNullOrEmpty(sID))
+            string sID = APIParamHelper.GetParam("soiid", context);            
+            Soi soi = Song.Instance.GetSoiByID(sID);
+            if (soi != null)
             {
+                soi.Autorun();
+                Data.Add(soi);
+                base.Stat = APICommandStatusState.OK;
             }
-            else
-            {
-                Soi soi = Song.Instance.GetSoiByID(sID);
-                if (soi != null)
-                {
-                    soi.Autorun();
-                    Data.Add(soi);
-                    base.Stat = APICommandStatusState.OK;
-                }
-            }
-
+            
             base.ProcessRequest(context);
         }
     }

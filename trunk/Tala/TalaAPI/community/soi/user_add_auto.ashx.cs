@@ -45,6 +45,9 @@ namespace TalaAPI.community.soi
             int nRandomIndex = random.Next(0, arrSoiOfTour.Count - 1);
             Soi soiAvailableRandom = arrSoiOfTour[nRandomIndex];
 
+
+            soiAvailableRandom.Autorun();
+
             // AU tự add mình vào, tự join Sới
             int sResult = soiAvailableRandom.AddPlayer(security.CurrentAU.Username);
             if (sResult >= 0)
