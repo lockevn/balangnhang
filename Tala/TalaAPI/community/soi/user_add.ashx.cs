@@ -27,8 +27,9 @@ namespace TalaAPI.community.soi
                 APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "SOI_NOT_FOUND", "không tìm thấy sới");
                 Cmd.Add(cs);
                 base.ProcessRequest(context);
-            }           
+            }
 
+            soi.Autorun();
             
             tournamentDTO tour = soi.GetCurrentTournament();
             if (tour.type != 1)
