@@ -16,7 +16,7 @@ namespace Quantum.Tala.Service
 {
     public class AutorunService
     {
-        HttpContext _context;        
+        HttpContext _context;
         TalaUser _CurrentAU;
         
         /// <summary>
@@ -124,7 +124,7 @@ namespace Quantum.Tala.Service
 
 
             // cập nhật cache cho currentAU (vì họ có hoạt động thật, họ đang chờ chơi thật)
-            string sCacheKey = AutorunService.GetCacheKey_Autorun_InStartingVan(_CurrentAU);
+            string sCacheKey = GetCacheKey_Autorun_InStartingVan(_CurrentAU);
             object oTemp = _context.Cache[sCacheKey];
 
             foreach (Seat seat in _CurrentAU.CurrentSoi.SeatList)
@@ -154,6 +154,9 @@ namespace Quantum.Tala.Service
         const string AUTORUN_IN_VAN_KEY_PREFIX = "AUTORUN_VAN_";
         const string AUTORUN_IN_STARTING_VAN_KEY_PREFIX = "AUTORUN_VAN_STARTING_";
 
+        const int AUTORUN_IN_VAN_TIMEOUT = 60;
+        const int AUTORUN_IN_STARTING_VAN_TIMEOUT = 60;
+
         public static string GetCacheKey_Autorun_InVan(TalaUser currentInTurnPlayer)
         {
             return AUTORUN_IN_VAN_KEY_PREFIX + "#" + currentInTurnPlayer.Username + "#" + currentInTurnPlayer.CurrentSoi.ID;
@@ -162,6 +165,21 @@ namespace Quantum.Tala.Service
         public static string GetCacheKey_Autorun_InStartingVan(TalaUser currentInTurnPlayer)
         {
             return AUTORUN_IN_STARTING_VAN_KEY_PREFIX + "#" + currentInTurnPlayer.Username + "#" + currentInTurnPlayer.CurrentSoi.ID;
+        }
+
+
+        /// <summary>
+        /// hàm này nên chạy sau khi đã add user thành công vào sới
+        /// </summary>
+        /// <param name="player"></param>
+        public static void Create_Autorun_InStartingVan(TalaUser player)
+        {            
+            string sCacheKey = AutorunService.GetCacheKey_Autorun_InStartingVan(player);
+            HttpContext.Current.Cache.Insert(
+                sCacheKey, player, 
+                null, 
+                DateTime.MaxValue, TimeSpan.FromSeconds(AutorunService.AUTORUN_IN_STARTING_VAN_TIMEOUT)
+                );
         }
 
     }

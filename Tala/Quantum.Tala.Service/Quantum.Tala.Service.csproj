@@ -144,7 +144,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="TalaAutorun.cs" />
+    <Compile Include="AutorunService.cs" />
     <Compile Include="TournamentService.cs" />
     <Compile Include="VTCResponseInfo.cs" />
   </ItemGroup>
