@@ -40,11 +40,11 @@ namespace Quantum.Tala.Service.Business
         public int CurrentRound { get; set; }
         public TalaUser Winner { get; set; }
         
-        public Soi SoiDangChoi { get; set; }        
-        internal List<Card> _Noc { get; set; }
+        public Soi SoiDangChoi { get; set; }
 
-
-
+        // TODO: change to internal please
+        public List<Card> _Noc { get; set; }
+        
         List<Message> _MessageList = new List<Message>();
         [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag, DataListizeType.ListGeneric, false, false)]
         public List<Message> MessageList
@@ -54,8 +54,8 @@ namespace Quantum.Tala.Service.Business
         }
 
 
-        private List<Seat> _AnChotNguyCoDenList; /*list các seat ăn chốt có nguy cơ đền*/
 
+        private List<Seat> _AnChotNguyCoDenList; /*list các seat ăn chốt có nguy cơ đền*/
 
 
 
@@ -92,6 +92,11 @@ namespace Quantum.Tala.Service.Business
 
 
 
+        #region In game playing action
+        
+        
+
+
         /// <summary>
         /// Đánh một cây trên BaiTrenTay của seat
         /// </summary>
@@ -100,7 +105,8 @@ namespace Quantum.Tala.Service.Business
         /// <returns>true/false</returns>
         public bool Danh(Seat seat, Card card)
         {
-            if (!this.IsSeatInTurn(seat) || !this.IsCardInBaiTrenTay(seat, card) || seat.GetTotalCardOnSeat() < 10)
+            if (this.SoiDangChoi.IsPlaying == false ||
+                !this.IsSeatInTurn(seat) || !this.IsCardInBaiTrenTay(seat, card) || seat.GetTotalCardOnSeat() < 10)
             {
                 return false;
             }
@@ -110,8 +116,12 @@ namespace Quantum.Tala.Service.Business
             seat.BaiDaDanh.Add(card);            
 
             /* kiểm tra nếu đến lượt phải hạ phỏm, thằng này có ăn cây nào mà không hạ phỏm k */
-            if (seat.BaiDaDanh.Count >= 3 && seat.BaiDaAn.Count > 0)
+            if (seat.BaiDaDanh.Count > 3 && seat.BaiDaAn.Count > 0)
             {
+#if(DEBUG)
+                this.AddMessage(seat.Player.Username +  " thoả mãn điều kiện hạ láo seat.BaiDaDanh.Count > 3 && seat.BaiDaAn.Count > 0" , 
+                    string.Format("BaiDaDanh = {0}, BaiDaAn = {1}",seat.BaiDaDanh.Count , seat.BaiDaAn.Count ));
+#endif
                 // kiểm tra current Tournament Type để quyết định có dừng ván hay không?
                 if (SoiDangChoi.GetCurrentTournament().type == (int)TournamentType.DeadMatch
                  || SoiDangChoi.GetCurrentTournament().type == (int)TournamentType.TennisTree)
@@ -120,6 +130,9 @@ namespace Quantum.Tala.Service.Business
                 }
                 else
                 {
+#if(DEBUG)
+                    this.AddMessage("Gọi hàm hạ láo", "this.EndVan_HaLao(seat);");
+#endif
                     this.EndVan_HaLao(seat);
                     return true;
                 }
@@ -138,6 +151,15 @@ namespace Quantum.Tala.Service.Business
             /*nếu là seat đánh cuối cùng ở vòng cuối cùng thì end game (kiểm tra qua Nọc)*/
             if (this._Noc.Count <= 52 - (9+4)* this.SoiDangChoi.SeatList.Count)
             {
+                
+#if(DEBUG)
+                this.AddMessage("Nọc để test", 
+                    string.Format("{0} <= {1}", 
+                    _Noc.Count.ToString(), 
+                    52 - (9 + 4) * this.SoiDangChoi.SeatList.Count)
+                    );
+#endif
+
                 this.EndVan_TinhDiem();
             }
 
@@ -483,13 +505,16 @@ namespace Quantum.Tala.Service.Business
 
             return true;
         }
+        
 
 
 
+        #endregion
 
 
-
-
+        #region Ending game (van)
+        
+        
         /// <summary>
         /// Hàm này sẽ set các cờ,
         /// cộng trừ VCoin hay không, tuỳ theo thể thức của tour
@@ -500,9 +525,9 @@ namespace Quantum.Tala.Service.Business
         private TournamentType FinishVan(TalaUser p_Winner)
         {
             Winner = p_Winner;
+            this.SoiDangChoi.DBEntry.numofvan++;
             this.IsFinished = true;
             this.SoiDangChoi.IsPlaying = false;
-            
             switch (this.SoiDangChoi.GetCurrentTournament().type)
             {
                 case (int)TournamentType.DeadMatch:
@@ -546,7 +571,7 @@ namespace Quantum.Tala.Service.Business
             int chipHaLao = Cashier.CHIP_DEN * (this.SoiDangChoi.SeatList.Count - 1);
             haLaoSeat.Player.SubtractMoney(chipHaLao * this.SoiDangChoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
             /*thong bao*/
-            this.AddMessage("Phạt", haLaoSeat.Player.Username + " " + chipHaLao + " chip");
+            this.AddMessage("Phạt do ăn sai", haLaoSeat.Player.Username + " " + chipHaLao + " chip");
 
             /*cong tien cho cac player con lai*/
             foreach (Seat seat in this.SoiDangChoi.SeatList)
@@ -659,10 +684,13 @@ namespace Quantum.Tala.Service.Business
 
             FinishVan(uSeat.Player);
         }
+        
+        #endregion
 
 
 
-
+        #region Starting game (van)
+                
 
         /// <summary>
         /// Khởi tạo Nọc randomly
@@ -725,6 +753,12 @@ namespace Quantum.Tala.Service.Business
 
             _CurrentTurnSeatIndex = seatDanhDauTien.Pos;
         }
+
+        #endregion
+
+
+        #region Util function
+                
 
         /// <summary>
         /// Chuyển lượt đánh cho Seat kế tiếp
@@ -948,6 +982,7 @@ namespace Quantum.Tala.Service.Business
         }
 
 
+        #endregion
 
 
 

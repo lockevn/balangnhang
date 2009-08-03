@@ -248,6 +248,10 @@
     <Compile Include="test\user_ready.ashx.cs">
       <DependentUpon>user_ready.ashx</DependentUpon>
     </Compile>
+    <Compile Include="test\viewnoc.aspx.cs">
+      <DependentUpon>viewnoc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="community\id\login.ashx" />
@@ -367,6 +371,7 @@
     <Content Include="test\create50soi.aspx" />
     <Content Include="test\start.ashx" />
     <Content Include="test\user_ready.ashx" />
+    <Content Include="test\viewnoc.aspx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />

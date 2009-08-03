@@ -164,7 +164,7 @@ namespace Quantum.Tala.Service.Business
             }
 
             /// Chia bài, chia cho người thắng ván cũ trước (nếu có)
-            newVan.ChiaBai(oldVan == null ? "" : oldVan.Winner.Username);
+            newVan.ChiaBai(oldVan == null || oldVan.Winner == null ? "" : oldVan.Winner.Username);
 
             /// reset HaIndex
             Seat tmpSeat = this.SeatList[newVan.CurrentTurnSeatIndex];
