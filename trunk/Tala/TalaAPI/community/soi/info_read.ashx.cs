@@ -20,6 +20,7 @@ namespace TalaAPI.community.soi
                 Soi soi = Song.Instance.GetSoiByID(sID);
                 if (soi != null)
                 {
+                    soi.Autorun();
                     Data.Add(soi);
                     base.Stat = APICommandStatusState.OK;
                 }

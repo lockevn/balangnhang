@@ -244,11 +244,10 @@ namespace Quantum.Tala.Service.Business
             }
 
             // nếu thêm người chơi thành công, bắt đầu tiến trình autorun
-            if (nRet > 0)
+            if (nRet >= 0)
             {
                 AutorunService.Create_Autorun_InStartingVan(player);
             }
-
 
             return nRet;
         }
@@ -560,13 +559,8 @@ namespace Quantum.Tala.Service.Business
         }
 
         public string Autorun()
-        {
-            StringBuilder sRet = new StringBuilder();
-
-            // TODO: /// khi bắt đầu ván, tự đuổi nếu quá timeout ready
-            
-
-            return sRet.ToString();
+        {   
+            return AutorunService.Check_Autorun_InStartingVan(this);                        
         }
 
         #region temporary code for load testing

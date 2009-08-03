@@ -33,15 +33,15 @@ namespace TalaAPI.test
             pln("4 người login rồi");
 
             Soi soi = song.CreatNewFreeSoi("test soi", "v1");
-            pln("lamlt tạo sới");
+            pln("v1 tạo sới " + soi.ID);
 
             soi.AddPlayer("v2");
-            pln("v2 vào");
-            //soi.AddPlayer("lamlt");
+            pln("v2 vào");            
             soi.AddPlayer("v3");
             pln("v3 vào");
-            soi.AddPlayer("v4");
-            pln("v4 vào");
+            
+            //soi.AddPlayer("v4");
+            //pln("v4 vào");
 
             soi.SetReady(dan);
             soi.SetReady(thach);

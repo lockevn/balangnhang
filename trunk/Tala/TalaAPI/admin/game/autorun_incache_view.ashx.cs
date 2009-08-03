@@ -16,9 +16,10 @@ namespace TalaAPI.admin.game
             IDictionaryEnumerator enumer = context.Cache.GetEnumerator();
             while(enumer.MoveNext())
             {
-                sb.Append("<key>").Append(enumer.Key).Append("</key>").Append("<value>").Append(enumer.Value).Append("</value>");
+                sb.Append("<key>").Append(enumer.Key).Append("</key>").Append("<value>").Append((enumer.Value as TalaUser).Username).Append("</value>");
             }
             this.StringDirectUnderRoot += sb.ToString();
+            base.ProcessRequest(context);
         }
     }
 }

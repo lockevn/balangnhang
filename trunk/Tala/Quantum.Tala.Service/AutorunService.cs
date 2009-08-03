@@ -11,6 +11,7 @@ using Quantum.Tala.Service.Authentication;
 using Quantum.Tala.Lib.XMLOutput;
 using System.Text;
 using Quantum.Tala.Service.Exception;
+using System.Collections.Generic;
 
 namespace Quantum.Tala.Service
 {
@@ -175,11 +176,52 @@ namespace Quantum.Tala.Service
         public static void Create_Autorun_InStartingVan(TalaUser player)
         {            
             string sCacheKey = AutorunService.GetCacheKey_Autorun_InStartingVan(player);
+            // cache.Insert là replace key cũ, nếu key cũ tồn tại rồi
             HttpContext.Current.Cache.Insert(
                 sCacheKey, player, 
                 null, 
                 DateTime.MaxValue, TimeSpan.FromSeconds(AutorunService.AUTORUN_IN_STARTING_VAN_TIMEOUT)
                 );
+        }
+
+
+        public static string Check_Autorun_InStartingVan(Soi soi)
+        {
+            HttpContext context = HttpContext.Current;
+            string _CurrentAuthkey = context.Request["authkey"].ToStringSafetyNormalize();
+
+            List<string> arrPlayerTimeoutNeedToRemove = new List<string>();
+            foreach (Seat seat in soi.SeatList)
+            {
+                TalaUser player = seat.Player;
+                string sCacheKey = GetCacheKey_Autorun_InStartingVan(player);                
+
+                if (player.Authkey == _CurrentAuthkey)
+                {
+                    // nếu ai vào rồi thì gia hạn cache, create lại thôi
+                    Create_Autorun_InStartingVan(player);
+                }
+                else
+                {
+                    // kiểm tra, chơi luôn mấy thằng khác hộ cho Quantum
+                    if (seat.IsReady == false && context.Cache[sCacheKey] == null)
+                    {
+                        // đã vào sới rồi, mà ko chịu ready, cachekey kô tồn tại nghĩa là đã timeout
+                        
+                        // đánh dấu ghi tên lại để đuổi
+                        arrPlayerTimeoutNeedToRemove.Add(player.Username);
+                    }
+                }                
+            }   // end foreach
+
+
+            foreach (string sToRemove in arrPlayerTimeoutNeedToRemove)
+            {
+                soi.RemovePlayer(sToRemove);
+            }
+
+            // TODO: add progress of process here
+            return string.Empty;
         }
 
     }
