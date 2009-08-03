@@ -243,12 +243,13 @@ namespace Quantum.Tala.Service.Business
                 nRet = seatDangNgoiTrongSoi.Pos;
             }
 
+            // nếu thêm người chơi thành công, bắt đầu tiến trình autorun
             if (nRet > 0)
             {
-                // HACK: autorun
-                string sCacheKey = AutorunService.GetCacheKey_Autorun_InStartingVan(player);
-                HttpContext.Current.Cache.Insert(sCacheKey, player, null, DateTime.MaxValue, TimeSpan.FromSeconds(30));
+                AutorunService.Create_Autorun_InStartingVan(player);
             }
+
+
             return nRet;
         }
 

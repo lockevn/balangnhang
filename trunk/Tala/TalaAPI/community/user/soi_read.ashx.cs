@@ -34,8 +34,14 @@ namespace TalaAPI.community.user
             {
                 APICommandStatus cs = new APICommandStatus(false, "USER_NOT_FOUND", "không tìm thấy user");
             }
+            else
+            {
+                if (null != user.CurrentSoi)
+                {
+                    Data.Add(user.CurrentSoi);
+                }
+            }
 
-            Data.Add(user.CurrentSoi);
             base.Stat = APICommandStatusState.OK;
             base.ProcessRequest(context);
         }
