@@ -765,6 +765,9 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         private int AdvanceCurrentTurnIndex()
         {
+            // Đồng hồ đếm ngược sẽ được khởi tạo cho user có turn, khi Chuyển turn sang user đó
+            AutorunService.Create_Autorun_InVan(this.SoiDangChoi);
+            
             _CurrentTurnSeatIndex = Seat.GetNextSeatIndex(this.CurrentTurnSeatIndex, this.SoiDangChoi.SeatList.Count);
             return this.CurrentTurnSeatIndex;
         }
@@ -981,7 +984,7 @@ namespace Quantum.Tala.Service.Business
             return message;
         }
 
-
+                
         #endregion
 
 

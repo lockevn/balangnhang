@@ -15,148 +15,21 @@ using System.Collections.Generic;
 
 namespace Quantum.Tala.Service
 {
+    /// <summary>    
+    /// Autorun hoạt động dựa trên context hiện tại (để truy xuất Cache) và currentAU (để detect ván đang chơi, xử lý trên ván đang chơi)       
+    /// </summary>
     public class AutorunService
-    {
-        HttpContext _context;
-        TalaUser _CurrentAU;
-        
-        /// <summary>
-        /// Autorun hoạt động dựa trên context hiện tại (để truy xuất Cache) và currentAU (để detect ván đang chơi, xử lý trên ván đang chơi)
-        /// </summary>
-        /// <param name="context"></param>
-        public AutorunService(HttpContext context, TalaUser CurrentAU)
-        {            
-            _context = context;
-            _CurrentAU = CurrentAU;
-
-            if (_CurrentAU == null)
-            {
-                throw new BusinessException("Autorun","không có authkey, không xác định đc các thông số để autorun");
-            }
-        }
-
-
-        
-
-        public string Autorun_InVan()
-        {
-            // TODO: mỗi hành động tự làm, đều append vào sRet
-            StringBuilder sRet = new StringBuilder();
-                        
-            // tìm seat đang đến lượt hiện tại
-            Seat currentInTurnSeat = _CurrentAU.CurrentSoi.GetSeatOfCurrentInTurn();
-            TalaUser currentInTurnPlayer = currentInTurnSeat.Player;
-            /// kiểm tra với Volatine Repository (ở đây dùng luôn ASP.NET Cache)
-            string sCacheKey = AutorunService.GetCacheKey_Autorun_InVan(currentInTurnPlayer);
-            object oInCache = _context.Cache[sCacheKey];
-            /// oInCache mà null là user đang có turn đã hết vị, timeout
-                        
-            /// if inturn player, on time fire
-            if (oInCache == null)
-            {
-                sRet.Append(currentInTurnPlayer.Username + " hết thời gian nghĩ. Hệ thống tự chơi");
-
-                //xem bài có mấy cây                
-                if (currentInTurnSeat.GetTotalCardOnSeat() == 9)
-                {
-                    // TODO: 9 cây, chưa bốc, tự bốc
-                    Autorun_Boc();
-                }
-                else if (currentInTurnSeat.GetTotalCardOnSeat() == 10)
-                {
-                    // 10 cây, bốc nhưng chưa đánh, tự đánh
-   
-                    // bài đã đánh có 3 cây, phải hạ hộ, gửi hộ
-                    if(currentInTurnSeat.BaiDaDanh.Count == 3)
-                    {                        
-                        Autorun_Ha();
-                        Autorun_Gui();
-                    }
-                    
-                    Autorun_Danh();                    
-                }
-                else
-                {
-                    throw new NotImplementedException("Developer chưa xử lý trường hợp này, vào code sửa ngay");
-                }                
-            }
-            
-            /// trả lại chuỗi kết quả ra ngoài
-            /// có thể để còn log
-
-            return sRet.ToString();
-        }
-
-        private string Autorun_Boc()
-        {
-            throw new NotImplementedException();
-        }
-
-        private string Autorun_Danh()
-        {
-            // TODO: đánh tránh những cây trong phỏm đã ăn, nếu có thể tránh
-            // TODO: //tránh cạ, nếu có thể tránh
-            // TODO: //đánh cây to nhất ok, nếu ko tránh đc, vẫn đánh cây to nhất                    
-            throw new NotImplementedException();
-        }
-
-        private string Autorun_Gui()
-        {
-            throw new NotImplementedException();
-        }
-
-        private string Autorun_Ha()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        
-        public string Autorun_InStartingVan()
-        {
-            // TODO: mỗi hành động tự làm, đều append vào sRet
-            StringBuilder sRet = new StringBuilder();
-
-            // chơi rồi thì thôi, ko chạy hàm này nữa
-            if(_CurrentAU.CurrentSoi.IsPlaying == true)
-            {
-                return sRet.ToString();
-            }
-
-
-            // cập nhật cache cho currentAU (vì họ có hoạt động thật, họ đang chờ chơi thật)
-            string sCacheKey = GetCacheKey_Autorun_InStartingVan(_CurrentAU);
-            object oTemp = _context.Cache[sCacheKey];
-
-            foreach (Seat seat in _CurrentAU.CurrentSoi.SeatList)
-            {
-                if (seat.Player.Username == _CurrentAU.Username)
-                {
-                    // bỏ qua user hiện đang tạo request, vì họ đang tham gia vào sới thật
-                    continue;
-                }
-
-                string sAutorunRet = Autorun_DuoiKhoiSoi();
-                sRet.Append(sAutorunRet);
-            }
-
-            return sRet.ToString();
-        }
-
-
-        private string Autorun_DuoiKhoiSoi()
-        {
-            throw new NotImplementedException();
-        }
-
-
-
-
+    { 
         const string AUTORUN_IN_VAN_KEY_PREFIX = "AUTORUN_VAN_";
         const string AUTORUN_IN_STARTING_VAN_KEY_PREFIX = "AUTORUN_VAN_STARTING_";
 
-        const int AUTORUN_IN_VAN_TIMEOUT = 60;
-        const int AUTORUN_IN_STARTING_VAN_TIMEOUT = 60;
+        const int AUTORUN_IN_VAN_TIMEOUT = 120;
+        const int AUTORUN_IN_STARTING_VAN_TIMEOUT = 120;
+
+
+        public AutorunService()
+        { }
+
 
         public static string GetCacheKey_Autorun_InVan(TalaUser currentInTurnPlayer)
         {
@@ -183,10 +56,21 @@ namespace Quantum.Tala.Service
                 DateTime.MaxValue, TimeSpan.FromSeconds(AutorunService.AUTORUN_IN_STARTING_VAN_TIMEOUT)
                 );
         }
+        
+        public static void Create_Autorun_InVan(Soi soi)
+        {
+            // TODO: // Đồng hồ đếm ngược sẽ được khởi tạo cho user có turn, khi Chuyển turn sang user đó            
+        }
 
-
+        
+        
         public static string Check_Autorun_InStartingVan(Soi soi)
         {
+            if(soi.IsPlaying == true)
+            {
+                return string.Empty;
+            }
+
             HttpContext context = HttpContext.Current;
             string _CurrentAuthkey = context.Request["authkey"].ToStringSafetyNormalize();
 
@@ -223,6 +107,182 @@ namespace Quantum.Tala.Service
             // TODO: add progress of process here
             return string.Empty;
         }
+                
+        public static string Check_Autorun_InVan(Soi soi)
+        {            
+            StringBuilder sRet = new StringBuilder();
 
+            if(soi.IsPlaying == false)
+            {
+                return sRet.ToString();
+            }
+
+            HttpContext context = HttpContext.Current;
+
+            string _CurrentAuthkey = context.Request["authkey"].ToStringSafetyNormalize();            
+            Seat seatInTurn = soi.GetSeatOfCurrentInTurn();
+            // kiểm tra thằng đang có lượt                
+            if (seatInTurn.Player.Authkey == _CurrentAuthkey)
+            {
+                // currentAU đang có lượt (ko cập nhật lại timeout, ko đánh nhanh thì thiệt), do Bizz
+                // cho qua, ko đụng đậy tay chân gì
+                return sRet.ToString();
+            }                        
+                       
+            // Kiểm tra timeout
+            string sCacheKey = GetCacheKey_Autorun_InVan(seatInTurn.Player);
+            if (context.Cache[sCacheKey] == null)
+            {
+                // TIMEOUT
+                /* auto play */
+                sRet.Append(seatInTurn.Player.Username + " hết thời gian nghĩ. Hệ thống tự chơi");
+
+                
+                //xem bài có mấy cây
+                if (seatInTurn.GetTotalCardOnSeat() == 9)
+                {
+                    // 9 cây mà lại đang có lượt,  tức là chưa bốc, tự bốc
+                    Autorun_Boc(soi);
+                }
+                else if (seatInTurn.GetTotalCardOnSeat() == 10)
+                {
+                    // 10 cây, có lượt, tức là bốc nhưng chưa đánh, tự đánh
+
+                    // bài đã đánh có 3 cây, phải hạ hộ, gửi hộ
+                    if (seatInTurn.BaiDaDanh.Count == 3)
+                    {
+                        Autorun_Ha(soi);
+                        Autorun_Gui(soi);
+                    }
+
+                    Autorun_Danh(soi);
+                }
+                else
+                {
+                    throw new NotImplementedException("Developer chưa xử lý trường hợp này, vào code sửa ngay");
+                }
+            }
+            else
+            {
+                // nếu không timeout, bỏ qua luôn, ở ngoài sẽ báo lỗi Not In Turn cho currentAU
+            }                        
+            
+            /// trả lại chuỗi kết quả ra ngoài
+            /// có thể để còn log
+            return sRet.ToString();
+        }
+
+
+
+        
+
+        private static string Autorun_Boc(Soi soi)
+        {
+            string sRet = string.Empty;
+            if (null != soi.CurrentVan)
+            {
+                sRet = soi.CurrentVan.Boc(soi.GetSeatOfCurrentInTurn()).ToString();
+            }
+            return sRet;
+        }
+
+        private static string Autorun_Danh(Soi soi)
+        {            
+            string sRet = string.Empty;
+            if (null != soi.CurrentVan)
+            {
+                Seat seat = soi.GetSeatOfCurrentInTurn();
+
+                // TODO: đánh tránh những cây trong phỏm đã ăn, nếu có thể tránh
+                // TODO: //tránh cạ, nếu có thể tránh
+                // TODO: //đánh cây to nhất ok, nếu ko tránh đc, vẫn đánh cây to nhất
+                Card cardCanDanh = seat.BaiTrenTay[0];
+
+                soi.CurrentVan.Danh(seat, cardCanDanh);
+            }
+            return sRet;
+        }
+
+        private static string Autorun_Gui(Soi soi)
+        {
+            string sRet = string.Empty;
+            if (null != soi.CurrentVan)
+            {
+                Seat seat = soi.GetSeatOfCurrentInTurn();
+                // TODO: Gửi hộ: soi.CurrentVan.Gui();
+            }
+            return sRet;
+        }
+
+        private static string Autorun_Ha(Soi soi)
+        {
+            string sRet = string.Empty;
+            if (null != soi.CurrentVan)
+            {
+                Seat seat = soi.GetSeatOfCurrentInTurn();
+                
+                // Hạ hộ                
+                if (seat.BaiDaAn.Count > 0)
+                {
+                    // ăn dăm ba cây rồi, cố hạ nốt giúp nó phát
+                    List<Card[]> arrPhomList = new List<Card[]>();
+                    
+                    // TODO: lan trong đám bài, tìm phỏm, ấn vào arPhomList.
+                    // tạm thời lan ngu dốt đã, chưa thông minh vội
+                    foreach (Card cardDaAn in seat.BaiDaAn)
+                    {
+                        List<Card> phomPotential = new List<Card>();
+                        phomPotential.Add(cardDaAn);
+
+                        // thử tìm phỏm ngang
+                        foreach (Card card in seat.BaiTrenTay)
+                        {
+                            if (cardDaAn.So == card.So)
+                            {
+                                phomPotential.Add(card);
+                            }
+                        }
+                        if (phomPotential.Count >= 3)
+                        {                            
+                            arrPhomList.Add(phomPotential.ToArray());
+                        }
+                        else
+                        {                            
+                            phomPotential.Clear();
+                            phomPotential.Add(cardDaAn);
+                        }
+
+
+                        // reset, tìm lại với  phỏm dọc
+                        foreach (Card card in seat.BaiTrenTay)
+                        {
+                            if (cardDaAn.Chat == card.Chat)                            
+                            {
+                                int nSoCardDaAn = int.Parse(cardDaAn.So);
+                                int nSoCard = int.Parse(card.So);
+
+                                if (nSoCardDaAn - 1 == nSoCard || nSoCardDaAn + 1 == nSoCard)
+                                {
+                                    phomPotential.Add(card);
+                                }
+                            }
+                        }
+                        if (phomPotential.Count >= 3)
+                        {
+                            arrPhomList.Add(phomPotential.ToArray());
+                        }
+                    }
+
+                    if(arrPhomList.Count > 0)
+                    {
+                        soi.CurrentVan.Ha(seat, arrPhomList);
+                    }
+                }
+
+                
+            }
+            return sRet;
+        }
+        
     }
 }

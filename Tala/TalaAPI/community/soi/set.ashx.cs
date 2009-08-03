@@ -19,11 +19,17 @@ namespace TalaAPI.community.soi
         {
             TalaSecurity security = new TalaSecurity(context);           
 
-            string soiid = context.Request["soiid"].ToStringSafetyNormalize();
-            string option = context.Request["option"].ToStringSafetyNormalize();
-                        
+            string soiid = APIParamHelper.GetParam("soiid", context);
+            string option = APIParamHelper.GetParam("option", context);
         
             Soi soi = Song.Instance.GetSoiByID(soiid);
+            if (null == soi)
+            {
+                Cmd.Add(APICommandStatus.Get_NOT_JOINED_SOI_CommandStatus());
+                base.ProcessRequest(context);
+            }
+
+            soi.Autorun();
 		    if(security.CurrentAU.Username == soi.OwnerUsername)
             {
                 // Nếu sới đã lock luật, lỗi
@@ -54,7 +60,11 @@ namespace TalaAPI.community.soi
                     int turntimeout = 0;
                     int.TryParse(htbOption["turntimeout"] as string, out turntimeout);
                     soi.SoiOption.TurnTimeout = turntimeout;
+
+                    // allowviewer
+                    soi.SoiOption.IsAllowToViewer = (htbOption["allowviewer"] as string).String01ToBoolSafety();
                     
+
                     // set option is OK
                     APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "SOI_OPTION", "1");
                     Cmd.Add(cs);

@@ -42,22 +42,26 @@ namespace Quantum.Tala.Service
                 p_sServiceCode = bFound ? SERVICE_VTC : p_sServiceCode;
             }
 
-            user.System = p_sServiceCode;
-            user.FullIdentity = user.Username + "@@" + user.System;
-
-            #region Tạo bản ghi cache user này trong hệ thống tá lả, nếu cần
-
-            if (p_sServiceCode != SERVICE_QUANTUM)
+            if (null != user)
             {
-                // TODO: Tạo bản ghi user trong hệ thống tá lả, nếu cần
-                userDTO userDBEntry = new userDTO { 
-                    
-                };
-            
-            }
-            
-            #endregion
+                user.System = p_sServiceCode;
+                user.FullIdentity = user.Username + "@@" + user.System;
 
+                #region Tạo bản ghi cache user này trong hệ thống tá lả, nếu cần
+
+                if (p_sServiceCode != SERVICE_QUANTUM)
+                {
+                    // TODO: Tạo bản ghi user trong hệ thống tá lả, nếu cần
+                    userDTO userDBEntry = new userDTO
+                    {
+
+                    };
+
+                }
+
+                #endregion
+
+            }
             return user;
         }
 

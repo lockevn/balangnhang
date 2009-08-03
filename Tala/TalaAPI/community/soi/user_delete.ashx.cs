@@ -19,16 +19,9 @@ namespace TalaAPI.community.soi
         {
             TalaSecurity security = new TalaSecurity(context);            
             Soi soi = security.CheckUserJoinedSoi();
-            
-            if (soi == null)
-            {
-                APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "SOI_NOT_FOUND", "không tìm thấy sới hoặc bạn chưa vào sới nào");
-                Cmd.Add(cs);
-                base.ProcessRequest(context);
-            }
-        
-            
-            string pu = context.Request["pu"].ToStringSafetyNormalize();
+            soi.Autorun();
+
+            string pu = APIParamHelper.GetParam("pu", context, false);
             if (pu.IsNullOrEmpty())
             {
                 // AU rời khỏi sới

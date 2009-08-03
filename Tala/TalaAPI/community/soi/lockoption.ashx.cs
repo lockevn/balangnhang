@@ -17,16 +17,22 @@ namespace TalaAPI.community.soi
 
         public override void ProcessRequest(HttpContext context)
         {
-            string soiid = context.Request["soiid"].ToStringSafetyNormalize();
-
+            string soiid = APIParamHelper.GetParam("soiid", context);
             Soi soi = Song.Instance.GetSoiByID(soiid);
-            lock (soi)
+
+            if (soi != null)
             {
+                soi.Autorun();
                 soi.IsLocked = true;
+                APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "SOI_LOCK", "1");
+                Cmd.Add(cs);
+            }
+            else
+            {
+                APICommandStatus cs = APICommandStatus.Get_NOT_JOINED_SOI_CommandStatus();
+                Cmd.Add(cs);
             }
 
-            APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "SOI_LOCK", "1");
-            Cmd.Add(cs);
             base.ProcessRequest(context);
         }
     }
