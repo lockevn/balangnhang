@@ -506,6 +506,9 @@ namespace Quantum.Tala.Service.Business
             #endregion
 
 
+            // tạo countdown timer cho đồng chí có lượt đầu tiên
+            AutorunService.Create_Autorun_InVan(this.GetSeatOfCurrentInTurn().Player);
+
             return 0;
         }
 

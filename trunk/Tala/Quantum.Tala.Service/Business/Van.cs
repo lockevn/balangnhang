@@ -528,6 +528,14 @@ namespace Quantum.Tala.Service.Business
             this.SoiDangChoi.DBEntry.numofvan++;
             this.IsFinished = true;
             this.SoiDangChoi.IsPlaying = false;
+
+            // create lại timeout cho các user đang chơi, timeout để ready
+            foreach (Seat seat in SoiDangChoi.SeatList)
+            {
+                AutorunService.Create_Autorun_InStartingVan(seat.Player);
+            }
+
+
             switch (this.SoiDangChoi.GetCurrentTournament().type)
             {
                 case (int)TournamentType.DeadMatch:
@@ -764,11 +772,12 @@ namespace Quantum.Tala.Service.Business
         /// Chuyển lượt đánh cho Seat kế tiếp
         /// </summary>
         private int AdvanceCurrentTurnIndex()
-        {
-            // Đồng hồ đếm ngược sẽ được khởi tạo cho user có turn, khi Chuyển turn sang user đó
-            AutorunService.Create_Autorun_InVan(this.SoiDangChoi);
-            
+        {   
             _CurrentTurnSeatIndex = Seat.GetNextSeatIndex(this.CurrentTurnSeatIndex, this.SoiDangChoi.SeatList.Count);
+
+            // Đồng hồ đếm ngược sẽ được khởi tạo cho user có turn, khi Chuyển turn sang user đó
+            AutorunService.Create_Autorun_InVan(SoiDangChoi.GetSeatOfCurrentInTurn().Player);
+
             return this.CurrentTurnSeatIndex;
         }
 

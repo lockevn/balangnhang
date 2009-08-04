@@ -57,9 +57,24 @@ namespace Quantum.Tala.Service
                 );
         }
         
-        public static void Create_Autorun_InVan(Soi soi)
-        {
-            // TODO: // Đồng hồ đếm ngược sẽ được khởi tạo cho user có turn, khi Chuyển turn sang user đó            
+        /// <summary>
+        /// ghi một key vào cache, khởi tạo Đồng hồ đếm ngược khi user có lượt trong khi ván đang chơi. Hàm này  gọi khi chuyển lượt.
+        /// </summary>
+        /// <param name="soi"></param>
+        public static void Create_Autorun_InVan(TalaUser player)
+        {   
+            int nTimeout = player.CurrentSoi.SoiOption.TurnTimeout;
+            // timeout do người chơi có thể set lại trong sới, tuy nhiên không được nhanh quá, ko được nhỏ hơn giá trị default, cũng như không lâu quá 2 lần giá trị default
+            nTimeout = (AutorunService.AUTORUN_IN_VAN_TIMEOUT < nTimeout) && (nTimeout < AutorunService.AUTORUN_IN_VAN_TIMEOUT * 2)
+                ? nTimeout : AutorunService.AUTORUN_IN_VAN_TIMEOUT;
+
+            string sCacheKey = AutorunService.GetCacheKey_Autorun_InVan(player);
+            // cache.Insert là replace key cũ, nếu key cũ tồn tại rồi
+            HttpContext.Current.Cache.Insert(
+                sCacheKey, player,
+                null,
+                DateTime.MaxValue, TimeSpan.FromSeconds(AutorunService.AUTORUN_IN_VAN_TIMEOUT)
+                );
         }
 
         
