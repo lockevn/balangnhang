@@ -1,4 +1,12 @@
-﻿
+﻿tr.section {
+  border-style: solid;
+  border-color: #DDDDDD;
+  border-width: 1px;
+}
+
+td.spacer {
+	height: 4px;
+	}
 
 
 
@@ -12,7 +20,7 @@ div.mymenu {
     div.mymenu ul {
 	  float:right;
       position:absolute;
-	  top:93px;
+	  top:95px;
 	  right:0px;
 
       padding:10px 10px 0;
@@ -276,10 +284,13 @@ div.sideblock div.header {
   padding:  0.3em 0.3em;
   border: none;
 }
+/*danhut modified*/
 div.sideblock div.content {
   padding: 0.4em 0.3em;
   
-  border: none;
+  border: solid;
+  border-width: 1px;
+  border-color: #C1E0E1;
   
   
   }
@@ -559,7 +570,7 @@ body.admin table.generaltable {
   width: 100%;
 }
 body#course-view tr.section td.side {
-  border-style: none;
+  border-style: none;  
 }
 body#course-view tr.section td.content {
   border-style: none;
@@ -746,3 +757,36 @@ border-bottom: 1px #eee solid;
 }
 
 
+tr.main {
+  border-style: solid;
+  border-color: #C1E0E1;
+  border-width: 1px;
+  background-color: #f8f8f8;
+  
+}
+
+td.side {
+	background-color: white;
+	width: 30px;
+	vertical-align: top;	
+	font-size: 1em;	
+	font-weight: bold;
+}
+
+td.left {
+	background-color: white;
+	width: 60px;
+	vertical-align: top;	
+	font-size: 1em;	
+	font-weight: bold;
+}
+
+.separator {
+	height: 15px;
+	border-style: none;
+	}
+div.summary {
+	height: 18px;
+	vertical-align: top;
+	
+}
