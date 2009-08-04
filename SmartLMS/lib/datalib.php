@@ -1633,17 +1633,94 @@ function get_coursemodule_from_id($modulename, $cmid, $courseid=0) {
     global $CFG;
 
     $courseselect = ($courseid) ? 'cm.course = '.intval($courseid).' AND ' : '';
-
-    return get_record_sql("SELECT cm.*, m.name, md.name as modname
+    /*danhut modified*/
+	$sqlStr = "SELECT cm.*, m.name, md.name as modname, cs.section as sectionindex, cs.sequence
                            FROM {$CFG->prefix}course_modules cm,
                                 {$CFG->prefix}modules md,
-                                {$CFG->prefix}$modulename m
+                                {$CFG->prefix}$modulename m,
+                                {$CFG->prefix}course_sections cs
                            WHERE $courseselect
                                  cm.id = ".intval($cmid)." AND
                                  cm.instance = m.id AND
                                  md.name = '$modulename' AND
-                                 md.id = cm.module");
+                                 md.id = cm.module AND
+                                 cs.id = cm.section";
+
+	$result = get_record_sql($sqlStr);
+	$parentResourceName = get_parent_resource_name($result);
+	if($parentResourceName) {
+		$result->parentname = $parentResourceName; 
+	}			                            
+    return $result;
+    /*end of danhut modified*/
 }
+
+/**
+ * danhut added
+ * Retrieve the parent resource name of a resource: e.g 
+ * VD: cấu trúc bài giảng của Lesson 1 là 
+ * Vocabulary 
+ * 		Lecture
+ * 		Exercise1
+ * 		Exercise2
+ * Reading 
+ * 		Lecture
+ * 		Exercise3
+ * 		Exercise4
+ * Khi truy cập Exercise1 cần lấy được Vocabulary (là name của parent resource) để hiển thị trên navigation bar
+ * @param unknown_type $cmObj CourseModule obj trả về sau khi gọi get_coursemodule_from_id hoặc get_coursemodule_from_instance
+ * @return unknown parent resource name or ''
+ */
+function get_parent_resource_name($cmObj) {
+	global $CFG;
+/*nếu resource này có parent, tìm parent cho nó*/
+	if($cmObj->indent == 1) {	                                  		
+		$sequence = $cmObj->sequence;
+		/*lấy ra danh sách các resourceid đứng trước resource hiện tại từ sequence*/		
+		$pattern = "/(,$cmObj->id,)|(,$cmObj->id\z)/";
+		$matches = array();
+		$matchIndex = 0;
+		if(preg_match($pattern, $sequence, $matches, PREG_OFFSET_CAPTURE)) {
+			$tmpStr = $matches[0][0];
+			$matchIndex = $matches[0][1];
+			$sequence = rtrim (substr($sequence, 0, $matchIndex + strlen($tmpStr)), ',');						
+		}		
+		$courseModuleIdArr = split(',', $sequence);
+		
+		$sqlStr = "SELECT id, instance FROM {$CFG->prefix}course_modules WHERE id IN ($sequence) AND indent = 0 AND visible = 1 AND module = 9 /*lable*/";
+		$resourceArr = get_records_sql($sqlStr);		
+		if($resourceArr) {
+			$found = false;
+			$foundParentId = 0;
+			/*duyệt các resource trong $courseModuleIdArr để tìm ra resource parent (resource gần resource hiện tại nhất có indent = 0) */
+			for($i = sizeof($courseModuleIdArr) - 1; $i >= 0 ; $i--)
+			{
+				foreach ($resourceArr as $resource) {
+					/*nếu tìm thấy parent resource, break*/
+					if($resource->id == $courseModuleIdArr[$i]) {
+						$foundParentId 	= 	$resource->instance;
+						$found 			= 	true;
+						break;  
+					}																	
+				}	
+				if($found === true) {
+						break;
+				}				
+			}	
+			if($foundParentId) {
+				/*lấy ra label của parent resource*/
+				$sqlStr = "SELECT name FROM {$CFG->prefix}label WHERE id = $foundParentId";
+				$parentResource = get_record_sql($sqlStr);
+				if($parentResource) {
+					return $parentResource->name;
+				}
+			}
+		}		
+	}
+	return false;
+}
+
+
 
 /**
  * Given an instance number of a module, finds the coursemodule description
@@ -1658,16 +1735,36 @@ function get_coursemodule_from_instance($modulename, $instance, $courseid=0) {
     global $CFG;
 
     $courseselect = ($courseid) ? 'cm.course = '.intval($courseid).' AND ' : '';
-
-    return get_record_sql("SELECT cm.*, m.name, md.name as modname
+	
+	/*danhut modified*/
+    $sqlStr = "SELECT cm.*, m.name, md.name as modname, cs.section as sectionindex, cs.sequence
                            FROM {$CFG->prefix}course_modules cm,
                                 {$CFG->prefix}modules md,
-                                {$CFG->prefix}$modulename m
+                                {$CFG->prefix}$modulename m,
+                                {$CFG->prefix}course_sections cs 
                            WHERE $courseselect
                                  cm.instance = m.id AND
                                  md.name = '$modulename' AND
                                  md.id = cm.module AND
-                                 m.id = ".intval($instance));
+                                 m.id = ".intval($instance). ' AND
+                                 cs.id = cm.section';
+    $result = get_record_sql($sqlStr);                      	               
+	$parentResourceName = get_parent_resource_name($result);
+	if($parentResourceName) {
+		$result->parentname = $parentResourceName; 
+	}			                            
+    return $result;                 
+    /*end of danhut modified*/ 
+                                 
+//    return get_record_sql("SELECT cm.*, m.name, md.name as modname
+//                           FROM {$CFG->prefix}course_modules cm,
+//                                {$CFG->prefix}modules md,
+//                                {$CFG->prefix}$modulename m
+//                           WHERE $courseselect
+//                                 cm.instance = m.id AND
+//                                 md.name = '$modulename' AND
+//                                 md.id = cm.module AND
+//                                 m.id = ".intval($instance));
 
 }
 
@@ -1684,14 +1781,17 @@ function get_coursemodules_in_course($modulename, $courseid, $extrafields='') {
     if (!empty($extrafields)) {
         $extrafields = ", $extrafields";
     }
-    return get_records_sql("SELECT cm.*, m.name, md.name as modname $extrafields
+    return get_records_sql("SELECT cm.*, m.name, md.name as modname $extrafields , , cs.section as sectionindex
                               FROM {$CFG->prefix}course_modules cm,
                                    {$CFG->prefix}modules md,
-                                   {$CFG->prefix}$modulename m
+                                   {$CFG->prefix}$modulename m,
+                                   {$CFG->prefix}course_sections cs
+                                   
                              WHERE cm.course = $courseid AND
                                    cm.instance = m.id AND
                                    md.name = '$modulename' AND
-                                   md.id = cm.module");
+                                   md.id = cm.module AND
+                                   cs.id = cm.section");
 }
 
 /**
