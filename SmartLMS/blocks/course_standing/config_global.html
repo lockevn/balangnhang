@@ -1,0 +1,22 @@
+<div style="text-align: center;">
+
+   <?php print_string('goodrangeminimum', 'block_course_standing'); ?>
+   <input type="text" name="block_course_standing_goodrangeminimum" value="<?php
+      if (!empty($CFG->block_course_standing_goodrangeminimum)) echo $CFG->block_course_standing_goodrangeminimum;
+      else echo '80';
+   ?>" />
+   <br/>
+   <?php print_string('okrangeminimum', 'block_course_standing'); ?>
+   <input type="text" name="block_course_standing_okrangeminimum" value="<?php 
+      if (!empty($CFG->block_course_standing_okrangeminimum)) echo $CFG->block_course_standing_okrangeminimum;
+      else echo '70';
+   ?>" />
+   <br/>
+   <?php print_string('badrangemaximum', 'block_course_standing'); ?>
+   <input type="text" name="block_course_standing_badrangemaximum" value="<?php
+      if (!empty($CFG->block_course_standing_badrangemaximum)) echo $CFG->block_course_standing_badrangemaximum;
+      else echo '50';
+   ?>" />
+
+   <p><input type="submit" value="<?php print_string('savechanges'); ?>" /></p>
+</div>
