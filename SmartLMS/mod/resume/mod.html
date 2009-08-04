@@ -1,0 +1,35 @@
+<!-- This page defines the form to create or edit an instance of this module -->
+<!-- It is used from /course/mod.php.  The whole instance is available as $form. -->
+
+<form name="form" method="post" action="mod.php">
+<center>
+<table cellpadding=5>
+<tr valign=top>
+    <td align=right><p><b><?php  print_string("resumetext", "resume") ?></b></p>
+    </td>
+    <td>
+    <?php
+       print_textarea(false, 3, 50, 680, 50, "content", $form->content);
+    ?>
+    </td>
+</tr>
+
+</table>
+<!-- these hidden variables are always the same -->
+<input type="hidden" name=course        value="<?php  p($form->course) ?>">
+<input type="hidden" name="sesskey"       value="<?php  p($form->sesskey) ?>" />
+<input type="hidden" name=coursemodule  value="<?php  p($form->coursemodule) ?>">
+<input type="hidden" name=section       value="<?php  p($form->section) ?>">
+<input type="hidden" name=module        value="<?php  p($form->module) ?>">
+<input type="hidden" name=modulename    value="<?php  p($form->modulename) ?>">
+<input type="hidden" name=instance      value="<?php  p($form->instance) ?>">
+<input type="hidden" name=mode          value="<?php  p($form->mode) ?>">
+<input type="submit" value="<?php  print_string("update") ?>">
+</center>
+</form>
+
+<?php 
+   if ($usehtmleditor) { 
+       use_html_editor();
+   }
+?>
