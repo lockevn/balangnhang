@@ -55,8 +55,9 @@ namespace TalaAPI.play.van
                     base.ProcessRequest(context);
                     return;
                 }
-            }          
-
+            }
+            
+            soi.Autorun();
             
             // đến đc đây, là sới != null (hoặc là sới của player, hoặc là sới đc xem, render thôi)
             if (null != soi.CurrentVan)

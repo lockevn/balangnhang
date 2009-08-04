@@ -53,7 +53,7 @@ namespace TalaAPI.community.soi
                     {
                         if (seat.IsReady == false)
                         {
-                            cs.Info += seat.Player.Username  + ",";
+                            cs.Info += seat.Player.UsernameInGame  + ",";
                         }
                     }
                     cs.Info = cs.Info.Trim(',');

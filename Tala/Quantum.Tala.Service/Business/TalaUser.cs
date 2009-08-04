@@ -20,8 +20,7 @@ namespace Quantum.Tala.Service.Business
 
         #region IUser Members
 
-        string _sUsername;
-        [ElementXMLExportAttribute("", DataOutputXMLType.NestedTag)]
+        string _sUsername;        
         public string Username
         {
             get
@@ -61,7 +60,22 @@ namespace Quantum.Tala.Service.Business
         }
 
         #endregion
-        
+
+        string _UsernameInGame = string.Empty;
+        /// <summary>
+        /// Khi sử dụng với các sới pro (paid) thì phải set Property này. Với các tourfree, không cần mask, property này sẽ trả về username bình thường
+        /// </summary>        
+        [ElementXMLExportAttribute("username", DataOutputXMLType.NestedTag)]
+        public string UsernameInGame
+        { 
+            get{
+                return _UsernameInGame.IsNullOrEmpty() ? Username : _UsernameInGame;
+            }
+            set{
+                _UsernameInGame = value;
+            } 
+        }
+
         public string Password { get; set; }
         public int Gold { get; set; }
 
