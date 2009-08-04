@@ -68,12 +68,16 @@ namespace Quantum.Tala.Service
             nTimeout = (AutorunService.AUTORUN_IN_VAN_TIMEOUT < nTimeout) && (nTimeout < AutorunService.AUTORUN_IN_VAN_TIMEOUT * 2)
                 ? nTimeout : AutorunService.AUTORUN_IN_VAN_TIMEOUT;
 
+#if(DEBUG)
+            //nTimeout = 30;
+#endif
+
             string sCacheKey = AutorunService.GetCacheKey_Autorun_InVan(player);
             // cache.Insert là replace key cũ, nếu key cũ tồn tại rồi
             HttpContext.Current.Cache.Insert(
                 sCacheKey, player,
                 null,
-                DateTime.MaxValue, TimeSpan.FromSeconds(AutorunService.AUTORUN_IN_VAN_TIMEOUT)
+                DateTime.MaxValue, TimeSpan.FromSeconds(nTimeout)
                 );
         }
 
@@ -140,8 +144,7 @@ namespace Quantum.Tala.Service
             if (seatInTurn.Player.Authkey == _CurrentAuthkey)
             {
                 // currentAU đang có lượt (ko cập nhật lại timeout, ko đánh nhanh thì thiệt), do Bizz
-                // cho qua, ko đụng đậy tay chân gì
-                return sRet.ToString();
+                // cho qua, ko đụng đậy tay chân gì                
             }                        
                        
             // Kiểm tra timeout

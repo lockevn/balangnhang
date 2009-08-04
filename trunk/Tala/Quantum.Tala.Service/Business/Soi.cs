@@ -249,6 +249,12 @@ namespace Quantum.Tala.Service.Business
                 AutorunService.Create_Autorun_InStartingVan(player);
             }
 
+            if (this.GetCurrentTournament().type != (int)TournamentType.Free)
+            {
+                // nếu không phải sới free, mask username đi
+                player.UsernameInGame = "ThieuGia_" + player.Authkey;
+            }
+
             return nRet;
         }
 
@@ -465,22 +471,7 @@ namespace Quantum.Tala.Service.Business
             }
 
 
-            /* ---------------------------------------------------------------*/
-            // COME HERE MEAN all Condition is OK           
-
-            //o	Bắt đầu ván với các lựa chọn của Sới hiện tại
-            //o	Hệ thống sẽ tạo ván mới, tự chia bài
-            CreateVan(false);
-
-            // bật cờ đang chơi
-            IsPlaying = true;
-            IsLocked = true;
-            this.DBEntry.isend = false;
-            this.DBEntry.starttime = new MySqlDateTime(DateTime.Now);
-            this.DBEntry.option = this.SoiOption.ToXMLString();
-
-
-            #region Trừ tiền các đồng chí tham gia, nếu cần (DeathMatch)                        
+            #region Trừ tiền các đồng chí tham gia, nếu cần (DeathMatch)
 
             if (this.GetCurrentTournament().type == (int)TournamentType.DeadMatch)
             {
@@ -494,8 +485,7 @@ namespace Quantum.Tala.Service.Business
                 List<string> arrResult = deathmatchsvc.SubtractVCoinBeforeStartSoi(arrUserSubtract, this.GetCurrentTournament());
                 if (arrResult.Count <= 0)
                 {
-                    // không có chú nào thiếu tiền cả, tiền thì trừ rồi, cho chơi thôi
-                    return 0;
+                    // không có chú nào thiếu tiền cả, tiền thì trừ rồi, cho chơi thôi                    
                 }
                 else
                 {
@@ -504,6 +494,20 @@ namespace Quantum.Tala.Service.Business
             }
 
             #endregion
+
+            /* ---------------------------------------------------------------*/
+            // COME HERE MEAN all Condition is OK           
+
+            //o	Bắt đầu ván với các lựa chọn của Sới hiện tại
+            //o	Hệ thống sẽ tạo ván mới, tự chia bài
+            CreateVan(false);
+
+            // bật cờ đang chơi
+            IsPlaying = true;
+            IsLocked = true;
+            this.DBEntry.isend = false;
+            this.DBEntry.starttime = new MySqlDateTime(DateTime.Now);
+            this.DBEntry.option = this.SoiOption.ToXMLString();
 
 
             // tạo countdown timer cho đồng chí có lượt đầu tiên

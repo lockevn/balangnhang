@@ -217,6 +217,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TalaProgramApplication.cs" />
+    <Compile Include="test\login4nguoi_sansangdanh.aspx.cs">
+      <DependentUpon>login4nguoi_sansangdanh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="test\login4nguoi_sansangdanh.aspx.designer.cs">
+      <DependentUpon>login4nguoi_sansangdanh.aspx</DependentUpon>
+    </Compile>
     <Compile Include="test\login2nguoi_tuchoi.aspx.cs">
       <DependentUpon>login2nguoi_tuchoi.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -371,6 +378,7 @@
     </Content>
     <None Include="TalaAPI.dll.log4net" />
     <Content Include="favicon.ico" />
+    <Content Include="test\login4nguoi_sansangdanh.aspx" />
     <Content Include="test\login2nguoi_tuchoi.aspx" />
     <Content Include="test\create50soi.aspx" />
     <Content Include="test\start.ashx" />
