@@ -159,7 +159,7 @@
         if (isediting($course->id) && has_capability('moodle/course:update', get_context_instance(CONTEXT_COURSE, $course->id))) {
             echo '<a title="'.$streditsummary.'" '.
                  ' href="editsection.php?id='.$thissection->id.'"><img src="'.$CFG->pixpath.'/t/edit.gif" '.
-                 ' alt="'.$streditsummary.'" /></a><br /><br />';
+                 ' alt="'.$streditsummary.'" /></a>';
         }
         echo '</div>';
 
@@ -233,7 +233,7 @@
             }
 
             echo '<tr id="section-'.$section.'" class="section main'.$sectionstyle.'">';
-            echo '<td class="left side">'.$currenttext.$section.'</td>';
+            echo '<td class="left side">Lesson '.$currenttext.$section.'</td>';
 
             echo '<td class="content">';
             if (!has_capability('moodle/course:viewhiddensections', $context) and !$thissection->visible) {   // Hidden for students
@@ -245,7 +245,7 @@
 
                 if (isediting($course->id) && has_capability('moodle/course:update', get_context_instance(CONTEXT_COURSE, $course->id))) {
                     echo ' <a title="'.$streditsummary.'" href="editsection.php?id='.$thissection->id.'">'.
-                         '<img src="'.$CFG->pixpath.'/t/edit.gif" alt="'.$streditsummary.'" /></a><br /><br />';
+                         '<img src="'.$CFG->pixpath.'/t/edit.gif" alt="'.$streditsummary.'" /></a>';
                 }
                 echo '</div>';
 
