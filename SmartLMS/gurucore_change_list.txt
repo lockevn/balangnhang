@@ -12,3 +12,9 @@ require to apply after any original moodle installation or upgrade
 	/SmartLMS/lib/weblib.php : thay đổi navigation bar để hiện thị theo format: course->lesson->activity (Vocab,Reading..)->resourse (Lecture, Exercise)	
 	/SmartLMS/lib/datalib.php : thay đổi navigation bar 
  
+05.08.09: danhut:
+	
+	/SmartLMS/theme/menu_horizontal/user_styles.css: chỉnh left và right margin của div#content
+	/SmartLMS/mod/resource/type/html/resource.class.php: enable block display in html resource page
+	\SmartLMS\mod\resource\pagelib.php: danhut added to enable blocks display in resource_module 
+	
