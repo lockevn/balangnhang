@@ -519,6 +519,7 @@ table.forumheaderlist th.header {
 .forumpost {
   background-color: #EEEEEE;
   border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+  width: 100%;
 }
 .forumheaderlist td {
   border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
