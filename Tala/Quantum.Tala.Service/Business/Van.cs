@@ -532,6 +532,7 @@ namespace Quantum.Tala.Service.Business
             // create lại timeout cho các user đang chơi, timeout để ready
             foreach (Seat seat in SoiDangChoi.SeatList)
             {
+                seat.IsReady = false;
                 AutorunService.Create_Autorun_InStartingVan(seat.Player);
             }
 
