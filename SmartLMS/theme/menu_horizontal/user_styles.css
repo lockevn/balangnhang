@@ -79,8 +79,8 @@ div#content {
   line-height: 1.6em;
   margin-top: 0px;
   clear: both;
-    margin-left: 3%;
-  margin-right: 3%;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 div#footer {
@@ -279,14 +279,13 @@ div.sideblock div.title h2 {
   line-height: 1.1em;
 }
 div.sideblock div.header {
-  background-color: 
-#D1E7E8;
+  background-color: #D1E7E8;
   padding:  0.3em 0.3em;
   border: none;
 }
 /*danhut modified*/
 div.sideblock div.content {
-  padding: 0.4em 0.3em;
+  
   
   border: solid;
   border-width: 1px;
@@ -790,3 +789,5 @@ div.summary {
 	vertical-align: top;
 	
 }
+
+
