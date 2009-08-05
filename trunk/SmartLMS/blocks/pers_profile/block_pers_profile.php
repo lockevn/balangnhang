@@ -43,7 +43,7 @@
       } // function config_save()
 
       function applicable_formats() {
-         return array('my'=>true);
+         return array('all'=>true);
       } // function applicable_formats()
 
    } // class block_countdown
