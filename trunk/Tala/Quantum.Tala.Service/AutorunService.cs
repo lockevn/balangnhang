@@ -23,8 +23,8 @@ namespace Quantum.Tala.Service
         const string AUTORUN_IN_VAN_KEY_PREFIX = "AUTORUN_VAN_";
         const string AUTORUN_IN_STARTING_VAN_KEY_PREFIX = "AUTORUN_VAN_STARTING_";
 
-        const int AUTORUN_IN_VAN_TIMEOUT = 120;
-        const int AUTORUN_IN_STARTING_VAN_TIMEOUT = 120;
+        const int AUTORUN_IN_VAN_TIMEOUT = 89;
+        const int AUTORUN_IN_STARTING_VAN_TIMEOUT = 30;
 
 
         public AutorunService()
@@ -50,6 +50,8 @@ namespace Quantum.Tala.Service
         {            
             string sCacheKey = AutorunService.GetCacheKey_Autorun_InStartingVan(player);
             // cache.Insert là replace key cũ, nếu key cũ tồn tại rồi
+
+            // create cache dạng timeount tính từ last recent use
             HttpContext.Current.Cache.Insert(
                 sCacheKey, player, 
                 null, 
@@ -74,10 +76,11 @@ namespace Quantum.Tala.Service
 
             string sCacheKey = AutorunService.GetCacheKey_Autorun_InVan(player);
             // cache.Insert là replace key cũ, nếu key cũ tồn tại rồi
+            // create dạng absolute expiration, hết hạn tại thời điểm cố định trong tương lai
             HttpContext.Current.Cache.Insert(
                 sCacheKey, player,
                 null,
-                DateTime.MaxValue, TimeSpan.FromSeconds(nTimeout)
+                DateTime.Now.AddSeconds(nTimeout), TimeSpan.Zero
                 );
         }
 
