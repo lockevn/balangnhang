@@ -17,6 +17,14 @@ class block_dictionary_mc extends block_list {
     return 200;
 }
 
+function applicable_formats() {
+        if (has_capability('moodle/site:config', get_context_instance(CONTEXT_SYSTEM))) {
+            return array('all' => true);
+        } else {
+            return array('site' => true);
+        }
+    }
+
 function get_content() {
     if ($this->content !== NULL) {
         return $this->content;}
