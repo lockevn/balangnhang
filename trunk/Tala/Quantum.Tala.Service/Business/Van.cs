@@ -40,7 +40,7 @@ namespace Quantum.Tala.Service.Business
         public int CurrentRound { get; set; }
         public TalaUser Winner { get; set; }
         
-        public Soi SoiDangChoi { get; set; }
+        public Soi CurrentSoi { get; set; }
 
         // TODO: change to internal please
         public List<Card> _Noc { get; set; }
@@ -63,7 +63,7 @@ namespace Quantum.Tala.Service.Business
         public Van(int index, Soi soi)
         {
             this.ID = index;
-            this.SoiDangChoi = soi;
+            this.CurrentSoi = soi;
             this.CurrentRound = 1;
             this._CurrentTurnSeatIndex = 0;
 
@@ -73,7 +73,7 @@ namespace Quantum.Tala.Service.Business
             this._AnChotNguyCoDenList = new List<Seat>();
 
             /*xóa bài của tất cả các seat trong seatList*/
-            List<Seat> seatList = this.SoiDangChoi.SeatList;
+            List<Seat> seatList = this.CurrentSoi.SeatList;
             if (seatList != null)
             {
                 foreach (Seat seat in seatList)
@@ -105,7 +105,7 @@ namespace Quantum.Tala.Service.Business
         /// <returns>true/false</returns>
         public bool Danh(Seat seat, Card card)
         {
-            if (this.SoiDangChoi.IsPlaying == false ||
+            if (this.CurrentSoi.IsPlaying == false ||
                 !this.IsSeatInTurn(seat) || !this.IsCardInBaiTrenTay(seat, card) || seat.GetTotalCardOnSeat() < 10)
             {
                 return false;
@@ -123,8 +123,8 @@ namespace Quantum.Tala.Service.Business
                     string.Format("BaiDaDanh = {0}, BaiDaAn = {1}",seat.BaiDaDanh.Count , seat.BaiDaAn.Count ));
 #endif
                 // kiểm tra current Tournament Type để quyết định có dừng ván hay không?
-                if (SoiDangChoi.GetCurrentTournament().type == (int)TournamentType.DeadMatch
-                 || SoiDangChoi.GetCurrentTournament().type == (int)TournamentType.TennisTree)
+                if (CurrentSoi.GetCurrentTournament().type == (int)TournamentType.DeadMatch
+                 || CurrentSoi.GetCurrentTournament().type == (int)TournamentType.TennisTree)
                 {
                     // với các thể thức này, không dừng ván ngay mà chơi tiếp, vì bọn hạ láo tính điểm 2000 + HaIndex mà
                 }
@@ -149,14 +149,14 @@ namespace Quantum.Tala.Service.Business
             }            
 
             /*nếu là seat đánh cuối cùng ở vòng cuối cùng thì end game (kiểm tra qua Nọc)*/
-            if (this._Noc.Count <= 52 - (9+4)* this.SoiDangChoi.SeatList.Count)
+            if (this._Noc.Count <= 52 - (9+4)* this.CurrentSoi.SeatList.Count)
             {
                 
 #if(DEBUG)
                 this.AddMessage("Nọc để test", 
                     string.Format("{0} <= {1}", 
                     _Noc.Count.ToString(), 
-                    52 - (9 + 4) * this.SoiDangChoi.SeatList.Count)
+                    52 - (9 + 4) * this.CurrentSoi.SeatList.Count)
                     );
 #endif
 
@@ -203,8 +203,8 @@ namespace Quantum.Tala.Service.Business
             }
 
             /*chuyen card cuoi cung tu BaiDaDanh cua seat truoc sang seat BaiDaAn cua seat sau*/
-            int previousSeatIndex = Seat.GetPreviousSeatIndex(seat.Pos, this.SoiDangChoi.SeatList.Count);
-            Seat previousSeat = this.SoiDangChoi.SeatList.ElementAt(previousSeatIndex) as Seat;
+            int previousSeatIndex = Seat.GetPreviousSeatIndex(seat.Pos, this.CurrentSoi.SeatList.Count);
+            Seat previousSeat = this.CurrentSoi.SeatList.ElementAt(previousSeatIndex) as Seat;
 
             /*kiểm tra previousSeat có bài đã đánh không*/
             if (previousSeat.BaiDaDanh == null || previousSeat.BaiDaDanh.Count == 0)
@@ -213,12 +213,12 @@ namespace Quantum.Tala.Service.Business
             }
 
             /*kiểm tra cây chốt*/
-            if (seat.BaiDaDanh.Count == 3 && this.SoiDangChoi.SoiOption.IsChot)
+            if (seat.BaiDaDanh.Count == 3 && this.CurrentSoi.SoiOption.IsChot)
             {
-                if (this.SoiDangChoi.SoiOption.IsChot)
+                if (this.CurrentSoi.SoiOption.IsChot)
                 {
                     /* tinh tien cho cay chot */
-                    int money = Cashier.CHIP_AN_CHOT * this.SoiDangChoi.SoiOption.TiGiaChip;
+                    int money = Cashier.CHIP_AN_CHOT * this.CurrentSoi.SoiOption.TiGiaChip;
                     this.AddMessage("Ăn cây chốt", previousSeat.Player.UsernameInGame + " nộp " + money + " cho " + seat.Player.UsernameInGame);
                     /*tru tien vao tai khoan cua nguoi bi an chot*/
                     previousSeat.Player.SubtractMoney(money, EnumPlayingResult.Nothing);
@@ -235,9 +235,9 @@ namespace Quantum.Tala.Service.Business
             }
 
             /*nộp gà*/
-            if (this.SoiDangChoi.SoiOption.IsGa)
+            if (this.CurrentSoi.SoiOption.IsGa)
             {
-                int nTienPhatVaoGa = Cashier.NopGa(this.SoiDangChoi, previousSeat.Player);
+                int nTienPhatVaoGa = Cashier.NopGa(this.CurrentSoi, previousSeat.Player);
                 this.AddMessage("Nộp gà", previousSeat.Player.UsernameInGame + " nộp " + nTienPhatVaoGa + " vào gà");
             }
 
@@ -253,18 +253,18 @@ namespace Quantum.Tala.Service.Business
                 /*nếu haIndex = 2 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 1*/
                 /*nếu haIndex = 3 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 2*/
                 /*nếu haIndex = 0 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 3*/
-                int indexChuyenSang = Seat.GetPreviousSeatIndex(seat.HaIndex, this.SoiDangChoi.SeatList.Count);
-                Seat seat0 = this.SoiDangChoi.GetSeatByHaIndex(0) as Seat;
-                Seat seatI = this.SoiDangChoi.GetSeatByHaIndex(indexChuyenSang) as Seat;
+                int indexChuyenSang = Seat.GetPreviousSeatIndex(seat.HaIndex, this.CurrentSoi.SeatList.Count);
+                Seat seat0 = this.CurrentSoi.GetSeatByHaIndex(0) as Seat;
+                Seat seatI = this.CurrentSoi.GetSeatByHaIndex(indexChuyenSang) as Seat;
                 Card chuyenCard = seat0.BaiDaDanh.Last();
                 seatI.BaiDaDanh.Add(chuyenCard);
                 seat0.BaiDaDanh.Remove(chuyenCard);
             }
 
             /*cập nhật lại thứ tự hạ cho tất cả các seat*/
-            foreach (Seat tmpSeat in this.SoiDangChoi.SeatList)
+            foreach (Seat tmpSeat in this.CurrentSoi.SeatList)
             {
-                tmpSeat.HaIndex = Seat.GetPreviousSeatIndex(tmpSeat.HaIndex, this.SoiDangChoi.SeatList.Count);
+                tmpSeat.HaIndex = Seat.GetPreviousSeatIndex(tmpSeat.HaIndex, this.CurrentSoi.SeatList.Count);
             }
 
             return anCard;
@@ -340,8 +340,8 @@ namespace Quantum.Tala.Service.Business
             /*neu bai da an cua seat == 3, previous seat phai den*/
             else if (seat.BaiDaAn.Count == 3)
             {
-                int previousIndex = Seat.GetPreviousSeatIndex(seat.Pos, this.SoiDangChoi.SeatList.Count);
-                denSeat = this.SoiDangChoi.SeatList.ElementAt(previousIndex) as Seat;                                                
+                int previousIndex = Seat.GetPreviousSeatIndex(seat.Pos, this.CurrentSoi.SeatList.Count);
+                denSeat = this.CurrentSoi.SeatList.ElementAt(previousIndex) as Seat;                                                
             }                                                      
             this.EndVan_U(seat, denSeat, count == 10);
 
@@ -525,26 +525,26 @@ namespace Quantum.Tala.Service.Business
         private TournamentType FinishVan(TalaUser p_Winner)
         {
             Winner = p_Winner;
-            this.SoiDangChoi.DBEntry.numofvan++;
+            this.CurrentSoi.DBEntry.numofvan++;
             this.IsFinished = true;
-            this.SoiDangChoi.IsPlaying = false;
+            this.CurrentSoi.IsPlaying = false;
 
             // create lại timeout cho các user đang chơi, timeout để ready
-            foreach (Seat seat in SoiDangChoi.SeatList)
+            foreach (Seat seat in CurrentSoi.SeatList)
             {
                 seat.IsReady = false;
                 AutorunService.Create_Autorun_InStartingVan(seat.Player);
             }
 
 
-            switch (this.SoiDangChoi.GetCurrentTournament().type)
+            switch (this.CurrentSoi.GetCurrentTournament().type)
             {
                 case (int)TournamentType.DeadMatch:
                     // cộng tiền thưởng cho người nhất
                     IMoneyService moneysvc = ServiceLocator.Locate<IMoneyService, MoneyService>();
-                    tournamentDTO tour = SoiDangChoi.GetCurrentTournament();
+                    tournamentDTO tour = CurrentSoi.GetCurrentTournament();
                     string sItemCode = string.Format("TalaWinner^{0}^{1}", tour.id, tour.name);
-                    int nMoneyToAdd = tour.enrollfee * SoiDangChoi.SeatList.Count * (3/4);
+                    int nMoneyToAdd = tour.enrollfee * CurrentSoi.SeatList.Count * (3/4);
                     moneysvc.AddVCoinOfVTCUser(Winner.BankCredential.BankUsername, sItemCode, Winner.IP, nMoneyToAdd);
 
                     // TODO: huỷ ván, huỷ sới, đuổi người chơi luôn, thu xếp được ván khác thì thu xếp
@@ -577,17 +577,17 @@ namespace Quantum.Tala.Service.Business
         private void EndVan_HaLao(Seat haLaoSeat)
         {
             /*trừ tiền thằng hạ láo*/
-            int chipHaLao = Cashier.CHIP_DEN * (this.SoiDangChoi.SeatList.Count - 1);
-            haLaoSeat.Player.SubtractMoney(chipHaLao * this.SoiDangChoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
+            int chipHaLao = Cashier.CHIP_DEN * (this.CurrentSoi.SeatList.Count - 1);
+            haLaoSeat.Player.SubtractMoney(chipHaLao * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
             /*thong bao*/
             this.AddMessage("Phạt do ăn sai", haLaoSeat.Player.UsernameInGame + " " + chipHaLao + " chip");
 
             /*cong tien cho cac player con lai*/
-            foreach (Seat seat in this.SoiDangChoi.SeatList)
+            foreach (Seat seat in this.CurrentSoi.SeatList)
             {
                 if (seat.Pos != haLaoSeat.Pos)
                 {
-                    seat.Player.AddMoney(Cashier.CHIP_DEN * this.SoiDangChoi.SoiOption.TiGiaChip, EnumPlayingResult.Win);
+                    seat.Player.AddMoney(Cashier.CHIP_DEN * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Win);
                     this.AddMessage("Thưởng", seat.Player.UsernameInGame + " " + Cashier.CHIP_DEN + " chip");
                 }
             }
@@ -633,13 +633,13 @@ namespace Quantum.Tala.Service.Business
 
 
                 /*trừ tiền*/
-                seat.Player.SubtractMoney(chip * this.SoiDangChoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
+                seat.Player.SubtractMoney(chip * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
                 totalWinnerChip += chip;
             }
 
             /*sang tiền cho thằng nhất*/
             Seat winner = resultSeatArr[0];
-            winner.Player.AddMoney(totalWinnerChip * this.SoiDangChoi.SoiOption.TiGiaChip, EnumPlayingResult.Win);
+            winner.Player.AddMoney(totalWinnerChip * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Win);
             this.AddMessage("Thắng cuộc", winner.Player.UsernameInGame + " Điểm: " + pointArr[0] + "    Số chip: +" + totalWinnerChip);
 
             FinishVan(winner.Player);
@@ -664,32 +664,32 @@ namespace Quantum.Tala.Service.Business
             if (denSeat != null)
             {
                 /*trừ tiền tài khỏan thằng phải đền*/
-                int chipDen = chipAnU * (this.SoiDangChoi.SeatList.Count - 1);
-                denSeat.Player.SubtractMoney(chipDen * this.SoiDangChoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
+                int chipDen = chipAnU * (this.CurrentSoi.SeatList.Count - 1);
+                denSeat.Player.SubtractMoney(chipDen * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
                 /*thong bao*/
                 this.AddMessage("Đền ù", denSeat.Player.UsernameInGame + "    -" + chipDen + " chip");
             }
             else
             {
                 /*mỗi thằng nộp 5 chip cho thằng ù*/
-                foreach (Seat seat in this.SoiDangChoi.SeatList)
+                foreach (Seat seat in this.CurrentSoi.SeatList)
                 {
                     if (seat != uSeat)
                     {
-                        seat.Player.SubtractMoney(chipAnU * this.SoiDangChoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
+                        seat.Player.SubtractMoney(chipAnU * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
                         /*thong bao*/
                         this.AddMessage("Nộp ù", seat.Player.UsernameInGame + "   -" + chipAnU + " chip");
                     }
                 }
             }
             /*cộng tiền cho thằng ù*/
-            int uVal = chipAnU * (this.SoiDangChoi.SeatList.Count - 1) + this.SoiDangChoi.GaValue;
-            uSeat.Player.AddMoney(uVal * this.SoiDangChoi.SoiOption.TiGiaChip, EnumPlayingResult.Win);
+            int uVal = chipAnU * (this.CurrentSoi.SeatList.Count - 1) + this.CurrentSoi.GaValue;
+            uSeat.Player.AddMoney(uVal * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Win);
             /*thong bao*/
-            this.AddMessage("Ăn ù", uSeat.Player.UsernameInGame + " " + uVal + " chip, bao gồm gà: " + this.SoiDangChoi.GaValue + " chip");
+            this.AddMessage("Ăn ù", uSeat.Player.UsernameInGame + " " + uVal + " chip, bao gồm gà: " + this.CurrentSoi.GaValue + " chip");
 
             /*reset gà*/
-            this.SoiDangChoi.GaValue = 0;
+            this.CurrentSoi.GaValue = 0;
 
             FinishVan(uSeat.Player);
         }
@@ -736,20 +736,20 @@ namespace Quantum.Tala.Service.Business
                 return;
             }
 
-            int nSeatCount = this.SoiDangChoi.SeatList.Count;
+            int nSeatCount = this.CurrentSoi.SeatList.Count;
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < nSeatCount; j++)
                 {
                     /*chia bai i+j cho seat[j]*/
-                    this.SoiDangChoi.SeatList[j].BaiTrenTay.Add(this._Noc[nSeatCount * i + j]);
+                    this.CurrentSoi.SeatList[j].BaiTrenTay.Add(this._Noc[nSeatCount * i + j]);
                 }
             }
 
-            Seat seatDanhDauTien = SoiDangChoi.GetSeatByUsername(p_sOldWinnerUsername);
+            Seat seatDanhDauTien = CurrentSoi.GetSeatByUsername(p_sOldWinnerUsername);
             if (seatDanhDauTien == null)
             {
-                seatDanhDauTien = SoiDangChoi.SeatList[0];
+                seatDanhDauTien = CurrentSoi.SeatList[0];
             }
             /*chia them cho seat đánh đầu tiên 1 cay */
             seatDanhDauTien.BaiTrenTay.Add(this._Noc[9 * nSeatCount]);
@@ -774,10 +774,10 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         private int AdvanceCurrentTurnIndex()
         {   
-            _CurrentTurnSeatIndex = Seat.GetNextSeatIndex(this.CurrentTurnSeatIndex, this.SoiDangChoi.SeatList.Count);
+            _CurrentTurnSeatIndex = Seat.GetNextSeatIndex(this.CurrentTurnSeatIndex, this.CurrentSoi.SeatList.Count);
 
             // Đồng hồ đếm ngược sẽ được khởi tạo cho user có turn, khi Chuyển turn sang user đó
-            AutorunService.Create_Autorun_InVan(SoiDangChoi.GetSeatOfCurrentInTurn().Player);
+            AutorunService.Create_Autorun_InVan(CurrentSoi.GetSeatOfCurrentInTurn().Player);
 
             return this.CurrentTurnSeatIndex;
         }
@@ -823,7 +823,7 @@ namespace Quantum.Tala.Service.Business
         /// <returns>phom hoặc null nếu phomID không tồn tại</returns>
         private Phom GetPhomByID(int phomID)
         {
-            foreach (Seat seat in this.SoiDangChoi.SeatList)
+            foreach (Seat seat in this.CurrentSoi.SeatList)
             {
                 List<Phom> phomList = seat.PhomList;
                 foreach (Phom phom in phomList)
@@ -845,7 +845,7 @@ namespace Quantum.Tala.Service.Business
         private Seat[] SapXep(ref int[] pointArr)
         {
 
-            Seat[] tmpSeatArr = this.SoiDangChoi.SeatList.ToArray();
+            Seat[] tmpSeatArr = this.CurrentSoi.SeatList.ToArray();
             for (int i = 0; i < pointArr.Length - 1; i++)
             {
                 for (int j = i + 1; j < pointArr.Length; j++)
@@ -935,8 +935,8 @@ namespace Quantum.Tala.Service.Business
         /// <returns>mảng các giá trị int là điểm của seat với index tương ứng</returns>
         private int[] TinhDiemBaiTrenTay()
         {
-            int[] tmpArr = new int[this.SoiDangChoi.SeatList.Count];
-            foreach (Seat seat in this.SoiDangChoi.SeatList)
+            int[] tmpArr = new int[this.CurrentSoi.SeatList.Count];
+            foreach (Seat seat in this.CurrentSoi.SeatList)
             {
                 // với thể thức DeathMatch, tính điểm ăn láo thành 2000, 2001, 2002, 2003
                 //if(this.SoiDangChoi.GetCurrentTournament().type == (int)TournamentType.DeadMatch
@@ -1027,7 +1027,7 @@ namespace Quantum.Tala.Service.Business
         public Van(int index, Soi soi, bool forTesting)
         {
             this.ID = index;
-            this.SoiDangChoi = soi;
+            this.CurrentSoi = soi;
             this.CurrentRound = 1;
             _CurrentTurnSeatIndex = 0;
             this._AnChotNguyCoDenList = new List<Seat>();
@@ -1040,7 +1040,7 @@ namespace Quantum.Tala.Service.Business
             this.IsFinished = false;
 
             /*xóa bài của tất cả các seat trong seatList*/
-            List<Seat> seatList = this.SoiDangChoi.SeatList;
+            List<Seat> seatList = this.CurrentSoi.SeatList;
             if (seatList != null)
             {
                 foreach (Seat seat in seatList)

@@ -450,7 +450,8 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         /// <returns>Trả về 1 nếu OK.
         /// Trả về -1 nếu mọi người chưa sẵn sàng, -2 nếu sới đang chơi, -3 số người chơi không hợp lệ (< 2 hoặc  >4)
-        /// trả về -4 nếu tourtype = deathmatch, mà lại có chú thiếu tiền không nộp lệ phí đủ được</returns>
+        /// trả về -4 nếu tourtype = deathmatch, mà lại có chú thiếu tiền không nộp lệ phí đủ được
+        /// trả về -5 nếu tournament đã hết hạn chơi</returns>
         public int StartPlaying()
         {
             if (IsPlaying)
@@ -470,6 +471,11 @@ namespace Quantum.Tala.Service.Business
                 return -3;
             }
 
+            // đã hết thời hạn cho phép chơi của tour này
+            if(((DateTime)this.GetCurrentTournament().endtime).CompareTo(DateTime.Now) <= 0)
+            {
+                return -5;
+            }
 
             #region Trừ tiền các đồng chí tham gia, nếu cần (DeathMatch)
 
