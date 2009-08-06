@@ -809,4 +809,8 @@ $string['xmlrpcrecommended'] = 'Installing the optional xmlrpc extension is usef
 $string['xmlstrictheaders'] = 'XML strict headers';
 $string['ziprequired'] = 'The Zip PHP extension is now required by Moodle, info-ZIP binaries or PclZip library are not used anymore.';
 
+/*danhut added*/
+$string['stickyblocksresourceview'] = 'Resource page view';
+$string['stickyblocksquizview'] = 'Quiz page view';
+/*end of danhut added*/
 ?>
