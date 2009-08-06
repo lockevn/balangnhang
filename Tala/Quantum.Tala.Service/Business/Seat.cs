@@ -75,7 +75,7 @@ namespace Quantum.Tala.Service.Business
         /// <summary>
         /// tạo một chỗ ngồi cho player tại vị trí xác định
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="pos">nếu tạo mới seat thì truyền -1 vào, coi như chưa có pos trong sới</param>
         /// <param name="player"></param>
         public Seat(int pos, TalaUser player)
         {
