@@ -29,6 +29,18 @@ class page_quiz extends page_generic_activity {
     function get_type() {
         return PAGE_QUIZ_VIEW;
     }
+    
+	// And finally, a little block move logic. Given a block's previous position and where
+    // we want to move it to, return its new position. Pretty self-documenting.
+    /*danhut added to anable right blocks display in quiz page*/
+    function blocks_move_position(&$instance, $move) {
+        if ($instance->position == BLOCK_POS_LEFT && $move == BLOCK_MOVE_RIGHT) {
+            return BLOCK_POS_RIGHT;
+        } else if ($instance->position == BLOCK_POS_RIGHT && $move == BLOCK_MOVE_LEFT) {
+            return BLOCK_POS_LEFT;
+        }
+        return $instance->position;
+    }
 }
 
 ?>
