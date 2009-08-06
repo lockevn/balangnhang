@@ -4,6 +4,11 @@
     require_once($CFG->dirroot.'/my/pagelib.php');
     require_once($CFG->dirroot.'/lib/pagelib.php');
     require_once($CFG->dirroot.'/lib/blocklib.php');
+    require_once($CFG->dirroot.'/mod/resource/pagelib.php');
+    require_once($CFG->dirroot.'/mod/quiz/pagelib.php');
+    
+    
+    
 
     $pt  = optional_param('pt', null, PARAM_SAFEDIR); //alhanumeric and -
 
@@ -12,7 +17,13 @@
                                               'name' => get_string('mymoodle','admin')),
                        PAGE_COURSE_VIEW => array('id' => PAGE_COURSE_VIEW,
                                                 'lib' => '/lib/pagelib.php',
-                                                'name' => get_string('stickyblockscourseview','admin'))
+                                                'name' => get_string('stickyblockscourseview','admin')),
+                       PAGE_RESOURCE_VIEW => array('id' => PAGE_RESOURCE_VIEW,
+                                                'lib' => '/mod/resource/pagelib.php',
+                                                'name' => get_string('stickyblocksresourceview','admin')),
+                       PAGE_QUIZ_VIEW => array('id' => PAGE_QUIZ_VIEW,
+                                                'lib' => '/mod/quiz/pagelib.php',
+                                                'name' => get_string('stickyblocksquizview','admin'))
                        // ... more?
                        );
 
