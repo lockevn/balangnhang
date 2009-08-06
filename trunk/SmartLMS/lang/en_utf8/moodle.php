@@ -65,11 +65,11 @@ $string['adminhelpmanagedatabase'] = 'Access the database directly (be careful!)
 $string['adminhelpmanagefilters'] = 'Choose text filters and related settings';
 $string['adminhelpmanagemodules'] = 'Manage installed modules and their settings';
 $string['adminhelpmanageroles'] = 'Create and define roles that may be applied to users';
-$string['adminhelpmymoodle'] = 'Configure the My Moodle blocks for users';
+$string['adminhelpmymoodle'] = 'Configure the My Smartweb blocks for users';
 $string['adminhelpreports'] = 'Site level reports';
 $string['adminhelpsitefiles'] = 'For publishing general files or uploading external backups';
 $string['adminhelpsitesettings'] = 'Define how the front page of the site looks';
-$string['adminhelpstickyblocks'] = 'Configure Moodle-wide sticky blocks';
+$string['adminhelpstickyblocks'] = 'Configure Smartweb-wide sticky blocks';
 $string['adminhelpthemes'] = 'Choose how the site looks (colours, fonts etc)';
 $string['adminhelpuploadusers'] = 'Import new user accounts from a text file';
 $string['adminhelpusers'] = 'Define your users and set up authentication';
@@ -226,8 +226,8 @@ $string['clamdeletedfile'] = 'The file has been deleted';
 $string['clamdeletedfilefailed'] = 'The file could not be deleted';
 $string['clamemailsubject'] = '$a :: Clam AV notification';
 $string['clamfailed'] = 'Clam AV has failed to run.  The return error message was $a. Here is the output from Clam:';
-$string['clamlost'] = 'Moodle is configured to run clam on file upload, but the path supplied to Clam AV, $a,  is invalid.';
-$string['clamlostandactinglikevirus'] = 'In addition, Moodle is configured so that if clam fails to run, files are treated like viruses.  This essentially means that no student can upload a file successfully until you fix this.';
+$string['clamlost'] = 'Smartweb is configured to run clam on file upload, but the path supplied to Clam AV, $a,  is invalid.';
+$string['clamlostandactinglikevirus'] = 'In addition, Smartweb is configured so that if clam fails to run, files are treated like viruses.  This essentially means that no student can upload a file successfully until you fix this.';
 $string['clammovedfile'] = 'The file has been moved to your specified quarantine directory, the new location is $a';
 $string['clammovedfilebasic'] = 'The file has been moved to a quarantine directory.';
 $string['clamquarantinedirfailed'] = 'Could not move the file into your specified quarantine directory, $a. You need to fix this as files are being deleted if they\'re found to be infected.';
@@ -359,7 +359,7 @@ $string['currentlyselectedusers'] = 'Currently selected users';
 $string['currentpicture'] = 'Current picture';
 $string['currentrelease'] = 'Current release information';
 $string['currentversion'] = 'Current version';
-$string['databasechecking'] = 'Upgrading Moodle database from version $a->oldversion to $a->newversion...';
+$string['databasechecking'] = 'Upgrading Smartweb database from version $a->oldversion to $a->newversion...';
 $string['databaseperformance'] = 'Database performance';
 $string['databasesetup'] = 'Setting up database';
 $string['databasesuccess'] = 'Database was successfully upgraded';
@@ -424,7 +424,7 @@ $string['displayingfirst'] = 'Only the first $a->count $a->things are displayed'
 $string['displayingrecords'] = 'Displaying $a records';
 $string['displayingusers'] = 'Displaying users $a->start to $a->end';
 $string['displayonpage'] = 'Display on page';
-$string['documentation'] = 'Moodle Documentation';
+$string['documentation'] = 'Smartweb Documentation';
 $string['donotask'] = 'Do Not Ask';
 $string['donotclickcontinue'] = 'Do not click on the following continue link ;-)';
 $string['down'] = 'Down';
@@ -680,7 +680,7 @@ $string['formatmarkdown'] = 'Markdown format';
 $string['formatplain'] = 'Plain text format';
 $string['formatscorm'] = 'SCORM format';
 $string['formatsocial'] = 'Social format';
-$string['formattext'] = 'Moodle auto-format';
+$string['formattext'] = 'Smartweb auto-format';
 $string['formattexttype'] = 'Formatting';
 $string['formattopics'] = 'Topics format';
 $string['formattopicscss'] = 'Topics format - CSS/No tables';
@@ -982,9 +982,9 @@ $string['moduledeleteconfirm'] = 'You are about to completely delete the module 
 $string['moduledeletefiles'] = 'All data associated with the module \'$a->module\' has been deleted from the database.  To complete the deletion (and prevent the module re-installing itself), you should now delete this directory from your server: $a->directory';
 $string['modulesetup'] = 'Setting up module tables';
 $string['modulesuccess'] = '$a tables have been set up correctly';
-$string['moodledocs'] = 'Moodle Docs';
-$string['moodledocslink'] = 'Moodle Docs for this page';
-$string['moodleversion'] = 'Moodle Version';
+$string['moodledocs'] = 'Smartweb Docs';
+$string['moodledocslink'] = 'Smartweb Docs for this page';
+$string['moodleversion'] = 'Smartweb Version';
 $string['more'] = 'more';
 $string['moreinformation'] = 'More information about this error';
 $string['moreprofileinfoneeded'] = 'Please tell us more about yourself';
@@ -1123,7 +1123,7 @@ $string['noteuserschangednonetocourse'] = '<strong>Note:</strong> Course users n
 $string['nothingnew'] = 'Nothing new since your last login';
 $string['nothingtodisplay'] = 'Nothing to display';
 $string['notice'] = 'Notice';
-$string['noticenewerbackup'] = 'This backup file has been created with Moodle $a->backuprelease ($a->backupversion) and it\'s newer than your currently installed Moodle $a->serverrelease ($a->serverversion). This could cause some inconsistencies because backwards compatibility of backup files cannot be guaranteed.';
+$string['noticenewerbackup'] = 'This backup file has been created with Smartweb $a->backuprelease ($a->backupversion) and it\'s newer than your currently installed Smartweb $a->serverrelease ($a->serverversion). This could cause some inconsistencies because backwards compatibility of backup files cannot be guaranteed.';
 $string['notifications'] = 'Notifications';
 $string['notifyloginfailuresmessage'] = '$a->time, IP: $a->ip, User: $a->info';
 $string['notify'] = 'Notify';
@@ -1171,10 +1171,10 @@ $string['participationreport'] = 'Participation report';
 $string['password'] = 'Password';
 $string['passwordchanged'] = 'Password has been changed';
 $string['passwordconfirmchange'] = 'Confirm password change';
-$string['passwordextlink'] = 'The following link has been provided to recover your lost password. This will take you out of Moodle.';
+$string['passwordextlink'] = 'The following link has been provided to recover your lost password. This will take you out of Smartweb.';
 $string['passwordforgotten'] = 'Forgotten password';
 $string['passwordforgotteninstructions'] = 'Your details must first be found in the user database. Please enter <strong>either</strong> your username or your registered email address in the appropriate box. There is no need to enter both.';
-$string['passwordnohelp'] = 'No help is available to find your lost password. Please contact your Moodle administrator.';
+$string['passwordnohelp'] = 'No help is available to find your lost password. Please contact your Smartweb administrator.';
 $string['passwordrecovery'] = 'Yes, help me log in';
 $string['passwordsdiffer'] = 'These passwords do not match';
 $string['passwordsent'] = 'Password has been sent';
@@ -1201,9 +1201,9 @@ $string['phone2'] = 'Mobile Phone';
 $string['phpinfo'] = 'PHP info';
 $string['pleaseclose'] = 'Please close this window now.';
 $string['plugincheck'] = 'Plugins check';
-$string['pluginchecknotice'] = 'The following tables show the modules, blocks and filters that have been detected in your current Moodle installation;
+$string['pluginchecknotice'] = 'The following tables show the modules, blocks and filters that have been detected in your current Smartweb installation;
 They indicate which plugins are standard, and which are not. All non-standard plugins should be checked and upgraded to their most recent versions
-before continuing with this Moodle upgrade.';
+before continuing with this Smartweb upgrade.';
 $string['pluginsetup'] = 'Setting up plugin tables';
 $string['policyaccept'] = 'I understand and agree';
 $string['policyagree'] = 'You must agree to this policy to continue using this site.  Do you agree?';
@@ -1245,12 +1245,12 @@ $string['recipientslist'] = 'Recipients list';
 $string['recreatedcategory'] = 'Recreated category $a';
 $string['refreshingevents'] = 'Refreshing events';
 $string['refresh'] = 'Refresh';
-$string['registration'] = 'Moodle Registration';
+$string['registration'] = 'Smartweb Registration';
 $string['registrationcontact'] = 'Contact from the public';
 $string['registrationcontactno'] = 'No, I do not want a contact form in the site listing';
-$string['registrationcontactyes'] = 'Yes, provide a form for prospective Moodlers to contact me';
+$string['registrationcontactyes'] = 'Yes, provide a form for prospective Smartwebers to contact me';
 $string['registrationemail'] = 'Email notifications';
-$string['registrationinfo'] = '<p>This page allows you to register your Moodle site with moodle.org.  Registration is free.
+$string['registrationinfo'] = '<p>This page allows you to register your Smartweb site with moodle.org.  Registration is free.
 The main benefit of registering is that you will be added to a low-volume mailing list
 for important notifications such as security alerts and new releases of Moodle.</p>
 <p>By default, your information will be kept private, and will never be sold or passed on to anyone else.  The only
@@ -1623,7 +1623,7 @@ $string['virusfoundlateradmin'] = 'Attention administrator! A file that was uplo
 $a->action
 
 The user has also been notified.';
-$string['virusfoundlateradminnolog'] = 'Attention administrator! A file that was uploaded with the filename $a->filename has since been found to contain a virus. Moodle was unable to resolve this file back to the user that originally uploaded it.
+$string['virusfoundlateradminnolog'] = 'Attention administrator! A file that was uploaded with the filename $a->filename has since been found to contain a virus. Smartweb was unable to resolve this file back to the user that originally uploaded it.
 
 Here is a summary of what has happened to the file:
 
