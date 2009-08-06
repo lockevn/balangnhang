@@ -516,6 +516,7 @@ namespace Quantum.Tala.Service.Business
         
         
         /// <summary>
+        /// Đây là chốt chặn cuối cùng, bất kỳ ván nào khi kết thúc thì hệ thống cũng gọi qua hàm này.
         /// Hàm này sẽ set các cờ,
         /// cộng trừ VCoin hay không, tuỳ theo thể thức của tour
         /// CÓ kết thúc ván và giải tán sới hay không, tuỳ theo thể thức của tours
@@ -524,16 +525,29 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         private TournamentType FinishVan(TalaUser p_Winner)
         {
+            #region Ghi nhận trạng thái kêt thúc ván            
+            
             Winner = p_Winner;
             this.CurrentSoi.DBEntry.numofvan++;
             this.IsFinished = true;
             this.CurrentSoi.IsPlaying = false;
 
-            // create lại timeout cho các user đang chơi, timeout để ready
+            #endregion
+
+            // tìm các bạn đã bị disconnected để xử lý
+            List<Seat> arrDisconnectedSeatToRemove = new List<Seat>();
             foreach (Seat seat in CurrentSoi.SeatList)
             {
-                seat.IsReady = false;
-                AutorunService.Create_Autorun_InStartingVan(seat.Player);
+                if (seat.IsDisconnected)
+                {
+                    // đánh dấu đuổi khỏi sới
+                    arrDisconnectedSeatToRemove.Add(seat);
+                }
+                else
+                {
+                    // vẫn muốn tham gia tiếp, cho chơi tiếp
+                    seat.IsReady = false;
+                }
             }
 
 
@@ -547,26 +561,30 @@ namespace Quantum.Tala.Service.Business
                     int nMoneyToAdd = tour.enrollfee * CurrentSoi.SeatList.Count * (3/4);
                     moneysvc.AddVCoinOfVTCUser(Winner.BankCredential.BankUsername, sItemCode, Winner.IP, nMoneyToAdd);
 
-                    // TODO: huỷ ván, huỷ sới, đuổi người chơi luôn, thu xếp được ván khác thì thu xếp
-                    
-                    return TournamentType.DeadMatch;
+                    // TODO: huỷ ván, huỷ sới, đuổi người chơi luôn, thu xếp được ván khác thì thu xếp                                       
                     break;
 
                 case (int)TournamentType.TennisTree:
-                    // TODO: thiết lập vòng sau
-                    return TournamentType.TennisTree;
+                    // TODO: thiết lập vòng sau                    
                     break;
 
                 case (int)TournamentType.ChampionShip:
-                    // kệ cho chơi tiếp
-                    return TournamentType.ChampionShip;
+                    // kệ cho chơi tiếp                    
                     break;
+
                 default:
                     // FREE : kệ cho chơi tiếp
-                    return TournamentType.Free;
                     break;
             }
+
             
+            // đuổi những chú đã đánh dấu disconnected
+            arrDisconnectedSeatToRemove.ForEach(seat => CurrentSoi.SeatList.Remove(seat));
+
+            // create lại timeout cho các user đang chơi, timeout để ready
+            CurrentSoi.SeatList.ForEach(seat => AutorunService.Create_Autorun_InStartingVan(seat.Player));            
+
+            return (TournamentType)this.CurrentSoi.GetCurrentTournament().type;
         }
 
 

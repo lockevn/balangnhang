@@ -196,52 +196,56 @@ namespace Quantum.Tala.Service.Business
                 // không tìm được online user tương ứng
                 return -2;
             }
-                       
 
-            int nRet = 0;    // temp
+            if (player.CurrentSoi != null && player.CurrentSoi != this)
+            {
+                // vào sới khác rồi còn lớ xớ ở đây làm gì
+                return -3;
+            }
+
+            int nRet = 0;    // function return value
             Seat seatDangNgoiTrongSoi = this.GetSeatByUsername(player.Username);
             if (seatDangNgoiTrongSoi == null)
             {
+                if (this.IsPlaying)
+                {
+                    /// sới đang chơi, chú lại ko phải thằng đang chơi rồi bỏ đi hoặc bị đứt kết nối, 
+                    /// mời chú chim cút
+                    return -4;
+                }
+
                 int count = this.SeatList.Count;
                 if (count >= 4)
                 {
                     // sới đầy rồi, không cho vào
                     return -1;
                 }
+                
+                // chưa ngồi thì cho vào ngồi
+                Seat newSeat = new Seat(-1, player);
+                this.SeatList.Add(newSeat);
+                this.ReIndexSeatList();
+                player.CurrentSoi = this;  // this sới
 
-                if (player.CurrentSoi != null)
+                if (this.SeatList.Count == 1)
                 {
-                    // vào sới khác rồi còn lớ xớ ở đây làm gì
-                    return -3;
+                    // người đầu tiên vào
+                    _OwnerUsername = player.Username;
                 }
-                else
-                {
-                    // chưa ngồi thì cho vào ngồi
 
-                    if (this.IsPlaying)
-                    {
-                        return -4;  // sới đang chơi, chim cút
-                    }
-
-                    Seat newSeat = new Seat(-1, player);
-                    this.SeatList.Add(newSeat);
-                    this.ReIndexSeatList();
-                    player.CurrentSoi = this;  // this sới
-
-                    if (this.SeatList.Count == 1)
-                    {
-                        // người đầu tiên vào
-                        _OwnerUsername = player.Username;
-                    }
-
-                    nRet = newSeat.Pos;
-                }
+                nRet = newSeat.Pos;
             }
             else
             {
+                /// bind lại hai liên kết này, vì có thể khi rơi vào case này, là người này đã thoát khỏi sới, trong seatlist vẫn giữ tên, 
+                /// nhưng player.CurrentSoi đã bị set rỗng từ trước
+                seatDangNgoiTrongSoi.Player = player;
+                player.CurrentSoi = this;
+
                 // ngồi rồi thì trả ra index chỗ đang ngồi
                 nRet = seatDangNgoiTrongSoi.Pos;
             }
+
 
             // nếu thêm người chơi thành công, bắt đầu tiến trình autorun
             if (nRet >= 0)
@@ -297,20 +301,28 @@ namespace Quantum.Tala.Service.Business
             }
             else
             {
-                // đưa ra khỏi sới
-                this.SeatList.Remove(seatDangNgoi);
-                this.ReIndexSeatList();
                 player.CurrentSoi = null;
-
-                if (this.SeatList.Count == 0)
+                if (this.IsPlaying == true
+                    && this.CurrentVan != null && this.CurrentVan.IsFinished == false)
                 {
-                    // không còn ai, xoá tên owner
-                    _OwnerUsername = string.Empty;
+                    // để tên nó trong sới, cho chơi nốt, ko bỏ ra khỏi SeatList
                 }
-                else if (this.OwnerUsername == player.Username)
+                else
                 {
-                    // owner rời sới, chuyển owner cho người tiếp theo
-                    _OwnerUsername = this.SeatList[0].Player.Username;
+                    // đưa ra khỏi sới
+                    this.SeatList.Remove(seatDangNgoi);
+                    this.ReIndexSeatList();
+
+                    if (this.SeatList.Count == 0)
+                    {
+                        // không còn ai, xoá tên owner
+                        _OwnerUsername = string.Empty;
+                    }
+                    else if (this.OwnerUsername == player.Username)
+                    {
+                        // owner rời sới, chuyển owner cho người tiếp theo
+                        _OwnerUsername = this.SeatList.First().Player.Username;
+                    }
                 }
 
                 return 0;
@@ -352,7 +364,8 @@ namespace Quantum.Tala.Service.Business
         }
 
         /// <summary>
-        /// Lặp qua các Seat trong sới, nếu Player của Seat đó có username trùng với đối số thì trả ra Seat đó, nếu không thì trả về null
+        /// Lặp qua các Seat trong sới, nếu Player của Seat đó có username trùng với đối số thì trả ra Seat đó, nếu không thì trả về null.
+        /// Chú ý, trong trường hợp User đã rời sới nhưng lại rời khi sới đang chơi, tên họ vẫn ở trong sới này, và hàm này vẫn trả ra Seat tương ứng (thực chất seat này do bot ngồi)
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>

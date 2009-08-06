@@ -214,10 +214,29 @@ namespace Quantum.Tala.Service
             {
                 Seat seat = soi.GetSeatOfCurrentInTurn();
 
-                // TODO: đánh tránh những cây trong phỏm đã ăn, nếu có thể tránh
-                // TODO: //tránh cạ, nếu có thể tránh
+                // TODO: đánh tránh những cây trong phỏm đã ăn, nếu có thể tránh                
                 // TODO: //đánh cây to nhất ok, nếu ko tránh đc, vẫn đánh cây to nhất
-                Card cardCanDanh = seat.BaiTrenTay[0];
+                Card cardCanDanh = null;
+                seat.BaiTrenTay.Sort();
+                for (int i = 0; i < seat.BaiTrenTay.Count; i++)
+                {
+                    // pick ra cây to nhất
+                    cardCanDanh = seat.BaiTrenTay[i];
+                    if (InspectPhomOfCard(cardCanDanh, seat.BaiTrenTay) == null)
+                    {
+                        // cây này có dính với phỏm, bỏ qua
+                        if (i == seat.BaiTrenTay.Count - 1)
+                        {
+                            // tìm tới cuối bài mà con nào cũng dính phỏm cả, thôi thì rút cây to nhất ra phang
+                            cardCanDanh = seat.BaiTrenTay.First();
+                        }                        
+                    }
+                    else
+                    {
+                        // cây này không dính phỏm, oánh lun
+                        break;
+                    }                    
+                }
 
                 soi.CurrentVan.Danh(seat, cardCanDanh);
             }
@@ -246,63 +265,81 @@ namespace Quantum.Tala.Service
                 if (seat.BaiDaAn.Count > 0)
                 {
                     // ăn dăm ba cây rồi, cố hạ nốt giúp nó phát
-                    List<Card[]> arrPhomList = new List<Card[]>();
+                    List<Card[]> arrPhomListForHa = new List<Card[]>();
                     
                     // TODO: lan trong đám bài, tìm phỏm, ấn vào arPhomList.
                     // tạm thời lan ngu dốt đã, chưa thông minh vội
                     foreach (Card cardDaAn in seat.BaiDaAn)
                     {
-                        List<Card> phomPotential = new List<Card>();
-                        phomPotential.Add(cardDaAn);
-
-                        // thử tìm phỏm ngang
-                        foreach (Card card in seat.BaiTrenTay)
+                        List<Card> phomPotential = InspectPhomOfCard(cardDaAn, seat.BaiTrenTay);
+                        if (null != phomPotential && phomPotential.Count >= 3)
                         {
-                            if (cardDaAn.So == card.So)
-                            {
-                                phomPotential.Add(card);
-                            }
-                        }
-                        if (phomPotential.Count >= 3)
-                        {                            
-                            arrPhomList.Add(phomPotential.ToArray());
-                        }
-                        else
-                        {                            
-                            phomPotential.Clear();
-                            phomPotential.Add(cardDaAn);
-                        }
-
-
-                        // reset, tìm lại với  phỏm dọc
-                        foreach (Card card in seat.BaiTrenTay)
-                        {
-                            if (cardDaAn.Chat == card.Chat)                            
-                            {
-                                int nSoCardDaAn = int.Parse(cardDaAn.So);
-                                int nSoCard = int.Parse(card.So);
-
-                                if (nSoCardDaAn - 1 == nSoCard || nSoCardDaAn + 1 == nSoCard)
-                                {
-                                    phomPotential.Add(card);
-                                }
-                            }
-                        }
-                        if (phomPotential.Count >= 3)
-                        {
-                            arrPhomList.Add(phomPotential.ToArray());
+                            arrPhomListForHa.Add(phomPotential.ToArray());
                         }
                     }
 
-                    if(arrPhomList.Count > 0)
+                    if(arrPhomListForHa.Count > 0)
                     {
-                        soi.CurrentVan.Ha(seat, arrPhomList);
+                        soi.CurrentVan.Ha(seat, arrPhomListForHa);
                     }
                 }
 
                 
             }
             return sRet;
+        }
+
+        /// <summary>
+        /// tìm trong bộ bài cardListToLookup, xem cây truyền vào có tạo phỏm được với các cây khác không
+        /// </summary>
+        /// <param name="cardAnchor"></param>
+        /// <param name="cardListToLookup"></param>
+        /// <returns></returns>
+        private static List<Card> InspectPhomOfCard(Card cardAnchor, List<Card> cardListToLookup)
+        {            
+            List<Card> phomPotential = new List<Card>();
+            phomPotential.Add(cardAnchor);
+
+            // thử tìm phỏm ngang
+            foreach (Card card in cardListToLookup)
+            {
+                if (cardAnchor.So == card.So)
+                {
+                    phomPotential.Add(card);
+                }
+            }
+            if (phomPotential.Count >= 3)
+            {                
+            }
+            else
+            {
+                phomPotential.Clear();
+                phomPotential.Add(cardAnchor);
+            }
+            
+            // reset, tìm lại với  phỏm dọc
+            foreach (Card card in cardListToLookup)
+            {
+                if (cardAnchor.Chat == card.Chat)
+                {
+                    int nSoCardDaAn = int.Parse(cardAnchor.So);
+                    int nSoCard = int.Parse(card.So);
+
+                    if (nSoCardDaAn - 1 == nSoCard || nSoCardDaAn + 1 == nSoCard)
+                    {
+                        phomPotential.Add(card);
+                    }
+                }
+            }
+
+            if (phomPotential.Count >= 3)
+            {
+                return phomPotential;
+            }
+            else
+            {
+                return null;
+            }            
         }
         
     }
