@@ -47,7 +47,7 @@
 
     // Initialize $PAGE, compute blocks
     $PAGE       = page_create_instance($quiz->id);
-    $pageblocks = blocks_setup($PAGE);
+    $pageblocks = blocks_setup($PAGE, BLOCKS_PINNED_BOTH);
     $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_LEFT]), 210);
 
     // Print the page header
