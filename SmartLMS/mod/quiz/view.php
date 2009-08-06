@@ -143,14 +143,18 @@
 
         notice_yesno('<p>' . get_string('guestsno', 'quiz') . "</p>\n\n</p>" .
                 get_string('liketologin') . '</p>', $loginurl, get_referer(false));
-        finish_page($course);
+        /*danhut modified*/
+        finish_page($course, $pageblocks);
+        /*end of danhut modified*/
     }
 
     if (!has_any_capability(array('mod/quiz:reviewmyattempts', 'mod/quiz:attempt', 'mod/quiz:preview'), $context)) {
         print_box('<p>' . get_string('youneedtoenrol', 'quiz') . '</p><p>' .
                 print_continue($CFG->wwwroot . '/course/view.php?id=' . $course->id, true) .
                 '</p>', 'generalbox', 'notice');
-        finish_page($course);
+        /*danhut modified*/
+        finish_page($course, $pageblocks);
+        /*end of danhut modified*/
     }
 
     // Get this user's attempts.
@@ -442,14 +446,29 @@
 
     // Should we not be seeing if we need to print right-hand-side blocks?
 
-    finish_page($course);
+    /*danhut modified*/
+    finish_page($course, $pageblocks);
+    /*end of danhut modified*/
 
 // Utility functions =================================================================
 
-function finish_page($course) {
+function finish_page($course, $pageblocks) {
     global $THEME;
+    global $PAGE;
+    global $CFG;
     print_container_end();
-    echo '</td></tr></table>';
+    echo '</td>';
+    $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_RIGHT]), 210);
+    /*danhut added: print right blocks*/
+	if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
+        echo '<td style="width: '.$blocks_preferred_width.'px;" id="right-column">';
+        print_container_start();
+        blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
+        print_container_end();
+        echo '</td>';
+    }
+    /*end of danhut added*/
+    echo '</tr></table>';
     print_footer($course);
     exit;
 }
