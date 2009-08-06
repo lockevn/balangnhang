@@ -66,7 +66,7 @@ function display() {
 
     /*danhut addded to enable blocks in resource page*/
     $PAGE       = page_create_instance($resource->id);
-    $pageblocks = blocks_setup($PAGE);
+    $pageblocks = blocks_setup($PAGE, BLOCKS_PINNED_BOTH);
     $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_LEFT]), 210);
     /*end of danhut addded*/
     
@@ -154,7 +154,17 @@ function display() {
 
             /*danhut added*/
             print_container_end();
-    		echo '</td></tr></table>';
+    		echo '</td>';
+    		
+        	if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
+		        echo '<td style="width: '.$blocks_preferred_width.'px;" id="right-column">';
+		        print_container_start();
+		        blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
+		        print_container_end();
+		        echo '</td>';
+		    }
+    		
+    		echo '</tr></table>';
     		/*end of danhut added*/
             print_footer($course);
             
