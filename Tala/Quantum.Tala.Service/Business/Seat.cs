@@ -65,7 +65,10 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         public int SoCayGuiToiSeat { get; set; }
 
-
+        /// <summary>
+        /// nếu đang chơi mà một user bị timeout, ghi biến này = true. Nếu người đó lại vào chơi, ghi lại biến này bằng false
+        /// </summary>
+        public bool IsDisconnected { get; set; }
 
 
 
@@ -86,7 +89,12 @@ namespace Quantum.Tala.Service.Business
             this.BaiDaGui = new List<Card>();
             this.PhomList = new List<Phom>();
             this.SoCayGuiToiSeat = 0;
+            IsDisconnected = false;
         }
+
+
+
+
 
 
         /// <summary>
