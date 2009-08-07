@@ -54,18 +54,20 @@ class page_quiz extends page_generic_activity {
     
     
 	function url_get_parameters() {
+        /*danhut: lưu lại page id để gắn vào url cho các button edit resource blocks trên quiz page*/
+		$params = array('id' => optional_param('id', 0, PARAM_INT));		
         if (defined('ADMIN_STICKYBLOCKS')) {
-            return array('pt' => ADMIN_STICKYBLOCKS);
-        } else {
-            return array();
-        }
+        	$params['pt'] = ADMIN_STICKYBLOCKS;
+            
+        } 
+        return $params;
     }
     
 	function url_get_path() {
         global $CFG;
         page_id_and_class($id,$class);
         if ($id == PAGE_QUIZ_VIEW) {
-            return $CFG->wwwroot.'/mod/quiz/index.php';
+            return $CFG->wwwroot.'/mod/quiz/view.php';
         } elseif (defined('ADMIN_STICKYBLOCKS')){
             return $CFG->wwwroot.'/'.$CFG->admin.'/stickyblocks.php';
         }
