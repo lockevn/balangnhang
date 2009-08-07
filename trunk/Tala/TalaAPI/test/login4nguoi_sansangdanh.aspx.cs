@@ -43,7 +43,7 @@ namespace TalaAPI.test
 
             if (soi == null)
             {
-                soi = song.CreatNewSoiOfTour("test soi " + FunctionExtension.GetRandomGUID(), 2);
+                soi = song.CreatNewSoiOfTour("test soi " + FunctionExtension.GetRandomGUID(), 1);
                 pln(v1.Username + " tạo sới");
 
                 soi.AddPlayer(v1.Username);
