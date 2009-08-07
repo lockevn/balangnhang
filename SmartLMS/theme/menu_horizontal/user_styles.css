@@ -792,3 +792,21 @@ div.summary {
 }
 
 
+/*Accessibility: text 'seen' by screen readers but not visual users. Fixed for RTL languages, example Farsi. */
+.accesshide {
+  position:absolute;
+  top:-100000px;
+  left:10px;
+  font-weight:normal;
+  font-size:1em;
+  color: black; 
+}
+
+tr.current td.left {
+  background-color:#EEEEEE;
+}
+tr.current td.right {
+  background-color:#EEEEEE;
+}
+
+

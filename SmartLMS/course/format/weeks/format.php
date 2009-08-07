@@ -175,19 +175,23 @@
         if ($showsection) {
 
             $currentweek = (($weekdate <= $timenow) && ($timenow < $nextweekdate));
-
-            $currenttext = '';
+			/*danhut modified */
+            $currenttext = get_string('week', 'access') . ' ' . $section;
+            /*end of danhut modified */
             if (!$thissection->visible) {
                 $sectionstyle = ' hidden';
             } else if ($currentweek) {
                 $sectionstyle = ' current';
-                $currenttext = get_accesshide(get_string('currentweek','access'));
+                //$currenttext = get_accesshide(get_string('currentweek','access'));
+                /*danhut modified */
+                $currenttext = get_string('currentweek','access');
+                /*end of danhut modified */                
             } else {
                 $sectionstyle = '';
             }
 
             echo '<tr id="section-'.$section.'" class="section main'.$sectionstyle.'">';
-            echo '<td class="left side">&nbsp;'.$currenttext.'</td>';
+            echo '<td class="left side"><h3 class="weekdates">&nbsp;'.$currenttext.'</h3></td>';
 
             $weekperiod = $weekday.' - '.$endweekday;
 
