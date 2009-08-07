@@ -25,5 +25,6 @@ $string['tablelayout'] = 'Layout table, $a';
 $string['tocontent'] = 'Skip to main content';
 $string['tonavigation'] = 'Go to navigation';
 $string['youarehere'] = 'You are here';
-
+/*danhut added*/
+$string['week'] = 'Week';
 ?>
