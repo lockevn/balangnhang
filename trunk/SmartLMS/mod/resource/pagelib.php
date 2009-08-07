@@ -10,7 +10,7 @@ page_map_class(PAGE_RESOURCE_VIEW, 'page_resource');
 $DEFINEDPAGES = array(PAGE_RESOURCE_VIEW);
 
 /**
- * Class that models the behavior of a quiz
+ * Class that models the behavior of a resource
  *
  * @author Jon Papaioannou
  * @package pages
@@ -42,7 +42,7 @@ class page_resource extends page_generic_activity {
         return $instance->position;
     }
     
-    /*danhut added to add mod-quiz-view option in admin/stickyblocks.php*/
+    /*danhut added to add mod-resource-view option in admin/stickyblocks.php*/
     
 	function user_is_editing() {
         global $USER;
@@ -57,18 +57,20 @@ class page_resource extends page_generic_activity {
         global $CFG;
         page_id_and_class($id,$class);
         if ($id == PAGE_RESOURCE_VIEW) {
-            return $CFG->wwwroot.'/mod/quiz/index.php';
+            return $CFG->wwwroot.'/mod/resource/view.php';
         } elseif (defined('ADMIN_STICKYBLOCKS')){
             return $CFG->wwwroot.'/'.$CFG->admin.'/stickyblocks.php';
         }
     }
     
 	function url_get_parameters() {
+		/*danhut: lưu lại page id để gắn vào url cho các button edit resource blocks trên course page*/
+		$params = array('id' => optional_param('id', 0, PARAM_INT));		
         if (defined('ADMIN_STICKYBLOCKS')) {
-            return array('pt' => ADMIN_STICKYBLOCKS);
-        } else {
-            return array();
-        }
+        	$params['pt'] = ADMIN_STICKYBLOCKS;
+            
+        } 
+        return $params;
     }
     
 	function user_allowed_editing() {
