@@ -24,7 +24,7 @@ namespace Quantum.Tala.Service
         const string AUTORUN_IN_STARTING_VAN_KEY_PREFIX = "AUTORUN_VAN_STARTING_";
 
         const int AUTORUN_IN_STARTING_VAN_TIMEOUT = 89;
-        const int AUTORUN_IN_VAN_TIMEOUT = 5;
+        const int AUTORUN_IN_VAN_TIMEOUT = 68;
         
 
 
