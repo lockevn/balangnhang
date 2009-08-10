@@ -23,8 +23,9 @@ namespace Quantum.Tala.Service
         const string AUTORUN_IN_VAN_KEY_PREFIX = "AUTORUN_VAN_";
         const string AUTORUN_IN_STARTING_VAN_KEY_PREFIX = "AUTORUN_VAN_STARTING_";
 
-        const int AUTORUN_IN_VAN_TIMEOUT = 89;
-        const int AUTORUN_IN_STARTING_VAN_TIMEOUT = 30;
+        const int AUTORUN_IN_STARTING_VAN_TIMEOUT = 89;
+        const int AUTORUN_IN_VAN_TIMEOUT = 5;
+        
 
 
         public AutorunService()
@@ -51,7 +52,7 @@ namespace Quantum.Tala.Service
             string sCacheKey = AutorunService.GetCacheKey_Autorun_InStartingVan(player);
             // cache.Insert là replace key cũ, nếu key cũ tồn tại rồi
 
-            // create cache dạng timeount tính từ last recent use
+            // create cache dạng timeout tính từ last recent use
             HttpContext.Current.Cache.Insert(
                 sCacheKey, player, 
                 null, 
@@ -67,12 +68,8 @@ namespace Quantum.Tala.Service
         {   
             int nTimeout = player.CurrentSoi.SoiOption.TurnTimeout;
             // timeout do người chơi có thể set lại trong sới, tuy nhiên không được nhanh quá, ko được nhỏ hơn giá trị default, cũng như không lâu quá 2 lần giá trị default
-            nTimeout = (AutorunService.AUTORUN_IN_VAN_TIMEOUT < nTimeout) && (nTimeout < AutorunService.AUTORUN_IN_VAN_TIMEOUT * 2)
+            nTimeout = (AutorunService.AUTORUN_IN_VAN_TIMEOUT < nTimeout) && (nTimeout < AutorunService.AUTORUN_IN_VAN_TIMEOUT * 3)
                 ? nTimeout : AutorunService.AUTORUN_IN_VAN_TIMEOUT;
-
-#if(DEBUG)
-            //nTimeout = 30;
-#endif
 
             string sCacheKey = AutorunService.GetCacheKey_Autorun_InVan(player);
             // cache.Insert là replace key cũ, nếu key cũ tồn tại rồi
@@ -202,7 +199,11 @@ namespace Quantum.Tala.Service
             string sRet = string.Empty;
             if (null != soi.CurrentVan)
             {
-                sRet = soi.CurrentVan.Boc(soi.GetSeatOfCurrentInTurn()).ToString();
+                Card cardBocDuoc = soi.CurrentVan.Boc(soi.GetSeatOfCurrentInTurn());
+                if(null != cardBocDuoc)
+                {
+                    sRet = cardBocDuoc.ToString();
+                }
             }
             return sRet;
         }
@@ -213,22 +214,34 @@ namespace Quantum.Tala.Service
             if (null != soi.CurrentVan)
             {
                 Seat seat = soi.GetSeatOfCurrentInTurn();
-
-                // TODO: đánh tránh những cây trong phỏm đã ăn, nếu có thể tránh                
-                // TODO: //đánh cây to nhất ok, nếu ko tránh đc, vẫn đánh cây to nhất
+                
+                // sắp xếp bài trên tay theo thứ tự to đến bé
+                // duyệt từng cây to, nếu không dính phỏm thì đánh luôn
+                                           
+                // duyệt đến cuối mà không tìm được con nào để đánh vì dính phỏm cả
+                /// đánh cây to nhất nếu cuối cùng tìm ko được            
                 Card cardCanDanh = null;
                 seat.BaiTrenTay.Sort();
                 for (int i = 0; i < seat.BaiTrenTay.Count; i++)
                 {
                     // pick ra cây to nhất
                     cardCanDanh = seat.BaiTrenTay[i];
-                    if (InspectPhomOfCard(cardCanDanh, seat.BaiTrenTay) == null)
+                    if (InspectPhomOfCard(cardCanDanh, seat.BaiTrenTay.Union(seat.BaiDaAn).ToList()) == null)
                     {
                         // cây này có dính với phỏm, bỏ qua
                         if (i == seat.BaiTrenTay.Count - 1)
                         {
-                            // tìm tới cuối bài mà con nào cũng dính phỏm cả, thôi thì rút cây to nhất ra phang
-                            cardCanDanh = seat.BaiTrenTay.First();
+                            // tìm tới cuối bài mà con nào cũng dính phỏm cả, (vô lý, thực ra ko sẽ ít có case này do đây là ù)
+                            // thì ù thử phát, không được thì
+                            // thôi thì rút cây to nhất ra phang
+                            if (soi.CurrentVan.U(seat))
+                            {
+                                return sRet;
+                            }
+                            else
+                            {
+                                cardCanDanh = seat.BaiTrenTay.First();
+                            }
                         }                        
                     }
                     else
@@ -283,11 +296,23 @@ namespace Quantum.Tala.Service
                         soi.CurrentVan.Ha(seat, arrPhomListForHa);
                     }
                 }
-
-                
             }
             return sRet;
         }
+
+        private static bool Autorun_U(Soi soi)
+        {
+            bool bRet = false;
+
+            if (null != soi.CurrentVan)
+            {
+                Seat seat = soi.GetSeatOfCurrentInTurn();
+                return soi.CurrentVan.U(seat);                
+            }
+
+            return bRet;
+        }
+
 
         /// <summary>
         /// tìm trong bộ bài cardListToLookup, xem cây truyền vào có tạo phỏm được với các cây khác không
@@ -295,7 +320,7 @@ namespace Quantum.Tala.Service
         /// <param name="cardAnchor"></param>
         /// <param name="cardListToLookup"></param>
         /// <returns></returns>
-        private static List<Card> InspectPhomOfCard(Card cardAnchor, List<Card> cardListToLookup)
+        public static List<Card> InspectPhomOfCard(Card cardAnchor, List<Card> cardListToLookup)
         {            
             List<Card> phomPotential = new List<Card>();
             phomPotential.Add(cardAnchor);
@@ -303,6 +328,11 @@ namespace Quantum.Tala.Service
             // thử tìm phỏm ngang
             foreach (Card card in cardListToLookup)
             {
+                if (cardAnchor == card)
+                {
+                    continue;   // trong trường hợp card cần theo dõi 
+                }
+
                 if (cardAnchor.So == card.So)
                 {
                     phomPotential.Add(card);
@@ -317,7 +347,7 @@ namespace Quantum.Tala.Service
                 phomPotential.Add(cardAnchor);
             }
             
-            // reset, tìm lại với  phỏm dọc
+            // reset, tìm lại với phỏm dọc
             foreach (Card card in cardListToLookup)
             {
                 if (cardAnchor.Chat == card.Chat)
@@ -325,7 +355,9 @@ namespace Quantum.Tala.Service
                     int nSoCardDaAn = int.Parse(cardAnchor.So);
                     int nSoCard = int.Parse(card.So);
 
-                    if (nSoCardDaAn - 1 == nSoCard || nSoCardDaAn + 1 == nSoCard)
+                    if (nSoCardDaAn - 1 == nSoCard || nSoCardDaAn + 1 == nSoCard ||
+                        nSoCardDaAn - 2 == nSoCard || nSoCardDaAn + 2 == nSoCard
+                        )
                     {
                         phomPotential.Add(card);
                     }

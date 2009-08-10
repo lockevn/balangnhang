@@ -586,13 +586,13 @@ namespace Quantum.Tala.Service.Business
 
         public string Autorun()
         {   
-            if(this.IsPlaying == false)
+            if(this.IsPlaying)
             {
-                return AutorunService.Check_Autorun_InStartingVan(this);
+                return AutorunService.Check_Autorun_InVan(this);
             }
             else
             {
-                return AutorunService.Check_Autorun_InVan(this);
+                return AutorunService.Check_Autorun_InStartingVan(this);                
             }
         }
 

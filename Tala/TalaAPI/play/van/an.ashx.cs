@@ -22,7 +22,7 @@ namespace TalaAPI.play.van
             Seat seat = security.CheckUserJoinedSeat();
             Van van = soi.CurrentVan;
 
-            APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "An", "action failed");
+            APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "An", "Không ăn được");
             Card anCard = null;
             try
             {
@@ -41,7 +41,6 @@ namespace TalaAPI.play.van
 
             this.Cmd.Add(cs);
             base.ProcessRequest(context);
-
         }    
     }
 }
