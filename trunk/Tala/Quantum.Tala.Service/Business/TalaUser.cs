@@ -123,11 +123,18 @@ namespace Quantum.Tala.Service.Business
         
         
         public user_statDTO UserStatDBEntry { get; set; }
-        
+
+
+        /// <summary>
+        /// Các tour mà user này đang có vé vào chơi. Danh sách này chỉ ghi nhận các tour, còn về tính valid của tour thì sẽ detect sau, mỗi khi có action
+        /// </summary>
+        public List<tournamentDTO> AttendingTournament { get; set; }
 
         public TalaUser()
-        { }
-        public TalaUser(string p_sUsername, string p_sAuthkey)
+        {
+            AttendingTournament = new List<tournamentDTO>();
+        }
+        public TalaUser(string p_sUsername, string p_sAuthkey) : this()
         {
             _sUsername = p_sUsername;
             _sAuthkey = p_sAuthkey;

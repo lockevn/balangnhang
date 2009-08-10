@@ -73,7 +73,9 @@ namespace TalaAPI.community.tournament
                 )
             {
                 ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
-                toursvc.AddUserToTournament(security.CurrentAU.Username, sCoinUsername, TalaSecurity.GetClientIP(), tour);               
+                toursvc.AddUserToTournament(security.CurrentAU.Username, sCoinUsername, TalaSecurity.GetClientIP(), tour);
+                // refresh danh mục tournament đang tham gia, ấn tour vừa add vào
+                security.CurrentAU.AttendingTournament.Add(tour);
             }
 
             cs = new APICommandStatus(true, "JOIN_TOURNAMENT", "thành công, bạn đã bị trừ tiền mua vé là " + tour.enrollfee);

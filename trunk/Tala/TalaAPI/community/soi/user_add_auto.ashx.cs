@@ -19,7 +19,7 @@ namespace TalaAPI.community.soi
             tournamentDTO tournament = Song.Instance.GetTournamentByID(tournamentid);
             if (tournament == null)
             {
-                APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "NOT_FOUND", "không tìm thấy tournament");
+                APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "NOT_FOUND", "Không tìm thấy tournament");
                 Cmd.Add(cs);
                 base.ProcessRequest(context);                
             }
@@ -28,10 +28,19 @@ namespace TalaAPI.community.soi
             if (((DateTime)tournament.endtime).CompareTo(DateTime.Now) < 0)
             {
                 APICommandStatus cs = APICommandStatus.Get_NOT_VALID_CommandStatus();
-                cs.Info = "giải đấu đã kết thúc, không cho chơi nữa";
+                cs.Info = "Giải đấu đã kết thúc, không cho chơi nữa";
                 Cmd.Add(cs);
                 base.ProcessRequest(context);
             }
+
+            
+            // cố gắng phân bố 4n+3 người vào n sới
+
+            var UserInThisTournamentAndIsWaiting = 
+                Song.Instance.DicOnlineUser.Values.Where(user => 
+                    user.CurrentSoi == null &&
+                    user.AttendingTournament.TakeWhile(tour => tour.id == tournament.id).Count() > 0
+                    );
 
 
             // TODO: không đủ số người chơi cần thiết để lập ván tổ chức giải đấu
@@ -74,8 +83,11 @@ namespace TalaAPI.community.soi
                         break;
                 }
                 Cmd.Add(cs);
-            }            
+                base.ProcessRequest(context);
+            }
 
+            APICommandStatus csWAIT = new APICommandStatus(true, "WAIT", "Số người chơi chưa đủ để thành lập sới. Xin hãy chờ đợi để chúng tôi thu xếp");
+            Cmd.Add(csWAIT);
             base.ProcessRequest(context);
         }
     }
