@@ -76,68 +76,10 @@ namespace Quantum.Tala.Service
             };            
             DAU.AddObject<user_tournamentDTO>(ticket);
 
+            // TODO: cập nhật lại danh sách TalaUser.AttendingTournament, hiện tại đang cập nhật ở ngoài hàm API web
+
             return ticket.transactionid;
         }
-        
 
-
-        //[TransactionBound]
-        //public virtual VwBannerLocalizedWithBlockDTO[] GetBannerListForView(int p_nBlockID, int p_nPage, int p_nPageCount)
-        //{
-        //    Order ordBannerID = new Order(VwBannerLocalizedWithBlockDTO.DISPLAYORDER_FLD, Order.ASC);
-
-        //    Criteria crtCondition;
-        //    if (p_nBlockID > 0)
-        //    {
-        //        crtCondition = new Criteria(
-        //            new Expression(VwBannerLocalizedWithBlockDTO.BLOCKID_FLD, Operator.Eq, p_nBlockID),
-        //            (p_nPage - 1) * p_nPageCount,
-        //            p_nPageCount,
-        //            ordBannerID);
-        //    }
-        //    else
-        //    {
-        //        crtCondition = new Criteria(
-        //            null,
-        //            (p_nPage - 1) * p_nPageCount,
-        //            p_nPageCount,
-        //            ordBannerID);
-        //    }
-
-        //    DTOCollection<VwBannerLocalizedWithBlockDTO> arrBanner = DAU.GetMultiLocalizedObject<VwBannerLocalizedWithBlockDTO>(crtCondition);
-
-        //    return arrBanner.ToArray();
-        //}
-
-	
-        //[TransactionBound]
-        //public virtual BannerDTO GetBanner(int p_nBannerID)
-        //{
-        //    return DAU.GetObject<BannerDTO>(p_nBannerID);
-        //}
-
-	
-        //[TransactionBound]
-        //public virtual int DeleteBanner(int p_nBannerID)
-        //{
-        //    return DAU._DeleteObject<BannerDTO>(p_nBannerID);
-        //}
-
-		
-        //[TransactionBound]
-        //public virtual BlockDTO[] GetBlockList(int p_nPage, int p_nPageCount)
-        //{
-        //    DTOCollection<BlockDTO> arrBlock = DAU.GetObjects<BlockDTO>(null, BlockDTO.BLOCKID_FLD, Order.ASC, p_nPage, p_nPageCount);
-
-        //    return arrBlock.ToArray();
-        //}       
-		
-		
-        //[TransactionBound]
-        //public virtual int UpdateBlock(BlockDTO p_dtoBlock)
-        //{
-        //    return DAU.SaveSingleObject<BlockDTO>(p_dtoBlock);
-        //}
-		
 	}
 }

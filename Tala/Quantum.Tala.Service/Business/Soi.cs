@@ -317,6 +317,9 @@ namespace Quantum.Tala.Service.Business
                     {
                         // không còn ai, xoá tên owner
                         _OwnerUsername = string.Empty;
+
+                        // bỏ luôn, tránh sới rác
+                        Song.Instance.DeleteSoi(this.ID.ToString());
                     }
                     else if (this.OwnerUsername == player.Username)
                     {
