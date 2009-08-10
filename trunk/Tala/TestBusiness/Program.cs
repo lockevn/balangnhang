@@ -19,6 +19,8 @@ using MySql.Data.Types;
 using System.Reflection;
 //using CH.Combinations;
 
+using System.Linq;
+
 namespace TestBusiness
 {
     public class ABCTest : APIDataEntry
@@ -37,6 +39,20 @@ namespace TestBusiness
     {
         static void Main(string[] args)
         {
+            List<Card> a = new List<Card>();
+            List<Card> b = new List<Card>();
+
+            a.Add(new Card("01", "d"));
+
+            b.Add(new Card("01", "d"));
+            b.Add(new Card("01", "c"));
+            b.Add(new Card("01", "p"));            
+
+            List<Card> c = AutorunService.InspectPhomOfCard(a[0], a.Union(b).ToList());
+
+            c = a.Union(b).ToList();
+
+
             TalaProgramApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());
 
             IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();

@@ -194,30 +194,149 @@ namespace Quantum.Tala.Service.Business
         /// Ăn một cây đã đánh của seat ngồi trước
         /// </summary>
         /// <param name="seat">seat ra lệnh ăn</param>
-        /// <returns>true/false</returns>
+        /// <returns>nếu ăn được thì trả về cây ăn, nếu không sẽ null</returns>
         public Card An(Seat seat)
         {
+            // không có lượt, hoặc có lượt nhưng bốc rồi, biến
             if (!this.IsSeatInTurn(seat) || seat.GetTotalCardOnSeat() > 9)
             {
                 return null;
             }
-
-            /*chuyen card cuoi cung tu BaiDaDanh cua seat truoc sang seat BaiDaAn cua seat sau*/
+            
+            // lấy seat ngồi trước
             int previousSeatIndex = Seat.GetPreviousSeatIndex(seat.Pos, this.CurrentSoi.SeatList.Count);
             Seat previousSeat = this.CurrentSoi.SeatList.ElementAt(previousSeatIndex) as Seat;
-
+            
             /*kiểm tra previousSeat có bài đã đánh không*/
             if (previousSeat.BaiDaDanh == null || previousSeat.BaiDaDanh.Count == 0)
             {
+                // không có thì ăn cái gì? láo
                 return null;
             }
+
+
+            /*lấy cây vừa đánh của seat trước chuyển sang BaiDaAn của seat */
+            Card cardDinhAn = previousSeat.BaiDaDanh.Last();
+
+            #region Check xem có ăn được không, vì không cho ăn láo nữa. Chạy qua đoạn này là cho phép ăn, OK
+
+            List<Card> phomPotential = new List<Card>();
+            
+            // check phỏm ngang
+            phomPotential.Add(cardDinhAn);
+            bool bAnHaiCayCungPhomNgang = false;
+            foreach (Card cardDaAnTuTruoc in seat.BaiDaAn)
+            {
+                if (cardDinhAn.So == cardDaAnTuTruoc.So)
+                {
+                    // không được ăn 2 cây cùng phỏm ngang
+                    bAnHaiCayCungPhomNgang = true;
+                    break;
+                }
+            }
+
+            // qua được cửa không ăn 2 cây cùng phỏm ngang, ta duyệt tiếp xem nó có dính phỏm ngang không.
+            if (bAnHaiCayCungPhomNgang == false)
+            {
+                foreach (Card card in seat.BaiTrenTay)
+                {
+                    if (card.So == cardDinhAn.So)
+                    {
+                        phomPotential.Add(card);
+                    }
+                }
+
+                if (phomPotential.Count < 3)
+                {
+                    // chịu, không thấy phỏm ngang, chuyển sang tìm phỏm dọc
+                    // reset để count = 0
+                    phomPotential.Clear();                    
+                }
+                else
+                {
+                    // OK, mày được ăn
+                }
+            }
+
+            if (phomPotential.Count == 0)
+            {
+                // tìm lại với phỏm dọc
+                phomPotential.Add(cardDinhAn);
+                int i = 0;
+                foreach (Card card in seat.BaiTrenTay)
+                {
+                    if (cardDinhAn.Chat == card.Chat)
+                    {
+                        int nSoCardDaAn = int.Parse(cardDinhAn.So);
+                        int nSoCard = int.Parse(card.So);
+                        if (nSoCardDaAn - 1 == nSoCard || nSoCardDaAn + 1 == nSoCard ||
+                            nSoCardDaAn - 2 == nSoCard || nSoCardDaAn + 2 == nSoCard
+                            )
+                        {
+                            phomPotential.Add(card);
+                        }
+                    }
+                    i++;
+
+                    // nếu duyệt hết sạch bài trên tay rồi
+                    if (i >= seat.BaiTrenTay.Count)
+                    {
+                        if (phomPotential.Count >= 3)
+                        {
+                            #region  TODO: chưa check được triệt để chuyện ăn nối dọc
+                            
+                            //// sort theo thứ tự tăng dần
+                            //phomPotential.Sort();
+
+                            //foreach (Card cardDaAnTuTruoc in seat.BaiDaAn)
+                            //{
+                            //    if(cardDinhAn.Chat == cardDaAnTuTruoc.Chat)
+                            //    {
+                            //        // check các trường hợp ăn nối phỏm không hợp lệ, vẽ ma trận ra để check
+                            //        int nSoCardDaAnTuTruoc = int.Parse(cardDaAnTuTruoc.So);
+                            //        int nSoCardDinhAn = int.Parse(cardDinhAn.So);
+                            //        if (false)
+                            //        {
+                            //            // TODO: chưa check được
+                            //            // vẫn không được ăn nối, láo
+                            //            return null;
+                            //        }
+                            //    }
+                            //}
+
+                            #endregion
+
+
+                            // OK, mày có phỏm dọc hợp lệ
+                        }
+                        else
+                        {
+                            // phỏm ngang không có, phỏm dọc cũng không, vậy thì không cho ăn láo nhá
+                            return null;
+                        }
+                    }
+                }                
+            }
+
+            #endregion
+
+
+
+            // chuyển cây từ bài đã đánh của thằng trước sang bài đã ăn của thằng hiện tại
+            previousSeat.BaiDaDanh.Remove(cardDinhAn); 
+            seat.BaiDaAn.Add(cardDinhAn);            
+
+
+
+            #region Tính tiền           
+            
 
             /*kiểm tra cây chốt*/
             if (seat.BaiDaDanh.Count == 3 && this.CurrentSoi.SoiOption.IsChot)
             {
                 if (this.CurrentSoi.SoiOption.IsChot)
                 {
-                    /* tinh tien cho cay chot */
+                    // tính tiền cho cây chốt
                     int money = Cashier.CHIP_AN_CHOT * this.CurrentSoi.SoiOption.TiGiaChip;
                     this.AddMessage("Ăn cây chốt", previousSeat.Player.UsernameInGame + " nộp " + money + " cho " + seat.Player.UsernameInGame);
                     /*tru tien vao tai khoan cua nguoi bi an chot*/
@@ -241,11 +360,10 @@ namespace Quantum.Tala.Service.Business
                 this.AddMessage("Nộp gà", previousSeat.Player.UsernameInGame + " nộp " + nTienPhatVaoGa + " vào gà");
             }
 
-            /*lấy cây vừa đánh của seat trước chuyển sang BaiDaAn của seat */
-            Card anCard = previousSeat.BaiDaDanh.Last();
-            seat.BaiDaAn.Add(anCard);
-            previousSeat.BaiDaDanh.Remove(anCard);
+            #endregion
 
+            
+            #region Chuyển bài
 
             /*nếu seat ăn có haIndex trước khi ăn != 1 thì sẽ phải xếp lại các BaiDaDanh trên sới*/
             if (seat.HaIndex != 1)
@@ -267,7 +385,11 @@ namespace Quantum.Tala.Service.Business
                 tmpSeat.HaIndex = Seat.GetPreviousSeatIndex(tmpSeat.HaIndex, this.CurrentSoi.SeatList.Count);
             }
 
-            return anCard;
+            #endregion
+
+
+
+            return cardDinhAn;
         }
 
         /// <summary>
@@ -353,8 +475,7 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         /// <param name="seat">seat ra lệnh hạ phỏm</param>
         /// <param name="phomArr">một mảng các mảng Card để trở thành tập các Phom</param>
-        /// <returns>true/false</returns>
-        /// 
+        /// <returns>true/false</returns>        
         public bool Ha(Seat seat, List<Card[]> phomArr)
         {
             //TODO can thay the dieu kien seat.BaiDaDanh.Count < 3
@@ -369,7 +490,6 @@ namespace Quantum.Tala.Service.Business
             /*kiem tra tinh chinh xac cua phom*/
             foreach (Card[] cardArr in phomArr)
             {
-
                 foreach (Card card in cardArr)
                 {
                     /*kiểm tra client hạ láo: trong phomArr có card trùng nhau*/
