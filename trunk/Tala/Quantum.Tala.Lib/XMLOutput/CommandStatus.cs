@@ -34,9 +34,9 @@ namespace Quantum.Tala.Lib.XMLOutput
             set { _sInfo = value; }
         }
 
-        public APICommandStatus(bool p_bStat)
+        public APICommandStatus(bool p_bIsStatOK)
         {
-            _sStat = p_bStat ? APICommandStatusState.OK : APICommandStatusState.FAIL;
+            _sStat = p_bIsStatOK ? APICommandStatusState.OK : APICommandStatusState.FAIL;
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Quantum.Tala.Lib.XMLOutput
         /// <param name="p_sStat">Stat is OK?</param>
         /// <param name="p_sID"></param>
         /// <param name="p_sInfo"></param>
-        public APICommandStatus(bool p_sStat, string p_sID, string p_sInfo) : this(p_sStat)
+        public APICommandStatus(bool p_bIsStatOK, string p_sID, string p_sInfo) : this(p_bIsStatOK)
         {            
             _sID = p_sID;
             _sInfo = p_sInfo;

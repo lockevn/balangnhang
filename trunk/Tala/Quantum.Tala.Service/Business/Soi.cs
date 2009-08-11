@@ -189,7 +189,7 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         /// <param name="player"></param>
         /// <returns> -4 sới đang chơi rồi, -3 đã join sới khác rồi, -2 nếu lỗi, player không tồn tại. -1 nếu sới đã đầy chỗ ,. Trả về số >= 0 nếu OK, hoặc đã join sới rồi cũng là OK</returns>        
-        protected int AddPlayer(TalaUser player)
+        public int AddPlayer(TalaUser player)
         {
             if (player == null)
             {
