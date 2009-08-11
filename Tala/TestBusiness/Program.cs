@@ -39,6 +39,9 @@ namespace TestBusiness
     {
         static void Main(string[] args)
         {
+            int NumberOfUser = 8;
+            int nSoi = NumberOfUser / 4;
+
             List<Card> a = new List<Card>();
             List<Card> b = new List<Card>();
 

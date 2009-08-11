@@ -34,7 +34,9 @@ namespace Quantum.Tala.Service.Business
             _DicOnlineUser = new Dictionary<string, TalaUser>();
             _DicSoi = new Dictionary<string, Soi>();
             _DicTournament = new Dictionary<string, tournamentDTO>();
+            _DicTournamentWaitingList = new Dictionary<int, List<string>>();
             LoadTournamentFromDB();
+
             /// THIS FUNCTION RUN BEFORE STATIC CONSTRUCTOR
             // Console.WriteLine("In the internal constructor");            
         }
@@ -92,10 +94,18 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         public Dictionary<string, tournamentDTO> DicTournament
         {
-            get { return _DicTournament; }            
+            get { return _DicTournament; }
         }
 
-
+        private Dictionary<int, List<string>> _DicTournamentWaitingList;
+        /// <summary>
+        /// map tournamentid - list(username waiting in this tournament)
+        /// </summary>
+        public Dictionary<int, List<string>> DicTournamentWaitingList
+        {
+            get { return _DicTournamentWaitingList; }
+        }
+            
 
 
 
@@ -252,7 +262,7 @@ namespace Quantum.Tala.Service.Business
                         dt = new MySqlDateTime(DateTime.Now),
                         name = sName,
                         owner = ownerUsername,
-                        tournamentid = 1 // NOTE: cố định tour free = 1
+                        tournamentid = (int)TournamentType.Free
                     };
                     
                     soiDBEntry.id = toursvc.CreateSoi(soiDBEntry);
@@ -347,9 +357,11 @@ namespace Quantum.Tala.Service.Business
             tournamentDTO[] arr = toursvc.GetTournamentList();
 
             _DicTournament.Clear();
+            _DicTournamentWaitingList.Clear();
             foreach (tournamentDTO tour in arr)
             {
                 _DicTournament.Add(tour.id.ToString(), tour);
+                _DicTournamentWaitingList.Add(tour.id, new List<string>());
             }
             return true;
         }
