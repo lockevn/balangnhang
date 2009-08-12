@@ -47,6 +47,15 @@ namespace TestBusiness
             a.Add(new Card("01", "p"));
 
             a.Sort();
+            a.Reverse();
+
+            List<Card> baitrentay = new List<Card>();
+            List<Card> baidaan = new List<Card>();
+            baitrentay.Add(new Card("01","d"));
+            baitrentay.Add(new Card("02", "c"));
+            baidaan.Add(new Card("02", "d"));
+
+            var addd = AutorunService.InspectPhomOfCard(new Card("03","d"), baitrentay.Union(baidaan).ToList());
 
 
             Card c01d = new Card("01", "d");
