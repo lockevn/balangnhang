@@ -223,7 +223,8 @@ namespace Quantum.Tala.Service
                 // duyệt đến cuối mà không tìm được con nào để đánh vì dính phỏm cả
                 /// đánh cây to nhất nếu cuối cùng tìm ko được            
                 Card cardCanDanh = null;
-                seat.BaiTrenTay.Sort();
+                seat.BaiTrenTay.Sort(); // sort tăng dần
+                seat.BaiTrenTay.Reverse();  // lộn lại thành giảm dần, cây to nhất đầu tiên
                 for (int i = 0; i < seat.BaiTrenTay.Count; i++)
                 {
                     // pick ra cây to nhất
@@ -323,7 +324,10 @@ namespace Quantum.Tala.Service
         /// <param name="cardListToLookup"></param>
         /// <returns></returns>
         public static List<Card> InspectPhomOfCard(Card cardAnchor, List<Card> cardListToLookup)
-        {            
+        {
+            //cardListToLookup.Remove(cardAnchor);
+
+            // TODO: sai, kiểm lại đi LockeVN
             List<Card> phomPotential = new List<Card>();
             phomPotential.Add(cardAnchor);
 
@@ -341,7 +345,8 @@ namespace Quantum.Tala.Service
                 }
             }
             if (phomPotential.Count >= 3)
-            {                
+            {
+                return phomPotential;
             }
             else
             {
