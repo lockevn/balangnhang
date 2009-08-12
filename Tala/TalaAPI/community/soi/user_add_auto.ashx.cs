@@ -54,14 +54,14 @@ namespace TalaAPI.community.soi
 
 
 
-            /// tìm danh sách các sới của tour hiện tại, còn chỗ, chưa chơi
+            // tìm danh sách các sới của tour hiện tại, còn chỗ, chưa chơi
             List<Soi> arrAvailableSoiOfTour = Song.Instance.GetSoiByTournamentID(tournamentid).
                 Where(soi => soi.SeatList.Count < 4 && soi.IsPlaying == false).
                 OrderBy(soi => Guid.NewGuid()).
                 ToList();
 
 
-            #region Giải quyết riêng trường hợp FREE TOUR
+            #region Giải quyết riêng trường hợp FREE TOUR, nhét vào sới Free đầu tiên tìm được
             if (tournament.id == (int)TournamentType.Free)
             {
                 Soi soiFreeToAdd = null;
@@ -75,77 +75,101 @@ namespace TalaAPI.community.soi
                     soiFreeToAdd = Song.Instance.CreatNewFreeSoi(security.CurrentAU.Username, security.CurrentAU.Username);
                 }
                 
-                APICommandStatus cs = new APICommandStatus(true, "JOIN_SOI", "Đã gia nhập sới " + soiFreeToAdd.ID);
+                APICommandStatus cs = new APICommandStatus(true, "JOIN_SOI", soiFreeToAdd.ID.ToString());
                 Cmd.Add(cs);
                 base.ProcessRequest(context);
             }
             #endregion 
             
             
-            List<string> arrWaitingListCurrentTour = Song.Instance.DicTournamentWaitingList[tournament.id];            
+
+
+
+
+
+
             
-            // Add currentAU vào danh sách chờ
-            arrWaitingListCurrentTour.Add(security.CurrentAU.Username);
-
-
-            // xử lý người chờ trong danh sách chờ
-            /// nhét vào các sới còn trống trước
-            /// sau đó nếu danh sách chờ vẫn còn, nếu còn > 6 thì tạo sới mới nhét vào
+            #region Add currentAU vào danh sách chờ
             
-                List<TalaUser> arrUserWaitingInThisTournament = Song.Instance.DicOnlineUser.Values.
-                Where(
-                    user => user.CurrentSoi == null  /* chưa chơi*/ &&
-                    user.AttendingTournament.Any(tour => tour.id == tournament.id /* đã đăng ký tour này*/) &&
-                    arrWaitingListCurrentTour.Contains(user.Username)  /* đã nằm trong danh sách chờ */
-                ).
-                OrderBy(user => Guid.NewGuid()) /* random sort*/
-                .ToList();
+            // nó vào sới rồi là do nó muốn chơi ở tour này, bỏ ticket ở tour khác đi
+            foreach (var entryTournamentWaiting in Song.Instance.DicTournamentWaitingList.Values)
+            {
+                entryTournamentWaiting.Remove(security.CurrentAU.Username);
+            }
+            List<string> arrWaitingListCurrentTour = Song.Instance.DicTournamentWaitingList[tournament.id];
+            // add vào danh sách chờ của tour này
+            arrWaitingListCurrentTour.Insert(0, security.CurrentAU.Username);
 
-                Soi soiConCho = null;
+            #endregion
+            
+
+            // xử lý người chờ trong danh sách chờ            
+            List<TalaUser> arrUserWaitingInThisTournament = Song.Instance.DicOnlineUser.Values.
+            Where(
+                user => user.CurrentSoi == null  /* chưa chơi*/ &&
+                user.AttendingTournament.Any(tour => tour.id == tournament.id /* đã đăng ký tour này*/) &&
+                arrWaitingListCurrentTour.Contains(user.Username)  /* đã nằm trong danh sách chờ */
+            ).
+            OrderBy(user => Guid.NewGuid()) /* random sort*/
+            .ToList();
+
+
+            #region nhét vào các sới còn trống trước
+
+            Soi soiConCho = null;
+            foreach (TalaUser userDangDoi in arrUserWaitingInThisTournament)
+            {
                 if (arrAvailableSoiOfTour.Count > 0)
                 {
                     soiConCho = arrAvailableSoiOfTour.First();
                     if (soiConCho.SeatList.Count < 4)
                     {
                         // còn chỗ
-                        soiConCho.AddPlayer(userWillBeAdd);
+                        soiConCho.AddPlayer(userDangDoi);
                     }
 
                     // nhét xong kiểm lại
-                    if (soiConCho.SeatList.Count == 4)
+                    if (soiConCho.SeatList.Count >= 4)
                     {
-                        // nhét vào đầy ứ rồi
+                        // nhét vào đầy ứ rồi, bỏ ra khỏi danh sách sới còn chỗ
                         arrAvailableSoiOfTour.Remove(soiConCho);
                         soiConCho.Autorun();
                     }
                 }
                 else
                 {
-                    // vào đến đây là danh sách sới cũ còn chỗ đã hết
-                    // chả còn sới nào mà nhét nữa rồi, tạo mới để nhét
-                    if (soiConCho == null || soiConCho.SeatList.Count >= 4)
-                    {
-
-                    }
-                    soiConCho.AddPlayer(userWillBeAdd);
+                    break;
+                    // thôi không duyệt tiếp user nữa, vì hết chỗ trong đám sới thừa chỗ rồi
                 }
+            }
+
+            #endregion
 
 
-                int nNumOfSoiToCreate = 0;
-                if (arrUserWaitingInThisTournament.Count > 6)
+            // vào đến đây là danh sách sới cũ còn chỗ đã hết
+            // sau đó nếu danh sách chờ vẫn còn, nếu còn > 6 thì tạo sới mới nhét vào
+            #region tạo sới mới để phân bố 4n+3 số user còn lại            
+            
+            int nNumOfSoiToCreate = 0;
+            if (arrUserWaitingInThisTournament.Count > 6)
+            {
+                nNumOfSoiToCreate = arrUserWaitingInThisTournament.Count / 4;
+            }
+
+
+            for (int i = 0; i < nNumOfSoiToCreate; i++)
+            {
+                Soi soiTaoMoi = Song.Instance.CreatNewSoiOfTour("Tala", tournament.id);
+                var Take4Users = arrUserWaitingInThisTournament.Take(4);
+                foreach (TalaUser userWillBeAdd in Take4Users)
                 {
-                    nNumOfSoiToCreate = arrUserWaitingInThisTournament.Count / 4;
-                }
+                    soiTaoMoi.AddPlayer(userWillBeAdd);
+                }   // end for each 4 User
+            }
+            // còn dư bao nhiêu mặc kệ
 
-                for (int i = 0; i < nNumOfSoiToCreate; i++)
-                {
-                    Soi soiConCho = Song.Instance.CreatNewSoiOfTour("Tala", tournament.id);
-                    var Take4Users = arrUserWaitingInThisTournament.Take(4);
-                    foreach (TalaUser userWillBeAdd in Take4Users)
-                    {
+            #endregion
 
-                    }   // end for each 4 User
-                }
 
 
 
@@ -153,15 +177,16 @@ namespace TalaAPI.community.soi
             // nếu không thể nhét được thì báo cho chờ
             if (security.CurrentAU.CurrentSoi != null)
             {
-                // TODO: gỡ khỏi danh mục chờ
-
+                // gỡ khỏi danh mục chờ
+                // chưa chắc đã cần gỡ, nó vào sới rồi là do nó muốn chơi, cứ để nó đấy, khi nào join sới khác thì gỡ sới này?
+                // Song.Instance.DicTournamentWaitingList[tournament.id].Remove(security.CurrentAU.Username);
                 APICommandStatus cs = new APICommandStatus(true, "JOIN_SOI", "Gia nhập sới thành công");
                 Cmd.Add(cs);
             }
             else
             {
-                // TODO: ấn vào danh mục chờ
-
+                // ấn vào danh mục chờ (đã ấn ở trên roài, không được bố trí thì do đen thôi)
+                // Song.Instance.DicTournamentWaitingList[tournament.id].Add(security.CurrentAU.Username);
 
                 APICommandStatus csWAIT = new APICommandStatus(true, "WAIT", "Số người chơi chưa đủ để thành lập sới. Xin hãy chờ đợi để chúng tôi thu xếp");
                 Cmd.Add(csWAIT);

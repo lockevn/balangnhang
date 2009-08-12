@@ -38,23 +38,22 @@ namespace TestBusiness
     class Program
     {
         static void Main(string[] args)
-        {
-            int NumberOfUser = 8;
-            int nSoi = NumberOfUser / 4;
+        {           
 
-            List<Card> a = new List<Card>();
-            List<Card> b = new List<Card>();
-
+            List<Card> a = new List<Card>();         
             a.Add(new Card("01", "d"));
+            a.Add(new Card("01", "t"));
+            a.Add(new Card("01", "c"));
+            a.Add(new Card("01", "p"));
 
-            b.Add(new Card("01", "d"));
-            b.Add(new Card("01", "c"));
-            b.Add(new Card("01", "p"));            
+            a.Sort();
 
-            List<Card> c = AutorunService.InspectPhomOfCard(a[0], a.Union(b).ToList());
 
-            c = a.Union(b).ToList();
-
+            Card c01d = new Card("01", "d");
+            Card c01c = new Card("01", "c");
+            Console.WriteLine(c01c < c01d);
+            Console.WriteLine(c01c > c01d);
+            Console.WriteLine(c01c == c01d);
 
             TalaProgramApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());
 

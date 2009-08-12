@@ -21,7 +21,7 @@ namespace Quantum.Tala.Service.Business
     /// Biểu diễn một quân bài
     /// </summary>
     [ElementXMLExportAttribute("c", DataOutputXMLType.NestedTag)]
-    public class Card : APIDataEntry, IComparable
+    public class Card : APIDataEntry, IComparable<Card>
     {
         #region Các khai báo tĩnh, ràng buộc nghiệp vụ về một Card
 
@@ -194,7 +194,7 @@ namespace Quantum.Tala.Service.Business
         }
 
                       
-        public static bool Compare(Card c1, Card c2)
+        private static bool Compare(Card c1, Card c2)
         {
             string sc1 = string.Empty;
             string sc2 = string.Empty;
@@ -258,21 +258,29 @@ namespace Quantum.Tala.Service.Business
             
             return (!(c1 > c2));
         }
+        
 
-        public int CompareTo(Object obj)
+        #region IComparable<Card> Members
+
+        public int CompareTo(Card other)
         {
-            Card card = obj as Card;
-            if (this == card)
+            if (Compare(this,other))
             {
                 return 0;
             }
-            return -1;
+            else
+            {
+                if (this > other)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
         }
-    
-    
 
-
-        
-        
+        #endregion
     }    
 }

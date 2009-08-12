@@ -25,15 +25,11 @@ namespace TalaAPI.community.soi
 
             soi.SetReady(security.CurrentAU);
 
-            /// nếu sới đầy chỗ rồi
-            /// thử gọi hàm StartPlaying (trong đấy tự nó kiểm tra điều kiện để bắt đầu ván)
+            // nếu sới đầy chỗ rồi
+            // thử gọi hàm StartPlaying (trong đấy tự nó kiểm tra điều kiện để bắt đầu ván)
             if (soi.SeatList.Count == CONST.MAX_SEAT_IN_SOI_ALLOW && soi.IsAllPlayerReady())
-            {
-                ///TODO: uncomment back
-                //soi.StartPlaying();
-                // TEST
-                soi.StartPlayingForTesting();
-                
+            {                
+                soi.StartPlaying();
             }
 
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "READY", "1");

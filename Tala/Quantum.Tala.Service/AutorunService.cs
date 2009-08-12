@@ -101,7 +101,7 @@ namespace Quantum.Tala.Service
 
                 if (player.Authkey == _CurrentAuthkey)
                 {
-                    // nếu ai vào rồi thì gia hạn cache, create lại thôi
+                    // nếu ai vào rồi thì gia hạn cache, create lại timer cho nó thôi
                     Create_Autorun_InStartingVan(player);
                 }
                 else
@@ -114,7 +114,7 @@ namespace Quantum.Tala.Service
                         // đánh dấu ghi tên lại để đuổi
                         arrPlayerTimeoutNeedToRemove.Add(player.Username);
                     }
-                }                
+                }
             }   // end foreach
 
 
@@ -123,12 +123,12 @@ namespace Quantum.Tala.Service
                 soi.RemovePlayer(sToRemove);
             }
 
-            // TODO: add progress of process here
+            // TODO: add progress info of autorun process here
             return string.Empty;
         }
                 
         public static string Check_Autorun_InVan(Soi soi)
-        {            
+        {
             StringBuilder sRet = new StringBuilder();
 
             if(soi.IsPlaying == false)
@@ -144,7 +144,8 @@ namespace Quantum.Tala.Service
             if (seatInTurn.Player.Authkey == _CurrentAuthkey)
             {
                 // currentAU đang có lượt (ko cập nhật lại timeout, ko đánh nhanh thì thiệt), do Bizz
-                // cho qua, ko đụng đậy tay chân gì                
+                // cho qua, ko đụng đậy tay chân gì, ghi nhận là đồng chí có đang connected thôi
+                seatInTurn.IsDisconnected = false;
             }                        
                        
             // Kiểm tra timeout
@@ -152,9 +153,10 @@ namespace Quantum.Tala.Service
             if (context.Cache[sCacheKey] == null)
             {
                 // TIMEOUT
-                /* auto play */
-                sRet.Append(seatInTurn.Player.Username + " hết thời gian nghĩ. Hệ thống tự chơi");
+                seatInTurn.IsDisconnected = true;
 
+                /* auto play */
+                sRet.Append(seatInTurn.Player.Username + " hết thời gian nghĩ. Hệ thống tự chơi");                
                 
                 //xem bài có mấy cây
                 if (seatInTurn.GetTotalCardOnSeat() == 9)
@@ -185,8 +187,8 @@ namespace Quantum.Tala.Service
                 // nếu không timeout, bỏ qua luôn, ở ngoài sẽ báo lỗi Not In Turn cho currentAU
             }                        
             
-            /// trả lại chuỗi kết quả ra ngoài
-            /// có thể để còn log
+            // trả lại chuỗi kết quả ra ngoài
+            // có thể để còn log
             return sRet.ToString();
         }
 

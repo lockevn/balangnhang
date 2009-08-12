@@ -14,20 +14,6 @@ namespace TalaAPI.admin.game
         public override void ProcessRequest(HttpContext context)
         {            
             TalaSecurity sec = new TalaSecurity(context);
-            
-            //context.Application.StaticObjects.
-
-            //APICommandStatus cs;
-
-            //string sSoiID = APIParamHelper.GetParam("soiid", context);
-
-            //lock (Song.Instance.DicSoi)            
-            //{
-            //    // TODO: lấy lại các bản ghi Tour trong DB, ghi lại vào bộ nhớ của Engine                
-            //}            
-
-            //// Cmd.Add(cs);
-
             base.ProcessRequest(context);
         }
     }

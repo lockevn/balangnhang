@@ -215,7 +215,7 @@ namespace Quantum.Tala.Service.Business
                     // generate new authkey
                     user.Authkey = user.Username + "^" + FunctionExtension.GetRandomGUID();
 
-                    // TODO: chỗ này chỉ dùng test, bỏ dòng dưới đi
+                    // TODO: chỗ này chỉ dùng test, khi release bỏ dòng dưới đi
                     #if DEBUG
                     user.Authkey = user.Username;
                     #endif
@@ -365,15 +365,7 @@ namespace Quantum.Tala.Service.Business
             }
             return true;
         }
+        
 
-        public bool ProcessSoiValidity()
-        {
-            bool bRet = false;
-
-            // TODO: xử lý các trường hợp đúng sai trong logic game, mỗi khi có một lần gọi đến hàm này
-            /// 
-
-            return bRet;
-        }
     }
 }

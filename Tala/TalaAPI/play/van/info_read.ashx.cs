@@ -12,17 +12,17 @@ using Quantum.Tala.Lib.XMLOutput;
 
 namespace TalaAPI.play.van
 {    
+    /// <summary>    
+    /// Nếu authkey không phải là thành viên của sới player
+    /// kiểm tra xem có nằm trong danh sách cho xem không?
+    /// nếu ok, cho xem (bài đã đánh, đã ăn, phỏm đã hạ của ván)
+    /// nếu không ok, trả về stat=fail, not allow như cũ
+    /// </summary>
     public class info_read : XMLHttpHandler
     {
         public override void ProcessRequest(HttpContext context)
         {
-            VanVO dtoVan = new VanVO();
-
-            // TODO: Thêm business mới
-            /// Nếu authkey không phải là thành viên của sới player
-            /// kiểm tra xem có nằm trong danh sách cho xem không?
-            /// nếu ok, cho xem (bài đã đánh, đã ăn, phỏm đã hạ của ván)
-            /// nếu không ok, trả về stat=fail, not allow như cũ
+            VanVO dtoVan = new VanVO();           
 
             // nếu đã login ok, có 2 trường hợp, 1 là player, 2 là muốn làm viewer
             TalaSecurity security = new TalaSecurity(context);

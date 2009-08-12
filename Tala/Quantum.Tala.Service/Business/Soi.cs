@@ -171,7 +171,7 @@ namespace Quantum.Tala.Service.Business
             for (int i = 0; i < this.SeatList.Count; i++)
             {
                 tmpSeat.HaIndex = i;
-                int nextIndex = Seat.GetNextSeatIndex(tmpSeat.Pos, this.SeatList.Count);
+                int nextIndex = GetNextSeatIndex(tmpSeat.Pos);
                 tmpSeat = this.SeatList[nextIndex];
             }
 
@@ -237,9 +237,11 @@ namespace Quantum.Tala.Service.Business
             }
             else
             {
-                /// bind lại hai liên kết này, vì có thể khi rơi vào case này, là người này đã thoát khỏi sới, trong seatlist vẫn giữ tên, 
+                /// bind lại hai liên kết này, vì có thể khi rơi vào case này, là người này đã thoát khỏi sới, trong seatlist vẫn giữ tên,
                 /// nhưng player.CurrentSoi đã bị set rỗng từ trước
                 seatDangNgoiTrongSoi.Player = player;
+                seatDangNgoiTrongSoi.IsDisconnected = false;
+                seatDangNgoiTrongSoi.IsQuitted = false;
                 player.CurrentSoi = this;
 
                 // ngồi rồi thì trả ra index chỗ đang ngồi
@@ -279,7 +281,7 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         /// <param name="player"></param>
         /// <returns>-2 nếu không đuổi cổ thành công (vì lý do nào đó, player rỗng ...), -1 nếu user vốn không nằm trong sới, >=0 nếu đuổi cổ thành công</returns>
-        protected int RemovePlayer(TalaUser player)
+        public int RemovePlayer(TalaUser player)
         {
             // không tìm thấy user này đang online
             if (player == null)
@@ -302,14 +304,23 @@ namespace Quantum.Tala.Service.Business
             else
             {
                 player.CurrentSoi = null;
+                seatDangNgoi.IsQuitted = true;
+
                 if (this.IsPlaying == true
                     && this.CurrentVan != null && this.CurrentVan.IsFinished == false)
                 {
-                    // để tên nó trong sới, cho chơi nốt, ko bỏ ra khỏi SeatList
+                    // để tên nó trong sới, cho chơi nốt, ko bỏ ra khỏi SeatList, chỉ đánh dấu là đã quit thôi
+
+                    // nếu tất cả user đều quit, huỷ sới
+                    if (this.SeatList.All(seat => seat.IsQuitted))
+                    {
+                        // huỷ luôn, ai bảo ngu bỏ hết đi không chơi nữa, mất tiền kệ các chú
+                        Song.Instance.DeleteSoi(this.ID.ToString());
+                    }
                 }
                 else
                 {
-                    // đưa ra khỏi sới
+                    // đưa ra khỏi sới, sới chưa chơi, đuổi ngay, cho chim cút
                     this.SeatList.Remove(seatDangNgoi);
                     this.ReIndexSeatList();
 
@@ -385,6 +396,39 @@ namespace Quantum.Tala.Service.Business
             return null;
         }
 
+
+        /// <summary>
+        /// Lấy chỉ số của seat trước so với chỉ số hiện tại của seat. Chỉ số có thể là index hoặc haIndex của Seat
+        /// </summary>
+        /// <param name="currIndex">index hoặc haIndex của Seat</param>
+        /// <param name="seatCount">tổng số seat trong sới</param>
+        /// <returns>chỉ số của seat trước</returns>
+        public int GetPreviousSeatIndex(int currIndex)
+        {
+            if (currIndex == 0)
+            {
+                return this.SeatList.Count - 1;
+            }
+            return currIndex - 1;
+        }
+
+
+        /// <summary>
+        /// Lấy chỉ số của seat sau so với chỉ số hiện tại của seat. Chỉ số có thể là index hoặc haIndex của Seat
+        /// </summary>
+        /// <param name="currIndex">index hoặc haIndex của Seat</param>
+        /// <param name="seatCount">tổng số seat trong sới</param>
+        /// <returns>chỉ số của seat sau</returns>
+        public int GetNextSeatIndex(int currIndex)
+        {
+            if (currIndex == this.SeatList.Count - 1)
+            {
+                return 0;
+            }
+            return currIndex + 1;
+        }
+
+
         /// <summary>
         /// Lấy Seat đang có lượt
         /// </summary>
@@ -394,7 +438,7 @@ namespace Quantum.Tala.Service.Business
             Seat seatRet = null;
             if(null != this._CurrentVan)
             {
-                seatRet = this._SeatList[this._CurrentVan.CurrentTurnSeatIndex];                
+                seatRet = this._SeatList[this._CurrentVan.CurrentTurnSeatIndex];
             }
             
             return seatRet;
@@ -482,7 +526,7 @@ namespace Quantum.Tala.Service.Business
             }
 
             // ít hơn 2 chú thì ko chơi đc, hơn 4 chú cũng không chơi đc
-            if (this.SeatList.Count < 2 || this.SeatList.Count > 4)
+            if (this.SeatList.Count < 2 || this.SeatList.Count > CONST.MAX_SEAT_IN_SOI_ALLOW)
             {
                 return -3;
             }
@@ -670,7 +714,7 @@ namespace Quantum.Tala.Service.Business
             for (int i = 0; i < this.SeatList.Count; i++)
             {
                 tmpSeat.HaIndex = i;
-                int nextIndex = Seat.GetNextSeatIndex(tmpSeat.Pos, this.SeatList.Count);
+                int nextIndex = GetNextSeatIndex(tmpSeat.Pos);
                 tmpSeat = this.SeatList[nextIndex];
             }
 

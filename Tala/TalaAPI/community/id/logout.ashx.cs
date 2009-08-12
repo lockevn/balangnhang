@@ -3,6 +3,7 @@ using Quantum.Tala.Lib;
 using Quantum.Tala.Lib.XMLOutput;
 using Quantum.Tala.Service.Business;
 using TalaAPI.Lib;
+using System.Linq;
 
 
 namespace TalaAPI.community.id
@@ -21,12 +22,25 @@ namespace TalaAPI.community.id
                 try
                 {
                     Song.Instance.DicValidAuthkey.Remove(sAuthkey);
-                    Song.Instance.DicOnlineUser.Remove(sUsername);
-                    
-                    // TODO: tìm sới đang đánh, gỡ ra khỏi seatlist, chỗ này còn nhiều lo lắng, chưa nghĩ kỹ hết side effect
                 }
-                catch { }                
-                cs = new APICommandStatus(APICommandStatusState.OK, "LOGOUT", "u=" + sUsername);
+                catch { }
+
+                try
+                {
+                    Song.Instance.DicOnlineUser.Remove(sUsername);
+                }                
+                catch { }
+
+                try
+                {
+                    foreach (var waitingListOfTour in Song.Instance.DicTournamentWaitingList.Values)
+                    {
+                        waitingListOfTour.Remove(sUsername);
+                    }
+                }
+                catch { }
+
+                cs = new APICommandStatus(APICommandStatusState.OK, "LOGOUT", sUsername);
             }            
             
             this.Cmd.Add(cs);
