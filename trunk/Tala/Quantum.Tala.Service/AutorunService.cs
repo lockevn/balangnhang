@@ -231,6 +231,11 @@ namespace Quantum.Tala.Service
                     cardCanDanh = seat.BaiTrenTay[i];
                     if (InspectPhomOfCard(cardCanDanh, seat.BaiTrenTay.Union(seat.BaiDaAn).ToList()) == null)
                     {
+                        // cây này không dính phỏm, oánh lun
+                        break;                        
+                    }
+                    else
+                    {
                         // cây này có dính với phỏm, bỏ qua
                         if (i == seat.BaiTrenTay.Count - 1)
                         {
@@ -245,12 +250,7 @@ namespace Quantum.Tala.Service
                             {
                                 cardCanDanh = seat.BaiTrenTay.First();
                             }
-                        }                        
-                    }
-                    else
-                    {
-                        // cây này không dính phỏm, oánh lun
-                        break;
+                        }
                     }                    
                 }
 
