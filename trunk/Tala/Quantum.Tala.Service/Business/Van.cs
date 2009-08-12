@@ -25,14 +25,14 @@ namespace Quantum.Tala.Service.Business
             set { _ID = value; }
         }
 
-        int _CurrentTurnSeatIndex;
+        int _CurrentTurnSeatIndex = 0;
         /// <summary>
         /// Lượt hiện tại đang ở Seat nào? Seat nào có lượt, thì số này = index của Seat đó trong SeatList
         /// </summary>
         public int CurrentTurnSeatIndex
         {
             get { return _CurrentTurnSeatIndex; }
-            // HACK: không cho gán từ bên ngoài trực tiếp vào biến Turn này, tránh sai sót.
+            // không cho gán từ bên ngoài trực tiếp vào biến Turn này, tránh sai sót.
             // set { _CurrentTurnSeatIndex = value; }
         }
 
@@ -183,7 +183,7 @@ namespace Quantum.Tala.Service.Business
                 return null;
             }
             /*chuyển 1 cây ở Nọc lên BaiTrenTay của seat*/
-            Card cardBoc = this._Noc.ElementAt(0);
+            Card cardBoc = this._Noc[0];
             seat.BaiTrenTay.Add(cardBoc);
             this._Noc.RemoveAt(0);
             return cardBoc;
@@ -204,8 +204,8 @@ namespace Quantum.Tala.Service.Business
             }
             
             // lấy seat ngồi trước
-            int previousSeatIndex = Seat.GetPreviousSeatIndex(seat.Pos, this.CurrentSoi.SeatList.Count);
-            Seat previousSeat = this.CurrentSoi.SeatList.ElementAt(previousSeatIndex) as Seat;
+            int previousSeatIndex = this.CurrentSoi.GetPreviousSeatIndex(seat.Pos);
+            Seat previousSeat = this.CurrentSoi.SeatList[previousSeatIndex];
             
             /*kiểm tra previousSeat có bài đã đánh không*/
             if (previousSeat.BaiDaDanh == null || previousSeat.BaiDaDanh.Count == 0)
@@ -371,7 +371,7 @@ namespace Quantum.Tala.Service.Business
                 /*nếu haIndex = 2 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 1*/
                 /*nếu haIndex = 3 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 2*/
                 /*nếu haIndex = 0 ăn thì chuyển bài đã đánh từ haIndex 0 sang haIndex 3*/
-                int indexChuyenSang = Seat.GetPreviousSeatIndex(seat.HaIndex, this.CurrentSoi.SeatList.Count);
+                int indexChuyenSang = this.CurrentSoi.GetPreviousSeatIndex(seat.HaIndex);
                 Seat seat0 = this.CurrentSoi.GetSeatByHaIndex(0) as Seat;
                 Seat seatI = this.CurrentSoi.GetSeatByHaIndex(indexChuyenSang) as Seat;
                 Card chuyenCard = seat0.BaiDaDanh.Last();
@@ -382,7 +382,7 @@ namespace Quantum.Tala.Service.Business
             /*cập nhật lại thứ tự hạ cho tất cả các seat*/
             foreach (Seat tmpSeat in this.CurrentSoi.SeatList)
             {
-                tmpSeat.HaIndex = Seat.GetPreviousSeatIndex(tmpSeat.HaIndex, this.CurrentSoi.SeatList.Count);
+                tmpSeat.HaIndex = this.CurrentSoi.GetPreviousSeatIndex(tmpSeat.HaIndex);
             }
 
             #endregion
@@ -449,7 +449,7 @@ namespace Quantum.Tala.Service.Business
                     if(this._AnChotNguyCoDenList.Count > 1)
                     {
                         /*nếu trước đó có thằng ăn chốt thì thằng này đền*/
-                        denSeat = this._AnChotNguyCoDenList.ElementAt(this._AnChotNguyCoDenList.Count - 2);
+                        denSeat = this._AnChotNguyCoDenList[this._AnChotNguyCoDenList.Count - 2];
                     }
                     else
                     {
@@ -462,8 +462,8 @@ namespace Quantum.Tala.Service.Business
             /*neu bai da an cua seat == 3, previous seat phai den*/
             else if (seat.BaiDaAn.Count == 3)
             {
-                int previousIndex = Seat.GetPreviousSeatIndex(seat.Pos, this.CurrentSoi.SeatList.Count);
-                denSeat = this.CurrentSoi.SeatList.ElementAt(previousIndex) as Seat;                                                
+                int previousIndex = this.CurrentSoi.GetPreviousSeatIndex(seat.Pos);
+                denSeat = this.CurrentSoi.SeatList[previousIndex];                                                
             }                                                      
             this.EndVan_U(seat, denSeat, count == 10);
 
@@ -477,8 +477,7 @@ namespace Quantum.Tala.Service.Business
         /// <param name="phomArr">một mảng các mảng Card để trở thành tập các Phom</param>
         /// <returns>true/false</returns>        
         public bool Ha(Seat seat, List<Card[]> phomArr)
-        {
-            //TODO can thay the dieu kien seat.BaiDaDanh.Count < 3
+        {            
             if (!this.IsSeatInTurn(seat) || phomArr == null || phomArr.Count == 0 || seat.BaiDaDanh.Count < 3 || seat.GetTotalCardOnSeat() < 10)
             {
                 return false;
@@ -658,7 +657,7 @@ namespace Quantum.Tala.Service.Business
             List<Seat> arrDisconnectedSeatToRemove = new List<Seat>();
             foreach (Seat seat in CurrentSoi.SeatList)
             {
-                if (seat.IsDisconnected)
+                if (seat.IsDisconnected || seat.IsQuitted)
                 {
                     // đánh dấu đuổi khỏi sới
                     arrDisconnectedSeatToRemove.Add(seat);
@@ -912,7 +911,7 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         private int AdvanceCurrentTurnIndex()
         {   
-            _CurrentTurnSeatIndex = Seat.GetNextSeatIndex(this.CurrentTurnSeatIndex, this.CurrentSoi.SeatList.Count);
+            _CurrentTurnSeatIndex = this.CurrentSoi.GetNextSeatIndex(this.CurrentTurnSeatIndex);
 
             // Đồng hồ đếm ngược sẽ được khởi tạo cho user có turn, khi Chuyển turn sang user đó
             AutorunService.Create_Autorun_InVan(CurrentSoi.GetSeatOfCurrentInTurn().Player);
@@ -1195,10 +1194,7 @@ namespace Quantum.Tala.Service.Business
             }
         }
 
-
-        /// <summary>
-        /// test, bỏ đi
-        /// </summary>
+                
         private void InitializeNocForTesting()
         {
             // TEST: về sau phải bỏ đi

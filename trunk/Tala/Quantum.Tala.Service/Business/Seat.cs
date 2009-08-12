@@ -18,7 +18,7 @@ namespace Quantum.Tala.Service.Business
     /// </summary>
     public class Seat : APIDataEntry
     {
-        int _Pos;
+        int _Pos = 0;
         /// <summary>
         /// Thứ tự chỗ ngồi 0 1 2 3
         /// </summary>
@@ -70,6 +70,10 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         public bool IsDisconnected { get; set; }
 
+        /// <summary>
+        /// nếu đang chơi mà một người chơi nhấn nút rời sới, gán cờ này = true, nếu người đó lại vào chơi, ghi lại = false, cho vào lại
+        /// </summary>
+        public bool IsQuitted { get; set; }
 
 
         /// <summary>
@@ -90,42 +94,12 @@ namespace Quantum.Tala.Service.Business
             this.PhomList = new List<Phom>();
             this.SoCayGuiToiSeat = 0;
             IsDisconnected = false;
+            IsQuitted = false;
         }
 
 
-
-
-
-
-        /// <summary>
-        /// Lấy chỉ số của seat trước so với chỉ số hiện tại của seat. Chỉ số có thể là index hoặc haIndex của Seat
-        /// </summary>
-        /// <param name="currIndex">index hoặc haIndex của Seat</param>
-        /// <param name="seatCount">tổng số seat trong sới</param>
-        /// <returns>chỉ số của seat trước</returns>
-        public static int GetPreviousSeatIndex(int currIndex, int seatCount)
-        {
-            if (currIndex == 0)
-            {
-                return seatCount - 1;
-            }
-            return currIndex - 1;
-        }
-
-        /// <summary>
-        /// Lấy chỉ số của seat sau so với chỉ số hiện tại của seat. Chỉ số có thể là index hoặc haIndex của Seat
-        /// </summary>
-        /// <param name="currIndex">index hoặc haIndex của Seat</param>
-        /// <param name="seatCount">tổng số seat trong sới</param>
-        /// <returns>chỉ số của seat sau</returns>
-        public static int GetNextSeatIndex(int currIndex, int seatCount)
-        {
-            if (currIndex == seatCount - 1)
-            {
-                return 0;
-            }
-            return currIndex + 1;
-        }
+      
+        
 
         /// <summary>
         /// Lấy tổng số card trên tay + card đã ăn + Các Card trong các phỏm + các cây đã gửi đi bài khác. Số này luôn = 9 hoặc 10

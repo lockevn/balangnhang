@@ -19,7 +19,8 @@ namespace TalaAPI.community.soi
             if (string.IsNullOrEmpty(tournamentid))
             {
                 tournamentid = ((int)TournamentType.Free).ToString();
-            }            
+            }
+
             var soiOfTour = Song.Instance.GetSoiByTournamentID(tournamentid);
             Data.AddRange(                
                 soiOfTour.Page(APIParamHelper.GetPagingPage(), APIParamHelper.GetPagingItemPerPage()).ToArray()

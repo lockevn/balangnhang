@@ -96,7 +96,16 @@ namespace Quantum.Tala.Lib
         }
 
     
-        //used by LINQ
+        /// <summary>
+        /// Sử dụng linq để phân trang. 
+        /// VD: listSoi.Page(0, 20),   
+        /// listSoi.Page(APIParamHelper.GetPagingPage(), APIParamHelper.GetPagingItemPerPage())
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="page"></param>
+        /// <param name="itemperpage"></param>
+        /// <returns></returns>
         public static IEnumerable<TSource> Page<TSource>(this IEnumerable<TSource> source, int page, int itemperpage)
         {
             return source.Skip((page - 1) * itemperpage).Take(itemperpage);
