@@ -20,6 +20,5 @@ namespace Quantum.Tala.Service
             user_statDTO ret = DAU.GetObject<user_statDTO>(user_statDTO.U_FLD, p_sUsername);
             return ret;
         }        
-
     }
 }
