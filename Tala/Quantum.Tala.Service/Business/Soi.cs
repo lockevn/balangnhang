@@ -436,9 +436,13 @@ namespace Quantum.Tala.Service.Business
         public Seat GetSeatOfCurrentInTurn()
         {
             Seat seatRet = null;
-            if(null != this._CurrentVan)
+            if (null != this._CurrentVan && this.IsPlaying)
             {
-                seatRet = this._SeatList[this._CurrentVan.CurrentTurnSeatIndex];
+                int nCurrentIndex = this._CurrentVan.CurrentTurnSeatIndex;
+                if (0 <= nCurrentIndex && nCurrentIndex < this._SeatList.Count)
+                {
+                    seatRet = this._SeatList[nCurrentIndex];
+                }                
             }
             
             return seatRet;
