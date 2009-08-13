@@ -48,7 +48,12 @@ namespace Quantum.Tala.Service
         /// </summary>
         /// <param name="player"></param>
         public static void Create_Autorun_InStartingVan(TalaUser player)
-        {            
+        {
+            if (player.CurrentSoi == null || player.CurrentSoi.IsPlaying == true)
+            {
+                return;
+            }
+
             string sCacheKey = AutorunService.GetCacheKey_Autorun_InStartingVan(player);
             // cache.Insert là replace key cũ, nếu key cũ tồn tại rồi
 
@@ -65,7 +70,12 @@ namespace Quantum.Tala.Service
         /// </summary>
         /// <param name="soi"></param>
         public static void Create_Autorun_InVan(TalaUser player)
-        {   
+        {
+            if (player.CurrentSoi == null || player.CurrentSoi.IsPlaying == false)
+            {
+                return;
+            }
+
             int nTimeout = player.CurrentSoi.SoiOption.TurnTimeout;
             // timeout do người chơi có thể set lại trong sới, tuy nhiên không được nhanh quá, ko được nhỏ hơn giá trị default, cũng như không lâu quá 2 lần giá trị default
             nTimeout = (AutorunService.AUTORUN_IN_VAN_TIMEOUT < nTimeout) && (nTimeout < AutorunService.AUTORUN_IN_VAN_TIMEOUT * 3)
@@ -78,7 +88,7 @@ namespace Quantum.Tala.Service
                 sCacheKey, player,
                 null,
                 DateTime.Now.AddSeconds(nTimeout), TimeSpan.Zero
-                );
+                );            
         }
 
         

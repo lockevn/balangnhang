@@ -911,10 +911,10 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         private int AdvanceCurrentTurnIndex()
         {   
-            _CurrentTurnSeatIndex = this.CurrentSoi.GetNextSeatIndex(this.CurrentTurnSeatIndex);
-
+            _CurrentTurnSeatIndex = this.CurrentSoi.GetNextSeatIndex(this.CurrentTurnSeatIndex);            
+            
             // Đồng hồ đếm ngược sẽ được khởi tạo cho user có turn, khi Chuyển turn sang user đó
-            AutorunService.Create_Autorun_InVan(CurrentSoi.GetSeatOfCurrentInTurn().Player);
+            AutorunService.Create_Autorun_InVan(CurrentSoi.GetSeatOfCurrentInTurn().Player);            
 
             return this.CurrentTurnSeatIndex;
         }

@@ -64,15 +64,17 @@ namespace Quantum.Tala.Service.Business
         {
             get 
             {
-                Seat seatCurrentInTurn = _VanInfo.CurrentSoi.GetSeatOfCurrentInTurn();
-                if (null != seatCurrentInTurn && seatCurrentInTurn.GetTotalCardOnSeat() > 9)
+                if (null != _VanInfo)
                 {
-                    return 1;
+                    Seat seatCurrentInTurn = _VanInfo.CurrentSoi.GetSeatOfCurrentInTurn();
+                    if (null != seatCurrentInTurn &&
+                        seatCurrentInTurn.GetTotalCardOnSeat() > 9)
+                    {
+                        return 1;
+                    }                    
                 }
-                else
-                {
-                    return 0;
-                }
+                
+                return 0;                
             }
         }
 
