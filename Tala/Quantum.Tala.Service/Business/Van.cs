@@ -654,17 +654,17 @@ namespace Quantum.Tala.Service.Business
             #endregion
 
             // tìm các bạn đã bị disconnected để xử lý
-            List<Seat> arrDisconnectedSeatToRemove = new List<Seat>();
+            List<TalaUser> arrDisconnectedUserToRemove = new List<TalaUser>();
             foreach (Seat seat in CurrentSoi.SeatList)
             {
                 if (seat.IsDisconnected || seat.IsQuitted)
                 {
                     // đánh dấu đuổi khỏi sới
-                    arrDisconnectedSeatToRemove.Add(seat);
+                    arrDisconnectedUserToRemove.Add(seat.Player);
                 }
                 else
                 {
-                    // vẫn muốn tham gia tiếp, cho chơi tiếp
+                    // vẫn muốn tham gia tiếp, cho chơi tiếp, chờ ready
                     seat.IsReady = false;
                 }
             }
@@ -698,7 +698,7 @@ namespace Quantum.Tala.Service.Business
 
             
             // đuổi những chú đã đánh dấu disconnected
-            arrDisconnectedSeatToRemove.ForEach(seat => CurrentSoi.SeatList.Remove(seat));
+            arrDisconnectedUserToRemove.ForEach(user => CurrentSoi.RemovePlayer(user));
 
             // create lại timeout cho các user đang chơi, timeout để ready
             CurrentSoi.SeatList.ForEach(seat => AutorunService.Create_Autorun_InStartingVan(seat.Player));            

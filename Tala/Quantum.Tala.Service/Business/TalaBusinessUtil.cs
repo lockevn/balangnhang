@@ -183,6 +183,71 @@ namespace Quantum.Tala.Service.Business
 
             return cardArrList;
         }
+
+
+        /// <summary>
+        /// tìm trong bộ bài cardListToLookup, xem cây truyền vào có tạo phỏm được với các cây khác không
+        /// </summary>
+        /// <param name="cardAnchor"></param>
+        /// <param name="cardListToLookup"></param>
+        /// <returns></returns>
+        public static List<Card> InspectPhomOfCard(Card cardAnchor, List<Card> cardListToLookup)
+        {
+            //cardListToLookup.Remove(cardAnchor);
+
+            // TODO: sai, kiểm lại đi LockeVN
+            List<Card> phomPotential = new List<Card>();
+            phomPotential.Add(cardAnchor);
+
+            // thử tìm phỏm ngang
+            foreach (Card card in cardListToLookup)
+            {
+                if (cardAnchor == card)
+                {
+                    continue;   // trong trường hợp card cần theo dõi 
+                }
+
+                if (cardAnchor.So == card.So)
+                {
+                    phomPotential.Add(card);
+                }
+            }
+            if (phomPotential.Count >= 3)
+            {
+                return phomPotential;
+            }
+            else
+            {
+                phomPotential.Clear();
+                phomPotential.Add(cardAnchor);
+            }
+
+            // reset, tìm lại với phỏm dọc
+            foreach (Card card in cardListToLookup)
+            {
+                if (cardAnchor.Chat == card.Chat)
+                {
+                    int nSoCardDaAn = int.Parse(cardAnchor.So);
+                    int nSoCard = int.Parse(card.So);
+
+                    if (nSoCardDaAn - 1 == nSoCard || nSoCardDaAn + 1 == nSoCard ||
+                        nSoCardDaAn - 2 == nSoCard || nSoCardDaAn + 2 == nSoCard
+                        )
+                    {
+                        phomPotential.Add(card);
+                    }
+                }
+            }
+
+            if (phomPotential.Count >= 3)
+            {
+                return phomPotential;
+            }
+            else
+            {
+                return null;
+            }
+        }
         
     }
 }

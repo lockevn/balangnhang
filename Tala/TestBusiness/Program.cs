@@ -55,7 +55,7 @@ namespace TestBusiness
             baitrentay.Add(new Card("02", "c"));
             baidaan.Add(new Card("02", "d"));
 
-            var addd = AutorunService.InspectPhomOfCard(new Card("03","d"), baitrentay.Union(baidaan).ToList());
+            var addd = TalaBusinessUtil.InspectPhomOfCard(new Card("03", "d"), baitrentay.Union(baidaan).ToList());
 
 
             Card c01d = new Card("01", "d");

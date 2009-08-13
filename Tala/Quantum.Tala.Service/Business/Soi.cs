@@ -330,7 +330,7 @@ namespace Quantum.Tala.Service.Business
                         _OwnerUsername = string.Empty;
 
                         // bỏ luôn, tránh sới rác
-                        Song.Instance.DeleteSoi(this.ID.ToString());
+                        // Song.Instance.DeleteSoi(this.ID.ToString());
                     }
                     else if (this.OwnerUsername == player.Username)
                     {
