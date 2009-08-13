@@ -93,7 +93,7 @@ namespace Quantum.Tala.Service
             HttpContext context = HttpContext.Current;
             string _CurrentAuthkey = context.Request["authkey"].ToStringSafetyNormalize();
 
-            List<string> arrPlayerTimeoutNeedToRemove = new List<string>();
+            List<TalaUser> arrPlayerTimeoutNeedToRemove = new List<TalaUser>();
             foreach (Seat seat in soi.SeatList)
             {
                 TalaUser player = seat.Player;
@@ -112,15 +112,15 @@ namespace Quantum.Tala.Service
                         // đã vào sới rồi, mà ko chịu ready, cachekey kô tồn tại nghĩa là đã timeout
                         
                         // đánh dấu ghi tên lại để đuổi
-                        arrPlayerTimeoutNeedToRemove.Add(player.Username);
+                        arrPlayerTimeoutNeedToRemove.Add(player);
                     }
                 }
             }   // end foreach
 
 
-            foreach (string sToRemove in arrPlayerTimeoutNeedToRemove)
+            foreach (TalaUser userToRemove in arrPlayerTimeoutNeedToRemove)
             {
-                soi.RemovePlayer(sToRemove);
+                soi.RemovePlayer(userToRemove);
             }
 
             // TODO: add progress info of autorun process here
@@ -184,7 +184,7 @@ namespace Quantum.Tala.Service
             }
             else
             {
-                // nếu không timeout, bỏ qua luôn, ở ngoài sẽ báo lỗi Not In Turn cho currentAU
+                // nếu không timeout, bỏ qua luôn, ở ngoài sẽ báo lỗi Not In Turn cho CurrentAU
             }                        
             
             // trả lại chuỗi kết quả ra ngoài
@@ -229,7 +229,7 @@ namespace Quantum.Tala.Service
                 {
                     // pick ra cây to nhất
                     cardCanDanh = seat.BaiTrenTay[i];
-                    if (InspectPhomOfCard(cardCanDanh, seat.BaiTrenTay.Union(seat.BaiDaAn).ToList()) == null)
+                    if (TalaBusinessUtil.InspectPhomOfCard(cardCanDanh, seat.BaiTrenTay.Union(seat.BaiDaAn).ToList()) == null)
                     {
                         // cây này không dính phỏm, oánh lun
                         break;                        
@@ -287,7 +287,7 @@ namespace Quantum.Tala.Service
                     // tạm thời lan ngu dốt đã, chưa thông minh vội
                     foreach (Card cardDaAn in seat.BaiDaAn)
                     {
-                        List<Card> phomPotential = InspectPhomOfCard(cardDaAn, seat.BaiTrenTay);
+                        List<Card> phomPotential = TalaBusinessUtil.InspectPhomOfCard(cardDaAn, seat.BaiTrenTay);
                         if (null != phomPotential && phomPotential.Count >= 3)
                         {
                             arrPhomListForHa.Add(phomPotential.ToArray());
@@ -317,69 +317,6 @@ namespace Quantum.Tala.Service
         }
 
 
-        /// <summary>
-        /// tìm trong bộ bài cardListToLookup, xem cây truyền vào có tạo phỏm được với các cây khác không
-        /// </summary>
-        /// <param name="cardAnchor"></param>
-        /// <param name="cardListToLookup"></param>
-        /// <returns></returns>
-        public static List<Card> InspectPhomOfCard(Card cardAnchor, List<Card> cardListToLookup)
-        {
-            //cardListToLookup.Remove(cardAnchor);
-
-            // TODO: sai, kiểm lại đi LockeVN
-            List<Card> phomPotential = new List<Card>();
-            phomPotential.Add(cardAnchor);
-
-            // thử tìm phỏm ngang
-            foreach (Card card in cardListToLookup)
-            {
-                if (cardAnchor == card)
-                {
-                    continue;   // trong trường hợp card cần theo dõi 
-                }
-
-                if (cardAnchor.So == card.So)
-                {
-                    phomPotential.Add(card);
-                }
-            }
-            if (phomPotential.Count >= 3)
-            {
-                return phomPotential;
-            }
-            else
-            {
-                phomPotential.Clear();
-                phomPotential.Add(cardAnchor);
-            }
-            
-            // reset, tìm lại với phỏm dọc
-            foreach (Card card in cardListToLookup)
-            {
-                if (cardAnchor.Chat == card.Chat)
-                {
-                    int nSoCardDaAn = int.Parse(cardAnchor.So);
-                    int nSoCard = int.Parse(card.So);
-
-                    if (nSoCardDaAn - 1 == nSoCard || nSoCardDaAn + 1 == nSoCard ||
-                        nSoCardDaAn - 2 == nSoCard || nSoCardDaAn + 2 == nSoCard
-                        )
-                    {
-                        phomPotential.Add(card);
-                    }
-                }
-            }
-
-            if (phomPotential.Count >= 3)
-            {
-                return phomPotential;
-            }
-            else
-            {
-                return null;
-            }            
-        }
         
     }
 }

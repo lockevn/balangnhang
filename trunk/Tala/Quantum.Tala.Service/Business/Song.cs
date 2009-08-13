@@ -273,7 +273,7 @@ namespace Quantum.Tala.Service.Business
                     Song.Instance.DicSoi.Add(soiRet.ID.ToString(), soiRet);
 
                     // nhồi luôn người tạo vào sới
-                    soiRet.AddPlayer(ownerUsername);
+                    soiRet.AddPlayer(user);
                 }
                 else
                 {

@@ -103,12 +103,12 @@ namespace Quantum.Tala.Lib
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <param name="source"></param>
-        /// <param name="page"></param>
+        /// <param name="page">start from 0</param>
         /// <param name="itemperpage"></param>
         /// <returns></returns>
         public static IEnumerable<TSource> Page<TSource>(this IEnumerable<TSource> source, int page, int itemperpage)
         {
-            return source.Skip((page - 1) * itemperpage).Take(itemperpage);
+            return source.Skip(page * itemperpage).Take(itemperpage);
         }
 
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> source)

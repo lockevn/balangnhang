@@ -48,7 +48,7 @@ namespace TalaAPI.community.soi
             {
                 #region // AU tự add mình vào, tự join Sới
 
-                int sResult = soi.AddPlayer(security.CurrentAU.Username);
+                int sResult = soi.AddPlayer(security.CurrentAU);
                 if (sResult >= 0)
                 {
                     APICommandStatus cs = new APICommandStatus(APICommandStatusState.OK, "JOIN_SOI", "Gia nhập sới thành công");
