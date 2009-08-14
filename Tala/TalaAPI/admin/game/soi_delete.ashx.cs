@@ -17,13 +17,10 @@ namespace TalaAPI.admin.game
             APICommandStatus cs;
 
             string sSoiID = APIParamHelper.GetParam("soiid", context);
-
-            lock (Song.Instance.DicSoi)
-            {
-                bool bRet = Song.Instance.DeleteSoi(sSoiID);
-                cs = new APICommandStatus(APICommandStatusState.OK, "DELETE_SOI", string.Format("{0}#{1}", sSoiID, bRet));
-            }            
-
+                        
+            bool bRet = Song.Instance.DeleteSoi(sSoiID);
+            cs = new APICommandStatus(APICommandStatusState.OK, "DELETE_SOI", string.Format("{0}#{1}", sSoiID, bRet));
+        
             Cmd.Add(cs);
             base.ProcessRequest(context);
         }
