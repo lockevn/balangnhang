@@ -188,7 +188,7 @@ namespace TalaAPI.community.soi
                 // ấn vào danh mục chờ (đã ấn ở trên roài, không được bố trí thì do đen thôi)
                 // Song.Instance.DicTournamentWaitingList[tournament.id].Add(security.CurrentAU.Username);
 
-                APICommandStatus csWAIT = new APICommandStatus(true, "WAIT", "Số người chơi chưa đủ để thành lập sới. Xin hãy chờ đợi để chúng tôi thu xếp");
+                APICommandStatus csWAIT = new APICommandStatus(false, "WAIT", "Số người chơi chưa đủ để thành lập sới. Xin hãy chờ đợi để chúng tôi thu xếp");
                 Cmd.Add(csWAIT);
             }
             
