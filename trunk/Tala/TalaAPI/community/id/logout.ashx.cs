@@ -18,28 +18,7 @@ namespace TalaAPI.community.id
             string sUsername = string.Empty;
             if (Song.Instance.DicValidAuthkey.TryGetValue(sAuthkey, out sUsername))
             {
-                // nếu tìm thấy authkey
-                try
-                {
-                    Song.Instance.DicValidAuthkey.Remove(sAuthkey);
-                }
-                catch { }
-
-                try
-                {
-                    Song.Instance.DicOnlineUser.Remove(sUsername);
-                }                
-                catch { }
-
-                try
-                {
-                    foreach (var waitingListOfTour in Song.Instance.DicTournamentWaitingList.Values)
-                    {
-                        waitingListOfTour.Remove(sUsername);
-                    }
-                }
-                catch { }
-
+                Song.Instance.Logout(sAuthkey, sUsername);                
                 cs = new APICommandStatus(APICommandStatusState.OK, "LOGOUT", sUsername);
             }            
             

@@ -24,11 +24,15 @@ namespace Quantum.Tala.Service.Business
     /// </summary>
     public sealed class Song
     {
+        // this is single IL command, so it is atomic.
+        private static object m_oLockInstance = new object();
+
         #region Singleton Implementation
+
 
         private static readonly Song instance = new Song();
 
-        Song()
+        private Song()
         {
             _DicValidAuthkey = new Dictionary<string, string>();
             _DicOnlineUser = new Dictionary<string, TalaUser>();
@@ -54,7 +58,10 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         public static Song Instance
         {
-            get { return instance; }
+            get 
+            {                                
+                return instance;
+            }
         }
 
         #endregion
@@ -117,7 +124,7 @@ namespace Quantum.Tala.Service.Business
         public tournamentDTO GetTournamentByID(string tournamentid)
         {
             tournamentDTO tournamentRet;
-            DicTournament.TryGetValue(tournamentid, out tournamentRet);
+            _DicTournament.TryGetValue(tournamentid, out tournamentRet);
             return tournamentRet;
         }
 
@@ -130,7 +137,7 @@ namespace Quantum.Tala.Service.Business
         public Soi GetSoiByID(string soiid)
         {
             Soi soiRet;
-            DicSoi.TryGetValue(soiid, out soiRet);
+            _DicSoi.TryGetValue(soiid, out soiRet);
             return soiRet;
         }
 
@@ -153,7 +160,7 @@ namespace Quantum.Tala.Service.Business
         public string GetUsernameByAuthkey(string authkey)
         {
             string ret = string.Empty;
-            if (DicValidAuthkey.TryGetValue(authkey, out ret))
+            if (_DicValidAuthkey.TryGetValue(authkey, out ret))
             {
                 return ret;
             }
@@ -171,7 +178,7 @@ namespace Quantum.Tala.Service.Business
         public TalaUser GetUserByUsername(string username)
         {
             TalaUser ret;
-            DicOnlineUser.TryGetValue(username, out ret);
+            _DicOnlineUser.TryGetValue(username, out ret);
             return ret;
         }
 
@@ -208,27 +215,30 @@ namespace Quantum.Tala.Service.Business
             /// nếu tìm thấy user ở một kho lưu nào đó (DB của Quantum hoặc AuthenStore của đơn vị khác)
             if (user != null && user.Username == username)
             {
-                // if found user with username and password, authenticate OK
-                if (Song.Instance.DicOnlineUser.ContainsKey(user.Username) == false)
+                lock (m_oLockInstance)
                 {
-                    // lần đầu, tạo authkey mới, thêm vào các mảng cache
-                    // generate new authkey
-                    user.Authkey = user.Username + "^" + FunctionExtension.GetRandomGUID();
+                    // if found user with username and password, authenticate OK
+                    if (_DicOnlineUser.ContainsKey(user.Username) == false)
+                    {
+                        // lần đầu, tạo authkey mới, thêm vào các mảng cache
+                        // generate new authkey
+                        user.Authkey = user.Username + "^" + FunctionExtension.GetRandomGUID();
 
-                    // TODO: chỗ này chỉ dùng test, khi release bỏ dòng dưới đi
-                    #if DEBUG
-                    user.Authkey = user.Username;
-                    #endif
+                        // TODO: chỗ này chỉ dùng test, khi release bỏ dòng dưới đi
+#if DEBUG
+                        user.Authkey = user.Username;
+#endif
 
-                    Song.Instance.DicOnlineUser.Add(user.Username, user);
-                    Song.Instance.DicValidAuthkey.Add(user.Authkey, user.Username);
+                        _DicOnlineUser.Add(user.Username, user);
+                        _DicValidAuthkey.Add(user.Authkey, user.Username);
+                    }
+                    else
+                    {
+                        // lần login lại, lấy thông tin authenticated cũ ra, trả lại
+                        user = _DicOnlineUser[user.Username];
+                    }
                 }
-                else
-                {
-                    // lần login lại, lấy thông tin authenticated cũ ra, trả lại
-                    user = Song.Instance.DicOnlineUser[user.Username];
-                }
-                
+
                 // user.UserStatDBEntry
             }
             else
@@ -269,11 +279,13 @@ namespace Quantum.Tala.Service.Business
                     // create new
                     soiRet = new Soi(soiDBEntry.id, sName, ownerUsername);
                     soiRet.DBEntry = soiDBEntry;
-
-                    Song.Instance.DicSoi.Add(soiRet.ID.ToString(), soiRet);
-
                     // nhồi luôn người tạo vào sới
                     soiRet.AddPlayer(user);
+
+                    lock (m_oLockInstance)
+                    {
+                        _DicSoi.Add(soiRet.ID.ToString(), soiRet);
+                    }
                 }
                 else
                 {
@@ -311,8 +323,11 @@ namespace Quantum.Tala.Service.Business
             soiRet = new Soi(soiDBEntry.id, p_sName, string.Empty);
             soiRet.DBEntry = soiDBEntry;
 
-            // đẩy vào danh mục trong bộ nhớ
-            Song.Instance.DicSoi.Add(soiRet.ID.ToString(), soiRet);
+            lock (m_oLockInstance)
+            {
+                // đẩy vào danh mục trong bộ nhớ
+                _DicSoi.Add(soiRet.ID.ToString(), soiRet);
+            }
 
             return soiRet;
         }
@@ -324,26 +339,26 @@ namespace Quantum.Tala.Service.Business
         /// <param name="sSoiID"></param>
         /// <returns></returns>
         public bool DeleteSoi(string sSoiID)
-
         {
+            bool bRet = false;
+
             Soi soiToDelete = GetSoiByID(sSoiID);
-            if (soiToDelete == null)
+            if (soiToDelete != null)
             {
-                return false;
-            }
-            else
-            {
-                // đuổi hết khách chơi
-                foreach (Seat seat in soiToDelete.SeatList)
+                lock (m_oLockInstance)
                 {
-                    seat.Player.CurrentSoi = null;
+                    // đuổi hết khách chơi
+                    foreach (Seat seat in soiToDelete.SeatList)
+                    {
+                        seat.Player.CurrentSoi = null;
+                    }
+
+                    // huỷ ván
+                    soiToDelete.CurrentVan = null;
+                    bRet = _DicSoi.Remove(sSoiID);
                 }
-
-                // huỷ ván
-                soiToDelete.CurrentVan = null;
-                return Song.Instance.DicSoi.Remove(sSoiID);
-            }                        
-
+            }
+            return bRet;
         }
 
 
@@ -356,16 +371,49 @@ namespace Quantum.Tala.Service.Business
             ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
             tournamentDTO[] arr = toursvc.GetTournamentList();
 
-            _DicTournament.Clear();
-            _DicTournamentWaitingList.Clear();
-            foreach (tournamentDTO tour in arr)
+            lock (m_oLockInstance)
             {
-                _DicTournament.Add(tour.id.ToString(), tour);
-                _DicTournamentWaitingList.Add(tour.id, new List<string>());
+                _DicTournament.Clear();
+                _DicTournamentWaitingList.Clear();
+                foreach (tournamentDTO tour in arr)
+                {
+                    _DicTournament.Add(tour.id.ToString(), tour);
+                    _DicTournamentWaitingList.Add(tour.id, new List<string>());
+                }
             }
+
             return true;
         }
-        
 
+
+
+        public void Logout(string sAuthkey, string sUsername)
+        {
+            lock (m_oLockInstance)
+            {
+                // nếu tìm thấy authkey
+                try
+                {
+                    _DicValidAuthkey.Remove(sAuthkey);
+                }
+                catch { }
+
+                try
+                {
+                    _DicOnlineUser.Remove(sUsername);
+                }
+                catch { }
+
+                try
+                {
+                    foreach (var waitingListOfTour in _DicTournamentWaitingList.Values)
+                    {
+                        waitingListOfTour.Remove(sUsername);
+                    }
+                }
+                catch { }
+            }
+
+        }
     }
 }
