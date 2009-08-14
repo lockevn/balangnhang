@@ -63,9 +63,10 @@ namespace TalaAPI.test
 
                 soi.StartPlaying();
 
-                int nRandomTurnToEat = new Random(DateTime.Now.Millisecond).Next(0, 15);
 
-                for (int i = 0; i < 30; i++)
+                int nRandomTurnToEat = 1111;//new Random(DateTime.Now.Millisecond).Next(0, 15);
+
+                for (int i = 0; i < 12; i++)
                 {
                     if(soi.IsPlaying == false)
                     {
@@ -86,8 +87,8 @@ namespace TalaAPI.test
                         pln(seat.Player.Username + " bốc  " + caybocduoc);
                     }
 
-                    pln(seat.Player.Username + " đánh <b>" + seat.BaiTrenTay[0] + "</b>");
-                    soi.CurrentVan.Danh(seat, seat.BaiTrenTay[0]);
+                    pln(seat.Player.Username + " đánh <b>" + seat.BaiTrenTay.Last() + "</b>");
+                    soi.CurrentVan.Danh(seat, seat.BaiTrenTay.Last());
 
                     if (i == 3 || i == 7 ||i == 11)
                     {

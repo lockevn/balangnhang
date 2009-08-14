@@ -900,6 +900,8 @@ namespace Quantum.Tala.Service.Business
             _CurrentTurnSeatIndex = seatDanhDauTien.Pos;
         }
 
+
+
         #endregion
 
 
@@ -911,11 +913,14 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         private int AdvanceCurrentTurnIndex()
         {   
-            _CurrentTurnSeatIndex = this.CurrentSoi.GetNextSeatIndex(this.CurrentTurnSeatIndex);            
+            if (CurrentSoi.IsPlaying)
+            {
+                _CurrentTurnSeatIndex = this.CurrentSoi.GetNextSeatIndex(this.CurrentTurnSeatIndex);
             
-            // Đồng hồ đếm ngược sẽ được khởi tạo cho user có turn, khi Chuyển turn sang user đó
-            AutorunService.Create_Autorun_InVan(CurrentSoi.GetSeatOfCurrentInTurn().Player);            
-
+                // Đồng hồ đếm ngược sẽ được khởi tạo cho user có turn, khi Chuyển turn sang user đó
+                AutorunService.Create_Autorun_InVan(CurrentSoi.GetSeatOfCurrentInTurn().Player);
+            }
+            
             return this.CurrentTurnSeatIndex;
         }
 
@@ -1153,6 +1158,44 @@ namespace Quantum.Tala.Service.Business
 
 
         #region temporary code for load testing only
+
+        internal void ChiaBaiTest(string p_sOldWinnerUsername)
+        {
+            _Noc.Clear();
+            _Noc.AddRange(Card.CARD_SET);
+
+            if (this._Noc == null || this._Noc.Count != 52)
+            {
+                return;
+            }
+
+            int nSeatCount = this.CurrentSoi.SeatList.Count;
+            for (int i = 0; i < nSeatCount; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    /*chia bai i+j cho seat[j]*/
+                    this.CurrentSoi.SeatList[i].BaiTrenTay.Add(this._Noc[9 * i + j]);
+                }
+            }
+
+            Seat seatDanhDauTien = CurrentSoi.GetSeatByUsername(p_sOldWinnerUsername);
+            if (seatDanhDauTien == null)
+            {
+                seatDanhDauTien = CurrentSoi.SeatList[0];
+            }
+            /*chia them cho seat đánh đầu tiên 1 cay */
+            seatDanhDauTien.BaiTrenTay.Add(this._Noc[9 * nSeatCount]);
+
+            /*xoa cac cay da chia ra khoi Noc*/
+            for (int i = 0; i < 9 * nSeatCount + 1; i++)
+            {
+                this._Noc.RemoveAt(0);
+            }
+
+            _CurrentTurnSeatIndex = seatDanhDauTien.Pos;
+        }
+
 
         /// <summary>
         /// Constructor for load testing only

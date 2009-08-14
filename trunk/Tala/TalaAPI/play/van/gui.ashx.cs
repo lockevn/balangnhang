@@ -11,6 +11,7 @@ using Quantum.Tala.Service.Business;
 using Quantum.Tala.Service.Exception;
 using Quantum.Tala.Lib.XMLOutput;
 using System.Collections.Generic;
+using Quantum.Tala.Service;
 
 namespace TalaAPI.play.van
 {    
@@ -19,10 +20,7 @@ namespace TalaAPI.play.van
         public override void ProcessRequest(HttpContext context)
         {
             string bai = APIParamHelper.GetParam("bai", context);
-
             TalaSecurity security = new TalaSecurity(context);
-
-            /*check if user has joined soi, seat*/
             Soi soi = security.CheckUserJoinedSoi();
             Seat seat = security.CheckUserJoinedSeat();
             Van van = soi.CurrentVan;
@@ -30,25 +28,21 @@ namespace TalaAPI.play.van
             bool result = false;
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "GUI", "action failed");
 
-            string[] stringArr = bai.Split('^');            
+            string[] stringArr = bai.Split(CONST.CARDLLIST_SEPERATOR_SYMBOL);
             foreach (string str in stringArr)
             {
-                string[] stringCardArr = str.Split(',');
+                string[] stringCardArr = str.Split(CONST.CARD_SEPERATOR_SYMBOL);
                 string phomID = stringCardArr[0];
-                int phomIDNumber = -1 ;
-                try 
-	            {	        
-		            int.TryParse(phomID, out phomIDNumber);
-	            }
-	            catch (System.Exception)
-	            {            				            
-	            }
-                if(stringCardArr.Length < 2 || phomIDNumber == -1)
+                int phomIDNumber = -1 ;               
+		        int.TryParse(phomID, out phomIDNumber);
+	            
+                if(stringCardArr.Length < 2 || phomIDNumber < 0)
                 {
                     cs = new APICommandStatus(APICommandStatusState.FAIL, "GUI", "invalid value for parameter bai, must be in format: {phomID,string,string,...^phomID,string,...}");
                     this.Cmd.Add(cs);
                     base.ProcessRequest(context);
                 }
+
                 /*parse string in stringCardArr to get a list of card gui*/
                 List<Card> cardList = new List<Card>();
                 for (int i = 1; i < stringCardArr.Length; i++)
@@ -64,6 +58,7 @@ namespace TalaAPI.play.van
                         this.SendErrorAPICommand(ce, context);
                     }
                 }
+                
                 /*gui cardList vào phomID*/                
                 result = van.Gui(seat, phomIDNumber, cardList.ToArray());
                 
