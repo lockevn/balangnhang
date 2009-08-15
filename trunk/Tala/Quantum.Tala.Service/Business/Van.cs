@@ -701,7 +701,7 @@ namespace Quantum.Tala.Service.Business
             arrDisconnectedUserToRemove.ForEach(user => CurrentSoi.RemovePlayer(user));
 
             // create lại timeout cho các user đang chơi, timeout để ready
-            CurrentSoi.SeatList.ForEach(seat => AutorunService.Create_Autorun_InStartingVan(seat.Player));            
+            CurrentSoi.SeatList.ForEach(seat => AutorunService.Create_Autorun_InStartingVan(seat.Player, CurrentSoi));            
 
             return (TournamentType)this.CurrentSoi.GetCurrentTournament().type;
         }
@@ -918,7 +918,7 @@ namespace Quantum.Tala.Service.Business
                 _CurrentTurnSeatIndex = this.CurrentSoi.GetNextSeatIndex(this.CurrentTurnSeatIndex);
             
                 // Đồng hồ đếm ngược sẽ được khởi tạo cho user có turn, khi Chuyển turn sang user đó
-                AutorunService.Create_Autorun_InVan(CurrentSoi.GetSeatOfCurrentInTurn().Player);
+                AutorunService.Create_Autorun_InVan(CurrentSoi.GetSeatOfCurrentInTurn().Player, CurrentSoi);
             }
             
             return this.CurrentTurnSeatIndex;

@@ -32,14 +32,24 @@ namespace Quantum.Tala.Service
         { }
 
 
-        public static string GetCacheKey_Autorun_InVan(TalaUser currentInTurnPlayer)
+        public static string GetCacheKey_Autorun_InVan(TalaUser currentInTurnPlayer, Soi soiNeedToCheck)
         {
-            return AUTORUN_IN_VAN_KEY_PREFIX + "#" + currentInTurnPlayer.Username + "#" + currentInTurnPlayer.CurrentSoi.ID;
+            string sRet = string.Empty;
+            if (null != currentInTurnPlayer && null != soiNeedToCheck)
+            {
+                sRet = AUTORUN_IN_VAN_KEY_PREFIX + "#" + currentInTurnPlayer.Username + "#" + soiNeedToCheck.ID;
+            }
+            return sRet;
         }
 
-        public static string GetCacheKey_Autorun_InStartingVan(TalaUser currentInTurnPlayer)
+        public static string GetCacheKey_Autorun_InStartingVan(TalaUser currentInTurnPlayer, Soi soiNeedToCheck)
         {
-            return AUTORUN_IN_STARTING_VAN_KEY_PREFIX + "#" + currentInTurnPlayer.Username + "#" + currentInTurnPlayer.CurrentSoi.ID;
+            string sRet = string.Empty;
+            if (null != currentInTurnPlayer && null != soiNeedToCheck)
+            {
+                sRet = AUTORUN_IN_STARTING_VAN_KEY_PREFIX + "#" + currentInTurnPlayer.Username + "#" + soiNeedToCheck.ID;
+            }
+            return sRet;
         }
 
 
@@ -47,14 +57,14 @@ namespace Quantum.Tala.Service
         /// hàm này nên chạy sau khi đã add user thành công vào sới
         /// </summary>
         /// <param name="player"></param>
-        public static void Create_Autorun_InStartingVan(TalaUser player)
+        public static void Create_Autorun_InStartingVan(TalaUser player, Soi soiNeedToCheck)
         {
-            if (player.CurrentSoi == null || player.CurrentSoi.IsPlaying == true)
+            if (player.CurrentSoi == null || soiNeedToCheck.IsPlaying == true)
             {
                 return;
             }
 
-            string sCacheKey = AutorunService.GetCacheKey_Autorun_InStartingVan(player);
+            string sCacheKey = AutorunService.GetCacheKey_Autorun_InStartingVan(player, soiNeedToCheck);
             // cache.Insert là replace key cũ, nếu key cũ tồn tại rồi
 
             // create cache dạng timeout tính từ last recent use
@@ -69,32 +79,32 @@ namespace Quantum.Tala.Service
         /// ghi một key vào cache, khởi tạo Đồng hồ đếm ngược khi user có lượt trong khi ván đang chơi. Hàm này  gọi khi chuyển lượt.
         /// </summary>
         /// <param name="soi"></param>
-        public static void Create_Autorun_InVan(TalaUser player)
+        public static void Create_Autorun_InVan(TalaUser player, Soi soiNeedToCheck)
         {
-            if (player.CurrentSoi == null || player.CurrentSoi.IsPlaying == false)
+            if (player.CurrentSoi == null || soiNeedToCheck.IsPlaying == false)
             {
                 return;
             }
 
             int nTimeout = player.CurrentSoi.SoiOption.TurnTimeout;
             // timeout do người chơi có thể set lại trong sới, tuy nhiên không được nhanh quá, ko được nhỏ hơn giá trị default, cũng như không lâu quá 2 lần giá trị default
-            nTimeout = (AutorunService.AUTORUN_IN_VAN_TIMEOUT < nTimeout) && (nTimeout < AutorunService.AUTORUN_IN_VAN_TIMEOUT * 3)
+            nTimeout = (AutorunService.AUTORUN_IN_VAN_TIMEOUT/2 < nTimeout) && (nTimeout < AutorunService.AUTORUN_IN_VAN_TIMEOUT * 3)
                 ? nTimeout : AutorunService.AUTORUN_IN_VAN_TIMEOUT;
 
-            string sCacheKey = AutorunService.GetCacheKey_Autorun_InVan(player);
+            string sCacheKey = AutorunService.GetCacheKey_Autorun_InVan(player, soiNeedToCheck);
             // cache.Insert là replace key cũ, nếu key cũ tồn tại rồi
             // create dạng absolute expiration, hết hạn tại thời điểm cố định trong tương lai
             HttpContext.Current.Cache.Insert(
                 sCacheKey, player,
                 null,
                 DateTime.Now.AddSeconds(nTimeout), TimeSpan.Zero
-                );            
+                );
         }
 
         
         
         public static string Check_Autorun_InStartingVan(Soi soi)
-        {
+        {            
             if(soi.IsPlaying == true)
             {
                 return string.Empty;
@@ -107,12 +117,12 @@ namespace Quantum.Tala.Service
             foreach (Seat seat in soi.SeatList)
             {
                 TalaUser player = seat.Player;
-                string sCacheKey = GetCacheKey_Autorun_InStartingVan(player);                
+                string sCacheKey = GetCacheKey_Autorun_InStartingVan(player, soi);
 
                 if (player.Authkey == _CurrentAuthkey)
                 {
                     // nếu ai vào rồi thì gia hạn cache, create lại timer cho nó thôi
-                    Create_Autorun_InStartingVan(player);
+                    Create_Autorun_InStartingVan(player, soi);
                 }
                 else
                 {
@@ -138,7 +148,7 @@ namespace Quantum.Tala.Service
         }
                 
         public static string Check_Autorun_InVan(Soi soi)
-        {
+        {            
             StringBuilder sRet = new StringBuilder();
 
             if(soi.IsPlaying == false)
@@ -159,7 +169,7 @@ namespace Quantum.Tala.Service
             }                        
                        
             // Kiểm tra timeout
-            string sCacheKey = GetCacheKey_Autorun_InVan(seatInTurn.Player);
+            string sCacheKey = GetCacheKey_Autorun_InVan(seatInTurn.Player, soi);
             if (context.Cache[sCacheKey] == null)
             {
                 // TIMEOUT
