@@ -253,7 +253,7 @@ namespace Quantum.Tala.Service.Business
             // nếu thêm người chơi thành công, bắt đầu tiến trình autorun
             if (nRet >= 0)
             {
-                AutorunService.Create_Autorun_InStartingVan(player);
+                AutorunService.Create_Autorun_InStartingVan(player, this);
             }
 
             if (this.GetCurrentTournament().type != (int)TournamentType.Free)
@@ -433,7 +433,7 @@ namespace Quantum.Tala.Service.Business
         /// <summary>
         /// Lấy Seat đang có lượt
         /// </summary>
-        /// <returns></returns>
+        /// <returns>null nếu đang không chơi hoặc gặp lỗi</returns>
         public Seat GetSeatOfCurrentInTurn()
         {
             Seat seatRet = null;
@@ -582,7 +582,7 @@ namespace Quantum.Tala.Service.Business
 
 
             // tạo countdown timer cho đồng chí có lượt đầu tiên
-            AutorunService.Create_Autorun_InVan(this.GetSeatOfCurrentInTurn().Player);
+            AutorunService.Create_Autorun_InVan(this.GetSeatOfCurrentInTurn().Player, this);
 
             return 0;
         }
