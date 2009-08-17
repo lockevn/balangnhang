@@ -39,6 +39,7 @@ namespace TalaAPI.community.server
                 {
                     sCountUserOfServer = ex.Message;
                 }
+                sCountUserOfServer = string.IsNullOrEmpty(sCountUserOfServer) ? "0" : sCountUserOfServer;
 
                 XElement xCapacity = xServer.Element("capacity");
                 xCapacity.SetValue(string.Format(xCapacity.Value, sCountUserOfServer));                
