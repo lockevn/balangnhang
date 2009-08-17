@@ -54,10 +54,12 @@ namespace Quantum.Tala.Service
 
 
         /// <summary>
-        /// hàm này nên chạy sau khi đã add user thành công vào sới
+        /// 
         /// </summary>
         /// <param name="player"></param>
-        public static void Create_Autorun_InStartingVan(TalaUser player, Soi soiNeedToCheck)
+        /// <param name="soiNeedToCheck"></param>
+        /// <param name="TimeoutRatio">hệ số nhân, để tăng timeout những khi cần thiết</param>
+        public static void Create_Autorun_InStartingVan(TalaUser player, Soi soiNeedToCheck, int TimeoutRatio)
         {
             if (player.CurrentSoi == null || soiNeedToCheck.IsPlaying == true)
             {
@@ -71,8 +73,14 @@ namespace Quantum.Tala.Service
             HttpContext.Current.Cache.Insert(
                 sCacheKey, player, 
                 null, 
-                DateTime.MaxValue, TimeSpan.FromSeconds(AutorunService.AUTORUN_IN_STARTING_VAN_TIMEOUT)
+                DateTime.MaxValue, TimeSpan.FromSeconds(AutorunService.AUTORUN_IN_STARTING_VAN_TIMEOUT * TimeoutRatio)
                 );
+        }
+
+
+        public static void Create_Autorun_InStartingVan(TalaUser player, Soi soiNeedToCheck)
+        {
+            Create_Autorun_InStartingVan(player, soiNeedToCheck, 1);
         }
         
         /// <summary>
@@ -335,6 +343,8 @@ namespace Quantum.Tala.Service
 
             return bRet;
         }
+
+
 
 
         
