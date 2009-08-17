@@ -113,8 +113,10 @@ namespace Quantum.Tala.Service.Business
 
             /*chuyen card tu BaiTrenTay cua seat[i] sang BaiDaDanh cua seat[i]*/
             seat.BaiTrenTay.Remove(card);
-            seat.BaiDaDanh.Add(card);            
+            seat.BaiDaDanh.Add(card);
 
+            #region Kiểm tra Ăn láo, Hạ láo
+                        
             /* kiểm tra nếu đến lượt phải hạ phỏm, thằng này có ăn cây nào mà không hạ phỏm k */
             if (seat.BaiDaDanh.Count > 3 && seat.BaiDaAn.Count > 0)
             {
@@ -137,7 +139,10 @@ namespace Quantum.Tala.Service.Business
                     return true;
                 }
             }
-            
+
+            #endregion
+
+
             /*nếu sau khi đánh mà bài trên tay của seat count=0 --> ù thường
              --> giải quyết trường hợp gửi xong còn 1 cây trên tay đánh nốt.
              */
@@ -150,22 +155,18 @@ namespace Quantum.Tala.Service.Business
 
             /*nếu là seat đánh cuối cùng ở vòng cuối cùng thì end game (kiểm tra qua Nọc)*/
             if (this._Noc.Count <= 52 - (9+4)* this.CurrentSoi.SeatList.Count)
-            {
-                
+            {                
 #if(DEBUG)
                 this.AddMessage("Nọc để test", 
-                    string.Format("{0} <= {1}", 
-                    _Noc.Count.ToString(), 
-                    52 - (9 + 4) * this.CurrentSoi.SeatList.Count)
+                    string.Format("{0} <= {1}", _Noc.Count.ToString(), 52 - (9 + 4) * this.CurrentSoi.SeatList.Count)
                     );
 #endif
-
                 this.EndVan_TinhDiem();
+                return true;
             }
 
-            /*chuyển turn sang next seat*/
+            // chưa hết ván, chuyển turn sang next seat
             this.AdvanceCurrentTurnIndex();
-
             return true;
         }
 
@@ -666,6 +667,8 @@ namespace Quantum.Tala.Service.Business
                 {
                     // vẫn muốn tham gia tiếp, cho chơi tiếp, chờ ready
                     seat.IsReady = false;
+                    seat.IsDisconnected = false;
+                    seat.IsQuitted = false;
                 }
             }
 
@@ -701,7 +704,8 @@ namespace Quantum.Tala.Service.Business
             arrDisconnectedUserToRemove.ForEach(user => CurrentSoi.RemovePlayer(user));
 
             // create lại timeout cho các user đang chơi, timeout để ready
-            CurrentSoi.SeatList.ForEach(seat => AutorunService.Create_Autorun_InStartingVan(seat.Player, CurrentSoi));            
+            // tăng gấp đôi timeout, vì user cần thời gian xem message
+            CurrentSoi.SeatList.ForEach(seat => AutorunService.Create_Autorun_InStartingVan(seat.Player, CurrentSoi, 2));
 
             return (TournamentType)this.CurrentSoi.GetCurrentTournament().type;
         }
