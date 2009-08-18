@@ -13,7 +13,7 @@ $CFG->prefix    = 'mdl_';
 //$CFG->wwwroot   = 'http://127.0.0.1/smartlms';
 //$CFG->dirroot   = 'D:\working\smartcom\eclipse_workspace\SmartLMS';
 //$CFG->dataroot  = 'D:\working\smartcom\eclipse_workspace\SmartLMSData';
-$CFG->wwwroot   = 'http://smartlms.dyndns.org:8080/smartlms';
+$CFG->wwwroot   = 'http://smartlms.dyndns.org:8080';
 $CFG->dirroot   = '/var/www/smartlms';
 $CFG->dataroot  = '/var/www/smartlmsdata';
 
