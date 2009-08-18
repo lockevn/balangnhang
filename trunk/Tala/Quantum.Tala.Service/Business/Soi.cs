@@ -637,7 +637,7 @@ namespace Quantum.Tala.Service.Business
         }
 
         public string Autorun()
-        {   
+        {
             if(this.IsPlaying)
             {
                 return AutorunService.Check_Autorun_InVan(this);
