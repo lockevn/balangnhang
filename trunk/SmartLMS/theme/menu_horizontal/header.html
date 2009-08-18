@@ -13,6 +13,12 @@
     <title><?= $title ?></title>
     <link rel="shortcut icon" href="<?= $CFG->themewww .'/'. current_theme() ?>/favicon.ico" />
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script type="text/javascript" src="<?= $CFG->wwwroot ?>/js/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="<?= $CFG->wwwroot ?>/js/shortcut.js"></script>
+    <script type="text/javascript" >
+    var ROOT_URL = "<?= $CFG->wwwroot ?>";
+    </script>
+    
     <?php include("$CFG->javascript"); ?>
 </head>
 <body>
