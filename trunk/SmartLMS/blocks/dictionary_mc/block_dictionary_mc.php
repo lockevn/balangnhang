@@ -40,17 +40,27 @@ function get_content() {
     
 	global $CFG;
     $this->content->items[] = '
-    <form id="gurucore_dictionary_popup" action="" method="post">
+    <form id="gurucore_dictionary_popup" action="#" method="get">
 	    <div style="padding-bottom:6px"> '.get_string('dic_mc_db', 'block_dictionary_mc').' <br /> 
 	    <select id="gurucore_dictionary_dictionaries" name="dictionaries" > 
 		    <option value="eng2vie" selected="true">'.get_string('dic_mc_db_ev', 'block_dictionary_mc').'</option>             
 		    <option value="vie2eng">'.get_string('dic_mc_db_ve', 'block_dictionary_mc').'</option> 
 	    </select></div>
 	    <div> '.get_string('dic_mc_enter_word', 'block_dictionary_mc').'<br /> 
-	    <input type="text" name="word" id="gurucore_dictionary_word" /> 
-	    <input type="button" id="gurucore_dictionary_translate" value="'.get_string('dic_mc_button_search', 'block_dictionary_mc').'" name="go" />
+	    <input type="text" name="word" id="gurucore_dictionary_word" />	    
+        <a title="Dictionary" class="thickbox" href="#">'.get_string('dic_mc_button_search', 'block_dictionary_mc').'</a>
 	    </div> 
     </form>
+    
+    <div id="modalWindow" class="jqmWindow">
+        <div id="jqmTitle">
+            <button class="jqmClose">X</button>
+            <span id="jqmTitleText">Title of modal window</span>
+        </div>
+        <iframe id="jqmContent" src="">
+        </iframe>
+    </div>
+    
     <script type="text/javascript" src="'.$CFG->wwwroot.'/js/dictionary_popup.js"></script>
     ';
     return $this->content;

@@ -30,6 +30,9 @@ $CFG->admin     = 'admin';
 $CFG->directorypermissions = 00777;  // try 02777 on a server in Safe Mode
 
 require_once($CFG->dirroot . "/lib/setup.php");
+
+//error_reporting(E_ALL | E_NOTICE);
+
 // MAKE SURE WHEN YOU EDIT THIS FILE THAT THERE ARE NO SPACES, BLANK LINES,
 // RETURNS, OR ANYTHING ELSE AFTER THE TWO CHARACTERS ON THE NEXT LINE.
 ?>

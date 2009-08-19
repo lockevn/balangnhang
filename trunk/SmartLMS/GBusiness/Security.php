@@ -1,7 +1,7 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
-require_once(ABSPATH."Lib/Net/XHR.php");
-require_once(ABSPATH."Lib/HttpNavigation.php");
+require_once(ABSPATH."lib/Net/XHR.php");
+require_once(ABSPATH."lib/HttpNavigation.php");
 
 class ProfileInfo
 {
