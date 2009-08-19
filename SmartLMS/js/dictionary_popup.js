@@ -1,32 +1,42 @@
 $(document).ready(function(){
-    $form_dic = $('#gurucore_dictionary_popup');        
-    $btnTranslate = $('#gurucore_dictionary_translate');    
-    
-    $btnTranslate.click(function(){
-            
+
+    var loadInIframeModal = function(hash){
+               
         var var_dictionaries = $.trim($('#gurucore_dictionary_dictionaries').val());
-        var var_word = $.trim($('#gurucore_dictionary_word').val());
-                
+        var var_word = $.trim($('#gurucore_dictionary_word').val());                
         if(var_dictionaries == '' || var_word == '')
         {
-            show_notice_msg('You have to type your word to translate');            
-            return false;
+            alert('You have to type your word to translate');            
         }
-                
-        $.get(
-            ROOT_URL + '/GAction/dictionary_translate.php',
-            {
-                dic: var_dictionaries,
-                word: var_word
-            },
+        else
+        {        
+            var $trigger = $(hash.t);
+            var $modal = $(hash.w);
             
-            function(data)
-            {
-                // show_notice_msg(data);
-                alert(data);
-            }
-        );
-                        
-        return false;        
+            var myUrl = '/GAction/dictionary_translate.php?width=90%&height=99%&jqmRefresh=false' 
+            + '&dic='+var_dictionaries + '&word='+var_word;;
+                    
+            var myTitle= $trigger.attr('title');
+            var $modalContent = $("iframe", $modal);
+            $modalContent.html('').attr('src', '').attr('src', myUrl);
+            //let's use the anchor "title" attribute as modal window title
+            $('#jqmTitleText').text(myTitle);
+            $modal.fadeIn();
+        }
+    }
+        
+    // initialise jqModal
+    $('#modalWindow').jqm({
+        modal: false,
+        trigger: 'a.thickbox',
+        target: '#jqmContent',
+        onShow:  loadInIframeModal        
+    });    
+    
+    
+    $("#gurucore_dictionary_popup").submit(function() {
+        $('#modalWindow').jqmShow();
+        return false;
     });
+
 });
