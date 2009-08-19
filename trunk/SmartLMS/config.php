@@ -1,5 +1,8 @@
 <?php  /// Moodle Configuration File 
 
+define(ABSPATH, dirname(__FILE__).'/'); // LockeVN: ABSPATH has value=where this config.php lay
+
+
 unset($CFG);
 
 $CFG->dbtype    = 'mysql';
@@ -14,13 +17,13 @@ $CFG->prefix    = 'mdl_';
 //$CFG->dirroot   = 'D:\working\smartcom\eclipse_workspace\SmartLMS';
 //$CFG->dataroot  = 'D:\working\smartcom\eclipse_workspace\SmartLMSData';
 
-//$CFG->wwwroot   = 'http://127.0.0.1/smartlms';
-//$CFG->dirroot   = 'D:\working\smartcom\eclipse_workspace\SmartLMS';
-//$CFG->dataroot  = 'D:\working\smartcom\eclipse_workspace\SmartLMSData';
+$CFG->wwwroot   = 'http://127.0.0.1/';
+$CFG->dirroot   = 'D:\code_workspace\SmartLMS';
+$CFG->dataroot  = 'D:\code_workspace\SmartLMSData';
 
-$CFG->wwwroot   = 'http://smartlms.gurucore.com:8080';
-$CFG->dirroot   = '/var/www/smartlms';
-$CFG->dataroot  = '/var/www/smartlmsdata';
+//$CFG->wwwroot   = 'http://smartlms.gurucore.com:8080';
+//$CFG->dirroot   = '/var/www/smartlms';
+//$CFG->dataroot  = '/var/www/smartlmsdata';
 
 
 $CFG->admin     = 'admin';
