@@ -29,8 +29,8 @@ namespace TalaAPI.test
 
             TalaUser v1 = song.LoginVaoSongChoi("v1", "vtc");
             TalaUser v2 = song.LoginVaoSongChoi("v2", "vtc");
-            TalaUser v3 = song.LoginVaoSongChoi("vtc23", "111111");
-            TalaUser v4 = song.LoginVaoSongChoi("vtc24", "111111");
+            TalaUser v3 = song.LoginVaoSongChoi("v3", "vtc");
+            TalaUser v4 = song.LoginVaoSongChoi("v4", "vtc");
 
             pln("4 người login rồi");
             Soi soi = v1.CurrentSoi;
@@ -66,7 +66,7 @@ namespace TalaAPI.test
 
                 int nRandomTurnToEat = 1111;//new Random(DateTime.Now.Millisecond).Next(0, 15);
 
-                for (int i = 0; i < 12; i++)
+                for (int i = 0; i < 30; i++)
                 {
                     if(soi.IsPlaying == false)
                     {
