@@ -2,7 +2,9 @@
 
 require_once(ABSPATH."Lib/External/Savant3.php");
 
-$FILENAME = 'header';
+
+
+$FILENAME = 'loginbox';
 $$FILENAME = $tpl->fetch("$FILENAME.tpl.php");
 
 ?>
