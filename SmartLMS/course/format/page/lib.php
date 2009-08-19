@@ -1776,6 +1776,47 @@ function page_get_modules($course, $field = NULL) {
 }
 
 /**
+ * danhut added:
+ * modifed page_get_modules to return only list of modules whose name is equal to $moduleName 
+ *
+ * @param unknown_type $course
+ * @param unknown_type $field
+ * @return unknown
+ */
+function page_get_modules_by_name($course, $field = NULL, $moduleName = '') {
+	if($moduleName == '') {
+		return page_get_modules($course, $field);
+	}
+	
+    $modinfo  = get_fast_modinfo($course);
+    $function = create_function('$a, $b', 'return strnatcmp($a->name, $b->name);');
+    $modules  = array();
+    if (!empty($modinfo->instances)) {
+        foreach ($modinfo->instances as $instances) {
+            uasort($instances, $function);
+
+            foreach ($instances as $instance) {
+            	if($instance->modname == $moduleName) {
+	                if (empty($modules[$instance->modplural])) {
+	                    $modules[$instance->modplural] = array();
+	                }
+	                if (is_null($field)) {
+	                    $modules[$instance->modplural][$instance->id] = $instance;
+	                } else {
+	                    $modules[$instance->modplural][$instance->id] = $instance->$field;
+	                }
+            	}
+            }
+        }
+    }
+
+    // Sort by key (module name)
+    ksort($modules);
+
+    return $modules;
+}
+
+/**
  * This function fixes the block weights for a given course.
  *
  * @param int $courseid the course id to fix block weights for
