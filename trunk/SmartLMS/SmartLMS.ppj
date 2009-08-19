@@ -7,7 +7,7 @@ DriverID=FTP:smartlms
 SourceControl=0
 DontPublishDirs=CVS;.svn
 DefaultFile=
-HideFiles=*.ppx;*.ppj;.project
+HideFiles=*.ppx;*.ppj;.project;*.db
 HideDirs=CVS;.svn;
 EncoderEnabled=0
 MappingRemote0=
@@ -26,7 +26,7 @@ CvsHost=
 CvsRoot=
 CvsModule=
 CvsUser=
-CvsPassw=2yytiUgvSWVEqrPO4vL1/XySejYaK05VVKUafMADXzJuT1Abd72BmmZliFOgIY8dHHKSGXFEfOYWBRqDkNEWbw==
+CvsPassw=soPpyXtoCS7nhJXqk+Bh5n98bSKrWLmeF3RFWsPQEVavbB2SizoZAEcWhcTzwMHG31zNAgs4GX53VKU6I7BxNg==
 CvsUseUtf8=0
 CvsCVSROOT=:pserver:@
 IncPath_count=0
