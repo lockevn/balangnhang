@@ -120,10 +120,6 @@ namespace Quantum.Tala.Service.Business
             /* kiểm tra nếu đến lượt phải hạ phỏm, thằng này có ăn cây nào mà không hạ phỏm k */
             if (seat.BaiDaDanh.Count > 3 && seat.BaiDaAn.Count > 0)
             {
-#if(DEBUG)
-                this.AddMessage(seat.Player.UsernameInGame +  " thoả mãn điều kiện hạ láo seat.BaiDaDanh.Count > 3 && seat.BaiDaAn.Count > 0" , 
-                    string.Format("BaiDaDanh = {0}, BaiDaAn = {1}",seat.BaiDaDanh.Count , seat.BaiDaAn.Count ));
-#endif
                 // kiểm tra current Tournament Type để quyết định có dừng ván hay không?
                 if (CurrentSoi.GetCurrentTournament().type == (int)TournamentType.DeadMatch
                  || CurrentSoi.GetCurrentTournament().type == (int)TournamentType.TennisTree)
@@ -132,9 +128,6 @@ namespace Quantum.Tala.Service.Business
                 }
                 else
                 {
-#if(DEBUG)
-                    this.AddMessage("Gọi hàm hạ láo", "this.EndVan_HaLao(seat);");
-#endif
                     this.EndVan_HaLao(seat);
                     return true;
                 }
@@ -155,12 +148,7 @@ namespace Quantum.Tala.Service.Business
 
             /*nếu là seat đánh cuối cùng ở vòng cuối cùng thì end game (kiểm tra qua Nọc)*/
             if (this._Noc.Count <= 52 - (9+4)* this.CurrentSoi.SeatList.Count)
-            {                
-#if(DEBUG)
-                this.AddMessage("Nọc để test", 
-                    string.Format("{0} <= {1}", _Noc.Count.ToString(), 52 - (9 + 4) * this.CurrentSoi.SeatList.Count)
-                    );
-#endif
+            {
                 this.EndVan_TinhDiem();
                 return true;
             }
@@ -757,19 +745,19 @@ namespace Quantum.Tala.Service.Business
                 {
                     /*vị trí i sẽ phải trả i chip cho thằng nhất*/
                     chip = i;
-                    this.AddMessage("Về thứ " + (i + 1), seat.Player.UsernameInGame + " Điểm: " + pointArr[i] + "     Số chip: -" + chip);
+                    this.AddMessage("RANK" + i, "Về thứ " + (i + 1) + ": " + seat.Player.UsernameInGame + " Điểm: " + pointArr[i] + "     Số chip: -" + chip);
                 }
                 else if (CONST.MOM_POINTVALUE <= pointArr[i] && pointArr[i] < CONST.HALAO_POINTVALUE)
                 {
                     /*nộp móm*/
                     chip = Cashier.CHIP_MOM;
-                    this.AddMessage("Về thứ " + (i + 1), seat.Player.UsernameInGame + " Điểm: Móm     Số chip: -" + chip);
+                    this.AddMessage("RANK" + i, "Về thứ " + (i + 1) + ": " + seat.Player.UsernameInGame + " Điểm: Móm     Số chip: -" + chip);
                 }
                 else
                 {
                     /*hạ láo, gấp đôi móm */
                     chip = Cashier.CHIP_DEN * 3;
-                    this.AddMessage("Về thứ " + (i + 1), seat.Player.UsernameInGame + " Điểm: Ăn láo     Số chip: -" + chip);
+                    this.AddMessage("RANK" + i, "Về thứ " + (i + 1) + ": " +  seat.Player.UsernameInGame + " Điểm: Ăn láo     Số chip: -" + chip);
                 }
 
 
@@ -781,7 +769,7 @@ namespace Quantum.Tala.Service.Business
             /*sang tiền cho thằng nhất*/
             Seat winner = resultSeatArr[0];
             winner.Player.AddMoney(totalWinnerChip * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Win);
-            this.AddMessage("Thắng cuộc", winner.Player.UsernameInGame + " Điểm: " + pointArr[0] + "    Số chip: +" + totalWinnerChip);
+            this.AddMessage("RANK0", "Thắng cuộc: " + winner.Player.UsernameInGame + " Điểm: " + pointArr[0] + "    Số chip: +" + totalWinnerChip);
 
             FinishVan(winner.Player);
         }
