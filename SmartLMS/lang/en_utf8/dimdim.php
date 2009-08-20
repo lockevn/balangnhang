@@ -132,4 +132,3 @@ $string['featuredocshare'] = 'Document Sharing';
 $string['featurecobshare'] = 'Cobrowsing';
 $string['featurerecording'] = 'Recording';
 ?>
-
