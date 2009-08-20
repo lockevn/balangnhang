@@ -64,7 +64,7 @@
 					for (l in letter_arr)
 					{
 						letter = letter_arr[l];
-						letterdiv.innerHTML += '<a href="javascript:void(0)" onclick="showletter(\''+letter+'\')">'+letter+'|</a> ';
+						letterdiv.innerHTML += '<a href="javascript:void(0)" onclick="showletter(\''+letter+'\')">'+letter+'</a> ';
 					}
 					letterdiv.innerHTML += '<a href="javascript:void(0)" onclick="showAllLetter(letter_arr)">All</a> ';
 					// show the first letter stuff
@@ -162,8 +162,7 @@
 			// populate form
 			f.sl_value.value = term.sl_value;
 			f.tl_value.value = term.tl_value;
-		//	f.sl_notes.value = term.sl_notes;
-		//	f.tl_notes.value = term.tl_notes;
+
 		}
     
 
