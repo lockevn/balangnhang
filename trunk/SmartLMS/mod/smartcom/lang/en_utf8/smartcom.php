@@ -1,13 +1,13 @@
 <?php
 
-$string['smartcom'] = 'Opusmagnum';
+$string['smartcom'] = 'SmartCom';
 
-$string['modulename'] = 'Opusmagnum';
-$string['modulenameplural'] = 'OpusmagnumS';
+$string['modulename'] = 'SmartCom module';
+$string['modulenameplural'] = 'SmartComs';
 
 $string['smartcomfieldset'] = 'Custom example fieldset';
-$string['smartcomintro'] = 'Opusmagnum Intro';
-$string['smartcomname'] = 'Opusmagnum Name';
+$string['smartcomintro'] = 'SmartCom Intro';
+$string['smartcomname'] = 'SmartCom Name';
 
 $string['firsttabname'] = 'First tab name';
 $string['secondtabname'] = 'Second tab name';
