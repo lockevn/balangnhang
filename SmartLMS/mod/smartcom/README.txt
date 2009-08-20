@@ -27,6 +27,10 @@ module name is.
 Place the widget folder into the /mod folder of your development moodle
 directory.
 
+// LOCKEVN: add mdl_smartcom (id, course) to database
+// it contains link of smartcom to course
+
+
 Go to http://localhost/your/moodle/admin/xmldb/ directory. Try to not to visit
 the main admin page (Notifications) so the module is not installed yet.  If it
 gets installed accidentaly, uninstall it from the database via Manage
