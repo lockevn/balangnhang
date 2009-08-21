@@ -15,7 +15,6 @@ namespace TalaAPI.play.van
 {    
     public class boc : XMLHttpHandler
     {
-
         public override void ProcessRequest(HttpContext context)
         {
             TalaSecurity security = new TalaSecurity(context);
@@ -41,6 +40,7 @@ namespace TalaAPI.play.van
                 this.Data.Add(cardBoc);
                 cs = new APICommandStatus(APICommandStatusState.OK, "Boc", "valid action");
             }
+
             this.Cmd.Add(cs);
             base.ProcessRequest(context);
         }
