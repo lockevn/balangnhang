@@ -42,9 +42,24 @@ namespace Quantum.Tala.Service.Business
             set { _msg = value; }
         }
 
+        string _point = string.Empty;
+        [ElementXMLExportAttribute("", DataOutputXMLType.Attribute, DataListizeType.Single, false, false)]
+        public string Point
+        {
+            get { return _point; }
+            set { _point = value; }
+        }        
+
+        public Message(string code, string msg, string point)
+        {
+            _code = code;
+            _msg = msg;
+            _point = point;
+        }
+
         public Message(string code, string msg)
         {
-            _code= code;
+            _code = code;
             _msg = msg;
         }
     }    

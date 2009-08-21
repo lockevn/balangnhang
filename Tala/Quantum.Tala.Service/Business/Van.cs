@@ -171,12 +171,12 @@ namespace Quantum.Tala.Service.Business
             {
                 return null;
             }
+
             /*chuyển 1 cây ở Nọc lên BaiTrenTay của seat*/
             Card cardBoc = this._Noc[0];
-            seat.BaiTrenTay.Add(cardBoc);
             this._Noc.RemoveAt(0);
+            seat.BaiTrenTay.Add(cardBoc);            
             return cardBoc;
-
         }
 
         /// <summary>
@@ -745,19 +745,19 @@ namespace Quantum.Tala.Service.Business
                 {
                     /*vị trí i sẽ phải trả i chip cho thằng nhất*/
                     chip = i;
-                    this.AddMessage("RANK" + i, "Về thứ " + (i + 1) + ": " + seat.Player.UsernameInGame + " Điểm: " + pointArr[i] + "     Số chip: -" + chip);
+                    this.AddMessage("RANK" + i, "Về thứ " + (i + 1) + ": " + seat.Player.UsernameInGame + " Điểm: " + pointArr[i] + "     Số chip: -" + chip, chip * CurrentSoi.SoiOption.TiGiaChip);
                 }
                 else if (CONST.MOM_POINTVALUE <= pointArr[i] && pointArr[i] < CONST.HALAO_POINTVALUE)
                 {
                     /*nộp móm*/
                     chip = Cashier.CHIP_MOM;
-                    this.AddMessage("RANK" + i, "Về thứ " + (i + 1) + ": " + seat.Player.UsernameInGame + " Điểm: Móm     Số chip: -" + chip);
+                    this.AddMessage("RANK" + i, "Về thứ " + (i + 1) + ": " + seat.Player.UsernameInGame + " Điểm: Móm     Số chip: -" + chip, chip * CurrentSoi.SoiOption.TiGiaChip);
                 }
                 else
                 {
                     /*hạ láo, gấp đôi móm */
                     chip = Cashier.CHIP_DEN * 3;
-                    this.AddMessage("RANK" + i, "Về thứ " + (i + 1) + ": " +  seat.Player.UsernameInGame + " Điểm: Ăn láo     Số chip: -" + chip);
+                    this.AddMessage("RANK" + i, "Về thứ " + (i + 1) + ": " + seat.Player.UsernameInGame + " Điểm: Ăn láo     Số chip: -" + chip, chip * CurrentSoi.SoiOption.TiGiaChip);
                 }
 
 
@@ -769,7 +769,7 @@ namespace Quantum.Tala.Service.Business
             /*sang tiền cho thằng nhất*/
             Seat winner = resultSeatArr[0];
             winner.Player.AddMoney(totalWinnerChip * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Win);
-            this.AddMessage("RANK0", "Thắng cuộc: " + winner.Player.UsernameInGame + " Điểm: " + pointArr[0] + "    Số chip: +" + totalWinnerChip);
+            this.AddMessage("RANK0", "Thắng cuộc: " + winner.Player.UsernameInGame + " Điểm: " + pointArr[0] + "    Số chip: +" + totalWinnerChip, totalWinnerChip * CurrentSoi.SoiOption.TiGiaChip);
 
             FinishVan(winner.Player);
         }
@@ -1119,6 +1119,25 @@ namespace Quantum.Tala.Service.Business
         Message AddMessage(string code, string msg)
         {
             Message message = new Message(code, msg);
+            if (_MessageList.Count > 0)
+            {
+                message.ID = _MessageList.Last().ID + 1;
+            }
+
+            _MessageList.Add(message);
+            return message;
+        }
+
+        /// <summary>
+        /// thêm mới một thông điệp của ván (sự kiện của ván). Sự kiện mới sẽ có ID mới (tự động, số tự tăng)
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="msg"></param>
+        /// <param name="point"></param>
+        /// <returns>thông điệp đã được thêm</returns>
+        Message AddMessage(string code, string msg, int point)
+        {
+            Message message = new Message(code, msg, point.ToString());
             if (_MessageList.Count > 0)
             {
                 message.ID = _MessageList.Last().ID + 1;
