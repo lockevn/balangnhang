@@ -15,11 +15,11 @@ namespace TalaAPI.community.id
             string sAuthkey = context.Request["authkey"].ToStringSafetyNormalize();
 
             APICommandStatus cs = APICommandStatus.Get_WRONG_AUTHKEY_CommandStatus();
-            string sUsername = string.Empty;
-            if (Song.Instance.DicValidAuthkey.TryGetValue(sAuthkey, out sUsername))
+            TalaUser user = Song.Instance.GetUserByAuthkey(sAuthkey);
+            if (user != null)
             {
-                Song.Instance.Logout(sAuthkey, sUsername);                
-                cs = new APICommandStatus(APICommandStatusState.OK, "LOGOUT", sUsername);
+                Song.Instance.Logout(sAuthkey, user.Username);                
+                cs = new APICommandStatus(APICommandStatusState.OK, "LOGOUT", user.Username);
             }            
             
             this.Cmd.Add(cs);

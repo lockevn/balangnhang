@@ -147,7 +147,7 @@ namespace Quantum.Tala.Service.Business
             }            
 
             /*nếu là seat đánh cuối cùng ở vòng cuối cùng thì end game (kiểm tra qua Nọc)*/
-            if (this._Noc.Count <= 52 - (9+4)* this.CurrentSoi.SeatList.Count)
+            if (this._Noc.Count <= 52 - (9+4) * this.CurrentSoi.SeatList.Count)
             {
                 this.EndVan_TinhDiem();
                 return true;
@@ -329,9 +329,9 @@ namespace Quantum.Tala.Service.Business
                     int money = Cashier.CHIP_AN_CHOT * this.CurrentSoi.SoiOption.TiGiaChip;
                     this.AddMessage("Ăn cây chốt", previousSeat.Player.UsernameInGame + " nộp " + money + " cho " + seat.Player.UsernameInGame);
                     /*tru tien vao tai khoan cua nguoi bi an chot*/
-                    previousSeat.Player.SubtractMoney(money, EnumPlayingResult.Nothing);
+                    previousSeat.Player.SubtractMoney(money, this.CurrentSoi, EnumPlayingResult.Nothing);
                     /*cong tien vao tai khoan cua nguoi an chot*/
-                    seat.Player.AddMoney(money, EnumPlayingResult.Nothing);
+                    seat.Player.AddMoney(money, this.CurrentSoi, EnumPlayingResult.Nothing);
 
                     /*ăn chốt có nguy cơ đền*/
                     if (previousSeat.BaiDaDanh.Count >= 3)
@@ -464,13 +464,33 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         /// <param name="seat">seat ra lệnh hạ phỏm</param>
         /// <param name="phomArr">một mảng các mảng Card để trở thành tập các Phom</param>
-        /// <returns>true/false</returns>        
-        public bool Ha(Seat seat, List<Card[]> phomArr)
-        {            
-            if (!this.IsSeatInTurn(seat) || phomArr == null || phomArr.Count == 0 || seat.BaiDaDanh.Count < 3 || seat.GetTotalCardOnSeat() < 10)
+        /// <returns>string.Empty if OK</returns>
+        public string Ha(Seat seat, List<Card[]> phomArr)
+        {
+            #region không đủ điều kiện để hạ
+
+            if (this.IsSeatInTurn(seat) == false)
             {
-                return false;
+                return "seat này không có lượt để hạ";
             }
+
+            if(phomArr == null || phomArr.Count == 0)
+            {
+                return "phỏm rỗng";
+            }
+        
+            if(seat.BaiDaDanh.Count < 3)
+            {
+                return string.Format("Mới đánh {0} cây, chưa đến vòng hạ", seat.BaiDaDanh.Count);
+            }
+
+            if (seat.GetTotalCardOnSeat() < 10)
+            {
+                return string.Format("Tổng số cây của vị trí này là {0}, không hạ được", seat.GetTotalCardOnSeat());
+            }
+
+            #endregion
+            
 
             List<Card> cardList = new List<Card>();
             List<Phom> phomList = new List<Phom>();
@@ -483,12 +503,13 @@ namespace Quantum.Tala.Service.Business
                     /*kiểm tra client hạ láo: trong phomArr có card trùng nhau*/
                     if (cardList.Contains(card))
                     {
-                        return false;
+                        return string.Format("cây {0} xuất hiện nhiều lần, không hợp lệ", card.ToString());
                     }
+
                     /*kiểm tra client hạ láo: card trong cardArr có thuộc BaiTrenTay hoặc BaiDaAn của seat không*/
                     if (!seat.BaiTrenTay.Contains(card) && !seat.BaiDaAn.Contains(card))
                     {
-                        return false;
+                        return string.Format("cây {0} không thuộc bài của bạn, không nằm trong bài trên tay lẫn bài đã ăn", card);
                     }
                     cardList.Add(card);
                 }
@@ -496,14 +517,14 @@ namespace Quantum.Tala.Service.Business
                 Phom phom = cardArr.IsValidPhom();
                 if (phom == null)
                 {
-                    return false;
+                    return string.Format("bộ bài {0} không phải là phỏm", cardArr.ToTalaString());
                 }
+
                 /*set thêm các property cho phom*/
                 phom.OfSeat = seat;
                 /*một seat có tối đa 3 phỏm, set id cho phỏm để phỏm id là duy nhất trong 1 sới*/
                 phom.Id = seat.Pos * 3 + i;
                 phomList.Add(phom);
-
             }
 
             /*kiểm tra hạ láo --> đền, end van*/
@@ -511,7 +532,7 @@ namespace Quantum.Tala.Service.Business
             {
                 /*end van và đền*/
                 this.EndVan_HaLao(seat);
-                return true;
+                return "hạ sai, phải đền";
             }
 
             /*cap nhat phomList vao seat.phomList*/
@@ -534,7 +555,7 @@ namespace Quantum.Tala.Service.Business
                 }
             }
 
-            return true;
+            return string.Empty;
         }
 
         /// <summary>
@@ -613,9 +634,6 @@ namespace Quantum.Tala.Service.Business
 
             return true;
         }
-        
-
-
 
         #endregion
 
@@ -707,7 +725,7 @@ namespace Quantum.Tala.Service.Business
         {
             /*trừ tiền thằng hạ láo*/
             int chipHaLao = Cashier.CHIP_DEN * (this.CurrentSoi.SeatList.Count - 1);
-            haLaoSeat.Player.SubtractMoney(chipHaLao * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
+            haLaoSeat.Player.SubtractMoney(chipHaLao * this.CurrentSoi.SoiOption.TiGiaChip, this.CurrentSoi, EnumPlayingResult.Lose);
             /*thong bao*/
             this.AddMessage("Phạt do ăn sai", haLaoSeat.Player.UsernameInGame + " " + chipHaLao + " chip");
 
@@ -716,7 +734,7 @@ namespace Quantum.Tala.Service.Business
             {
                 if (seat.Pos != haLaoSeat.Pos)
                 {
-                    seat.Player.AddMoney(Cashier.CHIP_DEN * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Win);
+                    seat.Player.AddMoney(Cashier.CHIP_DEN * this.CurrentSoi.SoiOption.TiGiaChip, this.CurrentSoi, EnumPlayingResult.Win);
                     this.AddMessage("Thưởng", seat.Player.UsernameInGame + " " + Cashier.CHIP_DEN + " chip");
                 }
             }
@@ -762,13 +780,13 @@ namespace Quantum.Tala.Service.Business
 
 
                 /*trừ tiền*/
-                seat.Player.SubtractMoney(chip * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
+                seat.Player.SubtractMoney(chip * this.CurrentSoi.SoiOption.TiGiaChip, this.CurrentSoi, EnumPlayingResult.Lose);
                 totalWinnerChip += chip;
             }
 
             /*sang tiền cho thằng nhất*/
             Seat winner = resultSeatArr[0];
-            winner.Player.AddMoney(totalWinnerChip * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Win);
+            winner.Player.AddMoney(totalWinnerChip * this.CurrentSoi.SoiOption.TiGiaChip, this.CurrentSoi, EnumPlayingResult.Win);
             this.AddMessage("RANK0", "Thắng cuộc: " + winner.Player.UsernameInGame + " Điểm: " + pointArr[0] + "    Số chip: +" + totalWinnerChip, totalWinnerChip * CurrentSoi.SoiOption.TiGiaChip);
 
             FinishVan(winner.Player);
@@ -794,7 +812,7 @@ namespace Quantum.Tala.Service.Business
             {
                 /*trừ tiền tài khỏan thằng phải đền*/
                 int chipDen = chipAnU * (this.CurrentSoi.SeatList.Count - 1);
-                denSeat.Player.SubtractMoney(chipDen * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
+                denSeat.Player.SubtractMoney(chipDen * this.CurrentSoi.SoiOption.TiGiaChip, this.CurrentSoi, EnumPlayingResult.Lose);
                 /*thong bao*/
                 this.AddMessage("Đền ù", denSeat.Player.UsernameInGame + "    -" + chipDen + " chip");
             }
@@ -805,7 +823,7 @@ namespace Quantum.Tala.Service.Business
                 {
                     if (seat != uSeat)
                     {
-                        seat.Player.SubtractMoney(chipAnU * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Lose);
+                        seat.Player.SubtractMoney(chipAnU * this.CurrentSoi.SoiOption.TiGiaChip, this.CurrentSoi, EnumPlayingResult.Lose);
                         /*thong bao*/
                         this.AddMessage("Nộp ù", seat.Player.UsernameInGame + "   -" + chipAnU + " chip");
                     }
@@ -813,7 +831,7 @@ namespace Quantum.Tala.Service.Business
             }
             /*cộng tiền cho thằng ù*/
             int uVal = chipAnU * (this.CurrentSoi.SeatList.Count - 1) + this.CurrentSoi.GaValue;
-            uSeat.Player.AddMoney(uVal * this.CurrentSoi.SoiOption.TiGiaChip, EnumPlayingResult.Win);
+            uSeat.Player.AddMoney(uVal * this.CurrentSoi.SoiOption.TiGiaChip, this.CurrentSoi, EnumPlayingResult.Win);
             /*thong bao*/
             this.AddMessage("Ăn ù", uSeat.Player.UsernameInGame + " " + uVal + " chip, bao gồm gà: " + this.CurrentSoi.GaValue + " chip");
 

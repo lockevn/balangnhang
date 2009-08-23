@@ -42,7 +42,7 @@ namespace Quantum.Tala.Service.Business
         {            
             int nGoldPhat = Cashier.CHIP_NOP_GA * soi.SoiOption.TiGiaChip;            
             // trừ tiền trong túi user đi
-            userPhaiNop.SubtractMoney(nGoldPhat, EnumPlayingResult.Nothing);
+            userPhaiNop.SubtractMoney(nGoldPhat, soi, EnumPlayingResult.Nothing);
 
             // cộng gà lên 1 chip
             soi.GaValue += 1;

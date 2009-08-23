@@ -38,7 +38,7 @@ namespace TalaAPI.Lib
         {
             _context = context;
             _CurrentAuthkey = context.Request["authkey"].ToStringSafetyNormalize();
-            _CurrentAU = Song.Instance.GetUserByUsername(Song.Instance.GetUsernameByAuthkey(_CurrentAuthkey));
+            _CurrentAU = Song.Instance.GetUserByAuthkey(_CurrentAuthkey);
 
             if (_CurrentAU == null)
             {

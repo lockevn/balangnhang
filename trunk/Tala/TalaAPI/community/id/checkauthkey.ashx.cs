@@ -13,7 +13,7 @@ namespace TalaAPI.community.id
             string sAuthkey = APIParamHelper.GetParam("authkey", context);
 
             APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "CHECKAUTHKEY", "0");
-            if (Song.Instance.DicValidAuthkey.ContainsKey(sAuthkey))
+            if (Song.Instance.GetUserByAuthkey(sAuthkey) != null)
             {
                 cs = new APICommandStatus(APICommandStatusState.OK, "CHECKAUTHKEY", "1");
             }
