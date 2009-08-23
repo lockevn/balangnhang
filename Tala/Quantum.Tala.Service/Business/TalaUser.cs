@@ -149,12 +149,12 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         /// <param name="value"></param>
         /// <returns>trả về số tiền được cập nhật xuống DB</returns>
-        internal int AddMoney(int value, EnumPlayingResult why)
+        internal int AddMoney(int value, Soi soi, EnumPlayingResult why)
         {
             Gold += value;
             
             // update xuống DB
-            value = Cashier.AddGoldOfUser(this.Username, value, why, this._CurrentSoi.GetCurrentTournament());
+            value = Cashier.AddGoldOfUser(this.Username, value, why, soi.GetCurrentTournament());
 
             return value;
         }
@@ -164,12 +164,12 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         /// <param name="value"></param>
         /// <returns>trả về số tiền được cập nhật xuống DB</returns>
-        internal int SubtractMoney(int value, EnumPlayingResult why)
+        internal int SubtractMoney(int value, Soi soi, EnumPlayingResult why)
         {
             Gold -= value;
 
             // update xuống DB
-            value = Cashier.SubtractGoldOfUser(this.Username, value, why, this._CurrentSoi.GetCurrentTournament());
+            value = Cashier.SubtractGoldOfUser(this.Username, value, why, soi.GetCurrentTournament());
 
             return value;
         }

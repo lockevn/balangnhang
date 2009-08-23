@@ -38,7 +38,17 @@ namespace TestBusiness
     class Program
     {
         static void Main(string[] args)
-        {           
+        {
+
+            Hashtable hash = new Hashtable();
+
+            
+
+            object o = hash.IsSynchronized;
+            lock (hash.SyncRoot)
+            {
+                o = hash.IsSynchronized;
+            }
 
             List<Card> a = new List<Card>();         
             a.Add(new Card("01", "d"));

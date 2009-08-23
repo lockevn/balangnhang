@@ -108,7 +108,9 @@ namespace Quantum.Tala.Service
 
             // VTC authentication process here, to verify username password against VTC System
             VTCBillingService.VTCBillingServiceSoapClient ws = new VTCBillingService.VTCBillingServiceSoapClient("VTCBillingServiceSoap12");
-            string sVTCReturn = ws.Authenticate(p_sUsername, p_sHashedPassword);
+            var oAuthenticate = ws.Authenticate(p_sUsername, p_sHashedPassword, VTCIntecomService.MAKERCODE, "Sign");
+            // TODO: change
+            string sVTCReturn = oAuthenticate.ToString();
             VTCResponseInfo response = VTCResponseInfo.Parse(sVTCReturn);
 
             if (response.ParseOK && int.Parse(response.GetItem(0, "-1")) > 0)

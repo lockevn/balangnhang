@@ -38,22 +38,27 @@ namespace TalaAPI.play.van
                 this.SendErrorAPICommand(ce, context);
             }
 
-            bool result = false;
-            APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "Ha", "action failed");
+            string sResult = string.Empty;
+            APICommandStatus cs = new APICommandStatus(APICommandStatusState.FAIL, "Ha", "");
             try
             {
-                result = van.Ha(seat, cardArrList);
+                sResult = van.Ha(seat, cardArrList);
             }
             catch (NotInTurnException nite)
             {
                 this.SendErrorAPICommand(nite, context);
             }
 
-            if (result)
+            if (sResult.IsNullOrEmpty())
             {
-                cs = new APICommandStatus(APICommandStatusState.OK, "Ha", "valid action");
+                cs = new APICommandStatus(APICommandStatusState.OK, "Ha", "valid");
             }
-
+            else
+            {
+                // phi thông báo lỗi ra
+                cs.Info = sResult;
+            }
+            
             this.Cmd.Add(cs);
             base.ProcessRequest(context);
         }

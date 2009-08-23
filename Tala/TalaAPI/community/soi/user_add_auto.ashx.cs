@@ -6,6 +6,7 @@ using Quantum.Tala.Service.Business;
 using Quantum.Tala.Service.DTO;
 using TalaAPI.Lib;
 using System;
+using System.Collections;
 
 namespace TalaAPI.community.soi
 {
@@ -101,11 +102,11 @@ namespace TalaAPI.community.soi
             arrWaitingListCurrentTour.Insert(0, security.CurrentAU.Username);
 
             #endregion
-            
 
+            
             // xử lý người chờ trong danh sách chờ            
-            List<TalaUser> arrUserWaitingInThisTournament = Song.Instance.DicOnlineUser.Values.
-            Where(
+            List<TalaUser> arrUserWaitingInThisTournament = Song.Instance.DicOnlineUser.Values
+            .Where(
                 user => user.CurrentSoi == null  /* chưa chơi*/ &&
                 user.AttendingTournament.Any(tour => tour.id == tournament.id /* đã đăng ký tour này*/) &&
                 arrWaitingListCurrentTour.Contains(user.Username)  /* đã nằm trong danh sách chờ */

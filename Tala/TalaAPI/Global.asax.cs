@@ -9,6 +9,7 @@ using System.Web.SessionState;
 using System.Xml.Linq;
 using Quantum.Tala.Service.Business;
 using Quantum.Tala.Lib;
+using log4net;
 
 // Load the configuration from the 'WebApp.dll.log4net' file
 [assembly: log4net.Config.XmlConfigurator(ConfigFileExtension = "log4net", Watch = true)]
@@ -17,20 +18,19 @@ namespace TalaAPI
 {
     public class Global : System.Web.HttpApplication
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            //mount point for GURUCORE GApplication in ASP .NET
+            //mount point for GURUCORE GApplication in ASP.NET
+            // load config, database, ORM ...
             string sRoot = HttpRuntime.AppDomainAppPath;
             GURUCORE.Framework.Core.GApplication.GetInstance().Start(sRoot);
+            log.Info("GURUCORE Application instance  start at " + sRoot);
             
-            string sWebRootPhysicalPath = Server.MapPath("/Config");
-            //System.Diagnostics.Debug.Print(sWebRootPhysicalPath);
-            DBHelper.Instance.Init(sWebRootPhysicalPath);
-
-            Song value = Song.Instance;
-            this.Application.Add("song", value);
-            
+            Song song = Song.Instance;
+            this.Application.Add("song", song);
+            log.Info("New Song added to ApplicationState");
         }
 
         protected void Session_Start(object sender, EventArgs e)

@@ -14,6 +14,8 @@ using Quantum.Tala.Service.Authentication;
 using GURUCORE.Framework.Business;
 using Quantum.Tala.Service.DTO;
 using MySql.Data.Types;
+using System.Web;
+using System.Web.Caching;
 
 
 
@@ -24,18 +26,77 @@ namespace Quantum.Tala.Service.Business
     /// </summary>
     public sealed class Song
     {
+        /// <summary>
+        /// 2700 giây, 45 phút, thời gian cho phép user tồn tại trên hệ thống, kể từ khi login hoặc last action
+        /// </summary>
+        private const double AUTHENTICATE_TIMEOUT = 2700d;
+
+        public const string CACHE_PREFIX_AUTHKEY = "authkey_";
+        public const string CACHE_PREFIX_USERNAME = "username_";
+        
+
+
         // this is single IL command, so it is atomic.
         private static object m_oLockInstance = new object();
+
+
+        /// <summary>
+        /// map (validauthkey - User object)
+        /// </summary>        
+        private Cache _DicValidAuthkey;        
+
+        private Cache _DicOnlineUser;
+        /// <summary>
+        /// a snapshot of map (username - User object)
+        /// </summary>
+        public Dictionary<string, TalaUser> DicOnlineUser
+        {            
+            get 
+            {
+                return _DicOnlineUser.OfType<DictionaryEntry>()
+                    .Where(e => e.Key.ToString().StartsWith(Song.CACHE_PREFIX_AUTHKEY) )
+                    .ToDictionary(e => e.Key.ToString(), e => e.Value as TalaUser);
+            }
+        }
+
+        private Dictionary<string, Soi> _DicSoi;
+        /// <summary>
+        /// map (soiID - Soi object)
+        /// </summary>
+        public Dictionary<string, Soi> DicSoi
+        {
+            get { return _DicSoi; }
+        }
+
+        private Dictionary<string, tournamentDTO> _DicTournament;
+        /// <summary>
+        /// map (tournamentid - tournamentDTO object)
+        /// </summary>
+        public Dictionary<string, tournamentDTO> DicTournament
+        {
+            get { return _DicTournament; }
+        }
+
+        private Dictionary<int, List<string>> _DicTournamentWaitingList;
+        /// <summary>
+        /// map tournamentid - list(username waiting in this tournament)
+        /// </summary>
+        public Dictionary<int, List<string>> DicTournamentWaitingList
+        {
+            get { return _DicTournamentWaitingList; }
+        }
+            
+
 
         #region Singleton Implementation
 
 
-        private static readonly Song instance = new Song();
+        private static Song instance;
 
         private Song()
         {
-            _DicValidAuthkey = new Dictionary<string, string>();
-            _DicOnlineUser = new Dictionary<string, TalaUser>();
+            _DicValidAuthkey = HttpContext.Current.Cache;
+            _DicOnlineUser = HttpContext.Current.Cache;
             _DicSoi = new Dictionary<string, Soi>();
             _DicTournament = new Dictionary<string, tournamentDTO>();
             _DicTournamentWaitingList = new Dictionary<int, List<string>>();
@@ -59,7 +120,15 @@ namespace Quantum.Tala.Service.Business
         public static Song Instance
         {
             get 
-            {                                
+            {
+                if (null == instance)
+                {
+                    lock (m_oLockInstance)
+                    {
+                        instance = new Song();
+                    }
+                }
+
                 return instance;
             }
         }
@@ -68,54 +137,9 @@ namespace Quantum.Tala.Service.Business
 
 
 
-        private Dictionary<string, string> _DicValidAuthkey;
-        /// <summary>
-        /// map (validauthkey - username)
-        /// </summary>
-        public Dictionary<string, string> DicValidAuthkey
-        {
-            get { return _DicValidAuthkey; }            
-        }
-
-        private Dictionary<string, TalaUser> _DicOnlineUser;
-        /// <summary>
-        /// map (username - User object)
-        /// </summary>
-        public Dictionary<string, TalaUser> DicOnlineUser
-        {
-            get { return _DicOnlineUser; }            
-        }    
-
-        private Dictionary<string, Soi> _DicSoi;
-        /// <summary>
-        /// map (soiID - Soi object)
-        /// </summary>
-        public Dictionary<string, Soi> DicSoi
-        {
-            get { return _DicSoi; }            
-        }
-
-        private Dictionary<string, tournamentDTO> _DicTournament;
-        /// <summary>
-        /// map (tournamentid - tournamentDTO object)
-        /// </summary>
-        public Dictionary<string, tournamentDTO> DicTournament
-        {
-            get { return _DicTournament; }
-        }
-
-        private Dictionary<int, List<string>> _DicTournamentWaitingList;
-        /// <summary>
-        /// map tournamentid - list(username waiting in this tournament)
-        /// </summary>
-        public Dictionary<int, List<string>> DicTournamentWaitingList
-        {
-            get { return _DicTournamentWaitingList; }
-        }
-            
-
-
-
+        #region In this section, all function are needed to lock/sync while using share resource (Dic in this class)
+        
+        
         /// <summary>
         /// Lục tìm trong Dictionary Tournament để tìm với ID đã cho
         /// </summary>
@@ -152,24 +176,7 @@ namespace Quantum.Tala.Service.Business
         }
 
 
-        /// <summary>
-        /// Lục tìm trong Dictionary ValidAuthkey
-        /// </summary>
-        /// <param name="authkey"></param>
-        /// <returns>trả về string.empty nếu không tìm thấy</returns>
-        public string GetUsernameByAuthkey(string authkey)
-        {
-            string ret = string.Empty;
-            if (_DicValidAuthkey.TryGetValue(authkey, out ret))
-            {
-                return ret;
-            }
-            else
-            {
-                return string.Empty;
-            }            
-        }
-
+        
         /// <summary>
         /// Lục tìm trong danh sách những user đang Online (Dictionary OnlineUser)
         /// </summary>
@@ -177,8 +184,7 @@ namespace Quantum.Tala.Service.Business
         /// <returns>trả về null nếu không tìm thấy username đang online</returns>
         public TalaUser GetUserByUsername(string username)
         {
-            TalaUser ret;
-            _DicOnlineUser.TryGetValue(username, out ret);
+            TalaUser ret = _DicOnlineUser.Get(Song.CACHE_PREFIX_USERNAME + username) as TalaUser;
             return ret;
         }
 
@@ -189,7 +195,7 @@ namespace Quantum.Tala.Service.Business
         /// <returns></returns>
         public TalaUser GetUserByAuthkey(string authkey)
         {
-            return GetUserByUsername(GetUsernameByAuthkey(authkey));
+            return _DicValidAuthkey.Get(Song.CACHE_PREFIX_AUTHKEY + authkey) as TalaUser;            
         }
 
 
@@ -218,24 +224,23 @@ namespace Quantum.Tala.Service.Business
                 lock (m_oLockInstance)
                 {
                     // if found user with username and password, authenticate OK
-                    if (_DicOnlineUser.ContainsKey(user.Username) == false)
+                    if (_DicOnlineUser.Get(Song.CACHE_PREFIX_USERNAME + user.Username) == null)
                     {
                         // lần đầu, tạo authkey mới, thêm vào các mảng cache
                         // generate new authkey
                         user.Authkey = user.Username + "^" + FunctionExtension.GetRandomGUID();
 
-                        // TODO: chỗ này chỉ dùng test, khi release bỏ dòng dưới đi
+                        // chỗ này chỉ dùng test, khi release bỏ dòng dưới đi
 #if DEBUG
                         user.Authkey = user.Username;
 #endif
 
-                        _DicOnlineUser.Add(user.Username, user);
-                        _DicValidAuthkey.Add(user.Authkey, user.Username);
+                        CreateVolatineAuthenticateInfo(user.Authkey, user);                        
                     }
                     else
                     {
                         // lần login lại, lấy thông tin authenticated cũ ra, trả lại
-                        user = _DicOnlineUser[user.Username];
+                        user = _DicOnlineUser[Song.CACHE_PREFIX_USERNAME + user.Username] as TalaUser;
                     }
                 }
 
@@ -248,6 +253,28 @@ namespace Quantum.Tala.Service.Business
             }
 
             return user;
+        }
+
+        /// <summary>
+        /// tạo thông tin trong cache (bay hơi từ lần tạo cuối cùng) để lưu trữ user, authkey đang login và valid trong hệ thống
+        /// </summary>
+        /// <param name="authkey"></param>
+        /// <param name="user"></param>
+        public void CreateVolatineAuthenticateInfo(string authkey, TalaUser user)
+        {
+            // create cache dạng timeout tính từ last recent use
+            _DicOnlineUser.Insert(
+                Song.CACHE_PREFIX_USERNAME + user.Username, user,
+                null,
+                DateTime.MaxValue, TimeSpan.FromSeconds(Song.AUTHENTICATE_TIMEOUT)
+                );
+
+            _DicValidAuthkey.Insert(
+                Song.CACHE_PREFIX_AUTHKEY + authkey, user,
+                null,
+                DateTime.MaxValue, TimeSpan.FromSeconds(Song.AUTHENTICATE_TIMEOUT)
+                );
+            throw new NotImplementedException();
         }
                 
 
@@ -389,21 +416,11 @@ namespace Quantum.Tala.Service.Business
 
         public void Logout(string sAuthkey, string sUsername)
         {
-            lock (m_oLockInstance)
+            _DicValidAuthkey.Remove(Song.CACHE_PREFIX_AUTHKEY + sAuthkey);
+            _DicOnlineUser.Remove(Song.CACHE_PREFIX_USERNAME + sUsername);
+        
+            lock(m_oLockInstance)
             {
-                // nếu tìm thấy authkey
-                try
-                {
-                    _DicValidAuthkey.Remove(sAuthkey);
-                }
-                catch { }
-
-                try
-                {
-                    _DicOnlineUser.Remove(sUsername);
-                }
-                catch { }
-
                 try
                 {
                     foreach (var waitingListOfTour in _DicTournamentWaitingList.Values)
@@ -413,7 +430,9 @@ namespace Quantum.Tala.Service.Business
                 }
                 catch { }
             }
-
         }
+
+        #endregion
+
     }
 }

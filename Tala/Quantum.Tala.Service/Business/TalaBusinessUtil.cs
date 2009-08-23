@@ -130,10 +130,10 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         /// <param name="cardArr"></param>
         /// <returns></returns>
-        public static string ToTalaString(this Card[] cardArr)
+        public static string ToTalaString(this IEnumerable<Card> cardArr)
         {
             string sRet = string.Empty;
-            foreach(Card c in cardArr)
+            foreach (Card c in cardArr)
             {
                 sRet += c.ToString() + CONST.CARD_SEPERATOR_SYMBOL;
             }
