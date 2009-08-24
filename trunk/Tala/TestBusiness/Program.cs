@@ -20,6 +20,13 @@ using System.Reflection;
 //using CH.Combinations;
 
 using System.Linq;
+using GURUCORE.Lib.Core.Security.Cryptography;
+using Quantum.Tala.Service.VTCGateTopup;
+using log4net;
+
+// Load the configuration from the 'WebApp.dll.log4net' file
+[assembly: log4net.Config.XmlConfigurator(ConfigFileExtension = "log4net", Watch = true)]
+
 
 namespace TestBusiness
 {
@@ -37,77 +44,93 @@ namespace TestBusiness
 
     class Program
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         static void Main(string[] args)
         {
 
-            Hashtable hash = new Hashtable();
-
-            
-
-            object o = hash.IsSynchronized;
-            lock (hash.SyncRoot)
-            {
-                o = hash.IsSynchronized;
-            }
-
-            List<Card> a = new List<Card>();         
-            a.Add(new Card("01", "d"));
-            a.Add(new Card("01", "t"));
-            a.Add(new Card("01", "c"));
-            a.Add(new Card("01", "p"));
-
-            a.Sort();
-            a.Reverse();
-
-            List<Card> baitrentay = new List<Card>();
-            List<Card> baidaan = new List<Card>();
-            baitrentay.Add(new Card("01","d"));
-            baitrentay.Add(new Card("02", "c"));
-            baidaan.Add(new Card("02", "d"));
-
-            var addd = TalaBusinessUtil.InspectPhomOfCard(new Card("03", "d"), baitrentay.Union(baidaan).ToList());
+            log.Error("error test in Program");          
 
 
-            Card c01d = new Card("01", "d");
-            Card c01c = new Card("01", "c");
-            Console.WriteLine(c01c < c01d);
-            Console.WriteLine(c01c > c01d);
-            Console.WriteLine(c01c == c01d);
+
 
             TalaProgramApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());
-
             IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
-            IUser u2 = (new AuthenticationService()).Authenticate("vtc", "vtc21", "111111");
-            Console.WriteLine(u2.Username);
+            IUser u2 = authensvc.Authenticate("vtc", "bkit", "111111");
+            if (null != u2)
+            {
+                Console.WriteLine(u2.Username);
+            }
 
-            string sServiceCode = "3006";
-            string sAccount = "vtc21";
-            string sMakerCode = "VTC";
+            Console.WriteLine("TEST CheckExisted:");
+            Console.WriteLine("exist bkit: " + VTCIntecomService.CheckAccountEXISTS("bkit"));
+            Console.WriteLine("exist vtc21: " + VTCIntecomService.CheckAccountEXISTS("vtc21"));
+            Console.WriteLine("exist vtc22: " + VTCIntecomService.CheckAccountEXISTS("vtc22"));
+            Console.WriteLine("exist vtc23: " + VTCIntecomService.CheckAccountEXISTS("vtc23"));
+            Console.WriteLine("exist vtc24: " + VTCIntecomService.CheckAccountEXISTS("vtc24"));
+            Console.WriteLine("exist vtc25: " + VTCIntecomService.CheckAccountEXISTS("vtc25"));
+            Console.WriteLine("exist vtc26: " + VTCIntecomService.CheckAccountEXISTS("vtc26"));
+            Console.WriteLine("exist vtc27: " + VTCIntecomService.CheckAccountEXISTS("vtc27"));
+            Console.WriteLine("exist vtc28: " + VTCIntecomService.CheckAccountEXISTS("vtc28"));
 
-            Quantum.Tala.Service.VTCGateTopup.VTCGateTopupSoapClient ws = new Quantum.Tala.Service.VTCGateTopup.VTCGateTopupSoapClient();
-            VTCDataSignature.DataSign ds = new VTCDataSignature.DataSign();
-            string orgrinData = sServiceCode + "-" + sAccount + "-" + sMakerCode;
-            string sDataSign = ds.GetSignatureXmlKey(orgrinData, "PrivateKeyTest.xml");
-            string s = ws.CheckAccountEXISTS(sServiceCode, sAccount, sMakerCode, sDataSign);
-            Console.WriteLine(s);
 
-            int accountID = 1;
-            orgrinData = sServiceCode + "-" + accountID + "-" + sMakerCode;
-            sDataSign = ds.GetSignatureXmlKey(orgrinData, "PrivateKeyTest.xml");
-            var ai = ws.GetAccountInfo(accountID, sMakerCode, sServiceCode, sDataSign);
-            Console.WriteLine(ai.ToString());
+            Console.WriteLine("============================================================================");
+            Console.WriteLine("TEST GetBalance:");
+            Console.WriteLine("balance of bkit: " + VTCIntecomService.GetBalanceOfVTCUser("bkit"));
+            Console.WriteLine("balance of vtc21: " + VTCIntecomService.GetBalanceOfVTCUser("vtc21"));
+            Console.WriteLine("balance of vtc22: " + VTCIntecomService.GetBalanceOfVTCUser("vtc22"));
+            Console.WriteLine("balance of vtc23: " + VTCIntecomService.GetBalanceOfVTCUser("vtc23"));
+            Console.WriteLine("balance of vtc24: " + VTCIntecomService.GetBalanceOfVTCUser("vtc24"));
+            Console.WriteLine("balance of vtc25: " + VTCIntecomService.GetBalanceOfVTCUser("vtc25"));
+            Console.WriteLine("balance of vtc26: " + VTCIntecomService.GetBalanceOfVTCUser("vtc26"));
+            Console.WriteLine("balance of vtc27: " + VTCIntecomService.GetBalanceOfVTCUser("vtc27"));
+            Console.WriteLine("balance of vtc28: " + VTCIntecomService.GetBalanceOfVTCUser("vtc28"));
+
+
+            Console.WriteLine("============================================================================");
+            Console.WriteLine("TEST Login:");
+            CryptoUtil cu = new CryptoUtil();
+            Console.WriteLine("login bkit: " + VTCIntecomService.AuthenticateVTC_MD5HashedPassword("bkit", cu.MD5Hash("111111")));
+
+
+            Console.WriteLine("============================================================================");
+            Console.WriteLine("TEST Subtract money BuyItem:");
+            Console.WriteLine("BEFORE: balance of bkit: " + VTCIntecomService.GetBalanceOfVTCUser("bkit"));
+            int nAccountIDToSubtract = VTCIntecomService.CheckAccountEXISTS("bkit");
+            Console.WriteLine("AccountID of bkit: " + nAccountIDToSubtract);
+
+            transactionDTO oExtendOutput;
+            Console.WriteLine("BuyItem bkit: " +
+                VTCIntecomService.SubtractVCoinOfVTCUser(nAccountIDToSubtract, "bkit", "TalaITEMCODE" ,"127.0.0.1", 1, out oExtendOutput)
+            );
+            Console.WriteLine("AFTER: balance of bkit: " + VTCIntecomService.GetBalanceOfVTCUser("bkit"));
+
+
+            Console.WriteLine("============================================================================");
+            Console.WriteLine("TEST Add money TOPUP:");
+            Console.WriteLine("BEFORE: balance of bkit: " + VTCIntecomService.GetBalanceOfVTCUser("bkit"));
+            nAccountIDToSubtract = VTCIntecomService.CheckAccountEXISTS("bkit");
+            Console.WriteLine("AccountID of bkit: " + nAccountIDToSubtract);
+
+            oExtendOutput = null;
+            VTCGateResponse outputResponse;
+            Console.WriteLine("TopUp bkit: " +
+                VTCIntecomService.AddVCoinOfVTCUser("bkit", "TalaITEMCODE", "127.0.0.1", 10000, out outputResponse)
+            );
+
+            Console.WriteLine(string.Format("VTC Response: {0},   {1},   {2},   {3},   {4},   {5},   {6},   {7},   {8},  {9}", 
+                outputResponse.Account, outputResponse.Amount, outputResponse.Balance,
+                outputResponse.DataSign, outputResponse.Description, outputResponse.ExtensionData, 
+                outputResponse.OrgTransId, outputResponse.ResponseCode, outputResponse.TransDate, 
+                outputResponse.VTCTransCode
+                ));
+
+            Console.WriteLine("AFTER: balance of bkit: " + VTCIntecomService.GetBalanceOfVTCUser("bkit"));            
+
 
             Console.WriteLine("Press enter to quit");
             Console.ReadLine();
         }
-
-
-
-
-
-
-
-
 
 
 
