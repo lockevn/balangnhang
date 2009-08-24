@@ -812,5 +812,8 @@ $string['ziprequired'] = 'The Zip PHP extension is now required by Moodle, info-
 /*danhut added*/
 $string['stickyblocksresourceview'] = 'Resource page view';
 $string['stickyblocksquizview'] = 'Quiz page view';
+$string['stickyblocksquizattempt'] = 'Quiz page attempt';
+$string['stickyblocksquizreview'] = 'Quiz page review';
+
 /*end of danhut added*/
 ?>

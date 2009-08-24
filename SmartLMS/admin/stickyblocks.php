@@ -6,6 +6,8 @@
     require_once($CFG->dirroot.'/lib/blocklib.php');
     require_once($CFG->dirroot.'/mod/resource/pagelib.php');
     require_once($CFG->dirroot.'/mod/quiz/pagelib.php');
+    require_once($CFG->dirroot.'/mod/quiz/quiz_attempt_pagelib.php');
+    require_once($CFG->dirroot.'/mod/quiz/quiz_review_pagelib.php');
     
     
     
@@ -23,7 +25,13 @@
                                                 'name' => get_string('stickyblocksresourceview','admin')),
                        PAGE_QUIZ_VIEW => array('id' => PAGE_QUIZ_VIEW,
                                                 'lib' => '/mod/quiz/pagelib.php',
-                                                'name' => get_string('stickyblocksquizview','admin'))
+                                                'name' => get_string('stickyblocksquizview','admin')),
+                       PAGE_QUIZ_ATTEMPT => array('id' => PAGE_QUIZ_ATTEMPT,
+                                                'lib' => '/mod/quiz/quiz_attempt_pagelib.php',
+                                                'name' => get_string('stickyblocksquizattempt','admin')),
+                       PAGE_QUIZ_REVIEW => array('id' => PAGE_QUIZ_REVIEW,
+                                                'lib' => '/mod/quiz/quiz_review_pagelib.php',
+                                                'name' => get_string('stickyblocksquizreview','admin'))
                        // ... more?
                        );
 
