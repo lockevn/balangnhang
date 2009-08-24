@@ -45,7 +45,7 @@
 
     add_to_log($course->id, "quiz", "view", "view.php?id=$cm->id", $quiz->id, $cm->id);
 
-    // Initialize $PAGE, compute blocks
+    // Initialize $PAGE, compute blocks    
     $PAGE       = page_create_instance($quiz->id);
     $pageblocks = blocks_setup($PAGE, BLOCKS_PINNED_BOTH);
     $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_LEFT]), 210);

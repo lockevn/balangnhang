@@ -5,6 +5,7 @@ require_once($CFG->dirroot.'/course/lib.php'); // needed for some blocks
 
 define('PAGE_QUIZ_VIEW',   'mod-quiz-view');
 
+
 page_map_class(PAGE_QUIZ_VIEW, 'page_quiz');
 
 $DEFINEDPAGES = array(PAGE_QUIZ_VIEW);
@@ -120,6 +121,6 @@ class page_quiz extends page_generic_activity {
     /*end of danhut added*/
 }
 
-page_map_class(PAGE_QUIZ_VIEW, 'page_quiz');
+
 
 ?>
