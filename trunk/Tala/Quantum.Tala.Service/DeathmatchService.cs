@@ -18,7 +18,7 @@ namespace Quantum.Tala.Service
             List<string> arrRet = new List<string>();
             foreach (TalaUser user in arrUser)
             {
-                if (tour.enrollfee > moneysvc.GetBalanceOfVTCUser(user.Username))
+                if (tour.enrollfee > VTCIntecomService.GetBalanceOfVTCUser(user.Username))
                 {
                     // thiếu tiền
                     arrRet.Add(user.Username);
@@ -31,7 +31,11 @@ namespace Quantum.Tala.Service
                 string sItemCode = tour.id + "#" + tour.name + "#" + tour.enrollfee;
                 foreach (TalaUser user in arrUser)
                 {
-                    moneysvc.SubtractVCoinOfVTCUser(user.BankCredential.BankUsername, sItemCode, user.IP, tour.enrollfee, new OutputResultObject());
+                    transactionDTO outputTransaction;
+                    VTCIntecomService.SubtractVCoinOfVTCUser(
+                        user.BankCredential.VTCAccountID, 
+                        user.BankCredential.BankUsername,
+                        sItemCode, user.IP, tour.enrollfee, out outputTransaction);
                 }
             }
 

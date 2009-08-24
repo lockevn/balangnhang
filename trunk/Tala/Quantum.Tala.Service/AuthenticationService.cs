@@ -54,9 +54,7 @@ namespace Quantum.Tala.Service
                     // TODO: Tạo bản ghi user trong hệ thống tá lả, nếu cần
                     userDTO userDBEntry = new userDTO
                     {
-
                     };
-
                 }
 
                 #endregion
@@ -95,46 +93,21 @@ namespace Quantum.Tala.Service
         public virtual IUser AuthenticateVTC(string p_sUsername, string p_sPassword)
         {
             CryptoUtil cu = new CryptoUtil();
-            return AuthenticateVTC_MD5HashedPassword(p_sUsername, cu.MD5Hash(p_sPassword));            
-        }
-
-
-        [TransactionBound]
-        public virtual IUser AuthenticateVTC_MD5HashedPassword(string p_sUsername, string p_sHashedPassword)
-        {
-            bool bAuthenticateOK = false;
-
-            CryptoUtil cu = new CryptoUtil();
-
-            // VTC authentication process here, to verify username password against VTC System
-            VTCBillingService.VTCBillingServiceSoapClient ws = new VTCBillingService.VTCBillingServiceSoapClient("VTCBillingServiceSoap12");
-            var oAuthenticate = ws.Authenticate(p_sUsername, p_sHashedPassword, VTCIntecomService.MAKERCODE, "Sign");
-            // TODO: change
-            string sVTCReturn = oAuthenticate.ToString();
-            VTCResponseInfo response = VTCResponseInfo.Parse(sVTCReturn);
-
-            if (response.ParseOK && int.Parse(response.GetItem(0, "-1")) > 0)
-            {
-                // login ok
-                bAuthenticateOK = true;
-            }
-            else
-            {
-                // Login fail
-            }
-
-            if (bAuthenticateOK)
+            string sHashedPassword = cu.MD5Hash(p_sPassword);
+            int nAccountID = VTCIntecomService.AuthenticateVTC_MD5HashedPassword(p_sUsername, sHashedPassword);
+            if (nAccountID > 0)
             {
                 TalaUser userOK = new TalaUser();
                 userOK.Username = p_sUsername;
-                userOK.Password = p_sHashedPassword;
+                userOK.Password = sHashedPassword;
 
                 // nếu login bằng VTC, thì BankCredential chính là u/p để login với VTC
                 userOK.BankCredential = new VTCBankCredential
                 {
                     Username = p_sUsername,
                     BankUsername = p_sUsername,
-                    BankPassword = p_sHashedPassword
+                    BankPassword = sHashedPassword,
+                    VTCAccountID = nAccountID
                 };
 
                 return userOK;
@@ -144,7 +117,7 @@ namespace Quantum.Tala.Service
                 return null;
             }
         }
-
+                
 
         [TransactionBound]
         public virtual login_logDTO LogLoginAction(string ip, string profilesnapshot, string username)
