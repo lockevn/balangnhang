@@ -120,7 +120,6 @@
     <Compile Include="DTO\user_statDTO.cs" />
     <Compile Include="IAuthenticationService.cs" />
     <Compile Include="IDeathmatchService.cs" />
-    <Compile Include="IMoneyService.cs" />
     <Compile Include="IPlayingService.cs" />
     <Compile Include="ITournamentService.cs" />
     <Compile Include="MoneyService.cs" />

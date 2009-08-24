@@ -56,21 +56,25 @@ namespace Quantum.Tala.Service
 
 
         [TransactionBound]
-        public virtual int AddUserToTournament(string sTalaUsername, string sBankUsername, string ip, tournamentDTO tour)
+        public virtual int AddUserToTournament(string sTalaUsername, int nBankAccountID, string sBankUsername, string ip, tournamentDTO tour)
         {            
             /// Trừ tiền user"+tour.enrollfee+@", gọi sang nghiệp vụ VTC VCoin
             MoneyService moneysvc = new MoneyService();            
             string sItemCode = tour.id + "#" + tour.name + "#" + tour.enrollfee;
-            
-            OutputResultObject output = new OutputResultObject();
-            moneysvc.SubtractVCoinOfVTCUser(sBankUsername, sItemCode, ip, tour.enrollfee, output);
-            
+
+            transactionDTO outputTransaction;
+            VTCIntecomService.SubtractVCoinOfVTCUser(nBankAccountID, sBankUsername, sItemCode, ip, tour.enrollfee, out outputTransaction);
+            int nTransactionDTO_ID = -1;
+            if(null != outputTransaction)
+            {
+                nTransactionDTO_ID = outputTransaction.id;
+            }
             /// Ghi vào bản danh sách đăng ký tham gia giải, Cấp point khởi động cho user
             user_tournamentDTO ticket = new user_tournamentDTO
             {
                 desc = "đóng tiền gia nhập tournament",
                 tournamentid = tour.id,
-                transactionid = (int)output.ValueList[0],
+                transactionid = nTransactionDTO_ID,
                 u = sTalaUsername,
                 point = tour.startuppoint
             };            

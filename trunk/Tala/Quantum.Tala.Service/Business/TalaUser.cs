@@ -17,7 +17,6 @@ namespace Quantum.Tala.Service.Business
     [ElementXMLExportAttribute("user", DataOutputXMLType.NestedTag)]
     public class TalaUser : APIDataEntry, IUser
     {
-
         #region IUser Members
 
         string _sUsername;        
@@ -59,7 +58,13 @@ namespace Quantum.Tala.Service.Business
             set;
         }
 
+        /// <summary>
+        /// thông tin để TalaAPI có thể dựa vào đó, đăng nhập hộ, trừ tiền hộ cho User này ở bên VCoin
+        /// </summary>
+        public VTCBankCredential BankCredential { get; set; }
+
         #endregion
+
 
         string _UsernameInGame = string.Empty;
         /// <summary>
@@ -79,10 +84,6 @@ namespace Quantum.Tala.Service.Business
         public string Password { get; set; }
         public int Gold { get; set; }
 
-        /// <summary>
-        /// thông tin để TalaAPI có thể dựa vào đó, đăng nhập hộ, trừ tiền hộ cho User này ở bên VCoin
-        /// </summary>
-        public VTCBankCredential BankCredential { get; set; }
 
         /// <summary>
         /// IP của máy khách mà user này login vào. Ghi lại lúc login

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Quantum.Tala.Service.Business;
 
 namespace Quantum.Tala.Service.Authentication
 {
@@ -11,5 +12,6 @@ namespace Quantum.Tala.Service.Authentication
         string Authkey { get; set; }
         string System { get; set; }
         string FullIdentity { get; set; }
+        VTCBankCredential BankCredential { get; set; }
     }
 }
