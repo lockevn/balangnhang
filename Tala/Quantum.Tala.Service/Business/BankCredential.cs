@@ -13,5 +13,6 @@ namespace Quantum.Tala.Service.Business
         public string Username { get; set; }
         public string BankUsername { get; set; }
         public string BankPassword { get; set; }
+        public int VTCAccountID { get; set; }
     }
 }
