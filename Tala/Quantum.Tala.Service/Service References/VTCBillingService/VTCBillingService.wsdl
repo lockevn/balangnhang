@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Authenticate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VTCAccountName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VTCAccountPasswordMD5" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MakerCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Sign" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthenticateResult" type="tns:AuthenResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AuthenResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ResponseCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Decription" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AccountID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Sign" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetBalance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VTCAccountName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MakerCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Sign" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBalanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBalanceResult" type="tns:BalanceResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="BalanceResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ResponseCode" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Balance" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Decription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Sign" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="BuyItem">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VTCAccountName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="VTCAccountID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="MakerCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ItemCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ItemPrice" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserIP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Sign" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuyItemResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuyItemResult" type="tns:BuyItemsResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="BuyItemsResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ResponseCode" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Balance" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Decription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Sign" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="AuthenticateSoapIn">
+    <wsdl:part name="parameters" element="tns:Authenticate" />
+  </wsdl:message>
+  <wsdl:message name="AuthenticateSoapOut">
+    <wsdl:part name="parameters" element="tns:AuthenticateResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBalanceSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBalance" />
+  </wsdl:message>
+  <wsdl:message name="GetBalanceSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBalanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuyItemSoapIn">
+    <wsdl:part name="parameters" element="tns:BuyItem" />
+  </wsdl:message>
+  <wsdl:message name="BuyItemSoapOut">
+    <wsdl:part name="parameters" element="tns:BuyItemResponse" />
+  </wsdl:message>
+  <wsdl:portType name="VTCBillingServiceSoap">
+    <wsdl:operation name="Authenticate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Authenticate</wsdl:documentation>
+      <wsdl:input message="tns:AuthenticateSoapIn" />
+      <wsdl:output message="tns:AuthenticateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBalance">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Balance Vcoin of VTC Account</wsdl:documentation>
+      <wsdl:input message="tns:GetBalanceSoapIn" />
+      <wsdl:output message="tns:GetBalanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuyItem">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Use vcoin to buy item for account partner</wsdl:documentation>
+      <wsdl:input message="tns:BuyItemSoapIn" />
+      <wsdl:output message="tns:BuyItemSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="VTCBillingServiceSoap" type="tns:VTCBillingServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Authenticate">
+      <soap:operation soapAction="http://tempuri.org/Authenticate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBalance">
+      <soap:operation soapAction="http://tempuri.org/GetBalance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuyItem">
+      <soap:operation soapAction="http://tempuri.org/BuyItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="VTCBillingServiceSoap12" type="tns:VTCBillingServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Authenticate">
+      <soap12:operation soapAction="http://tempuri.org/Authenticate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBalance">
+      <soap12:operation soapAction="http://tempuri.org/GetBalance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuyItem">
+      <soap12:operation soapAction="http://tempuri.org/BuyItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="VTCBillingService">
+    <wsdl:port name="VTCBillingServiceSoap" binding="tns:VTCBillingServiceSoap">
+      <soap:address location="http://117.103.192.45/VTCBillingService/VTCBillingService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="VTCBillingServiceSoap12" binding="tns:VTCBillingServiceSoap12">
+      <soap12:address location="http://117.103.192.45/VTCBillingService/VTCBillingService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
