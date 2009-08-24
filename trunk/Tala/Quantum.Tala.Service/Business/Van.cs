@@ -12,6 +12,7 @@ using Quantum.Tala.Service.Exception;
 using System.Text;
 using GURUCORE.Framework.Business;
 using Quantum.Tala.Service.DTO;
+using Quantum.Tala.Service.VTCGateTopup;
 
 namespace Quantum.Tala.Service.Business
 {
@@ -682,12 +683,13 @@ namespace Quantum.Tala.Service.Business
             switch (this.CurrentSoi.GetCurrentTournament().type)
             {
                 case (int)TournamentType.DeadMatch:
-                    // cộng tiền thưởng cho người nhất
-                    IMoneyService moneysvc = ServiceLocator.Locate<IMoneyService, MoneyService>();
+                    // cộng tiền thưởng cho người nhất                    
                     tournamentDTO tour = CurrentSoi.GetCurrentTournament();
                     string sItemCode = string.Format("TalaWinner^{0}^{1}", tour.id, tour.name);
                     int nMoneyToAdd = tour.enrollfee * CurrentSoi.SeatList.Count * (3/4);
-                    moneysvc.AddVCoinOfVTCUser(Winner.BankCredential.BankUsername, sItemCode, Winner.IP, nMoneyToAdd);
+
+                    VTCGateResponse outputResponse;
+                    VTCIntecomService.AddVCoinOfVTCUser(Winner.BankCredential.BankUsername, sItemCode, Winner.IP, nMoneyToAdd, out outputResponse);
 
                     // TODO: huỷ ván, huỷ sới, đuổi người chơi luôn, thu xếp được ván khác thì thu xếp                                       
                     break;
