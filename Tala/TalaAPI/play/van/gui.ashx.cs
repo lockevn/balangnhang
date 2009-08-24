@@ -67,14 +67,14 @@ namespace TalaAPI.play.van
                 /*chỉ gửi thành công khi tất cả các phỏm gửi, cây gửi là hợp lệ*/
                 if (!result)
                 {
-                    cs.Info = string.Format("có lỗi khi gửi {0} vào phỏm {1}", cardDeGuiList.ToTalaString(), nPhomIDNumber);
+                    cs.Info = string.Format("có lỗi khi gửi {0} vào phỏm {1}. Các phỏm trước đó đã có thể được gửi thành công", cardDeGuiList.ToTalaString(), nPhomIDNumber);
                     break;
                 }                                
             }
 
             if (result)
             {
-                cs = new APICommandStatus(APICommandStatusState.OK, "GUI", "valid action");
+                cs = new APICommandStatus(APICommandStatusState.OK, "GUI", "cây được gửi thành công vào phỏm");
             }
 
             this.Cmd.Add(cs);

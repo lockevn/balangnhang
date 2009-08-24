@@ -42,7 +42,8 @@ namespace TalaAPI.community.tournament
             #region Kiểm tra định danh với kho tiền VTC của user
             
             IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
-            if (null == authensvc.AuthenticateVTC(sCoinUsername, sCoinPassword))
+            IUser authenticateVTCUser = authensvc.AuthenticateVTC(sCoinUsername, sCoinPassword);
+            if (null == authenticateVTCUser)
             {
                 cs = APICommandStatus.Get_NOT_VALID_CommandStatus();
                 cs.Info = "Sai Username và/hoặc password, không thể xác thực username và password của bạn với VTC";
@@ -53,9 +54,9 @@ namespace TalaAPI.community.tournament
             #endregion
 
             #region Kiểm tra xem đủ tiền chơi không
-  
-            IMoneyService moneysvc = ServiceLocator.Locate<IMoneyService, MoneyService>();
-            int nRemainBalance = moneysvc.GetBalanceOfVTCUser(sCoinUsername);
+ 
+
+            int nRemainBalance = VTCIntecomService.GetBalanceOfVTCUser(sCoinUsername);
 
             if(tour.enrollfee > nRemainBalance /* thiếu tiền */)
             {
@@ -73,7 +74,7 @@ namespace TalaAPI.community.tournament
                 )
             {
                 ITournamentService toursvc = ServiceLocator.Locate<ITournamentService, TournamentService>();
-                toursvc.AddUserToTournament(security.CurrentAU.Username, sCoinUsername, TalaSecurity.GetClientIP(), tour);
+                toursvc.AddUserToTournament(security.CurrentAU.Username, authenticateVTCUser.BankCredential.VTCAccountID, sCoinUsername, TalaSecurity.GetClientIP(), tour);
                 // refresh danh mục tournament đang tham gia, ấn tour vừa add vào
                 security.CurrentAU.AttendingTournament.Add(tour);
             }
