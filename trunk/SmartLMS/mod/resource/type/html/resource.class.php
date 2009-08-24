@@ -50,7 +50,7 @@ function _postprocess(&$resource) {
 
 
 function display() {
-    global $CFG;
+    global $CFG, $PAGE;
 
     $formatoptions = new object();
     $formatoptions->noclean = true;
