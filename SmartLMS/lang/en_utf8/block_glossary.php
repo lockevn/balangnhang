@@ -4,5 +4,5 @@
 /*danhut added*/
 $string['config_required'] = 'You have to choose the glossary for this block by clicking on the block\'s setting icon';
 $string['config_title'] = 'Choose the glossary to display';
-$string['module_name'] = 'Glossary';
+$string['module_name'] = 'Course Glossary';
 ?>
