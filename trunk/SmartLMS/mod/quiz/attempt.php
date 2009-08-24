@@ -11,7 +11,9 @@
  */
 
     require_once("../../config.php");
-    require_once("locallib.php");
+    require_once($CFG->dirroot.'/mod/quiz/locallib.php');
+    require_once($CFG->dirroot.'/mod/quiz/quiz_attempt_pagelib.php');
+    require_once($CFG->libdir.'/blocklib.php');
 
     // remember the current time as the time any responses were submitted
     // (so as to make sure students don't get penalized for slow processing on this page)
@@ -59,6 +61,8 @@
     $context = get_context_instance(CONTEXT_MODULE, $cm->id);
     $ispreviewing = has_capability('mod/quiz:preview', $context);
 
+   
+    
     // if no questions have been set up yet redirect to edit.php
     if (!$quiz->questions and has_capability('mod/quiz:manage', $context)) {
         redirect($CFG->wwwroot . '/mod/quiz/edit.php?cmid=' . $cm->id);
@@ -414,6 +418,13 @@
 
 /// Print the quiz page ////////////////////////////////////////////////////////
 
+     /*danhut add to enable sticky blocks*/
+    // Initialize $PAGE, compute blocks    
+    $PAGE       = page_create_instance($quiz->id);
+    $pageblocks = blocks_setup($PAGE, BLOCKS_PINNED_BOTH);
+    $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_LEFT]), 210);
+    /*end of danhut add*/
+    
     // Print the page header
     require_js($CFG->wwwroot . '/mod/quiz/quiz.js');
     $pagequestions = explode(',', $pagelist);
@@ -430,6 +441,21 @@
         print_header_simple(format_string($quiz->name), "", $navigation, "", $headtags, true, $strupdatemodule);
     }
 
+    /*danhut added*/
+    echo '<table id="layout-table"><tr>';
+
+    if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
+        echo '<td style="width: '.$blocks_preferred_width.'px;" id="left-column">';
+        print_container_start();
+        blocks_print_group($PAGE, $pageblocks, BLOCK_POS_LEFT);
+        print_container_end();
+        echo '</td>';
+    }
+
+    echo '<td id="middle-column">';
+    print_container_start();
+    /*end of added*/
+    
     echo '<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>'; // for overlib
 
     // Print the quiz name heading and tabs for teacher, etc.
@@ -542,9 +568,32 @@
         $timerstartvalue = max($timerstartvalue, 1); // Make sure it starts just above zero.
         require('jstimer.php');
     }
+    
+    /*danhut added*/
+        finish_page($course, $pageblocks);
+   /*end of danhut added*/
 
     // Finish the page
     if (empty($popup)) {
         print_footer($course);
     }
+    
+function finish_page($course, $pageblocks) {
+    global $THEME;
+    global $PAGE;
+    global $CFG;
+    print_container_end();
+    echo '</td>';
+    $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_RIGHT]), 210);
+    /*danhut added: print right blocks*/
+	if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
+        echo '<td style="width: '.$blocks_preferred_width.'px;" id="right-column">';
+        print_container_start();
+        blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
+        print_container_end();
+        echo '</td>';
+    }
+    /*end of danhut added*/
+    echo '</tr></table>';    
+}
 ?>

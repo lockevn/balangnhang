@@ -12,6 +12,8 @@
 
     require_once("../../config.php");
     require_once("locallib.php");
+    require_once($CFG->dirroot.'/mod/quiz/quiz_review_pagelib.php');
+    require_once($CFG->libdir.'/blocklib.php');
 
     $attempt = required_param('attempt', PARAM_INT);    // A particular attempt ID for review
     $page = optional_param('page', 0, PARAM_INT); // The required page
@@ -137,6 +139,27 @@
         $navigation = build_navigation($strreviewtitle, $cm);
         print_header_simple(format_string($quiz->name), "", $navigation, "", $headtags, true, $strupdatemodule);
     }
+    
+     /*danhut add to enable sticky blocks*/
+    // Initialize $PAGE, compute blocks    
+    $PAGE       = page_create_instance($quiz->id);
+    $pageblocks = blocks_setup($PAGE, BLOCKS_PINNED_BOTH);
+    $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_LEFT]), 210);
+    
+    echo '<table id="layout-table"><tr>';
+
+    if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
+        echo '<td style="width: '.$blocks_preferred_width.'px;" id="left-column">';
+        print_container_start();
+        blocks_print_group($PAGE, $pageblocks, BLOCK_POS_LEFT);
+        print_container_end();
+        echo '</td>';
+    }
+
+    echo '<td id="middle-column">';
+    print_container_start();
+    /*end of added*/
+    
     echo '<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>'; // for overlib
 
 /// Print heading and tabs if this is part of a preview
@@ -305,8 +328,31 @@
     if (!$isteacher) {
         include('attempt_close_js.php');
     }
+    
+    /*danhut added*/
+        finish_page($course, $pageblocks);
+   /*end of danhut added*/
 
     if (empty($popup)) {
         print_footer($course);
     }
+
+function finish_page($course, $pageblocks) {
+    global $THEME;
+    global $PAGE;
+    global $CFG;
+    print_container_end();
+    echo '</td>';
+    $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_RIGHT]), 210);
+    /*danhut added: print right blocks*/
+	if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
+        echo '<td style="width: '.$blocks_preferred_width.'px;" id="right-column">';
+        print_container_start();
+        blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
+        print_container_end();
+        echo '</td>';
+    }
+    /*end of danhut added*/
+    echo '</tr></table>';    
+}
 ?>
