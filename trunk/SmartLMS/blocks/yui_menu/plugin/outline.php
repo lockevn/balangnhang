@@ -258,7 +258,7 @@ class yui_menu_plugin_outline extends yui_menu_plugin {
      * @param $trunc: string to append to truncated pieces
      */
     function truncate_html($html, $config) {
-        $max_size = (isset($config->maxsize) ? $config->maxsize : '19');
+        $max_size = (isset($config->maxsize) ? $config->maxsize : '30');
         $trunc = (isset($config->trunc) ? $config->trunc : '...');
         $text = preg_replace_callback('|</?([^\s>]*).*?>|smi',
             array($this, 'filter_tag'), $html);
