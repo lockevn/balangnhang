@@ -66,12 +66,7 @@ namespace Quantum.Tala.Service
             VTCBillingService.VTCBillingServiceSoapClient ws = new VTCBillingService.VTCBillingServiceSoapClient("VTCBillingServiceSoap");
             string sSign = p_sVTCUsername + "-" + VTCIntecomService.MAKERCODE;
             var response = ws.GetBalance(p_sVTCUsername, VTCIntecomService.MAKERCODE, Sign(sSign));
-            int nRet = int.MinValue;
-            if (response.ResponseCode == "0")
-            {
-                nRet = response.Balance;
-            }
-            return nRet;
+            return response.Balance;            
         }
 
 
@@ -118,52 +113,59 @@ namespace Quantum.Tala.Service
             string sSign = p_sVTCUsername + "-" + VTCAccountID.ToString() + "-" + VTCIntecomService.MAKERCODE + "-" +
                 ItemCode + "-" + p_nMoneyToSubtract.ToString() + "-" + sGUIDTransactionCode;
 
-            var response = ws.BuyItem(p_sVTCUsername, VTCAccountID, VTCIntecomService.MAKERCODE, ItemCode, p_nMoneyToSubtract, p_sClientIP, sGUIDTransactionCode, Sign(sSign));
-            int nRet = int.MinValue;
+
+            IMoneyService moneysvc = ServiceLocator.Locate<IMoneyService, MoneyService>();
+            #region log các hành vi giao dịch tiền, tham gia, ...");
+            transactionDTO tranEntry = new transactionDTO
+            {
+                amount = p_nMoneyToSubtract,                
+                meta = p_sVTCUsername,
+                meta1 = ItemCode,
+                meta2 = p_sClientIP,
+                type = (int)MoneyTransactionType.Subtract,
+                status = transactionDTO.STATUS_PROCESSING
+            };
+
+            try
+            {
+                tranEntry = moneysvc.CreateTransation(tranEntry);
+            }
+            catch (System.Exception ex)
+            {
+                log.Error(
+                    string.Format("Can't write transaction log to DB. I write here. No call to VTC was made.^{0},{1},{2},{3},{4},{5},{6}",
+                    tranEntry.amount,
+                    tranEntry.desc,
+                    tranEntry.meta,
+                    tranEntry.meta1,
+                    tranEntry.meta2,                    
+                    MoneyTransactionType.Subtract.ToString(),
+                    tranEntry.status)
+                    ,ex);
+
+                outputTransactionDTO = tranEntry;
+                return false;
+            }
+
+            #endregion
+
+            // không log được thì sẽ không gọi hàm tới VTC
+            var response = ws.BuyItem(p_sVTCUsername, VTCAccountID, VTCIntecomService.MAKERCODE, ItemCode, p_nMoneyToSubtract, p_sClientIP, sGUIDTransactionCode, Sign(sSign));            
             if (response.ResponseCode == "0")
             {
-                nRet = response.Balance;
-
-                #region log các hành vi giao dịch tiền, tham gia, ...");
-                transactionDTO tranEntry = new transactionDTO
-                {
-                    amount = p_nMoneyToSubtract,
-                    desc = p_sClientIP,
-                    meta = p_sVTCUsername,
-                    meta1 = ItemCode,
-                    meta2 = p_sClientIP,
-                    type = (int)MoneyTransactionType.Subtract
-                };
-
-
-                try
-                {
-                    tranEntry = DAU.AddObject<transactionDTO>(tranEntry);
-                }
-                catch (System.Exception ex)
-                {
-                    log.Error(
-                        string.Format("Can't write transaction log to DB. I write here.^{0},{1},{2},{3},{4},{5}",
-                        p_nMoneyToSubtract,
-                        p_sClientIP,
-                        p_sVTCUsername,
-                        ItemCode,
-                        p_sClientIP,
-                        MoneyTransactionType.Subtract.ToString(),
-                        ex)
-                    );
-                }
-
-                #endregion
-                
+                tranEntry.status = transactionDTO.STATUS_OK;
+                moneysvc.SaveTransation(tranEntry);
                 outputTransactionDTO = tranEntry;
                 return true;
             }
             else
             {
+                tranEntry.status = transactionDTO.STATUS_FAILED;
+                tranEntry.desc = string.Format("ResponseCode:{0},ResponseDesc:{1}",response.ResponseCode, response.Decription);
+                moneysvc.SaveTransation(tranEntry);
                 outputTransactionDTO = null;
                 return false;
-            }            
+            }
         }
 
 
@@ -192,29 +194,9 @@ namespace Quantum.Tala.Service
                 VTCIntecomService.MAKERCODE + "-" +
                 Transdate.ToString("MMddyyyy") + "-" + Orgtransid;
 
-            /*
-Output:  
-Bao gồm trường thông tin mà  đối tác gửi  đến và thêm VTCTransCode, 
-ResponseCode, Description thể hiện dưới dạng XML 
-
-- VTCTransCode: Mã giao dịch phát sinh từ phía VTC Paygate. 
-- ResponseCode: Thể hiện kết quả giao dịch  1. (Có phụ lục mã lỗi 
-kèm theo mỗi dịch vụ) 
-- Description: Mã giao dịch phát sinh từ phía Partner và không trùng 
-nhau. Có nghĩa là mỗi giao dịch chỉ gửi 1 lần. 
-
-- DataSign: Chữ ký  điện tử trên giao dịch tương  ứng của VTC’s 
-Partner. Chữ ký điện tử theo thuật toán RSA 1024 bit bằng private key 
-của VTC tạo trong cặp key và cung cấp cho Partner public key để xác 
-nhận bản tin mà VTC trả về.   
-Các thông tin kiểm tra chữ ký:  
-ServiceCode + "-" + Account + "-" + Convert.ToInt32(Amount).ToString() + 
-"-" + MakerCode + "-" + Transdate(MMddyyyy) + "-" + Orgtransid + "-"  + 
-ResponseCode 
-             */
-            var response = ws.TopupAccount(VTCIntecomService.SERVICECODE, p_sAccount, p_nMoneyToAdd, VTCIntecomService.MAKERCODE, Transdate, Orgtransid, Sign(sSign));
-
-            
+            var response = ws.TopupAccount(VTCIntecomService.SERVICECODE, 
+                p_sAccount, p_nMoneyToAdd, 
+                VTCIntecomService.MAKERCODE, Transdate, Orgtransid, Sign(sSign));
 
             // check lại chữ ký của VTC Response xem ok chưa
             if (true)

@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AABD5431-60C9-451D-AF35-BC42C82BF63D}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -108,6 +108,7 @@
     <Compile Include="Business\UUtil.cs" />
     <Compile Include="Business\Van.cs" />
     <Compile Include="CONST.cs" />
+    <Compile Include="DTO\transactionDTO.cs" />
     <Compile Include="DTO\_game_logDTO.gen.cs" />
     <Compile Include="DTO\_login_logDTO.gen.cs" />
     <Compile Include="DTO\_monthly_subscriptionDTO.gen.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="DTO\user_statDTO.cs" />
     <Compile Include="IAuthenticationService.cs" />
     <Compile Include="IDeathmatchService.cs" />
+    <Compile Include="IMoneyService.cs" />
     <Compile Include="IPlayingService.cs" />
     <Compile Include="ITournamentService.cs" />
     <Compile Include="MoneyService.cs" />

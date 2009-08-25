@@ -63,26 +63,34 @@ namespace Quantum.Tala.Service
             string sItemCode = tour.id + "#" + tour.name + "#" + tour.enrollfee;
 
             transactionDTO outputTransaction;
-            VTCIntecomService.SubtractVCoinOfVTCUser(nBankAccountID, sBankUsername, sItemCode, ip, tour.enrollfee, out outputTransaction);
+            bool bSubtractOK = VTCIntecomService.SubtractVCoinOfVTCUser(nBankAccountID, sBankUsername, sItemCode, ip, tour.enrollfee, out outputTransaction);
+
             int nTransactionDTO_ID = -1;
-            if(null != outputTransaction)
+
+            if (bSubtractOK)
             {
-                nTransactionDTO_ID = outputTransaction.id;
+                if (null != outputTransaction)
+                {
+                    nTransactionDTO_ID = outputTransaction.id;
+                }
+
+                /// Ghi vào bản danh sách đăng ký tham gia giải, Cấp point khởi động cho user
+                user_tournamentDTO ticket = new user_tournamentDTO
+                {
+                    desc = "đóng tiền gia nhập tournament",
+                    tournamentid = tour.id,
+                    transactionid = nTransactionDTO_ID,
+                    u = sTalaUsername,
+                    point = tour.startuppoint
+                };
+                DAU.AddObject<user_tournamentDTO>(ticket);
+                // IMPROVE: cập nhật lại danh sách TalaUser.AttendingTournament, hiện tại đang cập nhật ở ngoài hàm API web
+                return ticket.transactionid;
             }
-            /// Ghi vào bản danh sách đăng ký tham gia giải, Cấp point khởi động cho user
-            user_tournamentDTO ticket = new user_tournamentDTO
+            else
             {
-                desc = "đóng tiền gia nhập tournament",
-                tournamentid = tour.id,
-                transactionid = nTransactionDTO_ID,
-                u = sTalaUsername,
-                point = tour.startuppoint
-            };            
-            DAU.AddObject<user_tournamentDTO>(ticket);
-
-            // TODO: cập nhật lại danh sách TalaUser.AttendingTournament, hiện tại đang cập nhật ở ngoài hàm API web
-
-            return ticket.transactionid;
+                return nTransactionDTO_ID;
+            }            
         }
 
 	}

@@ -13,7 +13,19 @@ using GURUCORE.Framework.Core;
 
 namespace Quantum.Tala.Service
 {
-    public class MoneyService : BusinessService
-    {   
+    public class MoneyService : BusinessService, Quantum.Tala.Service.IMoneyService
+    {
+        [TransactionBound]
+        public virtual transactionDTO CreateTransation(transactionDTO p_dto)
+        {
+            return DAU.AddObject<transactionDTO>(p_dto);
+        }
+
+        [TransactionBound]
+        public virtual int SaveTransation(transactionDTO p_dto)
+        {
+            return DAU.SaveSingleObject<transactionDTO>(p_dto);
+        }
+
     }
 }
