@@ -20,6 +20,7 @@
     <script type="text/javascript" src="<?= $CFG->wwwroot ?>/js/shortcut.js"></script>
     <script type="text/javascript" >
     var ROOT_URL = "<?= $CFG->wwwroot ?>";
+    var PIXPATH = "<?=$CFG->pixpath?>";
     </script>
     
     <?php include("$CFG->javascript"); ?>
@@ -77,6 +78,9 @@ else if ($heading) {  // This is what gets printed on any other page with a head
 	
 	
     <div class="navbar clearfix">
+    <?php
+  include_once($CFG->dirroot.'/mod/studynotes/ext/overlay_snippet.php');
+	?>
     <?php if ($navigation) { // This is the navigation table with breadcrumbs
     ?>
 	
