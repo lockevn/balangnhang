@@ -25,6 +25,8 @@ namespace Quantum.Tala.Service
                 }                
             }
 
+            // THREAT: có rủi ro ở đây, do không có transaction bound để gọi webAPI, có thể lúc kiểm thì đủ tiền, lúc trừ thật lại không đủ tiền
+
             // nếu không có chú nào thiếu tiền, mới bắt đầu tiến hành trừ
             if(arrRet.Count <= 0)
             {

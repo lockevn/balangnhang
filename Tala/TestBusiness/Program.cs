@@ -48,18 +48,18 @@ namespace TestBusiness
 
         static void Main(string[] args)
         {
-
-            log.Error("error test in Program");          
-
-
-
-
             TalaProgramApplication.GetInstance().Start(System.IO.Directory.GetCurrentDirectory());
             IAuthenticationService authensvc = ServiceLocator.Locate<IAuthenticationService, AuthenticationService>();
-            IUser u2 = authensvc.Authenticate("vtc", "bkit", "111111");
+
+            Console.WriteLine("TEST login:");
+            IUser u2 = authensvc.Authenticate("vtc", "vtc21", "111111");
             if (null != u2)
             {
-                Console.WriteLine(u2.Username);
+                Console.WriteLine("login OK" + u2.Username);
+            }
+            else
+            {
+                Console.WriteLine("login vtc21 failed");
             }
 
             Console.WriteLine("TEST CheckExisted:");
@@ -101,7 +101,7 @@ namespace TestBusiness
 
             transactionDTO oExtendOutput;
             Console.WriteLine("BuyItem bkit: " +
-                VTCIntecomService.SubtractVCoinOfVTCUser(nAccountIDToSubtract, "bkit", "TalaITEMCODE" ,"127.0.0.1", 1, out oExtendOutput)
+                VTCIntecomService.SubtractVCoinOfVTCUser(nAccountIDToSubtract, "bkit", "TalaITEMCODE" ,"127.0.0.1", 10000, out oExtendOutput)
             );
             Console.WriteLine("AFTER: balance of bkit: " + VTCIntecomService.GetBalanceOfVTCUser("bkit"));
 
