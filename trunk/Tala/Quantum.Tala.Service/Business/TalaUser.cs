@@ -131,9 +131,13 @@ namespace Quantum.Tala.Service.Business
         /// </summary>
         public List<tournamentDTO> AttendingTournament { get; set; }
 
+        public List<Message> MessageQueue { get; set; }
+
+
         public TalaUser()
         {
             AttendingTournament = new List<tournamentDTO>();
+            MessageQueue = new List<Message>();
         }
         public TalaUser(string p_sUsername, string p_sAuthkey) : this()
         {

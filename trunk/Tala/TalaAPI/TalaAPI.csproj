@@ -120,6 +120,9 @@
     <Compile Include="community\soi\add.ashx.cs">
       <DependentUpon>add.ashx</DependentUpon>
     </Compile>
+    <Compile Include="community\soi\invite.ashx.cs">
+      <DependentUpon>invite.ashx</DependentUpon>
+    </Compile>
     <Compile Include="community\soi\user_add_auto.ashx.cs">
       <DependentUpon>user_add_auto.ashx</DependentUpon>
     </Compile>
@@ -158,6 +161,9 @@
     </Compile>
     <Compile Include="community\tournament\user_add.ashx.cs">
       <DependentUpon>user_add.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="community\user\event_read.ashx.cs">
+      <DependentUpon>event_read.ashx</DependentUpon>
     </Compile>
     <Compile Include="community\user\soi_read.ashx.cs">
       <DependentUpon>soi_read.ashx</DependentUpon>
@@ -374,6 +380,8 @@
     <Content Include="community\user\online_count.ashx" />
     <Content Include="community\user\soi_read.ashx" />
     <Content Include="admin\game\autorun_incache_view.ashx" />
+    <Content Include="community\user\event_read.ashx" />
+    <Content Include="community\soi\invite.ashx" />
     <None Include="Config\db.config">
     </None>
     <None Include="Config\serverlist.config" />
