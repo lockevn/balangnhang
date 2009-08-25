@@ -243,6 +243,13 @@
                 $secondrow = $reportsecondrow;
             }
         }
+        
+        /*danhut added*/
+    	//if (!empty($CFG->enablenotes) and (has_capability('moodle/notes:manage', $coursecontext) || has_capability('moodle/notes:view', $coursecontext))) {
+            $toprow[] = new tabobject('Learning progress', $CFG->wwwroot.'/mod/smartcom/index.php?course='.$course->id . '&amp;id=' . $user->id, get_string('smartcom', 'smartcom'));
+       //}
+       /*end of danhut added*/
+        
     }    //close last bracket (individual tags)
 
 
