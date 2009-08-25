@@ -273,8 +273,7 @@ namespace Quantum.Tala.Service.Business
                 Song.CACHE_PREFIX_AUTHKEY + authkey, user,
                 null,
                 DateTime.MaxValue, TimeSpan.FromSeconds(Song.AUTHENTICATE_TIMEOUT)
-                );
-            throw new NotImplementedException();
+                );            
         }
                 
 

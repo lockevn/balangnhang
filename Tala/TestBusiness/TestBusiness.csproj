@@ -107,7 +107,7 @@
     <None Include="Config\System\DataProvider.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TalaAPI.dll.log4net">
+    <None Include="TestBusiness.exe.log4net">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Config\VTCPublicKey.config">
