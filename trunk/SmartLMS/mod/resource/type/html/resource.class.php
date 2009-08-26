@@ -102,10 +102,11 @@ function display() {
                 print_footer($course);
             } else {                           /// Make a page and a pop-up window
                 $navigation = build_navigation($this->navlinks, $cm);
-                
+                /*danhut modified: no need to put navmenu in header*/
                 print_header($pagetitle, $course->fullname, $navigation,
-                        "", "", true, update_module_button($cm->id, $course->id, $this->strresource),
-                        navmenu($course, $cm));
+                        "", "", true, update_module_button($cm->id, $course->id, $this->strresource)/*,
+                        navmenu($course, $cm)*/);
+                
 
                 echo "\n<script type=\"text/javascript\">";
                 echo "\n//<![CDATA[\n";
@@ -149,12 +150,15 @@ function display() {
             echo '<td id="middle-column">';
     		print_container_start();
     		/*end of danhut added*/
+    		$menu = navmenu($course, $cm);
+			echo $menu;
             print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id), "center clearfix", "", "", "20");
 
             $strlastmodified = get_string("lastmodified");
             echo "<div class=\"modified\">$strlastmodified: ".userdate($resource->timemodified)."</div>";
 
             /*danhut added*/
+            echo $menu;
             print_container_end();
     		echo '</td>';
     		
