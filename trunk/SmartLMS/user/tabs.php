@@ -247,8 +247,8 @@
 		/*danhut added*/
 		//if (!empty($CFG->enablenotes) and (has_capability('moodle/notes:manage', $coursecontext) || has_capability('moodle/notes:view', $coursecontext))) {
 		$toprow[] = new tabobject('Learning progress', 
-			$CFG->wwwroot.'/mod/smartcom/index.php?courseid='.$course->id . '&amp;userid=' . $user->id, 
-			get_string('smartcom', 'smartcom')
+			$CFG->wwwroot.'/mod/smartcom/index.php?courseid='.$course->id . '&amp;userid=' . $user->id  .'&amp;submodule=learning_progress', 
+			get_string('Learning progress', 'smartcom')
 		);
 	   //}
 	   /*end of danhut added*/

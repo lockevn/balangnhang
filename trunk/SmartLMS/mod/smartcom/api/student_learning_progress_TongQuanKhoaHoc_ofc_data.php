@@ -15,14 +15,16 @@ foreach (((array)$recs) as $key => $value) {
 }
 $g->set_data($data1);
 
-$g->bar(20, '#FFB900', 'Unit score', 10);
+$g->bar(70, '#FFB900', 'Unit score', 10);
 
 // label each point with its value
 $g->set_x_labels( array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec' ) );
 $g->set_x_label_style( 12, '#000000', 2);
+$g->set_x_legend('Unit', 10, '#736AFF');
 
 $g->set_y_max(100);
 $g->y_label_steps(10);
+$g->set_y_legend('Scores', 10, '#736AFF');
 
 // display the data
 echo $g->render();

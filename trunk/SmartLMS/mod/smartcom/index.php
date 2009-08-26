@@ -17,6 +17,9 @@ require_once('./lib.php');
 
 $courseid = required_param('courseid', PARAM_INT);   // course
 $userid = required_param('userid', PARAM_INT);   // course
+$submodule = required_param('submodule', PARAM_TEXT);   // submodule
+
+
 
 if (! $course = get_record('course', 'id', $courseid)) {
 	error('Course ID is incorrect');
@@ -36,17 +39,26 @@ print_header_simple($strsmartcoms, '', $navigation, '', '', true, '', navmenu($c
 print_heading($strsmartcoms . ' Learning Progress');
 
 
+switch ($submodule) {
+   case 'learning_progress':
+   
+	require_once(ABSPATH.'lib/ofc-library/open_flash_chart_object.php');
+	open_flash_chart_object('100%', 500, 
+	'/mod/smartcom/api/student_learning_progress_TongQuanKhoaHoc_ofc_data.php', 
+	false, '/' );
 
-require_once(ABSPATH.'lib/ofc-library/open_flash_chart_object.php');
-open_flash_chart_object('100%', 500, 
-'/mod/smartcom/api/student_learning_progress_TongQuanKhoaHoc_ofc_data.php', 
-false, '/' );
+	echo '<br /><br /><br /><br />';
 
+	require_once(ABSPATH.'lib/ofc-library/open_flash_chart_object.php');
+	open_flash_chart_object('100%', 500, 
+	'/mod/smartcom/api/student_learning_progress_ChiTietBaiHoc_ofc_data.php', 
+	false, '/' );
+	break;
+	 
+   case '':
 
-require_once(ABSPATH.'lib/ofc-library/open_flash_chart_object.php');
-open_flash_chart_object('100%', 500, 
-'/mod/smartcom/api/student_learning_progress_ChiTietBaiHoc_ofc_data.php', 
-false, '/' );
+	 break;
+}
 
 
 /// Finish the page
