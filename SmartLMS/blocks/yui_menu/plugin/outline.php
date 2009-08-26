@@ -294,6 +294,13 @@ class yui_menu_plugin_outline extends yui_menu_plugin {
         return ' ';
     }
     
+    /**
+     * danhut added to get the lesson start link
+     *
+     * @param unknown_type $mods
+     * @param unknown_type $sectionmods
+     * @return unknown
+     */
     function getLessonStartUrl($mods, $sectionmods) {
     	$sectionUrl = false;
     	Global $CFG;
