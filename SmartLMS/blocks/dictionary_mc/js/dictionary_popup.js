@@ -13,7 +13,7 @@ $(document).ready(function(){
 			var $trigger = $(hash.t);
 			var $modal = $(hash.w);
 			
-			var myUrl = '/GAction/dictionary_translate.php?width=90%&height=99%&jqmRefresh=false' 
+			var myUrl = '/mod/smartcom/api/dictionary_translate.php?width=90%&height=99%&jqmRefresh=false' 
 			+ '&dic='+var_dictionaries + '&word='+var_word;;
 					
 			var myTitle= $trigger.attr('title');
