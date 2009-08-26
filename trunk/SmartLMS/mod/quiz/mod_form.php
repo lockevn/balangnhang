@@ -26,6 +26,16 @@ class mod_quiz_mod_form extends moodleform_mod {
         $mform->setType('intro', PARAM_RAW);
         $mform->setHelpButton('intro', array('richtext', get_string('helprichtext')));
 
+//danhut added quiz type -------------------------------------------------------------------------------
+		$quizTypeArr = array();
+		$quizTypeArr['exercise'] = 'exercise';
+		$quizTypeArr['test'] = 'test';
+		$quizTypeArr['practice'] = 'practice';
+        $mform->addElement('header', 'quiztypehdr', get_string('quiztype', 'form'));
+        $mform->addElement('select', 'quiztype', get_string('quiztype', 'quiz'), $quizTypeArr);
+        //$mform->setHelpButton('quiz_type_selector', array('timeopen', get_string('quizopen', 'quiz'), 'quiz'));
+        
+        
 //-------------------------------------------------------------------------------
         $mform->addElement('header', 'timinghdr', get_string('timing', 'form'));
         $mform->addElement('date_time_selector', 'timeopen', get_string('quizopen', 'quiz'), array('optional'=>true));
