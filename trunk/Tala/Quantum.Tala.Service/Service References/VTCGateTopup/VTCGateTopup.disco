@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
-  <contractRef ref="http://117.103.192.45/WSVTCGateTopup/VTCGateTopup.asmx?wsdl" docRef="http://117.103.192.45/WSVTCGateTopup/VTCGateTopup.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
-  <soap address="http://117.103.192.45/WSVTCGateTopup/VTCGateTopup.asmx" xmlns:q1="http://paygate.vtc.vn/VTCGateTopup" binding="q1:VTCGateTopupSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-  <soap address="http://117.103.192.45/WSVTCGateTopup/VTCGateTopup.asmx" xmlns:q2="http://paygate.vtc.vn/VTCGateTopup" binding="q2:VTCGateTopupSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-</discovery>
