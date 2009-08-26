@@ -18,6 +18,8 @@ namespace Quantum.Tala.Service.Business
     [ElementXMLExportAttribute("m", DataOutputXMLType.NestedTag)]
     public class Message : APIDataEntry
     {
+        public const string EVENT_INVITE = "EVENT_INVITE";
+
         int _id = 0;
         [ElementXMLExportAttribute("", DataOutputXMLType.Attribute)]
         public int ID
