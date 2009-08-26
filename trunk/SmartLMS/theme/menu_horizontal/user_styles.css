@@ -9,7 +9,25 @@ td.spacer {
 	}
 
 
+#layout-table {
+  width:100%;
+  border-collapse:separate;
+  margin-top: 0px;
+  padding-left:12px;
+  padding-right:12px;
+}
 
+#layout-table #left-column,
+#layout-table #middle-column,
+#layout-table #right-column
+{
+  vertical-align:top;
+}
+
+#layout-table #middle-column {
+  padding-left:12px;
+  padding-right:12px;
+}
 
 div.mymenu {
       float:right;
@@ -58,8 +76,7 @@ body {
 
   margin: 0;
   padding: 0;
-   background:
-#E0E9DF;
+
    
 }
 div#wrapper{
@@ -79,8 +96,8 @@ div#content {
   line-height: 1.6em;
   margin-top: 0px;
   clear: both;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 div#footer {
@@ -786,27 +803,289 @@ td.left {
 	border-style: none;
 	}
 div.summary {
-	height: 18px;
+	height: 30px;
 	vertical-align: top;
+	width: 100%;
 	
 }
 
 
-/*Accessibility: text 'seen' by screen readers but not visual users. Fixed for RTL languages, example Farsi. */
-.accesshide {
+
+
+
+/***
+ *** Modules: Quiz
+ ***/
+
+#mod-quiz-view .quizinfo {
+  text-align: center;
+}
+#mod-quiz-view #page .quizgradefeedback,
+#mod-quiz-view #page .quizattempt
+{
+  text-align: center;
+}
+#mod-quiz-view #page .quizattemptsummary td p {
+  margin-top: 0;
+}
+#mod-quiz-view .generalbox#feedback {
+  width:70%;
+  margin-left:auto;
+  margin-right:auto;
+  padding-bottom:15px;
+}
+#mod-quiz-view .generalbox#feedback h2 {
+  margin: 0 0;
+}
+body#mod-quiz-view .generalbox#feedback .overriddennotice {
+  text-align: center;
+  font-size: 0.7em;
+}
+#mod-quiz-view .generalbox#feedback h3 {
+  text-align: left;
+}
+
+.generalbox#intro { /* Should probably match .generalbox#intro above */
+  width:70%;
+  margin-left:auto;
+  margin-right:auto;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.generalbox#passwordbox { /* Should probably match .generalbox#intro above */
+  width:70%;
+  margin-left:auto;
+  margin-right:auto;
+}
+#passwordform {
+  margin: 1em 0;
+}
+#mod-quiz-attempt #page {
+  text-align: center;
+}
+#mod-quiz-attempt .pagingbar {
+  margin: 1.5em auto;
+}
+#mod-quiz-attempt #page {
+    text-align: center;
+}
+
+#mod-quiz-attempt #timer .generalbox {
+  width:150px
+}
+#mod-quiz-attempt.securewindow .que {
+    margin-left: 155px;
+    margin-right: 155px;
+}
+
+#mod-quiz-attempt #timer {
   position:absolute;
-  top:-100000px;
-  left:10px;
-  font-weight:normal;
-  font-size:1em;
-  color: black; 
+  /*top:100px; is set by js*/
+  left:10px
 }
 
-tr.current td.left {
-  background-color:#EEEEEE;
+body#question-preview .quemodname,
+body#question-preview .controls
+{
+  text-align: center;
 }
-tr.current td.right {
-  background-color:#EEEEEE;
+body#question-preview .quemodname, body#question-preview .controls {
+  text-align: center;
 }
 
+#mod-quiz-attempt #page .controls,
+#mod-quiz-review #page .controls {
+  text-align: center;
+  margin: 8px auto;
+}
+#mod-quiz-review .pagingbar {
+  margin: 1.5em auto;
+}
+#mod-quiz-review .pagingbar {
+  margin: 1.5em auto;
+}
+table.quizreviewsummary {
+  margin-bottom: 1.8em;
+  width: 100%;
+}
+table.quizreviewsummary tr {
+}
+table.quizreviewsummary th.cell {
+  padding: 1px 0.5em 1px 1em;
+  font-weight: bold;
+  text-align: right;
+  width: 10em;
+}
+table.quizreviewsummary td.cell {
+  padding: 1px 1em 1px 0.5em;
+}
+
+#mod-quiz-mod #reviewoptionshdr .fitem {
+  float: left;
+  width: 30%;
+  margin-left: 10px;
+  clear: none;
+}
+#mod-quiz-mod #reviewoptionshdr .fitemtitle {
+  width: 100%;
+  font-weight: bold;
+  text-align: left;
+  height: 2.5em;
+ margin-left: 0;
+}
+#mod-quiz-mod #reviewoptionshdr fieldset.fgroup {
+  width: 100%;
+  text-align: left;
+ margin-left: 0;
+}
+#mod-quiz-mod #reviewoptionshdr fieldset.fgroup span {
+  float: left;
+  clear: left;
+}
+
+#mod-quiz-edit #page .controls,
+#mod-quiz-edit #page .quizattemptcounts
+{
+  clear : left;
+  text-align: center;
+}
+#mod-quiz-edit .quizquestions h2 {
+  margin-top: 0;
+}
+#mod-quiz-edit #showbreaks {
+  margin-top: 0.7em;
+}
+.quizquestionlistcontrols {
+  text-align: center;
+}
+
+#mod-quiz-report table#attempts,
+#mod-quiz-report table#commands,
+#mod-quiz-report table#itemanalysis
+{
+  width: 80%;
+  margin: auto;
+}
+#mod-quiz-report table#attempts,
+#mod-quiz-report h2.main {
+  clear: both;
+}
+#mod-quiz-report table#attempts {
+  margin: 20px auto;
+}
+#mod-quiz-report table#attempts .header,
+#mod-quiz-report table#attempts .cell
+{
+  padding: 4px;
+}
+#mod-quiz-report table#attempts .header .commands {
+  display: inline;
+}
+#mod-quiz-report table#attempts .picture {
+  width: 40px;
+}
+#mod-quiz-report table#attempts td {
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-left-style: solid;
+  border-right-style: solid;
+  vertical-align: middle;
+}
+#mod-quiz-report table#attempts .header {
+  text-align: left;
+}
+#mod-quiz-report table#attempts .picture {
+  text-align: center !important;
+}
+#mod-quiz-report .controls {
+  text-align: center;
+}
+
+#mod-quiz-report table#itemanalysis {
+  margin: 20px auto;
+}
+#mod-quiz-report table#itemanalysis .header,
+#mod-quiz-report table#itemanalysis .cell
+{
+  padding: 4px;
+}
+#mod-quiz-report table#itemanalysis .header .commands {
+  display: inline;
+}
+#mod-quiz-report table#itemanalysis td {
+  border-width: 1px;
+  border-style: solid;
+}
+#mod-quiz-report table#itemanalysis .header {
+  text-align: left;
+}
+#mod-quiz-report table#itemanalysis .numcol {
+  text-align: center;
+  vertical-align : middle !important;
+}
+
+#mod-quiz-report table#itemanalysis .uncorrect {
+  color: red;
+}
+
+#mod-quiz-report table#itemanalysis .correct {
+  color: blue;
+  font-weight : bold;
+}
+
+#mod-quiz-report table#itemanalysis .partialcorrect {
+  color: green !important;
+}
+
+#mod-quiz-report table#itemanalysis .qname {
+  color: green !important;
+}
+
+/* manual grading */
+#mod-quiz-grading table#grading
+{
+  width: 80%;
+  margin: auto;
+}
+
+#mod-quiz-grading table#grading
+{
+  margin: 20px auto;
+}
+
+#mod-quiz-grading table#grading .header,
+#mod-quiz-grading table#grading .cell
+{
+  padding: 4px;
+}
+
+#mod-quiz-grading table#grading .header .commands
+{
+  display: inline;
+}
+
+#mod-quiz-grading table#grading .picture
+{
+  width: 40px;
+}
+
+#mod-quiz-grading table#grading td
+{
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-left-style: solid;
+  border-right-style: solid;
+  vertical-align: bottom;
+}
+
+.mod-quiz .gradingdetails {
+  font-size: small;
+}
+.quizattemptcounts {
+  text-align: center;
+  clear : left;
+  margin: 6px 0;
+}
 
