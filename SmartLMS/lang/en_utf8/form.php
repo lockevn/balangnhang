@@ -37,4 +37,7 @@ $string['security'] = 'Security';
 $string['display'] = 'Display';
 
 $string['selectallornone'] = 'Select all/none';
+
+/*danhut added for quiztype*/
+$string['quiztype'] = 'Quiz type';
 ?>
