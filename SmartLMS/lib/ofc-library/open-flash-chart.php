@@ -3,13 +3,13 @@
 /**
  * This class manages all functions of the open flash chart api.
  */
-class graph
+class OFCgraph
 {
 	/**
 	* Constructer for the open_flash_chart_api
 	* Sets our default variables
 	*/
-	function graph()
+	function OFCgraph()
 	{
 		$this->data_sets = array();
 		
@@ -397,7 +397,7 @@ class graph
 	}
 
 	/**
- 	 * Set the background colour of the grid portion of the chart.
+	 * Set the background colour of the grid portion of the chart.
 	 * @param col a string argument.
 	 *   The hex colour value of the background.
 	 * @param col2 a string argument.
