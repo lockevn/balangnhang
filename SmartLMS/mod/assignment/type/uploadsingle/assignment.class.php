@@ -1,5 +1,9 @@
 <?php // $Id: assignment.class.php,v 1.33.2.5 2008/04/08 03:02:49 scyrma Exp $
-
+	
+	require_once($CFG->libdir.'/blocklib.php');
+	require_once($CFG->dirroot.'/mod/assignment/type/uploadsingle/pagelib.php');	
+	        
+    //require_once($CFG->dirroot.'/mod/quiz/pagelib.php');
 /**
  * Extend the base assignment class for assignments where you upload a single file
  *
@@ -42,6 +46,7 @@ class assignment_uploadsingle extends assignment_base {
     function view() {
 
         global $USER;
+        global $CFG;
 
         $context = get_context_instance(CONTEXT_MODULE,$this->cm->id);
         require_capability('mod/assignment:view', $context);
@@ -49,7 +54,29 @@ class assignment_uploadsingle extends assignment_base {
         add_to_log($this->course->id, "assignment", "view", "view.php?id={$this->cm->id}", $this->assignment->id, $this->cm->id);
 
         $this->view_header();
-
+        
+         // Initialize $PAGE, compute blocks    
+	    $PAGE       = page_create_instance($this->assignment->id);
+	    $pageblocks = blocks_setup($PAGE, BLOCKS_PINNED_BOTH);
+	    $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_LEFT]), 210);
+	    /*end of danhut modified*/	
+	    echo '<table id="layout-table"><tr>';
+	
+	    if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
+	        echo '<td style="width: '.$blocks_preferred_width.'px;" id="left-column">';
+	        print_container_start();
+	        blocks_print_group($PAGE, $pageblocks, BLOCK_POS_LEFT);
+	        print_container_end();
+	        echo '</td>';
+	    }
+	    echo '<td id="middle-column">';	    
+	    	     
+		$menu = navmenu($this->course, $this->cm);
+		echo $menu;
+		groups_print_activity_menu($this->cm, 'view.php?id=' . $this->cm->id);
+        echo '<div class="reportlink">'.$this->submittedlink().'</div>';
+        echo '<div class="clearer"></div>';
+		/*end of danhut added*/
         $this->view_intro();
 
         $this->view_dates();
@@ -68,9 +95,28 @@ class assignment_uploadsingle extends assignment_base {
         if (has_capability('mod/assignment:submit', $context)  && $this->isopen() && (!$filecount || $this->assignment->resubmit || !$submission->timemarked)) {
             $this->view_upload_form();
         }
+        
+        /*danhut added*/
+        
+        print_container_end();
+	    echo $menu;
+	    echo '</td>';
+	    $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_RIGHT]), 210);    
+		if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
+	        echo '<td style="width: '.$blocks_preferred_width.'px;" id="right-column">';
+	        print_container_start();
+	        blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
+	        print_container_end();
+	        echo '</td>';
+	    }
+	    
+	    echo '</tr></table>';
+	    /*end of danhut added*/
 
         $this->view_footer();
     }
+    
+
 
 
     function view_upload_form() {

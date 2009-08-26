@@ -104,15 +104,17 @@ class assignment_base {
         add_to_log($this->course->id, "assignment", "view", "view.php?id={$this->cm->id}",
                    $this->assignment->id, $this->cm->id);
 
-        $this->view_header();
-
+        $this->view_header();        
+		
         $this->view_intro();
 
         $this->view_dates();
 
         $this->view_feedback();
+        
+        $this->finish_page();
 
-        $this->view_footer();
+        $this->view_footer($this->course, $pageblocks);
     }
 
     /**
@@ -125,8 +127,8 @@ class assignment_base {
      *
      * @param $subpage string Description of subpage to be used in navigation trail
      */
-    function view_header($subpage='') {
 
+    function view_header($subpage='') {
         global $CFG;
 
 
@@ -139,11 +141,13 @@ class assignment_base {
         print_header($this->pagetitle, $this->course->fullname, $navigation, '', '',
                      true, update_module_button($this->cm->id, $this->course->id, $this->strassignment),
                      navmenu($this->course, $this->cm));
+		/*danhut commented out and move to type/uploadsingle/assignment.class.php*/                
+//		groups_print_activity_menu($this->cm, 'view.php?id=' . $this->cm->id);
+//        echo '<div class="reportlink">'.$this->submittedlink().'</div>';
+//        echo '<div class="clearer"></div>';
+        
 
-        groups_print_activity_menu($this->cm, 'view.php?id=' . $this->cm->id);
-
-        echo '<div class="reportlink">'.$this->submittedlink().'</div>';
-        echo '<div class="clearer"></div>';
+       
     }
 
 
@@ -2981,13 +2985,16 @@ function assignment_get_types() {
     global $CFG;
     $types = array();
 
-    $type = new object();
-    $type->modclass = MOD_CLASS_ACTIVITY;
-    $type->type = "assignment_group_start";
-    $type->typestr = '--'.get_string('modulenameplural', 'assignment');
-    $types[] = $type;
+    /*danhut commented out to disable displaying "Assigments" text in Activity combo box*/
+//    $type = new object();
+//    $type->modclass = MOD_CLASS_ACTIVITY;
+//    $type->type = "assignment_group_start";
+//    $type->typestr = '--'.get_string('modulenameplural', 'assignment');
+//    $types[] = $type;
 
-    $standardassignments = array('upload','online','uploadsingle','offline');
+    /*danhut modified to enable upload single file assigment only*/
+    //$standardassignments = array('upload','online','uploadsingle','offline');
+    $standardassignments = array('uploadsingle');
     foreach ($standardassignments as $assignmenttype) {
         $type = new object();
         $type->modclass = MOD_CLASS_ACTIVITY;
