@@ -510,10 +510,23 @@
 
 /// Print the navigation panel if required
     $numpages = quiz_number_of_pages($attempt->layout);
-    if ($numpages > 1) {
-        quiz_print_navigation_panel($page, $numpages);
-    }
+    /*danhut modified: print page index / total page*/
+//    if ($numpages > 1 && ($event == QUESTION_EVENTSUBMIT || $quiz->type == 'test')) {
+        echo '<div class="paging pagingbar">';
+    	echo '<span class="title">' . get_string('page') . ' ' . ($page + 1) . '/' . $numpages . '</span>';
+    	echo '</div>';
+//    }
 
+    /*danhut added: print quiz introduction*/
+    if($quiz->quiztype == 'exercise') {
+    if (trim(strip_tags($quiz->intro))) {
+            $formatoptions->noclean = true;
+            $formatoptions->para    = false;
+            print_box(format_text($quiz->intro, FORMAT_MOODLE, $formatoptions), 'generalbox', 'intro');
+        }
+    }
+    /*end of danhut added*/
+    
 /// Print all the questions
     $number = quiz_first_questionnumber($attempt->layout, $pagelist);
     foreach ($pagequestions as $i) {
@@ -525,22 +538,56 @@
     }
 
 /// Print the submit buttons
+
     $strconfirmattempt = addslashes(get_string("confirmclose", "quiz"));
     $onclick = "return confirm('$strconfirmattempt')";
+    
+	
+        
     echo "<div class=\"submitbtns mdl-align\">\n";
-
-    echo "<input type=\"submit\" name=\"saveattempt\" value=\"".get_string("savenosubmit", "quiz")."\" />\n";
-    if ($quiz->optionflags & QUESTION_ADAPTIVE) {
+	/*danhut added: print previous page link if required*/
+    if ($page > 0) {
+        // Print previous link
+        $strprev = get_string('previouspage', 'quiz');        
+         echo '&nbsp;<input type="button" src ="' . $CFG->pixpath.'/a/l_breadcrumb.gif" value="' . $strprev .'" class="quiz_page_previous" onclick="javascript:navigate(' . ($page - 1) . ');"/>&nbsp;';
+		
+    }   
+    /*danhut added: hiển thị button save page answers cho cả test, exercise và practice 0 ở trạng thái đang hiển thị đáp án*/ 
+	if ( ($event != QUESTION_EVENTSUBMIT)
+    	&& ($event != QUESTION_EVENTCLOSE)) {    	    	
+        echo "<input type=\"submit\" name=\"saveattempt\" value=\"".get_string("savenosubmit", "quiz")."\" />\n";
+    }
+    
+    
+    /*danhut added: chỉ hiển thị button submit page nếu quiz là exercise và page 0 ở trạng thái hiển thị đáp án*/
+    if ($quiz->optionflags & QUESTION_ADAPTIVE 
+    	&& ($quiz->quiztype == 'exercise' || $quiz->quiztype == 'practice') 
+    	&& ($event != QUESTION_EVENTSUBMIT)) {    	    	
         echo "<input type=\"submit\" name=\"markall\" value=\"".get_string("markall", "quiz")."\" />\n";
     }
-    echo "<input type=\"submit\" name=\"finishattempt\" value=\"".get_string("finishattempt", "quiz")."\" onclick=\"$onclick\" />\n";
+    /*danhut added: only display submit All button at the last page of the quiz*/
+    if($page == $numpages - 1) {
+    	echo "<input type=\"submit\" name=\"finishattempt\" value=\"".get_string("finishattempt", "quiz")."\" onclick=\"$onclick\" />\n";
+    }
+    
+    /*danhut added: print next page link if required*/
+    if ($page < $numpages - 1) {
+        // Print next link
+        $strnext = get_string('nextpage', 'quiz');
+//        echo '&nbsp;<a class="quiz_page_next" href="javascript:navigate(' . ($page + 1) . ');" title="'
+//         . $strnext . '"><img src= "' . $CFG->pixpath.'/a/r_breadcrumb.gif" alt="' . $strnext . '"/>   </a>&nbsp;';
+         echo '&nbsp;<input type="button" src ="' . $CFG->pixpath.'/a/r_breadcrumb.gif" value="' . $strnext .'" class="quiz_page_next" onclick="javascript:navigate(' . ($page + 1) . ');"/>&nbsp;';
+    }
 
     echo "</div>";
+    
 
     // Print the navigation panel if required
-    if ($numpages > 1) {
-        quiz_print_navigation_panel($page, $numpages);
-    }
+//    if ($numpages > 1 && ($event == QUESTION_EVENTSUBMIT || $quiz->type == 'test')) {
+//        quiz_print_navigation_panel($page, $numpages);
+//    }
+    
+    
 
     // Finish the form
     echo '</div>';
