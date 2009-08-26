@@ -247,6 +247,14 @@
                     echo ' <a title="'.$streditsummary.'" href="editsection.php?id='.$thissection->id.'">'.
                          '<img src="'.$CFG->pixpath.'/t/edit.gif" alt="'.$streditsummary.'" /></a>';
                 }
+                /*danhut added: nếu có link start lesson thì print ra bên cạnh lesson summary*/
+                $modsInSection = explode(',', $thissection->sequence);
+                $startLessonUrl = getLessonStartUrl($mods, $modsInSection); 
+                if( $startLessonUrl !== false) {
+                	echo '<a title="' . get_string('enter_lesson', 'format_topicstree') . '" href = "' . $startLessonUrl . '"' .
+                		'<img src="'.$CFG->pixpath.'/a/enter.png" alt="'.get_string('enter_lesson', 'format_topicstree').'" /></a>';
+                }
+                /*end of danhut added*/
                 echo '</div>';
 
                 if (isediting($course->id)) { /// Editing use the mainstream print_section
@@ -405,6 +413,11 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
 
             $mod = $mods[$modnumber];
 
+            /*danhut addded to hide Start button module on the tree*/
+            if($mod->modname == "start" || $mod->modname == "resume") {
+            	continue;
+            }
+            /*end of danhut added*/
             if (isset($modinfo->cms[$modnumber])) {
                 if (!$modinfo->cms[$modnumber]->uservisible) {
                     // visibility shortcut
@@ -538,7 +551,32 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
     if (!empty($section->sequence)) {
         echo "</ul><!--class='section'-->\n\n";
     }
+    
+
+    
+    
 }
+
+/**
+     * danhut added to get the lesson start link
+     *
+     * @param unknown_type $mods
+     * @param unknown_type $sectionmods
+     * @return unknown
+     */
+    function getLessonStartUrl($mods, $sectionmods) {
+    	$sectionUrl = false;
+    	Global $CFG;
+    	foreach ($sectionmods as $modnumber) {
+              	if (empty($mods[$modnumber])) continue;
+                $mod = $mods[$modnumber];                
+                if($mod->modname === 'start') {
+                	$sectionUrl = "{$CFG->wwwroot}/mod/start/view.php?id=$mod->id";
+                	break;                	                
+                }                
+    	}
+    	return $sectionUrl;
+    }
 
 /**
  * This function will preprocess all the mods in section, adding the required stuff to be able to
