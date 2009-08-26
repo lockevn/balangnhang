@@ -1,4 +1,5 @@
-<?php require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
+<?php require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
 // $Id: index.php,v 1.7.2.2 2009/03/31 13:07:21 mudrd8mz Exp $
 
@@ -32,13 +33,13 @@ $navlinks = array();
 $navlinks[] = array('name' => $strsmartcoms, 'link' => '', 'type' => 'activity');
 $navigation = build_navigation($navlinks);
 print_header_simple($strsmartcoms, '', $navigation, '', '', true, '', navmenu($course));
-print_heading($strsmartcoms . ' Learning Progress Chart');
+print_heading($strsmartcoms . ' Learning Progress');
 
 
 
 require_once(ABSPATH.'lib/ofc-library/open_flash_chart_object.php');
 open_flash_chart_object(700, 500, 
-'/blocks/smartcom_student_learning_progress/student_learning_progress_ofc_data.php', false, '/' );
+'/mod/smartcom/api/student_learning_progress_ofc_data.php', false, '/' );
 
 
 /// Finish the page
