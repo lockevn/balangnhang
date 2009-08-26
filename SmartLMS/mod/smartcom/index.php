@@ -38,8 +38,15 @@ print_heading($strsmartcoms . ' Learning Progress');
 
 
 require_once(ABSPATH.'lib/ofc-library/open_flash_chart_object.php');
-open_flash_chart_object(700, 500, 
-'/mod/smartcom/api/student_learning_progress_ofc_data.php', false, '/' );
+open_flash_chart_object('100%', 500, 
+'/mod/smartcom/api/student_learning_progress_TongQuanKhoaHoc_ofc_data.php', 
+false, '/' );
+
+
+require_once(ABSPATH.'lib/ofc-library/open_flash_chart_object.php');
+open_flash_chart_object('100%', 500, 
+'/mod/smartcom/api/student_learning_progress_ChiTietBaiHoc_ofc_data.php', 
+false, '/' );
 
 
 /// Finish the page
