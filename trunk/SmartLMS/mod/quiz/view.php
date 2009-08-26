@@ -58,7 +58,15 @@
     //only check pop ups if the user is not a teacher, and popup is set
 
     $bodytags = (has_capability('mod/quiz:attempt', $context) && $quiz->popup)?'onload="popupchecker(\'' . get_string('popupblockerwarning', 'quiz') . '\');"':'';
-    $PAGE->print_header($course->shortname.': %fullname%','',$bodytags);
+    /*danhut modified to print full navigation bar*/
+    $strupdatemodule = has_capability('moodle/course:manageactivities', $coursecontext)
+                    ? update_module_button($cm->id, $course->id, get_string('modulename', 'quiz'))
+                    : "";
+    $navigation = build_navigation('', $cm);
+    //$PAGE->print_header($course->shortname.': %fullname%','',$bodytags);
+    
+    print_header_simple(format_string($quiz->name), "", $navigation, "", "", true, $strupdatemodule);
+    /*end of danhut modified*/
 
     echo '<table id="layout-table"><tr>';
 
@@ -71,8 +79,13 @@
     }
 
     echo '<td id="middle-column">';
-    print_container_start();
-
+    
+    /*danhut added: print navigation buttons*/
+    
+    print_container_start();	    
+    $menu = navmenu($course, $cm);
+	echo $menu;
+    /*end of danhut added*/
     // Print the main part of the page
 
     // Print heading and tabs (if there is more than one).
@@ -91,16 +104,17 @@
             $formatoptions->para    = false;
             print_box(format_text($quiz->intro, FORMAT_MOODLE, $formatoptions), 'generalbox', 'intro');
         }
-
+        
         echo '<div class="quizinfo">';
 
         // Print information about number of attempts and grading method.
         if ($quiz->attempts > 1) {
             echo "<p>".get_string("attemptsallowed", "quiz").": $quiz->attempts</p>";
         }
-        if ($quiz->attempts != 1) {
-            echo "<p>".get_string("grademethod", "quiz").": ".quiz_get_grading_option_name($quiz->grademethod)."</p>";
-        }
+        /*danhut commented out: no need to print grade method info*/
+//        if ($quiz->attempts != 1) {
+//            echo "<p>".get_string("grademethod", "quiz").": ".quiz_get_grading_option_name($quiz->grademethod)."</p>";
+//        }
 
         // Print information about timings.
         $timenow = time();
@@ -144,7 +158,7 @@
         notice_yesno('<p>' . get_string('guestsno', 'quiz') . "</p>\n\n</p>" .
                 get_string('liketologin') . '</p>', $loginurl, get_referer(false));
         /*danhut modified*/
-        finish_page($course, $pageblocks);
+        finish_page($course, $pageblocks, $menu);
         /*end of danhut modified*/
     }
 
@@ -153,7 +167,7 @@
                 print_continue($CFG->wwwroot . '/course/view.php?id=' . $course->id, true) .
                 '</p>', 'generalbox', 'notice');
         /*danhut modified*/
-        finish_page($course, $pageblocks);
+        finish_page($course, $pageblocks, $menu);
         /*end of danhut modified*/
     }
 
@@ -447,16 +461,17 @@
     // Should we not be seeing if we need to print right-hand-side blocks?
 
     /*danhut modified*/
-    finish_page($course, $pageblocks);
+    finish_page($course, $pageblocks, $menu);
     /*end of danhut modified*/
 
 // Utility functions =================================================================
 
-function finish_page($course, $pageblocks) {
+function finish_page($course, $pageblocks, $menu) {
     global $THEME;
     global $PAGE;
     global $CFG;
     print_container_end();
+    echo $menu;
     echo '</td>';
     $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_RIGHT]), 210);
     /*danhut added: print right blocks*/
