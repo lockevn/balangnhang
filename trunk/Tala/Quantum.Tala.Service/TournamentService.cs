@@ -63,7 +63,8 @@ namespace Quantum.Tala.Service
             string sItemCode = tour.id + "#" + tour.name + "#" + tour.enrollfee;
 
             transactionDTO outputTransaction;
-            bool bSubtractOK = VTCIntecomService.SubtractVCoinOfVTCUser(nBankAccountID, sBankUsername, sItemCode, ip, tour.enrollfee, out outputTransaction);
+            Quantum.Tala.Service.VTCBillingService.BuyItemsResponse outputResponse;
+            bool bSubtractOK = VTCIntecomService.SubtractVCoinOfVTCUser(nBankAccountID, sBankUsername, sItemCode, ip, tour.enrollfee, out outputTransaction, out outputResponse);
 
             int nTransactionDTO_ID = -1;
 

@@ -5,6 +5,7 @@ using System.Text;
 using GURUCORE.Framework.Business;
 using Quantum.Tala.Service.Business;
 using Quantum.Tala.Service.DTO;
+using Quantum.Tala.Service.VTCBillingService;
 
 namespace Quantum.Tala.Service
 {
@@ -34,10 +35,11 @@ namespace Quantum.Tala.Service
                 foreach (TalaUser user in arrUser)
                 {
                     transactionDTO outputTransaction;
+                    Quantum.Tala.Service.VTCBillingService.BuyItemsResponse outputResponse;
                     VTCIntecomService.SubtractVCoinOfVTCUser(
                         user.BankCredential.VTCAccountID, 
                         user.BankCredential.BankUsername,
-                        sItemCode, user.IP, tour.enrollfee, out outputTransaction);
+                        sItemCode, user.IP, tour.enrollfee, out outputTransaction, out outputResponse);
                 }
             }
 
