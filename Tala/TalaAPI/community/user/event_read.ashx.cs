@@ -16,11 +16,17 @@ namespace TalaAPI.community.user
         public override void ProcessRequest(HttpContext context)
         {
             TalaSecurity sec = new TalaSecurity(context);
+            string paramCleanQueue = APIParamHelper.GetParam("clean", context, false);
 
             lock (sec.CurrentAU.MessageQueue)
             {
                 Data.AddRange(sec.CurrentAU.MessageQueue);
-                sec.CurrentAU.MessageQueue.Clear();
+
+                // clean queue, trừ phi explicit báo với mình là không cần clean
+                if (paramCleanQueue != "0")
+                {
+                    sec.CurrentAU.MessageQueue.Clear();
+                }
             }
 
             base.Stat = APICommandStatusState.OK;
