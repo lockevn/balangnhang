@@ -5433,11 +5433,19 @@ function navmenu($course, $cm=NULL, $targetwindow='self') {
                    '</button></fieldset></form></li>';
 	}
 
-	return '<div class="navigation">'."\n".'<ul>'.$logslink . $backmod .
-            '<li>'.popup_form($CFG->wwwroot .'/mod/', $menu, 'navmenupopup', $selected, $strjumpto,
-                       '', '', true, $targetwindow, '', $menustyle).'</li>'.
-	$nextmod . '</ul>'."\n".'</div>';
+	
+	
+
+//	return '<div class="navigation">'."\n".'<ul>'.$logslink . $backmod .
+//            '<li>'.popup_form($CFG->wwwroot .'/mod/', $menu, 'navmenupopup', $selected, $strjumpto,
+//                       '', '', true, $targetwindow, '', $menustyle).'</li>'.
+//	$nextmod . '</ul>'."\n".'</div>';
+/*danhut modifed*/
+	return '<div class="navigation">'."\n".'<ul>'. $backmod . $nextmod . '</ul>'."\n".'</div>';
+/*end of danhut modifed*/
 }
+
+
 
 /**
  * Given a course
