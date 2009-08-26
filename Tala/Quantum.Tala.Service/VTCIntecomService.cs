@@ -15,6 +15,7 @@ using Quantum.Tala.Service.Business;
 using Quantum.Tala.Service.DTO;
 using log4net;
 using Quantum.Tala.Service.VTCGateTopup;
+using Quantum.Tala.Service.VTCBillingService;
 
 namespace Quantum.Tala.Service
 {
@@ -105,15 +106,10 @@ namespace Quantum.Tala.Service
         /// <param name="p_nMoneyToSubtract"></param>
         /// <param name="output">Các kết quả phụ sẽ trả ra ở đây. Hiện tại, ValueList đầu tiên là transid trong hệ thống log của Tala</param>
         /// <returns></returns>
-        public static bool SubtractVCoinOfVTCUser(int VTCAccountID, string p_sVTCUsername, string ItemCode, string p_sClientIP, int p_nMoneyToSubtract, out transactionDTO outputTransactionDTO)
-        {
-            VTCBillingService.VTCBillingServiceSoapClient ws = new VTCBillingService.VTCBillingServiceSoapClient("VTCBillingServiceSoap");
-            string sGUIDTransactionCode = GURUCORE.Lib.Core.Text.TextHelper.NowToUTCString() + "#" + FunctionExtension.GetRandomGUID();
-
-            string sSign = p_sVTCUsername + "-" + VTCAccountID.ToString() + "-" + VTCIntecomService.MAKERCODE + "-" +
-                ItemCode + "-" + p_nMoneyToSubtract.ToString() + "-" + sGUIDTransactionCode;
-
-
+        public static bool SubtractVCoinOfVTCUser(int VTCAccountID, string p_sVTCUsername, string ItemCode, string p_sClientIP, int p_nMoneyToSubtract, out transactionDTO outputTransactionDTO, out Quantum.Tala.Service.VTCBillingService.BuyItemsResponse outputResponse)
+        {   
+            string sGUIDTransactionCode = GURUCORE.Lib.Core.Text.TextHelper.NowToUTCString() + "#" + FunctionExtension.GetRandomGUID();           
+            
             IMoneyService moneysvc = ServiceLocator.Locate<IMoneyService, MoneyService>();
             #region log các hành vi giao dịch tiền, tham gia, ...");
             transactionDTO tranEntry = new transactionDTO
@@ -122,6 +118,7 @@ namespace Quantum.Tala.Service
                 meta = p_sVTCUsername,
                 meta1 = ItemCode,
                 meta2 = p_sClientIP,
+                meta3 = sGUIDTransactionCode,
                 type = (int)MoneyTransactionType.Subtract,
                 status = transactionDTO.STATUS_PROCESSING
             };
@@ -133,29 +130,31 @@ namespace Quantum.Tala.Service
             catch (System.Exception ex)
             {
                 log.Error(
-                    string.Format("Can't write transaction log to DB. I write here. No call to VTC was made.^{0},{1},{2},{3},{4},{5},{6}",
-                    tranEntry.amount,
-                    tranEntry.desc,
-                    tranEntry.meta,
-                    tranEntry.meta1,
-                    tranEntry.meta2,                    
-                    MoneyTransactionType.Subtract.ToString(),
-                    tranEntry.status)
+                    string.Format("DB error. I write error here and exit. No call to VTC was made.^{0}", tranEntry.ToString())
                     ,ex);
 
                 outputTransactionDTO = tranEntry;
+                outputResponse = null;
                 return false;
             }
 
             #endregion
 
-            // không log được thì sẽ không gọi hàm tới VTC
-            var response = ws.BuyItem(p_sVTCUsername, VTCAccountID, VTCIntecomService.MAKERCODE, ItemCode, p_nMoneyToSubtract, p_sClientIP, sGUIDTransactionCode, Sign(sSign));            
-            if (response.ResponseCode == "0")
+
+            // không log được thì sẽ return từ trước, không gọi hàm tới VTC ở đoạn này
+            string sSign = p_sVTCUsername + "-" + VTCAccountID.ToString() + "-" + VTCIntecomService.MAKERCODE + "-" +
+                ItemCode + "-" + p_nMoneyToSubtract.ToString() + "-" + sGUIDTransactionCode;
+            
+            VTCBillingService.VTCBillingServiceSoapClient ws = new VTCBillingService.VTCBillingServiceSoapClient("VTCBillingServiceSoap");
+            Quantum.Tala.Service.VTCBillingService.BuyItemsResponse response = ws.BuyItem(p_sVTCUsername, VTCAccountID, VTCIntecomService.MAKERCODE, ItemCode, p_nMoneyToSubtract, p_sClientIP, sGUIDTransactionCode, Sign(sSign));
+            int nResponseCode = int.Parse(response.ResponseCode);
+            if (nResponseCode >= 0)
             {
                 tranEntry.status = transactionDTO.STATUS_OK;
+                tranEntry.desc = string.Format("ResponseCode:{0},ResponseDesc:{1}", response.ResponseCode, response.Decription);
                 moneysvc.SaveTransation(tranEntry);
                 outputTransactionDTO = tranEntry;
+                outputResponse = response;
                 return true;
             }
             else
@@ -164,6 +163,7 @@ namespace Quantum.Tala.Service
                 tranEntry.desc = string.Format("ResponseCode:{0},ResponseDesc:{1}",response.ResponseCode, response.Decription);
                 moneysvc.SaveTransation(tranEntry);
                 outputTransactionDTO = null;
+                outputResponse = null;
                 return false;
             }
         }
@@ -171,21 +171,42 @@ namespace Quantum.Tala.Service
 
 
 
-        public static double AddVCoinOfVTCUser(string p_sAccount, string ItemCode, string p_sClientIP, int p_nMoneyToAdd, out VTCGateResponse output)
+        public static bool AddVCoinOfVTCUser(string p_sAccount, string ItemCode, string p_sClientIP, int p_nMoneyToAdd, out VTCGateResponse outputResponse)
         {
-            if (CheckAccountEXISTS(p_sAccount) <= 0)
+            IMoneyService moneysvc = ServiceLocator.Locate<IMoneyService, MoneyService>();
+            #region log các hành vi giao dịch tiền, tham gia, ...");
+
+            transactionDTO tranEntry = new transactionDTO
             {
-                // lỗi user không tồn tại
-                output = null;
-                return -1;
+                amount = p_nMoneyToAdd,
+                meta = p_sAccount,
+                meta1 = ItemCode,
+                meta2 = p_sClientIP,
+                // meta3 = sGUIDTransactionCode,
+                type = (int)MoneyTransactionType.Add,
+                status = transactionDTO.STATUS_PROCESSING
+            };
+
+            try
+            {
+                tranEntry = moneysvc.CreateTransation(tranEntry);
             }
+            catch (System.Exception ex)
+            {
+                log.Error(
+                    string.Format("DB error. I write error here and exit. No call to VTC was made.^{0}", tranEntry.ToString())
+                    , ex);
 
-            VTCGateTopup.VTCGateTopupSoapClient ws = new VTCGateTopup.VTCGateTopupSoapClient();
-            // string sGUIDTransactionCode = GURUCORE.Lib.Core.Text.TextHelper.NowToUTCString() + "#" + FunctionExtension.GetRandomGUID();
+                // outputTransactionDTO = tranEntry;
+                outputResponse = null;
+                return false;            
+            }
+            
+            #endregion            
 
-            /// - Orgtransid (long, required): Mã giao dịch phát sinh từ phía Partner và không trùng nhau. Có nghĩa là mỗi giao dịch chỉ gửi 1 lần. 
-            Random rand = new Random(DateTime.Now.Millisecond);
-            long Orgtransid = (long)rand.Next();
+            
+            /// - Orgtransid (long, required): Mã giao dịch phát sinh từ phía Partner và không trùng nhau. Có nghĩa là mỗi giao dịch chỉ gửi 1 lần.            
+            long Orgtransid = tranEntry.id;
             DateTime Transdate = DateTime.Now;
             
             string sSign = VTCIntecomService.SERVICECODE + "-"
@@ -194,55 +215,30 @@ namespace Quantum.Tala.Service
                 VTCIntecomService.MAKERCODE + "-" +
                 Transdate.ToString("MMddyyyy") + "-" + Orgtransid;
 
+            VTCGateTopup.VTCGateTopupSoapClient ws = new VTCGateTopup.VTCGateTopupSoapClient();
             var response = ws.TopupAccount(VTCIntecomService.SERVICECODE, 
                 p_sAccount, p_nMoneyToAdd, 
                 VTCIntecomService.MAKERCODE, Transdate, Orgtransid, Sign(sSign));
 
-            // check lại chữ ký của VTC Response xem ok chưa
-            if (true)
+            int nResponseCode = int.Parse(response.ResponseCode);
+            if (nResponseCode > 0)
             {
-                #region log các hành vi giao dịch tiền, tham gia, ...");
-                transactionDTO tranEntry = new transactionDTO
-                {
-                    amount = p_nMoneyToAdd,
-                    desc = p_sClientIP,
-                    meta = p_sAccount,
-                    meta1 = ItemCode,
-                    meta2 = p_sClientIP,
-                    type = (int)MoneyTransactionType.Add
-                };
-                
-
-                try
-                {
-                    tranEntry = DAU.AddObject<transactionDTO>(tranEntry);
-                }
-                catch (System.Exception ex)
-                {
-                    log.Error(
-                        string.Format("Can't write transaction log to DB. I write here.^{0},{1},{2},{3},{4},{5}",
-                        p_nMoneyToAdd,
-                        p_sClientIP,
-                        p_sAccount,
-                        ItemCode,
-                        p_sClientIP,
-                        MoneyTransactionType.Add.ToString(),
-                        ex)
-                    );
-                }
-                
-                #endregion
-
-                output = response;
-                return response.Amount;
-            }
+                tranEntry.status = transactionDTO.STATUS_OK;
+                tranEntry.desc = string.Format("ResponseCode:{0},ResponseDesc:{1}", response.ResponseCode, response.Description);
+                moneysvc.SaveTransation(tranEntry);
+                // outputTransactionDTO = tranEntry;
+                outputResponse = response;
+                return true;
+            }           
             else
             {
-                // lỗi nghiêm trọng, server VTC có thể bị giả mạo
-                output = response;
-                return int.MinValue;
+                tranEntry.status = transactionDTO.STATUS_FAILED;
+                tranEntry.desc = string.Format("ResponseCode:{0},ResponseDesc:{1}", response.ResponseCode, response.Description);
+                moneysvc.SaveTransation(tranEntry);
+                //outputTransactionDTO = null;
+                outputResponse = null;
+                return false;
             }
-
         }
     }
 }

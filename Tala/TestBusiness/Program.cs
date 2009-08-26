@@ -100,8 +100,9 @@ namespace TestBusiness
             Console.WriteLine("AccountID of bkit: " + nAccountIDToSubtract);
 
             transactionDTO oExtendOutput;
+            Quantum.Tala.Service.VTCBillingService.BuyItemsResponse outputResponse;
             Console.WriteLine("BuyItem bkit: " +
-                VTCIntecomService.SubtractVCoinOfVTCUser(nAccountIDToSubtract, "bkit", "TalaITEMCODE" ,"127.0.0.1", 10000, out oExtendOutput)
+                VTCIntecomService.SubtractVCoinOfVTCUser(nAccountIDToSubtract, "bkit", "TalaITEMCODE", "127.0.0.1", 10000, out oExtendOutput, out outputResponse)
             );
             Console.WriteLine("AFTER: balance of bkit: " + VTCIntecomService.GetBalanceOfVTCUser("bkit"));
 
@@ -113,28 +114,24 @@ namespace TestBusiness
             Console.WriteLine("AccountID of bkit: " + nAccountIDToSubtract);
 
             oExtendOutput = null;
-            VTCGateResponse outputResponse;
+            VTCGateResponse oResponse;
             Console.WriteLine("TopUp bkit: " +
-                VTCIntecomService.AddVCoinOfVTCUser("bkit", "TalaITEMCODE", "127.0.0.1", 10000, out outputResponse)
+                VTCIntecomService.AddVCoinOfVTCUser("bkit", "TalaITEMCODE", "127.0.0.1", 10000, out oResponse)
             );
 
-            Console.WriteLine(string.Format("VTC Response: {0},   {1},   {2},   {3},   {4},   {5},   {6},   {7},   {8},  {9}", 
-                outputResponse.Account, outputResponse.Amount, outputResponse.Balance,
-                outputResponse.DataSign, outputResponse.Description, outputResponse.ExtensionData, 
-                outputResponse.OrgTransId, outputResponse.ResponseCode, outputResponse.TransDate, 
-                outputResponse.VTCTransCode
+            Console.WriteLine(string.Format("VTC Response: {0},   {1},   {2},   {3},   {4},   {5},   {6},   {7},   {8},  {9}",
+                oResponse.Account, oResponse.Amount, oResponse.Balance,
+                oResponse.DataSign, oResponse.Description, oResponse.ExtensionData,
+                oResponse.OrgTransId, oResponse.ResponseCode, oResponse.TransDate,
+                oResponse.VTCTransCode
                 ));
 
-            Console.WriteLine("AFTER: balance of bkit: " + VTCIntecomService.GetBalanceOfVTCUser("bkit"));            
-
+            Console.WriteLine("AFTER: balance of bkit: " + VTCIntecomService.GetBalanceOfVTCUser("bkit"));
 
             Console.WriteLine("Press enter to quit");
             Console.ReadLine();
         }
-
-
-
-
+        
 
 
 
