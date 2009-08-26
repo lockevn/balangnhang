@@ -316,7 +316,7 @@ $string['makecopy'] = 'Save as new question';
 $string['managetypes'] = 'Manage question types and servers';
 $string['manualgrading'] = 'Grading';
 $string['mark'] = 'Submit';
-$string['markall'] = 'Submit page';
+$string['markall'] = 'Submit answers of current page';
 $string['marks'] = 'Marks';
 $string['match'] = 'Matching';
 $string['matchanswer'] = 'Matching answer';
@@ -508,7 +508,7 @@ $string['saveandedit'] = 'Save changes and edit questions';
 $string['savedfromdeletedcourse'] = 'Saved from deleted course \"$a\"';
 $string['savegrades'] = 'Save grades';
 $string['savemyanswers'] = 'Save my answers';
-$string['savenosubmit'] = 'Save without submitting';
+$string['savenosubmit'] = 'Save answers without submitting';
 $string['savequiz'] = 'Save this whole quiz';
 $string['score'] = 'Raw score';
 $string['scores'] = 'Scores';
@@ -605,4 +605,8 @@ $string['youneedtoenrol'] = 'You need to enrol in this course before you can att
 $string['yourfinalgradeis'] = 'Your final grade for this quiz is $a.';
 $string['zerosignificantfiguresnotallowed'] = 'The correct answer cannot have zero significant figures!';
 
+/*danhut added*/
+$string['quiztype'] = 'Select quiz type';
+$string['previouspage'] = 'Previous page';
+$string['nextpage'] = 'Next page';
 ?>
