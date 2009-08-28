@@ -15,6 +15,9 @@ $g->title('Chi tiết khoá học', '{font-size: 26px;}');
 
 $data1 = array();
 $dataXLabel = array();
+
+
+
 $mapResourceName_QuizID = array();
 
 $arrCourseModule = get_coursemodules_in_course('quiz', $courseid);
@@ -30,6 +33,10 @@ foreach (((array)$mapResourceName_QuizID) as $value) {
 	$dataXLabel[] = $value['resourcename'];		
 }
 $dataXLabel = array_unique($dataXLabel);
+
+
+
+
 
 /* get quiz of course */
 $recsMaxSumGrades = get_records_sql(

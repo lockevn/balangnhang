@@ -15,6 +15,27 @@ $data1 = array();
 $dataXLabel = array();
 
 
+
+$mapLessonName_QuizID = array();
+
+$arrCourseModule = get_records_sql(
+"select instance as quizid, section from `mdl_course_modules` where section in
+(select id from mdl_course_sections where course=$courseid)
+and module=12"
+);
+foreach (((array)$arrCourseModule) as $key => $value) {	
+	$mapLessonName_QuizID[] = array('resourcename' => $value->section, 'quizid' => $value->quizid);    	
+}
+
+foreach (((array)$mapLessonName_QuizID) as $value) {
+	$dataXLabel[] = $value['resourcename'];        
+}
+$dataXLabel = array_unique($dataXLabel);
+
+
+
+
+
 /* get quiz of course */
 $recsMaxSumGrades = get_records_sql(
 "select id as quiz, name, sumgrades from mdl_quiz where course=$courseid and sumgrades>0;"
@@ -28,14 +49,24 @@ where userid=$userid and quiz in (select id from mdl_quiz where course=$courseid
 group by quiz;"
 );
 
-if($recsUserSumGrades != false)
+$assocResourceData = array();
+if($mapLessonName_QuizID != false)
 {
-	foreach (((array)$recsMaxSumGrades) as $key => $value) {		
-		$userGrades = $recsUserSumGrades[$key]->sumgrades;
-		$data1[] = 100*$userGrades/$value->sumgrades;
-		$dataXLabel[] = $value->name;
+	foreach (((array)$mapLessonName_QuizID) as $mapEntry) {    
+		
+		$nMaxGrade = $recsMaxSumGrades[$mapEntry['quizid']]->sumgrades;        
+		$assocResourceData[$mapEntry['resourcename']]['maxgrade'] += $nMaxGrade;
+		
+		$nUserGrade = $recsUserSumGrades[$mapEntry['quizid']]->sumgrades;        
+		$assocResourceData[$mapEntry['resourcename']]['usergrade'] += $nUserGrade;
 	}
 }
+
+foreach (((array)$dataXLabel) as $resourceName) {
+	$data1[] = 100*$assocResourceData[$resourceName]['usergrade']/$assocResourceData[$resourceName]['maxgrade'];
+}
+
+
 $g->set_data($data1);
 
 

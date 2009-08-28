@@ -9,6 +9,7 @@ class SmartComDataLib
 {
 	public static function GetServer($DB)
 	{   
+		
 	}	
 }   // end class
 
