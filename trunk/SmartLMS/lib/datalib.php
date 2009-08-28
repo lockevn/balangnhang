@@ -12,7 +12,7 @@
 
  /// Some constants
  define('LASTACCESS_UPDATE_SECS', 60); /// Number of seconds to wait before
-                                       /// updating lastaccess information in DB.
+									   /// updating lastaccess information in DB.
 
 /**
  * Escape all dangerous characters in a data record
@@ -26,11 +26,11 @@
  * @return object Same object with neccessary characters escaped
  */
 function addslashes_object( $dataobject ) {
-    $a = get_object_vars( $dataobject);
-    foreach ($a as $key=>$value) {
-      $a[$key] = addslashes( $value );
-    }
-    return (object)$a;
+	$a = get_object_vars( $dataobject);
+	foreach ($a as $key=>$value) {
+	  $a[$key] = addslashes( $value );
+	}
+	return (object)$a;
 }
 
 /// USER DATABASE ////////////////////////////////////////////////
@@ -43,21 +43,21 @@ function addslashes_object( $dataobject ) {
  */
 function get_admin () {
 
-    global $CFG;
-    static $myadmin;
+	global $CFG;
+	static $myadmin;
 
-    if (isset($myadmin)) {
-        return $myadmin;
-    }
+	if (isset($myadmin)) {
+		return $myadmin;
+	}
 
-    if ( $admins = get_admins() ) {
-        foreach ($admins as $admin) {
-            $myadmin = $admin;
-            return $admin;   // ie the first one
-        }
-    } else {
-        return false;
-    }
+	if ( $admins = get_admins() ) {
+		foreach ($admins as $admin) {
+			$myadmin = $admin;
+			return $admin;   // ie the first one
+		}
+	} else {
+		return false;
+	}
 }
 
 /**
@@ -69,72 +69,72 @@ function get_admin () {
  */
 function get_admins() {
 
-    global $CFG;
+	global $CFG;
 
-    $sql = "SELECT ra.userid, SUM(rc.permission) AS permission, MIN(ra.id) AS adminid
-            FROM " . $CFG->prefix . "role_capabilities rc
-            JOIN " . $CFG->prefix . "context ctx
-              ON ctx.id=rc.contextid
-            JOIN " . $CFG->prefix . "role_assignments ra
-              ON ra.roleid=rc.roleid AND ra.contextid=ctx.id
-            WHERE ctx.contextlevel=10
-              AND rc.capability IN ('moodle/site:config',
-                                    'moodle/legacy:admin',
-                                    'moodle/site:doanything')       
-            GROUP BY ra.userid
-            HAVING SUM(rc.permission) > 0";
+	$sql = "SELECT ra.userid, SUM(rc.permission) AS permission, MIN(ra.id) AS adminid
+			FROM " . $CFG->prefix . "role_capabilities rc
+			JOIN " . $CFG->prefix . "context ctx
+			  ON ctx.id=rc.contextid
+			JOIN " . $CFG->prefix . "role_assignments ra
+			  ON ra.roleid=rc.roleid AND ra.contextid=ctx.id
+			WHERE ctx.contextlevel=10
+			  AND rc.capability IN ('moodle/site:config',
+									'moodle/legacy:admin',
+									'moodle/site:doanything')       
+			GROUP BY ra.userid
+			HAVING SUM(rc.permission) > 0";
 
-    $sql = "SELECT u.*, ra.adminid
-            FROM  " . $CFG->prefix . "user u
-            JOIN ($sql) ra
-              ON u.id=ra.userid
-            ORDER BY ra.adminid ASC";
+	$sql = "SELECT u.*, ra.adminid
+			FROM  " . $CFG->prefix . "user u
+			JOIN ($sql) ra
+			  ON u.id=ra.userid
+			ORDER BY ra.adminid ASC";
 
-    return get_records_sql($sql);
+	return get_records_sql($sql);
 }
 
 
 function get_courses_in_metacourse($metacourseid) {
-    global $CFG;
+	global $CFG;
 
-    $sql = "SELECT c.id,c.shortname,c.fullname FROM {$CFG->prefix}course c, {$CFG->prefix}course_meta mc WHERE mc.parent_course = $metacourseid
-        AND mc.child_course = c.id ORDER BY c.shortname";
+	$sql = "SELECT c.id,c.shortname,c.fullname FROM {$CFG->prefix}course c, {$CFG->prefix}course_meta mc WHERE mc.parent_course = $metacourseid
+		AND mc.child_course = c.id ORDER BY c.shortname";
 
-    return get_records_sql($sql);
+	return get_records_sql($sql);
 }
 
 function get_courses_notin_metacourse($metacourseid,$count=false) {
 
-    global $CFG;
+	global $CFG;
 
-    if ($count) {
-        $sql  = "SELECT COUNT(c.id)";
-    } else {
-        $sql = "SELECT c.id,c.shortname,c.fullname";
-    }
+	if ($count) {
+		$sql  = "SELECT COUNT(c.id)";
+	} else {
+		$sql = "SELECT c.id,c.shortname,c.fullname";
+	}
 
-    $alreadycourses = get_courses_in_metacourse($metacourseid);
+	$alreadycourses = get_courses_in_metacourse($metacourseid);
 
-    $sql .= " FROM {$CFG->prefix}course c WHERE ".((!empty($alreadycourses)) ? "c.id NOT IN (".implode(',',array_keys($alreadycourses)).")
-    AND " : "")." c.id !=$metacourseid and c.id != ".SITEID." and c.metacourse != 1 ".((empty($count)) ? " ORDER BY c.shortname" : "");
+	$sql .= " FROM {$CFG->prefix}course c WHERE ".((!empty($alreadycourses)) ? "c.id NOT IN (".implode(',',array_keys($alreadycourses)).")
+	AND " : "")." c.id !=$metacourseid and c.id != ".SITEID." and c.metacourse != 1 ".((empty($count)) ? " ORDER BY c.shortname" : "");
 
-    return get_records_sql($sql);
+	return get_records_sql($sql);
 }
 
 function count_courses_notin_metacourse($metacourseid) {
-    global $CFG;
+	global $CFG;
 
-    $alreadycourses = get_courses_in_metacourse($metacourseid);
+	$alreadycourses = get_courses_in_metacourse($metacourseid);
 
-    $sql = "SELECT COUNT(c.id) AS notin FROM {$CFG->prefix}course c
-             WHERE ".((!empty($alreadycourses)) ? "c.id NOT IN (".implode(',',array_keys($alreadycourses)).")
-              AND " : "")." c.id !=$metacourseid and c.id != ".SITEID." and c.metacourse != 1";
+	$sql = "SELECT COUNT(c.id) AS notin FROM {$CFG->prefix}course c
+			 WHERE ".((!empty($alreadycourses)) ? "c.id NOT IN (".implode(',',array_keys($alreadycourses)).")
+			  AND " : "")." c.id !=$metacourseid and c.id != ".SITEID." and c.metacourse != 1";
 
-    if (!$count = get_record_sql($sql)) {
-        return 0;
-    }
+	if (!$count = get_record_sql($sql)) {
+		return 0;
+	}
 
-    return $count->notin;
+	return $count->notin;
 }
 
 /**
@@ -153,53 +153,53 @@ function count_courses_notin_metacourse($metacourseid) {
  * @return object
  */
 function search_users($courseid, $groupid, $searchtext, $sort='', $exceptions='') {
-    global $CFG;
+	global $CFG;
 
-    $LIKE      = sql_ilike();
-    $fullname  = sql_fullname('u.firstname', 'u.lastname');
+	$LIKE      = sql_ilike();
+	$fullname  = sql_fullname('u.firstname', 'u.lastname');
 
-    if (!empty($exceptions)) {
-        $except = ' AND u.id NOT IN ('. $exceptions .') ';
-    } else {
-        $except = '';
-    }
+	if (!empty($exceptions)) {
+		$except = ' AND u.id NOT IN ('. $exceptions .') ';
+	} else {
+		$except = '';
+	}
 
-    if (!empty($sort)) {
-        $order = ' ORDER BY '. $sort;
-    } else {
-        $order = '';
-    }
+	if (!empty($sort)) {
+		$order = ' ORDER BY '. $sort;
+	} else {
+		$order = '';
+	}
 
-    $select = 'u.deleted = \'0\' AND u.confirmed = \'1\'';
+	$select = 'u.deleted = \'0\' AND u.confirmed = \'1\'';
 
-    if (!$courseid or $courseid == SITEID) {
-        return get_records_sql("SELECT u.id, u.firstname, u.lastname, u.email
-                      FROM {$CFG->prefix}user u
-                      WHERE $select
-                          AND ($fullname $LIKE '%$searchtext%' OR u.email $LIKE '%$searchtext%')
-                          $except $order");
-    } else {
+	if (!$courseid or $courseid == SITEID) {
+		return get_records_sql("SELECT u.id, u.firstname, u.lastname, u.email
+					  FROM {$CFG->prefix}user u
+					  WHERE $select
+						  AND ($fullname $LIKE '%$searchtext%' OR u.email $LIKE '%$searchtext%')
+						  $except $order");
+	} else {
 
-        if ($groupid) {
+		if ($groupid) {
 //TODO:check. Remove group DB dependencies.
-            return get_records_sql("SELECT u.id, u.firstname, u.lastname, u.email
-                          FROM {$CFG->prefix}user u,
-                               {$CFG->prefix}groups_members gm
-                          WHERE $select AND gm.groupid = '$groupid' AND gm.userid = u.id
-                              AND ($fullname $LIKE '%$searchtext%' OR u.email $LIKE '%$searchtext%')
-                              $except $order");
-        } else {
-            $context = get_context_instance(CONTEXT_COURSE, $courseid);
-            $contextlists = get_related_contexts_string($context);
-            $users = get_records_sql("SELECT u.id, u.firstname, u.lastname, u.email
-                          FROM {$CFG->prefix}user u,
-                               {$CFG->prefix}role_assignments ra
-                          WHERE $select AND ra.contextid $contextlists AND ra.userid = u.id
-                              AND ($fullname $LIKE '%$searchtext%' OR u.email $LIKE '%$searchtext%')
-                              $except $order");
-        }
-        return $users;
-    }
+			return get_records_sql("SELECT u.id, u.firstname, u.lastname, u.email
+						  FROM {$CFG->prefix}user u,
+							   {$CFG->prefix}groups_members gm
+						  WHERE $select AND gm.groupid = '$groupid' AND gm.userid = u.id
+							  AND ($fullname $LIKE '%$searchtext%' OR u.email $LIKE '%$searchtext%')
+							  $except $order");
+		} else {
+			$context = get_context_instance(CONTEXT_COURSE, $courseid);
+			$contextlists = get_related_contexts_string($context);
+			$users = get_records_sql("SELECT u.id, u.firstname, u.lastname, u.email
+						  FROM {$CFG->prefix}user u,
+							   {$CFG->prefix}role_assignments ra
+						  WHERE $select AND ra.contextid $contextlists AND ra.userid = u.id
+							  AND ($fullname $LIKE '%$searchtext%' OR u.email $LIKE '%$searchtext%')
+							  $except $order");
+		}
+		return $users;
+	}
 }
 
 
@@ -217,7 +217,7 @@ function search_users($courseid, $groupid, $searchtext, $sort='', $exceptions=''
  */
 function get_site_users($sort='u.lastaccess DESC', $fields='*', $exceptions='', $limitfrom='', $limitnum='') {
 
-    return get_course_users(SITEID, $sort, $exceptions, $fields, $limitfrom, $limitnum);
+	return get_course_users(SITEID, $sort, $exceptions, $fields, $limitfrom, $limitnum);
 }
 
 
@@ -238,51 +238,51 @@ function get_site_users($sort='u.lastaccess DESC', $fields='*', $exceptions='', 
  * @return object|false|int  {@link $USER} records unless get is false in which case the integer count of the records found is returned. False is returned if an error is encountered.
  */
 function get_users($get=true, $search='', $confirmed=false, $exceptions='', $sort='firstname ASC',
-                   $firstinitial='', $lastinitial='', $page='', $recordsperpage='', $fields='*', $extraselect='') {
+				   $firstinitial='', $lastinitial='', $page='', $recordsperpage='', $fields='*', $extraselect='') {
 
-    global $CFG;
+	global $CFG;
 
-    if ($get && !$recordsperpage) {
-        debugging('Call to get_users with $get = true no $recordsperpage limit. ' .
-                'On large installations, this will probably cause an out of memory error. ' .
-                'Please think again and change your code so that it does not try to ' .
-                'load so much data into memory.', DEBUG_DEVELOPER);
-    }
+	if ($get && !$recordsperpage) {
+		debugging('Call to get_users with $get = true no $recordsperpage limit. ' .
+				'On large installations, this will probably cause an out of memory error. ' .
+				'Please think again and change your code so that it does not try to ' .
+				'load so much data into memory.', DEBUG_DEVELOPER);
+	}
 
-    $LIKE      = sql_ilike();
-    $fullname  = sql_fullname();
+	$LIKE      = sql_ilike();
+	$fullname  = sql_fullname();
 
-    $select = 'username <> \'guest\' AND deleted = 0';
+	$select = 'username <> \'guest\' AND deleted = 0';
 
-    if (!empty($search)){
-        $search = trim($search);
-        $select .= " AND ($fullname $LIKE '%$search%' OR email $LIKE '%$search%') ";
-    }
+	if (!empty($search)){
+		$search = trim($search);
+		$select .= " AND ($fullname $LIKE '%$search%' OR email $LIKE '%$search%') ";
+	}
 
-    if ($confirmed) {
-        $select .= ' AND confirmed = \'1\' ';
-    }
+	if ($confirmed) {
+		$select .= ' AND confirmed = \'1\' ';
+	}
 
-    if ($exceptions) {
-        $select .= ' AND id NOT IN ('. $exceptions .') ';
-    }
+	if ($exceptions) {
+		$select .= ' AND id NOT IN ('. $exceptions .') ';
+	}
 
-    if ($firstinitial) {
-        $select .= ' AND firstname '. $LIKE .' \''. $firstinitial .'%\'';
-    }
-    if ($lastinitial) {
-        $select .= ' AND lastname '. $LIKE .' \''. $lastinitial .'%\'';
-    }
+	if ($firstinitial) {
+		$select .= ' AND firstname '. $LIKE .' \''. $firstinitial .'%\'';
+	}
+	if ($lastinitial) {
+		$select .= ' AND lastname '. $LIKE .' \''. $lastinitial .'%\'';
+	}
 
-    if ($extraselect) {
-        $select .= " AND $extraselect ";
-    }
+	if ($extraselect) {
+		$select .= " AND $extraselect ";
+	}
 
-    if ($get) {
-        return get_records_select('user', $select, $sort, $fields, $page, $recordsperpage);
-    } else {
-        return count_records_select('user', $select);
-    }
+	if ($get) {
+		return get_records_select('user', $select, $sort, $fields, $page, $recordsperpage);
+	} else {
+		return count_records_select('user', $select);
+	}
 }
 
 
@@ -304,40 +304,40 @@ function get_users($get=true, $search='', $confirmed=false, $exceptions='', $sor
  */
 
 function get_users_listing($sort='lastaccess', $dir='ASC', $page=0, $recordsperpage=0,
-                           $search='', $firstinitial='', $lastinitial='', $extraselect='') {
+						   $search='', $firstinitial='', $lastinitial='', $extraselect='') {
 
-    global $CFG;
+	global $CFG;
 
-    $LIKE      = sql_ilike();
-    $fullname  = sql_fullname();
+	$LIKE      = sql_ilike();
+	$fullname  = sql_fullname();
 
-    $select = "deleted <> '1'";
+	$select = "deleted <> '1'";
 
-    if (!empty($search)) {
-        $search = trim($search);
-        $select .= " AND ($fullname $LIKE '%$search%' OR email $LIKE '%$search%' OR username='$search') ";
-    }
+	if (!empty($search)) {
+		$search = trim($search);
+		$select .= " AND ($fullname $LIKE '%$search%' OR email $LIKE '%$search%' OR username='$search') ";
+	}
 
-    if ($firstinitial) {
-        $select .= ' AND firstname '. $LIKE .' \''. $firstinitial .'%\' ';
-    }
+	if ($firstinitial) {
+		$select .= ' AND firstname '. $LIKE .' \''. $firstinitial .'%\' ';
+	}
 
-    if ($lastinitial) {
-        $select .= ' AND lastname '. $LIKE .' \''. $lastinitial .'%\' ';
-    }
+	if ($lastinitial) {
+		$select .= ' AND lastname '. $LIKE .' \''. $lastinitial .'%\' ';
+	}
 
-    if ($extraselect) {
-        $select .= " AND $extraselect ";
-    }
+	if ($extraselect) {
+		$select .= " AND $extraselect ";
+	}
 
-    if ($sort) {
-        $sort = ' ORDER BY '. $sort .' '. $dir;
-    }
+	if ($sort) {
+		$sort = ' ORDER BY '. $sort .' '. $dir;
+	}
 
 /// warning: will return UNCONFIRMED USERS
-    return get_records_sql("SELECT id, username, email, firstname, lastname, city, country, lastaccess, confirmed, mnethostid
-                              FROM {$CFG->prefix}user
-                             WHERE $select $sort", $page, $recordsperpage);
+	return get_records_sql("SELECT id, username, email, firstname, lastname, city, country, lastaccess, confirmed, mnethostid
+							  FROM {$CFG->prefix}user
+							 WHERE $select $sort", $page, $recordsperpage);
 
 }
 
@@ -349,12 +349,12 @@ function get_users_listing($sort='lastaccess', $dir='ASC', $page=0, $recordsperp
  * @return object
  */
 function get_users_confirmed() {
-    global $CFG;
-    return get_records_sql("SELECT *
-                              FROM {$CFG->prefix}user
-                             WHERE confirmed = 1
-                               AND deleted = 0
-                               AND username <> 'guest'");
+	global $CFG;
+	return get_records_sql("SELECT *
+							  FROM {$CFG->prefix}user
+							 WHERE confirmed = 1
+							   AND deleted = 0
+							   AND username <> 'guest'");
 }
 
 
@@ -368,17 +368,17 @@ function get_users_confirmed() {
  */
 function get_site() {
 
-    global $SITE;
+	global $SITE;
 
-    if (!empty($SITE->id)) {   // We already have a global to use, so return that
-        return $SITE;
-    }
+	if (!empty($SITE->id)) {   // We already have a global to use, so return that
+		return $SITE;
+	}
 
-    if ($course = get_record('course', 'category', 0)) {
-        return $course;
-    } else {
-        return false;
-    }
+	if ($course = get_record('course', 'category', 0)) {
+		return $course;
+	} else {
+		return false;
+	}
 }
 
 /**
@@ -394,78 +394,78 @@ function get_site() {
  */
 function get_courses($categoryid="all", $sort="c.sortorder ASC", $fields="c.*") {
 
-    global $USER, $CFG;
+	global $USER, $CFG;
 
-    if ($categoryid != "all" && is_numeric($categoryid)) {
-        $categoryselect = "WHERE c.category = '$categoryid'";
-    } else {
-        $categoryselect = "";
-    }
+	if ($categoryid != "all" && is_numeric($categoryid)) {
+		$categoryselect = "WHERE c.category = '$categoryid'";
+	} else {
+		$categoryselect = "";
+	}
 
-    if (empty($sort)) {
-        $sortstatement = "";
-    } else {
-        $sortstatement = "ORDER BY $sort";
-    }
+	if (empty($sort)) {
+		$sortstatement = "";
+	} else {
+		$sortstatement = "ORDER BY $sort";
+	}
 
-    $visiblecourses = array();
+	$visiblecourses = array();
 
-    // pull out all course matching the cat
-    if ($courses = get_records_sql("SELECT $fields,
-                                    ctx.id AS ctxid, ctx.path AS ctxpath,
-                                    ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
-                                    FROM {$CFG->prefix}course c
-                                    JOIN {$CFG->prefix}context ctx
-                                      ON (c.id = ctx.instanceid 
-                                          AND ctx.contextlevel=".CONTEXT_COURSE.")
-                                    $categoryselect
-                                    $sortstatement")) {
+	// pull out all course matching the cat
+	if ($courses = get_records_sql("SELECT $fields,
+									ctx.id AS ctxid, ctx.path AS ctxpath,
+									ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
+									FROM {$CFG->prefix}course c
+									JOIN {$CFG->prefix}context ctx
+									  ON (c.id = ctx.instanceid 
+										  AND ctx.contextlevel=".CONTEXT_COURSE.")
+									$categoryselect
+									$sortstatement")) {
 
-        // loop throught them
-        foreach ($courses as $course) {
-            $course = make_context_subobj($course);
-            if (isset($course->visible) && $course->visible <= 0) {
-                // for hidden courses, require visibility check
-                if (has_capability('moodle/course:viewhiddencourses', $course->context)) {
-                    $visiblecourses [] = $course;
-                }
-            } else {
-                $visiblecourses [] = $course;
-            }
-        }
-    }
-    return $visiblecourses;
+		// loop throught them
+		foreach ($courses as $course) {
+			$course = make_context_subobj($course);
+			if (isset($course->visible) && $course->visible <= 0) {
+				// for hidden courses, require visibility check
+				if (has_capability('moodle/course:viewhiddencourses', $course->context)) {
+					$visiblecourses [] = $course;
+				}
+			} else {
+				$visiblecourses [] = $course;
+			}
+		}
+	}
+	return $visiblecourses;
 
 /*
-    $teachertable = "";
-    $visiblecourses = "";
-    $sqland = "";
-    if (!empty($categoryselect)) {
-        $sqland = "AND ";
-    }
-    if (!empty($USER->id)) {  // May need to check they are a teacher
-        if (!has_capability('moodle/course:create', get_context_instance(CONTEXT_SYSTEM))) {
-            $visiblecourses = "$sqland ((c.visible > 0) OR t.userid = '$USER->id')";
-            $teachertable = "LEFT JOIN {$CFG->prefix}user_teachers t ON t.course = c.id";
-        }
-    } else {
-        $visiblecourses = "$sqland c.visible > 0";
-    }
+	$teachertable = "";
+	$visiblecourses = "";
+	$sqland = "";
+	if (!empty($categoryselect)) {
+		$sqland = "AND ";
+	}
+	if (!empty($USER->id)) {  // May need to check they are a teacher
+		if (!has_capability('moodle/course:create', get_context_instance(CONTEXT_SYSTEM))) {
+			$visiblecourses = "$sqland ((c.visible > 0) OR t.userid = '$USER->id')";
+			$teachertable = "LEFT JOIN {$CFG->prefix}user_teachers t ON t.course = c.id";
+		}
+	} else {
+		$visiblecourses = "$sqland c.visible > 0";
+	}
 
-    if ($categoryselect or $visiblecourses) {
-        $selectsql = "{$CFG->prefix}course c $teachertable WHERE $categoryselect $visiblecourses";
-    } else {
-        $selectsql = "{$CFG->prefix}course c $teachertable";
-    }
+	if ($categoryselect or $visiblecourses) {
+		$selectsql = "{$CFG->prefix}course c $teachertable WHERE $categoryselect $visiblecourses";
+	} else {
+		$selectsql = "{$CFG->prefix}course c $teachertable";
+	}
 
-    $extrafield = str_replace('ASC','',$sort);
-    $extrafield = str_replace('DESC','',$extrafield);
-    $extrafield = trim($extrafield);
-    if (!empty($extrafield)) {
-        $extrafield = ','.$extrafield;
-    }
-    return get_records_sql("SELECT ".((!empty($teachertable)) ? " DISTINCT " : "")." $fields $extrafield FROM $selectsql ".((!empty($sort)) ? "ORDER BY $sort" : ""));
-    */
+	$extrafield = str_replace('ASC','',$sort);
+	$extrafield = str_replace('DESC','',$extrafield);
+	$extrafield = trim($extrafield);
+	if (!empty($extrafield)) {
+		$extrafield = ','.$extrafield;
+	}
+	return get_records_sql("SELECT ".((!empty($teachertable)) ? " DISTINCT " : "")." $fields $extrafield FROM $selectsql ".((!empty($sort)) ? "ORDER BY $sort" : ""));
+	*/
 }
 
 
@@ -481,90 +481,90 @@ function get_courses($categoryid="all", $sort="c.sortorder ASC", $fields="c.*") 
  *
  */
 function get_courses_page($categoryid="all", $sort="c.sortorder ASC", $fields="c.*",
-                          &$totalcount, $limitfrom="", $limitnum="") {
+						  &$totalcount, $limitfrom="", $limitnum="") {
 
-    global $USER, $CFG;
+	global $USER, $CFG;
 
-    $categoryselect = "";
-    if ($categoryid != "all" && is_numeric($categoryid)) {
-        $categoryselect = "WHERE c.category = '$categoryid'";
-    } else {
-        $categoryselect = "";
-    }
+	$categoryselect = "";
+	if ($categoryid != "all" && is_numeric($categoryid)) {
+		$categoryselect = "WHERE c.category = '$categoryid'";
+	} else {
+		$categoryselect = "";
+	}
 
-    // pull out all course matching the cat
-    $visiblecourses = array();
-    if (!($rs = get_recordset_sql("SELECT $fields,
-                                          ctx.id AS ctxid, ctx.path AS ctxpath,
-                                          ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
-                                   FROM {$CFG->prefix}course c
-                                   JOIN {$CFG->prefix}context ctx
-                                     ON (c.id = ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSE.")
-                                   $categoryselect
-                                   ORDER BY $sort"))) {
-        return $visiblecourses;
-    }
-    $totalcount = 0;
+	// pull out all course matching the cat
+	$visiblecourses = array();
+	if (!($rs = get_recordset_sql("SELECT $fields,
+										  ctx.id AS ctxid, ctx.path AS ctxpath,
+										  ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
+								   FROM {$CFG->prefix}course c
+								   JOIN {$CFG->prefix}context ctx
+									 ON (c.id = ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSE.")
+								   $categoryselect
+								   ORDER BY $sort"))) {
+		return $visiblecourses;
+	}
+	$totalcount = 0;
 
-    if (!$limitfrom) {
-        $limitfrom = 0;
-    }
+	if (!$limitfrom) {
+		$limitfrom = 0;
+	}
 
-    // iteration will have to be done inside loop to keep track of the limitfrom and limitnum
-    while ($course = rs_fetch_next_record($rs)) {
-        $course = make_context_subobj($course);
-        if ($course->visible <= 0) {
-            // for hidden courses, require visibility check
-            if (has_capability('moodle/course:viewhiddencourses', $course->context)) {
-                $totalcount++;
-                if ($totalcount > $limitfrom && (!$limitnum or count($visiblecourses) < $limitnum)) {
-                    $visiblecourses [] = $course;
-                }
-            }
-        } else {
-            $totalcount++;
-            if ($totalcount > $limitfrom && (!$limitnum or count($visiblecourses) < $limitnum)) {
-                $visiblecourses [] = $course;
-            }
-        }
-    }
-    rs_close($rs);
-    return $visiblecourses;
+	// iteration will have to be done inside loop to keep track of the limitfrom and limitnum
+	while ($course = rs_fetch_next_record($rs)) {
+		$course = make_context_subobj($course);
+		if ($course->visible <= 0) {
+			// for hidden courses, require visibility check
+			if (has_capability('moodle/course:viewhiddencourses', $course->context)) {
+				$totalcount++;
+				if ($totalcount > $limitfrom && (!$limitnum or count($visiblecourses) < $limitnum)) {
+					$visiblecourses [] = $course;
+				}
+			}
+		} else {
+			$totalcount++;
+			if ($totalcount > $limitfrom && (!$limitnum or count($visiblecourses) < $limitnum)) {
+				$visiblecourses [] = $course;
+			}
+		}
+	}
+	rs_close($rs);
+	return $visiblecourses;
 
 /**
 
-    $categoryselect = "";
-    if ($categoryid != "all" && is_numeric($categoryid)) {
-        $categoryselect = "c.category = '$categoryid'";
-    }
+	$categoryselect = "";
+	if ($categoryid != "all" && is_numeric($categoryid)) {
+		$categoryselect = "c.category = '$categoryid'";
+	}
 
-    $teachertable = "";
-    $visiblecourses = "";
-    $sqland = "";
-    if (!empty($categoryselect)) {
-        $sqland = "AND ";
-    }
-    if (!empty($USER) and !empty($USER->id)) {  // May need to check they are a teacher
-        if (!has_capability('moodle/course:create', get_context_instance(CONTEXT_SYSTEM))) {
-            $visiblecourses = "$sqland ((c.visible > 0) OR t.userid = '$USER->id')";
-            $teachertable = "LEFT JOIN {$CFG->prefix}user_teachers t ON t.course=c.id";
-        }
-    } else {
-        $visiblecourses = "$sqland c.visible > 0";
-    }
+	$teachertable = "";
+	$visiblecourses = "";
+	$sqland = "";
+	if (!empty($categoryselect)) {
+		$sqland = "AND ";
+	}
+	if (!empty($USER) and !empty($USER->id)) {  // May need to check they are a teacher
+		if (!has_capability('moodle/course:create', get_context_instance(CONTEXT_SYSTEM))) {
+			$visiblecourses = "$sqland ((c.visible > 0) OR t.userid = '$USER->id')";
+			$teachertable = "LEFT JOIN {$CFG->prefix}user_teachers t ON t.course=c.id";
+		}
+	} else {
+		$visiblecourses = "$sqland c.visible > 0";
+	}
 
-    if ($limitfrom !== "") {
-        $limit = sql_paging_limit($limitfrom, $limitnum);
-    } else {
-        $limit = "";
-    }
+	if ($limitfrom !== "") {
+		$limit = sql_paging_limit($limitfrom, $limitnum);
+	} else {
+		$limit = "";
+	}
 
-    $selectsql = "{$CFG->prefix}course c $teachertable WHERE $categoryselect $visiblecourses";
+	$selectsql = "{$CFG->prefix}course c $teachertable WHERE $categoryselect $visiblecourses";
 
-    $totalcount = count_records_sql("SELECT COUNT(DISTINCT c.id) FROM $selectsql");
+	$totalcount = count_records_sql("SELECT COUNT(DISTINCT c.id) FROM $selectsql");
 
-    return get_records_sql("SELECT $fields FROM $selectsql ".((!empty($sort)) ? "ORDER BY $sort" : "")." $limit");
-    */
+	return get_records_sql("SELECT $fields FROM $selectsql ".((!empty($sort)) ? "ORDER BY $sort" : "")." $limit");
+	*/
 }
 
 /*
@@ -580,203 +580,203 @@ function get_courses_page($categoryid="all", $sort="c.sortorder ASC", $fields="c
  *
  */
 function get_courses_wmanagers($categoryid=0, $sort="c.sortorder ASC", $fields=array()) {
-    /*
-     * The plan is to
-     *
-     * - Grab the courses JOINed w/context
-     *
-     * - Grab the interesting course-manager RAs
-     *   JOINed with a base user obj and add them to each course
-     *
-     * So as to do all the work in 2 DB queries. The RA+user JOIN
-     * ends up being pretty expensive if it happens over _all_
-     * courses on a large site. (Are we surprised!?)
-     *
-     * So this should _never_ get called with 'all' on a large site.
-     *
-     */
-    global $USER, $CFG;
+	/*
+	 * The plan is to
+	 *
+	 * - Grab the courses JOINed w/context
+	 *
+	 * - Grab the interesting course-manager RAs
+	 *   JOINed with a base user obj and add them to each course
+	 *
+	 * So as to do all the work in 2 DB queries. The RA+user JOIN
+	 * ends up being pretty expensive if it happens over _all_
+	 * courses on a large site. (Are we surprised!?)
+	 *
+	 * So this should _never_ get called with 'all' on a large site.
+	 *
+	 */
+	global $USER, $CFG;
 
-    $allcats = false; // bool flag
-    if ($categoryid === 'all') {
-        $categoryclause   = '';
-        $allcats = true;
-    } elseif (is_numeric($categoryid)) {
-        $categoryclause = "c.category = $categoryid";
-    } else {
-        debugging("Could not recognise categoryid = $categoryid");
-        $categoryclause = '';
-    }
+	$allcats = false; // bool flag
+	if ($categoryid === 'all') {
+		$categoryclause   = '';
+		$allcats = true;
+	} elseif (is_numeric($categoryid)) {
+		$categoryclause = "c.category = $categoryid";
+	} else {
+		debugging("Could not recognise categoryid = $categoryid");
+		$categoryclause = '';
+	}
 
-    $basefields = array('id', 'category', 'sortorder',
-                        'shortname', 'fullname', 'idnumber',
-                        'teacher', 'teachers', 'student', 'students',
-                        'guest', 'startdate', 'visible',
-                        'newsitems',  'cost', 'enrol',
-                        'groupmode', 'groupmodeforce');
+	$basefields = array('id', 'category', 'sortorder',
+						'shortname', 'fullname', 'idnumber',
+						'teacher', 'teachers', 'student', 'students',
+						'guest', 'startdate', 'visible',
+						'newsitems',  'cost', 'enrol',
+						'groupmode', 'groupmodeforce');
 
-    if (!is_null($fields) && is_string($fields)) {
-        if (empty($fields)) {
-            $fields = $basefields;
-        } else {
-            // turn the fields from a string to an array that
-            // get_user_courses_bycap() will like...
-            $fields = explode(',',$fields);
-            $fields = array_map('trim', $fields);
-            $fields = array_unique(array_merge($basefields, $fields));
-        }
-    } elseif (is_array($fields)) {
-        $fields = array_merge($basefields,$fields);
-    }
-    $coursefields = 'c.' .join(',c.', $fields);
+	if (!is_null($fields) && is_string($fields)) {
+		if (empty($fields)) {
+			$fields = $basefields;
+		} else {
+			// turn the fields from a string to an array that
+			// get_user_courses_bycap() will like...
+			$fields = explode(',',$fields);
+			$fields = array_map('trim', $fields);
+			$fields = array_unique(array_merge($basefields, $fields));
+		}
+	} elseif (is_array($fields)) {
+		$fields = array_merge($basefields,$fields);
+	}
+	$coursefields = 'c.' .join(',c.', $fields);
 
-    if (empty($sort)) {
-        $sortstatement = "";
-    } else {
-        $sortstatement = "ORDER BY $sort";
-    }
+	if (empty($sort)) {
+		$sortstatement = "";
+	} else {
+		$sortstatement = "ORDER BY $sort";
+	}
 
-    $where = 'WHERE c.id != ' . SITEID;
-    if ($categoryclause !== ''){
-        $where = "$where AND $categoryclause";
-    }
+	$where = 'WHERE c.id != ' . SITEID;
+	if ($categoryclause !== ''){
+		$where = "$where AND $categoryclause";
+	}
 
-    // pull out all courses matching the cat
-    $sql = "SELECT $coursefields,
-                   ctx.id AS ctxid, ctx.path AS ctxpath,
-                   ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
-            FROM {$CFG->prefix}course c
-            JOIN {$CFG->prefix}context ctx
-                 ON (c.id=ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSE.")
-                 $where
-                 $sortstatement";
+	// pull out all courses matching the cat
+	$sql = "SELECT $coursefields,
+				   ctx.id AS ctxid, ctx.path AS ctxpath,
+				   ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
+			FROM {$CFG->prefix}course c
+			JOIN {$CFG->prefix}context ctx
+				 ON (c.id=ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSE.")
+				 $where
+				 $sortstatement";
 
-    $catpaths = array();
-    $catpath  = NULL;
-    if ($courses = get_records_sql($sql)) {
-        // loop on courses materialising
-        // the context, and prepping data to fetch the
-        // managers efficiently later...
-        foreach ($courses as $k => $course) {
-            $courses[$k] = make_context_subobj($courses[$k]);
-            $courses[$k]->managers = array();
-            if ($allcats === false) {
-                // single cat, so take just the first one...
-                if ($catpath === NULL) {
-                    $catpath = preg_replace(':/\d+$:', '',$courses[$k]->context->path);
-                }
-            } else {
-                // chop off the contextid of the course itself
-                // like dirname() does...
-                $catpaths[] = preg_replace(':/\d+$:', '',$courses[$k]->context->path);
-            }
-        }
-    } else {
-        return array(); // no courses!
-    }
+	$catpaths = array();
+	$catpath  = NULL;
+	if ($courses = get_records_sql($sql)) {
+		// loop on courses materialising
+		// the context, and prepping data to fetch the
+		// managers efficiently later...
+		foreach ($courses as $k => $course) {
+			$courses[$k] = make_context_subobj($courses[$k]);
+			$courses[$k]->managers = array();
+			if ($allcats === false) {
+				// single cat, so take just the first one...
+				if ($catpath === NULL) {
+					$catpath = preg_replace(':/\d+$:', '',$courses[$k]->context->path);
+				}
+			} else {
+				// chop off the contextid of the course itself
+				// like dirname() does...
+				$catpaths[] = preg_replace(':/\d+$:', '',$courses[$k]->context->path);
+			}
+		}
+	} else {
+		return array(); // no courses!
+	}
 
-    $CFG->coursemanager = trim($CFG->coursemanager);
-    if (empty($CFG->coursemanager)) {
-        return $courses;
-    }
+	$CFG->coursemanager = trim($CFG->coursemanager);
+	if (empty($CFG->coursemanager)) {
+		return $courses;
+	}
 
-    $managerroles = split(',', $CFG->coursemanager);
-    $catctxids = '';
-    if (count($managerroles)) {
-        if ($allcats === true) {
-            $catpaths  = array_unique($catpaths);
-            $ctxids = array();
-            foreach ($catpaths as $cpath) {
-                $ctxids = array_merge($ctxids, explode('/',substr($cpath,1)));
-            }
-            $ctxids = array_unique($ctxids);
-            $catctxids = implode( ',' , $ctxids);
-            unset($catpaths);
-            unset($cpath);
-        } else {
-            // take the ctx path from the first course
-            // as all categories will be the same...
-            $catpath = substr($catpath,1);
-            $catpath = preg_replace(':/\d+$:','',$catpath);
-            $catctxids = str_replace('/',',',$catpath);
-        }
-        if ($categoryclause !== '') {
-            $categoryclause = "AND $categoryclause";
-        }
-        /*
-         * Note: Here we use a LEFT OUTER JOIN that can
-         * "optionally" match to avoid passing a ton of context
-         * ids in an IN() clause. Perhaps a subselect is faster.
-         *
-         * In any case, this SQL is not-so-nice over large sets of
-         * courses with no $categoryclause.
-         *
-         */
-        $sql = "SELECT ctx.path, ctx.instanceid, ctx.contextlevel,
-                       ra.hidden,
-                       r.id AS roleid, r.name as rolename,
-                       u.id AS userid, u.firstname, u.lastname
-                FROM {$CFG->prefix}role_assignments ra
-                JOIN {$CFG->prefix}context ctx
-                  ON ra.contextid = ctx.id
-                JOIN {$CFG->prefix}user u
-                  ON ra.userid = u.id
-                JOIN {$CFG->prefix}role r
-                  ON ra.roleid = r.id
-                LEFT OUTER JOIN {$CFG->prefix}course c
-                  ON (ctx.instanceid=c.id AND ctx.contextlevel=".CONTEXT_COURSE.")
-                WHERE ( c.id IS NOT NULL";
-        // under certain conditions, $catctxids is NULL
-        if($catctxids == NULL){
-            $sql .= ") ";
-        }else{
-            $sql .= " OR ra.contextid  IN ($catctxids) )";
-        }
+	$managerroles = split(',', $CFG->coursemanager);
+	$catctxids = '';
+	if (count($managerroles)) {
+		if ($allcats === true) {
+			$catpaths  = array_unique($catpaths);
+			$ctxids = array();
+			foreach ($catpaths as $cpath) {
+				$ctxids = array_merge($ctxids, explode('/',substr($cpath,1)));
+			}
+			$ctxids = array_unique($ctxids);
+			$catctxids = implode( ',' , $ctxids);
+			unset($catpaths);
+			unset($cpath);
+		} else {
+			// take the ctx path from the first course
+			// as all categories will be the same...
+			$catpath = substr($catpath,1);
+			$catpath = preg_replace(':/\d+$:','',$catpath);
+			$catctxids = str_replace('/',',',$catpath);
+		}
+		if ($categoryclause !== '') {
+			$categoryclause = "AND $categoryclause";
+		}
+		/*
+		 * Note: Here we use a LEFT OUTER JOIN that can
+		 * "optionally" match to avoid passing a ton of context
+		 * ids in an IN() clause. Perhaps a subselect is faster.
+		 *
+		 * In any case, this SQL is not-so-nice over large sets of
+		 * courses with no $categoryclause.
+		 *
+		 */
+		$sql = "SELECT ctx.path, ctx.instanceid, ctx.contextlevel,
+					   ra.hidden,
+					   r.id AS roleid, r.name as rolename,
+					   u.id AS userid, u.firstname, u.lastname
+				FROM {$CFG->prefix}role_assignments ra
+				JOIN {$CFG->prefix}context ctx
+				  ON ra.contextid = ctx.id
+				JOIN {$CFG->prefix}user u
+				  ON ra.userid = u.id
+				JOIN {$CFG->prefix}role r
+				  ON ra.roleid = r.id
+				LEFT OUTER JOIN {$CFG->prefix}course c
+				  ON (ctx.instanceid=c.id AND ctx.contextlevel=".CONTEXT_COURSE.")
+				WHERE ( c.id IS NOT NULL";
+		// under certain conditions, $catctxids is NULL
+		if($catctxids == NULL){
+			$sql .= ") ";
+		}else{
+			$sql .= " OR ra.contextid  IN ($catctxids) )";
+		}
 
-        $sql .= "AND ra.roleid IN ({$CFG->coursemanager})
-                      $categoryclause
-                ORDER BY r.sortorder ASC, ctx.contextlevel ASC, ra.sortorder ASC";
-        $rs = get_recordset_sql($sql);
+		$sql .= "AND ra.roleid IN ({$CFG->coursemanager})
+					  $categoryclause
+				ORDER BY r.sortorder ASC, ctx.contextlevel ASC, ra.sortorder ASC";
+		$rs = get_recordset_sql($sql);
 
-        // This loop is fairly stupid as it stands - might get better
-        // results doing an initial pass clustering RAs by path.
-        while ($ra = rs_fetch_next_record($rs)) {
-            $user = new StdClass;
-            $user->id        = $ra->userid;    unset($ra->userid);
-            $user->firstname = $ra->firstname; unset($ra->firstname);
-            $user->lastname  = $ra->lastname;  unset($ra->lastname);
-            $ra->user = $user;
-            if ($ra->contextlevel == CONTEXT_SYSTEM) {
-                foreach ($courses as $k => $course) {
-                    $courses[$k]->managers[] = $ra;
-                }
-            } elseif ($ra->contextlevel == CONTEXT_COURSECAT) {
-                if ($allcats === false) {
-                    // It always applies
-                    foreach ($courses as $k => $course) {
-                        $courses[$k]->managers[] = $ra;
-                    }
-                } else {
-                    foreach ($courses as $k => $course) {
-                        // Note that strpos() returns 0 as "matched at pos 0"
-                        if (strpos($course->context->path, $ra->path.'/')===0) {
-                            // Only add it to subpaths
-                            $courses[$k]->managers[] = $ra;
-                        }
-                    }
-                }
-            } else { // course-level
-                if(!array_key_exists($ra->instanceid, $courses)) {
-                    //this course is not in a list, probably a frontpage course
-                    continue;
-                }
-                $courses[$ra->instanceid]->managers[] = $ra;
-            }
-        }
-        rs_close($rs);
-    }
+		// This loop is fairly stupid as it stands - might get better
+		// results doing an initial pass clustering RAs by path.
+		while ($ra = rs_fetch_next_record($rs)) {
+			$user = new StdClass;
+			$user->id        = $ra->userid;    unset($ra->userid);
+			$user->firstname = $ra->firstname; unset($ra->firstname);
+			$user->lastname  = $ra->lastname;  unset($ra->lastname);
+			$ra->user = $user;
+			if ($ra->contextlevel == CONTEXT_SYSTEM) {
+				foreach ($courses as $k => $course) {
+					$courses[$k]->managers[] = $ra;
+				}
+			} elseif ($ra->contextlevel == CONTEXT_COURSECAT) {
+				if ($allcats === false) {
+					// It always applies
+					foreach ($courses as $k => $course) {
+						$courses[$k]->managers[] = $ra;
+					}
+				} else {
+					foreach ($courses as $k => $course) {
+						// Note that strpos() returns 0 as "matched at pos 0"
+						if (strpos($course->context->path, $ra->path.'/')===0) {
+							// Only add it to subpaths
+							$courses[$k]->managers[] = $ra;
+						}
+					}
+				}
+			} else { // course-level
+				if(!array_key_exists($ra->instanceid, $courses)) {
+					//this course is not in a list, probably a frontpage course
+					continue;
+				}
+				$courses[$ra->instanceid]->managers[] = $ra;
+			}
+		}
+		rs_close($rs);
+	}
 
-    return $courses;
+	return $courses;
 }
 
 /**
@@ -814,258 +814,258 @@ function get_courses_wmanagers($categoryid=0, $sort="c.sortorder ASC", $fields=a
  */
 function get_my_courses($userid, $sort='visible DESC,sortorder ASC', $fields=NULL, $doanything=false,$limit=0) {
 
-    global $CFG,$USER;
+	global $CFG,$USER;
 
-    // Guest's do not have any courses
-    $sitecontext = get_context_instance(CONTEXT_SYSTEM);
-    if (has_capability('moodle/legacy:guest',$sitecontext,$userid,false)) {
-        return(array());
-    }
+	// Guest's do not have any courses
+	$sitecontext = get_context_instance(CONTEXT_SYSTEM);
+	if (has_capability('moodle/legacy:guest',$sitecontext,$userid,false)) {
+		return(array());
+	}
 
-    $basefields = array('id', 'category', 'sortorder',
-                        'shortname', 'fullname', 'idnumber',
-                        'teacher', 'teachers', 'student', 'students',
-                        'guest', 'startdate', 'visible',
-                        'newsitems',  'cost', 'enrol',
-                        'groupmode', 'groupmodeforce');
+	$basefields = array('id', 'category', 'sortorder',
+						'shortname', 'fullname', 'idnumber',
+						'teacher', 'teachers', 'student', 'students',
+						'guest', 'startdate', 'visible',
+						'newsitems',  'cost', 'enrol',
+						'groupmode', 'groupmodeforce');
 
-    if (!is_null($fields) && is_string($fields)) {
-        if (empty($fields)) {
-            $fields = $basefields;
-        } else {
-            // turn the fields from a string to an array that
-            // get_user_courses_bycap() will like...
-            $fields = explode(',',$fields);
-            $fields = array_map('trim', $fields);
-            $fields = array_unique(array_merge($basefields, $fields));
-        }
-    } elseif (is_array($fields)) {
-        $fields = array_unique(array_merge($basefields, $fields));
-    } else {
-        $fields = $basefields;
-    }
+	if (!is_null($fields) && is_string($fields)) {
+		if (empty($fields)) {
+			$fields = $basefields;
+		} else {
+			// turn the fields from a string to an array that
+			// get_user_courses_bycap() will like...
+			$fields = explode(',',$fields);
+			$fields = array_map('trim', $fields);
+			$fields = array_unique(array_merge($basefields, $fields));
+		}
+	} elseif (is_array($fields)) {
+		$fields = array_unique(array_merge($basefields, $fields));
+	} else {
+		$fields = $basefields;
+	}
 
-    $orderby = '';
-    $sort    = trim($sort);
-    if (!empty($sort)) {
-        $rawsorts = explode(',', $sort);
-        $sorts = array();
-        foreach ($rawsorts as $rawsort) {
-            $rawsort = trim($rawsort);
-            if (strpos($rawsort, 'c.') === 0) {
-                $rawsort = substr($rawsort, 2);
-            }
-            $sorts[] = trim($rawsort);
-        }
-        $sort = 'c.'.implode(',c.', $sorts);
-        $orderby = "ORDER BY $sort";
-    }
+	$orderby = '';
+	$sort    = trim($sort);
+	if (!empty($sort)) {
+		$rawsorts = explode(',', $sort);
+		$sorts = array();
+		foreach ($rawsorts as $rawsort) {
+			$rawsort = trim($rawsort);
+			if (strpos($rawsort, 'c.') === 0) {
+				$rawsort = substr($rawsort, 2);
+			}
+			$sorts[] = trim($rawsort);
+		}
+		$sort = 'c.'.implode(',c.', $sorts);
+		$orderby = "ORDER BY $sort";
+	}
 
-    //
-    // Logged-in user - Check cached courses
-    //
-    // NOTE! it's a _string_ because
-    // - it's all we'll ever use
-    // - it serialises much more compact than an array
-    //   this a big concern here - cost of serialise
-    //   and unserialise gets huge as the session grows
-    //
-    // If the courses are too many - it won't be set
-    // for large numbers of courses, caching in the session
-    // has marginal benefits (costs too much, not
-    // worthwhile...) and we may hit SQL parser limits
-    // because we use IN()
-    //
-    if ($userid === $USER->id) {
-        if (isset($USER->loginascontext)
-            && $USER->loginascontext->contextlevel == CONTEXT_COURSE) {
-            // list _only_ this course
-            // anything else is asking for trouble...
-            $courseids = $USER->loginascontext->instanceid;
-        } elseif (isset($USER->mycourses)
-                  && is_string($USER->mycourses)) {
-            if ($USER->mycourses === '') {
-                // empty str means: user has no courses
-                // ... so do the easy thing...
-                return array();
-            } else {
-                $courseids = $USER->mycourses;
-            }
-        }
-        if (isset($courseids)) {
-            // The data massaging here MUST be kept in sync with
-            // get_user_courses_bycap() so we return
-            // the same...
-            // (but here we don't need to check has_cap)
-            $coursefields = 'c.' .join(',c.', $fields);
-            $sql = "SELECT $coursefields,
-                           ctx.id AS ctxid, ctx.path AS ctxpath,
-                           ctx.depth as ctxdepth, ctx.contextlevel AS ctxlevel,
-                           cc.path AS categorypath
-                    FROM {$CFG->prefix}course c
-                    JOIN {$CFG->prefix}course_categories cc
-                      ON c.category=cc.id
-                    JOIN {$CFG->prefix}context ctx
-                      ON (c.id=ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSE.")
-                    WHERE c.id IN ($courseids)
-                    $orderby";
-            $rs = get_recordset_sql($sql);
-            $courses = array();
-            $cc = 0; // keep count
-            while ($c = rs_fetch_next_record($rs)) {
-                // build the context obj
-                $c = make_context_subobj($c);
+	//
+	// Logged-in user - Check cached courses
+	//
+	// NOTE! it's a _string_ because
+	// - it's all we'll ever use
+	// - it serialises much more compact than an array
+	//   this a big concern here - cost of serialise
+	//   and unserialise gets huge as the session grows
+	//
+	// If the courses are too many - it won't be set
+	// for large numbers of courses, caching in the session
+	// has marginal benefits (costs too much, not
+	// worthwhile...) and we may hit SQL parser limits
+	// because we use IN()
+	//
+	if ($userid === $USER->id) {
+		if (isset($USER->loginascontext)
+			&& $USER->loginascontext->contextlevel == CONTEXT_COURSE) {
+			// list _only_ this course
+			// anything else is asking for trouble...
+			$courseids = $USER->loginascontext->instanceid;
+		} elseif (isset($USER->mycourses)
+				  && is_string($USER->mycourses)) {
+			if ($USER->mycourses === '') {
+				// empty str means: user has no courses
+				// ... so do the easy thing...
+				return array();
+			} else {
+				$courseids = $USER->mycourses;
+			}
+		}
+		if (isset($courseids)) {
+			// The data massaging here MUST be kept in sync with
+			// get_user_courses_bycap() so we return
+			// the same...
+			// (but here we don't need to check has_cap)
+			$coursefields = 'c.' .join(',c.', $fields);
+			$sql = "SELECT $coursefields,
+						   ctx.id AS ctxid, ctx.path AS ctxpath,
+						   ctx.depth as ctxdepth, ctx.contextlevel AS ctxlevel,
+						   cc.path AS categorypath
+					FROM {$CFG->prefix}course c
+					JOIN {$CFG->prefix}course_categories cc
+					  ON c.category=cc.id
+					JOIN {$CFG->prefix}context ctx
+					  ON (c.id=ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSE.")
+					WHERE c.id IN ($courseids)
+					$orderby";
+			$rs = get_recordset_sql($sql);
+			$courses = array();
+			$cc = 0; // keep count
+			while ($c = rs_fetch_next_record($rs)) {
+				// build the context obj
+				$c = make_context_subobj($c);
 
-                $courses[$c->id] = $c;
-                if ($limit > 0 && $cc++ > $limit) {
-                    break;
-                }
-            }
-            rs_close($rs);
-            return $courses;
-        }
-    }
+				$courses[$c->id] = $c;
+				if ($limit > 0 && $cc++ > $limit) {
+					break;
+				}
+			}
+			rs_close($rs);
+			return $courses;
+		}
+	}
 
-    // Non-cached - get accessinfo
-    if ($userid === $USER->id && isset($USER->access)) {
-        $accessinfo = $USER->access;
-    } else {
-        $accessinfo = get_user_access_sitewide($userid);
-    }
+	// Non-cached - get accessinfo
+	if ($userid === $USER->id && isset($USER->access)) {
+		$accessinfo = $USER->access;
+	} else {
+		$accessinfo = get_user_access_sitewide($userid);
+	}
 
 
-    $courses = get_user_courses_bycap($userid, 'moodle/course:view', $accessinfo,
-                                      $doanything, $sort, $fields,
-                                      $limit);
+	$courses = get_user_courses_bycap($userid, 'moodle/course:view', $accessinfo,
+									  $doanything, $sort, $fields,
+									  $limit);
 
-    $cats = NULL;
-    // If we have to walk category visibility
-    // to eval course visibility, get the categories
-    if (empty($CFG->allowvisiblecoursesinhiddencategories)) {
-        $sql = "SELECT cc.id, cc.path, cc.visible,
-                       ctx.id AS ctxid, ctx.path AS ctxpath,
-                       ctx.depth as ctxdepth, ctx.contextlevel AS ctxlevel
-                 FROM {$CFG->prefix}course_categories cc
-                 JOIN {$CFG->prefix}context ctx ON (cc.id = ctx.instanceid)
-                WHERE ctx.contextlevel = ".CONTEXT_COURSECAT."
-             ORDER BY cc.id";
-        $rs = get_recordset_sql($sql);
+	$cats = NULL;
+	// If we have to walk category visibility
+	// to eval course visibility, get the categories
+	if (empty($CFG->allowvisiblecoursesinhiddencategories)) {
+		$sql = "SELECT cc.id, cc.path, cc.visible,
+					   ctx.id AS ctxid, ctx.path AS ctxpath,
+					   ctx.depth as ctxdepth, ctx.contextlevel AS ctxlevel
+				 FROM {$CFG->prefix}course_categories cc
+				 JOIN {$CFG->prefix}context ctx ON (cc.id = ctx.instanceid)
+				WHERE ctx.contextlevel = ".CONTEXT_COURSECAT."
+			 ORDER BY cc.id";
+		$rs = get_recordset_sql($sql);
 
-        // Using a temporary array instead of $cats here, to avoid a "true" result when isnull($cats) further down
-        $categories = array();
-        while ($course_cat = rs_fetch_next_record($rs)) {
-            // build the context obj
-            $course_cat = make_context_subobj($course_cat);
-            $categories[$course_cat->id] = $course_cat;
-        }
-        rs_close($rs);
+		// Using a temporary array instead of $cats here, to avoid a "true" result when isnull($cats) further down
+		$categories = array();
+		while ($course_cat = rs_fetch_next_record($rs)) {
+			// build the context obj
+			$course_cat = make_context_subobj($course_cat);
+			$categories[$course_cat->id] = $course_cat;
+		}
+		rs_close($rs);
 
-        if (!empty($categories)) {
-            $cats = $categories;
-        }
+		if (!empty($categories)) {
+			$cats = $categories;
+		}
 
-        unset($course_cat);
-    }
-    //
-    // Strangely, get_my_courses() is expected to return the
-    // array keyed on id, which messes up the sorting
-    // So do that, and also cache the ids in the session if appropriate
-    //
-    $kcourses = array();
-    $courses_count = count($courses);
-    $cacheids = NULL;
-    $vcatpaths = array();
-    if ($userid === $USER->id && $courses_count < 500) {
-        $cacheids = array();
-    }
-    for ($n=0; $n<$courses_count; $n++) {
+		unset($course_cat);
+	}
+	//
+	// Strangely, get_my_courses() is expected to return the
+	// array keyed on id, which messes up the sorting
+	// So do that, and also cache the ids in the session if appropriate
+	//
+	$kcourses = array();
+	$courses_count = count($courses);
+	$cacheids = NULL;
+	$vcatpaths = array();
+	if ($userid === $USER->id && $courses_count < 500) {
+		$cacheids = array();
+	}
+	for ($n=0; $n<$courses_count; $n++) {
 
-        //
-        // Check whether $USER (not $userid) can _actually_ see them
-        // Easy if $CFG->allowvisiblecoursesinhiddencategories
-        // is set, and we don't have to care about categories.
-        // Lots of work otherwise... (all in mem though!)
-        //
-        $cansee = false;
-        if (is_null($cats)) { // easy rules!
-            if ($courses[$n]->visible == true) {
-                $cansee = true;
-            } elseif (has_capability('moodle/course:viewhiddencourses',
-                                     $courses[$n]->context, $USER->id)) {
-                $cansee = true;
-            }
-        } else {
-            //
-            // Is the cat visible?
-            // we have to assume it _is_ visible
-            // so we can shortcut when we find a hidden one
-            //
-            $viscat = true;
-            $cpath = $courses[$n]->categorypath;
-            if (isset($vcatpaths[$cpath])) {
-                $viscat = $vcatpaths[$cpath];
-            } else {
-                $cpath = substr($cpath,1); // kill leading slash
-                $cpath = explode('/',$cpath);
-                $ccct  = count($cpath);
-                for ($m=0;$m<$ccct;$m++) {
-                    $ccid = $cpath[$m];
-                    if ($cats[$ccid]->visible==false) {
-                        $viscat = false;
-                        break;
-                    }
-                }
-                $vcatpaths[$courses[$n]->categorypath] = $viscat;
-            }
+		//
+		// Check whether $USER (not $userid) can _actually_ see them
+		// Easy if $CFG->allowvisiblecoursesinhiddencategories
+		// is set, and we don't have to care about categories.
+		// Lots of work otherwise... (all in mem though!)
+		//
+		$cansee = false;
+		if (is_null($cats)) { // easy rules!
+			if ($courses[$n]->visible == true) {
+				$cansee = true;
+			} elseif (has_capability('moodle/course:viewhiddencourses',
+									 $courses[$n]->context, $USER->id)) {
+				$cansee = true;
+			}
+		} else {
+			//
+			// Is the cat visible?
+			// we have to assume it _is_ visible
+			// so we can shortcut when we find a hidden one
+			//
+			$viscat = true;
+			$cpath = $courses[$n]->categorypath;
+			if (isset($vcatpaths[$cpath])) {
+				$viscat = $vcatpaths[$cpath];
+			} else {
+				$cpath = substr($cpath,1); // kill leading slash
+				$cpath = explode('/',$cpath);
+				$ccct  = count($cpath);
+				for ($m=0;$m<$ccct;$m++) {
+					$ccid = $cpath[$m];
+					if ($cats[$ccid]->visible==false) {
+						$viscat = false;
+						break;
+					}
+				}
+				$vcatpaths[$courses[$n]->categorypath] = $viscat;
+			}
 
-            //
-            // Perhaps it's actually visible to $USER
-            // check moodle/category:viewhiddencategories
-            //
-            // The name isn't obvious, but the description says
-            // "See hidden categories" so the user shall see...
-            // But also check if the allowvisiblecoursesinhiddencategories setting is true, and check for course visibility
-            if ($viscat === false) {
-                $catctx = $cats[$courses[$n]->category]->context;
-                if (has_capability('moodle/category:viewhiddencategories', $catctx, $USER->id)) {
-                    $vcatpaths[$courses[$n]->categorypath] = true;
-                    $viscat = true;
-                } elseif ($CFG->allowvisiblecoursesinhiddencategories && $courses[$n]->visible == true) {
-                    $viscat = true;
-                }
-            }
+			//
+			// Perhaps it's actually visible to $USER
+			// check moodle/category:viewhiddencategories
+			//
+			// The name isn't obvious, but the description says
+			// "See hidden categories" so the user shall see...
+			// But also check if the allowvisiblecoursesinhiddencategories setting is true, and check for course visibility
+			if ($viscat === false) {
+				$catctx = $cats[$courses[$n]->category]->context;
+				if (has_capability('moodle/category:viewhiddencategories', $catctx, $USER->id)) {
+					$vcatpaths[$courses[$n]->categorypath] = true;
+					$viscat = true;
+				} elseif ($CFG->allowvisiblecoursesinhiddencategories && $courses[$n]->visible == true) {
+					$viscat = true;
+				}
+			}
 
-            //
-            // Decision matrix
-            //
-            if ($viscat === true) {
-                if ($courses[$n]->visible == true) {
-                    $cansee = true;
-                } elseif (has_capability('moodle/course:viewhiddencourses',
-                                        $courses[$n]->context, $USER->id)) {
-                    $cansee = true;
-                }
-            }
-        }
-        if ($cansee === true) {
-            $kcourses[$courses[$n]->id] = $courses[$n];
-            if (is_array($cacheids)) {
-                $cacheids[] = $courses[$n]->id;
-            }
-        }
-    }
-    if (is_array($cacheids)) {
-        // Only happens
-        // - for the logged in user
-        // - below the threshold (500)
-        // empty string is _valid_
-        $USER->mycourses = join(',',$cacheids);
-    } elseif ($userid === $USER->id && isset($USER->mycourses)) {
-        // cheap sanity check
-        unset($USER->mycourses);
-    }
+			//
+			// Decision matrix
+			//
+			if ($viscat === true) {
+				if ($courses[$n]->visible == true) {
+					$cansee = true;
+				} elseif (has_capability('moodle/course:viewhiddencourses',
+										$courses[$n]->context, $USER->id)) {
+					$cansee = true;
+				}
+			}
+		}
+		if ($cansee === true) {
+			$kcourses[$courses[$n]->id] = $courses[$n];
+			if (is_array($cacheids)) {
+				$cacheids[] = $courses[$n]->id;
+			}
+		}
+	}
+	if (is_array($cacheids)) {
+		// Only happens
+		// - for the logged in user
+		// - below the threshold (500)
+		// empty string is _valid_
+		$USER->mycourses = join(',',$cacheids);
+	} elseif ($userid === $USER->id && isset($USER->mycourses)) {
+		// cheap sanity check
+		unset($USER->mycourses);
+	}
 
-    return $kcourses;
+	return $kcourses;
 }
 
 /**
@@ -1081,98 +1081,98 @@ function get_my_courses($userid, $sort='visible DESC,sortorder ASC', $fields=NUL
  */
 function get_courses_search($searchterms, $sort='fullname ASC', $page=0, $recordsperpage=50, &$totalcount) {
 
-    global $CFG;
+	global $CFG;
 
-    //to allow case-insensitive search for postgesql
-    if ($CFG->dbfamily == 'postgres') {
-        $LIKE = 'ILIKE';
-        $NOTLIKE = 'NOT ILIKE';   // case-insensitive
-        $REGEXP = '~*';
-        $NOTREGEXP = '!~*';
-    } else {
-        $LIKE = 'LIKE';
-        $NOTLIKE = 'NOT LIKE';
-        $REGEXP = 'REGEXP';
-        $NOTREGEXP = 'NOT REGEXP';
-    }
+	//to allow case-insensitive search for postgesql
+	if ($CFG->dbfamily == 'postgres') {
+		$LIKE = 'ILIKE';
+		$NOTLIKE = 'NOT ILIKE';   // case-insensitive
+		$REGEXP = '~*';
+		$NOTREGEXP = '!~*';
+	} else {
+		$LIKE = 'LIKE';
+		$NOTLIKE = 'NOT LIKE';
+		$REGEXP = 'REGEXP';
+		$NOTREGEXP = 'NOT REGEXP';
+	}
 
-    $fullnamesearch = '';
-    $summarysearch = '';
+	$fullnamesearch = '';
+	$summarysearch = '';
 
-    foreach ($searchterms as $searchterm) {
+	foreach ($searchterms as $searchterm) {
 
-        $NOT = ''; /// Initially we aren't going to perform NOT LIKE searches, only MSSQL and Oracle
-                   /// will use it to simulate the "-" operator with LIKE clause
+		$NOT = ''; /// Initially we aren't going to perform NOT LIKE searches, only MSSQL and Oracle
+				   /// will use it to simulate the "-" operator with LIKE clause
 
-    /// Under Oracle and MSSQL, trim the + and - operators and perform
-    /// simpler LIKE (or NOT LIKE) queries
-        if ($CFG->dbfamily == 'oracle' || $CFG->dbfamily == 'mssql') {
-            if (substr($searchterm, 0, 1) == '-') {
-                $NOT = ' NOT ';
-            }
-            $searchterm = trim($searchterm, '+-');
-        }
+	/// Under Oracle and MSSQL, trim the + and - operators and perform
+	/// simpler LIKE (or NOT LIKE) queries
+		if ($CFG->dbfamily == 'oracle' || $CFG->dbfamily == 'mssql') {
+			if (substr($searchterm, 0, 1) == '-') {
+				$NOT = ' NOT ';
+			}
+			$searchterm = trim($searchterm, '+-');
+		}
 
-        if ($fullnamesearch) {
-            $fullnamesearch .= ' AND ';
-        }
-        if ($summarysearch) {
-            $summarysearch .= ' AND ';
-        }
+		if ($fullnamesearch) {
+			$fullnamesearch .= ' AND ';
+		}
+		if ($summarysearch) {
+			$summarysearch .= ' AND ';
+		}
 
-        if (substr($searchterm,0,1) == '+') {
-            $searchterm      = substr($searchterm,1);
-            $summarysearch  .= " c.summary $REGEXP '(^|[^a-zA-Z0-9])$searchterm([^a-zA-Z0-9]|$)' ";
-            $fullnamesearch .= " c.fullname $REGEXP '(^|[^a-zA-Z0-9])$searchterm([^a-zA-Z0-9]|$)' ";
-        } else if (substr($searchterm,0,1) == "-") {
-            $searchterm      = substr($searchterm,1);
-            $summarysearch  .= " c.summary $NOTREGEXP '(^|[^a-zA-Z0-9])$searchterm([^a-zA-Z0-9]|$)' ";
-            $fullnamesearch .= " c.fullname $NOTREGEXP '(^|[^a-zA-Z0-9])$searchterm([^a-zA-Z0-9]|$)' ";
-        } else {
-            $summarysearch .= ' summary '. $NOT . $LIKE .' \'%'. $searchterm .'%\' ';
-            $fullnamesearch .= ' fullname '. $NOT . $LIKE .' \'%'. $searchterm .'%\' ';
-        }
+		if (substr($searchterm,0,1) == '+') {
+			$searchterm      = substr($searchterm,1);
+			$summarysearch  .= " c.summary $REGEXP '(^|[^a-zA-Z0-9])$searchterm([^a-zA-Z0-9]|$)' ";
+			$fullnamesearch .= " c.fullname $REGEXP '(^|[^a-zA-Z0-9])$searchterm([^a-zA-Z0-9]|$)' ";
+		} else if (substr($searchterm,0,1) == "-") {
+			$searchterm      = substr($searchterm,1);
+			$summarysearch  .= " c.summary $NOTREGEXP '(^|[^a-zA-Z0-9])$searchterm([^a-zA-Z0-9]|$)' ";
+			$fullnamesearch .= " c.fullname $NOTREGEXP '(^|[^a-zA-Z0-9])$searchterm([^a-zA-Z0-9]|$)' ";
+		} else {
+			$summarysearch .= ' summary '. $NOT . $LIKE .' \'%'. $searchterm .'%\' ';
+			$fullnamesearch .= ' fullname '. $NOT . $LIKE .' \'%'. $searchterm .'%\' ';
+		}
 
-    }
+	}
 
-    $sql = "SELECT c.*,
-                   ctx.id AS ctxid, ctx.path AS ctxpath,
-                   ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
-            FROM {$CFG->prefix}course c
-            JOIN {$CFG->prefix}context ctx
-             ON (c.id = ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSE.")
-            WHERE (( $fullnamesearch ) OR ( $summarysearch ))
-                  AND category > 0
-            ORDER BY " . $sort;
+	$sql = "SELECT c.*,
+				   ctx.id AS ctxid, ctx.path AS ctxpath,
+				   ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
+			FROM {$CFG->prefix}course c
+			JOIN {$CFG->prefix}context ctx
+			 ON (c.id = ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSE.")
+			WHERE (( $fullnamesearch ) OR ( $summarysearch ))
+				  AND category > 0
+			ORDER BY " . $sort;
 
-    $courses = array();
+	$courses = array();
 
-    if ($rs = get_recordset_sql($sql)) {
+	if ($rs = get_recordset_sql($sql)) {
 
 
-        // Tiki pagination
-        $limitfrom = $page * $recordsperpage;
-        $limitto   = $limitfrom + $recordsperpage;
-        $c = 0; // counts how many visible courses we've seen
+		// Tiki pagination
+		$limitfrom = $page * $recordsperpage;
+		$limitto   = $limitfrom + $recordsperpage;
+		$c = 0; // counts how many visible courses we've seen
 
-        while ($course = rs_fetch_next_record($rs)) {
-            $course = make_context_subobj($course);
-            if ($course->visible || has_capability('moodle/course:viewhiddencourses', $course->context)) {
-                // Don't exit this loop till the end
-                // we need to count all the visible courses
-                // to update $totalcount
-                if ($c >= $limitfrom && $c < $limitto) {
-                    $courses[] = $course;
-                }
-                $c++;
-            }
-        }
-    }
+		while ($course = rs_fetch_next_record($rs)) {
+			$course = make_context_subobj($course);
+			if ($course->visible || has_capability('moodle/course:viewhiddencourses', $course->context)) {
+				// Don't exit this loop till the end
+				// we need to count all the visible courses
+				// to update $totalcount
+				if ($c >= $limitfrom && $c < $limitto) {
+					$courses[] = $course;
+				}
+				$c++;
+			}
+		}
+	}
 
-    // our caller expects 2 bits of data - our return
-    // array, and an updated $totalcount
-    $totalcount = $c;
-    return $courses;
+	// our caller expects 2 bits of data - our return
+	// array, and an updated $totalcount
+	$totalcount = $c;
+	return $courses;
 }
 
 
@@ -1192,58 +1192,58 @@ function get_courses_search($searchterms, $sort='fullname ASC', $page=0, $record
  * @return array of categories
  */
 function get_categories($parent='none', $sort=NULL, $shallow=true) {
-    global $CFG;
+	global $CFG;
 
-    if ($sort === NULL) {
-        $sort = 'ORDER BY cc.sortorder ASC';
-    } elseif ($sort ==='') {
-        // leave it as empty
-    } else {
-        $sort = "ORDER BY $sort";
-    }
+	if ($sort === NULL) {
+		$sort = 'ORDER BY cc.sortorder ASC';
+	} elseif ($sort ==='') {
+		// leave it as empty
+	} else {
+		$sort = "ORDER BY $sort";
+	}
 
-    if ($parent === 'none') {
-        $sql = "SELECT cc.*,
-                      ctx.id AS ctxid, ctx.path AS ctxpath,
-                      ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
-                FROM {$CFG->prefix}course_categories cc
-                JOIN {$CFG->prefix}context ctx
-                  ON cc.id=ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSECAT."
-                $sort";
-    } elseif ($shallow) {
-        $parent = (int)$parent;
-        $sql = "SELECT cc.*,
-                       ctx.id AS ctxid, ctx.path AS ctxpath,
-                       ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
-                FROM {$CFG->prefix}course_categories cc
-                JOIN {$CFG->prefix}context ctx
-                  ON cc.id=ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSECAT."
-                WHERE cc.parent=$parent
-                $sort";
-    } else {
-        $parent = (int)$parent;
-        $sql = "SELECT cc.*,
-                       ctx.id AS ctxid, ctx.path AS ctxpath,
-                       ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
-                FROM {$CFG->prefix}course_categories cc
-                JOIN {$CFG->prefix}context ctx
-                  ON cc.id=ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSECAT."
-                JOIN {$CFG->prefix}course_categories ccp
-                     ON (cc.path LIKE ".sql_concat('ccp.path',"'%'").")
-                WHERE ccp.id=$parent
-                $sort";
-    }
-    $categories = array();
+	if ($parent === 'none') {
+		$sql = "SELECT cc.*,
+					  ctx.id AS ctxid, ctx.path AS ctxpath,
+					  ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
+				FROM {$CFG->prefix}course_categories cc
+				JOIN {$CFG->prefix}context ctx
+				  ON cc.id=ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSECAT."
+				$sort";
+	} elseif ($shallow) {
+		$parent = (int)$parent;
+		$sql = "SELECT cc.*,
+					   ctx.id AS ctxid, ctx.path AS ctxpath,
+					   ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
+				FROM {$CFG->prefix}course_categories cc
+				JOIN {$CFG->prefix}context ctx
+				  ON cc.id=ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSECAT."
+				WHERE cc.parent=$parent
+				$sort";
+	} else {
+		$parent = (int)$parent;
+		$sql = "SELECT cc.*,
+					   ctx.id AS ctxid, ctx.path AS ctxpath,
+					   ctx.depth AS ctxdepth, ctx.contextlevel AS ctxlevel
+				FROM {$CFG->prefix}course_categories cc
+				JOIN {$CFG->prefix}context ctx
+				  ON cc.id=ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSECAT."
+				JOIN {$CFG->prefix}course_categories ccp
+					 ON (cc.path LIKE ".sql_concat('ccp.path',"'%'").")
+				WHERE ccp.id=$parent
+				$sort";
+	}
+	$categories = array();
 
-    if( $rs = get_recordset_sql($sql) ){
-        while ($cat = rs_fetch_next_record($rs)) {
-            $cat = make_context_subobj($cat);
-            if ($cat->visible || has_capability('moodle/category:viewhiddencategories',$cat->context)) {
-                $categories[$cat->id] = $cat;
-            }
-        }
-    }
-    return $categories;
+	if( $rs = get_recordset_sql($sql) ){
+		while ($cat = rs_fetch_next_record($rs)) {
+			$cat = make_context_subobj($cat);
+			if ($cat->visible || has_capability('moodle/category:viewhiddencategories',$cat->context)) {
+				$categories[$cat->id] = $cat;
+			}
+		}
+	}
+	return $categories;
 }
 
 
@@ -1255,15 +1255,15 @@ function get_categories($parent='none', $sort=NULL, $shallow=true) {
  */
 function get_all_subcategories($catid) {
 
-    $subcats = array();
+	$subcats = array();
 
-    if ($categories = get_records('course_categories', 'parent', $catid)) {
-        foreach ($categories as $cat) {
-            array_push($subcats, $cat->id);
-            $subcats = array_merge($subcats, get_all_subcategories($cat->id));
-        }
-    }
-    return $subcats;
+	if ($categories = get_records('course_categories', 'parent', $catid)) {
+		foreach ($categories as $cat) {
+			array_push($subcats, $cat->id);
+			$subcats = array_merge($subcats, get_all_subcategories($cat->id));
+		}
+	}
+	return $subcats;
 }
 
 
@@ -1278,132 +1278,132 @@ function get_all_subcategories($catid) {
 */
 function fix_course_sortorder($categoryid=0, $n=0, $safe=0, $depth=0, $path='') {
 
-    global $CFG;
+	global $CFG;
 
-    $count = 0;
+	$count = 0;
 
-    $catgap    = 1000; // "standard" category gap
-    $tolerance = 200;  // how "close" categories can get
+	$catgap    = 1000; // "standard" category gap
+	$tolerance = 200;  // how "close" categories can get
 
-    if ($categoryid > 0){
-        // update depth and path
-        $cat   = get_record('course_categories', 'id', $categoryid);
-        if ($cat->parent == 0) {
-            $depth = 0;
-            $path  = '';
-        } else if ($depth == 0 ) { // doesn't make sense; get from DB
-            // this is only called if the $depth parameter looks dodgy
-            $parent = get_record('course_categories', 'id', $cat->parent);
-            $path  = $parent->path;
-            $depth = $parent->depth;
-        }
-        $path  = $path . '/' . $categoryid;
-        $depth = $depth + 1;
+	if ($categoryid > 0){
+		// update depth and path
+		$cat   = get_record('course_categories', 'id', $categoryid);
+		if ($cat->parent == 0) {
+			$depth = 0;
+			$path  = '';
+		} else if ($depth == 0 ) { // doesn't make sense; get from DB
+			// this is only called if the $depth parameter looks dodgy
+			$parent = get_record('course_categories', 'id', $cat->parent);
+			$path  = $parent->path;
+			$depth = $parent->depth;
+		}
+		$path  = $path . '/' . $categoryid;
+		$depth = $depth + 1;
 
-        if ($cat->path !== $path) {
-            set_field('course_categories', 'path',  addslashes($path),  'id', $categoryid);
-        }
-        if ($cat->depth != $depth) {
-            set_field('course_categories', 'depth', $depth, 'id', $categoryid);
-        }
-    }
+		if ($cat->path !== $path) {
+			set_field('course_categories', 'path',  addslashes($path),  'id', $categoryid);
+		}
+		if ($cat->depth != $depth) {
+			set_field('course_categories', 'depth', $depth, 'id', $categoryid);
+		}
+	}
 
-    // get some basic info about courses in the category
-    $info = get_record_sql('SELECT MIN(sortorder) AS min,
-                                   MAX(sortorder) AS max,
-                                   COUNT(sortorder)  AS count
-                            FROM ' . $CFG->prefix . 'course
-                            WHERE category=' . $categoryid);
-    if (is_object($info)) { // no courses?
-        $max   = $info->max;
-        $count = $info->count;
-        $min   = $info->min;
-        unset($info);
-    }
+	// get some basic info about courses in the category
+	$info = get_record_sql('SELECT MIN(sortorder) AS min,
+								   MAX(sortorder) AS max,
+								   COUNT(sortorder)  AS count
+							FROM ' . $CFG->prefix . 'course
+							WHERE category=' . $categoryid);
+	if (is_object($info)) { // no courses?
+		$max   = $info->max;
+		$count = $info->count;
+		$min   = $info->min;
+		unset($info);
+	}
 
-    if ($categoryid > 0 && $n==0) { // only passed category so don't shift it
-        $n = $min;
-    }
+	if ($categoryid > 0 && $n==0) { // only passed category so don't shift it
+		$n = $min;
+	}
 
-    // $hasgap flag indicates whether there's a gap in the sequence
-    $hasgap    = false;
-    if ($max-$min+1 != $count) {
-        $hasgap = true;
-    }
+	// $hasgap flag indicates whether there's a gap in the sequence
+	$hasgap    = false;
+	if ($max-$min+1 != $count) {
+		$hasgap = true;
+	}
 
-    // $mustshift indicates whether the sequence must be shifted to
-    // meet its range
-    $mustshift = false;
-    if ($min < $n+$tolerance || $min > $n+$tolerance+$catgap ) {
-        $mustshift = true;
-    }
+	// $mustshift indicates whether the sequence must be shifted to
+	// meet its range
+	$mustshift = false;
+	if ($min < $n+$tolerance || $min > $n+$tolerance+$catgap ) {
+		$mustshift = true;
+	}
 
-    // actually sort only if there are courses,
-    // and we meet one ofthe triggers:
-    //  - safe flag
-    //  - they are not in a continuos block
-    //  - they are too close to the 'bottom'
-    if ($count && ( $safe || $hasgap || $mustshift ) ) {
-        // special, optimized case where all we need is to shift
-        if ( $mustshift && !$safe && !$hasgap) {
-            $shift = $n + $catgap - $min;
-            if ($shift < $count) {
-                $shift = $count + $catgap;
-            }
-            // UPDATE course SET sortorder=sortorder+$shift
-            execute_sql("UPDATE {$CFG->prefix}course
-                         SET sortorder=sortorder+$shift
-                         WHERE category=$categoryid", 0);
-            $n = $n + $catgap + $count;
+	// actually sort only if there are courses,
+	// and we meet one ofthe triggers:
+	//  - safe flag
+	//  - they are not in a continuos block
+	//  - they are too close to the 'bottom'
+	if ($count && ( $safe || $hasgap || $mustshift ) ) {
+		// special, optimized case where all we need is to shift
+		if ( $mustshift && !$safe && !$hasgap) {
+			$shift = $n + $catgap - $min;
+			if ($shift < $count) {
+				$shift = $count + $catgap;
+			}
+			// UPDATE course SET sortorder=sortorder+$shift
+			execute_sql("UPDATE {$CFG->prefix}course
+						 SET sortorder=sortorder+$shift
+						 WHERE category=$categoryid", 0);
+			$n = $n + $catgap + $count;
 
-        } else { // do it slowly
-            $n = $n + $catgap;
-            // if the new sequence overlaps the current sequence, lack of transactions
-            // will stop us -- shift things aside for a moment...
-            if ($safe || ($n >= $min && $n+$count+1 < $min && $CFG->dbfamily==='mysql')) {
-                $shift = $max + $n + 1000;
-                execute_sql("UPDATE {$CFG->prefix}course
-                         SET sortorder=sortorder+$shift
-                         WHERE category=$categoryid", 0);
-            }
+		} else { // do it slowly
+			$n = $n + $catgap;
+			// if the new sequence overlaps the current sequence, lack of transactions
+			// will stop us -- shift things aside for a moment...
+			if ($safe || ($n >= $min && $n+$count+1 < $min && $CFG->dbfamily==='mysql')) {
+				$shift = $max + $n + 1000;
+				execute_sql("UPDATE {$CFG->prefix}course
+						 SET sortorder=sortorder+$shift
+						 WHERE category=$categoryid", 0);
+			}
 
-            $courses = get_courses($categoryid, 'c.sortorder ASC', 'c.id,c.sortorder');
-            begin_sql();
-            $tx = true; // transaction sanity
-            foreach ($courses as $course) {
-                if ($tx && $course->sortorder != $n ) { // save db traffic
-                    $tx = $tx && set_field('course', 'sortorder', $n,
-                                           'id', $course->id);
-                }
-                $n++;
-            }
-            if ($tx) {
-                commit_sql();
-            } else {
-                rollback_sql();
-                if (!$safe) {
-                    // if we failed when called with !safe, try
-                    // to recover calling self with safe=true
-                    return fix_course_sortorder($categoryid, $n, true, $depth, $path);
-                }
-            }
-        }
-    }
-    set_field('course_categories', 'coursecount', $count, 'id', $categoryid);
+			$courses = get_courses($categoryid, 'c.sortorder ASC', 'c.id,c.sortorder');
+			begin_sql();
+			$tx = true; // transaction sanity
+			foreach ($courses as $course) {
+				if ($tx && $course->sortorder != $n ) { // save db traffic
+					$tx = $tx && set_field('course', 'sortorder', $n,
+										   'id', $course->id);
+				}
+				$n++;
+			}
+			if ($tx) {
+				commit_sql();
+			} else {
+				rollback_sql();
+				if (!$safe) {
+					// if we failed when called with !safe, try
+					// to recover calling self with safe=true
+					return fix_course_sortorder($categoryid, $n, true, $depth, $path);
+				}
+			}
+		}
+	}
+	set_field('course_categories', 'coursecount', $count, 'id', $categoryid);
 
-    // $n could need updating
-    $max = get_field_sql("SELECT MAX(sortorder) from {$CFG->prefix}course WHERE category=$categoryid");
-    if ($max > $n) {
-        $n = $max;
-    }
+	// $n could need updating
+	$max = get_field_sql("SELECT MAX(sortorder) from {$CFG->prefix}course WHERE category=$categoryid");
+	if ($max > $n) {
+		$n = $max;
+	}
 
-    if ($categories = get_categories($categoryid)) {
-        foreach ($categories as $category) {
-            $n = fix_course_sortorder($category->id, $n, $safe, $depth, $path);
-        }
-    }
+	if ($categories = get_categories($categoryid)) {
+		foreach ($categories as $category) {
+			$n = fix_course_sortorder($category->id, $n, $safe, $depth, $path);
+		}
+	}
 
-    return $n+1;
+	return $n+1;
 }
 
 /**
@@ -1412,42 +1412,42 @@ function fix_course_sortorder($categoryid=0, $n=0, $safe=0, $depth=0, $path='') 
  **/
 function fix_coursecategory_orphans() {
 
-    global $CFG;
+	global $CFG;
 
-    // Note: the handling of sortorder here is arguably
-    // open to race conditions. Hard to fix here, unlikely
-    // to hit anyone in production.
+	// Note: the handling of sortorder here is arguably
+	// open to race conditions. Hard to fix here, unlikely
+	// to hit anyone in production.
 
-    $sql = "SELECT c.id, c.category, c.shortname
-            FROM {$CFG->prefix}course c
-            LEFT OUTER JOIN {$CFG->prefix}course_categories cc ON c.category=cc.id
-            WHERE cc.id IS NULL AND c.id != " . SITEID;
+	$sql = "SELECT c.id, c.category, c.shortname
+			FROM {$CFG->prefix}course c
+			LEFT OUTER JOIN {$CFG->prefix}course_categories cc ON c.category=cc.id
+			WHERE cc.id IS NULL AND c.id != " . SITEID;
 
-    $rs = get_recordset_sql($sql);
+	$rs = get_recordset_sql($sql);
 
-    if (!rs_EOF($rs)) { // we have some orphans
+	if (!rs_EOF($rs)) { // we have some orphans
 
-        // the "default" category is the lowest numbered...
-        $default   = get_field_sql("SELECT MIN(id)
-                                    FROM {$CFG->prefix}course_categories");
-        $sortorder = get_field_sql("SELECT MAX(sortorder)
-                                    FROM {$CFG->prefix}course
-                                    WHERE category=$default");
+		// the "default" category is the lowest numbered...
+		$default   = get_field_sql("SELECT MIN(id)
+									FROM {$CFG->prefix}course_categories");
+		$sortorder = get_field_sql("SELECT MAX(sortorder)
+									FROM {$CFG->prefix}course
+									WHERE category=$default");
 
 
-        begin_sql();
-        $tx = true;
-        while ($tx && $course = rs_fetch_next_record($rs)) {
-            $tx = $tx && set_field('course', 'category',  $default,     'id', $course->id);
-            $tx = $tx && set_field('course', 'sortorder', ++$sortorder, 'id', $course->id);
-        }
-        if ($tx) {
-            commit_sql();
-        } else {
-            rollback_sql();
-        }
-    }
-    rs_close($rs);
+		begin_sql();
+		$tx = true;
+		while ($tx && $course = rs_fetch_next_record($rs)) {
+			$tx = $tx && set_field('course', 'category',  $default,     'id', $course->id);
+			$tx = $tx && set_field('course', 'sortorder', ++$sortorder, 'id', $course->id);
+		}
+		if ($tx) {
+			commit_sql();
+		} else {
+			rollback_sql();
+		}
+	}
+	rs_close($rs);
 }
 
 /**
@@ -1458,21 +1458,21 @@ function fix_coursecategory_orphans() {
  * @return array {@link $COURSE} of course objects
  */
 function get_my_remotecourses($userid=0) {
-    global $CFG, $USER;
+	global $CFG, $USER;
 
-    if (empty($userid)) {
-        $userid = $USER->id;
-    }
+	if (empty($userid)) {
+		$userid = $USER->id;
+	}
 
-    $sql = "SELECT c.id, c.remoteid, c.shortname, c.fullname,
-                   c.hostid, c.summary, c.cat_name,
-                   h.name AS hostname
-            FROM   {$CFG->prefix}mnet_enrol_course c
-            JOIN   {$CFG->prefix}mnet_enrol_assignments a ON c.id=a.courseid
-            JOIN   {$CFG->prefix}mnet_host h        ON c.hostid=h.id
-            WHERE  a.userid={$userid}";
+	$sql = "SELECT c.id, c.remoteid, c.shortname, c.fullname,
+				   c.hostid, c.summary, c.cat_name,
+				   h.name AS hostname
+			FROM   {$CFG->prefix}mnet_enrol_course c
+			JOIN   {$CFG->prefix}mnet_enrol_assignments a ON c.id=a.courseid
+			JOIN   {$CFG->prefix}mnet_host h        ON c.hostid=h.id
+			WHERE  a.userid={$userid}";
 
-    return get_records_sql($sql);
+	return get_records_sql($sql);
 }
 
 /**
@@ -1483,15 +1483,15 @@ function get_my_remotecourses($userid=0) {
  * @return array of host objects
  */
 function get_my_remotehosts() {
-    global $CFG, $USER;
+	global $CFG, $USER;
 
-    if ($USER->mnethostid == $CFG->mnet_localhost_id) {
-        return false; // Return nothing on the IDP
-    }
-    if (!empty($USER->mnet_foreign_host_array) && is_array($USER->mnet_foreign_host_array)) {
-        return $USER->mnet_foreign_host_array;
-    }
-    return false;
+	if ($USER->mnethostid == $CFG->mnet_localhost_id) {
+		return false; // Return nothing on the IDP
+	}
+	if (!empty($USER->mnet_foreign_host_array) && is_array($USER->mnet_foreign_host_array)) {
+		return $USER->mnet_foreign_host_array;
+	}
+	return false;
 }
 
 /**
@@ -1507,42 +1507,42 @@ function get_my_remotehosts() {
  */
 function make_default_scale() {
 
-    global $CFG;
+	global $CFG;
 
-    $defaultscale = NULL;
-    $defaultscale->courseid = 0;
-    $defaultscale->userid = 0;
-    $defaultscale->name  = get_string('separateandconnected');
-    $defaultscale->scale = get_string('postrating1', 'forum').','.
-                           get_string('postrating2', 'forum').','.
-                           get_string('postrating3', 'forum');
-    $defaultscale->timemodified = time();
+	$defaultscale = NULL;
+	$defaultscale->courseid = 0;
+	$defaultscale->userid = 0;
+	$defaultscale->name  = get_string('separateandconnected');
+	$defaultscale->scale = get_string('postrating1', 'forum').','.
+						   get_string('postrating2', 'forum').','.
+						   get_string('postrating3', 'forum');
+	$defaultscale->timemodified = time();
 
-    /// Read in the big description from the file.  Note this is not
-    /// HTML (despite the file extension) but Moodle format text.
-    $parentlang = get_string('parentlanguage');
-    if ($parentlang[0] == '[') {
-        $parentlang = '';
-    }
-    if (is_readable($CFG->dataroot .'/lang/'. $CFG->lang .'/help/forum/ratings.html')) {
-        $file = file($CFG->dataroot .'/lang/'. $CFG->lang .'/help/forum/ratings.html');
-    } else if (is_readable($CFG->dirroot .'/lang/'. $CFG->lang .'/help/forum/ratings.html')) {
-        $file = file($CFG->dirroot .'/lang/'. $CFG->lang .'/help/forum/ratings.html');
-    } else if ($parentlang and is_readable($CFG->dataroot .'/lang/'. $parentlang .'/help/forum/ratings.html')) {
-        $file = file($CFG->dataroot .'/lang/'. $parentlang .'/help/forum/ratings.html');
-    } else if ($parentlang and is_readable($CFG->dirroot .'/lang/'. $parentlang .'/help/forum/ratings.html')) {
-        $file = file($CFG->dirroot .'/lang/'. $parentlang .'/help/forum/ratings.html');
-    } else if (is_readable($CFG->dirroot .'/lang/en_utf8/help/forum/ratings.html')) {
-        $file = file($CFG->dirroot .'/lang/en_utf8/help/forum/ratings.html');
-    } else {
-        $file = '';
-    }
+	/// Read in the big description from the file.  Note this is not
+	/// HTML (despite the file extension) but Moodle format text.
+	$parentlang = get_string('parentlanguage');
+	if ($parentlang[0] == '[') {
+		$parentlang = '';
+	}
+	if (is_readable($CFG->dataroot .'/lang/'. $CFG->lang .'/help/forum/ratings.html')) {
+		$file = file($CFG->dataroot .'/lang/'. $CFG->lang .'/help/forum/ratings.html');
+	} else if (is_readable($CFG->dirroot .'/lang/'. $CFG->lang .'/help/forum/ratings.html')) {
+		$file = file($CFG->dirroot .'/lang/'. $CFG->lang .'/help/forum/ratings.html');
+	} else if ($parentlang and is_readable($CFG->dataroot .'/lang/'. $parentlang .'/help/forum/ratings.html')) {
+		$file = file($CFG->dataroot .'/lang/'. $parentlang .'/help/forum/ratings.html');
+	} else if ($parentlang and is_readable($CFG->dirroot .'/lang/'. $parentlang .'/help/forum/ratings.html')) {
+		$file = file($CFG->dirroot .'/lang/'. $parentlang .'/help/forum/ratings.html');
+	} else if (is_readable($CFG->dirroot .'/lang/en_utf8/help/forum/ratings.html')) {
+		$file = file($CFG->dirroot .'/lang/en_utf8/help/forum/ratings.html');
+	} else {
+		$file = '';
+	}
 
-    $defaultscale->description = addslashes(implode('', $file));
+	$defaultscale->description = addslashes(implode('', $file));
 
-    if ($defaultscale->id = insert_record('scale', $defaultscale)) {
-        execute_sql('UPDATE '. $CFG->prefix .'forum SET scale = \''. $defaultscale->id .'\'', false);
-    }
+	if ($defaultscale->id = insert_record('scale', $defaultscale)) {
+		execute_sql('UPDATE '. $CFG->prefix .'forum SET scale = \''. $defaultscale->id .'\'', false);
+	}
 }
 
 
@@ -1555,19 +1555,19 @@ function make_default_scale() {
  */
 function get_scales_menu($courseid=0) {
 
-    global $CFG;
+	global $CFG;
 
-    $sql = "SELECT id, name FROM {$CFG->prefix}scale
-             WHERE courseid = '0' or courseid = '$courseid'
-          ORDER BY courseid ASC, name ASC";
+	$sql = "SELECT id, name FROM {$CFG->prefix}scale
+			 WHERE courseid = '0' or courseid = '$courseid'
+		  ORDER BY courseid ASC, name ASC";
 
-    if ($scales = get_records_sql_menu($sql)) {
-        return $scales;
-    }
+	if ($scales = get_records_sql_menu($sql)) {
+		return $scales;
+	}
 
-    make_default_scale();
+	make_default_scale();
 
-    return get_records_sql_menu($sql);
+	return get_records_sql_menu($sql);
 }
 
 
@@ -1581,18 +1581,18 @@ function get_scales_menu($courseid=0) {
 function update_timezone_records($timezones) {
 /// Given a set of timezone records, put them in the database
 
-    global $CFG;
+	global $CFG;
 
 /// Clear out all the old stuff
-    execute_sql('TRUNCATE TABLE '.$CFG->prefix.'timezone', false);
+	execute_sql('TRUNCATE TABLE '.$CFG->prefix.'timezone', false);
 
 /// Insert all the new stuff
-    foreach ($timezones as $timezone) {
-        if (is_array($timezone)) {
-            $timezone = (object)$timezone;
-        }
-        insert_record('timezone', $timezone);
-    }
+	foreach ($timezones as $timezone) {
+		if (is_array($timezone)) {
+			$timezone = (object)$timezone;
+		}
+		insert_record('timezone', $timezone);
+	}
 }
 
 
@@ -1606,17 +1606,17 @@ function update_timezone_records($timezones) {
  * @return object
  */
 function get_course_mods($courseid) {
-    global $CFG;
+	global $CFG;
 
-    if (empty($courseid)) {
-        return false; // avoid warnings
-    }
+	if (empty($courseid)) {
+		return false; // avoid warnings
+	}
 
-    return get_records_sql("SELECT cm.*, m.name as modname
-                            FROM {$CFG->prefix}modules m,
-                                 {$CFG->prefix}course_modules cm
-                            WHERE cm.course = ".intval($courseid)."
-                            AND cm.module = m.id AND m.visible = 1"); // no disabled mods
+	return get_records_sql("SELECT cm.*, m.name as modname
+							FROM {$CFG->prefix}modules m,
+								 {$CFG->prefix}course_modules cm
+							WHERE cm.course = ".intval($courseid)."
+							AND cm.module = m.id AND m.visible = 1"); // no disabled mods
 }
 
 
@@ -1630,29 +1630,29 @@ function get_course_mods($courseid) {
  */
 function get_coursemodule_from_id($modulename, $cmid, $courseid=0) {
 
-    global $CFG;
+	global $CFG;
 
-    $courseselect = ($courseid) ? 'cm.course = '.intval($courseid).' AND ' : '';
-    /*danhut modified*/
+	$courseselect = ($courseid) ? 'cm.course = '.intval($courseid).' AND ' : '';
+	/*danhut modified*/
 	$sqlStr = "SELECT cm.*, m.name, md.name as modname, cs.section as sectionindex, cs.sequence
-                           FROM {$CFG->prefix}course_modules cm,
-                                {$CFG->prefix}modules md,
-                                {$CFG->prefix}$modulename m,
-                                {$CFG->prefix}course_sections cs
-                           WHERE $courseselect
-                                 cm.id = ".intval($cmid)." AND
-                                 cm.instance = m.id AND
-                                 md.name = '$modulename' AND
-                                 md.id = cm.module AND
-                                 cs.id = cm.section";
+						   FROM {$CFG->prefix}course_modules cm,
+								{$CFG->prefix}modules md,
+								{$CFG->prefix}$modulename m,
+								{$CFG->prefix}course_sections cs
+						   WHERE $courseselect
+								 cm.id = ".intval($cmid)." AND
+								 cm.instance = m.id AND
+								 md.name = '$modulename' AND
+								 md.id = cm.module AND
+								 cs.id = cm.section";
 
 	$result = get_record_sql($sqlStr);
 	$parentResourceName = get_parent_resource_name($result);
 	if($parentResourceName) {
 		$result->parentname = $parentResourceName; 
 	}			                            
-    return $result;
-    /*end of danhut modified*/
+	return $result;
+	/*end of danhut modified*/
 }
 
 /**
@@ -1732,30 +1732,30 @@ function get_parent_resource_name($cmObj) {
  */
 function get_coursemodule_from_instance($modulename, $instance, $courseid=0) {
 
-    global $CFG;
+	global $CFG;
 
-    $courseselect = ($courseid) ? 'cm.course = '.intval($courseid).' AND ' : '';
+	$courseselect = ($courseid) ? 'cm.course = '.intval($courseid).' AND ' : '';
 	
 	/*danhut modified*/
-    $sqlStr = "SELECT cm.*, m.name, md.name as modname, cs.section as sectionindex, cs.sequence
-                           FROM {$CFG->prefix}course_modules cm,
-                                {$CFG->prefix}modules md,
-                                {$CFG->prefix}$modulename m,
-                                {$CFG->prefix}course_sections cs 
-                           WHERE $courseselect
-                                 cm.instance = m.id AND
-                                 md.name = '$modulename' AND
-                                 md.id = cm.module AND
-                                 m.id = ".intval($instance). ' AND
-                                 cs.id = cm.section';
-    $result = get_record_sql($sqlStr);                      	               
+	$sqlStr = "SELECT cm.*, m.name, md.name as modname, cs.section as sectionindex, cs.sequence
+						   FROM {$CFG->prefix}course_modules cm,
+								{$CFG->prefix}modules md,
+								{$CFG->prefix}$modulename m,
+								{$CFG->prefix}course_sections cs 
+						   WHERE $courseselect
+								 cm.instance = m.id AND
+								 md.name = '$modulename' AND
+								 md.id = cm.module AND
+								 m.id = ".intval($instance). ' AND
+								 cs.id = cm.section';
+	$result = get_record_sql($sqlStr);                      	               
 	$parentResourceName = get_parent_resource_name($result);
 	if($parentResourceName) {
 		$result->parentname = $parentResourceName; 
 	}			                            
-    return $result;                 
-    /*end of danhut modified*/ 
-                                 
+	return $result;                 
+	/*end of danhut modified*/ 
+								 
 //    return get_record_sql("SELECT cm.*, m.name, md.name as modname
 //                           FROM {$CFG->prefix}course_modules cm,
 //                                {$CFG->prefix}modules md,
@@ -1776,22 +1776,22 @@ function get_coursemodule_from_instance($modulename, $instance, $courseid=0) {
  * @return array of cm objects, false if not found or error
  */
 function get_coursemodules_in_course($modulename, $courseid, $extrafields='') {
-    global $CFG;
+	global $CFG;
 
-    if (!empty($extrafields)) {
-        $extrafields = ", $extrafields";
-    }
-    return get_records_sql("SELECT cm.*, m.name, md.name as modname $extrafields , , cs.section as sectionindex
-                              FROM {$CFG->prefix}course_modules cm,
-                                   {$CFG->prefix}modules md,
-                                   {$CFG->prefix}$modulename m,
-                                   {$CFG->prefix}course_sections cs
-                                   
-                             WHERE cm.course = $courseid AND
-                                   cm.instance = m.id AND
-                                   md.name = '$modulename' AND
-                                   md.id = cm.module AND
-                                   cs.id = cm.section");
+	if (!empty($extrafields)) {
+		$extrafields = ", $extrafields";
+	}
+	return get_records_sql("SELECT cm.*, m.name, md.name as modname $extrafields , cs.section as sectionindex, cs.sequence
+							  FROM {$CFG->prefix}course_modules cm,
+								   {$CFG->prefix}modules md,
+								   {$CFG->prefix}$modulename m,
+								   {$CFG->prefix}course_sections cs
+								   
+							 WHERE cm.course = $courseid AND
+								   cm.instance = m.id AND
+								   md.name = '$modulename' AND
+								   md.id = cm.module AND
+								   cs.id = cm.section");
 }
 
 /**
@@ -1810,53 +1810,53 @@ function get_coursemodules_in_course($modulename, $courseid, $extrafields='') {
  *          and course_sections tables, or an empty array if an error occurred.
  */
 function get_all_instances_in_courses($modulename, $courses, $userid=NULL, $includeinvisible=false) {
-    global $CFG;
+	global $CFG;
 
-    $outputarray = array();
+	$outputarray = array();
 
-    if (empty($courses) || !is_array($courses) || count($courses) == 0) {
-        return $outputarray;
-    }
+	if (empty($courses) || !is_array($courses) || count($courses) == 0) {
+		return $outputarray;
+	}
 
-    if (!$rawmods = get_records_sql("SELECT cm.id AS coursemodule, m.*, cw.section, cm.visible AS visible,
-                                            cm.groupmode, cm.groupingid, cm.groupmembersonly
-                                       FROM {$CFG->prefix}course_modules cm,
-                                            {$CFG->prefix}course_sections cw,
-                                            {$CFG->prefix}modules md,
-                                            {$CFG->prefix}$modulename m
-                                      WHERE cm.course IN (".implode(',',array_keys($courses)).") AND
-                                            cm.instance = m.id AND
-                                            cm.section = cw.id AND
-                                            md.name = '$modulename' AND
-                                            md.id = cm.module")) {
-        return $outputarray;
-    }
+	if (!$rawmods = get_records_sql("SELECT cm.id AS coursemodule, m.*, cw.section, cm.visible AS visible,
+											cm.groupmode, cm.groupingid, cm.groupmembersonly
+									   FROM {$CFG->prefix}course_modules cm,
+											{$CFG->prefix}course_sections cw,
+											{$CFG->prefix}modules md,
+											{$CFG->prefix}$modulename m
+									  WHERE cm.course IN (".implode(',',array_keys($courses)).") AND
+											cm.instance = m.id AND
+											cm.section = cw.id AND
+											md.name = '$modulename' AND
+											md.id = cm.module")) {
+		return $outputarray;
+	}
 
-    require_once($CFG->dirroot.'/course/lib.php');
+	require_once($CFG->dirroot.'/course/lib.php');
 
-    foreach ($courses as $course) {
-        $modinfo = get_fast_modinfo($course, $userid);
+	foreach ($courses as $course) {
+		$modinfo = get_fast_modinfo($course, $userid);
 
-        if (empty($modinfo->instances[$modulename])) {
-            continue;
-        }
+		if (empty($modinfo->instances[$modulename])) {
+			continue;
+		}
 
-        foreach ($modinfo->instances[$modulename] as $cm) {
-            if (!$includeinvisible and !$cm->uservisible) {
-                continue;
-            }
-            if (!isset($rawmods[$cm->id])) {
-                continue;
-            }
-            $instance = $rawmods[$cm->id];
-            if (!empty($cm->extra)) {
-                $instance->extra = urlencode($cm->extra); // bc compatibility
-            }
-            $outputarray[] = $instance;
-        }
-    }
+		foreach ($modinfo->instances[$modulename] as $cm) {
+			if (!$includeinvisible and !$cm->uservisible) {
+				continue;
+			}
+			if (!isset($rawmods[$cm->id])) {
+				continue;
+			}
+			$instance = $rawmods[$cm->id];
+			if (!empty($cm->extra)) {
+				$instance->extra = urlencode($cm->extra); // bc compatibility
+			}
+			$outputarray[] = $instance;
+		}
+	}
 
-    return $outputarray;
+	return $outputarray;
 }
 
 /**
@@ -1876,7 +1876,7 @@ function get_all_instances_in_courses($modulename, $courses, $userid=NULL, $incl
  *          and course_sections tables, or an empty array if an error occurred.
  */
 function get_all_instances_in_course($modulename, $course, $userid=NULL, $includeinvisible=false) {
-    return get_all_instances_in_courses($modulename, array($course->id => $course), $userid, $includeinvisible);
+	return get_all_instances_in_courses($modulename, array($course->id => $course), $userid, $includeinvisible);
 }
 
 
@@ -1894,23 +1894,23 @@ function get_all_instances_in_course($modulename, $course, $userid=NULL, $includ
  */
 function instance_is_visible($moduletype, $module) {
 
-    global $CFG;
+	global $CFG;
 
-    if (!empty($module->id)) {
-        if ($records = get_records_sql("SELECT cm.instance, cm.visible, cm.groupingid, cm.id, cm.groupmembersonly, cm.course
-                                        FROM {$CFG->prefix}course_modules cm,
-                                             {$CFG->prefix}modules m
-                                       WHERE cm.course = '$module->course' AND
-                                             cm.module = m.id AND
-                                             m.name = '$moduletype' AND
-                                             cm.instance = '$module->id'")) {
+	if (!empty($module->id)) {
+		if ($records = get_records_sql("SELECT cm.instance, cm.visible, cm.groupingid, cm.id, cm.groupmembersonly, cm.course
+										FROM {$CFG->prefix}course_modules cm,
+											 {$CFG->prefix}modules m
+									   WHERE cm.course = '$module->course' AND
+											 cm.module = m.id AND
+											 m.name = '$moduletype' AND
+											 cm.instance = '$module->id'")) {
 
-            foreach ($records as $record) { // there should only be one - use the first one
-                return $record->visible;
-            }
-        }
-    }
-    return true;  // visible by default!
+			foreach ($records as $record) { // there should only be one - use the first one
+				return $record->visible;
+			}
+		}
+	}
+	return true;  // visible by default!
 }
 
 /**
@@ -1922,19 +1922,19 @@ function instance_is_visible($moduletype, $module) {
  * @return bool
  */
 function coursemodule_visible_for_user($cm, $userid=0) {
-    global $USER;
+	global $USER;
 
-    if (empty($cm->id)) {
-        debugging("Incorrect course module parameter!", DEBUG_DEVELOPER);
-        return false;
-    }
-    if (empty($userid)) {
-        $userid = $USER->id;
-    }
-    if (!$cm->visible and !has_capability('moodle/course:viewhiddenactivities', get_context_instance(CONTEXT_MODULE, $cm->id), $userid)) {
-        return false;
-    }
-    return groups_course_module_visible($cm, $userid);
+	if (empty($cm->id)) {
+		debugging("Incorrect course module parameter!", DEBUG_DEVELOPER);
+		return false;
+	}
+	if (empty($userid)) {
+		$userid = $USER->id;
+	}
+	if (!$cm->visible and !has_capability('moodle/course:viewhiddenactivities', get_context_instance(CONTEXT_MODULE, $cm->id), $userid)) {
+		return false;
+	}
+	return groups_course_module_visible($cm, $userid);
 }
 
 
@@ -1964,88 +1964,88 @@ function coursemodule_visible_for_user($cm, $userid=0) {
  * @param    string  $user    If log regards $user other than $USER
  */
 function add_to_log($courseid, $module, $action, $url='', $info='', $cm=0, $user=0) {
-    // Note that this function intentionally does not follow the normal Moodle DB access idioms.
-    // This is for a good reason: it is the most frequently used DB update function,
-    // so it has been optimised for speed.
-    global $db, $CFG, $USER;
+	// Note that this function intentionally does not follow the normal Moodle DB access idioms.
+	// This is for a good reason: it is the most frequently used DB update function,
+	// so it has been optimised for speed.
+	global $db, $CFG, $USER;
 
-    if ($cm === '' || is_null($cm)) { // postgres won't translate empty string to its default
-        $cm = 0;
-    }
+	if ($cm === '' || is_null($cm)) { // postgres won't translate empty string to its default
+		$cm = 0;
+	}
 
-    if ($user) {
-        $userid = $user;
-    } else {
-        if (!empty($USER->realuser)) {  // Don't log
-            return;
-        }
-        $userid = empty($USER->id) ? '0' : $USER->id;
-    }
+	if ($user) {
+		$userid = $user;
+	} else {
+		if (!empty($USER->realuser)) {  // Don't log
+			return;
+		}
+		$userid = empty($USER->id) ? '0' : $USER->id;
+	}
 
-    $REMOTE_ADDR = getremoteaddr();
-    if (empty($REMOTE_ADDR)) {
-        $REMOTE_ADDR = '0.0.0.0';
-    }
+	$REMOTE_ADDR = getremoteaddr();
+	if (empty($REMOTE_ADDR)) {
+		$REMOTE_ADDR = '0.0.0.0';
+	}
 
-    $timenow = time();
-    $info = addslashes($info);
-    if (!empty($url)) { // could break doing html_entity_decode on an empty var.
-        $url = html_entity_decode($url); // for php < 4.3.0 this is defined in moodlelib.php
-    }
+	$timenow = time();
+	$info = addslashes($info);
+	if (!empty($url)) { // could break doing html_entity_decode on an empty var.
+		$url = html_entity_decode($url); // for php < 4.3.0 this is defined in moodlelib.php
+	}
 
-    // Restrict length of log lines to the space actually available in the
-    // database so that it doesn't cause a DB error. Log a warning so that
-    // developers can avoid doing things which are likely to cause this on a
-    // routine basis.
-    $tl=textlib_get_instance();
-    if(!empty($info) && $tl->strlen($info)>255) {
-        $info=$tl->substr($info,0,252).'...';
-        debugging('Warning: logged very long info',DEBUG_DEVELOPER);
-    }
-    // Note: Unlike $info, URL appears to be already slashed before this function
-    // is called. Since database limits are for the data before slashes, we need
-    // to remove them...
-    $url=stripslashes($url);
-    // If the 100 field size is changed, also need to alter print_log in course/lib.php
-    if(!empty($url) && $tl->strlen($url)>100) {
-        $url=$tl->substr($url,0,97).'...';
-        debugging('Warning: logged very long URL',DEBUG_DEVELOPER);
-    }
-    $url=addslashes($url);
+	// Restrict length of log lines to the space actually available in the
+	// database so that it doesn't cause a DB error. Log a warning so that
+	// developers can avoid doing things which are likely to cause this on a
+	// routine basis.
+	$tl=textlib_get_instance();
+	if(!empty($info) && $tl->strlen($info)>255) {
+		$info=$tl->substr($info,0,252).'...';
+		debugging('Warning: logged very long info',DEBUG_DEVELOPER);
+	}
+	// Note: Unlike $info, URL appears to be already slashed before this function
+	// is called. Since database limits are for the data before slashes, we need
+	// to remove them...
+	$url=stripslashes($url);
+	// If the 100 field size is changed, also need to alter print_log in course/lib.php
+	if(!empty($url) && $tl->strlen($url)>100) {
+		$url=$tl->substr($url,0,97).'...';
+		debugging('Warning: logged very long URL',DEBUG_DEVELOPER);
+	}
+	$url=addslashes($url);
 
-    if (defined('MDL_PERFDB')) { global $PERF ; $PERF->dbqueries++; $PERF->logwrites++;};
+	if (defined('MDL_PERFDB')) { global $PERF ; $PERF->dbqueries++; $PERF->logwrites++;};
 
-    if ($CFG->type = 'oci8po') {
-        if (empty($info)) {
-            $info = ' ';
-        }
-    }
-    $sql ='INSERT INTO '. $CFG->prefix .'log (time, userid, course, ip, module, cmid, action, url, info)
-        VALUES (' . "'$timenow', '$userid', '$courseid', '$REMOTE_ADDR', '$module', '$cm', '$action', '$url', '$info')";
+	if ($CFG->type = 'oci8po') {
+		if (empty($info)) {
+			$info = ' ';
+		}
+	}
+	$sql ='INSERT INTO '. $CFG->prefix .'log (time, userid, course, ip, module, cmid, action, url, info)
+		VALUES (' . "'$timenow', '$userid', '$courseid', '$REMOTE_ADDR', '$module', '$cm', '$action', '$url', '$info')";
 
-    $result = $db->Execute($sql);
+	$result = $db->Execute($sql);
 
-    // MDL-11893, alert $CFG->supportemail if insert into log failed
-    if (!$result && $CFG->supportemail) {
-        $site = get_site();
-        $subject = 'Insert into log failed at your moodle site '.$site->fullname;
-        $message = "Insert into log table failed at ". date('l dS \of F Y h:i:s A') .".\n It is possible that your disk is full.\n\n";
-        $message .= "The failed SQL is:\n\n" . $sql;
+	// MDL-11893, alert $CFG->supportemail if insert into log failed
+	if (!$result && $CFG->supportemail) {
+		$site = get_site();
+		$subject = 'Insert into log failed at your moodle site '.$site->fullname;
+		$message = "Insert into log table failed at ". date('l dS \of F Y h:i:s A') .".\n It is possible that your disk is full.\n\n";
+		$message .= "The failed SQL is:\n\n" . $sql;
 
-        // email_to_user is not usable because email_to_user tries to write to the logs table,
-        // and this will get caught in an infinite loop, if disk is full
-        if (empty($CFG->noemailever)) {
-            $lasttime = get_config('admin', 'lastloginserterrormail');
-            if(empty($lasttime) || time() - $lasttime > 60*60*24) { // limit to 1 email per day
-                mail($CFG->supportemail, $subject, $message);
-                set_config('lastloginserterrormail', time(), 'admin');
-            }
-        }
-    }
+		// email_to_user is not usable because email_to_user tries to write to the logs table,
+		// and this will get caught in an infinite loop, if disk is full
+		if (empty($CFG->noemailever)) {
+			$lasttime = get_config('admin', 'lastloginserterrormail');
+			if(empty($lasttime) || time() - $lasttime > 60*60*24) { // limit to 1 email per day
+				mail($CFG->supportemail, $subject, $message);
+				set_config('lastloginserterrormail', time(), 'admin');
+			}
+		}
+	}
 
-    if (!$result) {
-        debugging('Error: Could not insert a new entry to the Moodle log', DEBUG_ALL);
-    }
+	if (!$result) {
+		debugging('Error: Could not insert a new entry to the Moodle log', DEBUG_ALL);
+	}
 
 }
 
@@ -2061,84 +2061,84 @@ function add_to_log($courseid, $module, $action, $url='', $info='', $cm=0, $user
  */
 function user_accesstime_log($courseid=0) {
 
-    global $USER, $CFG, $PERF, $db;
+	global $USER, $CFG, $PERF, $db;
 
-    if (!isloggedin() or !empty($USER->realuser)) {
-        // no access tracking
-        return;
-    }
+	if (!isloggedin() or !empty($USER->realuser)) {
+		// no access tracking
+		return;
+	}
 
-    if (empty($courseid)) {
-        $courseid = SITEID;
-    }
+	if (empty($courseid)) {
+		$courseid = SITEID;
+	}
 
-    $timenow = time();
+	$timenow = time();
 
 /// Store site lastaccess time for the current user
-    if ($timenow - $USER->lastaccess > LASTACCESS_UPDATE_SECS) {
-    /// Update $USER->lastaccess for next checks
-        $USER->lastaccess = $timenow;
-        if (defined('MDL_PERFDB')) { global $PERF ; $PERF->dbqueries++;};
+	if ($timenow - $USER->lastaccess > LASTACCESS_UPDATE_SECS) {
+	/// Update $USER->lastaccess for next checks
+		$USER->lastaccess = $timenow;
+		if (defined('MDL_PERFDB')) { global $PERF ; $PERF->dbqueries++;};
 
-        $remoteaddr = getremoteaddr();
-        if ($db->Execute("UPDATE {$CFG->prefix}user
-                             SET lastip = '$remoteaddr', lastaccess = $timenow
-                           WHERE id = $USER->id")) {
-        } else {
-            debugging('Error: Could not update global user lastaccess information');  // Don't throw an error
-        }
-    /// Remove this record from record cache since it will change
-        if (!empty($CFG->rcache)) {
-            rcache_unset('user', $USER->id);
-        }
-    }
+		$remoteaddr = getremoteaddr();
+		if ($db->Execute("UPDATE {$CFG->prefix}user
+							 SET lastip = '$remoteaddr', lastaccess = $timenow
+						   WHERE id = $USER->id")) {
+		} else {
+			debugging('Error: Could not update global user lastaccess information');  // Don't throw an error
+		}
+	/// Remove this record from record cache since it will change
+		if (!empty($CFG->rcache)) {
+			rcache_unset('user', $USER->id);
+		}
+	}
 
-    if ($courseid == SITEID) {
-    ///  no user_lastaccess for frontpage
-        return;
-    }
+	if ($courseid == SITEID) {
+	///  no user_lastaccess for frontpage
+		return;
+	}
 
 /// Store course lastaccess times for the current user
-    if (empty($USER->currentcourseaccess[$courseid]) or ($timenow - $USER->currentcourseaccess[$courseid] > LASTACCESS_UPDATE_SECS)) {
-        if (defined('MDL_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
+	if (empty($USER->currentcourseaccess[$courseid]) or ($timenow - $USER->currentcourseaccess[$courseid] > LASTACCESS_UPDATE_SECS)) {
+		if (defined('MDL_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
 
-        $exists = false; // To detect if the user_lastaccess record exists or no
-        if ($rs = $db->Execute("SELECT timeaccess
-                                  FROM {$CFG->prefix}user_lastaccess
-                                 WHERE userid = $USER->id AND courseid = $courseid")) {
-            if (!$rs->EOF) {
-                $exists = true;
-                $lastaccess = reset($rs->fields);
-                if ($timenow - $lastaccess <  LASTACCESS_UPDATE_SECS) {
-                /// no need to update now, it was updated recently in concurrent login ;-)
-                    $rs->Close();
-                    return;
-                }
-            }
-            $rs->Close();
-        }
+		$exists = false; // To detect if the user_lastaccess record exists or no
+		if ($rs = $db->Execute("SELECT timeaccess
+								  FROM {$CFG->prefix}user_lastaccess
+								 WHERE userid = $USER->id AND courseid = $courseid")) {
+			if (!$rs->EOF) {
+				$exists = true;
+				$lastaccess = reset($rs->fields);
+				if ($timenow - $lastaccess <  LASTACCESS_UPDATE_SECS) {
+				/// no need to update now, it was updated recently in concurrent login ;-)
+					$rs->Close();
+					return;
+				}
+			}
+			$rs->Close();
+		}
 
-    /// Update course lastaccess for next checks
-        $USER->currentcourseaccess[$courseid] = $timenow;
-        if (defined('MDL_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
+	/// Update course lastaccess for next checks
+		$USER->currentcourseaccess[$courseid] = $timenow;
+		if (defined('MDL_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
 
-        if ($exists) { // user_lastaccess record exists, update it
-            if ($db->Execute("UPDATE {$CFG->prefix}user_lastaccess
-                                 SET timeaccess = $timenow
-                               WHERE userid = $USER->id AND courseid = $courseid")) {
-            } else {
-                debugging('Error: Could not update course user lastacess information');  // Don't throw an error
-            }
+		if ($exists) { // user_lastaccess record exists, update it
+			if ($db->Execute("UPDATE {$CFG->prefix}user_lastaccess
+								 SET timeaccess = $timenow
+							   WHERE userid = $USER->id AND courseid = $courseid")) {
+			} else {
+				debugging('Error: Could not update course user lastacess information');  // Don't throw an error
+			}
 
-        } else { // user lastaccess record doesn't exist, insert it
-            if ($db->Execute("INSERT INTO {$CFG->prefix}user_lastaccess
-                                     (userid, courseid, timeaccess)
-                              VALUES ($USER->id, $courseid, $timenow)")) {
-            } else {
-                debugging('Error: Could not insert course user lastaccess information');  // Don't throw an error
-            }
-        }
-    }
+		} else { // user lastaccess record doesn't exist, insert it
+			if ($db->Execute("INSERT INTO {$CFG->prefix}user_lastaccess
+									 (userid, courseid, timeaccess)
+							  VALUES ($USER->id, $courseid, $timenow)")) {
+			} else {
+				debugging('Error: Could not insert course user lastaccess information');  // Don't throw an error
+			}
+		}
+	}
 }
 
 /**
@@ -2154,19 +2154,19 @@ function user_accesstime_log($courseid=0) {
  * @todo Finish documenting this function
  */
 function get_logs($select, $order='l.time DESC', $limitfrom='', $limitnum='', &$totalcount) {
-    global $CFG;
+	global $CFG;
 
-    if ($order) {
-        $order = 'ORDER BY '. $order;
-    }
+	if ($order) {
+		$order = 'ORDER BY '. $order;
+	}
 
-    $selectsql = $CFG->prefix .'log l LEFT JOIN '. $CFG->prefix .'user u ON l.userid = u.id '. ((strlen($select) > 0) ? 'WHERE '. $select : '');
-    $countsql = $CFG->prefix.'log l '.((strlen($select) > 0) ? ' WHERE '. $select : '');
+	$selectsql = $CFG->prefix .'log l LEFT JOIN '. $CFG->prefix .'user u ON l.userid = u.id '. ((strlen($select) > 0) ? 'WHERE '. $select : '');
+	$countsql = $CFG->prefix.'log l '.((strlen($select) > 0) ? ' WHERE '. $select : '');
 
-    $totalcount = count_records_sql("SELECT COUNT(*) FROM $countsql");
+	$totalcount = count_records_sql("SELECT COUNT(*) FROM $countsql");
 
-    return get_records_sql('SELECT l.*, u.firstname, u.lastname, u.picture
-                                FROM '. $selectsql .' '. $order, $limitfrom, $limitnum) ;
+	return get_records_sql('SELECT l.*, u.firstname, u.lastname, u.picture
+								FROM '. $selectsql .' '. $order, $limitfrom, $limitnum) ;
 }
 
 
@@ -2181,19 +2181,19 @@ function get_logs($select, $order='l.time DESC', $limitfrom='', $limitnum='', &$
  * @todo Finish documenting this function
  */
 function get_logs_usercourse($userid, $courseid, $coursestart) {
-    global $CFG;
+	global $CFG;
 
-    if ($courseid) {
-        $courseselect = ' AND course = \''. $courseid .'\' ';
-    } else {
-        $courseselect = '';
-    }
+	if ($courseid) {
+		$courseselect = ' AND course = \''. $courseid .'\' ';
+	} else {
+		$courseselect = '';
+	}
 
-    return get_records_sql("SELECT floor((time - $coursestart)/". DAYSECS .") as day, count(*) as num
-                            FROM {$CFG->prefix}log
-                           WHERE userid = '$userid'
-                             AND time > '$coursestart' $courseselect
-                        GROUP BY floor((time - $coursestart)/". DAYSECS .") ");
+	return get_records_sql("SELECT floor((time - $coursestart)/". DAYSECS .") as day, count(*) as num
+							FROM {$CFG->prefix}log
+						   WHERE userid = '$userid'
+							 AND time > '$coursestart' $courseselect
+						GROUP BY floor((time - $coursestart)/". DAYSECS .") ");
 }
 
 /**
@@ -2208,19 +2208,19 @@ function get_logs_usercourse($userid, $courseid, $coursestart) {
  * @todo Finish documenting this function
  */
 function get_logs_userday($userid, $courseid, $daystart) {
-    global $CFG;
+	global $CFG;
 
-    if ($courseid) {
-        $courseselect = ' AND course = \''. $courseid .'\' ';
-    } else {
-        $courseselect = '';
-    }
+	if ($courseid) {
+		$courseselect = ' AND course = \''. $courseid .'\' ';
+	} else {
+		$courseselect = '';
+	}
 
-    return get_records_sql("SELECT floor((time - $daystart)/". HOURSECS .") as hour, count(*) as num
-                            FROM {$CFG->prefix}log
-                           WHERE userid = '$userid'
-                             AND time > '$daystart' $courseselect
-                        GROUP BY floor((time - $daystart)/". HOURSECS .") ");
+	return get_records_sql("SELECT floor((time - $daystart)/". HOURSECS .") as hour, count(*) as num
+							FROM {$CFG->prefix}log
+						   WHERE userid = '$userid'
+							 AND time > '$daystart' $courseselect
+						GROUP BY floor((time - $daystart)/". HOURSECS .") ");
 }
 
 /**
@@ -2238,19 +2238,19 @@ function get_logs_userday($userid, $courseid, $daystart) {
  */
 function count_login_failures($mode, $username, $lastlogin) {
 
-    $select = 'module=\'login\' AND action=\'error\' AND time > '. $lastlogin;
+	$select = 'module=\'login\' AND action=\'error\' AND time > '. $lastlogin;
 
-    if (has_capability('moodle/site:config', get_context_instance(CONTEXT_SYSTEM))) {    // Return information about all accounts
-        if ($count->attempts = count_records_select('log', $select)) {
-            $count->accounts = count_records_select('log', $select, 'COUNT(DISTINCT info)');
-            return $count;
-        }
-    } else if ($mode == 'everybody' or ($mode == 'teacher' and isteacherinanycourse())) {
-        if ($count->attempts = count_records_select('log', $select .' AND info = \''. $username .'\'')) {
-            return $count;
-        }
-    }
-    return NULL;
+	if (has_capability('moodle/site:config', get_context_instance(CONTEXT_SYSTEM))) {    // Return information about all accounts
+		if ($count->attempts = count_records_select('log', $select)) {
+			$count->accounts = count_records_select('log', $select, 'COUNT(DISTINCT info)');
+			return $count;
+		}
+	} else if ($mode == 'everybody' or ($mode == 'teacher' and isteacherinanycourse())) {
+		if ($count->attempts = count_records_select('log', $select .' AND info = \''. $username .'\'')) {
+			return $count;
+		}
+	}
+	return NULL;
 }
 
 
@@ -2264,7 +2264,7 @@ function count_login_failures($mode, $username, $lastlogin) {
  * @param mixed $object The data to be printed
  */
 function print_object($object) {
-    echo '<pre class="notifytiny">' . htmlspecialchars(print_r($object,true)) . '</pre>';
+	echo '<pre class="notifytiny">' . htmlspecialchars(print_r($object,true)) . '</pre>';
 }
 
 /*
@@ -2292,46 +2292,46 @@ function print_object($object) {
  * @return bool
  */
 function course_parent_visible($course = null) {
-    global $CFG;
-    //return true;
-    static $mycache;
+	global $CFG;
+	//return true;
+	static $mycache;
 
-    if (!is_object($course)) {
-        return true;
-    }
-    if (!empty($CFG->allowvisiblecoursesinhiddencategories)) {
-        return true;
-    }
+	if (!is_object($course)) {
+		return true;
+	}
+	if (!empty($CFG->allowvisiblecoursesinhiddencategories)) {
+		return true;
+	}
 
-    if (!isset($mycache)) {
-        $mycache = array();
-    } else {
-        // cast to force assoc array
-        $k = (string)$course->category;
-        if (isset($mycache[$k])) {
-            return $mycache[$k];
-        }
-    }
+	if (!isset($mycache)) {
+		$mycache = array();
+	} else {
+		// cast to force assoc array
+		$k = (string)$course->category;
+		if (isset($mycache[$k])) {
+			return $mycache[$k];
+		}
+	}
 
-    if (isset($course->categorypath)) {
-        $path = $course->categorypath;
-    } else {
-        $path = get_field('course_categories', 'path',
-                          'id', $course->category);
-    }
-    $catids = substr($path,1); // strip leading slash
-    $catids = str_replace('/',',',$catids);
+	if (isset($course->categorypath)) {
+		$path = $course->categorypath;
+	} else {
+		$path = get_field('course_categories', 'path',
+						  'id', $course->category);
+	}
+	$catids = substr($path,1); // strip leading slash
+	$catids = str_replace('/',',',$catids);
 
-    $sql = "SELECT MIN(visible)
-            FROM {$CFG->prefix}course_categories
-            WHERE id IN ($catids)";
-    $vis = get_field_sql($sql);
+	$sql = "SELECT MIN(visible)
+			FROM {$CFG->prefix}course_categories
+			WHERE id IN ($catids)";
+	$vis = get_field_sql($sql);
 
-    // cast to force assoc array
-    $k = (string)$course->category;
-    $mycache[$k] = $vis;
+	// cast to force assoc array
+	$k = (string)$course->category;
+	$mycache[$k] = $vis;
 
-    return $vis;
+	return $vis;
 }
 
 /**
@@ -2346,7 +2346,7 @@ function course_parent_visible($course = null) {
  */
 function xmldb_debug($message, $object) {
 
-    debugging($message, DEBUG_DEVELOPER);
+	debugging($message, DEBUG_DEVELOPER);
 }
 
 /**
@@ -2354,20 +2354,20 @@ function xmldb_debug($message, $object) {
  * @return bool
  */
 function user_can_create_courses() {
-    global $USER;
-    // if user has course creation capability at any site or course cat, then return true;
+	global $USER;
+	// if user has course creation capability at any site or course cat, then return true;
 
-    if (has_capability('moodle/course:create', get_context_instance(CONTEXT_SYSTEM))) {
-        return true;
-    }
-    if ($cats = get_records('course_categories')) {
-        foreach ($cats as $cat) {
-            if (has_capability('moodle/course:create', get_context_instance(CONTEXT_COURSECAT, $cat->id))) {
-                return true;
-            }
-        }
-    }
-    return false;
+	if (has_capability('moodle/course:create', get_context_instance(CONTEXT_SYSTEM))) {
+		return true;
+	}
+	if ($cats = get_records('course_categories')) {
+		foreach ($cats as $cat) {
+			if (has_capability('moodle/course:create', get_context_instance(CONTEXT_COURSECAT, $cat->id))) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 // vim:autoindent:expandtab:shiftwidth=4:tabstop=4:tw=140:
