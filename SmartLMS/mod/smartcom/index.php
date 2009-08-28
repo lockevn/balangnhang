@@ -43,14 +43,14 @@ switch ($submodule) {
    case 'learning_progress':
    
 	require_once(ABSPATH.'lib/ofc-library/open_flash_chart_object.php');
-	open_flash_chart_object('100%', 300, 
+	open_flash_chart_object('90%', 300, 
 	"/mod/smartcom/api/student_learning_progress_TongQuanKhoaHoc_ofc_data.php?courseid=$courseid&userid=$userid", 
 	false, '/' );
 
 	echo '<br /><br /><br /><br />';
 
 	require_once(ABSPATH.'lib/ofc-library/open_flash_chart_object.php');
-	open_flash_chart_object('100%', 300, 
+	open_flash_chart_object('90%', 300, 
 	"/mod/smartcom/api/student_learning_progress_ChiTietBaiHoc_ofc_data.php?courseid=$courseid&userid=$userid", 
 	false, '/' );
 	break;
