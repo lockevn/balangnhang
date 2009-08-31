@@ -13,8 +13,8 @@ function mail_print_name_user($u, $course) {
 	global $CFG;
 	
 	$usuario = get_record_sql("SELECT id, firstname, lastname FROM {$CFG->prefix}user 
-               WHERE id = $u");
-    
+			   WHERE id = $u");
+	
 	if ($usuario) {
 		$textname = "<a href=\"../../user/view.php?id=$usuario->id&amp;course=$course\">".$usuario->firstname." ".$usuario->lastname."</a>";
 	} else {
@@ -28,8 +28,8 @@ function mail_print_name_user_message($u, $course) {
 	global $CFG;
 	
 	$usuario = get_record_sql("SELECT id, firstname, lastname, username FROM {$CFG->prefix}user 
-               WHERE id = $u");
-    
+			   WHERE id = $u");
+	
 	if ($usuario) {
 		$textname = "<a href=\"../../user/view.php?id=$usuario->id&amp;course=$course\">".$usuario->firstname." ".$usuario->lastname." (".$usuario->username.")</a>";
 	} else {
@@ -43,8 +43,8 @@ function mail_print_name_user_message_sort($u) {
 	global $CFG;
 	
 	$usuario = get_record_sql("SELECT id, firstname, lastname, username FROM {$CFG->prefix}user 
-               WHERE id = $u");
-    
+			   WHERE id = $u");
+	
 	if ($usuario) {
 		$textname = strtolower($usuario->lastname." ".$usuario->firstname." (".$usuario->username.")");
 	} else {
@@ -122,10 +122,10 @@ global $USER;
 	
 	$table1 = new stdClass;
 
-	$strwelcome = "<img align='absmiddle' src='".$ruta."/logo.gif' border='0'> ".get_string("welcome","mail",$course->fullname);
+	$strwelcome = "<img align='absmiddle' src='".$ruta."/logo.gif' border='0'> ".get_string("welcome", "mail", $course->fullname);
 
-    $table1->head  = array ($strwelcome);
-    $table1->align = array ("center");
+	$table1->head  = array ($strwelcome);
+	$table1->align = array ("center");
 	$table1->width = "100%";
 
 	print_table($table1);
@@ -135,7 +135,7 @@ global $USER;
 	$textooptions = mail_get_options($mail);
 	$textouser = get_string('name').': '.mail_print_name_user($USER->id, $mail->course);
 	
-    $table2->align = array ("left", "right");
+	$table2->align = array ("left", "right");
 	$table2->width = "100%";
 	
 	$table2->data[] = array ($textooptions, $textouser);
@@ -167,7 +167,8 @@ $texto = "<a href='".$ruta."/view.php?m=".$mail->id."'><img align='absmiddle' sr
 $texto .= "<a href='".$ruta."/compose.php?m=".$mail->id."&amp;clean=1'><img align='absmiddle' src='".$ruta."/images/redactar.gif' border='0' alt='".get_string('foldercompose','mail')."'>".get_string('foldercompose','mail')."</a><img align='absmiddle' src='".$ruta."/images/separador.gif' border='0'>";
 
 if (isteacher($mail->course) or isadmin()) {
-	$texto .= "<a href='".$ruta."/groups.php?m=".$mail->id."'><img align='absmiddle' src='".$ruta."/images/grupos.gif' border='0' alt='".get_string('admgroups','mail')."'>".get_string('admgroups','mail')."</a><img align='absmiddle' src='".$ruta."/images/separador.gif' border='0'>";
+	// GURUCORE: Hack: remove Group to reduce complexi
+	// $texto .= "<a href='".$ruta."/groups.php?m=".$mail->id."'><img align='absmiddle' src='".$ruta."/images/grupos.gif' border='0' alt='".get_string('admgroups','mail')."'>".get_string('admgroups','mail')."</a><img align='absmiddle' src='".$ruta."/images/separador.gif' border='0'>";
 }
 
 $texto .= "<a href='".$ruta."/folders.php?m=".$mail->id."'><img align='absmiddle' src='".$ruta."/images/adm_carpetas.gif' border='0' alt='".get_string('admfolders','mail')."'>".get_string('admfolders','mail')."</a>";
@@ -246,7 +247,7 @@ function mail_get_img_message($message) {
 global $CFG;	
 
 	$ruta = $CFG->wwwroot."/mod/mail";
-    
+	
 	if ($message->responded) {
 		$textoimg = "<img align='middle' src='".$ruta."/images/responded.gif' border='0' alt='".get_string("messagereply","mail")."'/>";
 	} else {
@@ -287,15 +288,15 @@ global $CFG;
 
 	if (!$members = get_records_sql("SELECT * FROM {$CFG->prefix}mail_members_groups WHERE groupid=$groupid")) 		
 	{
-        $members = array();
-    }
+		$members = array();
+	}
 		
 	$listtousers = "";
 	$i = 0;
 		
 	foreach ($members as $member) {
 		$fullname = mail_print_name_user_message($member->userid, $courseid);
-            
+			
 		if ($i == 0) {
 			$listtousers .= $fullname;
 		} else {
@@ -314,15 +315,15 @@ global $CFG;
 
 	if (!$tousers = get_records_sql("SELECT * FROM {$CFG->prefix}mail_to_messages WHERE messageid=$messageid")) 		
 	{
-        $tousers = array();
-    }
+		$tousers = array();
+	}
 		
 	$listtousers = "";
 	$i = 0;
 		
 	foreach ($tousers as $touser) {
 		$fullname = mail_print_name_user_message($touser->toid, $courseid);
-            
+			
 		if ($i == 0) {
 			$listtousers .= $fullname;
 		} else {
@@ -341,15 +342,15 @@ global $CFG;
 
 	if (!$tousers = get_records_sql("SELECT * FROM {$CFG->prefix}mail_to_messages WHERE messageid=$messageid")) 		
 	{
-        $tousers = array();
-    }
+		$tousers = array();
+	}
 		
 	$listtousers = "";
 	$i = 0;
 		
 	foreach ($tousers as $touser) {
 		$fullname = mail_print_name_user_message_sort($touser->toid);
-            
+			
 		if ($i == 0) {
 			$listtousers .= $fullname;
 		} else {
@@ -370,7 +371,7 @@ global $CFG;
 */
 function file_area_name($courseid, $mailid, $messageid) {
    global $CFG;
-    
+	
    return $courseid.'/'.$CFG->moddata.'/mail/'.$mailid.'/'.$messageid;
 }
 
@@ -390,13 +391,13 @@ global $CFG;
 
 	$filearea = file_area_name($courseid, $mailid, $messageid);
 	$icon = mimeinfo('icon', $file);
-                    
+					
 	if ($CFG->slasharguments) {
 		$ffurl = "$CFG->wwwroot/file.php/$filearea/$file";
 	} else {
 		$ffurl = "$CFG->wwwroot/file.php?file=/$filearea/$file";
 	}
-                
+				
 	$output = '<img align="middle" src="'.$CFG->pixpath.'/f/'.$icon.'" height="16" width="16" alt="'.$icon.'" />'.'<a target="_blank" href="'.$ffurl.'" >'.$file.'</a>';
 	
 	return $output;
@@ -423,21 +424,21 @@ function mail_sort_array_messages($messages, $sort, $dir) {
 	}
 	
 	for($i=0; $i < $nummessages; $i++){
-    	for($a=0; $a < $nummessages-1; $a++){
+		for($a=0; $a < $nummessages-1; $a++){
 			if ($dir == "asc") {
 				if($messages[$a]->$sort > $messages[$a+1]->$sort){
 					$tmp=$messages[$a+1];
-            		$messages[$a+1]=$messages[$a];
-            		$messages[$a]=$tmp;
-        		}
+					$messages[$a+1]=$messages[$a];
+					$messages[$a]=$tmp;
+				}
 			} else {
 				if($messages[$a]->$sort < $messages[$a+1]->$sort){
 					$tmp=$messages[$a+1];
-            		$messages[$a+1]=$messages[$a];
-            		$messages[$a]=$tmp;
+					$messages[$a+1]=$messages[$a];
+					$messages[$a]=$tmp;
 				}
 			}
-    	}
+		}
 	}
 	
 	return $messages;
@@ -453,29 +454,29 @@ global $CFG;
 	$sort = strtolower($sort);
 
 	if ($sort != $column) {
-    	$columnicon = "";
-        if ($column == "date") {
-        	$columndir = "desc";
-        } else {
-           	$columndir = "asc";
-        }		
-  	} else {
-       	$columndir = $dir == "asc" ? "desc":"asc";
-       	if ($column == "date") {
-          	$columnicon = $dir == "asc" ? "up":"down";
-       	} else {
-           	$columnicon = $dir == "asc" ? "down":"up";
-       	}
-        $columnicon = " <img src='".$ruta."/images/".$columnicon.".gif' alt='".get_string($columnicon,"mail")."'/>";
+		$columnicon = "";
+		if ($column == "date") {
+			$columndir = "desc";
+		} else {
+			$columndir = "asc";
+		}		
+	} else {
+		$columndir = $dir == "asc" ? "desc":"asc";
+		if ($column == "date") {
+			$columnicon = $dir == "asc" ? "up":"down";
+		} else {
+			$columnicon = $dir == "asc" ? "down":"up";
+		}
+		$columnicon = " <img src='".$ruta."/images/".$columnicon.".gif' alt='".get_string($columnicon,"mail")."'/>";
 
-  	}
-    
+	}
+	
 	if (!empty($folderid)) {
 		$textoenlace = "<a href='messages.php?f=".$folderid."&amp;sort=".$column."&amp;dir=".$columndir."&amp;page=".$page."'>".$textohead."</a>".$columnicon;
 	} else if(!empty($id)) {
 		$textoenlace = "<a href='messages.php?id=".$id."&amp;sort=".$column."&amp;dir=".$columndir."&amp;page=".$page."'>".$textohead."</a>".$columnicon;
 	}
-     
+	 
 	return $textoenlace;
 }
 
@@ -524,16 +525,16 @@ global $CFG;
 		$updatestatistics->send = $statistics->send + 1;
 		$updatestatistics->timemodified = time();		
 					
-        update_record('mail_statistics', $updatestatistics);
+		update_record('mail_statistics', $updatestatistics);
 	} else {
 		$newstatistics = new object;
-        $newstatistics->course = $courseid;
-        $newstatistics->userid = $u;
+		$newstatistics->course = $courseid;
+		$newstatistics->userid = $u;
 		$newstatistics->send = 1;
 		$newstatistics->received = 0;
 		$newstatistics->timemodified = time();
 		
-        $newid = insert_record('mail_statistics', $newstatistics);        	
+		$newid = insert_record('mail_statistics', $newstatistics);        	
 	}
 	
 	foreach ($tousers as $touser) {
@@ -543,16 +544,16 @@ global $CFG;
 			$updatestatistics->received = $statistics->received + 1;
 			$updatestatistics->timemodified = time();		
 					
-        	update_record('mail_statistics', $updatestatistics);
+			update_record('mail_statistics', $updatestatistics);
 		} else {
 			$newstatistics = new object;
-        	$newstatistics->course = $courseid;
-        	$newstatistics->userid = $touser;
+			$newstatistics->course = $courseid;
+			$newstatistics->userid = $touser;
 			$newstatistics->send = 0;
 			$newstatistics->received = 1;
 			$newstatistics->timemodified = time();
 		
-        	$newid = insert_record('mail_statistics', $newstatistics);        	
+			$newid = insert_record('mail_statistics', $newstatistics);        	
 		}
 	}
 	
