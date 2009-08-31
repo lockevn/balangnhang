@@ -1,8 +1,8 @@
 <?php  // $Id: compose.php,v 1.92 2006/04/09 10:59:39 stronk7 Exp $
 /// This page prints a message
 
-    require_once("../../config.php");
-    require_once("lib.php");
+	require_once("../../config.php");
+	require_once("lib.php");
 	require_once("locallib.php");
 
 	$id = optional_param('id', 0, PARAM_INT);			//Course Module Id
@@ -11,35 +11,35 @@
 	$edit = optional_param('edit', 0, PARAM_INT);
 	$addnew = optional_param('addnew', 0, PARAM_BOOL);
 	$confirm = optional_param('confirm', 0, PARAM_INT); //si se confirma el delete
-    
+	
 	if (!empty($id)) {
-        if (! $cm = get_record("course_modules", "id", $id)) {
-            error("Course Module ID was incorrect");
-        }
-        if (! $course = get_record("course", "id", $cm->course)) {
-            error("Course is misconfigured");
-        }
-        if (! $mail = get_record("mail", "id", $cm->instance)) {
-            error("Course module is incorrect");
-        }
-    } else if (!empty($m)) {
-        if (! $mail = get_record("mail", "id", $m)) {
-            error("Course module is incorrect");
-        }
-        if (! $course = get_record("course", "id", $mail->course)) {
-            error("Could not determine which course this belonged to!");
-        }
-        if (!$cm = get_coursemodule_from_instance("mail", $mail->id, $course->id)) {
-            error("Could not determine which course module this belonged to!");
-        }
-        $id = $cm->id;
+		if (! $cm = get_record("course_modules", "id", $id)) {
+			error("Course Module ID was incorrect");
+		}
+		if (! $course = get_record("course", "id", $cm->course)) {
+			error("Course is misconfigured");
+		}
+		if (! $mail = get_record("mail", "id", $cm->instance)) {
+			error("Course module is incorrect");
+		}
+	} else if (!empty($m)) {
+		if (! $mail = get_record("mail", "id", $m)) {
+			error("Course module is incorrect");
+		}
+		if (! $course = get_record("course", "id", $mail->course)) {
+			error("Could not determine which course this belonged to!");
+		}
+		if (!$cm = get_coursemodule_from_instance("mail", $mail->id, $course->id)) {
+			error("Could not determine which course module this belonged to!");
+		}
+		$id = $cm->id;
 	} else {
-        error("Must specify Course Module ID");
-    }
+		error("Must specify Course Module ID");
+	}
 
-    if ($CFG->forcelogin) {
-        require_login();
-    }
+	if ($CFG->forcelogin) {
+		require_login();
+	}
 	
 	$SESSION->fromurl = $_SERVER["HTTP_REFERER"];
 	
@@ -52,24 +52,24 @@
 				
 				if (($confirm <> 1) and ($nummessagesfolder > 0)) {
 					$navigation = "";
-    				if ($course->category) {
-        				$navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
-        				require_login($course->id);
-    				}
-    				if (!$cm->visible and !isteacher($course->id)) {
-        				print_header();
-        				notice(get_string("activityiscurrentlyhidden"));
-    				}
-    				add_to_log($course->id, "mail", "view", "view.php?id=$cm->id", $mail->id, $cm->id);
+					if ($course->category) {
+						$navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
+						require_login($course->id);
+					}
+					if (!$cm->visible and !isteacher($course->id)) {
+						print_header();
+						notice(get_string("activityiscurrentlyhidden"));
+					}
+					add_to_log($course->id, "mail", "view", "view.php?id=$cm->id", $mail->id, $cm->id);
 
 					/// Printing the heading
-    				$strmails = get_string("modulenameplural", "mail");
-    				$strmail = get_string("modulename", "mail");
+					$strmails = get_string("modulenameplural", "mail");
+					$strmail = get_string("modulename", "mail");
 
-    				$navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
+					$navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
 
-    				print_header_simple(format_string($mail->name), "",
-                 "$navigation ".format_string($mail->name), "", "", true, update_module_button($cm->id, $course->id, $strmail), navmenu($course, $cm));
+					print_header_simple(format_string($mail->name), "",
+				 "$navigation ".format_string($mail->name), "", "", true, update_module_button($cm->id, $course->id, $strmail), navmenu($course, $cm));
 					
 					notice_yesno (get_string("confirmdeletefolder","mail"), "folders.php?id=$cm->id&amp;delete=$delete&amp;confirm=1", "folders.php?id=$cm->id");
 					print_footer($course);
@@ -81,7 +81,7 @@
 					}
 			
 					if (!$messages = get_records_sql("SELECT * FROM {$CFG->prefix}mail_messages  
-               		WHERE mailid = $mail->id and userid = $USER->id and folderid = $delete")) {
+					WHERE mailid = $mail->id and userid = $USER->id and folderid = $delete")) {
 						$messages = array();
 					}
 				
@@ -118,37 +118,37 @@
 	if ($post = data_submitted()) {
 		
 		if(isset($post->addnew))
-    	{
+		{
 			if (empty($post->name)) {
 				error('Could not create new folder');
 			}
 			
 			$newfolder = new object;
-            $newfolder->mailid = $mail->id;
+			$newfolder->mailid = $mail->id;
 			$newfolder->userid = $USER->id;
 			$newfolder->name = $post->name;
 			$newfolder->timemodified = time();
 			
 			if (!$newfolderid = insert_record('mail_folder', $newfolder)) {
-                error('Could not create new folder');
-            }else {
+				error('Could not create new folder');
+			}else {
 				add_to_log($course->id, "mail", "new folder", "folders.php?id=$id", $mail->id, $cm->id);
 			}
 		}
 		
 		if(isset($post->edit))
-    	{
+		{
 			if (empty($post->name)) {
 				error('Could not create new folder');
 			}
 			
 			$updatefolder = new object;
-            $updatefolder->id = $edit;
+			$updatefolder->id = $edit;
 			$updatefolder->name = $post->name;
 			
 			if (!update_record('mail_folder', $updatefolder)) {
-                error('Could not update folder');
-            }else {
+				error('Could not update folder');
+			}else {
 				add_to_log($course->id, "mail", "update folder", "folders.php?id=$id", $mail->id, $cm->id);
 			}
 		}
@@ -156,42 +156,42 @@
 		$urlfolder = $CFG->wwwroot."/mod/mail/folders.php?id=".$id;
 		redirect($urlfolder);
 		
-    }
+	}
 	
 
 /// Processing standard security processes
-    $navigation = "";
-    if ($course->category) {
-        $navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
-        require_login($course->id);
-    }
-    if (!$cm->visible and !isteacher($course->id)) {
-        print_header();
-        notice(get_string("activityiscurrentlyhidden"));
-    }
-    add_to_log($course->id, "portafolio", "view", "view.php?id=$cm->id", $portafolio->id, $cm->id);
+	$navigation = "";
+	if ($course->category) {
+		$navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
+		require_login($course->id);
+	}
+	if (!$cm->visible and !isteacher($course->id)) {
+		print_header();
+		notice(get_string("activityiscurrentlyhidden"));
+	}
+	add_to_log($course->id, "mail", "view", "view.php?id=$cm->id", $mail->id, $cm->id);
 
 /// Processing standard security processes
-    $navigation = "";
-    if ($course->category) {
-        $navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
-        require_login($course->id);
-    }
-    if (!$cm->visible and !isteacher($course->id)) {
-        print_header();
-        notice(get_string("activityiscurrentlyhidden"));
-    }
-    add_to_log($course->id, "mail", "view", "view.php?id=$cm->id", $mail->id, $cm->id);
+	$navigation = "";
+	if ($course->category) {
+		$navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
+		require_login($course->id);
+	}
+	if (!$cm->visible and !isteacher($course->id)) {
+		print_header();
+		notice(get_string("activityiscurrentlyhidden"));
+	}
+	add_to_log($course->id, "mail", "view", "view.php?id=$cm->id", $mail->id, $cm->id);
 
 /// Printing the heading
-    $strmails = get_string("modulenameplural", "mail");
-    $strmail = get_string("modulename", "mail");
+	$strmails = get_string("modulenameplural", "mail");
+	$strmail = get_string("modulename", "mail");
 
-    $navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
+	$navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
 
-    print_header_simple(format_string($mail->name), "",
-                 "$navigation ".format_string($mail->name), "", "", true, update_module_button($cm->id, $course->id, $strmail), navmenu($course, $cm));
-    
+	print_header_simple(format_string($mail->name), "",
+				 "$navigation ".format_string($mail->name), "", "", true, update_module_button($cm->id, $course->id, $strmail), navmenu($course, $cm));
+	
 	
 /// If no search results then get potential students for this course excluding users already in course
 
@@ -208,7 +208,7 @@
 
 /// Finish the page
 
-    print_footer($course);
+	print_footer($course);
 
 ?>
 

@@ -1,15 +1,15 @@
 <?php  // $Id: compose.php,v 1.92 2006/04/09 10:59:39 stronk7 Exp $
 /// This page prints a message
 
-    require_once("../../config.php");
-    require_once("lib.php");
+	require_once("../../config.php");
+	require_once("lib.php");
 	require_once("locallib.php");
 	require_once("$CFG->libdir/uploadlib.php");
 	require_once("$CFG->libdir/filelib.php");
 
 	$id = optional_param('id', 0, PARAM_INT);			//Course Module Id
 	$m = optional_param('m', 0, PARAM_INT);			//Message Id
-    $f = optional_param('f', 0, PARAM_INT);            // Folder ID
+	$f = optional_param('f', 0, PARAM_INT);            // Folder ID
 	$delete = optional_param('delete', 0, PARAM_INT);    // Message ID to delete
 	$confirm = optional_param('confirm', 0, PARAM_INT); //si se confirma el delete
 	//$restore = optional_param('restore', 0, PARAM_INT);
@@ -20,76 +20,76 @@
 	$dir = optional_param('dir', 'DESC', PARAM_ALPHA);
 	
 	$perpage = 10;
-    
+	
 	if (!empty($id)) {
 		if (! $cm = get_record("course_modules", "id", $id)) {
-            error("Course Module ID was incorrect");
-        }
-        if (! $course = get_record("course", "id", $cm->course)) {
-            error("Course is misconfigured");
-        }
-        if (! $mail = get_record("mail", "id", $cm->instance)) {
-            error("Course module is incorrect");
-        }
-    } else if (!empty($m)) {
-        if (! $message = get_record("mail_messages", "id", $m)) {
-            error("Message ID was incorrect");
-        }
+			error("Course Module ID was incorrect");
+		}
+		if (! $course = get_record("course", "id", $cm->course)) {
+			error("Course is misconfigured");
+		}
+		if (! $mail = get_record("mail", "id", $cm->instance)) {
+			error("Course module is incorrect");
+		}
+	} else if (!empty($m)) {
+		if (! $message = get_record("mail_messages", "id", $m)) {
+			error("Message ID was incorrect");
+		}
 		if (! $mail = get_record("mail", "id", $message->mailid)) {
-            error("Course module is incorrect");
-        }
+			error("Course module is incorrect");
+		}
 		if (! $course = get_record("course", "id", $mail->course)) {
-            error("Could not determine which course this belonged to!");
-        }
-        if (!$cm = get_coursemodule_from_instance("mail", $mail->id, $course->id)) {
-            error("Could not determine which course module this belonged to!");
-        }
+			error("Could not determine which course this belonged to!");
+		}
+		if (!$cm = get_coursemodule_from_instance("mail", $mail->id, $course->id)) {
+			error("Could not determine which course module this belonged to!");
+		}
 		if ($USER->id <> $message->userid) {
 			error("Could not view this message!");
 		}
-    } else if (!empty($f)) {
+	} else if (!empty($f)) {
 		if (! $folder = get_record("mail_folder", "id", $f)) {
-            error("Folder Id is incorrect");
-        }
+			error("Folder Id is incorrect");
+		}
 		if (! $mail = get_record("mail", "id", $folder->mailid)) {
-            error("Course module is incorrect");
-        }
+			error("Course module is incorrect");
+		}
 		if (! $course = get_record("course", "id", $mail->course)) {
-            error("Could not determine which course this belonged to!");
-        }
-        if (!$cm = get_coursemodule_from_instance("mail", $mail->id, $course->id)) {
-            error("Could not determine which course module this belonged to!");
-        }
-        if (($USER->id <> $folder->userid) and (($folder->type <> "E") and ($folder->type <> "S"))) {
+			error("Could not determine which course this belonged to!");
+		}
+		if (!$cm = get_coursemodule_from_instance("mail", $mail->id, $course->id)) {
+			error("Could not determine which course module this belonged to!");
+		}
+		if (($USER->id <> $folder->userid) and (($folder->type <> "E") and ($folder->type <> "S"))) {
 			error("Could not view this folder!");
 		}
 	} else if (!empty($delete)) {
-        if (! $message = get_record("mail_messages", "id", $delete)) {
-            error("Message Id is incorrect");
-        }
+		if (! $message = get_record("mail_messages", "id", $delete)) {
+			error("Message Id is incorrect");
+		}
 		if (! $mail = get_record("mail", "id", $message->mailid)) {
-            error("Course module is incorrect");
-        }
+			error("Course module is incorrect");
+		}
 		if (! $folder = get_record("mail_folder", "id", $message->folderid)) {
-            error("Course module is incorrect");
-        }
-        if (! $course = get_record("course", "id", $mail->course)) {
-            error("Could not determine which course this belonged to!");
-        }
-        if (!$cm = get_coursemodule_from_instance("mail", $mail->id, $course->id)) {
-            error("Could not determine which course module this belonged to!");
-        }
+			error("Course module is incorrect");
+		}
+		if (! $course = get_record("course", "id", $mail->course)) {
+			error("Could not determine which course this belonged to!");
+		}
+		if (!$cm = get_coursemodule_from_instance("mail", $mail->id, $course->id)) {
+			error("Could not determine which course module this belonged to!");
+		}
 		if ($USER->id <> $message->userid) {
 			error("Could not delete this message!");
 		}
-        $id = $cm->id;
+		$id = $cm->id;
 	} else {
-        error("Must specify message ID or folder ID");
-    }
+		error("Must specify message ID or folder ID");
+	}
 
-    if ($CFG->forcelogin) {
-        require_login();
-    }
+	if ($CFG->forcelogin) {
+		require_login();
+	}
 	
 	$SESSION->fromurl = $_SERVER["HTTP_REFERER"];
 	
@@ -100,24 +100,24 @@
 			if ($confirm <> 1) {
 			
 				$navigation = "";
-    			if ($course->category) {
-        			$navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
-        			require_login($course->id);
-    			}
-    			if (!$cm->visible and !isteacher($course->id)) {
-        			print_header();
-        			notice(get_string("activityiscurrentlyhidden"));
-    			}
-    			add_to_log($course->id, "mail", "view", "view.php?id=$cm->id", $mail->id, $cm->id);
+				if ($course->category) {
+					$navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
+					require_login($course->id);
+				}
+				if (!$cm->visible and !isteacher($course->id)) {
+					print_header();
+					notice(get_string("activityiscurrentlyhidden"));
+				}
+				add_to_log($course->id, "mail", "view", "view.php?id=$cm->id", $mail->id, $cm->id);
 
 				/// Printing the heading
-    			$strmails = get_string("modulenameplural", "mail");
-    			$strmail = get_string("modulename", "mail");
+				$strmails = get_string("modulenameplural", "mail");
+				$strmail = get_string("modulename", "mail");
 
-    			$navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
+				$navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
 
-    			print_header_simple(format_string($mail->name), "",
-                 "$navigation ".format_string($mail->name), "", "", true, update_module_button($cm->id, $course->id, $strmail), navmenu($course, $cm));
+				print_header_simple(format_string($mail->name), "",
+				 "$navigation ".format_string($mail->name), "", "", true, update_module_button($cm->id, $course->id, $strmail), navmenu($course, $cm));
 					
 				notice_yesno (get_string("confirmdeletemessage","mail"), "messages.php?delete=$delete&amp;confirm=1", "messages.php?m=$delete");
 				print_footer($course);
@@ -131,7 +131,7 @@
 				}
 			
 				$dir = $CFG->dataroot.'/'.$mail->course.'/moddata/mail/'.$mail->id.'/'.$delete;
-    			$result = fulldelete($dir);
+				$result = fulldelete($dir);
 			
 				$urlfolder = $CFG->wwwroot."/mod/mail/messages.php?id=".$id;
 				redirect($urlfolder);
@@ -154,17 +154,17 @@
 	if ($post = data_submitted()) {
 		
 		if(isset($post->delete))
-    	{
+		{
 			if (count($post->ch) > 0) {
 				foreach ($post->ch as $sel) {
 					if ($message = get_record("mail_messages", "id", $sel)) {
-            		
+					
 						if ($message->borrado) {
 							delete_records('mail_messages', 'id', $sel);
 							delete_records('mail_to_messages', 'messageid', $sel);
 		
 							$dir = $CFG->dataroot.'/'.$mail->course.'/moddata/mail/'.$mail->id.'/'.$sel;
-    						$result = fulldelete($dir);
+							$result = fulldelete($dir);
 			
 						} else {
 							//actualizar a borrado
@@ -173,14 +173,14 @@
 							$updatemessage->borrado = 1;
 			
 							update_record('mail_messages', $updatemessage);
-        				}	
+						}	
 					}
 				}
 			}	
 		}
 		
 		/*if(isset($post->restore))
-    	{
+		{
 			foreach ($post->ch as $sel) {
 				//actualizar a borrado
 				$updatemessage = new object;
@@ -192,7 +192,7 @@
 		}*/
 		
 		if(isset($post->markread))
-    	{
+		{
 			if (count($post->ch) > 0 ) {
 				if ($post->markread == "read") {
 					foreach ($post->ch as $sel) {
@@ -219,10 +219,10 @@
 		}
 		
 		if(isset($post->move) and ($post->move >= 0))
-    	{
+		{
 			if (count($post->ch) > 0 ) {
 				foreach ($post->ch as $sel) {
-					//actualizar a la carpeta en cuestión
+					//actualizar a la carpeta en cuesti?n
 					$updatemessage = new object;
 					$updatemessage->id = $sel;
 					$updatemessage->folderid = $post->move;
@@ -238,58 +238,59 @@
 			}
 		}
 		
-		redirect($SESSION->fromurl);
-		
-    }
+		redirect($SESSION->fromurl);		
+	}
 	
 
 /// Processing standard security processes
-    $navigation = "";
-    if ($course->category) {
-        $navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
-        require_login($course->id);
-    }
-    if (!$cm->visible and !isteacher($course->id)) {
-        print_header();
-        notice(get_string("activityiscurrentlyhidden"));
-    }
-    add_to_log($course->id, "portafolio", "view", "view.php?id=$cm->id", $portafolio->id, $cm->id);
+	$navigation = "";
+	if ($course->category) {
+		$navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
+		require_login($course->id);
+	}
+	if (!$cm->visible and !isteacher($course->id)) {
+		print_header();
+		notice(get_string("activityiscurrentlyhidden"));
+	}
+	add_to_log($course->id, "mail", "view", "view.php?id=$cm->id", $mail->id, $cm->id);
 
 /// Processing standard security processes
-    $navigation = "";
-    if ($course->category) {
-        $navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
-        require_login($course->id);
-    }
-    if (!$cm->visible and !isteacher($course->id)) {
-        print_header();
-        notice(get_string("activityiscurrentlyhidden"));
-    }
-    add_to_log($course->id, "mail", "view", "view.php?id=$cm->id", $mail->id, $cm->id);
+	$navigation = "";
+	if ($course->category) {
+		$navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
+		require_login($course->id);
+	}
+	if (!$cm->visible and !isteacher($course->id)) {
+		print_header();
+		notice(get_string("activityiscurrentlyhidden"));
+	}
+	add_to_log($course->id, "mail", "view", "view.php?id=$cm->id", $mail->id, $cm->id);
 
 /// Printing the heading
-    $strmails = get_string("modulenameplural", "mail");
-    $strmail = get_string("modulename", "mail");
+	$strmails = get_string("modulenameplural", "mail");
+	$strmail = get_string("modulename", "mail");
 
-    $navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
+	$navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
 
-    print_header_simple(format_string($mail->name), "",
-                 "$navigation ".format_string($mail->name), "", "", true, update_module_button($cm->id, $course->id, $strmail), navmenu($course, $cm));
-    
+	print_header_simple(format_string($mail->name), "",
+				 "$navigation ".format_string($mail->name), "", "", true, update_module_button($cm->id, $course->id, $strmail), navmenu($course, $cm));
+	
 
-	if ($folder) {
+	if ($folder) 
+	{
 		$limit = sql_paging_limit($page, $perpage);
 		
 		$numtotalmessages = mail_get_messagesfolder($folder->id, $mail->id, $USER->id);
 		
 		if (!$messages_all = get_records_sql("SELECT * FROM {$CFG->prefix}mail_messages WHERE mailid=$mail->id and userid=$USER->id and folderid=$f and borrado=0")) 		
 		{
-        	$messages_all = array();
+			$messages_all = array();
 			$messages = array();
-    	}
+		}
 		
+		$messagestemp = array();
 		foreach ($messages_all as $message_all) {
-			$messagetemp = new object;
+			$messagetemp = new object();
 			$messagetemp->id = $message_all->id;
 			$messagetemp->mailid = $message_all->mailid;
 			$messagetemp->userid = $message_all->userid;
@@ -306,8 +307,7 @@
 			$messagetemp->borrado = $message_all->borrado;
 			$messagetemp->timemodified = $message_all->timemodified;
 			$messagestemp[] = $messagetemp;
-		}
-		
+		}		
 		$messagestemp = mail_sort_array_messages($messagestemp, $sort, $dir);
 		
 		$limitmessage = ($page+1)*$perpage;
@@ -316,8 +316,7 @@
 			if ($messagestemp[$i]) {
 				$messages[] = $messagestemp[$i];
 			}
-		}
-		
+		}		
 	} else if ($message) {
 		
 		//actualizar a leido
@@ -337,9 +336,9 @@
 		
 		if (!$messages_all = get_records_sql("SELECT * FROM {$CFG->prefix}mail_messages WHERE mailid=$mail->id and userid=$USER->id and borrado=1")) 		
 		{
-        	$messages_all = array();
+			$messages_all = array();
 			$messages = array();
-    	}
+		}
 		
 		foreach ($messages_all as $message_all) {
 			$messagetemp = new object;
@@ -397,7 +396,7 @@
 
 /// Finish the page
 
-    print_footer($course);
+	print_footer($course);
 
 ?>
 
