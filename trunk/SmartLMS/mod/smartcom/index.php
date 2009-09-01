@@ -1,31 +1,34 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
-// $Id: index.php,v 1.7.2.2 2009/03/31 13:07:21 mudrd8mz Exp $
-
 /**
  * This page lists all the instances of smartcom in a particular course
  *
- * @author  Your Name <your@email.address>
+ * @author  GURUCORE <info@gurucore.com>
  * @version $Id: index.php,v 1.7.2.2 2009/03/31 13:07:21 mudrd8mz Exp $
  * @package mod/smartcom
  */
 
- global $CFG;
- /********** MODULE LIB *************/ 
+global $CFG;
+
+ // init share Template Savant engine here
+$tpl->setPath('template', 'Pagelet');
+
+
+
+/********** MODULE LIB *************/ 
 require_once('./lib.php');
 
 $courseid = required_param('courseid', PARAM_INT);   // course
 $userid = required_param('userid', PARAM_INT);   // course
 $submodule = required_param('submodule', PARAM_TEXT);   // submodule
 
-
-
 if (! $course = get_record('course', 'id', $courseid)) {
-	error('Course ID is incorrect');
+	error('GURUCORE: Course ID is incorrect');
 }
 
-require_course_login($course);
+// TODO: uncomment out
+// require_course_login($course);
 // add_to_log($course->id, 'smartcom', 'view all', "index.php?coủid=$course->id", '');
 
 /// LITERAL STRING
@@ -38,26 +41,16 @@ $navigation = build_navigation($navlinks);
 print_header_simple($strsmartcoms, '', $navigation, '', '', true, '', navmenu($course));
 print_heading($strsmartcoms . ' Learning Progress');
 
-
 switch ($submodule) {
    case 'learning_progress':
-   
-	require_once(ABSPATH.'lib/ofc-library/open_flash_chart_object.php');
-	open_flash_chart_object('90%', 300, 
-	"/mod/smartcom/api/student_learning_progress_TongQuanKhoaHoc_ofc_data.php?courseid=$courseid&userid=$userid", 
-	false, '/' );
-
-	echo '<br /><br /><br /><br />';
-
-	require_once(ABSPATH.'lib/ofc-library/open_flash_chart_object.php');
-	open_flash_chart_object('90%', 300, 
-	"/mod/smartcom/api/student_learning_progress_ChiTietBaiHoc_ofc_data.php?courseid=$courseid&userid=$userid", 
-	false, '/' );
-	break;
-	 
-   case '':
-
-	 break;
+		require_once("Pagelet/$submodule.php");        
+		echo $$submodule;
+		break;
+			 
+   case 'realtime_performance_check':
+		require_once("Pagelet/$submodule.php");		
+		echo $$submodule;
+		break;
 }
 
 
