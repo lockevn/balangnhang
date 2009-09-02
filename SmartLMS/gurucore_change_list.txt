@@ -17,10 +17,17 @@ require to apply after any original moodle installation or upgrade
 	/SmartLMS/theme/menu_horizontal/user_styles.css: chỉnh left và right margin của div#content
 	/SmartLMS/mod/resource/type/html/resource.class.php: enable block display in html resource page
 	\SmartLMS\mod\resource\pagelib.php: danhut added to enable blocks display in resource_module 
+
+06.08.09: danhut:
+
+/SmartLMS/mod/quiz/pagelib.php
+/SmartLMS/mod/quiz/view.php
+
+Cần set default các pinned block cho các module page tương tự như my-moodle page hay course page.=======
 	
 18.08.09: lockevn:
     Thêm jquery vào header của theme menu_horizontal
     Thêm UTF-8 encode meta vào header theme menu_horizontal
 
 
-    
+
