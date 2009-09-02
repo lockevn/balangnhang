@@ -5,6 +5,7 @@ require_once($CFG->libdir.'/pagelib.php');
 require_once($CFG->dirroot.'/mod/resource/pagelib.php');
 
 
+
 class resource_html extends resource_base {
 
 
@@ -13,8 +14,9 @@ function resource_html($cmid=0) {
 }
 
 function add_instance($resource) {
-    $this->_postprocess($resource);
+    $this->_postprocess($resource);    
     return parent::add_instance($resource);
+       
 }
 
 
@@ -204,6 +206,24 @@ function setup_preprocessing(&$defaults){
 
 function setup_elements(&$mform) {
     global $CFG, $RESOURCE_WINDOW_OPTIONS;
+    
+    /*danhut added: lấy lại categoryid, lotype khi insert LO từ Lo Ban và store in formk*/
+    $cat = optional_param('cat','', PARAM_TEXT);
+    $lotype = optional_param('lotype', '', PARAM_TEXT);       
+    
+    $mform->addElement('hidden', 'cat','');
+    $mform->setDefault('cat', $cat);
+    $mform->addElement('hidden', 'lotype','');
+    $mform->setDefault('lotype', $lotype);
+    
+    $mform->addElement('hidden', 'smarttype','');
+    $mform->setDefault('smarttype', $lotype);
+    
+    /*lấy lại beforecm neu co*/
+    $beforecm = optional_param('beforecm','', PARAM_INT);
+    $mform->addElement('hidden', 'beforecm','');
+    $mform->setDefault('beforecm', $beforecm);
+    
 
     $mform->addElement('htmleditor', 'alltext', get_string('fulltext', 'resource'), array('cols'=>85, 'rows'=>30));
     $mform->setType('alltext', PARAM_RAW);
@@ -220,6 +240,8 @@ function setup_elements(&$mform) {
     $mform->setDefault('blockdisplay', 0);
     $mform->disabledIf('blockdisplay', 'windowpopup', 'eq', '1');
     $mform->setAdvanced('blockdisplay');
+    
+    
 
     foreach ($RESOURCE_WINDOW_OPTIONS as $option) {
         if ($option == 'height' or $option == 'width') {

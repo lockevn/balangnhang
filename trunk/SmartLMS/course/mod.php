@@ -23,6 +23,8 @@
     $duplicate     = optional_param('duplicate', 0, PARAM_INT);
     $cancel        = optional_param('cancel', 0, PARAM_BOOL);
     $cancelcopy    = optional_param('cancelcopy', 0, PARAM_BOOL);
+    
+   
 
     if (isset($SESSION->modform)) {   // Variables are stored in the session
         $mod = $SESSION->modform;
@@ -255,13 +257,20 @@
         }
 
         rebuild_course_cache($course->id);
-
+ 		
         if (!empty($SESSION->returnpage)) {
             $return = $SESSION->returnpage;
             unset($SESSION->returnpage);
             redirect($return);
         } else {
-            redirect("view.php?id=$course->id#section-$sectionreturn");
+        	/*danhut added*/
+	    	$returnToLOBank = optional_param('return', '', PARAM_TEXT);
+	        if(!empty($returnToLOBank)) {
+	        	unset($SESSION->returnpage);
+	            redirect($returnToLOBank);
+	        }
+	        /*end of danhut added*/
+            //redirect("view.php?id=$course->id#section-$sectionreturn");
         }
         exit;
     }
@@ -490,6 +499,14 @@
         $form->fullmodulename  = $fullmodulename;
         $form->instancename = $instance->name;
         $form->sesskey      = !empty($USER->id) ? $USER->sesskey : '';
+        
+        /*danhut added*/
+    	$returnToLOBank = optional_param('return', '', PARAM_TEXT);
+        if(!empty($returnToLOBank)) {
+        	unset($SESSION->returnpage);
+        	$form->return = $returnToLOBank;            
+        }
+        /*end of danhut added*/
 
         $strdeletecheck = get_string('deletecheck', '', $form->fullmodulename);
         $strdeletecheckfull = get_string('deletecheckfull', '', "$form->fullmodulename '$form->instancename'");
