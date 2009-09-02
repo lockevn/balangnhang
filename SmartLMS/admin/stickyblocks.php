@@ -8,6 +8,7 @@
     require_once($CFG->dirroot.'/mod/quiz/pagelib.php');
     require_once($CFG->dirroot.'/mod/quiz/quiz_attempt_pagelib.php');
     require_once($CFG->dirroot.'/mod/quiz/quiz_review_pagelib.php');
+    require_once($CFG->dirroot.'/mod/assignment/type/uploadsingle/pagelib.php');
     
     
     
@@ -31,7 +32,10 @@
                                                 'name' => get_string('stickyblocksquizattempt','admin')),
                        PAGE_QUIZ_REVIEW => array('id' => PAGE_QUIZ_REVIEW,
                                                 'lib' => '/mod/quiz/quiz_review_pagelib.php',
-                                                'name' => get_string('stickyblocksquizreview','admin'))
+                                                'name' => get_string('stickyblocksquizreview','admin')),
+                       PAGE_UPLOAD_SINGLE_VIEW => array('id' => PAGE_UPLOAD_SINGLE_VIEW,
+                                                'lib' => '/mod/assignment/type/uploadsingle/pagelib.php',
+                                                'name' => get_string('stickyblockssingleuploadview','admin'))
                        // ... more?
                        );
 
