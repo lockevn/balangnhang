@@ -5,13 +5,18 @@
     require_once("../config.php");
     require_once("lib.php");
     require_once($CFG->libdir.'/gradelib.php');
+    require_once($CFG->dirroot.'/smartcom/lomanagement/lolib.php');
 
     require_login();
 
     $add           = optional_param('add', 0, PARAM_ALPHA);
     $update        = optional_param('update', 0, PARAM_INT);
-    $return        = optional_param('return', 0, PARAM_BOOL); //return to course/view.php if false or mod/modname/view.php if true
+    $return        = optional_param('return', '', PARAM_TEXT); //return to course/view.php if false or mod/modname/view.php if true, danhut: return to /smartcom/lomanagement/edit.php if insert LO 
     $type          = optional_param('type', '', PARAM_ALPHANUM);
+    
+    
+    /*danhut added*/
+    $allowedLOTypes = array('lecture','exercise','practice','test');
 
     if (!empty($add)) {
         $section = required_param('section', PARAM_INT);
@@ -48,8 +53,21 @@
         $form->instance         = '';
         $form->coursemodule     = '';
         $form->add              = $add;
-        $form->return           = 0; //must be false if this is an add, go back to course view on cancel
+        
+        $cat = optional_param('cat', '', PARAM_TEXT);
+        $lotype = optional_param('lotype', '', PARAM_TEXT);    	
+        if(!empty($cat) && in_array($lotype, $allowedLOTypes) && $fromform->instance !== false) {
 
+		    	$form->return = $return;
+		    	$form->smarttype = $lotype;
+		    	$form->cat = $cat;
+		    	
+		} else {
+			$form->return           = 0;	
+		}
+                    
+        
+               
         // Turn off default grouping for modules that don't provide group mode
         if($add=='resource' || $add=='glossary' || $add=='label') {
             $form->groupingid=0;
@@ -116,6 +134,8 @@
         $form->instance         = $cm->instance;
         $form->return           = $return;
         $form->update           = $update;
+        
+       
 
         if ($items = grade_item::fetch_all(array('itemtype'=>'mod', 'itemmodule'=>$form->modulename,
                                            'iteminstance'=>$form->instance, 'courseid'=>$COURSE->id))) {
@@ -188,7 +208,11 @@
     $mform->set_data($form);
 
     if ($mform->is_cancelled()) {
-        if ($return && !empty($cm->id)){
+    	/*danhut added: if insert LO, redirect to /smartlms/lomanagement/edit.php*/
+    	if($return && in_array($lotype, $allowedLOTypes)) {
+    		redirect($return);
+    	}
+        else if ($return && !empty($cm->id)){
             redirect("$CFG->wwwroot/mod/$module->name/view.php?id=$cm->id");
         } else {
             redirect("view.php?id=$course->id#section-".$cw->section);
@@ -297,6 +321,8 @@
             if (! $fromform->coursemodule = add_course_module($fromform) ) {
                 error("Could not add a new course module");
             }
+            
+
             if (! $sectionid = add_mod_to_section($fromform) ) {
                 error("Could not add the new course module to that section");
             }
@@ -414,10 +440,18 @@
         rebuild_course_cache($course->id);
         grade_regrade_final_grades($course->id);
 
-        if (isset($fromform->submitbutton)) { 
-            redirect("$CFG->wwwroot/mod/$module->name/view.php?id=$fromform->coursemodule");
+        if (isset($fromform->submitbutton)) { 	        
+          	redirect("$CFG->wwwroot/mod/$module->name/view.php?id=$fromform->coursemodule");	    	
         } else {
-            redirect("$CFG->wwwroot/course/view.php?id=$course->id");
+            
+        	/*danhut added: if insert LO, redirect to /smartlms/lomanagement/edit.php*/
+	    	if($return && in_array($lotype, $allowedLOTypes)) {
+	    		redirect($return. "&cat=$cat&lotype=$lotype&instance=$fromform->instance&cmid=$fromform->coursemodule&beforecm=$fromform->beforecm&opt=addlosuccess");
+	    	}
+	    	else {
+	    		redirect("$CFG->wwwroot/course/view.php?id=$course->id");
+	    	}
+	    		    	
         }
         exit;
 
