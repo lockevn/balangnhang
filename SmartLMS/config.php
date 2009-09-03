@@ -4,18 +4,18 @@
 unset($CFG);
 
 $CFG->dbtype    = 'mysql';
-$CFG->dbhost    = 'smartlms.dyndns.org';
+$CFG->dbhost    = 'localhost';
 $CFG->dbname    = 'smartlms';
 $CFG->dbuser    = 'smartlms';
 $CFG->dbpass    = 'guruunited2008';
-$CFG->dbpersist =  false;
+$CFG->dbpersist =  true;
 $CFG->prefix    = 'mdl_';
 
 //$CFG->wwwroot   = 'http://127.0.0.1/smartlms';
 //$CFG->dirroot   = 'D:\working\smartcom\eclipse_workspace\SmartLMS';
 //$CFG->dataroot  = 'D:\working\smartcom\eclipse_workspace\SmartLMSData';
 
-$CFG->wwwroot   = 'http://127.0.0.1/';
+$CFG->wwwroot   = 'http://192.168.2.198';
 $CFG->dirroot   = 'D:\code_workspace\SmartLMS';
 $CFG->dataroot  = 'D:\code_workspace\SmartLMSData';
 
