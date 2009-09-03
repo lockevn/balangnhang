@@ -8,13 +8,11 @@
 <?php else:  ?>
 	<ul>
 		<? foreach((array)$this->onlineUsers as $element): ?>
-		<li class="onlineuser"><?= $element->username ?></li>
+		<li class="onlineuser" userid="<?= $element->id?>" ><?= $element->username ?></li>
 		<? endforeach; ?>
 	</ul>
 <?php endif;  ?>
 </div>
-
-<div id="pnlRealtimeactivity" class="box">Real time activity</div>
 
 <div id="pnlChat" class="box">
 <fieldset>
@@ -29,25 +27,34 @@
 
 </div>
 
+
+<div id="pnlRealtimeactivity" class="box">
+</div>
+
+
 <script type="text/javascript" >
+var message = '';
+
 $(document).ready(function(){
-	$('#pnlChat').hide();
+	// $('#pnlChat').hide();
 	$('#pnlRealtimeactivity').hide();
 	
 	$("li.onlineuser").live("click", function(){		
 		
-		$('#pnlChat').fadeIn();		
-		$('#pnlRealtimeactivity').fadeIn();
-				
+		var urlToLoadQuizReview = '/mod/smartcom/Pagelet/lastest_today_completed_quiz.php?userid='+$(this).attr('userid')+'&courseid=<?=$this->courseid?>';
+		$('#pnlRealtimeactivity').load(urlToLoadQuizReview).fadeIn();
+		
+			
 		$('#username').val($(this).text());
-		$('#messageToUser').val(
-			'Hello ' + $(this).text() + ', please click here http://gurucore.com to chat with me. I will assist you. ADMIN of SmartCom'
-		);
+		message = 'Hello ' + $(this).text() + ', please click here http://gurucore.com to chat with me. I will assist you. ADMIN of SmartCom';
+		$('#messageToUser').val(message);
+		// $('#pnlChat').fadeIn();
+		
 	});
 	
 	
 	$("#send").click(function(){
-		alert('hello admin, I will send your message, later ;) ');
+		alert('hello admin, I will send your message, later ;) ' + message);
 	});
 	
 });
