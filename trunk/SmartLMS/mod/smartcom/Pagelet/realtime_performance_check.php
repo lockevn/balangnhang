@@ -1,7 +1,7 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
-$nLastSeenSecond = 300; //Seconds default, last seen
+$nLastSeenSecond = 3000; //Seconds default, last seen
 $timefrom = 100 * floor((time()-$nLastSeenSecond) / 100); // Round to nearest 100 seconds for better query cache
 
 $onlineUsers = get_records_sql(
