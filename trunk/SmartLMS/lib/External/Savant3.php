@@ -817,7 +817,17 @@ class Savant3 {
 	*/
 	
 	protected function findFile($type, $file)
-	{
+	{        
+		// HACK: start. gurucore. ABSOLUTED path
+		if (strpos($file, '~/') === 0) {
+			$fullname = $_SERVER['DOCUMENT_ROOT'] . substr($file, 1);
+			if(file_exists($fullname))
+			{
+				return $fullname;
+			}
+		}
+		// HACK: end. gurucore
+		
 		// get the set of paths
 		$set = $this->__config[$type . '_path'];
 		
