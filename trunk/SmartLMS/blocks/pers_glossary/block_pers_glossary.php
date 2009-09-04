@@ -12,6 +12,7 @@ class block_pers_glossary extends block_base
 		global $CFG;
 		$this->content = new stdClass;
 		$this->content->text = $this->print_glossary_gui();
+		$this->content->footer = '';
 		return $this->content;
 	}
 	function has_config()
