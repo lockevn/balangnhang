@@ -814,6 +814,7 @@ $string['stickyblocksresourceview'] = 'Resource page view';
 $string['stickyblocksquizview'] = 'Quiz page view';
 $string['stickyblocksquizattempt'] = 'Quiz page attempt';
 $string['stickyblocksquizreview'] = 'Quiz page review';
+$string['stickyblockssingleuploadview'] = 'Single file upload assignment view' ;
 
 /*end of danhut added*/
 ?>

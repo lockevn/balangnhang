@@ -17,5 +17,8 @@ ALTER TABLE `smartlms`.`mdl_quiz`
 ALTER TABLE `smartlms`.`mdl_resource`
 	ADD COLUMN `smarttype` VARCHAR(10) BINARY NOT NULL DEFAULT 'lecture';
 
+/**
+ * phục vụ chức năng hiển thị label cho course section
+ */
 ALTER TABLE `smartlms`.`mdl_course_sections` 
 	ADD COLUMN `label` VARCHAR(50) NOT NULL DEFAULT '' AFTER `visible`;
