@@ -2,20 +2,22 @@
 <link rel="stylesheet" href="/css/print.css" type="text/css" media="print">
 <!--[if lt IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
 
-<div id="pnlOnlinelist" class="notice">
-<?php if(!is_array($this->onlineUsers)): ?>
-	<div class="info">No user online in current course</div> 
-<?php else:  ?>
-	<ul>
-		<? foreach((array)$this->onlineUsers as $element): ?>
-		<li class="onlineuser" userid="<?= $element->id?>" ><?= $element->username ?></li>
-		<? endforeach; ?>
-	</ul>
-<?php endif;  ?>
-</div>
+<fieldset id="pnlOnlinelist" >
+	<legend>Online users in course</legend>
+	<?php if(!is_array($this->onlineUsers)): ?>
+		<div class="info">No user online in current course</div> 
+	<?php else:  ?>
+		<ul>
+			<? foreach((array)$this->onlineUsers as $element): ?>
+			<li class="onlineuser" userid="<?= $element->id?>" ><?= $element->username ?></li>
+			<? endforeach; ?>
+		</ul>
+	<?php endif;  ?>
+</fieldset>
 
-<div id="pnlChat" class="box">
-<fieldset>
+
+
+<fieldset id="pnlChat">
 	<legend>Chat panel</legend>	 
 	<label for="username">Username to notice: </label>
 	<input type='text' id='username' value = '' maxlength="250"><br />
@@ -24,8 +26,6 @@
 	</textarea>
 	<input type='button' id='send' value = 'Send'>
 </fieldset>
-
-</div>
 
 
 <div id="pnlRealtimeactivity" class="box">
@@ -42,14 +42,11 @@ $(document).ready(function(){
 	$("li.onlineuser").live("click", function(){		
 		
 		var urlToLoadQuizReview = '/mod/smartcom/Pagelet/lastest_today_completed_quiz.php?userid='+$(this).attr('userid')+'&courseid=<?=$this->courseid?>';
-		$('#pnlRealtimeactivity').load(urlToLoadQuizReview).fadeIn();
-		
+		$('#pnlRealtimeactivity').load(urlToLoadQuizReview).fadeIn();		
 			
 		$('#username').val($(this).text());
 		message = 'Hello ' + $(this).text() + ', please click here http://gurucore.com to chat with me. I will assist you. ADMIN of SmartCom';
 		$('#messageToUser').val(message);
-		// $('#pnlChat').fadeIn();
-		
 	});
 	
 	
