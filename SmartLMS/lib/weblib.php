@@ -3799,15 +3799,21 @@ function build_navigation($extranavlinks, $cm = null) {
 	// Activity type and instance, if appropriate.
 	if (is_object($cm)) {
 		 
-		/*danhut added: get course section index that contains the resource or activity*/
+		/*danhut added: get course section label and section index that contains the resource or activity*/
 		 
-		if(!isset($cm->sectionindex)) {
-			debugging('The field $cm->sectionindex should be set if you call build_navigation with '.
+		if(!isset($cm->sectionlabel)) {
+			debugging('The field $cm->sectionlabel should be set if you call build_navigation with '.
                     'a $cm parameter. If you get $cm using get_coursemodule_from_instance or '.
                     'get_coursemodule_from_id, this will be done automatically.', DEBUG_DEVELOPER);
-			if (!$cm->sectionindex = get_field('course_sections', 'section', 'id', $cm->section)) {
-				error('Cannot get the sectionindex in build navigation.');
+			$tmpRecord = get_record('course_sections', 'id', $cm->section, '','','','','label, section');
+			if(empty($tmpRecord)) {
+				error('Cannot get the sectionlabel in build navigation.');
 			}
+			else {
+				$cm->sectionlabel = $tmpRecord->label;
+				$cm->sectionindex = $tmpRecord->section;
+			}
+			
 		}
 		
 		/*end of danhut added*/
@@ -3828,12 +3834,12 @@ function build_navigation($extranavlinks, $cm = null) {
 				error('Cannot get the module name in build navigation.');
 			}
 		}
-		/*danhut added: add section index before module name in the navigation bar*/
+		/*danhut added: add section label before module name in the navigation bar*/
 		if($COURSE->format == 'topicstree')
 		{
-			if($cm->sectionindex != '') {
+			if($cm->sectionlabel != '') {
 				$navlinks[] = array(
-	                'name' => get_string('nametopicstree', 'format_topicstree') . " $cm->sectionindex",
+	                'name' => $cm->sectionlabel,
 	                'link' => $CFG->wwwroot . "/course/view.php?id=$COURSE->id&topic=$cm->sectionindex" ,			
 	                'type' => 'lesson');
 			}
