@@ -1,3 +1,11 @@
-<link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection">
-<link rel="stylesheet" href="/css/print.css" type="text/css" media="print">
-<!--[if lt IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<?php if(!is_array($this->quizOfUser)): ?>
+	<div class="info">No exercise in current course was completed today</div> 
+<?php else:  ?>
+	<ul>
+		<? foreach((array)$this->quizOfUser as $element): ?>
+		<li class="completedTodayQuiz" attemptid="<?= $element->attemptid?>" >
+		<?= $element->name ?>
+		</li>
+		<? endforeach; ?>
+	</ul>
+<?php endif;  ?>
