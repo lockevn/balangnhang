@@ -3845,7 +3845,7 @@ function build_navigation($extranavlinks, $cm = null) {
 			}
 			
 			/*danhut: activity name: Vocabulary, Reading ...*/
-			if($cm->parentname != '') {
+			if(isset($cm->parentname) && $cm->parentname != '') {
 				$navlinks[] = array(
 	                'name' => $cm->parentname,
 	                'link' => $CFG->wwwroot . "/course/view.php?id=$COURSE->id&topic=$cm->sectionindex" ,			

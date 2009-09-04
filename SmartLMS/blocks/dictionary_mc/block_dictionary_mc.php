@@ -64,6 +64,8 @@ function get_content() {
 	
 	<script type="text/javascript" src="'.$CFG->wwwroot.'/blocks/dictionary_mc/js/dictionary_popup.js"></script>
 	';
+	$this->content->footer = '';
+	$this->content->icons = '';
 	return $this->content;
 }
 

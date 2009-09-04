@@ -36,7 +36,8 @@ class block_glossary extends block_base {
 		$context = get_context_instance(CONTEXT_MODULE, $cm->id);
 		$glossaryID = $cm->instance;
 		/*generate content*/
-		$this->content->text = $this->print_entry_list($glossaryID);			
+		$this->content->text = $this->print_entry_list($glossaryID);
+		$this->content->footer = '';			
 		return $this->content;
 	}
 
@@ -93,6 +94,7 @@ class block_glossary extends block_base {
 		/*display the index bar*/
 		$str .= $this->glossary_block_print_alphabet_links($upperpivotArr);
 
+		$currentpivot = '';
 		/*display the entry list*/
 		foreach($allentries as $entry)
 		{
