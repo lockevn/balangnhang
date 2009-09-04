@@ -1,6 +1,5 @@
-<?php require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
-
-//$Id: block_messages.php,v 1.13.4.4 2008/03/03 11:41:03 moodler Exp $
+<?php //$Id: block_messages.php,v 1.13.4.4 2008/03/03 11:41:03 moodler Exp $
+require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 
 class block_messages extends block_base {
 	function init() {
@@ -30,6 +29,10 @@ class block_messages extends block_base {
 			return $this->content;
 		}
 
+		/*danhut add: init $tpl if required*/
+		if(!is_object($tpl)) {
+			$tpl = new Savant3();
+		}
 		$tpl->assign('userid', $USER->id);
 		$tpl->assign('courseid', $this->instance->pageid);		
 		$this->content->text .= $tpl->fetch("~/blocks/messages/block_messages.tpl.php");
