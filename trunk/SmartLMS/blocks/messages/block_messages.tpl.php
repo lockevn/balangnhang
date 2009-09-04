@@ -14,12 +14,15 @@ $(document).ready(function(){
 	});
    
 	var $datalist = $("#message_content");		
-	GetAndRenderList();
+	
 		
 	function GetAndRenderList(){
 		var url = 'http://192.168.2.198/blocks/messages/message_list.php?userid=<?=$this->userid?>&courseid=<?=$this->courseid?>';		
 		$datalist.load(url);		
 	}
+	
+	GetAndRenderList();
+	
 	
 	$($datalist).mouseover(function(){
 		if(oIntervalHandler)
