@@ -245,7 +245,7 @@
                     notify("Could not delete the $mod->modulename from that section");
                 }
 
-                unset($SESSION->returnpage);
+                //unset($SESSION->returnpage);
 
                 add_to_log($course->id, "course", "delete mod",
                            "view.php?id=$mod->course",
@@ -270,7 +270,7 @@
 	            redirect($returnToLOBank);
 	        }
 	        /*end of danhut added*/
-            //redirect("view.php?id=$course->id#section-$sectionreturn");
+            redirect("view.php?id=$course->id#section-$sectionreturn");
         }
         exit;
     }
