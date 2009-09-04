@@ -248,8 +248,9 @@
 				$sectionstyle = '';
 			}
 
+			 
 			echo '<tr id="section-'.$section.'" class="section main'.$sectionstyle.'">';
-			echo '<td class="left side">Lesson '.$currenttext.$section.'</td>';
+			echo '<td class="left side">' . format_text($thissection->label, FORMAT_HTML) . '</td>';
 
 			echo '<td class="content">';
 			if (!has_capability('moodle/course:viewhiddensections', $context) and !$thissection->visible) {   // Hidden for students
@@ -257,13 +258,13 @@
 			} else {
 				echo '<div class="summary">';
 				$summaryformatoptions->noclean = true;
-				echo format_text($thissection->summary, FORMAT_HTML, $summaryformatoptions);
+				echo format_text($thissection->summary, FORMAT_HTML, $summaryformatoptions); 
 
 				if (isediting($course->id) && has_capability('moodle/course:update', get_context_instance(CONTEXT_COURSE, $course->id))) {
 					echo ' <a title="'.$streditsummary.'" href="editsection.php?id='.$thissection->id.'">'.
 						 '<img src="'.$CFG->pixpath.'/t/edit.gif" alt="'.$streditsummary.'" /></a>';
 				}
-                /*danhut added: n?u có link start lesson thì print ra bên c?nh lesson summary*/
+                /*danhut added: n?u cï¿½ link start lesson thï¿½ print ra bï¿½n c?nh lesson summary*/
                 $modsInSection = explode(',', $thissection->sequence);
                 $startLessonUrl = getLessonStartUrl($mods, $modsInSection); 
                 if( $startLessonUrl !== false) {

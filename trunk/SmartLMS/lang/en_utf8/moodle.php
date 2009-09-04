@@ -1690,4 +1690,6 @@ $string['zippingbackup'] = 'Zipping backup';
 
 $string['authenticationplugins'] = 'Authentication Plugins';
 $string['chooseauthmethod'] = 'Choose authentication plugin';
+$string['sectionlabel'] = 'Label <br>(e.g: Lesson 1, Review 1, ...)';
+
 ?>

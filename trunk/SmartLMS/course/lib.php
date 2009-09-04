@@ -1226,8 +1226,9 @@ function get_all_mods($courseid, &$mods, &$modnames, &$modnamesplural, &$modname
 
 function get_all_sections($courseid) {
 
+	/*danhut modified: get course_sections.label*/
     return get_records("course_sections", "course", "$courseid", "section",
-                       "section, id, course, summary, sequence, visible");
+                       "section, id, course, summary, label, sequence, visible");
 }
 
 function course_set_display($courseid, $display=0) {
@@ -3186,6 +3187,7 @@ function move_category ($category, $newparentcat) {
  * @return Name that the course format prefers for sections
  */
 function get_section_name($format) {
+	/*danhut added: với topictree format thì section name chính là course_section.label*/
     $sectionname = get_string("name$format","format_$format");
     if($sectionname == "[[name$format]]") {
         $sectionname = get_string("name$format");
