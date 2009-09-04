@@ -110,11 +110,10 @@ class yui_menu_plugin_outline extends yui_menu_plugin {
                   $section->section <= $COURSE->numsections
                   )) { continue;}
 
-            $sectionText = ucwords($sectionname)." ".$section->section . ": " .trim($section->summary);
+            $colon = empty($section->label) ? "" : "$section->label: ";
+            $sectionText = $colon .trim($section->summary);
 
-//            if (empty($sectionText)) {
-//                $sectionText = ucwords($sectionname)." ".$section->section;
-//            } else {
+
                 $sectionText = $this->truncate_html(filter_text($sectionText,$COURSE->id),
                     $config);
             //}

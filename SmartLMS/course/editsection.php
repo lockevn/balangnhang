@@ -24,9 +24,16 @@
 
         $timenow = time();
 
+        /*danhut added: add section label*/
+    	if (! set_field("course_sections", "label", $form->label, "id", $section->id)) {
+            error("Could not update the section label!");
+        }
+        /*end of danhut added*/
+        
         if (! set_field("course_sections", "summary", $form->summary, "id", $section->id)) {
             error("Could not update the summary!");
         }
+        
 
         add_to_log($course->id, "course", "editsection", "editsection.php?id=$section->id", "$section->section");
 
