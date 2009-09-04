@@ -1,4 +1,6 @@
-<?php //$Id: block_messages.php,v 1.13.4.4 2008/03/03 11:41:03 moodler Exp $
+<?php require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
+
+//$Id: block_messages.php,v 1.13.4.4 2008/03/03 11:41:03 moodler Exp $
 
 class block_messages extends block_base {
 	function init() {
