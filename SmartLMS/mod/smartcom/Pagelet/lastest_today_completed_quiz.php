@@ -13,7 +13,7 @@ from
 select userid, quiz, max(timefinish) as timefinish
 from mdl_quiz_attempts
 where userid = $userid
-and FROM_UNIXTIME(timefinish) <= date(now())
+and FROM_UNIXTIME(timefinish) >= date(now())
 group by userid, quiz
 ) as lastest_quiz
 
