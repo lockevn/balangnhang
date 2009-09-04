@@ -1,6 +1,5 @@
 <?php  /// Moodle Configuration File 
 
-
 unset($CFG);
 
 $CFG->dbtype    = 'mysql';
@@ -15,13 +14,13 @@ $CFG->prefix    = 'mdl_';
 //$CFG->dirroot   = 'D:\working\smartcom\eclipse_workspace\SmartLMS';
 //$CFG->dataroot  = 'D:\working\smartcom\eclipse_workspace\SmartLMSData';
 
-$CFG->wwwroot   = 'http://192.168.2.198';
-$CFG->dirroot   = 'D:\code_workspace\SmartLMS';
-$CFG->dataroot  = 'D:\code_workspace\SmartLMSData';
+//$CFG->wwwroot   = 'http://192.168.2.198';
+//$CFG->dirroot   = 'D:\code_workspace\SmartLMS';
+//$CFG->dataroot  = 'D:\code_workspace\SmartLMSData';
 
-//$CFG->wwwroot   = 'http://smartlms.gurucore.com:8080';
-//$CFG->dirroot   = '/var/www/smartlms';
-//$CFG->dataroot  = '/var/www/smartlmsdata';
+$CFG->wwwroot   = 'http://smartlms.gurucore.com:8080';
+$CFG->dirroot   = '/var/www/smartlms';
+$CFG->dataroot  = '/var/www/smartlmsdata';
 
 
 $CFG->admin     = 'admin';
