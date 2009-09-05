@@ -14,11 +14,13 @@
 	<title><?= $title ?></title>
 
 	<link rel="shortcut icon" href="<?= $CFG->themewww .'/'. current_theme() ?>/favicon.ico" />
+	<?php if(strpos($_SERVER['REQUEST_URI'], 'mod/lightboxgallery') === false): ?>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 	<script type="text/javascript" src="<?= $CFG->wwwroot ?>/js/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="<?= $CFG->wwwroot ?>/js/jquery.jqModal.js"></script>
 	<script type="text/javascript" src="<?= $CFG->wwwroot ?>/js/shortcut.js"></script>
-	<script type="text/javascript" src="<?= $CFG->wwwroot ?>/js/jtpl.js"></script>    
+	<script type="text/javascript" src="<?= $CFG->wwwroot ?>/js/jtpl.js"></script>
+	<?php endif;  ?>	
 	<script type="text/javascript" >
 	var ROOT_URL = "<?= $CFG->wwwroot ?>";
 	var PIXPATH = "<?=$CFG->pixpath?>";
@@ -27,11 +29,11 @@
 	<?php include("$CFG->javascript"); ?>
 </head>
 <body<?php
-    echo " $bodytags";
-    if ($focus) {
-        echo " onload=\"setfocus()\"";
-    }
-    ?>>
+	echo " $bodytags";
+	if ($focus) {
+		echo " onload=\"setfocus()\"";
+	}
+	?>>
 <div id="wrapper">
 
 <?php if ($home) {  // This is what gets printed on the home page only
