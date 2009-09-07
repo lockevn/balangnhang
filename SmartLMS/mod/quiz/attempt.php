@@ -518,7 +518,7 @@
 //    }
 
     /*danhut added: print quiz introduction*/
-    if($quiz->quiztype == 'exercise') {
+    if($quiz->smarttype == 'exercise') {
     if (trim(strip_tags($quiz->intro))) {
             $formatoptions->noclean = true;
             $formatoptions->para    = false;
@@ -553,7 +553,7 @@
 		
     }   
     /*danhut added: hiển thị button save page answers cho cả test, exercise và practice 0 ở trạng thái đang hiển thị đáp án*/ 
-	if ( ($event != QUESTION_EVENTSUBMIT)
+	if ( isset($event) && ($event != QUESTION_EVENTSUBMIT)
     	&& ($event != QUESTION_EVENTCLOSE)) {    	    	
         echo "<input type=\"submit\" name=\"saveattempt\" value=\"".get_string("savenosubmit", "quiz")."\" />\n";
     }
@@ -561,8 +561,8 @@
     
     /*danhut added: chỉ hiển thị button submit page nếu quiz là exercise và page 0 ở trạng thái hiển thị đáp án*/
     if ($quiz->optionflags & QUESTION_ADAPTIVE 
-    	&& ($quiz->quiztype == 'exercise' || $quiz->quiztype == 'practice') 
-    	&& ($event != QUESTION_EVENTSUBMIT)) {    	    	
+    	&& ($quiz->smarttype == 'exercise' || $quiz->smarttype == 'practice') 
+    	&& (isset($event) && $event != QUESTION_EVENTSUBMIT)) {    	    	
         echo "<input type=\"submit\" name=\"markall\" value=\"".get_string("markall", "quiz")."\" />\n";
     }
     /*danhut added: only display submit All button at the last page of the quiz*/

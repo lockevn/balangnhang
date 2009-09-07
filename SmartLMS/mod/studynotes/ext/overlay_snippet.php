@@ -66,12 +66,12 @@ if($account_link=get_record("studynotes_account_links", "system", "moodle", "ext
 	list($myCards,$theirCards) = $helper->findRelatedNotes($pageUrl,$mbuser);
 }
 	
-if(is_array($myCards) && count($myCards)>0) {
+if(isset($myCards) && is_array($myCards) && count($myCards)>0) {
 	$titleString = get_string('edit_my_notes','studynotes');
 	$iconPath = '/mod/studynotes/ext/launcher-own.png';
 	$frameUrl.="&mb_card_id=".$myCards[0];
 }
-else if(is_array($theirCards) && count($theirCards)>0) {
+else if(isset($theirCards) && is_array($theirCards) && count($theirCards)>0) {
 	$titleString = get_string('edit_their_notes','studynotes');
 	$iconPath = '/mod/studynotes/ext/launcher-friends.png';
 	$frameUrl.="&mb_card_id=".$theirCards[0];
