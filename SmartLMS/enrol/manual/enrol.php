@@ -88,8 +88,12 @@ function print_entry($course) {
                 unset($SESSION->wantsurl);
             } else {
                 $destination = "$CFG->wwwroot/course/view.php?id=$course->id";
+                
             }
 
+            /*danhut added: add user to course default group*/
+			$this->check_group_entry($course->id, ''); 
+			/*end of danhut added*/
             redirect($destination);
 
         } else if (!empty($_GET['cancel'])) {
@@ -192,14 +196,25 @@ function check_entry($form, $course) {
 */
 function check_group_entry ($courseid, $password) {
 
+	global $USER;
+	$defaultGroup = NULL;
     if ($groups = groups_get_all_groups($courseid)) {
         foreach ($groups as $group) {
             if ( !empty($group->enrolmentkey) and (stripslashes($password) == $group->enrolmentkey) ) {
                 return $group->id;
             }
+            /*danhut added: tìm group có group name = "default"*/
+            if(strtolower($group->name) == "default") {
+            	$defaultGroup = $group;
+            }
+            /*end of danhut added*/
         }
     }
-
+    /*danhut added: nếu 1 course có 1 group với name là "default" thì add user vào group đó*/
+    if(!empty($defaultGroup) ) {
+    	groups_add_member($defaultGroup->id, $USER->id);
+    }
+    /*end of danhut added*/
     return false;
 }
 
