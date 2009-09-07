@@ -660,7 +660,7 @@ function preprocessmods4topicstree($sectionmods, &$mods, &$modinfo) {
 		$mod = $mods[$modnumber];
 
 	/// Calculate next
-		if (isset($sectionmods[$key+1])) {
+		if (isset($sectionmods[$key+1]) && isset($mods[$sectionmods[$key+1]])) {
 			$next = $mods[$sectionmods[$key+1]];
 		} else {
 			$next = null;
