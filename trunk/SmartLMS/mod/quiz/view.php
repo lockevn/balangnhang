@@ -59,7 +59,7 @@
 
     $bodytags = (has_capability('mod/quiz:attempt', $context) && $quiz->popup)?'onload="popupchecker(\'' . get_string('popupblockerwarning', 'quiz') . '\');"':'';
     /*danhut modified to print full navigation bar*/
-    $strupdatemodule = has_capability('moodle/course:manageactivities', $coursecontext)
+    $strupdatemodule = has_capability('moodle/course:manageactivities', $context)
                     ? update_module_button($cm->id, $course->id, get_string('modulename', 'quiz'))
                     : "";
     $navigation = build_navigation('', $cm);
