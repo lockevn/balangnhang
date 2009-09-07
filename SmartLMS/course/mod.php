@@ -264,13 +264,13 @@
             redirect($return);
         } else {
         	/*danhut added*/
-	    	$returnToLOBank = optional_param('return', '', PARAM_TEXT);
+	    	$returnToLOBank = optional_param('return', NULL, PARAM_TEXT);
 	        if(!empty($returnToLOBank)) {
 	        	unset($SESSION->returnpage);
 	            redirect($returnToLOBank);
 	        }
 	        /*end of danhut added*/
-            redirect("view.php?id=$course->id#section-$sectionreturn");
+            redirect("view.php?id=$course->id#section-$sectionreturn");           
         }
         exit;
     }
