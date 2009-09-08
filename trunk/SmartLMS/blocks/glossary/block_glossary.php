@@ -13,10 +13,12 @@ class block_glossary extends block_base {
 			return $this->content;
 		}
 		$this->content = new stdClass();
-		$id = $this->config->cmid;
+		$this->content->footer = '';
+		if(isset($this->config->cmid))
+			$id = $this->config->cmid;
 		
 		/*check if module really exists*/
-		if (!empty($id)) {
+		if (isset($id) && !empty($id)) {
 			if (! $cm = get_coursemodule_from_id('glossary', $id)) {
 				error("Course Module ID was incorrect");
 			}
