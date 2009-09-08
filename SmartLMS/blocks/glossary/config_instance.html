@@ -20,7 +20,7 @@
     <table cellpadding="5px" align="center">
         <tr>
             <td align="right" style="font-weight: bold;"><?php print_string('config_title', 'block_glossary') ?>:&nbsp;</td>            
-            <td align="left"><?php choose_from_menu_nested($options, 'cmid', $this->config->cmid); ?></td>                        
+            <td align="left"><?php if(isset($this->config->cmid)) choose_from_menu_nested($options, 'cmid', $this->config->cmid); ?></td>                        
         </tr>
     </table>
   <p><span class="button"><input type="submit" value="<?php print_string('savechanges'); ?>" /></span></p>
