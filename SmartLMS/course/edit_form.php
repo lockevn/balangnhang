@@ -335,7 +335,8 @@ class course_edit_form extends moodleform {
             $enrol_object = $course;
         }
         // If the print_entry method exists and the course enrol method isn't manual (both set or inherited from site), show cost
-        if (method_exists(enrolment_factory::factory($enrol_object->enrol), 'print_entry') && !($enrol_object->enrol == 'manual' || (empty($enrol_object->enrol) && $CFG->enrol == 'manual'))) {
+        /*danhut commented out to always set course cost*/
+       // if (method_exists(enrolment_factory::factory($enrol_object->enrol), 'print_entry') && !($enrol_object->enrol == 'manual' || (empty($enrol_object->enrol) && $CFG->enrol == 'manual'))) {
             $costgroup=array();
             $currencies = get_list_of_currencies();
             $costgroup[]= &MoodleQuickForm::createElement('text','cost', '', 'maxlength="6" size="6"');
@@ -348,10 +349,10 @@ class course_edit_form extends moodleform {
             $costgrprules['cost'][]=array(null, 'numeric', null, 'client');
             $mform->addGroupRule('costgrp',$costgrprules);
             $mform->setHelpButton('costgrp', array('cost', get_string('cost')), true);
-            $mform->setDefault('cost', '');
-            $mform->setDefault('currency', empty($CFG->enrol_currency) ? 'USD' : $CFG->enrol_currency);
+            $mform->setDefault('cost', '0');
+            $mform->setDefault('currency', 'VND');
 
-        }
+        //}
 
 //--------------------------------------------------------------------------------
         $mform->addElement('header','', get_string('language'));
