@@ -39,20 +39,25 @@ $navlinks = array();
 $navlinks[] = array('name' => $strsmartcoms, 'link' => '', 'type' => 'activity');
 $navigation = build_navigation($navlinks);
 print_header_simple($strsmartcoms, '', $navigation, '', '', true, '', navmenu($course));
-print_heading($strsmartcoms . ' Learning Progress');
 
-switch ($submodule) {
-   case 'learning_progress':
-		require_once("Pagelet/$submodule.php");        
-		echo $$submodule;
-		break;
-			 
-   case 'realtime_performance_check':
-		require_once("Pagelet/$submodule.php");		
-		echo $$submodule;
-		break;
+$allowSubModule = array(
+'learning_progress',
+'realtime_performance_check',
+'prepaidcard_usage_report',
+'prepaidcard_manager',
+'prepaidcard_enduser_deposit',
+'prepaidcard_adjust'
+);
+
+if(in_array($submodule, $allowSubModule, true))
+{
+	require_once("Pagelet/$submodule.php");        
+	echo $$submodule;
 }
-
+else
+{
+	echo 'Hacking activities are logged';
+}
 
 /// Finish the page
 print_footer($course);
