@@ -18,7 +18,8 @@
 </fieldset>
 
 <h3 class="main">Result</h3>
-
+<div id='grid'>
+</div>
 
 <fieldset >
 	<legend>Apply to result</legend>
@@ -28,3 +29,34 @@
 	<input type='text' id='periodvalue' value = '' maxlength="50"><br />
 	<input type='button' id='apply' value = 'Apply to set of selected card(s)'><span id='applyResult'></span>
 </fieldset>
+
+
+
+
+
+<script type="text/javascript" >
+$(document).ready(function(){
+	
+	$("#search").click(function(){
+		$("#searchResult").show().html('loading grid ...').load(
+			'/mod/smartcom/api/messages_send.php', 
+			{
+				facevalue : $('#facevalue').val(),
+				batchcode : $('#batchcode').val(),				
+				fromdate : $('#fromdate').val(),
+				todate : $('#todate').val()
+			},
+			function(){                
+				$(this).fadeOut(8888);
+				$('#grid').html('this is list of card(s)').fadeOut().fadeIn();
+			}
+		);
+	});
+	
+	$("#apply").click(function(){
+		$("#applyResult").show().html('Applying ... Add coin = ' + $('#coinvalue').val() + ', and extend period = ' + $('#periodvalue').val() + ' to your selected card(s)');
+	});
+	
+});
+
+</script>
