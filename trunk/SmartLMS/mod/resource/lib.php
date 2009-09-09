@@ -72,6 +72,11 @@ class resource_base {
     */
     function display() {
 
+	    /*danhut added: check permission*/
+	    $context = get_context_instance(CONTEXT_MODULE, $this->cm->id);
+	    if(!has_capability('mod/resource:view', $context)) {
+	    	print_error("you don't have permission to view this page");
+	    }
     }
 
 
@@ -679,7 +684,7 @@ function resource_reset_userdata($data) {
  * Returns all other caps used in module
  */
 function resource_get_extra_capabilities() {
-    return array('moodle/site:accessallgroups');
+    return array('moodle/site:accessallgroups', 'mod/resource:view');
 }
 
 ?>
