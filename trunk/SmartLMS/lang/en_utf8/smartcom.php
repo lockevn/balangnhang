@@ -1,6 +1,6 @@
 <?php
-$string['lo'] = 'Learning Objects';
-$string['editlo'] = 'Edit Learning Objects';
+$string['lo'] = 'Smartcom Learning Objects';
+$string['editlo'] = 'Edit Smartcom Learning Objects';
 $string['lodoesnotexist'] = 'Learning Objects does not exist';
 $string['losinuse'] = '(* Learning objects marked by an asterisk are already in use in some courses. These LOs will not be deleted from these courses but only from the category list.)';
 $string['deletelecturescheck'] = 'Are you absolutely sure you want to delete the following Lectures?<br /><br />$a';
