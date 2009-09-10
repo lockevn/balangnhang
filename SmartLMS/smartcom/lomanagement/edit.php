@@ -86,7 +86,7 @@
     echo '<table class="boxaligncenter" border="0" cellpadding="2" cellspacing="0">';
     echo '<tr><td valign="top">';
 
-    lo_showbank($lotype, $contexts, $thispageurl, $cm, $pagevars['qpage'], $pagevars['qperpage'], $pagevars['qsortorder'], $pagevars['qsortorderdecoded'],
+    lo_showbank($lotype, $contexts, $thispageurl, $cm, $pagevars['qpage'], $pagevars['qperpage'], 
                     $pagevars['cat'], $pagevars['recurse'.$lotype], $pagevars['showhidden'], $pagevars['showquestiontext' . $lotype]);
 
     echo '</td></tr>';

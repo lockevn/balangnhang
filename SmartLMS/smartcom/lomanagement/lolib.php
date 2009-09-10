@@ -521,7 +521,7 @@ function course_content_structure($course, $lotype, $category, $cm=NULL, $target
 
 	$activityArr = array();
 	foreach ($modinfo->cms as $mod) {
-		if ($mod->modname != 'label' || $mod->indent > 0) {
+		if ($mod->modname != 'label' || (isset($mod->indent) && $mod->indent > 0)) {
 			continue;
 		}
 
@@ -532,31 +532,7 @@ function course_content_structure($course, $lotype, $category, $cm=NULL, $target
 		if (!$mod->uservisible) { // do not icnlude empty sections at all
 			continue;
 		}
-
-//		if ($mod->sectionnum > 0 and $section != $mod->sectionnum) {
-//			$thissection = $sections[$mod->sectionnum];
-//
-//			if ($thissection->visible or !$course->hiddensections or
-//			has_capability('moodle/course:viewhiddensections', $context)) {
-//				$thissection->summary = strip_tags(format_string($thissection->summary,true));
-//				if ($course->format == 'weeks' or empty($thissection->summary)) {
-//					$menu[] = '--'.$strsection ." ". $mod->sectionnum;
-//				} else {
-//					if (strlen($thissection->summary) < ($width-3)) {
-//						$menu[] = '--'.$thissection->summary;
-//					} else {
-//						$menu[] = '--'.substr($thissection->summary, 0, $width).'...';
-//					}
-//				}
-//				$section = $mod->sectionnum;
-//			} else {
-//				// no activities from this hidden section shown
-//				continue;
-//			}
-//		}
-
-		//$url = $mod->modname.'/view.php?id='. $mod->id;
-		
+	
 		if (!empty($previousmod)) { // lưu current mod thành next mod của previous mod
 			$previousmod->next = $mod;
 		} 
