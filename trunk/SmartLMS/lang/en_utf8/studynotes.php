@@ -4,8 +4,8 @@ $string['studynotes'] = 'studynotes';
 
 $string['studynotesname'] = 'Title';
 
-$string['modulename'] = 'Mediabird Study Notes';
-$string['modulenameplural'] = 'Mediabird Study Notes';
+$string['modulename'] = 'SmartNote';
+$string['modulenameplural'] = 'SmartNotes';
 
 $string['take_notes'] = 'Take notes';
 $string['edit_my_notes'] = 'Edit my notes';
@@ -13,13 +13,13 @@ $string['edit_their_notes'] = 'Edit notes of my buddies';
 
 $string['save_and_close'] ="Save and close";
 $string['change_size'] ="Change size";
-$string['login_required'] ="Please log in to use Mediabird Study Notes";
-$string['cookies_required'] ="Please enable cookies and javascript in your browser to use Mediabird Study Notes.";
-$string['error_linking'] ="Could not create Mediabird Study Notes account.";
+$string['login_required'] ="Please log in to use SmartNotes";
+$string['cookies_required'] ="Please enable cookies and javascript in your browser to use SmartNotes.";
+$string['error_linking'] ="Could not create SmartNotes account.";
 
-$string['only_one_instance'] ="Only one instance of Mediabird Study Notes can be created per course.";
+$string['only_one_instance'] ="Only one instance of SmartNotes can be created per course.";
 
-$string['moodle_ref_title'] = "Moodle Course";
+$string['moodle_ref_title'] = "Smartweb Course";
 
 $string['cache_folder_missing'] = "Could not create cache folder";
 
