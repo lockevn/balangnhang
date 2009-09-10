@@ -167,7 +167,7 @@ function lo_category_form_checkbox($name, $checked) {
 * @param boolean $showquestiontext whether the text of each question should be shown in the list
 */
 function lo_list($contexts, $pageurl, $categoryandcontext, $cm = null,
-        $recurse=1, $page=0, $perpage=100, $showhidden=false, $sortorder='', $sortorderdecoded='lotype ASC',
+        $recurse=1, $page=0, $perpage=100, $showhidden=false,
         $showquestiontext = false, $addcontexts = array()) {
     global $USER, $CFG, $THEME, $COURSE;
 	global $allowedLOTypes, $allowedQuizTypes;
@@ -211,7 +211,8 @@ function lo_list($contexts, $pageurl, $categoryandcontext, $cm = null,
     $catcontext = get_context_instance_by_id($contextid);
     /*phải có section thì mới add được LO mới*/
     global $section;
-    $section = $pageurl->params['section'];
+    if(isset($pageurl->params['section']))
+    	$section = $pageurl->params['section'];
     $canadd = has_capability('moodle/question:add', $catcontext);// && $section;
     //check for capabilities on all questions in category, will also apply to sub cats.
     $caneditall =has_capability('moodle/question:editall', $catcontext);
@@ -323,7 +324,6 @@ function lo_list($contexts, $pageurl, $categoryandcontext, $cm = null,
     
     print_paging_bar($totalnumber, $page, $perpage, $pageurl, 'qpage');
 
-    //echo lo_sort_options($pageurl, $sortorder);
 
 
     echo '<form method="post" action="edit.php">';
@@ -494,24 +494,24 @@ function lo_list($contexts, $pageurl, $categoryandcontext, $cm = null,
        
     
 }
-function lo_sort_options($pageurl, $sortorder){
-    global $USER;
-    //sort options
-    $html = "<div class=\"mdl-align\">";
-    $html .= '<form method="post" action="edit.php">';
-    $html .= '<fieldset class="invisiblefieldset" style="display: block;">';
-    $html .= '<input type="hidden" name="sesskey" value="'.$USER->sesskey.'" />';
-    $html .= $pageurl->hidden_params_out(array('qsortorder'));
-    $sortoptions = array('alpha' => get_string("sortalpha", "smartcom"),
-                         'typealpha' => get_string("sorttypealpha", "smartcom"));
-                         
-    $html .=  choose_from_menu ($sortoptions, 'qsortorder', $sortorder, false, 'this.form.submit();', '0', true);
-    $html .=  '<noscript><div><input type="submit" value="'.get_string("sortsubmit", "smartcom").'" /></div></noscript>';
-    $html .= '</fieldset>';
-    $html .= "</form>\n";
-    $html .= "</div>\n";
-    return $html;
-}
+//function lo_sort_options($pageurl, $sortorder){
+//    global $USER;
+//    //sort options
+//    $html = "<div class=\"mdl-align\">";
+//    $html .= '<form method="post" action="edit.php">';
+//    $html .= '<fieldset class="invisiblefieldset" style="display: block;">';
+//    $html .= '<input type="hidden" name="sesskey" value="'.$USER->sesskey.'" />';
+//    $html .= $pageurl->hidden_params_out(array('qsortorder'));
+//    $sortoptions = array('alpha' => get_string("sortalpha", "smartcom"),
+//                         'typealpha' => get_string("sorttypealpha", "smartcom"));
+//                         
+//    $html .=  choose_from_menu ($sortoptions, 'qsortorder', $sortorder, false, 'this.form.submit();', '0', true);
+//    $html .=  '<noscript><div><input type="submit" value="'.get_string("sortsubmit", "smartcom").'" /></div></noscript>';
+//    $html .= '</fieldset>';
+//    $html .= "</form>\n";
+//    $html .= "</div>\n";
+//    return $html;
+//}
 
 function lo_showbank_actions($pageurl, $cm){
     global $CFG, $COURSE, $USER, $lotype;
@@ -827,6 +827,7 @@ function lo_edit_setup($edittab, $requirecmid = false, $requirecourseid = true){
 //        $pagevars['qsortorder'] = 'typealpha';
 //    }
 
+    $cmid = 0;
     $defaultcategory = lo_make_default_categories($contexts->all());
 
     $contextlistarr = array();
@@ -1101,7 +1102,7 @@ function require_login_in_context($contextorid = null){
  * danhut modified
  * @param moodle_url $pageurl object representing this pages url.
  */
-function lo_showbank($tabname, $contexts, $pageurl, $cm, $page, $perpage, $sortorder, $sortorderdecoded, $cat, $recurse, $showhidden, $showquestiontext){
+function lo_showbank($tabname, $contexts, $pageurl, $cm, $page, $perpage, $cat, $recurse, $showhidden, $showquestiontext){
     global $COURSE;
 
     if (optional_param('deleteselected', false, PARAM_BOOL)){ // teacher still has to confirm
@@ -1153,7 +1154,7 @@ function lo_showbank($tabname, $contexts, $pageurl, $cm, $page, $perpage, $sorto
 
     // continues with list of questions
     lo_list($contexts->having_one_edit_tab_cap($tabname), $pageurl, $cat, isset($cm) ? $cm : null,
-            $recurse, $page, $perpage, $showhidden, $sortorder, $sortorderdecoded, $showquestiontext,
+            $recurse, $page, $perpage, $showhidden, $showquestiontext,
             $contexts->having_cap('moodle/question:add'));
 
     print_box_end();
