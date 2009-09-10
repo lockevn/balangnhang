@@ -1186,4 +1186,16 @@ function quiz_get_extra_capabilities() {
     );
 }
 
+function quiz_get_types() {
+    $types = array();
+
+    $type = new object;
+    $type->modclass = MOD_CLASS_RESOURCE;
+    $type->type = 'quiz';
+    $type->typestr = get_string('addquiz', 'quiz');
+    $types[] = $type;
+
+    return $types;
+}
+
 ?>

@@ -10,6 +10,7 @@ if (!isset($CFG->resource_hide_repository)) {
     set_config("resource_hide_repository", "1");
 }
 
+
 /**
 * resource_base is the base class for resource types
 *
@@ -534,7 +535,8 @@ function resource_get_types() {
 
     $types = array();
 
-    $standardresources = array('text','html','file','directory');
+    /*danhut modified to disable directory list*/
+    $standardresources = array('text','html','file'/*,'directory'*/);
     foreach ($standardresources as $resourcetype) {
         $type = new object();
         $type->modclass = MOD_CLASS_RESOURCE;
@@ -544,21 +546,22 @@ function resource_get_types() {
         $types[] = $type;
     }
 
+    /*danhut commented out: không cần extra resource types*/
     /// Drop-in extra resource types
-    $resourcetypes = get_list_of_plugins('mod/resource/type');
-    foreach ($resourcetypes as $resourcetype) {
-        if (!empty($CFG->{'resource_hide_'.$resourcetype})) {  // Not wanted
-            continue;
-        }
-        if (!in_array($resourcetype, $standardresources)) {
-            $type = new object();
-            $type->modclass = MOD_CLASS_RESOURCE;
-            $type->name = $resourcetype;
-            $type->type = "resource&amp;type=$resourcetype";
-            $type->typestr = get_string("resourcetype$resourcetype", 'resource');
-            $types[] = $type;
-        }
-    }
+//    $resourcetypes = get_list_of_plugins('mod/resource/type');
+//    foreach ($resourcetypes as $resourcetype) {
+//        if (!empty($CFG->{'resource_hide_'.$resourcetype})) {  // Not wanted
+//            continue;
+//        }
+//        if (!in_array($resourcetype, $standardresources)) {
+//            $type = new object();
+//            $type->modclass = MOD_CLASS_RESOURCE;
+//            $type->name = $resourcetype;
+//            $type->type = "resource&amp;type=$resourcetype";
+//            $type->typestr = get_string("resourcetype$resourcetype", 'resource');
+//            $types[] = $type;
+//        }
+//    }
 
     return $types;
 }

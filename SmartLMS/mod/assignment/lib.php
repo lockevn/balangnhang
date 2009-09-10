@@ -2997,7 +2997,7 @@ function assignment_get_types() {
     $standardassignments = array('uploadsingle');
     foreach ($standardassignments as $assignmenttype) {
         $type = new object();
-        $type->modclass = MOD_CLASS_ACTIVITY;
+        $type->modclass = MOD_CLASS_RESOURCE;
         $type->type = "assignment&amp;type=$assignmenttype";
         $type->typestr = get_string("type$assignmenttype", 'assignment');
         $types[] = $type;

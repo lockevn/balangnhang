@@ -114,6 +114,18 @@ function nanogong_grades($modid) {
     return $return;
 }
 
+function nanogong_get_types() {
+    $types = array();
+
+    $type = new object;
+    $type->modclass = MOD_CLASS_RESOURCE;
+    $type->type = 'nanogong';
+    $type->typestr = get_string('nanogong', 'nanogong');
+    $types[] = $type;
+
+    return $types;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////
 /// Any other nanogong functions go here.  Each of them must have a name that 
 
