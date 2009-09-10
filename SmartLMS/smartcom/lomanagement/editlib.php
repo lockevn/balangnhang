@@ -1035,7 +1035,7 @@ function require_login_in_context($contextorid = null){
 function lo_showbank($tabname, $contexts, $pageurl, $cm, $page, $perpage, $cat, $recurse, $showhidden, $showquestiontext){
     global $COURSE;
 
-    $lotype = required_param('lotype', PARAM_TEXT);
+    
     if (optional_param('deleteselected', false, PARAM_BOOL)){ // teacher still has to confirm
         // make a list of all the questions that are selected
         $rawlos = $_REQUEST; // This code is called by both POST forms and GET links, so cannot use data_submitted.
@@ -1043,7 +1043,7 @@ function lo_showbank($tabname, $contexts, $pageurl, $cm, $page, $perpage, $cat, 
         $lonames = ''; // string with names of questions separated by <br /> with
                              // an asterix in front of those that are in use
         $inuse = false;      // set to true if at least one of the questions is in use
-        
+        $lotype = required_param('lotype', PARAM_TEXT);
         if($lotype == 'lecture') {
         	$tblName = 'resource';
         }
@@ -1081,6 +1081,10 @@ function lo_showbank($tabname, $contexts, $pageurl, $cm, $page, $perpage, $cat, 
     // starts with category selection form
     print_box_start('generalbox questionbank');
     print_heading(get_string($tabname.'bank', 'smartcom'), '', 2);
+    $lotype = optional_param('lotype', PARAM_TEXT);
+    if(empty($lotype)) {
+    	$lotype = 'lecture';
+    }
     lo_category_form($contexts->having_one_edit_tab_cap($tabname), $pageurl, $cat, $recurse, $showhidden, $showquestiontext, $lotype);
 
     // continues with list of questions
