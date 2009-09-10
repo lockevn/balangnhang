@@ -20,11 +20,12 @@ if(!isguestuser() && isloggedin() && !empty($_COOKIE)) {
 		if(!empty($siteMods)) {
 			$mods = array_merge($siteMods, $mods);
 		}
-		
-		foreach ($mods as $mod_candidate) {
-			if ($mod_candidate->mod == $study_notes_module_name && !isset($mediabirdDb)) {
-				$mod = $mod_candidate;
-				break;
+		if(is_array($mods)) {
+			foreach ($mods as $mod_candidate) {
+				if ($mod_candidate->mod == $study_notes_module_name && !isset($mediabirdDb)) {
+					$mod = $mod_candidate;
+					break;
+				}
 			}
 		}
 	}

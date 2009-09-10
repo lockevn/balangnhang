@@ -35,7 +35,7 @@
     //*****Can't find a datalib.php method that will construct a suitable SQL query for this module*****
     //*****So write it by hand here instead*****
 
-    $sql="SELECT module, url FROM ".$CFG->prefix."log WHERE userid=$USER->id AND course=$course->id AND module!=\"course\" AND module!=\"resume\" AND action=\"view\" ORDER BY time DESC";
+    $sql="SELECT module, url FROM ".$CFG->prefix."log WHERE userid=$USER->id AND course=$course->id AND module in ('quiz','resource', 'assignment') ORDER BY time DESC";
     $record=get_record_sql($sql,true);
 
     if ($record==false)

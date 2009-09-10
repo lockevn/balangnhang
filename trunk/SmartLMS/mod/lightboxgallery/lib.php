@@ -239,7 +239,7 @@ function lightboxgallery_get_types() {
     $types = array();
 
     $type = new object;
-    $type->modclass = MOD_CLASS_RESOURCE;
+    $type->modclass = MOD_CLASS_ACTIVITY;
     $type->type = 'lightboxgallery';
     $type->typestr = get_string('modulenameadd', 'lightboxgallery');
     $types[] = $type;
