@@ -1,6 +1,6 @@
 <?php // $Id: nanogong.php,v 3.1.1 2009/01/09 00:00:00 gibson Exp $
 
-$string['nanogong'] = 'SmartSpeaking';
+$string['nanogong'] = 'Speaking training';
 $string['modulenameplural'] = 'Speaking training';
 $string['modulename'] = 'Speaking training';
 $string['nanogongname'] = 'Name';

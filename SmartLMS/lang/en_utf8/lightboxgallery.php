@@ -55,10 +55,10 @@
     $string['lightboxgallery:viewcomments'] = 'View course gallery comments';
     $string['makepublic'] = 'Make public';
     $string['metadata'] = 'Meta data';
-    $string['modulename'] = 'Lightbox Gallery';
-    $string['modulenameplural'] = 'Course Galleries';
+    $string['modulename'] = 'Gallery';
+    $string['modulenameplural'] = 'Galleries';
     $string['modulenameshort'] = 'Gallery';
-    $string['modulenameadd'] = 'Add a course gallery';
+    $string['modulenameadd'] = 'Gallery';
     $string['newgallerycomments'] = 'New gallery comments';
     $string['resizeto'] = 'Resize to';
     $string['rsssubscribe'] = 'Gallery RSS feed';
