@@ -37,89 +37,17 @@ function get_module_from_cmid($cmid){
 
     return array($modrec, $cmrec);
 }
-/**
-* Function to read all questions for category into big array
-*
-* @param int $category category number
-* @param bool $noparent if true only questions with NO parent will be selected
-* @param bool $recurse include subdirectories
-* @param bool $export set true if this is called by questionbank export
-* @author added by Howard Miller June 2004
-*/
-function get_questions_category( $category, $noparent=false, $recurse=true, $export=true ) {
 
-    global $QTYPES;
-
-    // questions will be added to an array
-    $qresults = array();
-
-    // build sql bit for $noparent
-    $npsql = '';
-    if ($noparent) {
-      $npsql = " and parent='0' ";
-    }
-
-    // get (list) of categories
-    if ($recurse) {
-        $categorylist = question_categorylist( $category->id );
-    }
-    else {
-        $categorylist = $category->id;
-    }
-
-    // get the list of questions for the category
-    if ($questions = get_records_select("question","category IN ($categorylist) $npsql", "qtype, name ASC")) {
-
-        // iterate through questions, getting stuff we need
-        foreach($questions as $question) {
-            $questiontype = $QTYPES[$question->qtype];
-            $question->export_process = $export;
-            $questiontype->get_question_options( $question );
-            $qresults[] = $question;
-        }
-    }
-
-    return $qresults;
-}
-
-/**
- * @param integer $categoryid a category id.
- * @return boolean whether this is the only top-level category in a context.
- */
-function question_is_only_toplevel_category_in_context($categoryid) {
-    global $CFG;
-    return 1 == count_records_sql("
-            SELECT count(*)
-              FROM {$CFG->prefix}question_categories c1,
-                   {$CFG->prefix}question_categories c2
-             WHERE c2.id = $categoryid
-               AND c1.contextid = c2.contextid
-               AND c1.parent = 0 AND c2.parent = 0");
-}
-
-/**
- * Check whether this user is allowed to delete this category.
- *
- * @param integer $todelete a category id.
- */
-function question_can_delete_cat($todelete) {
-    if (question_is_only_toplevel_category_in_context($todelete)) {
-        error('You can\'t delete that category it is the default category for this context.');
-    } else {
-        $contextid = get_field('question_categories', 'contextid', 'id', $todelete);
-        require_capability('moodle/question:managecategory', get_context_instance_by_id($contextid));
-    }
-}
 /**
  * prints a form to choose categories
  */
-function lo_category_form($contexts, $pageurl, $current, $recurse=1, $showhidden=false, $showquestiontext=false) {
+function lo_category_form($contexts, $pageurl, $current, $recurse=1, $showhidden=false, $showquestiontext=false, $lotype) {
     global $CFG;
 
 
 /// Get all the existing categories now
 
-    $catmenu = question_category_options($contexts, false, 0, true);
+    $catmenu = lo_category_options($contexts, false, 0, true, '', $lotype);
 
     $strcategory = get_string('category', 'smartcom');
     $strshow = get_string('show', 'smartcom');
@@ -312,6 +240,7 @@ function lo_list($contexts, $pageurl, $categoryandcontext, $cm = null,
     
     $loCategories = array();
     $loCM = array();
+    $loIdStr = '';
     foreach ($los as $lo) {
     	$loIdStr .= $lo->instance . ',';
     	$loCategories[$lo->instance] = $lo->category;
@@ -332,7 +261,8 @@ function lo_list($contexts, $pageurl, $categoryandcontext, $cm = null,
     /*lưu section index vào form*/
     echo '<input type="hidden" name="section" value="'. $section .'" />';
     /*lưu category id vào form*/
-    echo '<input type="hidden" name="cat" value="'. $pageurl->params['cat'] .'" />';
+    if(isset($pageurl->params['cat']))
+    	echo '<input type="hidden" name="cat" value="'. $pageurl->params['cat']  .'" />';
     /*lưu lotype id vào form*/
     echo '<input type="hidden" name="lotype" value="'. $lotype .'" />';
     
@@ -363,7 +293,7 @@ function lo_list($contexts, $pageurl, $categoryandcontext, $cm = null,
         /*thêm thông tin category, course module cho loInstance*/
         $loInstance->category = $loCategories[$loInstance->id];
         $loInstance->cm = $loCM[$loInstance->id];
-        $canuseq = lo_has_capability_on($loInstance, 'use', $loInstance->category);
+        $canuseq = lo_has_capability_on($loInstance, 'use', $loInstance->category, $lotype);
         if (function_exists('module_specific_actions')) {
             echo module_specific_actions($pageurl, $loInstance->id, $cm->id, $canuseq);
         }
@@ -379,22 +309,24 @@ function lo_list($contexts, $pageurl, $categoryandcontext, $cm = null,
                     0, 0, $strpreview, LO_PREVIEW_POPUP_OPTIONS);
         }
         // edit LO
-        if (lo_has_capability_on($loInstance, 'edit', $loInstance->category) || lo_has_capability_on($loInstance, 'move', $loInstance->category)) {
+        if (lo_has_capability_on($loInstance, 'edit', $loInstance->category, $lotype) 
+        	|| lo_has_capability_on($loInstance, 'move', $loInstance->category, $lotype)) {
             echo "<a title='$stredit' href='" . $loEditUrl->out(false, array('update'=>$loInstance->cm)) . "'\><img
                     src=' $CFG->pixpath/t/edit.gif' alt='$stredit' /></a>&nbsp;";
         } 
 
 
         //move LO to another category
-        if (lo_has_capability_on($loInstance, 'move', $loInstance->category) && lo_has_capability_on($loInstance, 'view', $loInstance->category)) {
+        if (lo_has_capability_on($loInstance, 'move', $loInstance->category, $lotype) 
+        	&& lo_has_capability_on($loInstance, 'view', $loInstance->category, $lotype)) {
             echo "<a title=\"$strmove\" href=\"".$loEditUrl->out(false, array('id'=>$loInstance->id, 'movecontext'=>1))."\"><img
                     src=\"$CFG->pixpath/t/move.gif\" alt=\"$strmove\" /></a>&nbsp;";
         }
 
         //delete LO
-        if (lo_has_capability_on($loInstance, 'edit', $loInstance->category)) {
+        if (lo_has_capability_on($loInstance, 'edit', $loInstance->category, $lotype)) {
             // hide-feature
-            if($loInstance->hidden) {
+            if(isset($loInstance->hidden) && $loInstance->hidden) {
                 echo "<a title=\"$strrestore\" href=\"edit.php?".$pageurl->get_query_string()."&amp;unhide=$loInstance->id&amp;sesskey=$USER->sesskey\"><img
                         src=\"$CFG->pixpath/t/restore.gif\" alt=\"$strrestore\" /></a>";
             } else {
@@ -630,7 +562,7 @@ function lo_showbank_actions($pageurl, $cm){
         }
     }
           
-    if (optional_param('deleteselected', false, PARAM_BOOL)) { // delete selected questions from the category
+    if (optional_param('deleteselected', false, PARAM_BOOL)) { // delete selected LOs from the category
     	
         if (($confirm = optional_param('confirm', '', PARAM_ALPHANUM)) and confirm_sesskey()) { // teacher has already confirmed the action
         	$deleteinstancefunction = $moduleName."_delete_instance";
@@ -658,16 +590,14 @@ function lo_showbank_actions($pageurl, $cm){
 		                    notify("Could not delete the $moduleName (coursemodule)");
 		                }
 		                if (! delete_mod_from_section($lo->cm, "$cm->section")) {
-		                    notify("Could not delete the $moduleName from that section");
-                }
-
-                unset($SESSION->returnpage);
-
-                add_to_log($course->id, "course", "delete mod",
-                           "view.php?id=$mod->course",
-                           "$mod->modulename $mod->instance", $mod->coursemodule);
-                    }
-                }
+		                    notify("Could not delete the $moduleName from that section");		                    		               
+                    	}
+                    	add_to_log($COURSE->id, "course", "delete mod",
+                           "view.php?id=$COURSE->id",
+                           "$moduleName $lo->instance", $lo->cm);
+                	}
+                }     
+                rebuild_course_cache($COURSE->id);                         
                 redirect($pageurl->out(false, array('lotype'=>$lotype)));
             } else {
                 error("Confirmation string was incorrect");
@@ -1105,6 +1035,7 @@ function require_login_in_context($contextorid = null){
 function lo_showbank($tabname, $contexts, $pageurl, $cm, $page, $perpage, $cat, $recurse, $showhidden, $showquestiontext){
     global $COURSE;
 
+    $lotype = required_param('lotype', PARAM_TEXT);
     if (optional_param('deleteselected', false, PARAM_BOOL)){ // teacher still has to confirm
         // make a list of all the questions that are selected
         $rawlos = $_REQUEST; // This code is called by both POST forms and GET links, so cannot use data_submitted.
@@ -1112,7 +1043,7 @@ function lo_showbank($tabname, $contexts, $pageurl, $cm, $page, $perpage, $cat, 
         $lonames = ''; // string with names of questions separated by <br /> with
                              // an asterix in front of those that are in use
         $inuse = false;      // set to true if at least one of the questions is in use
-        $lotype = required_param('lotype', PARAM_TEXT);
+        
         if($lotype == 'lecture') {
         	$tblName = 'resource';
         }
@@ -1150,7 +1081,7 @@ function lo_showbank($tabname, $contexts, $pageurl, $cm, $page, $perpage, $cat, 
     // starts with category selection form
     print_box_start('generalbox questionbank');
     print_heading(get_string($tabname.'bank', 'smartcom'), '', 2);
-    lo_category_form($contexts->having_one_edit_tab_cap($tabname), $pageurl, $cat, $recurse, $showhidden, $showquestiontext);
+    lo_category_form($contexts->having_one_edit_tab_cap($tabname), $pageurl, $cat, $recurse, $showhidden, $showquestiontext, $lotype);
 
     // continues with list of questions
     lo_list($contexts->having_one_edit_tab_cap($tabname), $pageurl, $cat, isset($cm) ? $cm : null,

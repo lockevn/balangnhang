@@ -49,7 +49,9 @@ class mod_resource_mod_form extends moodleform_mod {
 
         $this->standard_coursemodule_elements(array('groups'=>false, 'groupmembersonly'=>true, 'gradecat'=>false));
 
-        $this->add_action_buttons();
+       /*danhut modified*/
+        $cat = optional_param('cat','', PARAM_TEXT);
+        $this->add_action_buttons(true, null, null, empty($cat));
     }
 
     function data_preprocessing(&$default_values){

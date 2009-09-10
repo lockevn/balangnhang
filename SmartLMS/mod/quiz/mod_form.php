@@ -26,16 +26,19 @@ class mod_quiz_mod_form extends moodleform_mod {
         $mform->setType('intro', PARAM_RAW);
         $mform->setHelpButton('intro', array('richtext', get_string('helprichtext')));
 
-         /*danhut added: lấy lại categoryid, lotype, beforecm khi insert LO từ Lo Bank và store in formk*/
+         /*danhut added: lấy lại categoryid, lotype, beforecm, indent khi insert LO từ Lo Bank và store in formk*/
 	    $cat = optional_param('cat','', PARAM_TEXT);
 	    $lotype = optional_param('lotype', '', PARAM_TEXT);    
 	    $beforecm = optional_param('beforecm', '', PARAM_INT);
+	    $indent = optional_param('indent', '', PARAM_INT);
 	    $mform->addElement('hidden', 'cat','');
 	    $mform->setDefault('cat', $cat);
 	    $mform->addElement('hidden', 'lotype','');
 	    $mform->setDefault('lotype', $lotype);
 	    $mform->addElement('hidden', 'beforecm','');
 	    $mform->setDefault('beforecm', $beforecm);
+	    $mform->addElement('hidden', 'indent','');
+    	$mform->setDefault('indent', $indent);
 
 		//danhut added quiz type -------------------------------------------------------------------------------
 		$quizTypeArr = array();
@@ -276,7 +279,7 @@ class mod_quiz_mod_form extends moodleform_mod {
 
 //-------------------------------------------------------------------------------
         // buttons
-        $this->add_action_buttons();
+        $this->add_action_buttons(true, null, null, empty($cat));
     }
 
     function data_preprocessing(&$default_values){

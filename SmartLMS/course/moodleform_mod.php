@@ -312,7 +312,7 @@ class moodleform_mod extends moodleform {
      * @param string $submit2label  null means default, false means none, string is label text
      * @return void
      */
-    function add_action_buttons($cancel=true, $submitlabel=null, $submit2label=null) {
+    function add_action_buttons($cancel=true, $submitlabel=null, $submit2label=null, $isdisplayed = true) {
         if (is_null($submitlabel)) {
             $submitlabel = get_string('savechangesanddisplay');
         }
@@ -330,7 +330,7 @@ class moodleform_mod extends moodleform {
             $buttonarray[] = &$mform->createElement('submit', 'submitbutton2', $submit2label);
         }
 
-        if ($submitlabel !== false) {
+        if ($submitlabel !== false && $isdisplayed == true) {
             $buttonarray[] = &$mform->createElement('submit', 'submitbutton', $submitlabel);
         }
 

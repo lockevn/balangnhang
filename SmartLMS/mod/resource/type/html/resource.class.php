@@ -207,14 +207,17 @@ function setup_preprocessing(&$defaults){
 function setup_elements(&$mform) {
     global $CFG, $RESOURCE_WINDOW_OPTIONS;
     
-    /*danhut added: lấy lại categoryid, lotype khi insert LO từ Lo Ban và store in formk*/
+    /*danhut added: lấy lại categoryid, lotype khi insert LO từ Lo Bank và store in form*/
     $cat = optional_param('cat','', PARAM_TEXT);
     $lotype = optional_param('lotype', '', PARAM_TEXT);       
+    $indent = optional_param('indent', '', PARAM_INT);
     
     $mform->addElement('hidden', 'cat','');
     $mform->setDefault('cat', $cat);
     $mform->addElement('hidden', 'lotype','');
     $mform->setDefault('lotype', $lotype);
+    $mform->addElement('hidden', 'indent','');
+    $mform->setDefault('indent', $indent);
     
     $mform->addElement('hidden', 'smarttype','');
     $mform->setDefault('smarttype', $lotype);
