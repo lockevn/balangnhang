@@ -149,8 +149,9 @@ function mail_user_outline($course, $user, $mod, $mail) {
 		
 		$return->time = $mail->timemodified;
 		$return->info = get_string("mailsnoread", "mail") . ": ". $mailsnoread;
+		return $return;
 	}
-	return $return;
+	return '';
 }
 
 /*******************************************************************/
