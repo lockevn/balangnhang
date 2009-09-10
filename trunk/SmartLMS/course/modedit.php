@@ -17,6 +17,7 @@
     
     /*danhut added*/
     $allowedLOTypes = array('lecture','exercise','practice','test');
+    /*end of danhut added*/
 
     if (!empty($add)) {
         $section = required_param('section', PARAM_INT);
@@ -53,19 +54,22 @@
         $form->instance         = '';
         $form->coursemodule     = '';
         $form->add              = $add;
-        
+        /*danhut added: check if this page is called from LOManagement page*/
         $cat = optional_param('cat', '', PARAM_TEXT);
         $lotype = optional_param('lotype', '', PARAM_TEXT);    	
-        if(!empty($cat) && in_array($lotype, $allowedLOTypes) && $fromform->instance !== false) {
+        if(!empty($cat) && in_array($lotype, $allowedLOTypes)) {
 
 		    	$form->return = $return;
 		    	$form->smarttype = $lotype;
 		    	$form->cat = $cat;
+		    	$form->indent = 1;
+		    	
 		    	
 		} else {
 			$form->return           = 0;	
 		}
-                    
+        /*end of danhut added*/            
+		
         
                
         // Turn off default grouping for modules that don't provide group mode
@@ -208,7 +212,7 @@
     $mform->set_data($form);
 
     if ($mform->is_cancelled()) {
-    	/*danhut added: if insert LO, redirect to /smartlms/lomanagement/edit.php*/
+    	/*danhut added: nếu yêu cầu add LO từ LOManagement khi cancel sẽ redirect to /smartlms/lomanagement/edit.php*/
     	if($return && in_array($lotype, $allowedLOTypes)) {
     		redirect($return);
     	}

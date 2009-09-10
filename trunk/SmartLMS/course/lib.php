@@ -1132,9 +1132,11 @@ function &get_fast_modinfo(&$course, $userid=0) {
         $cm->extra            = isset($mod->extra) ? urldecode($mod->extra) : '';
         $cm->icon             = isset($mod->icon) ? $mod->icon : '';
         $cm->uservisible      = true;
+        /*danhut added*/
         if(isset($mod->indent)) {
         	$cm->indent			  = $mod->indent;
         }
+        /*end of danhut added*/
 
         // preload long names plurals and also check module is installed properly
         if (!isset($modlurals[$cm->modname])) {

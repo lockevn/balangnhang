@@ -46,9 +46,16 @@
     //check if we are adding / editing a module that has new forms using formslib
     if (!empty($add)){
         $modname=$add;
-        if (file_exists("../mod/$modname/mod_form.php")) {
-            $id          = required_param('id', PARAM_INT);
-            $section     = required_param('section', PARAM_INT);
+        $id          = required_param('id', PARAM_INT);
+        $section     = required_param('section', PARAM_INT);
+        /*danhut added: redirect to LO management if modname=learningobjects*/
+        if($modname == 'learningobjects') {
+        	$url = "/smartcom/lomanagement/edit.php?courseid=$id&section=$section";
+        	redirect($url);
+        }
+        /*end of danhut added*/
+        else if (file_exists("../mod/$modname/mod_form.php")) {
+            
             $type        = optional_param('type', '', PARAM_ALPHA);
             $returntomod = optional_param('return', 0, PARAM_BOOL);
 

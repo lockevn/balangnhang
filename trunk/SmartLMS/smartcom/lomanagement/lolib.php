@@ -133,9 +133,9 @@ function lo_make_default_categories($contexts) {
 }
 
 /**
- * Output an array of question categories.
+ * Output an array of lo categories.
  */
-function lo_category_options($contexts, $top = false, $currentcat = 0, $popupform = false, $nochildrenof = -1) {
+function lo_category_options($contexts, $top = false, $currentcat = 0, $popupform = false, $nochildrenof = -1, $lotype) {
     global $CFG;
     $pcontexts = array();
     foreach($contexts as $context){
@@ -143,7 +143,7 @@ function lo_category_options($contexts, $top = false, $currentcat = 0, $popupfor
     }
     $contextslist = join($pcontexts, ', ');
 
-    $categories = get_categories_for_contexts($contextslist);
+    $categories = get_lo_categories_for_contexts($contextslist, 'name ASC', $lotype);
 
     $categories = question_add_context_in_key($categories);
 
@@ -160,7 +160,7 @@ function lo_category_options($contexts, $top = false, $currentcat = 0, $popupfor
             if ($category->contextid == $pcontext){
                 $cid = $category->id;
                 if ($currentcat!= $cid || $currentcat==0) {
-                    $countstring = (!empty($category->questioncount))?" ($category->questioncount)":'';
+                    $countstring = (!empty($category->locount))?" ($category->locount)":'';
                     $categoriesarray[$contextstring][$cid] = $category->indentedname.$countstring;
                 }
             }
@@ -208,9 +208,10 @@ function print_lo_icon($lo, $return = false) {
 //        $namestr = 'missingtype';
 //    }
 	$namestr = $lo->smarttype;
-    $html = '<img src="' . $CFG->wwwroot . '/question/type/' .
-            $question->qtype . '/icon.gif" alt="' .
-            $namestr . '" title="' . $namestr . '" />';
+//    $html = '<img src="' . $CFG->wwwroot . '/question/type/' .
+//            $lo->qtype . '/icon.gif" alt="' .
+//            $namestr . '" title="' . $namestr . '" />';
+	$html = $namestr;
     if ($return) {
         return $html;
     } else {
@@ -603,7 +604,7 @@ function course_content_structure($course, $lotype, $category, $cm=NULL, $target
 
 function course_content_structure_without_link($course){
 
-	global $CFG, $THEME, $USER;
+	global $CFG, $THEME, $USER, $lotype;
 
 	if (empty($THEME->navmenuwidth)) {
 		$width = 50;
@@ -625,7 +626,6 @@ function course_content_structure_without_link($course){
 
 	$section = -1;
 	$selected = '';
-	$url = '';
 	$previousmod = NULL;
 	$backmod = NULL;
 	$nextmod = NULL;
@@ -643,7 +643,7 @@ function course_content_structure_without_link($course){
 
 	$activityArr = array();
 	foreach ($modinfo->cms as $mod) {
-		if ($mod->modname != 'label' || $mod->indent > 0) {
+		if ($mod->modname != 'label' || (isset($mod->indent) && $mod->indent > 0)) {
 			continue;
 		}
 
@@ -658,23 +658,17 @@ function course_content_structure_without_link($course){
 		if (!empty($previousmod)) { // lưu current mod thành next mod của previous mod
 			$previousmod->next = $mod;
 		} 
-		$localname = $mod->name;
-		if ($cm == $mod->id) {
-			$selected = $url;
-			$selectmod = $mod;			
-			$localname = $strjumpto;
-			$strjumpto = '';
-			
-		} else {
-			$localname = strip_tags(format_string($localname,true));
-			$tl=textlib_get_instance();
-			if ($tl->strlen($localname) > ($width+5)) {
-				$localname = $tl->substr($localname, 0, $width).'...';
-			}
-			if (!$mod->visible) {
-				$localname = '('.$localname.')';
-			}
+		
+		
+		$localname = strip_tags(format_string($mod->name,true));
+		$tl=textlib_get_instance();
+		if ($tl->strlen($localname) > ($width+5)) {
+			$localname = $tl->substr($localname, 0, $width).'...';
 		}
+		if (!$mod->visible) {
+			$localname = '('.$localname.')';
+		}
+		
 		$mod->name = $localname;
 		
 		$previousmod = $mod;
@@ -712,8 +706,6 @@ function course_content_structure_without_link($course){
 		else {
 			$beforecm = "0";
 		}
-		$url = "edit.php?addlo=" . get_string("addnew$lotype", "smartcom"). "&courseid=$course->id&lotype=$lotype&cat=$category&section=$section$beforecm&cm=$mod->id";
-		//value format: cmid#before_cmid#sectionid#sectionnumber
 		$key = $mod->id . "#" . $beforecm . "#" . $thissection->id . "#" . $mod->sectionnum;
 		$menu[$gLabel][$key] = $mod->name;
 	}
@@ -736,7 +728,23 @@ function course_content_structure_without_link($course){
 	
 }
 
-
+/**
+ * Get all the category objects, including a count of the number of questions in that category,
+ * for all the categories in the lists $contexts.
+ *
+ * @param mixed $contexts either a single contextid, or a comma-separated list of context ids.
+ * @param string $sortorder used as the ORDER BY clause in the select statement.
+ * @return array of category objects.
+ */
+function get_lo_categories_for_contexts($contexts, $sortorder = 'parent, sortorder, name ASC', $lotype) {
+    global $CFG;
+    return get_records_sql("
+            SELECT c.*, (SELECT count(1) FROM {$CFG->prefix}lo l
+                    WHERE c.id = l.category AND l.lotype='$lotype') as locount
+            FROM {$CFG->prefix}question_categories c
+            WHERE c.contextid IN ($contexts)
+            ORDER BY $sortorder");
+}
 
 
 ?>
