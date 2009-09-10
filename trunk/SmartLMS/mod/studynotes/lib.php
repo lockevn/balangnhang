@@ -96,7 +96,7 @@ function studynotes_delete_instance($id) {
  * @todo Finish documenting this function
  **/
 function studynotes_user_outline($course, $user, $mod, $studynotes) {
-    return $return;
+    //return $return;
 }
 
 /**
