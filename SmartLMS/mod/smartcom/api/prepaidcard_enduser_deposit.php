@@ -5,7 +5,6 @@ require_once(ABSPATH."lib/db/DBHelper.php");
 
 define('AJAX_CALL',true);
 
-// TEST: 
 require_login();
 $username = $USER->username;
 
@@ -17,7 +16,6 @@ if(isset($_SESSION['prepaidcard_end_user_deposit']))
 	if($numOfFail > 3)
 	{
 		echo -$numOfFail;
-		// TEST: 
 		die();
 	}
 }
@@ -38,7 +36,7 @@ $result = $mysqli->query("select * from mdl_smartcom_card where code='$code'");
 $card = DBHelper::GetAssocArray($result);
 $card = $card[0];
 if($card)
-{	
+{
 	$dbret = $mysqli->query("delete from mdl_smartcom_card where code='$code'");	
 	if($dbret)
 	{
@@ -91,12 +89,12 @@ values ('$serialno', '$code', $facevalue, $coinvalue, $periodvalue, '$batchcode'
 		die('-1');
 	}    
 }
-else
-{	
-	$numOfFail++;
-	$_SESSION['prepaidcard_end_user_deposit'] = $numOfFail;
-	echo $numOfFail;
-	die();
-}
+	
+$mysqli->rollback();
+$mysqli->close();
+$numOfFail++;
+$_SESSION['prepaidcard_end_user_deposit'] = $numOfFail;	
+echo $numOfFail;
+die();
 
 ?>
