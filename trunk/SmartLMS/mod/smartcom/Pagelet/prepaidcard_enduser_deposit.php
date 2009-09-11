@@ -5,7 +5,6 @@ require_login();
 
 $tpl->assign('state', '');
 
-
 $FILENAME = 'prepaidcard_enduser_deposit';
 $$FILENAME = $tpl->display("$FILENAME.tpl.php");
 
