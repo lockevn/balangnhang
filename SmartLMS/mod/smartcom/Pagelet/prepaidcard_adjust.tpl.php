@@ -4,10 +4,13 @@
 
 <fieldset >
 	<legend>Prepaid card search criteria</legend>     
+	<label for="serialno">serialno: </label>
+	<input type='text' id='serialno' value = '' maxlength="50"><br />
 	<label for="facevalue">facevalue: </label>
 	<input type='text' id='facevalue' value = '' maxlength="10"><br />
 	<label for="batchcode">batchcode: </label>
 	<input type='text' id='batchcode' value = '' maxlength="50"><br />
+		
 	
 	<label for="fromdate">fromdate: </label>
 	<input type='text' id='fromdate' value = '' maxlength="50">
@@ -41,6 +44,7 @@ $(document).ready(function(){
 		$("#searchResult").show().html('loading grid ...').load(
 			'/mod/smartcom/api/messages_send.php', 
 			{
+				serialno : $('#serialno').val(),
 				facevalue : $('#facevalue').val(),
 				batchcode : $('#batchcode').val(),				
 				fromdate : $('#fromdate').val(),
