@@ -369,6 +369,7 @@ class DBHelper
 			return false;
 		}
 
+		$arrRecs = null;
 		while ($rec = $dbresult->fetch_assoc())
 		{
 			$arrRecs[] = $rec; // append to end of array

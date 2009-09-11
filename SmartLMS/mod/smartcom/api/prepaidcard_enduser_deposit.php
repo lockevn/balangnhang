@@ -3,7 +3,7 @@
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 require_once(ABSPATH."lib/db/DBHelper.php");
 
-// define('AJAX_CALL',true);
+define('AJAX_CALL',true);
 
 // TEST: 
 require_login();
@@ -17,7 +17,8 @@ if(isset($_SESSION['prepaidcard_end_user_deposit']))
 	if($numOfFail > 3)
 	{
 		echo -$numOfFail;
-		// TEST: die();
+		// TEST: 
+		die();
 	}
 }
 
@@ -94,7 +95,8 @@ else
 {	
 	$numOfFail++;
 	$_SESSION['prepaidcard_end_user_deposit'] = $numOfFail;
-	die($numOfFail);
+	echo $numOfFail;
+	die();
 }
 
 ?>
