@@ -47,13 +47,13 @@
  * @param mixed $default the value to return if $var is unset
  */
 function require_variable($var) {
-    global $CFG;
-    if (!empty($CFG->disableglobalshack)) {
-        error( 'The require_variable() function is deprecated.' );
-    }
-    if (! isset($var)) {
-        error('A required parameter was missing');
-    }
+	global $CFG;
+	if (!empty($CFG->disableglobalshack)) {
+		error( 'The require_variable() function is deprecated.' );
+	}
+	if (! isset($var)) {
+		error('A required parameter was missing');
+	}
 }
 
 /**
@@ -65,13 +65,13 @@ function require_variable($var) {
  * @param mixed $default the value to return if $var is unset
  */
 function optional_variable(&$var, $default=0) {
-    global $CFG;
-    if (!empty($CFG->disableglobalshack)) {
-        error( "The optional_variable() function is deprecated ($var, $default)." );
-    }
-    if (! isset($var)) {
-        $var = $default;
-    }
+	global $CFG;
+	if (!empty($CFG->disableglobalshack)) {
+		error( "The optional_variable() function is deprecated ($var, $default)." );
+	}
+	if (! isset($var)) {
+		$var = $default;
+	}
 }
 
 /**
@@ -85,12 +85,12 @@ function optional_variable(&$var, $default=0) {
  * @return   mixed
  */
 function nvl(&$var, $default='') {
-    global $CFG;
+	global $CFG;
 
-    if (!empty($CFG->disableglobalshack)) {
-      error( "The nvl() function is deprecated ($var, $default)." );
-    }
-    return isset($var) ? $var : $default;
+	if (!empty($CFG->disableglobalshack)) {
+	  error( "The nvl() function is deprecated ($var, $default)." );
+	}
+	return isset($var) ? $var : $default;
 }
 
 /**
@@ -103,25 +103,25 @@ function nvl(&$var, $default='') {
  * @return bool
  */
 function isadmin($userid=0) {
-    global $USER, $CFG;
+	global $USER, $CFG;
 
-    if (empty($CFG->rolesactive)) {    // Then the user is likely to be upgrading NOW
-        if (!$userid) {
-            if (empty($USER->id)) {
-                return false;
-            }
-            if (!empty($USER->admin)) {
-                return true;
-            }
-            $userid = $USER->id;
-        }
+	if (empty($CFG->rolesactive)) {    // Then the user is likely to be upgrading NOW
+		if (!$userid) {
+			if (empty($USER->id)) {
+				return false;
+			}
+			if (!empty($USER->admin)) {
+				return true;
+			}
+			$userid = $USER->id;
+		}
 
-        return record_exists('user_admins', 'userid', $userid);
-    }
+		return record_exists('user_admins', 'userid', $userid);
+	}
 
-    $context = get_context_instance(CONTEXT_SYSTEM);
+	$context = get_context_instance(CONTEXT_SYSTEM);
 
-    return has_capability('moodle/legacy:admin', $context, $userid, false);
+	return has_capability('moodle/legacy:admin', $context, $userid, false);
 }
 
 /**
@@ -136,21 +136,21 @@ function isadmin($userid=0) {
 
 function isteacher($courseid=0, $userid=0, $obsolete_includeadmin=true) {
 /// Is the user able to access this course as a teacher?
-    global $CFG;
+	global $CFG;
 
-    if (empty($CFG->rolesactive)) {     // Teachers are locked out during an upgrade to 1.7
-        return false;
-    }
+	if (empty($CFG->rolesactive)) {     // Teachers are locked out during an upgrade to 1.7
+		return false;
+	}
 
-    if ($courseid) {
-        $context = get_context_instance(CONTEXT_COURSE, $courseid);
-    } else {
-        $context = get_context_instance(CONTEXT_SYSTEM);
-    }
+	if ($courseid) {
+		$context = get_context_instance(CONTEXT_COURSE, $courseid);
+	} else {
+		$context = get_context_instance(CONTEXT_SYSTEM);
+	}
 
-    return (has_capability('moodle/legacy:teacher', $context, $userid, false)
-         or has_capability('moodle/legacy:editingteacher', $context, $userid, false)
-         or has_capability('moodle/legacy:admin', $context, $userid, false));
+	return (has_capability('moodle/legacy:teacher', $context, $userid, false)
+		 or has_capability('moodle/legacy:editingteacher', $context, $userid, false)
+		 or has_capability('moodle/legacy:admin', $context, $userid, false));
 }
 
 /**
@@ -162,50 +162,50 @@ function isteacher($courseid=0, $userid=0, $obsolete_includeadmin=true) {
  * @return bool
  */
 function isteacherinanycourse($userid=0, $includeadmin=true) {
-    global $USER, $CFG;
+	global $USER, $CFG;
 
-    if (empty($CFG->rolesactive)) {     // Teachers are locked out during an upgrade to 1.7
-        return false;
-    }
+	if (empty($CFG->rolesactive)) {     // Teachers are locked out during an upgrade to 1.7
+		return false;
+	}
 
-    if (!$userid) {
-        if (empty($USER->id)) {
-            return false;
-        }
-        $userid = $USER->id;
-    }
+	if (!$userid) {
+		if (empty($USER->id)) {
+			return false;
+		}
+		$userid = $USER->id;
+	}
 
-    if (!record_exists('role_assignments', 'userid', $userid)) {    // Has no roles anywhere
-        return false;
-    }
+	if (!record_exists('role_assignments', 'userid', $userid)) {    // Has no roles anywhere
+		return false;
+	}
 
 /// If this user is assigned as an editing teacher anywhere then return true
-    if ($roles = get_roles_with_capability('moodle/legacy:editingteacher', CAP_ALLOW)) {
-        foreach ($roles as $role) {
-            if (record_exists('role_assignments', 'roleid', $role->id, 'userid', $userid)) {
-                return true;
-            }
-        }
-    }
+	if ($roles = get_roles_with_capability('moodle/legacy:editingteacher', CAP_ALLOW)) {
+		foreach ($roles as $role) {
+			if (record_exists('role_assignments', 'roleid', $role->id, 'userid', $userid)) {
+				return true;
+			}
+		}
+	}
 
 /// If this user is assigned as a non-editing teacher anywhere then return true
-    if ($roles = get_roles_with_capability('moodle/legacy:teacher', CAP_ALLOW)) {
-        foreach ($roles as $role) {
-            if (record_exists('role_assignments', 'roleid', $role->id, 'userid', $userid)) {
-                return true;
-            }
-        }
-    }
+	if ($roles = get_roles_with_capability('moodle/legacy:teacher', CAP_ALLOW)) {
+		foreach ($roles as $role) {
+			if (record_exists('role_assignments', 'roleid', $role->id, 'userid', $userid)) {
+				return true;
+			}
+		}
+	}
 
 /// Include admins if required
-    if ($includeadmin) {
-        $context = get_context_instance(CONTEXT_SYSTEM);
-        if (has_capability('moodle/legacy:admin', $context, $userid, false)) {
-            return true;
-        }
-    }
+	if ($includeadmin) {
+		$context = get_context_instance(CONTEXT_SYSTEM);
+		if (has_capability('moodle/legacy:admin', $context, $userid, false)) {
+			return true;
+		}
+	}
 
-    return false;
+	return false;
 }
 
 /**
@@ -216,20 +216,20 @@ function isteacherinanycourse($userid=0, $includeadmin=true) {
  * @return bool
  */
 function isteacheredit($courseid, $userid=0, $obsolete_ignorestudentview=false) {
-    global $CFG;
+	global $CFG;
 
-    if (empty($CFG->rolesactive)) {
-        return false;
-    }
+	if (empty($CFG->rolesactive)) {
+		return false;
+	}
 
-    if (empty($courseid)) {
-        $context = get_context_instance(CONTEXT_SYSTEM);
-    } else {
-        $context = get_context_instance(CONTEXT_COURSE, $courseid);
-    }
+	if (empty($courseid)) {
+		$context = get_context_instance(CONTEXT_SYSTEM);
+	} else {
+		$context = get_context_instance(CONTEXT_COURSE, $courseid);
+	}
 
-    return (has_capability('moodle/legacy:editingteacher', $context, $userid, false)
-         or has_capability('moodle/legacy:admin', $context, $userid, false));
+	return (has_capability('moodle/legacy:editingteacher', $context, $userid, false)
+		 or has_capability('moodle/legacy:admin', $context, $userid, false));
 }
 
 /**
@@ -239,16 +239,16 @@ function isteacheredit($courseid, $userid=0, $obsolete_ignorestudentview=false) 
  * @return bool
  */
 function iscreator ($userid=0) {
-    global $CFG;
+	global $CFG;
 
-    if (empty($CFG->rolesactive)) {
-        return false;
-    }
+	if (empty($CFG->rolesactive)) {
+		return false;
+	}
 
-    $context = get_context_instance(CONTEXT_SYSTEM);
+	$context = get_context_instance(CONTEXT_SYSTEM);
 
-    return (has_capability('moodle/legacy:coursecreator', $context, $userid, false)
-         or has_capability('moodle/legacy:admin', $context, $userid, false));
+	return (has_capability('moodle/legacy:coursecreator', $context, $userid, false)
+		 or has_capability('moodle/legacy:admin', $context, $userid, false));
 }
 
 /**
@@ -264,19 +264,19 @@ function iscreator ($userid=0) {
  * @return bool
  */
 function isstudent($courseid=0, $userid=0) {
-    global $CFG;
+	global $CFG;
 
-    if (empty($CFG->rolesactive)) {
-        return false;
-    }
+	if (empty($CFG->rolesactive)) {
+		return false;
+	}
 
-    if ($courseid == 0) {
-        $context = get_context_instance(CONTEXT_SYSTEM);
-    } else {
-        $context = get_context_instance(CONTEXT_COURSE, $courseid);
-    }
+	if ($courseid == 0) {
+		$context = get_context_instance(CONTEXT_SYSTEM);
+	} else {
+		$context = get_context_instance(CONTEXT_COURSE, $courseid);
+	}
 
-    return has_capability('moodle/legacy:student', $context, $userid, false);
+	return has_capability('moodle/legacy:student', $context, $userid, false);
 }
 
 /**
@@ -286,15 +286,15 @@ function isstudent($courseid=0, $userid=0) {
  * @return bool
  */
 function isguest($userid=0) {
-    global $CFG;
+	global $CFG;
 
-    if (empty($CFG->rolesactive)) {
-        return false;
-    }
+	if (empty($CFG->rolesactive)) {
+		return false;
+	}
 
-    $context = get_context_instance(CONTEXT_SYSTEM);
+	$context = get_context_instance(CONTEXT_SYSTEM);
 
-    return has_capability('moodle/legacy:guest', $context, $userid, false);
+	return has_capability('moodle/legacy:guest', $context, $userid, false);
 }
 
 /**
@@ -313,25 +313,25 @@ function isguest($userid=0) {
  */
 function enrol_student($userid, $courseid, $timestart=0, $timeend=0, $enrol='manual') {
 
-    global $CFG;
+	global $CFG;
 
-    if (!$user = get_record('user', 'id', $userid)) {        // Check user
-        return false;
-    }
+	if (!$user = get_record('user', 'id', $userid)) {        // Check user
+		return false;
+	}
 
-    if (!$roles = get_roles_with_capability('moodle/legacy:student', CAP_ALLOW)) {
-        return false;
-    }
+	if (!$roles = get_roles_with_capability('moodle/legacy:student', CAP_ALLOW)) {
+		return false;
+	}
 
-    $role = array_shift($roles);      // We can only use one, let's use the first one
+	$role = array_shift($roles);      // We can only use one, let's use the first one
 
-    if (!$context = get_context_instance(CONTEXT_COURSE, $courseid)) {
-        return false;
-    }
+	if (!$context = get_context_instance(CONTEXT_COURSE, $courseid)) {
+		return false;
+	}
 
-    $res = role_assign($role->id, $user->id, 0, $context->id, $timestart, $timeend, 0, $enrol);
+	$res = role_assign($role->id, $user->id, 0, $context->id, $timestart, $timeend, 0, $enrol);
 
-    return $res;
+	return $res;
 }
 
 /**
@@ -342,39 +342,39 @@ function enrol_student($userid, $courseid, $timestart=0, $timeend=0, $enrol='man
  * @return bool
  */
 function unenrol_student($userid, $courseid=0) {
-    global $CFG;
+	global $CFG;
 
-    $status = true;
+	$status = true;
 
-    if ($courseid) {
-        /// First delete any crucial stuff that might still send mail
-        if ($forums = get_records('forum', 'course', $courseid)) {
-            foreach ($forums as $forum) {
-                delete_records('forum_subscriptions', 'forum', $forum->id, 'userid', $userid);
-            }
-        }
-        /// remove from all legacy student roles
-        if ($courseid == SITEID) {
-            $context = get_context_instance(CONTEXT_SYSTEM);
-        } else if (!$context = get_context_instance(CONTEXT_COURSE, $courseid)) {
-            return false;
-        }
-        if (!$roles = get_roles_with_capability('moodle/legacy:student', CAP_ALLOW)) {
-            return false;
-        }
-        foreach($roles as $role) {
-            $status = role_unassign($role->id, $userid, 0, $context->id) and $status;
-        }
-    } else {
-        // recursivelly unenroll student from all courses
-        if ($courses = get_records('course')) {
-            foreach($courses as $course) {
-                $status = unenrol_student($userid, $course->id) and $status;
-            }
-        }
-    }
+	if ($courseid) {
+		/// First delete any crucial stuff that might still send mail
+		if ($forums = get_records('forum', 'course', $courseid)) {
+			foreach ($forums as $forum) {
+				delete_records('forum_subscriptions', 'forum', $forum->id, 'userid', $userid);
+			}
+		}
+		/// remove from all legacy student roles
+		if ($courseid == SITEID) {
+			$context = get_context_instance(CONTEXT_SYSTEM);
+		} else if (!$context = get_context_instance(CONTEXT_COURSE, $courseid)) {
+			return false;
+		}
+		if (!$roles = get_roles_with_capability('moodle/legacy:student', CAP_ALLOW)) {
+			return false;
+		}
+		foreach($roles as $role) {
+			$status = role_unassign($role->id, $userid, 0, $context->id) and $status;
+		}
+	} else {
+		// recursivelly unenroll student from all courses
+		if ($courses = get_records('course')) {
+			foreach($courses as $course) {
+				$status = unenrol_student($userid, $course->id) and $status;
+			}
+		}
+	}
 
-    return $status;
+	return $status;
 }
 
 /**
@@ -390,27 +390,27 @@ function unenrol_student($userid, $courseid=0) {
  * @return bool
  */
 function add_teacher($userid, $courseid, $editall=1, $role='', $timestart=0, $timeend=0, $enrol='manual') {
-    global $CFG;
+	global $CFG;
 
-    if (!$user = get_record('user', 'id', $userid)) {        // Check user
-        return false;
-    }
+	if (!$user = get_record('user', 'id', $userid)) {        // Check user
+		return false;
+	}
 
-    $capability = $editall ? 'moodle/legacy:editingteacher' : 'moodle/legacy:teacher';
+	$capability = $editall ? 'moodle/legacy:editingteacher' : 'moodle/legacy:teacher';
 
-    if (!$roles = get_roles_with_capability($capability, CAP_ALLOW)) {
-        return false;
-    }
+	if (!$roles = get_roles_with_capability($capability, CAP_ALLOW)) {
+		return false;
+	}
 
-    $role = array_shift($roles);      // We can only use one, let's use the first one
+	$role = array_shift($roles);      // We can only use one, let's use the first one
 
-    if (!$context = get_context_instance(CONTEXT_COURSE, $courseid)) {
-        return false;
-    }
+	if (!$context = get_context_instance(CONTEXT_COURSE, $courseid)) {
+		return false;
+	}
 
-    $res = role_assign($role->id, $user->id, 0, $context->id, $timestart, $timeend, 0, $enrol);
+	$res = role_assign($role->id, $user->id, 0, $context->id, $timestart, $timeend, 0, $enrol);
 
-    return $res;
+	return $res;
 }
 
 /**
@@ -422,56 +422,56 @@ function add_teacher($userid, $courseid, $editall=1, $role='', $timestart=0, $ti
  * @return bool
  */
 function remove_teacher($userid, $courseid=0) {
-    global $CFG;
+	global $CFG;
 
-    $roles = get_roles_with_capability('moodle/legacy:editingteacher', CAP_ALLOW);
+	$roles = get_roles_with_capability('moodle/legacy:editingteacher', CAP_ALLOW);
 
-    if ($roles) {
-        $roles += get_roles_with_capability('moodle/legacy:teacher', CAP_ALLOW);
-    } else {
-        $roles = get_roles_with_capability('moodle/legacy:teacher', CAP_ALLOW);
-    }
+	if ($roles) {
+		$roles += get_roles_with_capability('moodle/legacy:teacher', CAP_ALLOW);
+	} else {
+		$roles = get_roles_with_capability('moodle/legacy:teacher', CAP_ALLOW);
+	}
 
-    if (empty($roles)) {
-        return true;
-    }
+	if (empty($roles)) {
+		return true;
+	}
 
-    $return = true;
+	$return = true;
 
-    if ($courseid) {
+	if ($courseid) {
 
-        if (!$context = get_context_instance(CONTEXT_COURSE, $courseid)) {
-            return false;
-        }
+		if (!$context = get_context_instance(CONTEXT_COURSE, $courseid)) {
+			return false;
+		}
 
-        /// First delete any crucial stuff that might still send mail
-        if ($forums = get_records('forum', 'course', $courseid)) {
-            foreach ($forums as $forum) {
-                delete_records('forum_subscriptions', 'forum', $forum->id, 'userid', $userid);
-            }
-        }
+		/// First delete any crucial stuff that might still send mail
+		if ($forums = get_records('forum', 'course', $courseid)) {
+			foreach ($forums as $forum) {
+				delete_records('forum_subscriptions', 'forum', $forum->id, 'userid', $userid);
+			}
+		}
 
-        /// No need to remove from groups now
+		/// No need to remove from groups now
 
-        foreach ($roles as $role) {    // Unassign them from all the teacher roles
-            $newreturn = role_unassign($role->id, $userid, 0, $context->id);
-            if (empty($newreturn)) {
-                $return = false;
-            }
-        }
+		foreach ($roles as $role) {    // Unassign them from all the teacher roles
+			$newreturn = role_unassign($role->id, $userid, 0, $context->id);
+			if (empty($newreturn)) {
+				$return = false;
+			}
+		}
 
-    } else {
-        delete_records('forum_subscriptions', 'userid', $userid);
-        $return = true;
-        foreach ($roles as $role) {    // Unassign them from all the teacher roles
-            $newreturn = role_unassign($role->id, $userid, 0, 0);
-            if (empty($newreturn)) {
-                $return = false;
-            }
-        }
-    }
+	} else {
+		delete_records('forum_subscriptions', 'userid', $userid);
+		$return = true;
+		foreach ($roles as $role) {    // Unassign them from all the teacher roles
+			$newreturn = role_unassign($role->id, $userid, 0, 0);
+			if (empty($newreturn)) {
+				$return = false;
+			}
+		}
+	}
 
-    return $return;
+	return $return;
 }
 
 /**
@@ -483,11 +483,11 @@ function remove_teacher($userid, $courseid=0) {
  * @TODO: remove from cvs
  */
 function add_admin($userid) {
-    return true;
+	return true;
 }
 
 function get_user_info_from_db($field, $value) {  // For backward compatibility
-    return get_complete_user_data($field, $value);
+	return get_complete_user_data($field, $value);
 }
 
 
@@ -498,7 +498,7 @@ function get_user_info_from_db($field, $value) {  // For backward compatibility
  * @todo Is object(user) a correct return type? Or is array the proper return type with a note that the contents include all details for a user.
  */
 function get_guest() {
-    return get_complete_user_data('username', 'guest');
+	return get_complete_user_data('username', 'guest');
 }
 
 /**
@@ -511,18 +511,18 @@ function get_guest() {
  */
 function get_teacher($courseid) {
 
-    global $CFG;
+	global $CFG;
 
-    $context = get_context_instance(CONTEXT_COURSE, $courseid);
+	$context = get_context_instance(CONTEXT_COURSE, $courseid);
 
-    // Pass $view=true to filter hidden caps if the user cannot see them
-    if ($users = get_users_by_capability($context, 'moodle/course:update', 'u.*', 'u.id ASC',
-                                         '', '', '', '', false, true)) {
-        $users = sort_by_roleassignment_authority($users, $context);
-        return array_shift($users);
-    }
+	// Pass $view=true to filter hidden caps if the user cannot see them
+	if ($users = get_users_by_capability($context, 'moodle/course:update', 'u.*', 'u.id ASC',
+										 '', '', '', '', false, true)) {
+		$users = sort_by_roleassignment_authority($users, $context);
+		return array_shift($users);
+	}
 
-    return false;
+	return false;
 }
 
 /**
@@ -537,22 +537,22 @@ function get_teacher($courseid) {
  */
 function get_recent_enrolments($courseid, $timestart) {
 
-    global $CFG;
+	global $CFG;
 
-    $context = get_context_instance(CONTEXT_COURSE, $courseid);
+	$context = get_context_instance(CONTEXT_COURSE, $courseid);
 
-    return get_records_sql("SELECT DISTINCT u.id, u.firstname, u.lastname, l.time
-                            FROM {$CFG->prefix}user u,
-                                 {$CFG->prefix}role_assignments ra,
-                                 {$CFG->prefix}log l
-                            WHERE l.time > '$timestart'
-                              AND l.course = '$courseid'
-                              AND l.module = 'course'
-                              AND l.action = 'enrol'
-                              AND ".sql_cast_char2int('l.info')." = u.id
-                              AND u.id = ra.userid
-                              AND ra.contextid ".get_related_contexts_string($context)."
-                              ORDER BY l.time ASC");
+	return get_records_sql("SELECT DISTINCT u.id, u.firstname, u.lastname, l.time
+							FROM {$CFG->prefix}user u,
+								 {$CFG->prefix}role_assignments ra,
+								 {$CFG->prefix}log l
+							WHERE l.time > '$timestart'
+							  AND l.course = '$courseid'
+							  AND l.module = 'course'
+							  AND l.action = 'enrol'
+							  AND ".sql_cast_char2int('l.info')." = u.id
+							  AND u.id = ra.userid
+							  AND ra.contextid ".get_related_contexts_string($context)."
+							  ORDER BY l.time ASC");
 }
 
 /**
@@ -576,117 +576,117 @@ function get_recent_enrolments($courseid, $timestart) {
  * @todo Finish documenting this function
  */
 function get_course_students($courseid, $sort='ul.timeaccess', $dir='', $page='', $recordsperpage='',
-                             $firstinitial='', $lastinitial='', $group=NULL, $search='', $fields='', $exceptions='') {
+							 $firstinitial='', $lastinitial='', $group=NULL, $search='', $fields='', $exceptions='') {
 
-    global $CFG;
+	global $CFG;
 
-    // make sure it works on the site course
-    $context = get_context_instance(CONTEXT_COURSE, $courseid);
+	// make sure it works on the site course
+	$context = get_context_instance(CONTEXT_COURSE, $courseid);
 
-    /// For the site course, old way was to check if $CFG->allusersaresitestudents was set to true.
-    /// The closest comparible method using roles is if the $CFG->defaultuserroleid is set to the legacy
-    /// student role. This function should be replaced where it is used with something more meaningful.
-    if (($courseid == SITEID) && !empty($CFG->defaultuserroleid) && empty($CFG->nodefaultuserrolelists)) {
-        if ($roles = get_roles_with_capability('moodle/legacy:student', CAP_ALLOW, $context)) {
-            $hascap = false;
-            foreach ($roles as $role) {
-                if ($role->id == $CFG->defaultuserroleid) {
-                    $hascap = true;
-                    break;
-                }
-            }
-            if ($hascap) {
-                if (empty($fields)) {
-                    $fields = '*';
-                }
-                // return users with confirmed, undeleted accounts who are not site teachers
-                // the following is a mess because of different conventions in the different user functions
-                $sort = str_replace('s.timeaccess', 'lastaccess', $sort); // site users can't be sorted by timeaccess
-                $sort = str_replace('timeaccess', 'lastaccess', $sort); // site users can't be sorted by timeaccess
-                $sort = str_replace('u.', '', $sort); // the get_user function doesn't use the u. prefix to fields
-                $sort = str_replace('ul.', '', $sort); // the get_user function doesn't use the ul. prefix to fields
-                // the following is a mess because of different conventions in the different user functions. MDL-17200
-                $fields = str_replace('u.', '', $fields);
-                $fields = str_replace('ul.', '', $fields);
-                $fields = str_replace('timeaccess', 'lastaccess', $fields);
-                if ($sort) {
-                    $sort = $sort .' '. $dir;
-                }
-                // Now we have to make sure site teachers are excluded
+	/// For the site course, old way was to check if $CFG->allusersaresitestudents was set to true.
+	/// The closest comparible method using roles is if the $CFG->defaultuserroleid is set to the legacy
+	/// student role. This function should be replaced where it is used with something more meaningful.
+	if (($courseid == SITEID) && !empty($CFG->defaultuserroleid) && empty($CFG->nodefaultuserrolelists)) {
+		if ($roles = get_roles_with_capability('moodle/legacy:student', CAP_ALLOW, $context)) {
+			$hascap = false;
+			foreach ($roles as $role) {
+				if ($role->id == $CFG->defaultuserroleid) {
+					$hascap = true;
+					break;
+				}
+			}
+			if ($hascap) {
+				if (empty($fields)) {
+					$fields = '*';
+				}
+				// return users with confirmed, undeleted accounts who are not site teachers
+				// the following is a mess because of different conventions in the different user functions
+				$sort = str_replace('s.timeaccess', 'lastaccess', $sort); // site users can't be sorted by timeaccess
+				$sort = str_replace('timeaccess', 'lastaccess', $sort); // site users can't be sorted by timeaccess
+				$sort = str_replace('u.', '', $sort); // the get_user function doesn't use the u. prefix to fields
+				$sort = str_replace('ul.', '', $sort); // the get_user function doesn't use the ul. prefix to fields
+				// the following is a mess because of different conventions in the different user functions. MDL-17200
+				$fields = str_replace('u.', '', $fields);
+				$fields = str_replace('ul.', '', $fields);
+				$fields = str_replace('timeaccess', 'lastaccess', $fields);
+				if ($sort) {
+					$sort = $sort .' '. $dir;
+				}
+				// Now we have to make sure site teachers are excluded
 
-                if ($teachers = get_course_teachers(SITEID)) {
-                    foreach ($teachers as $teacher) {
-                        $exceptions .= ','. $teacher->userid;
-                    }
-                    $exceptions = ltrim($exceptions, ',');
+				if ($teachers = get_course_teachers(SITEID)) {
+					foreach ($teachers as $teacher) {
+						$exceptions .= ','. $teacher->userid;
+					}
+					$exceptions = ltrim($exceptions, ',');
 
-                }
+				}
 
-                return get_users(true, $search, true, $exceptions, $sort, $firstinitial, $lastinitial,
-                                  $page, $recordsperpage, $fields);
-            }
-        }
-    }
+				return get_users(true, $search, true, $exceptions, $sort, $firstinitial, $lastinitial,
+								  $page, $recordsperpage, $fields);
+			}
+		}
+	}
 
-    $LIKE      = sql_ilike();
-    $fullname  = sql_fullname('u.firstname','u.lastname');
+	$LIKE      = sql_ilike();
+	$fullname  = sql_fullname('u.firstname','u.lastname');
 
-    $groupmembers = '';
+	$groupmembers = '';
 
-    $select = "c.contextlevel=".CONTEXT_COURSE." AND "; // Must be on a course
-    if ($courseid != SITEID) {
-        // If not site, require specific course
-        $select.= "c.instanceid=$courseid AND ";
-    }
-    $select.="rc.capability='moodle/legacy:student' AND rc.permission=".CAP_ALLOW." AND ";
+	$select = "c.contextlevel=".CONTEXT_COURSE." AND "; // Must be on a course
+	if ($courseid != SITEID) {
+		// If not site, require specific course
+		$select.= "c.instanceid=$courseid AND ";
+	}
+	$select.="rc.capability='moodle/legacy:student' AND rc.permission=".CAP_ALLOW." AND ";
 
-    $select .= ' u.deleted = \'0\' ';
+	$select .= ' u.deleted = \'0\' ';
 
-    if (!$fields) {
-        $fields = 'u.id, u.confirmed, u.username, u.firstname, u.lastname, '.
-                  'u.maildisplay, u.mailformat, u.maildigest, u.email, u.city, '.
-                  'u.country, u.picture, u.idnumber, u.department, u.institution, '.
-                  'u.emailstop, u.lang, u.timezone, ul.timeaccess as lastaccess';
-    }
+	if (!$fields) {
+		$fields = 'u.id, u.confirmed, u.username, u.firstname, u.lastname, '.
+				  'u.maildisplay, u.mailformat, u.maildigest, u.email, u.city, '.
+				  'u.country, u.picture, u.idnumber, u.department, u.institution, '.
+				  'u.emailstop, u.lang, u.timezone, ul.timeaccess as lastaccess';
+	}
 
-    if ($search) {
-        $search = ' AND ('. $fullname .' '. $LIKE .'\'%'. $search .'%\' OR email '. $LIKE .'\'%'. $search .'%\') ';
-    }
+	if ($search) {
+		$search = ' AND ('. $fullname .' '. $LIKE .'\'%'. $search .'%\' OR email '. $LIKE .'\'%'. $search .'%\') ';
+	}
 
-    if ($firstinitial) {
-        $select .= ' AND u.firstname '. $LIKE .'\''. $firstinitial .'%\' ';
-    }
+	if ($firstinitial) {
+		$select .= ' AND u.firstname '. $LIKE .'\''. $firstinitial .'%\' ';
+	}
 
-    if ($lastinitial) {
-        $select .= ' AND u.lastname '. $LIKE .'\''. $lastinitial .'%\' ';
-    }
+	if ($lastinitial) {
+		$select .= ' AND u.lastname '. $LIKE .'\''. $lastinitial .'%\' ';
+	}
 
-    if ($group === 0) {   /// Need something here to get all students not in a group
-        return array();
+	if ($group === 0) {   /// Need something here to get all students not in a group
+		return array();
 
-    } else if ($group !== NULL) {
-        $groupmembers = "INNER JOIN {$CFG->prefix}groups_members gm on u.id=gm.userid";
-        $select .= ' AND gm.groupid = \''. $group .'\'';
-    }
+	} else if ($group !== NULL) {
+		$groupmembers = "INNER JOIN {$CFG->prefix}groups_members gm on u.id=gm.userid";
+		$select .= ' AND gm.groupid = \''. $group .'\'';
+	}
 
-    if (!empty($exceptions)) {
-        $select .= ' AND u.id NOT IN ('. $exceptions .')';
-    }
+	if (!empty($exceptions)) {
+		$select .= ' AND u.id NOT IN ('. $exceptions .')';
+	}
 
-    if ($sort) {
-        $sort = ' ORDER BY '. $sort .' ';
-    }
+	if ($sort) {
+		$sort = ' ORDER BY '. $sort .' ';
+	}
 
-    $students = get_records_sql("SELECT $fields
-                                FROM {$CFG->prefix}user u INNER JOIN
-                                     {$CFG->prefix}role_assignments ra on u.id=ra.userid INNER JOIN
-                                     {$CFG->prefix}role_capabilities rc ON ra.roleid=rc.roleid INNER JOIN
-                                     {$CFG->prefix}context c ON c.id=ra.contextid LEFT OUTER JOIN
-                                     {$CFG->prefix}user_lastaccess ul on ul.userid=ra.userid AND ul.courseid = $courseid
-                                     $groupmembers
-                                WHERE $select $search $sort $dir", $page, $recordsperpage);
+	$students = get_records_sql("SELECT $fields
+								FROM {$CFG->prefix}user u INNER JOIN
+									 {$CFG->prefix}role_assignments ra on u.id=ra.userid INNER JOIN
+									 {$CFG->prefix}role_capabilities rc ON ra.roleid=rc.roleid INNER JOIN
+									 {$CFG->prefix}context c ON c.id=ra.contextid LEFT OUTER JOIN
+									 {$CFG->prefix}user_lastaccess ul on ul.userid=ra.userid AND ul.courseid = $courseid
+									 $groupmembers
+								WHERE $select $search $sort $dir", $page, $recordsperpage);
 
-    return $students;
+	return $students;
 }
 
 /**
@@ -703,10 +703,10 @@ function get_course_students($courseid, $sort='ul.timeaccess', $dir='', $page=''
  */
 function count_course_students($course, $search='', $firstinitial='', $lastinitial='', $group=NULL, $exceptions='') {
 
-    if ($students = get_course_students($course->id, '', '', 0, 999999, $firstinitial, $lastinitial, $group, $search, '', $exceptions)) {
-        return count($students);
-    }
-    return 0;
+	if ($students = get_course_students($course->id, '', '', 0, 999999, $firstinitial, $lastinitial, $group, $search, '', $exceptions)) {
+		return count($students);
+	}
+	return 0;
 }
 
 /**
@@ -724,48 +724,48 @@ function count_course_students($course, $search='', $firstinitial='', $lastiniti
  */
 function get_course_teachers($courseid, $sort='t.authority ASC', $exceptions='') {
 
-    global $CFG;
+	global $CFG;
 
-    $sort = 'ul.timeaccess DESC';
+	$sort = 'ul.timeaccess DESC';
 
-    $context = get_context_instance(CONTEXT_COURSE, $courseid);
+	$context = get_context_instance(CONTEXT_COURSE, $courseid);
 
-    /// For the site course, if the $CFG->defaultuserroleid is set to the legacy teacher role, then all
-    /// users are teachers. This function should be replaced where it is used with something more
-    /// meaningful.
-    if (($courseid == SITEID) && !empty($CFG->defaultuserroleid) && empty($CFG->nodefaultuserrolelists)) {
-        if ($roles = get_roles_with_capability('moodle/legacy:teacher', CAP_ALLOW, $context)) {
-            $hascap = false;
-            foreach ($roles as $role) {
-                if ($role->id == $CFG->defaultuserroleid) {
-                    $hascap = true;
-                    break;
-                }
-            }
-            if ($hascap) {
-                if (empty($fields)) {
-                    $fields = '*';
-                }
-                return get_users(true, '', true, $exceptions, 'lastname ASC', '', '', '', '', $fields);
-            }
-        }
-    }
+	/// For the site course, if the $CFG->defaultuserroleid is set to the legacy teacher role, then all
+	/// users are teachers. This function should be replaced where it is used with something more
+	/// meaningful.
+	if (($courseid == SITEID) && !empty($CFG->defaultuserroleid) && empty($CFG->nodefaultuserrolelists)) {
+		if ($roles = get_roles_with_capability('moodle/legacy:teacher', CAP_ALLOW, $context)) {
+			$hascap = false;
+			foreach ($roles as $role) {
+				if ($role->id == $CFG->defaultuserroleid) {
+					$hascap = true;
+					break;
+				}
+			}
+			if ($hascap) {
+				if (empty($fields)) {
+					$fields = '*';
+				}
+				return get_users(true, '', true, $exceptions, 'lastname ASC', '', '', '', '', $fields);
+			}
+		}
+	}
 
-    $users = get_users_by_capability($context, 'moodle/course:update',
-                                     'u.*, ul.timeaccess as lastaccess',
-                                     $sort, '','','',$exceptions, false);
-    return sort_by_roleassignment_authority($users, $context);
+	$users = get_users_by_capability($context, 'moodle/course:update',
+									 'u.*, ul.timeaccess as lastaccess',
+									 $sort, '','','',$exceptions, false);
+	return sort_by_roleassignment_authority($users, $context);
 
-    /// some fields will be missing, like authority, editall
-    /*
-    return get_records_sql("SELECT u.id, u.username, u.firstname, u.lastname, u.maildisplay, u.mailformat, u.maildigest,
-                                   u.email, u.city, u.country, u.lastlogin, u.picture, u.lang, u.timezone,
-                                   u.emailstop, t.authority,t.role,t.editall,t.timeaccess as lastaccess
-                            FROM {$CFG->prefix}user u,
-                                 {$CFG->prefix}user_teachers t
-                            WHERE t.course = '$courseid' AND t.userid = u.id
-                              AND u.deleted = '0' AND u.confirmed = '1' $exceptions $sort");
-    */
+	/// some fields will be missing, like authority, editall
+	/*
+	return get_records_sql("SELECT u.id, u.username, u.firstname, u.lastname, u.maildisplay, u.mailformat, u.maildigest,
+								   u.email, u.city, u.country, u.lastlogin, u.picture, u.lang, u.timezone,
+								   u.emailstop, t.authority,t.role,t.editall,t.timeaccess as lastaccess
+							FROM {$CFG->prefix}user u,
+								 {$CFG->prefix}user_teachers t
+							WHERE t.course = '$courseid' AND t.userid = u.id
+							  AND u.deleted = '0' AND u.confirmed = '1' $exceptions $sort");
+	*/
 }
 
 /**
@@ -780,35 +780,35 @@ function get_course_teachers($courseid, $sort='t.authority ASC', $exceptions='')
  * @todo Finish documenting this function
  */
 function get_course_users($courseid, $sort='ul.timeaccess DESC', $exceptions='', $fields='u.*, ul.timeaccess as lastaccess', $limitfrom='', $limitnum='') {
-    global $CFG;
+	global $CFG;
 
-    $context = get_context_instance(CONTEXT_COURSE, $courseid);
+	$context = get_context_instance(CONTEXT_COURSE, $courseid);
 
-    /// If the course id is the SITEID, we need to return all the users if the "defaultuserroleid"
-    /// has the capbility of accessing the site course. $CFG->nodefaultuserrolelists set to true can
-    /// over-rule using this.
-    if (($courseid == SITEID) && !empty($CFG->defaultuserroleid) && empty($CFG->nodefaultuserrolelists)) {
-        if ($roles = get_roles_with_capability('moodle/course:view', CAP_ALLOW, $context)) {
-            $hascap = false;
-            foreach ($roles as $role) {
-                if ($role->id == $CFG->defaultuserroleid) {
-                    $hascap = true;
-                    break;
-                }
-            }
-            if ($hascap) {
-                if (empty($fields)) {
-                    $fields = '*';
-                }
-                // the following is a mess because of different conventions in the different user functions. MDL-17200
-                $fields = str_replace('u.', '', $fields);
-                $fields = str_replace('ul.', '', $fields);
-                $fields = str_replace('timeaccess', 'lastaccess', $fields);
-                return get_users(true, '', true, $exceptions, 'lastname ASC', '', '', $limitfrom, $limitnum, $fields);
-            }
-        }
-    }
-    return get_users_by_capability($context, 'moodle/course:view', $fields, $sort, $limitfrom, $limitnum,'',$exceptions, false);
+	/// If the course id is the SITEID, we need to return all the users if the "defaultuserroleid"
+	/// has the capbility of accessing the site course. $CFG->nodefaultuserrolelists set to true can
+	/// over-rule using this.
+	if (($courseid == SITEID) && !empty($CFG->defaultuserroleid) && empty($CFG->nodefaultuserrolelists)) {
+		if ($roles = get_roles_with_capability('moodle/course:view', CAP_ALLOW, $context)) {
+			$hascap = false;
+			foreach ($roles as $role) {
+				if ($role->id == $CFG->defaultuserroleid) {
+					$hascap = true;
+					break;
+				}
+			}
+			if ($hascap) {
+				if (empty($fields)) {
+					$fields = '*';
+				}
+				// the following is a mess because of different conventions in the different user functions. MDL-17200
+				$fields = str_replace('u.', '', $fields);
+				$fields = str_replace('ul.', '', $fields);
+				$fields = str_replace('timeaccess', 'lastaccess', $fields);
+				return get_users(true, '', true, $exceptions, 'lastname ASC', '', '', $limitfrom, $limitnum, $fields);
+			}
+		}
+	}
+	return get_users_by_capability($context, 'moodle/course:view', $fields, $sort, $limitfrom, $limitnum,'',$exceptions, false);
 
 }
 
@@ -822,19 +822,19 @@ function get_course_users($courseid, $sort='ul.timeaccess DESC', $exceptions='',
  */
 function get_group_students($groupids, $sort='ul.timeaccess DESC') {
 
-    if (is_array($groupids)){
-        $groups = $groupids;
-        // all groups must be from one course anyway...
-        $group = groups_get_group(array_shift($groups));
-    } else {
-        $group = groups_get_group($groupids);
-    }
-    if (!$group) {
-        return NULL;
-    }
+	if (is_array($groupids)){
+		$groups = $groupids;
+		// all groups must be from one course anyway...
+		$group = groups_get_group(array_shift($groups));
+	} else {
+		$group = groups_get_group($groupids);
+	}
+	if (!$group) {
+		return NULL;
+	}
 
-    $context = get_context_instance(CONTEXT_COURSE, $group->courseid);
-    return get_users_by_capability($context, 'moodle/legacy:student', 'u.*, ul.timeaccess as lastaccess', $sort, '','',$groupids, '', false);
+	$context = get_context_instance(CONTEXT_COURSE, $group->courseid);
+	return get_users_by_capability($context, 'moodle/legacy:student', 'u.*, ul.timeaccess as lastaccess', $sort, '','',$groupids, '', false);
 }
 
 /**
@@ -847,18 +847,18 @@ function get_group_students($groupids, $sort='ul.timeaccess DESC') {
  */
 function get_group_teachers($courseid, $groupid) {
 /// Returns a list of all the teachers who can access a group
-    if ($teachers = get_course_teachers($courseid)) {
-        foreach ($teachers as $key => $teacher) {
-            if ($teacher->editall) {             // These can access anything
-                continue;
-            }
-            if (($teacher->authority > 0) and groups_is_member($groupid, $teacher->id)) {  // Specific group teachers
-                continue;
-            }
-            unset($teachers[$key]);
-        }
-    }
-    return $teachers;
+	if ($teachers = get_course_teachers($courseid)) {
+		foreach ($teachers as $key => $teacher) {
+			if ($teacher->editall) {             // These can access anything
+				continue;
+			}
+			if (($teacher->authority > 0) and groups_is_member($groupid, $teacher->id)) {  // Specific group teachers
+				continue;
+			}
+			unset($teachers[$key]);
+		}
+	}
+	return $teachers;
 }
 
 
@@ -885,7 +885,7 @@ function get_group_teachers($courseid, $groupid) {
  * @todo Finish documenting this function
  */
 function make_table($table) {
-    return print_table($table, true);
+	return print_table($table, true);
 }
 
 
@@ -904,16 +904,16 @@ function make_table($table) {
  * @param boolean $return, return as string or just print it
  */
 function print_simple_box($message, $align='', $width='', $color='', $padding=5, $class='generalbox', $id='', $return=false) {
-    $output = '';
-    $output .= print_simple_box_start($align, $width, $color, $padding, $class, $id, true);
-    $output .= stripslashes_safe($message);
-    $output .= print_simple_box_end(true);
+	$output = '';
+	$output .= print_simple_box_start($align, $width, $color, $padding, $class, $id, true);
+	$output .= stripslashes_safe($message);
+	$output .= print_simple_box_end(true);
 
-    if ($return) {
-        return $output;
-    } else {
-        echo $output;
-    }
+	if ($return) {
+		return $output;
+	} else {
+		echo $output;
+	}
 }
 
 
@@ -933,46 +933,46 @@ function print_simple_box($message, $align='', $width='', $color='', $padding=5,
  */
 function print_simple_box_start($align='', $width='', $color='', $padding=5, $class='generalbox', $id='', $return=false) {
 
-    $output = '';
+	$output = '';
 
-    $divclasses = 'box '.$class.' '.$class.'content';
-    $divstyles  = '';
+	$divclasses = 'box '.$class.' '.$class.'content';
+	$divstyles  = '';
 
-    if ($align) {
-        $divclasses .= ' boxalign'.$align;    // Implement alignment using a class
-    }
-    if ($width) {    // Hopefully we can eliminate these in calls to this function (inline styles are bad)
-        if (substr($width, -1, 1) == '%') {    // Width is a % value
-            $width = (int) substr($width, 0, -1);    // Extract just the number
-            if ($width < 40) {
-                $divclasses .= ' boxwidthnarrow';    // Approx 30% depending on theme
-            } else if ($width > 60) {
-                $divclasses .= ' boxwidthwide';      // Approx 80% depending on theme
-            } else {
-                $divclasses .= ' boxwidthnormal';    // Approx 50% depending on theme
-            }
-        } else {
-            $divstyles  .= ' width:'.$width.';';     // Last resort
-        }
-    }
-    if ($color) {    // Hopefully we can eliminate these in calls to this function (inline styles are bad)
-        $divstyles  .= ' background:'.$color.';';
-    }
-    if ($divstyles) {
-        $divstyles = ' style="'.$divstyles.'"';
-    }
+	if ($align) {
+		$divclasses .= ' boxalign'.$align;    // Implement alignment using a class
+	}
+	if ($width) {    // Hopefully we can eliminate these in calls to this function (inline styles are bad)
+		if (substr($width, -1, 1) == '%') {    // Width is a % value
+			$width = (int) substr($width, 0, -1);    // Extract just the number
+			if ($width < 40) {
+				$divclasses .= ' boxwidthnarrow';    // Approx 30% depending on theme
+			} else if ($width > 60) {
+				$divclasses .= ' boxwidthwide';      // Approx 80% depending on theme
+			} else {
+				$divclasses .= ' boxwidthnormal';    // Approx 50% depending on theme
+			}
+		} else {
+			$divstyles  .= ' width:'.$width.';';     // Last resort
+		}
+	}
+	if ($color) {    // Hopefully we can eliminate these in calls to this function (inline styles are bad)
+		$divstyles  .= ' background:'.$color.';';
+	}
+	if ($divstyles) {
+		$divstyles = ' style="'.$divstyles.'"';
+	}
 
-    if ($id) {
-        $id = ' id="'.$id.'"';
-    }
+	if ($id) {
+		$id = ' id="'.$id.'"';
+	}
 
-    $output .= '<div'.$id.$divstyles.' class="'.$divclasses.'">';
+	$output .= '<div'.$id.$divstyles.' class="'.$divclasses.'">';
 
-    if ($return) {
-        return $output;
-    } else {
-        echo $output;
-    }
+	if ($return) {
+		return $output;
+	} else {
+		echo $output;
+	}
 }
 
 
@@ -981,12 +981,12 @@ function print_simple_box_start($align='', $width='', $color='', $padding=5, $cl
  * Preferably just use print_box_end() in weblib.php
  */
 function print_simple_box_end($return=false) {
-    $output = '</div>';
-    if ($return) {
-        return $output;
-    } else {
-        echo $output;
-    }
+	$output = '</div>';
+	if ($return) {
+		return $output;
+	} else {
+		echo $output;
+	}
 }
 
 /**
@@ -998,17 +998,17 @@ function print_simple_box_end($return=false) {
  * @todo Finish documenting this function - more detail needed in description as well as details on arguments
  */
 function detect_munged_arguments($string, $allowdots=1) {
-    if (substr_count($string, '..') > $allowdots) {   // Sometimes we allow dots in references
-        return true;
-    }
-    if (ereg('[\|\`]', $string)) {  // check for other bad characters
-        return true;
-    }
-    if (empty($string) or $string == '/') {
-        return true;
-    }
+	if (substr_count($string, '..') > $allowdots) {   // Sometimes we allow dots in references
+		return true;
+	}
+	if (ereg('[\|\`]', $string)) {  // check for other bad characters
+		return true;
+	}
+	if (empty($string) or $string == '/') {
+		return true;
+	}
 
-    return false;
+	return false;
 }
 
 /** Deprecated function - returns the code of the current charset - originally depended on the selected language pack.
@@ -1017,7 +1017,7 @@ function detect_munged_arguments($string, $allowdots=1) {
  * @return string always returns 'UTF-8'
  */
 function current_charset($ignorecache = false) {
-    return 'UTF-8';
+	return 'UTF-8';
 }
 
 
@@ -1040,10 +1040,10 @@ function current_charset($ignorecache = false) {
  */
 function read_template($filename, &$var) {
 
-    $temp = str_replace("\\", "\\\\", implode(file($filename), ''));
-    $temp = str_replace('"', '\"', $temp);
-    eval("\$template = \"$temp\";");
-    return $template;
+	$temp = str_replace("\\", "\\\\", implode(file($filename), ''));
+	$temp = str_replace('"', '\"', $temp);
+	eval("\$template = \"$temp\";");
+	return $template;
 }
 
 
@@ -1062,11 +1062,11 @@ function read_template($filename, &$var) {
  */
 function checked(&$var, $set_value = 1, $unset_value = 0) {
 
-    if (empty($var)) {
-        $var = $unset_value;
-    } else {
-        $var = $set_value;
-    }
+	if (empty($var)) {
+		$var = $unset_value;
+	} else {
+		$var = $set_value;
+	}
 }
 
 /**
@@ -1081,11 +1081,11 @@ function checked(&$var, $set_value = 1, $unset_value = 0) {
  */
 function frmchecked(&$var, $true_value = 'checked', $false_value = '') {
 
-    if ($var) {
-        echo $true_value;
-    } else {
-        echo $false_value;
-    }
+	if ($var) {
+		echo $true_value;
+	} else {
+		echo $false_value;
+	}
 }
 
 /**
@@ -1097,7 +1097,7 @@ function frmchecked(&$var, $true_value = 'checked', $false_value = '') {
  * @todo Finish documenting this function
  */
 function print_richedit_javascript($form, $name, $source='no') {
-    use_html_editor($name);
+	use_html_editor($name);
 }
 
 /** various deprecated groups function **/
@@ -1108,8 +1108,8 @@ function print_richedit_javascript($form, $name, $source='no') {
  * @return SQL string.
  */
 function groups_members_from_sql() {
-    global $CFG;
-    return " {$CFG->prefix}groups_members gm ";
+	global $CFG;
+	return " {$CFG->prefix}groups_members gm ";
 }
 
 /**
@@ -1120,13 +1120,13 @@ function groups_members_from_sql() {
  * @return SQL string.
  */
 function groups_members_join_sql($groupid=false) {
-    $sql = ' JOIN '.groups_members_from_sql().' ON u.id = gm.userid ';
-    if ($groupid) {
-        $sql = "AND gm.groupid = '$groupid' ";
-    }
-    return $sql;
-    //return ' INNER JOIN '.$CFG->prefix.'role_assignments ra ON u.id=ra.userid'.
-    //       ' INNER JOIN '.$CFG->prefix.'context c ON ra.contextid=c.id AND c.contextlevel='.CONTEXT_GROUP.' AND c.instanceid='.$groupid;
+	$sql = ' JOIN '.groups_members_from_sql().' ON u.id = gm.userid ';
+	if ($groupid) {
+		$sql = "AND gm.groupid = '$groupid' ";
+	}
+	return $sql;
+	//return ' INNER JOIN '.$CFG->prefix.'role_assignments ra ON u.id=ra.userid'.
+	//       ' INNER JOIN '.$CFG->prefix.'context c ON ra.contextid=c.id AND c.contextlevel='.CONTEXT_GROUP.' AND c.instanceid='.$groupid;
 }
 
 /**
@@ -1137,11 +1137,11 @@ function groups_members_join_sql($groupid=false) {
  * @return SQL string.
  */
 function groups_members_where_sql($groupid, $userid_sql=false) {
-    $sql = " gm.groupid = '$groupid' ";
-    if ($userid_sql) {
-        $sql .= "AND $userid_sql = gm.userid ";
-    }
-    return $sql;
+	$sql = " gm.groupid = '$groupid' ";
+	if ($userid_sql) {
+		$sql .= "AND $userid_sql = gm.userid ";
+	}
+	return $sql;
 }
 
 
@@ -1156,7 +1156,7 @@ function groups_members_where_sql($groupid, $userid_sql=false) {
  * @return object
  */
 function get_groups($courseid, $userid=0) {
-    return groups_get_all_groups($courseid, $userid);
+	return groups_get_all_groups($courseid, $userid);
 }
 
 /**
@@ -1170,7 +1170,7 @@ function get_groups($courseid, $userid=0) {
  * @return aray of groups
  */
 function user_group($courseid, $userid) {
-    return groups_get_all_groups($courseid, $userid);
+	return groups_get_all_groups($courseid, $userid);
 }
 
 
@@ -1182,7 +1182,7 @@ function user_group($courseid, $userid) {
  * @return boolean True if the user is a member, false otherwise.
  */
 function ismember($groupid, $userid = null) {
-    return groups_is_member($groupid, $userid);
+	return groups_is_member($groupid, $userid);
 }
 
 /**
@@ -1194,12 +1194,12 @@ function ismember($groupid, $userid = null) {
  * (Was return $groupids[0] - consequences!)
  */
 function mygroupid($courseid) {
-    global $USER;
-    if ($groups = groups_get_all_groups($courseid, $USER->id)) {
-        return array_keys($groups);
-    } else {
-        return false;
-    }
+	global $USER;
+	if ($groups = groups_get_all_groups($courseid, $USER->id)) {
+		return array_keys($groups);
+	} else {
+		return false;
+	}
 }
 
 /**
@@ -1211,10 +1211,10 @@ function mygroupid($courseid) {
  * @return bool
  */
 function add_user_to_group($groupid, $userid) {
-    global $CFG;
-    require_once($CFG->dirroot.'/group/lib.php');
+	global $CFG;
+	require_once($CFG->dirroot.'/group/lib.php');
 
-    return groups_add_member($groupid, $userid);
+	return groups_add_member($groupid, $userid);
 }
 
 
@@ -1232,26 +1232,26 @@ function add_user_to_group($groupid, $userid) {
  * @todo Finish documenting this function
  */
 function get_group_users($groupid, $sort='u.lastaccess DESC', $exceptions='', $fields='u.*', $limitfrom='', $limitnum='') {
-    global $CFG;
-    if (!empty($exceptions)) {
-        $except = ' AND u.id NOT IN ('. $exceptions .') ';
-    } else {
-        $except = '';
-    }
-    // in postgres, you can't have things in sort that aren't in the select, so...
-    $extrafield = str_replace('ASC','',$sort);
-    $extrafield = str_replace('DESC','',$extrafield);
-    $extrafield = trim($extrafield);
-    if (!empty($extrafield)) {
-        $extrafield = ','.$extrafield;
-    }
-    return get_records_sql("SELECT DISTINCT $fields $extrafield
-                              FROM {$CFG->prefix}user u,
-                                   {$CFG->prefix}groups_members m
-                             WHERE m.groupid = '$groupid'
-                               AND m.userid = u.id $except
-                          ORDER BY $sort",
-                          $limitfrom, $limitnum);
+	global $CFG;
+	if (!empty($exceptions)) {
+		$except = ' AND u.id NOT IN ('. $exceptions .') ';
+	} else {
+		$except = '';
+	}
+	// in postgres, you can't have things in sort that aren't in the select, so...
+	$extrafield = str_replace('ASC','',$sort);
+	$extrafield = str_replace('DESC','',$extrafield);
+	$extrafield = trim($extrafield);
+	if (!empty($extrafield)) {
+		$extrafield = ','.$extrafield;
+	}
+	return get_records_sql("SELECT DISTINCT $fields $extrafield
+							  FROM {$CFG->prefix}user u,
+								   {$CFG->prefix}groups_members m
+							 WHERE m.groupid = '$groupid'
+							   AND m.userid = u.id $except
+						  ORDER BY $sort",
+						  $limitfrom, $limitnum);
 }
 
 /**
@@ -1261,10 +1261,10 @@ function get_group_users($groupid, $sort='u.lastaccess DESC', $exceptions='', $f
  */
 function groupmode($course, $cm=null) {
 
-    if (isset($cm->groupmode) && empty($course->groupmodeforce)) {
-        return $cm->groupmode;
-    }
-    return $course->groupmode;
+	if (isset($cm->groupmode) && empty($course->groupmodeforce)) {
+		return $cm->groupmode;
+	}
+	return $course->groupmode;
 }
 
 
@@ -1280,8 +1280,8 @@ function groupmode($course, $cm=null) {
  * @return int Current group id which was set by this function
  */
 function set_current_group($courseid, $groupid) {
-    global $SESSION;
-    return $SESSION->currentgroup[$courseid] = $groupid;
+	global $SESSION;
+	return $SESSION->currentgroup[$courseid] = $groupid;
 }
 
 
@@ -1296,32 +1296,32 @@ function set_current_group($courseid, $groupid) {
  * If false, just the id of the record.
  */
 function get_current_group($courseid, $full = false) {
-    global $SESSION;
+	global $SESSION;
 
-    if (isset($SESSION->currentgroup[$courseid])) {
-        if ($full) {
-            return groups_get_group($SESSION->currentgroup[$courseid]);
-        } else {
-            return $SESSION->currentgroup[$courseid];
-        }
-    }
+	if (isset($SESSION->currentgroup[$courseid])) {
+		if ($full) {
+			return groups_get_group($SESSION->currentgroup[$courseid]);
+		} else {
+			return $SESSION->currentgroup[$courseid];
+		}
+	}
 
-    $mygroupid = mygroupid($courseid);
-    if (is_array($mygroupid)) {
-        $mygroupid = array_shift($mygroupid);
-        set_current_group($courseid, $mygroupid);
-        if ($full) {
-            return groups_get_group($mygroupid);
-        } else {
-            return $mygroupid;
-        }
-    }
+	$mygroupid = mygroupid($courseid);
+	if (is_array($mygroupid)) {
+		$mygroupid = array_shift($mygroupid);
+		set_current_group($courseid, $mygroupid);
+		if ($full) {
+			return groups_get_group($mygroupid);
+		} else {
+			return $mygroupid;
+		}
+	}
 
-    if ($full) {
-        return false;
-    } else {
-        return 0;
-    }
+	if ($full) {
+		return false;
+	} else {
+		return 0;
+	}
 }
 
 
@@ -1341,50 +1341,50 @@ function get_current_group($courseid, $full = false) {
  */
 function get_and_set_current_group($course, $groupmode, $groupid=-1) {
 
-    // Sets to the specified group, provided the current user has view permission
-    if (!$groupmode) {   // Groups don't even apply
-        return false;
-    }
+	// Sets to the specified group, provided the current user has view permission
+	if (!$groupmode) {   // Groups don't even apply
+		return false;
+	}
 
-    $currentgroupid = get_current_group($course->id);
+	$currentgroupid = get_current_group($course->id);
 
-    if ($groupid < 0) {  // No change was specified
-        return $currentgroupid;
-    }
+	if ($groupid < 0) {  // No change was specified
+		return $currentgroupid;
+	}
 
-    $context = get_context_instance(CONTEXT_COURSE, $course->id);
-    if ($groupid and $group = get_record('groups', 'id', $groupid)) {      // Try to change the current group to this groupid
-        if ($group->courseid == $course->id) {
-            if (has_capability('moodle/site:accessallgroups', $context)) {  // Sets current default group
-                $currentgroupid = set_current_group($course->id, $groupid);
+	$context = get_context_instance(CONTEXT_COURSE, $course->id);
+	if ($groupid and $group = get_record('groups', 'id', $groupid)) {      // Try to change the current group to this groupid
+		if ($group->courseid == $course->id) {
+			if (has_capability('moodle/site:accessallgroups', $context)) {  // Sets current default group
+				$currentgroupid = set_current_group($course->id, $groupid);
 
-            } elseif ($groupmode == VISIBLEGROUPS) {
-                  // All groups are visible
-                //if (groups_is_member($group->id)){
-                    $currentgroupid = set_current_group($course->id, $groupid); //set this since he might post
-                /*)}else {
-                    $currentgroupid = $group->id;*/
-            } elseif ($groupmode == SEPARATEGROUPS) { // student in separate groups switching
-                if (groups_is_member($groupid)) { //check if is a member
-                    $currentgroupid = set_current_group($course->id, $groupid); //might need to set_current_group?
-                }
-                else {
-                    notify('You do not belong to this group! ('.$groupid.')', 'error');
-                }
-            }
-        }
-    } else { // When groupid = 0 it means show ALL groups
-        // this is changed, non editting teacher needs access to group 0 as well,
-        // for viewing work in visible groups (need to set current group for multiple pages)
-        if (has_capability('moodle/site:accessallgroups', $context)) { // Sets current default group
-            $currentgroupid = set_current_group($course->id, 0);
+			} elseif ($groupmode == VISIBLEGROUPS) {
+				  // All groups are visible
+				//if (groups_is_member($group->id)){
+					$currentgroupid = set_current_group($course->id, $groupid); //set this since he might post
+				/*)}else {
+					$currentgroupid = $group->id;*/
+			} elseif ($groupmode == SEPARATEGROUPS) { // student in separate groups switching
+				if (groups_is_member($groupid)) { //check if is a member
+					$currentgroupid = set_current_group($course->id, $groupid); //might need to set_current_group?
+				}
+				else {
+					notify('You do not belong to this group! ('.$groupid.')', 'error');
+				}
+			}
+		}
+	} else { // When groupid = 0 it means show ALL groups
+		// this is changed, non editting teacher needs access to group 0 as well,
+		// for viewing work in visible groups (need to set current group for multiple pages)
+		if (has_capability('moodle/site:accessallgroups', $context)) { // Sets current default group
+			$currentgroupid = set_current_group($course->id, 0);
 
-        } else if ($groupmode == VISIBLEGROUPS) {  // All groups are visible
-            $currentgroupid = set_current_group($course->id, 0);
-        }
-    }
+		} else if ($groupmode == VISIBLEGROUPS) {  // All groups are visible
+			$currentgroupid = set_current_group($course->id, 0);
+		}
+	}
 
-    return $currentgroupid;
+	return $currentgroupid;
 }
 
 
@@ -1405,55 +1405,55 @@ function get_and_set_current_group($course, $groupmode, $groupid=-1) {
  */
 function setup_and_print_groups($course, $groupmode, $urlroot) {
 
-    global $USER, $SESSION; //needs his id, need to hack his groups in session
+	global $USER, $SESSION; //needs his id, need to hack his groups in session
 
-    $changegroup = optional_param('group', -1, PARAM_INT);
+	$changegroup = optional_param('group', -1, PARAM_INT);
 
-    $currentgroup = get_and_set_current_group($course, $groupmode, $changegroup);
-    if ($currentgroup === false) {
-        return false;
-    }
+	$currentgroup = get_and_set_current_group($course, $groupmode, $changegroup);
+	if ($currentgroup === false) {
+		return false;
+	}
 
-    $context = get_context_instance(CONTEXT_COURSE, $course->id);
+	$context = get_context_instance(CONTEXT_COURSE, $course->id);
 
-    if ($groupmode == SEPARATEGROUPS and !$currentgroup and !has_capability('moodle/site:accessallgroups', $context)) {
-        //we are in separate groups and the current group is group 0, as last set.
-        //this can mean that either, this guy has no group
-        //or, this guy just came from a visible all forum, and he left when he set his current group to 0 (show all)
+	if ($groupmode == SEPARATEGROUPS and !$currentgroup and !has_capability('moodle/site:accessallgroups', $context)) {
+		//we are in separate groups and the current group is group 0, as last set.
+		//this can mean that either, this guy has no group
+		//or, this guy just came from a visible all forum, and he left when he set his current group to 0 (show all)
 
-        if ($usergroups = groups_get_all_groups($course->id, $USER->id)){
-            //for the second situation, we need to perform the trick and get him a group.
-            $first = reset($usergroups);
-            $currentgroup = get_and_set_current_group($course, $groupmode, $first->id);
+		if ($usergroups = groups_get_all_groups($course->id, $USER->id)){
+			//for the second situation, we need to perform the trick and get him a group.
+			$first = reset($usergroups);
+			$currentgroup = get_and_set_current_group($course, $groupmode, $first->id);
 
-        } else {
-            //else he has no group in this course
-            print_heading(get_string('notingroup'));
-            print_footer($course);
-            exit;
-        }
-    }
+		} else {
+			//else he has no group in this course
+			print_heading(get_string('notingroup'));
+			print_footer($course);
+			exit;
+		}
+	}
 
-    if ($groupmode == VISIBLEGROUPS or ($groupmode and has_capability('moodle/site:accessallgroups', $context))) {
+	if ($groupmode == VISIBLEGROUPS or ($groupmode and has_capability('moodle/site:accessallgroups', $context))) {
 
-        if ($groups = groups_get_all_groups($course->id)) {
+		if ($groups = groups_get_all_groups($course->id)) {
 
-            echo '<div class="groupselector">';
-            print_group_menu($groups, $groupmode, $currentgroup, $urlroot, 1);
-            echo '</div>';
-        }
+			echo '<div class="groupselector">';
+			print_group_menu($groups, $groupmode, $currentgroup, $urlroot, 1);
+			echo '</div>';
+		}
 
-    } else if ($groupmode == SEPARATEGROUPS and has_capability('moodle/course:view', $context)) {
-        //get all the groups this guy is in in this course
-        if ($usergroups = groups_get_all_groups($course->id, $USER->id)){
-            echo '<div class="groupselector">';
-            //print them in the menu
-            print_group_menu($usergroups, $groupmode, $currentgroup, $urlroot, 0);
-            echo '</div>';
-        }
-    }
+	} else if ($groupmode == SEPARATEGROUPS and has_capability('moodle/course:view', $context)) {
+		//get all the groups this guy is in in this course
+		if ($usergroups = groups_get_all_groups($course->id, $USER->id)){
+			echo '<div class="groupselector">';
+			//print them in the menu
+			print_group_menu($usergroups, $groupmode, $currentgroup, $urlroot, 0);
+			echo '</div>';
+		}
+	}
 
-    return $currentgroup;
+	return $currentgroup;
 }
 
 /**
@@ -1469,35 +1469,35 @@ function setup_and_print_groups($course, $groupmode, $urlroot) {
  */
 function print_group_menu($groups, $groupmode, $currentgroup, $urlroot, $showall=1, $return=false) {
 
-    $output = '';
-    $groupsmenu = array();
+	$output = '';
+	$groupsmenu = array();
 
 /// Add an "All groups" to the start of the menu
-    if ($showall){
-        $groupsmenu[0] = get_string('allparticipants');
-    }
-    foreach ($groups as $key => $group) {
-        $groupsmenu[$key] = format_string($group->name);
-    }
+	if ($showall){
+		$groupsmenu[0] = get_string('allparticipants');
+	}
+	foreach ($groups as $key => $group) {
+		$groupsmenu[$key] = format_string($group->name);
+	}
 
-    if ($groupmode == VISIBLEGROUPS) {
-        $grouplabel = get_string('groupsvisible');
-    } else {
-        $grouplabel = get_string('groupsseparate');
-    }
+	if ($groupmode == VISIBLEGROUPS) {
+		$grouplabel = get_string('groupsvisible');
+	} else {
+		$grouplabel = get_string('groupsseparate');
+	}
 
-    if (count($groupsmenu) == 1) {
-        $groupname = reset($groupsmenu);
-        $output .= $grouplabel.': '.$groupname;
-    } else {
-        $output .= popup_form($urlroot.'&amp;group=', $groupsmenu, 'selectgroup', $currentgroup, '', '', '', true, 'self', $grouplabel);
-    }
+	if (count($groupsmenu) == 1) {
+		$groupname = reset($groupsmenu);
+		$output .= $grouplabel.': '.$groupname;
+	} else {
+		$output .= popup_form($urlroot.'&amp;group=', $groupsmenu, 'selectgroup', $currentgroup, '', '', '', true, 'self', $grouplabel);
+	}
 
-    if ($return) {
-        return $output;
-    } else {
-        echo $output;
-    }
+	if ($return) {
+		return $output;
+	} else {
+		echo $output;
+	}
 
 }
 
@@ -1511,11 +1511,11 @@ function print_group_menu($groups, $groupmode, $currentgroup, $urlroot, $showall
  * @return object  {@link $USER} records
  */
 function get_users_longtimenosee($cutofftime) {
-    global $CFG;
-    return get_records_sql("SELECT id, userid, courseid
-                             FROM {$CFG->prefix}user_lastaccess
-                            WHERE courseid != ".SITEID."
-                              AND timeaccess < $cutofftime ");
+	global $CFG;
+	return get_records_sql("SELECT id, userid, courseid
+							 FROM {$CFG->prefix}user_lastaccess
+							WHERE courseid != ".SITEID."
+							  AND timeaccess < $cutofftime ");
 }
 
 /**
@@ -1528,12 +1528,12 @@ function get_users_longtimenosee($cutofftime) {
  * @return object  {@link $USER} records
  */
 function get_users_unconfirmed($cutofftime=2000000000) {
-    global $CFG;
-    return get_records_sql("SELECT *
-                              FROM {$CFG->prefix}user
-                             WHERE confirmed = 0
-                               AND firstaccess > 0
-                               AND firstaccess < $cutofftime");
+	global $CFG;
+	return get_records_sql("SELECT *
+							  FROM {$CFG->prefix}user
+							 WHERE confirmed = 0
+							   AND firstaccess > 0
+							   AND firstaccess < $cutofftime");
 }
 
 /**
@@ -1546,14 +1546,14 @@ function get_users_unconfirmed($cutofftime=2000000000) {
  * @return object  {@link $USER} records
  */
 function get_users_not_fully_set_up($cutofftime=2000000000) {
-    global $CFG;
-    return get_records_sql("SELECT *
-                              FROM {$CFG->prefix}user
-                             WHERE confirmed = 1
-                               AND lastaccess > 0
-                               AND lastaccess < $cutofftime
-                               AND deleted = 0
-                               AND (lastname = '' OR firstname = '' OR email = '')");
+	global $CFG;
+	return get_records_sql("SELECT *
+							  FROM {$CFG->prefix}user
+							 WHERE confirmed = 1
+							   AND lastaccess > 0
+							   AND lastaccess < $cutofftime
+							   AND deleted = 0
+							   AND (lastname = '' OR firstname = '' OR email = '')");
 }
 
 /**
@@ -1569,27 +1569,27 @@ function get_users_not_fully_set_up($cutofftime=2000000000) {
  * @return string the piece of SQL code to be used in your FROM( ) statement.
  */
 function sql_primary_role_subselect() {
-    global $CFG;
-    return 'SELECT ra.userid,
-                ra.roleid AS primary_roleid,
-                ra.contextid,
-                r.sortorder,
-                r.name,
-                r.description,
-                r.shortname,
-                c.instanceid AS courseid,
-                c.contextlevel
-            FROM '.$CFG->prefix.'role_assignments ra
-            INNER JOIN '.$CFG->prefix.'role r ON ra.roleid = r.id
-            INNER JOIN '.$CFG->prefix.'context c ON ra.contextid = c.id
-            WHERE NOT EXISTS (
-                              SELECT 1
-                              FROM '.$CFG->prefix.'role_assignments i_ra
-                              INNER JOIN '.$CFG->prefix.'role i_r ON i_ra.roleid = i_r.id
-                              WHERE ra.userid = i_ra.userid AND
-                                     ra.contextid = i_ra.contextid AND
-                                     i_r.sortorder < r.sortorder
-                              ) ';
+	global $CFG;
+	return 'SELECT ra.userid,
+				ra.roleid AS primary_roleid,
+				ra.contextid,
+				r.sortorder,
+				r.name,
+				r.description,
+				r.shortname,
+				c.instanceid AS courseid,
+				c.contextlevel
+			FROM '.$CFG->prefix.'role_assignments ra
+			INNER JOIN '.$CFG->prefix.'role r ON ra.roleid = r.id
+			INNER JOIN '.$CFG->prefix.'context c ON ra.contextid = c.id
+			WHERE NOT EXISTS (
+							  SELECT 1
+							  FROM '.$CFG->prefix.'role_assignments i_ra
+							  INNER JOIN '.$CFG->prefix.'role i_r ON i_ra.roleid = i_r.id
+							  WHERE ra.userid = i_ra.userid AND
+									 ra.contextid = i_ra.contextid AND
+									 i_r.sortorder < r.sortorder
+							  ) ';
 }
 
 /**
@@ -1603,32 +1603,32 @@ function sql_primary_role_subselect() {
  * @todo Finish documenting this function
  */
 function document_file($file, $include=true) {
-    global $CFG;
+	global $CFG;
 
-    debugging('The document_file() function is deprecated.', DEBUG_DEVELOPER);
+	debugging('The document_file() function is deprecated.', DEBUG_DEVELOPER);
 
-    $file = clean_filename($file);
+	$file = clean_filename($file);
 
-    if (empty($file)) {
-        return false;
-    }
+	if (empty($file)) {
+		return false;
+	}
 
-    $langs = array(current_language(), get_string('parentlanguage'), 'en');
+	$langs = array(current_language(), get_string('parentlanguage'), 'en');
 
-    foreach ($langs as $lang) {
-        $info = new object();
-        $info->filepath = $CFG->dirroot .'/lang/'. $lang .'/docs/'. $file;
-        $info->urlpath  = $CFG->wwwroot .'/lang/'. $lang .'/docs/'. $file;
+	foreach ($langs as $lang) {
+		$info = new object();
+		$info->filepath = $CFG->dirroot .'/lang/'. $lang .'/docs/'. $file;
+		$info->urlpath  = $CFG->wwwroot .'/lang/'. $lang .'/docs/'. $file;
 
-        if (file_exists($info->filepath)) {
-            if ($include) {
-                include($info->filepath);
-            }
-            return $info;
-        }
-    }
+		if (file_exists($info->filepath)) {
+			if ($include) {
+				include($info->filepath);
+			}
+			return $info;
+		}
+	}
 
-    return false;
+	return false;
 }
 
 /**
@@ -1643,52 +1643,59 @@ function document_file($file, $include=true) {
  */
 function error ($message, $link='') {
 
-    global $CFG, $SESSION, $THEME;
-    $message = clean_text($message);   // In case nasties are in here
+	global $CFG, $SESSION, $THEME;
+	$message = clean_text($message);   // In case nasties are in here
 
-    if (defined('FULLME') && FULLME == 'cron') {
-        // Errors in cron should be mtrace'd.
-        mtrace($message);
-        die;
-    }
+	if (defined('FULLME') && FULLME == 'cron') {
+		// Errors in cron should be mtrace'd.
+		mtrace($message);
+		die;
+	}
 
-    if (! defined('HEADER_PRINTED')) {
-        //header not yet printed
-        @header('HTTP/1.0 404 Not Found');
-        print_header(get_string('error'));
-    } else {
-        print_container_end_all(false, $THEME->open_header_containers);
-    }
+	if (! defined('HEADER_PRINTED')) {
+		//header not yet printed
+		@header('HTTP/1.0 404 Not Found');
+		print_header(get_string('error'));
+	} else {
+		print_container_end_all(false, $THEME->open_header_containers);
+	}
 
-    echo '<br />';
-    print_simple_box($message, '', '', '', '', 'errorbox');
+	echo '<br />';
+	print_simple_box($message, '', '', '', '', 'errorbox');
 
-    debugging('Stack trace:', DEBUG_DEVELOPER);
+	debugging('Stack trace:', DEBUG_DEVELOPER);
 
-    // in case we are logging upgrade in admin/index.php stop it
-    if (function_exists('upgrade_log_finish')) {
-        upgrade_log_finish();
-    }
+	// in case we are logging upgrade in admin/index.php stop it
+	if (function_exists('upgrade_log_finish')) {
+		upgrade_log_finish();
+	}
 
-    if (empty($link) and !defined('ADMIN_EXT_HEADER_PRINTED')) {
-        if ( !empty($SESSION->fromurl) ) {
-            $link = $SESSION->fromurl;
-            unset($SESSION->fromurl);
-        } else {
-            $link = $CFG->wwwroot .'/';
-        }
-    }
+	if (empty($link) and !defined('ADMIN_EXT_HEADER_PRINTED')) {
+		if ( !empty($SESSION->fromurl) ) {
+			$link = $SESSION->fromurl;
+			unset($SESSION->fromurl);
+		} else {
+			$link = $CFG->wwwroot .'/';
+		}
+	}
 
-    if (!empty($link)) {
-        print_continue($link);
-    }
+	if (!empty($link)) {
+		print_continue($link);
+	}
 
-    print_footer();
+	print_footer();
 
-    for ($i=0;$i<512;$i++) {  // Padding to help IE work with 404
-        echo ' ';
-    }
+	for ($i=0;$i<512;$i++) {  // Padding to help IE work with 404
+		echo ' ';
+	}
 
-    die;
+	die;
+}
+
+
+// HACK: lockevn, added
+function errorForAjaxCall ($message, $link='') {
+	$message = clean_text($message);   // In case nasties are in here	    
+	die("$message###$link");
 }
 ?>
