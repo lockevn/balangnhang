@@ -20,8 +20,9 @@ $tpl->setPath('template', 'Pagelet');
 require_once('./lib.php');
 
 $courseid = required_param('courseid', PARAM_INT);   // course
-$userid = required_param('userid', PARAM_INT);   // course
 $submodule = required_param('submodule', PARAM_TEXT);   // submodule
+$userid = optional_param('userid', PARAM_INT);
+
 
 if (! $course = get_record('course', 'id', $courseid)) {
 	error('GURUCORE: Course ID is incorrect');
@@ -46,7 +47,9 @@ $allowSubModule = array(
 'prepaidcard_usage_report',
 'prepaidcard_manager',
 'prepaidcard_enduser_deposit',
-'prepaidcard_adjust'
+'prepaidcard_adjust',
+'prepaidcard_enduser_deposit_history',
+'user_account_balance'
 );
 
 if(in_array($submodule, $allowSubModule, true))
