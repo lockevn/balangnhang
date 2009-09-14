@@ -1,40 +1,40 @@
 <?php
 
 	
-if(!isguestuser() && isloggedin() && !empty($_COOKIE)) {
-	if (isset($_SERVER['HTTPS'])) {
-        $protocol = ($_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
-    } else if (isset($_SERVER['SERVER_PORT'])) { # Apache2 does not export $_SERVER['HTTPS']
-        $protocol = ($_SERVER['SERVER_PORT'] == '443') ? 'https://' : 'http://';
-    } else {
-        $protocol = 'http://';
-    }
+//if(!isguestuser() && isloggedin() && !empty($_COOKIE)) {
+//	if (isset($_SERVER['HTTPS'])) {
+//        $protocol = ($_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
+//    } else if (isset($_SERVER['SERVER_PORT'])) { # Apache2 does not export $_SERVER['HTTPS']
+//        $protocol = ($_SERVER['SERVER_PORT'] == '443') ? 'https://' : 'http://';
+//    } else {
+//        $protocol = 'http://';
+//    }
+//
+//	if(substr($CFG->wwwroot, 0, 7) == $protocol) {
+//		$study_notes_module_name = "studynotes";
+//
+//		global $mediabirdDb,$id;
+//
+//		$mods = unserialize((string)$COURSE->modinfo);
+//		$siteMods = unserialize((string)get_site()->modinfo);
+//		if(is_array($mods)) {
+//			if(!empty($siteMods)) {
+//				$mods = array_merge($siteMods, $mods);
+//			}
+//		
+//			foreach ($mods as $mod_candidate) {
+//				if ($mod_candidate->mod == $study_notes_module_name && !isset($mediabirdDb)) {
+//					$mod = $mod_candidate;
+//					break;
+//				}
+//			}
+//		}
+//	}
+//}
 
-	if(substr($CFG->wwwroot, 0, 7) == $protocol) {
-		$study_notes_module_name = "studynotes";
 
-		global $mediabirdDb,$id;
-
-		$mods = unserialize((string)$COURSE->modinfo);
-		$siteMods = unserialize((string)get_site()->modinfo);
-		if(is_array($mods)) {
-			if(!empty($siteMods)) {
-				$mods = array_merge($siteMods, $mods);
-			}
-		
-			foreach ($mods as $mod_candidate) {
-				if ($mod_candidate->mod == $study_notes_module_name && !isset($mediabirdDb)) {
-					$mod = $mod_candidate;
-					break;
-				}
-			}
-		}
-	}
-}
-
-if (isset($mod)) :
-
-$pageUrl = $CFG->pagepath."?id=".$id;
+global $mediabirdDb, $id;
+$study_notes_module_name = 'studynotes';
 
 $titleMb = $title;
 
@@ -42,7 +42,10 @@ if(strlen($titleMb)>80) {
 	$titleMb = substr($titleMb,0,77)."...";
 }
 
-$frameUrl = $CFG->wwwroot.'/mod/'.$mod->mod.'/view.php?id=1'.
+$idStr = (empty($COURSE) ? '' : '?id=' . $COURSE->id);
+
+$pageUrl = $CFG->pagepath. $idStr;
+$frameUrl = $CFG->wwwroot.'/mod/studynotes/view.php'. $idStr .
 			'&frame=true'.
 			'&mb_url='.urlencode($pageUrl).
 			'&mb_title='.urlencode($titleMb);
@@ -114,4 +117,4 @@ else {
 	}, document.getElementById("mediabirdFrame"));
     //]]>
 </script>
-<?php endif; ?>
+
