@@ -84,8 +84,8 @@ function lo_management_navigation_tabs(&$row, $contexts, $querystring) {
             'lecture' =>array("$CFG->wwwroot/smartcom/lomanagement/edit.php?$querystring&lotype=lecture", get_string('lectures', 'smartcom'), get_string('editlecture', 'smartcom')),
 		    'exercise' =>array("$CFG->wwwroot/smartcom/lomanagement/edit.php?$querystring&lotype=exercise", get_string('exercises', 'smartcom'), get_string('editexercise', 'smartcom')),
 		    'practice' =>array("$CFG->wwwroot/smartcom/lomanagement/edit.php?$querystring&lotype=practice", get_string('practices', 'smartcom'), get_string('editpractice', 'smartcom')),
-		    'test' =>array("$CFG->wwwroot/smartcom/lomanagement/edit.php?$querystring&lotype=test", get_string('tests', 'smartcom'), get_string('edittest', 'smartcom'))
-            //'categories' =>array("$CFG->wwwroot/question/category.php?$querystring", get_string('categories', 'smartcom'), get_string('editqcats', 'quiz'))
+		    'test' =>array("$CFG->wwwroot/smartcom/lomanagement/edit.php?$querystring&lotype=test", get_string('tests', 'smartcom'), get_string('edittest', 'smartcom')),
+            'categories' =>array("$CFG->wwwroot/smartcom/lomanagement/category.php?$querystring", get_string('categories', 'smartcom'), get_string('editqcats', 'quiz'))
             );
     foreach ($tabs as $tabname => $tabparams){
         if ($contexts->have_one_edit_tab_cap($tabname)) {
@@ -744,6 +744,20 @@ function get_lo_categories_for_contexts($contexts, $sortorder = 'parent, sortord
             FROM {$CFG->prefix}question_categories c
             WHERE c.contextid IN ($contexts)
             ORDER BY $sortorder");
+}
+
+/**
+ * Check whether this user is allowed to delete this category.
+ *
+ * @param integer $todelete a category id.
+ */
+function lo_can_delete_cat($todelete) {
+    if (lo_is_only_toplevel_category_in_context($todelete)) {
+        error('You can\'t delete that category it is the default category for this context.');
+    } else {
+        $contextid = get_field('question_categories', 'contextid', 'id', $todelete);
+        require_capability('moodle/question:managecategory', get_context_instance_by_id($contextid));
+    }
 }
 
 

@@ -1095,5 +1095,20 @@ function lo_showbank($tabname, $contexts, $pageurl, $cm, $page, $perpage, $cat, 
     print_box_end();
 }
 
+/**
+ * @param integer $categoryid a category id.
+ * @return boolean whether this is the only top-level category in a context.
+ */
+function lo_is_only_toplevel_category_in_context($categoryid) {
+    global $CFG;
+    return 1 == count_records_sql("
+            SELECT count(*)
+              FROM {$CFG->prefix}question_categories c1,
+                   {$CFG->prefix}question_categories c2
+             WHERE c2.id = $categoryid
+               AND c1.contextid = c2.contextid
+               AND c1.parent = 0 AND c2.parent = 0");
+}
+
 
 ?>
