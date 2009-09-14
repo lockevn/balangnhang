@@ -811,6 +811,7 @@ function print_overview($courses) {
             $linkcss = 'class="dimmed"';
         }
         print_heading('<a title="'. format_string($course->fullname).'" '.$linkcss.' href="'.$CFG->wwwroot.'/course/view.php?id='.$course->id.'">'. format_string($course->fullname).'</a>');
+        echo "<a href='$CFG->wwwroot/smartcom/resume/view.php?id=$course->id'>Resume course</a>";
         if (array_key_exists($course->id,$htmlarray)) {
             foreach ($htmlarray[$course->id] as $modname => $html) {
                 echo $html;
