@@ -1322,6 +1322,11 @@ function print_section($course, $section, $mods, $modnamesused, $absolute=false,
 
         // Fix bug #5027, don't want style=\"width:$width\".
         echo "<ul class=\"section img-text\">\n";
+        
+        /*danhut added: add resume course link to section 0*/
+        if($section->section == 0)
+			echo "<li id='resume' class=\"activity resume\"><a href='$CFG->wwwroot/smartcom/resume/view.php?id=$course->id'>" . get_string('resume_course','resume') . "</a></li>";
+		/*end of danhut added*/
         $sectionmods = explode(",", $section->sequence);
 
         foreach ($sectionmods as $modnumber) {
@@ -1457,6 +1462,13 @@ function print_section($course, $section, $mods, $modnamesused, $absolute=false,
             }
             echo "</li>\n";
         }
+        /*danhut added: add notebook link to section 0*/
+        if($section->section == 0)
+			echo "<li id='studynotes' class=\"activity studynotes\">
+				<a href='$CFG->wwwroot/mod/studynotes/view.php?id=$course->id'>
+				<img class='activityicon' alt='' src='". $CFG->themewww .'/'.current_theme() . "/pix/mod/studynotes/icon.gif'/> " .
+				get_string('modulename','studynotes') . "</a></li>";
+		/*end of danhut added*/
 
     } elseif ($ismoving) {
         echo "<ul class=\"section\">\n";
