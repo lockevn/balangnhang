@@ -17,10 +17,11 @@ if(!isguestuser() && isloggedin() && !empty($_COOKIE)) {
 
 		$mods = unserialize((string)$COURSE->modinfo);
 		$siteMods = unserialize((string)get_site()->modinfo);
-		if(!empty($siteMods)) {
-			$mods = array_merge($siteMods, $mods);
-		}
 		if(is_array($mods)) {
+			if(!empty($siteMods)) {
+				$mods = array_merge($siteMods, $mods);
+			}
+		
 			foreach ($mods as $mod_candidate) {
 				if ($mod_candidate->mod == $study_notes_module_name && !isset($mediabirdDb)) {
 					$mod = $mod_candidate;
