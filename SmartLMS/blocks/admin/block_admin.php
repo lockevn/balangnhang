@@ -168,7 +168,7 @@ class block_admin extends block_list {
     /// danhut added: Manage lectures, exercise, practice
         if ($course->id !== SITEID and has_capability('moodle/course:manageactivities', $context)) { 
             $this->content->items[]='<a href="'.$CFG->wwwroot.'/smartcom/lomanagement/edit.php?courseid='.$this->instance->pageid.'">'.get_string('lo', 'smartcom').'</a>';
-            $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/stats.gif" class="icon" alt="" />';
+            $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/lo.gif" class="icon" alt="" />';
         }        
 
     /// Manage questions
