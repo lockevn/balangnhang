@@ -267,11 +267,11 @@
 				}
                 /*danhut added: n?u c� link start lesson th� print ra b�n c?nh lesson summary*/
                 $modsInSection = explode(',', $thissection->sequence);
-                $startLessonUrl = getLessonStartUrl($mods, $modsInSection); 
-                if( $startLessonUrl !== false) {
+                $startLessonUrl = getLessonStartUrl($course->id, $section); 
+                
                 	echo '<a title="' . get_string('enter_lesson', 'format_topicstree') . '" href = "' . $startLessonUrl . '"' .
                 		'<img src="'.$CFG->pixpath.'/a/enter.png" alt="'.get_string('enter_lesson', 'format_topicstree').'" /></a>';
-                }
+                
                 /*end of danhut added*/
 				echo '</div>';
 
@@ -618,17 +618,10 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
      * @param unknown_type $sectionmods
      * @return unknown
      */
-    function getLessonStartUrl($mods, $sectionmods) {
+    function getLessonStartUrl($courseid, $sectionIndex) {
     	$sectionUrl = false;
-    	Global $CFG;
-    	foreach ($sectionmods as $modnumber) {
-              	if (empty($mods[$modnumber])) continue;
-                $mod = $mods[$modnumber];                
-                if($mod->modname === 'start') {
-                	$sectionUrl = "{$CFG->wwwroot}/mod/start/view.php?id=$mod->id";
-                	break;                	                
-                }                
-    	}
+    	Global $CFG;    	
+        $sectionUrl = "{$CFG->wwwroot}/smartcom/start/view.php?id=$courseid&section=$sectionIndex";        
     	return $sectionUrl;
     }
 
