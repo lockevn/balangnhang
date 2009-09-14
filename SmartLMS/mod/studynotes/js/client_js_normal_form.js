@@ -6180,12 +6180,12 @@ if(!this.JSON) {
                         desktop.overlays = desktop.previewContainer.add(desktop.progressBox);
                         desktop.buttonHome = utility.createLink();
                         desktop.buttonOrganization = utility.createLink();
-                        desktop.buttonCommunity = utility.createLink().appendTo(desktop).addClass('button panel-hover button-community');
-                        desktop.buttonCommunity.attr("title", lang.COMMUNITY_EXPLANATION);
+                        /*desktop.buttonCommunity = utility.createLink().appendTo(desktop).addClass('button panel-hover button-community');
+                        desktop.buttonCommunity.attr("title", lang.COMMUNITY_EXPLANATION);*/
                         desktop.buttonSearch = utility.createLink().appendTo(desktop).addClass('button panel-hover button-search');
                         desktop.buttonSearch.attr("title", lang.SEARCH_EXPLANATION);
                         if(config.reduceFeatureSet) {
-                           desktop.buttonCommunity.hide();
+                           /*desktop.buttonCommunity.hide();*/
                            desktop.buttonSearch.hide();
                            if(config.fullLocationFromOverlay !== undefined) {
                               desktop.flashCardBox.attr("href", config.fullLocationFromOverlay);
@@ -6204,7 +6204,7 @@ if(!this.JSON) {
                               }
                            }
                         else {
-                           desktop.cardTools = desktop.cardTools.add(desktop.buttonCommunity).add(desktop.buttonSearch);
+                           desktop.cardTools = desktop.cardTools./*add(desktop.buttonCommunity).*/add(desktop.buttonSearch);
                            }
                         desktop.flashCardBox.bind("click", flashCardBoxHandler);
                         desktop.previewContainer.bind("click", function(event) {
@@ -6225,11 +6225,11 @@ if(!this.JSON) {
                               checkTopicRevision(); return true; }
                            }
                         , WAIT_BEFORE_AUTO_FADE, - 1);
-                        utility.setupButtonHover(desktop.buttonCommunity.add(desktop.buttonSearch), desktop.previewContainer, function() {
+                        utility.setupButtonHover(/*desktop.buttonCommunity.*/add(desktop.buttonSearch), desktop.previewContainer, function() {
                            if(desktop.buttonSearch.index(this) !=- 1) {
                               showPreview(client.pageplugins.MainViewButtonConstants.search); return true; }
-                           if(desktop.buttonCommunity.index(this) !=- 1) {
-                              showPreview(client.pageplugins.MainViewButtonConstants.community); return true; }
+                           /*if(desktop.buttonCommunity.index(this) !=- 1) {
+                              showPreview(client.pageplugins.MainViewButtonConstants.community); return true; }*/
                            if(desktop.buttonHome.index(this) !=- 1) {
                               showPreview(client.pageplugins.MainViewButtonConstants.home); return true; }
                            if(desktop.buttonOrganization.index(this) !=- 1) {

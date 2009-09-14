@@ -42,7 +42,7 @@ if(strlen($titleMb)>80) {
 	$titleMb = substr($titleMb,0,77)."...";
 }
 
-$frameUrl = $CFG->wwwroot.'/mod/'.$mod->mod.'/view.php?id='.$mod->cm.
+$frameUrl = $CFG->wwwroot.'/mod/'.$mod->mod.'/view.php?id=1'.
 			'&frame=true'.
 			'&mb_url='.urlencode($pageUrl).
 			'&mb_title='.urlencode($titleMb);
