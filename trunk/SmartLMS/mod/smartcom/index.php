@@ -18,6 +18,7 @@ $tpl->setPath('template', 'Pagelet');
 
 /********** MODULE LIB *************/ 
 require_once('./lib.php');
+require_once('./locallib.php');
 
 $courseid = required_param('courseid', PARAM_INT);   // course
 $submodule = required_param('submodule', PARAM_TEXT);   // submodule
