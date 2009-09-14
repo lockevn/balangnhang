@@ -6,7 +6,9 @@ $page = $_GET['page']; // get the requested page
 $limit = $_GET['rows']; // get how many rows we want to have into the grid 
 $sidx = $_GET['sidx']; // get index row - i.e. user click to sort 
 $sord = $_GET['sord']; // get the direction 
-if(!$sidx) $sidx =1; 
+if(!$sidx) $sidx =1;
+if(!$limit) $limit = 1000;
+if(!$page) $page = 1;
 
 
 $serialno = optional_param('serialno', null, PARAM_TEXT);
@@ -67,26 +69,20 @@ $start = $limit*$page - $limit; // do not put $limit*($page - 1)
 $responce->page = $page; 
 $responce->total = $total_pages; 
 $responce->records = $count; 
-$i=0; 
-while($row = mysql_fetch_array($result,MYSQL_ASSOC)) 
-{ 
-	$responce->rows[$i]['id']=$row[id]; 
-	$responce->rows[$i]['cell']=array($row[id],$row[invdate],$row[name],$row[amount],$row[tax],$row[total],$row[note]); 
-	$i++; 
-} 
-echo json_encode($responce); 
 
 
 $sql = 'select id, serialno, facevalue, coinvalue, periodvalue, batchcode, publishdatetime ' .  $sql.
 " ORDER BY $sidx $sord LIMIT $start , $limit";
-$recs = get_records_sql($sql);
-if($recs)
+$result = mysql_query($sql);
+if($result)
 {
-	echo json_encode(array_values($recs));
+	$i=0;
+	while($row = mysql_fetch_array($result, MYSQL_ASSOC)) 
+	{ 
+	$responce->rows[$i]['id']=$row['id'];	
+	$responce->rows[$i]['cell']= array_values($row); 
+	$i++; 
+	}
+	echo json_encode($responce); 
 }
-
-
-
-
-
 ?>
