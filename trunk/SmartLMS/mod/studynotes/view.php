@@ -119,35 +119,27 @@ function studynotes_handle_session($action, $auth) {
 	return json_encode($reply);
 }
 
-$id = optional_param('id', 0, PARAM_INT); // Course Module ID, or
-$a = optional_param('a', 0, PARAM_INT); // studynotes ID
-
-if ($id) {
-	if (!$cm = get_record("course_modules", "id", $id)) {
-		error("Course Module ID was incorrect");
-	}
-
-	if (!$course = get_record("course", "id", $cm->course)) {
+$id = optional_param('id', 0, PARAM_INT); // Course id
+if(empty($id)) {
+	$id = 1;
+}
+	
+if (!$course = get_record("course", "id", $id)) {
 		error("Course is misconfigured");
 	}
 
-	if (!$studynotes = get_record("studynotes", "id", $cm->instance)) {
-		error("Course module is incorrect");
-	}
-
-}
-else {
-	if (!$studynotes = get_record("studynotes", "id", $a)) {
-		error("Course module is incorrect");
-	}
-	if (!$course = get_record("course", "id", $studynotes->course)) {
-		error("Course is misconfigured");
-	}
-	if (!$cm = get_coursemodule_from_instance("studynotes", $studynotes->id, $course->id)) {
-		error("Course Module ID was incorrect");
-	}
-}
-require_login($course->id);
+//else {
+//	if (!$studynotes = get_record("studynotes", "id", $a)) {
+//		error("Course module is incorrect");
+//	}
+//	if (!$course = get_record("course", "id", $studynotes->course)) {
+//		error("Course is misconfigured");
+//	}
+//	if (!$cm = get_coursemodule_from_instance("studynotes", $studynotes->id, $course->id)) {
+//		error("Course Module ID was incorrect");
+//	}
+//}
+require_login();
 
 if (isguestuser() || !isloggedin()) {
 	error(get_string('login_required', 'studynotes'));
@@ -250,7 +242,7 @@ if ( isset ($action)) {
 	exit ;
 }
 
-add_to_log($course->id, "studynotes", "view", "view.php?id=$cm->id", "$studynotes->id");
+//add_to_log($course->id, "studynotes", "view", "view.php?id=$cm->id", "$studynotes->id");
 
 //set up plugins and markers from settings
 if ( isset ($CFG->studynotes_markers_available) && strlen($CFG->studynotes_markers_available) > 0) {
@@ -279,19 +271,32 @@ if (! isset ($_GET["frame"])) {
 	$strstudynotess = get_string("modulenameplural", "studynotes");
 	$strstudynotes = get_string("modulename", "studynotes");
 
-	$navigation = format_string($studynotes->name);
-	print_header_simple(format_string($studynotes->name), "", $navigation, "", "", true, '', navmenu($course, $cm));
+	$navigation = format_string(get_string('studynotes','studynotes'));
+	if(!empty($course)) {
+		print_header_simple(format_string(get_string('studynotes','studynotes')), "", $navigation, "", "", true, '', navmenu($course));
+	}
+	else {
+		print_header_simple(format_string(get_string('studynotes','studynotes')), "", $navigation, "", "", true, '');
+	}
 	
 	$html  = '<iframe src="'.$CFG->wwwroot.'/mod/studynotes/view.php?id='.$id.'&frame=true&nored=true" style="width: 100%; height: 540px;" scrolling="no" frameborder="no"></iframe>';
 	echo $html;
-	print_footer($course);
+	if(!empty($course))
+		print_footer($course);
+	else
+		print_footer();
 }
 else {
 	
 	//set options for overlay
 	if(!isset($_GET["nored"])) {
 		$helper->defaultOptions['reduceFeatureSet'] = true;
-		$fullUrl = $CFG->wwwroot.'/mod/studynotes/view.php?id='.$cm->id;
+		if(!empty($course)) {
+			$fullUrl = $CFG->wwwroot.'/mod/studynotes/view.php?id='.$course->id;
+		}
+		else {
+			$fullUrl = $CFG->wwwroot.'/mod/studynotes/view.php';
+		}
 		$helper->defaultOptions['fullLocationFromOverlay'] = $fullUrl;
 	}
 
@@ -342,13 +347,14 @@ else {
 
 
 
+	$idStr = empty($course)? '' : "?id=$course->id"; 
 	$options = array (
 		'dummyPath'=>'dummy.php',
-		'loadPath'=>'view.php?action=load&id='.$cm->id.'&url=',
-		'uploadPath'=>'view.php?action=upload&id='.$cm->id.'',
+		'loadPath'=>'view.php?action=load', //&id='.$cm->id.'&url=',
+		'uploadPath'=>'view.php?action=upload',//&id='.$cm->id.'',
 		'prefixData'=>true,
 		'loadLogon'=>false,
-		'furtherArgs'=>'sessionPath: "view.php?id='.$cm->id.'"',
+		'furtherArgs'=>'sessionPath: "view.php'.$idStr.'"',
 		'imagePath'=>'images/',
 		'feedbackPath'=>'mailto:team@mediabird.net',
 		'SHIFT_RESEARCH_RIGHT' => 260,
