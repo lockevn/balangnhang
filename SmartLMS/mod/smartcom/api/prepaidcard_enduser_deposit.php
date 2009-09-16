@@ -4,7 +4,6 @@ require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 require_once(ABSPATH."lib/db/DBHelper.php");
 
 define('AJAX_CALL',true);
-
 require_login();
 $username = $USER->username;
 
