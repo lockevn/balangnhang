@@ -10,10 +10,15 @@ require_login();
 $facevalue = required_param('facevalue', PARAM_INT);
 $coinvalue = required_param('coinvalue', PARAM_INT);
 $periodvalue = required_param('periodvalue', PARAM_INT);
-$batchcode = required_param('batchcode', PARAM_TEXT);
 $howmuch = required_param('howmuch', PARAM_INT);
-
+$batchcode = required_param('batchcode', PARAM_TEXT);
 $batchcode = Text::ToCamelCase($batchcode, true);
+
+if($howmuch < 1)
+{
+	die('howmuch must be > 0');
+}
+
 
 function SecretCodeExisted($code)
 {
@@ -49,6 +54,8 @@ while(count($arraySecretCodeUNIQUE) < $howmuch)
 	}
 	$arraySecretCodeUNIQUE = array_unique($arraySecretCode);
 }
+
+$arraySecretCodeUNIQUE = array_slice($arraySecretCodeUNIQUE, 0, $howmuch);
 
 
 $sql = "
