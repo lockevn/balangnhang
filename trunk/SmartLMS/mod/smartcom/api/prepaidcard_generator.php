@@ -7,6 +7,8 @@ require_once(ABSPATH."lib/Text.php");
 define('AJAX_CALL',true);
 require_login();
 
+
+
 $facevalue = required_param('facevalue', PARAM_INT);
 $coinvalue = required_param('coinvalue', PARAM_INT);
 $periodvalue = required_param('periodvalue', PARAM_INT);
