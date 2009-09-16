@@ -48,6 +48,7 @@ $allowSubModule = array(
 'prepaidcard_usage_report',
 'prepaidcard_manager',
 'prepaidcard_enduser_deposit',
+'prepaidcard_generator',
 'prepaidcard_adjust',
 'prepaidcard_enduser_deposit_history',
 'user_account_balance'

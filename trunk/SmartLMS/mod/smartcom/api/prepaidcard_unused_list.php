@@ -2,6 +2,10 @@
 
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
+define('AJAX_CALL',true);
+require_login();
+
+
 $page = $_GET['page']; // get the requested page 
 $limit = $_GET['rows']; // get how many rows we want to have into the grid 
 $sidx = $_GET['sidx']; // get index row - i.e. user click to sort 

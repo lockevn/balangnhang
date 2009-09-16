@@ -3,6 +3,10 @@ require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 require_once(ABSPATH.'lib/datalib.php');
 
 
+define('AJAX_CALL',true);
+require_login();
+
+
 $message = required_param('message', PARAM_TEXT);
 $fromuserid = required_param('fromuserid', PARAM_INT);
 $touserid = required_param('touserid', PARAM_INT);
