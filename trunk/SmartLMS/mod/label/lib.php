@@ -3,6 +3,8 @@
 /// Library of functions and constants for module label
 
 
+
+
 define("LABEL_MAX_NAME_LENGTH", 50);
 
 function get_label_name($label) {
@@ -29,10 +31,60 @@ function label_add_instance($label) {
 
     $label->name = get_label_name($label);
     $label->timemodified = time();
-
-    return insert_record("label", $label);
+	$result = insert_record("label", $label);
+	global $CFG;
+	
+	include_once($CFG->libdir.'/filelib.php');
+	include_once($CFG->libdir.'/moodlelib.php');
+	
+	/*danhut added: create data folder, category corresponding to this new label (which is a smartcom activity)*/
+	/*retrieve section object with courseid and section index to get the parent directory (Lesson 1, Review1 ...)*/
+	$cs = get_record('course_sections', 'course', $label->course, 'section', $label->section);
+	if($cs) {
+		
+    	
+		$sectionLabel = strtolower($cs->label);
+		$labelName = strtolower($label->name);
+		
+		
+		/*make data directory*/
+		make_upload_directory("$label->course/$sectionLabel/$labelName");
+		
+		/*retrieve course context*/
+		$context = get_record('context', 'contextlevel', CONTEXT_COURSE, 'instanceid', $label->course);
+		if($context) {
+			
+			/*find the parent category e.g.: Lesson 1, review 1 ...*/
+			$parentCat = get_record('question_categories', 'contextid', $context->id, 'name', strtolower($sectionLabel)) ;			
+			if($parentCat) {
+				/*check if category with the same level and name already exists*/
+				$oldCat = get_record('question_categories', 'contextid', $context->id, 'parent', $parentCat->id, 'name', $labelName);
+				/*if not yet exist, insert new category*/
+				if(!$oldCat) {
+					/*add new category corresponding to new label as child category of $parentCat*/				
+					require_capability('moodle/question:managecategory', $context);
+					$sql = "select count(id) as count from $CFG->prefix" . "question_categories where contextid=$context->id AND parent=$parentCat->id";
+					$retObj = get_record_sql($sql);
+					if($retObj) {
+						$count = $retObj->count;
+					} else {
+						$count = 0;
+					}
+					$cat = new object();
+					$cat->name = $labelName;
+					$cat->contextid = $context->id;
+					$cat->info = "$sectionLabel/$labelName category";
+					$cat->sortorder = $count;
+					$cat->parent = $parentCat->id;
+					$cat->stamp = make_unique_id_code(); 
+					insert_record('question_categories', $cat);
+				}
+			}			
+		}
+	}	
+	return $result;
+        
 }
-
 
 function label_update_instance($label) {
 /// Given an object containing all the necessary data, 
