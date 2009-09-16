@@ -12,10 +12,10 @@ CREATE TABLE  `smartlms`.`mdl_lo` (
 ) ENGINE=MyISAM AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
 
 ALTER TABLE `smartlms`.`mdl_quiz` 
-	ADD COLUMN `smarttype` VARCHAR(10) BINARY NOT NULL DEFAULT 'exercise' AFTER `delay2`;
+	ADD COLUMN `smarttype` VARCHAR(50) BINARY NOT NULL DEFAULT 'exercise' AFTER `delay2`;
 
 ALTER TABLE `smartlms`.`mdl_resource`
-	ADD COLUMN `smarttype` VARCHAR(10) BINARY NOT NULL DEFAULT 'lecture';
+	ADD COLUMN `smarttype` VARCHAR(50) BINARY NOT NULL DEFAULT 'lecture';
 
 /**
  * phục vụ chức năng hiển thị label cho course section
