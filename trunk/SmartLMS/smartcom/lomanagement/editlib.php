@@ -395,7 +395,7 @@ function lo_list($contexts, $pageurl, $categoryandcontext, $cm = null,
    	 	if ($canmoveall && count($addcontexts)) {
    	 		echo '<input type="submit" name="move" value="'.get_string('moveto', 'smartcom')."\" /> &nbsp;";
    	 		//echo '&nbsp;'.get_string('target_category', 'smartcom').':&nbsp; ';            
-            question_category_select_menu($addcontexts, false, 0, "$category->id,$category->contextid");
+            lo_category_select_menu($addcontexts, false, 0, "$category->id,$category->contextid", '', -1, $lotype);
             echo '<br>';
         }
         
@@ -521,7 +521,7 @@ function lo_showbank_actions($pageurl, $cm){
             //$checkforfiles = false;
             foreach ($los as $lo){
                 //check capabilities
-                lo_require_capability_on($lo, 'add');
+                lo_require_capability_on($lo, 'add', $lotype);
                 $fromcontext = get_context_instance_by_id($lo->contextid);
                 
                 /*get back loInstance*/
