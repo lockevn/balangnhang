@@ -586,7 +586,7 @@ function course_content_structure($course, $lotype, $category, $cm=NULL, $target
 				continue;
 			}
 		}
-		if(!empty($mod->next)) {
+		if(!empty($mod->next) && $mod->next->sectionnum == $mod->sectionnum) {
 			$beforecm = "&beforecm=". $mod->next->id;
 		}
 		else {
@@ -758,6 +758,27 @@ function lo_can_delete_cat($todelete) {
         $contextid = get_field('question_categories', 'contextid', 'id', $todelete);
         require_capability('moodle/question:managecategory', get_context_instance_by_id($contextid));
     }
+}
+
+/**
+ * Output a select menu of question categories.
+ *
+ * Categories from this course and (optionally) published categories from other courses
+ * are included. Optionally, only categories the current user may edit can be included.
+ *
+ * @param integer $courseid the id of the course to get the categories for.
+ * @param integer $published if true, include publised categories from other courses.
+ * @param integer $only_editable if true, exclude categories this user is not allowed to edit.
+ * @param integer $selected optionally, the id of a category to be selected by default in the dropdown.
+ */
+function lo_category_select_menu($contexts, $top = false, $currentcat = 0, $selected = "", $nochildrenof = -1, $lotype) {
+    $categoriesarray = lo_category_options($contexts, $top, $currentcat, false, $nochildrenof, $lotype);
+    if ($selected) {
+        $nothing = '';
+    } else {
+        $nothing = 'choose';
+    }
+    choose_from_menu_nested($categoriesarray, 'category', $selected, $nothing);
 }
 
 
