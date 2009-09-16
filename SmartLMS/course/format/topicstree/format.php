@@ -180,7 +180,7 @@
 		echo '</div>';
 
 		if (isediting($course->id) || !$topicstree_tree_in_section0) { /// Editing use the mainstream print_section
-			echo "<ul class=\"section img-text\"><a href='$CFG->wwwroot/smartcom/resume/view.php?id=$course->id'>" . get_string('resume_course','resume') . "</a>";
+			
 			print_section($course, $thissection, $mods, $modnamesused);
 			if (isediting($course->id)) {
 				print_section_add_menus($course, $section, $modnames);
@@ -433,11 +433,7 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
 
 			$mod = $mods[$modnumber];
 
-            /*danhut addded to hide Start button module on the tree*/
-            if($mod->modname == "start" || $mod->modname == "resume") {
-            	continue;
-            }
-            /*end of danhut added*/
+           
 			if (isset($modinfo->cms[$modnumber])) {
 				if (!$modinfo->cms[$modnumber]->uservisible) {
 					// visibility shortcut
