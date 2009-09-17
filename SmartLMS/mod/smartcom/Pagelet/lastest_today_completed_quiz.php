@@ -7,7 +7,6 @@ $courseid = required_param('courseid', PARAM_INT);    // A particular attempt ID
 // $timeStartOfTheDay = strtotime(date('Y-m-d'));
 $quizOfUser = get_records_sql(
 "select qa.id as attemptid, q.name, lastest_quiz.*
-
 from
 (
 select userid, quiz, max(timefinish) as timefinish
@@ -29,7 +28,9 @@ and q.course = $courseid
 "
 );
 
+if(is_array($quizOfUser)){
 $quizOfUser = array_values($quizOfUser);
+}
 
 $tpl->assign('courseid', $courseid);
 $tpl->assign('userid', $userid);
