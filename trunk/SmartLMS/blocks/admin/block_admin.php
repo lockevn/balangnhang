@@ -158,6 +158,12 @@ class block_admin extends block_list {
             $this->content->items[]='<a href="'.$CFG->wwwroot.'/course/reset.php?id='.$this->instance->pageid.'">'.get_string('reset').'</a>';
             $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/return.gif" class="icon" alt="" />';
         }
+        
+    /// Real time performance check
+        if ($course->id !== SITEID) {// and has_capability('moodle/site:viewreports', $context)) { // basic capability for listing of reports
+            $this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=' . $course->id . '&submodule=realtime_performance_check">'.get_string('realtimeperformancecheck', 'smartcom').'</a>';
+            $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/stats.gif" class="icon" alt="" />';
+        }
 
     /// View course reports
         if ($course->id !== SITEID and has_capability('moodle/site:viewreports', $context)) { // basic capability for listing of reports
