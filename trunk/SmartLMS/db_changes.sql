@@ -14,6 +14,12 @@ CREATE TABLE  `smartlms`.`mdl_lo` (
 ALTER TABLE `smartlms`.`mdl_quiz` 
 	ADD COLUMN `smarttype` VARCHAR(50) BINARY NOT NULL DEFAULT 'exercise' AFTER `delay2`;
 
+/**
+* thêm nhiều thông tin meta cho quiz, sử dụng để đánh dấu final exam, next course to suggest
+*/
+ALTER TABLE `smartlms`.`mdl_quiz` 
+	ADD COLUMN `smartextrameta` VARCHAR(100) NOT NULL DEFAULT '' AFTER `delay2`;
+	
 ALTER TABLE `smartlms`.`mdl_resource`
 	ADD COLUMN `smarttype` VARCHAR(50) BINARY NOT NULL DEFAULT 'lecture';
 
