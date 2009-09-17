@@ -17,7 +17,7 @@ $(document).ready(function(){
 	
 		
 	function GetAndRenderList(){
-		var url = 'http://192.168.2.198/blocks/messages/message_list.php?userid=<?=$this->userid?>&courseid=<?=$this->courseid?>';		
+		var url = '/blocks/messages/message_list.php?userid=<?=$this->userid?>&courseid=<?=$this->courseid?>';		
 		$datalist.load(url);		
 	}
 	
