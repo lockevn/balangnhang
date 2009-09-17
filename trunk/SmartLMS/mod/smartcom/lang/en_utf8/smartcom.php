@@ -31,4 +31,5 @@ $string['welcometot2p5'] = 'Welcome to page 5 of tab 2.<br />To edit me change t
 $string['welcometot3p1'] = 'Welcome to page 1 of tab 3.<br />To edit me change the content of the file $a';
 $string['welcometot3p2'] = 'Welcome to page 2 of tab 3.<br />To edit me change the content of the file $a';
 
+$string['realtimeperformancecheck'] = 'Real time performance check';
 ?>
