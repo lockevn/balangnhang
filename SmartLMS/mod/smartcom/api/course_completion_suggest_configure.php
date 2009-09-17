@@ -34,7 +34,4 @@ else
 	echo 'fail';
 }
 
-print_r($_REQUEST);
-die("$finalexamquizpercent,$averageoverallquizzespercent,$finalexamid,$enabletoapply,----$nextcourseidset, courseid = $courseid");
-
 ?>
