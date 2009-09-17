@@ -34,9 +34,9 @@
 		error("Must specify mail ID or course module ID");
 	}
 
-	if ($CFG->forcelogin) {
+	// if ($CFG->forcelogin) {
 		require_login();
-	}
+	// }
 
   
 /// Processing standard security processes
