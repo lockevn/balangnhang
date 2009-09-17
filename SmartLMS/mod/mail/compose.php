@@ -347,7 +347,9 @@
 /// Get all existing students, teachers and groups for this course.	
 	if (count($SESSION->selectedto) > 0) {
 		$existinguserlist = implode(',', $SESSION->selectedto);
-	} else {
+	} 
+	else 
+	{
 		$existinguserlist = "";
 	}
 	
