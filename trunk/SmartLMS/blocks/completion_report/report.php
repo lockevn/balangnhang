@@ -245,7 +245,7 @@ if ( check_user_status() )
 		$strResult =  get_field  ('course', 'fullname', 'id', $courseid);
 		$strBackgroundColor = '#D3E0E7';
 		$strColor = 'black'; 
-		$strLink = '<a href="configure.php?course=' . $courseid . '">' . get_string( 'configurerequirementrubricsforthiscourse', 'block_completion_report') . '</a>';
+		$strLink = '<a href="smartcom_configure.php?course=' . $courseid . '">' . get_string( 'configurerequirementrubricsforthiscourse', 'block_completion_report') . '</a>';
 		$strOutput .= '<div style="text-align:right;padding:3px;font-size:smaller;"><b>' . $strLink . '</b></div>';
 		$strOutput .= '<h3>' . get_string( 'completionreportforthecourse', 'block_completion_report') . '</h3>';
 		$strOutput .= '<h3><div style="background-color:' . $strBackgroundColor . ';color:' . $strColor . ';padding:3px;border:thin solid teal;font-size:larger;"><b>' . $strResult . '</b></div></h3>';

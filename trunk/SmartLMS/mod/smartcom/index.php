@@ -51,7 +51,8 @@ $allowSubModule = array(
 'prepaidcard_generator',
 'prepaidcard_adjust',
 'prepaidcard_enduser_deposit_history',
-'user_account_balance'
+'user_account_balance',
+'course_completion_suggest_configure'
 );
 
 if(in_array($submodule, $allowSubModule, true))
