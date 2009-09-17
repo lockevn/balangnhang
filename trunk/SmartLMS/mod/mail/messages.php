@@ -270,13 +270,13 @@
 	$strmails = get_string("modulenameplural", "mail");
 	$strmail = get_string("modulename", "mail");
 
-	$navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
+	// $navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
 
 	print_header_simple(format_string($mail->name), "",
 				 "$navigation ".format_string($mail->name), "", "", true, update_module_button($cm->id, $course->id, $strmail), navmenu($course, $cm));
 	
 
-	if ($folder) 
+	if (isset($folder)) 
 	{
 		$limit = sql_paging_limit($page, $perpage);
 		
@@ -312,12 +312,15 @@
 		
 		$limitmessage = ($page+1)*$perpage;
 		
-		for ($i = $page*$perpage; $i < $limitmessage; $i++) {
-			if ($messagestemp[$i]) {
-				$messages[] = $messagestemp[$i];
+		if($messagestemp)
+		{
+			for ($i = $page*$perpage; $i < $limitmessage; $i++) {
+				if ($messagestemp[$i]) {
+					$messages[] = $messagestemp[$i];
+				}
 			}
 		}		
-	} else if ($message) {
+	} else if (isset($message)) {
 		
 		//actualizar a leido
 		$updatemessage = new object;
@@ -364,12 +367,19 @@
 		
 		$limitmessage = ($page+1)*$perpage;
 		
-		for ($i = $page*$perpage; $i < $limitmessage; $i++) {
-			if ($messagestemp[$i]) {
-				$messages[] = $messagestemp[$i];
+		if($messagestemp)
+		{
+			for ($i = $page*$perpage; $i < $limitmessage; $i++) {
+				if($i == count($messagestemp))
+				{
+					break;
+				}
+				
+				if ($messagestemp[$i]) {
+					$messages[] = $messagestemp[$i];
+				}
 			}
-		}
-		
+		}		
 	}
 	
 /// If no search results then get potential students for this course excluding users already in course
@@ -377,7 +387,7 @@
 
 	mail_start_print_table_main($mail, $cm, $course);
 	
-	if ($folder) {
+	if (isset($folder)) {
 		print_heading_block("<center>".get_string("folder","mail")." ".$folder->name."</center>");
 	
 	} else if ($id) {
@@ -389,14 +399,12 @@
 	
 	echo "<br>";
 	
-	include('messages.html');
-	
+	include('messages.html');	
 	mail_end_print_table_main($mail);
 	
 
 /// Finish the page
-
-	print_footer($course);
+	print_footer();
 
 ?>
 

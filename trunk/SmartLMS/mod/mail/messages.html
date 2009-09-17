@@ -1,33 +1,29 @@
 <?php 
 
-if ($message) {
+if (isset($message)) {
 	$textourl = "messages.php?id=$message->id";
-} else if ($folder) {
+} else if (isset($folder)) {
 	$textourl = "messages.php?f=$folder->id";
 }
 
 ?>
 
-<script language="JavaScript" type="text/javascript">
-	
-	function SeleccionCorreo()
+<script language="JavaScript" type="text/javascript">	
+function SeleccionCorreo()	{
+	ch2 = document.formmessages.elements;
+	for(i = 0; i < ch2.length; i++)
 	{
-		ch2 = document.formmessages.elements;
-
-		for(i = 0; i < ch2.length; i++)
+		if (ch2[i].type == 'checkbox')
 		{
-			if (ch2[i].type == 'checkbox')
-			{
-				ch2[i].checked = document.formmessages.checkall.checked;
-			}
+			ch2[i].checked = document.formmessages.checkall.checked;
 		}
 	}
-	
+}	
 </script>
 
 <form name="formmessages" method="post" action="<?php echo $textourl; ?>">
 
-<?php if ($message) { ?>
+<?php if (isset($message)) { ?>
 <table align="center" width="100%" border="0" cellpadding="5" cellspacing="0">
  
  <tr>
@@ -119,8 +115,8 @@ if ($message) {
 <?php 
 }
 
-if ($folder or $id) { 
-	if ($folder) {
+if (isset($folder) or $id) { 
+	if (isset($folder)) {
 		print_paging_bar($numtotalmessages, $page, $perpage,
 				"messages.php?f=$folder->id&amp;sort=$sort&amp;dir=$dir&amp;");
 	} 
@@ -179,7 +175,7 @@ if ($folder or $id) {
 	
 	print_table($table1);
 
-	if ($folder) {
+	if (isset($folder)) {
 		print_paging_bar($numtotalmessages, $page, $perpage,
 				"messages.php?f=$folder->id&amp;sort=$sort&amp;dir=$dir&amp;");
 	} 
