@@ -82,7 +82,76 @@ class SmartComDataUtil
 		}		
 	}
 	
+	/**
+	* @desc 
+	* @return bool false if error, return array of quiz and grade (in percent form 00-100)
+	*/
+	public static function GetQuizResultPercentOfUser($userid=0, $courseid = 0) {
+		if($userid < 1)
+		{
+			return false;
+		}
+		
+		$whereClauseForCourse = '';
+		if($courseid > 1)
+		{
+			$whereClauseForCourse = " course=$courseid and ";
+		}
+		
+		
+		$recs = get_records_sql(
+"select MaxGrade.quiz as quizid, 100*SumGrades/MaxSumGrades as grade from
+(
+select id as quiz, sumgrades as MaxSumGrades from mdl_quiz where $whereClauseForCourse sumgrades>0
+) as MaxGrade
+join
+(
+select quiz, max(sumgrades) as sumgrades
+from `mdl_quiz_attempts`
+where userid=5 and quiz in (select id from mdl_quiz where $whereClauseForCourse sumgrades>0) 
+group by quiz
+) as UserGrade
+on MaxGrade.quiz = UserGrade.quiz"
+);
+		if(is_array($recs))
+		{			
+			return $recs;			
+		}
+		return false;
+	}
 
+	
+	
+	public static function GetOverallQuizResultPercentOfUserInCourse($userid=0, $courseid = 0) {
+		if($userid < 1 || $courseid <= 1)
+		{
+			return false;
+		}
+		
+		$recs = get_field_sql(
+"
+select 100*UserSumgrades/SumSumGradesOfCourse as grade
+from
+(
+	 select sum(sumgrades) as SumSumGradesOfCourse from mdl_quiz where course=$courseid and sumgrades>0
+) as MaxGrade
+join
+(
+	 select sum(sumgrades) as UserSumgrades
+	from `mdl_quiz_attempts`
+	where userid=$userid and
+	quiz in (select id from mdl_quiz where course=$courseid and sumgrades>0)
+) as UserGrade
+"
+		);
+		
+		if($recs)
+		{            
+			return $recs;
+		}
+		return false;
+	}
+	
 	//function smartcom_user_candoanything() {
 //		$context = get_context_instance(CONTEXT_SYSTEM);
 
