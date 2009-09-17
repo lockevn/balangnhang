@@ -265,14 +265,14 @@
 					echo ' <a title="'.$streditsummary.'" href="editsection.php?id='.$thissection->id.'">'.
 						 '<img src="'.$CFG->pixpath.'/t/edit.gif" alt="'.$streditsummary.'" /></a>';
 				}
-                /*danhut added: n?u c� link start lesson th� print ra b�n c?nh lesson summary*/
-                $modsInSection = explode(',', $thissection->sequence);
-                $startLessonUrl = getLessonStartUrl($course->id, $section); 
-                
-                	echo '<a title="' . get_string('enter_lesson', 'format_topicstree') . '" href = "' . $startLessonUrl . '"' .
-                		'<img src="'.$CFG->pixpath.'/a/enter.png" alt="'.get_string('enter_lesson', 'format_topicstree').'" /></a>';
-                
-                /*end of danhut added*/
+				/*danhut added: n?u c� link start lesson th� print ra b�n c?nh lesson summary*/
+				$modsInSection = explode(',', $thissection->sequence);
+				$startLessonUrl = getLessonStartUrl($course->id, $section); 
+				
+					echo '<a title="' . get_string('enter_lesson', 'format_topicstree') . '" href = "' . $startLessonUrl . '"' .
+						'<img src="'.$CFG->pixpath.'/a/enter.png" alt="'.get_string('enter_lesson', 'format_topicstree').'" /></a>';
+				
+				/*end of danhut added*/
 				echo '</div>';
 
 				if (isediting($course->id)) { /// Editing use the mainstream print_section
@@ -433,7 +433,7 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
 
 			$mod = $mods[$modnumber];
 
-           
+		   
 			if (isset($modinfo->cms[$modnumber])) {
 				if (!$modinfo->cms[$modnumber]->uservisible) {
 					// visibility shortcut
@@ -479,12 +479,11 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
 				/**** GURUCORE Hack
 				* @desc Add grade percent to each quiz
 				***/                				
-				$GURUCORE_lesson_grade_string = "<span class='GURUCORE_lesson_grade' sectionid='$mod->section'></span>";
+				$GURUCORE_lesson_grade_string = "<span class='GURUCORE_lesson_grade' sectionid='{$mod->section}' labelid='{$mod->instance}'></span>";
 				echo $GURUCORE_lesson_grade_string;
 				/**** GURUCORE Hack
 				* @desc Add grade percent to each quiz
 				***/				
-				
 				
 				if (!$mod->visible) {
 					echo "<span class=\"dimmed_text\">";
@@ -601,25 +600,25 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
 	if (!empty($section->sequence)) {
 		echo "</ul><!--class='section'-->\n\n";
 	}
-    
+	
 
-    
-    
+	
+	
 }
 
 /**
-     * danhut added to get the lesson start link
-     *
-     * @param unknown_type $mods
-     * @param unknown_type $sectionmods
-     * @return unknown
-     */
-    function getLessonStartUrl($courseid, $sectionIndex) {
-    	$sectionUrl = false;
-    	Global $CFG;    	
-        $sectionUrl = "{$CFG->wwwroot}/smartcom/start/view.php?id=$courseid&section=$sectionIndex";        
-    	return $sectionUrl;
-    }
+	 * danhut added to get the lesson start link
+	 *
+	 * @param unknown_type $mods
+	 * @param unknown_type $sectionmods
+	 * @return unknown
+	 */
+	function getLessonStartUrl($courseid, $sectionIndex) {
+		$sectionUrl = false;
+		Global $CFG;    	
+		$sectionUrl = "{$CFG->wwwroot}/smartcom/start/view.php?id=$courseid&section=$sectionIndex";        
+		return $sectionUrl;
+	}
 
 /**
  * This function will preprocess all the mods in section, adding the required stuff to be able to
