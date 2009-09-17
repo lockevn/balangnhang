@@ -41,21 +41,21 @@
   
 /// Processing standard security processes
 	$navigation = "";
-	if ($course->category) {
-		$navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
-		require_login($course->id);
-	}
-	if (!$cm->visible and !isteacher($course->id)) {
-		print_header();
-		notice(get_string("activityiscurrentlyhidden"));
-	}
-	add_to_log($course->id, "mail", "view", "view.php?id=$cm->id", $mail->id, $cm->id);
+//	if ($course->category) {
+//		$navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
+//		require_login($course->id);
+//	}
+//	if (!$cm->visible and !isteacher($course->id)) {
+//		print_header();
+//		notice(get_string("activityiscurrentlyhidden"));
+//	}
+//	add_to_log($course->id, "mail", "view", "view.php?id=$cm->id", $mail->id, $cm->id);
 
 /// Printing the heading
 	$strmails = get_string("modulenameplural", "mail");
 	$strmail = get_string("modulename", "mail");
 
-	$navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
+	// $navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
 
 	print_header_simple(format_string($mail->name), "",
 				 "$navigation ".format_string($mail->name), "", "", true, update_module_button($cm->id, $course->id, $strmail), navmenu($course, $cm));
@@ -72,5 +72,5 @@
 	mail_end_print_table_main($mail);	
 
 /// Finish the page
-	print_footer($course);
+	print_footer();
 ?>
