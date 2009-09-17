@@ -1,6 +1,9 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
+require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
+
+
   // $Id: review.php,v 1.59.2.10 2009/01/16 04:47:35 tjhunt Exp $
 /**
  * This page prints a review of a particular quiz attempt
@@ -329,23 +332,50 @@ require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 	// print javascript button to close the window, if necessary
 	if (!$isteacher) {
 		include('attempt_close_js.php');
-	}
-	
+	}	
 	/*danhut added*/
 		finish_page($course, $pageblocks);
    /*end of danhut added*/
 
-	if (empty($popup)) {
-		print_footer($course);
-	}
-	
+
+   
 /*******************/
 // LOCKEVN: add for auto suggestion after finish final exam
-echo "You've completed the final exam";
-echo '<pre>';
-print_r($course);
+$courseCompletionConfig = get_record('smartcom_course_completion_suggestion', 'courseid', $course->id);
+
+// if current quiz is final exam
+if($courseCompletionConfig->finalquizid == $quiz->id)
+{
+	$courseCompletionConfig->nextcourseidset = trim($courseCompletionConfig->nextcourseidset, ',');
+	$arrCourseToContinue = get_records_sql(
+	"select id, fullname as name from mdl_course where id in ({$courseCompletionConfig->nextcourseidset})"
+	);
+	$arrCourseToContinue = array_values($arrCourseToContinue);
+	// if next course suggestion is defined
+	if(is_array($arrCourseToContinue))
+	{
+		$arrQuizResultOfUser = SmartComDataUtil::GetQuizResultPercentOfUser($USER->id);
+		// if pass finalquiz
+		if($arrQuizResultOfUser[$quiz->id] >= $courseCompletionConfig->finalquizpercent)
+		{
+			// if overall score (of this course) pass
+			if(SmartComDataUtil::GetOverallQuizResultPercentOfUserInCourse($USER->id, $course->id) >= $courseCompletionConfig->overallquizzespercent)
+			{
+				$tpl->assign('arrCourseToContinue', $arrCourseToContinue);        
+				$FILENAME = 'course_completion_suggest';
+				$$FILENAME = $tpl->display("~/mod/quiz/Pagelet/$FILENAME.tpl.php");
+			}
+		}
+	}
+}
+// LOCKEVN: add for auto suggestion after finish final exam
 /*******************/
-	
+
+   
+if (empty($popup)) {
+	print_footer($course);
+}
+
 
 function finish_page($course, $pageblocks) {
 	global $THEME;
