@@ -363,12 +363,13 @@
 			$messagestemp[] = $messagetemp;
 		}
 		
-		$messagestemp = mail_sort_array_messages($messagestemp, $sort, $dir);
 		
 		$limitmessage = ($page+1)*$perpage;
 		
-		if($messagestemp)
+		if(isset($messagestemp) && is_array($messagestemp))
 		{
+			$messagestemp = mail_sort_array_messages($messagestemp, $sort, $dir);
+		
 			for ($i = $page*$perpage; $i < $limitmessage; $i++) {
 				if($i == count($messagestemp))
 				{
