@@ -11,7 +11,7 @@ $userid = required_param('userid', PARAM_INT);   // course
 
 
 $recs = get_records_sql(
-"select MaxGrade.quiz as quizid, 100*SumGrades/MaxSumGrades as grade
+"select MaxGrade.quiz as quizid, ROUND(100*SumGrades/MaxSumGrades) as grade
 from
 (
 select id as quiz, sumgrades as MaxSumGrades from mdl_quiz where course=$courseid and sumgrades>0
@@ -26,5 +26,8 @@ group by quiz
 on MaxGrade.quiz = UserGrade.quiz"
 );
 
-echo json_encode($recs);
+if($recs)
+{
+	echo json_encode($recs);
+}
 ?>
