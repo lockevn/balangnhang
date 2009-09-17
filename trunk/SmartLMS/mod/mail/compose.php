@@ -337,7 +337,7 @@
 	$strmails = get_string("modulenameplural", "mail");
 	$strmail = get_string("modulename", "mail");
 
-	$navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
+	// $navigation = "<a href=\"index.php?id=$course->id\">$strmails</a> ->";
 
 	print_header_simple(format_string($mail->name), "",
 				 "$navigation ".format_string($mail->name), "", "", true, update_module_button($cm->id, $course->id, $strmail), navmenu($course, $cm));

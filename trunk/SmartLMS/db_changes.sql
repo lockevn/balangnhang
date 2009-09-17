@@ -120,4 +120,25 @@ CREATE TABLE `mdl_smartcom_learning_ticket` (
   UNIQUE KEY `username_courseid_unique` (`username`,`courseid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-	
+
+
+
+/**
+ * phục vụ chức năng Course Final Exam --> auto suggestion
+ */
+
+
+ 
+DROP TABLE IF EXISTS `mdl_smartcom_course_completion_suggestion`;
+
+CREATE TABLE `mdl_smartcom_course_completion_suggestion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `courseid` int(11) DEFAULT NULL,
+  `overallquizzespercent` int(11) DEFAULT '60',
+  `finalquizid` int(11) DEFAULT NULL,
+  `finalquizpercent` int(11) DEFAULT '60',
+  `nextcourseidset` varchar(50) DEFAULT NULL,
+  `isenable` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `courseid` (`courseid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
