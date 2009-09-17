@@ -343,8 +343,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 // LOCKEVN: add for auto suggestion after finish final exam
 $courseCompletionConfig = get_record('smartcom_course_completion_suggestion', 'courseid', $course->id);
 
-// if current quiz is final exam
-if($courseCompletionConfig->finalquizid == $quiz->id)
+// if current quiz is final exam, and suggestion mode is enable
+if($courseCompletionConfig->isenable == 1 && $courseCompletionConfig->finalquizid == $quiz->id)
 {
 	$courseCompletionConfig->nextcourseidset = trim($courseCompletionConfig->nextcourseidset, ',');
 	$arrCourseToContinue = get_records_sql(
