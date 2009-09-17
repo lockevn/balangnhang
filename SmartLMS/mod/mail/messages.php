@@ -87,9 +87,9 @@
 		error("Must specify message ID or folder ID");
 	}
 
-	if ($CFG->forcelogin) {
+	// if ($CFG->forcelogin) {
 		require_login();
-	}
+	// }
 	
 	$SESSION->fromurl = $_SERVER["HTTP_REFERER"];
 	

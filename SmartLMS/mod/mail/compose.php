@@ -76,9 +76,9 @@
 		error("Must specify mail ID or course module ID");
 	}
 
-	if ($CFG->forcelogin) {
+	// if ($CFG->forcelogin) {
 		require_login();
-	}
+	// }
 	
 	$SESSION->fromurl = $_SERVER["HTTP_REFERER"];
 	
