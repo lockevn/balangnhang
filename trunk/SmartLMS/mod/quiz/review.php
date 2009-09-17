@@ -338,6 +338,14 @@ require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 	if (empty($popup)) {
 		print_footer($course);
 	}
+	
+/*******************/
+// LOCKEVN: add for auto suggestion after finish final exam
+echo "You've completed the final exam";
+echo '<pre>';
+print_r($course);
+/*******************/
+	
 
 function finish_page($course, $pageblocks) {
 	global $THEME;
