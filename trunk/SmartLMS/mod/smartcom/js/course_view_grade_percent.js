@@ -58,7 +58,10 @@ $(document).ready(function(){
 			 }
 			 ,
 			 function(data){
-				$('#activity-percent-' + $labelid).text(" (" + data + "%) ");
+				 if(data)
+				 {
+					$('#activity-percent-' + $labelid).text(" (" + data + "%) ");
+				 }
 			 }			 
 		 );
 	});

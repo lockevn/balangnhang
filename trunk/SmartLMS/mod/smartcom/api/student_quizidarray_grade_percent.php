@@ -32,9 +32,6 @@ if($recs)
 {
 	echo $recs;
 }
-else
-{
-	echo 0;
-}
+
 
 ?>
