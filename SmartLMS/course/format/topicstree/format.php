@@ -272,6 +272,16 @@
 					echo '<a title="' . get_string('enter_lesson', 'format_topicstree') . '" href = "' . $startLessonUrl . '"' .
 						'<img src="'.$CFG->pixpath.'/a/enter.png" alt="'.get_string('enter_lesson', 'format_topicstree').'" /></a>';
 				
+				
+				/**** GURUCORE Hack
+				* @desc Add grade percent to each lesson
+				***/                                
+				$GURUCORE_lesson_grade_string = "<span class='GURUCORE_lesson_grade' sectionid='{$thissection->id}' ></span>";
+				echo $GURUCORE_lesson_grade_string;
+				/**** GURUCORE Hack                
+				**************************************/
+				
+				
 				/*end of danhut added*/
 				echo '</div>';
 
@@ -426,6 +436,13 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
 	/// output nested lists later
 		preprocessmods4topicstree($sectionmods, $mods, $modinfo);
 
+		/*****************************/
+		// HACK: LockeVN: hack
+		$mapLabelIDarrQuizID = GetLabelActivity_QuizMap($mods);
+		// HACK: LockeVN: hack
+		/*****************************/
+		
+		
 		foreach ($sectionmods as $modnumber) {
 			if (empty($mods[$modnumber])) {
 				continue;
@@ -475,20 +492,13 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
 			}
 
 			if ($mod->modname == "label") 
-			{
-				/**** GURUCORE Hack
-				* @desc Add grade percent to each quiz
-				***/                				
-				$GURUCORE_lesson_grade_string = "<span class='GURUCORE_lesson_grade' sectionid='{$mod->section}' labelid='{$mod->instance}'></span>";
-				echo $GURUCORE_lesson_grade_string;
-				/**** GURUCORE Hack
-				* @desc Add grade percent to each quiz
-				***/				
-				
+			{				
 				if (!$mod->visible) {
 					echo "<span class=\"dimmed_text\">";
 				}
 				echo format_text($extra, FORMAT_HTML, $labelformatoptions);
+				
+				
 				
 				if (!$mod->visible) {
 					echo "</span>";
@@ -499,6 +509,23 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
 					}
 					echo " <span class=\"groupinglabel\">(".format_string($groupings[$mod->groupingid]->name).')</span>';
 				}
+				
+				/**** GURUCORE Hack
+				* @desc Add grade percent to each quiz
+				***/
+				if(array_key_exists($mod->instance, $mapLabelIDarrQuizID))
+				{
+					$arrQuidID = $mapLabelIDarrQuizID[$mod->instance];				
+					if(is_array($arrQuidID))
+					{
+						$sChildQuizIDs = implode(',', $arrQuidID);
+						$GURUCORE_activity_grade_string = "<span class='GURUCORE_activity_grade' childquizid='$sChildQuizIDs' labelid='{$mod->instance}'></span><span id='activity-percent-{$mod->instance}'></span>";
+						echo $GURUCORE_activity_grade_string;					
+					}
+				}
+				/**** GURUCORE Hack                
+				**************************************/
+				
 			} 
 			else 
 			{ // Normal activity
@@ -549,8 +576,8 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
 				$linkcss = $mod->visible ? "" : " class=\"dimmed\" ";
 				echo '<a '.$linkcss.' '.$extra.        // Title unnecessary!
 					 ' href="'.$CFG->wwwroot.'/mod/'.$mod->modname.'/view.php?id='.$mod->id.'">'.
-					 '<img src="'.$icon.'" class="activityicon" alt="" /> '.$GURUCORE_quiz_grade_string.'<span>'.
-					 $instancename.$altname.'</span></a>';
+					 '<img src="'.$icon.'" class="activityicon" alt="" /><span>'.
+					 $instancename.$altname.'</span></a>' . $GURUCORE_quiz_grade_string;
 					 
 				/**** GURUCORE Hack
 				* @desc Add grade percent to each quiz
@@ -620,6 +647,46 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
 		return $sectionUrl;
 	}
 
+	
+	/**
+	* @desc LockeVN: find in the mods array (in which renders this topic tree) every quiz belong to Activity
+	* @param array array of mods, in this topic tree, to search for quiz
+	* @return assocarray (activityid (label) => array(quizid))
+	*/
+	function GetLabelActivity_QuizMap($mods)
+	{
+		$arrRet = array();
+		
+		$flagFoundLabel = false;
+		$LabelID = 0;
+		foreach (((array)$mods) as $moduleInTree) {
+			if($moduleInTree->modname == 'label' && $moduleInTree->modfullname == 'Activity')
+			{
+				$flagFoundLabel = true;
+				$LabelID = $moduleInTree->instance;
+				$arrQuizID = array(); 
+				continue;
+			}
+			
+			if($flagFoundLabel)
+			{
+				if($moduleInTree->modname == 'quiz')
+				{                
+					$arrQuizID[] = $moduleInTree->instance;
+				}
+				
+				if(isset($moduleInTree->islast) && $moduleInTree->islast == 1)
+				{
+					$arrRet[$LabelID] = $arrQuizID;
+					$LabelID = 0;
+					$flagFoundLabel = false;                    
+				}                
+			}
+		}
+		
+		return $arrRet;
+	}
+	
 /**
  * This function will preprocess all the mods in section, adding the required stuff to be able to
  * output them later in a nested lists behaviour
