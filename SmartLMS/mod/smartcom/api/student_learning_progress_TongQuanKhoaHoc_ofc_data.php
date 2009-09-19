@@ -53,8 +53,8 @@ $recsMaxSumGrades = get_records_sql(
 
 /*get grade of user of course */
 $recsUserSumGrades = get_records_sql(
-"select quiz, max(sumgrades) as sumgrades 
-from `mdl_quiz_attempts` 
+"select quiz, grade as sumgrades 
+from `mdl_quiz_grades` 
 where userid=$userid and quiz in (select id from mdl_quiz where course=$courseid) 
 group by quiz;"
 );
@@ -77,7 +77,15 @@ $bar->key( 'Unit score', 10);
 
 foreach (((array)$assocResourceData) as $key => $value) {
 	$dataEntry = 100*$value['usergrade']/$value['maxgrade'];
-	$bar->add_link($dataEntry, "javascript:showDetailChartOfLesson($key);" );
+	$lessonname = '';
+	foreach (((array)$mapLessonName_QuizID) as $value) {
+		if($value['resourcename'] == $key)
+		{
+			$lessonname = $value['label'];
+			break;
+		}    
+	}
+	$bar->add_link($dataEntry, "javascript:showDetailChartOfLesson($key,'$lessonname');" );
 }
 $g->data_sets[] = $bar;
 

@@ -151,6 +151,46 @@ join
 		}
 		return false;
 	}
+
+
+	/**
+	* @desc lấy % điểm trên tập các quizid. 
+	* @return bool false if error, return array of quiz and grade (in percent form 00-100)
+	*/
+	public static function GetQuizArrayPercentOfUser($userid=0, $courseid = 0, $childquizid = '') {
+		if($userid < 1 || $courseid < 2 || empty($childquizid))
+		{
+			return false;
+		}
+		
+		$childquizid = trim($childquizid, ',');		
+		$recs = get_field_sql(
+		"
+		select ROUND(100 * sum(SumGrades) / sum(MaxSumGrades)) as grade
+		from
+		(
+			select id as quiz, sumgrades as MaxSumGrades from mdl_quiz where id in ($childquizid) and sumgrades>0
+		) as MaxGrade
+		join
+		(
+			select quiz, grade as SumGrades
+			from `mdl_quiz_grades`
+			where userid=$userid and quiz in ($childquizid)
+			group by quiz
+		) as UserGrade
+		on MaxGrade.quiz = UserGrade.quiz
+		"
+		);
+
+		if($recs)
+		{
+			return $recs;
+		}
+		else
+		{
+			return 0;
+		}
+	}
 	
 	//function smartcom_user_candoanything() {
 //		$context = get_context_instance(CONTEXT_SYSTEM);
