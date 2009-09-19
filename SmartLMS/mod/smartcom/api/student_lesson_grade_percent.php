@@ -18,8 +18,8 @@ select id as quiz, sumgrades as MaxSumGrades from mdl_quiz where course=$coursei
 ) as MaxGrade
 join
 (
-select quiz, max(sumgrades) as sumgrades
-from `mdl_quiz_attempts`
+select quiz, grade as SumGrades
+from `mdl_quiz_grades`
 where userid=$userid and quiz in (select id from mdl_quiz where course=$courseid and sumgrades>0)
 group by quiz
 ) as UserGrade
