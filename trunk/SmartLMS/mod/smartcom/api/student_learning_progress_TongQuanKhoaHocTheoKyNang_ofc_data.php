@@ -45,8 +45,8 @@ $recsMaxSumGrades = get_records_sql(
 
 /*get grade of user of course */
 $recsUserSumGrades = get_records_sql(
-"select quiz, max(sumgrades) as sumgrades 
-from `mdl_quiz_attempts` 
+"select quiz, grade as sumgrades 
+from `mdl_quiz_grades` 
 where userid=$userid and quiz in (select id from mdl_quiz where course=$courseid) 
 group by quiz;"
 );

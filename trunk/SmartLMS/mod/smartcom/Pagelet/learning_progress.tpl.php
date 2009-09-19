@@ -18,11 +18,11 @@ function findSWF(movieName) {
   }
 }
 
-function showDetailChartOfLesson(sectionid)
+function showDetailChartOfLesson(sectionid, lessonname)
 {
 	$(document).ready(function(){
 		$('#div_chart_3').fadeIn(1000, function(){
-			var url = '<?=$this->chitietbaihocurl?>' + '&sectionid=' + sectionid;    
+			var url = '<?=$this->chitietbaihocurl?>' + '&sectionid=' + sectionid + '&lessonname=' + lessonname;
 			tmp = findSWF("chart_3");
 			tmp.reload(url);
 		});		
