@@ -1262,7 +1262,7 @@ class line
 	function key( $key, $size )
 	{
 		$this->_key = true;
-		$this->key = graph::esc( $key );
+		$this->key = OFCgraph::esc( $key );
 		$this->key_size = $size;
 	}
 	
@@ -1274,20 +1274,20 @@ class line
 	function add_link( $data, $link )
 	{
 		$this->data[] = $data;
-		$this->links[] = graph::esc( $link );
+		$this->links[] = OFCgraph::esc( $link );
 	}
 	
 	function add_data_tip( $data, $tip )
 	{
 		$this->data[] = $data;
-		$this->tips[] = graph::esc( $tip );
+		$this->tips[] = OFCgraph::esc( $tip );
 	}
 	
 	function add_data_link_tip( $data, $link, $tip )
 	{
 		$this->data[] = $data;
-		$this->links[] = graph::esc( $link );
-		$this->tips[] = graph::esc( $tip );
+		$this->links[] = OFCgraph::esc( $link );
+		$this->tips[] = OFCgraph::esc( $tip );
 	}
 	
 	// return the variables for this chart
@@ -1412,7 +1412,7 @@ class bar
 	function key( $key, $size )
 	{
 		$this->_key = true;
-		$this->key = graph::esc( $key );
+		$this->key = OFCgraph::esc( $key );
 		$this->key_size = $size;
 	}
 	
@@ -1424,13 +1424,13 @@ class bar
 	function add_link( $data, $link )
 	{
 		$this->data[] = $data;
-		$this->links[] = graph::esc( $link );
+		$this->links[] = OFCgraph::esc( $link );
 	}
 	
 	function add_data_tip( $data, $tip )
 	{
 		$this->data[] = $data;
-		$this->tips[] = graph::esc( $tip );
+		$this->tips[] = OFCgraph::esc( $tip );
 	}
 	
 	// return the variables for this
