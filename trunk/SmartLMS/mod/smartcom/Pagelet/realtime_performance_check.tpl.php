@@ -39,12 +39,13 @@ $(document).ready(function(){
 	
 	$("#send").click(function(){
 		var currentUserid = <?=$this->userid?>;
+		var currentUsername = '<?=$this->username?>';
 		
 		$("#sendResult").show().empty().load(
 			'/mod/smartcom/api/messages_send.php', 
 			{
-				fromuserid : currentUserid,
-				touserid : $('#username').attr('userid'),
+				from : currentUsername,
+				to : $('#username').val(),
 				message: $('#messageToUser').val()
 			},
 			function(){				

@@ -4,6 +4,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
 define('AJAX_CALL',true);
 require_login();
+header("Content-type: text/javascript;charset=utf-8");
 
 
 $page = $_GET['page']; // get the requested page 

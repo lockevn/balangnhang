@@ -18,8 +18,12 @@ $(document).ready(function(){
 			 {
 				$(".GURUCORE_lesson_grade").each(function(index, element){
 					var sectionid = $(element).attr('sectionid');
-					var grade = json[sectionid]['grade'];
-					$(element).text(" (" + grade.leftPad(3, ' ') + "%) ");
+					try
+					{
+						var grade = json[sectionid]['grade'];
+						$(element).text(" (" + grade.leftPad(3, ' ') + "%) ");
+					}
+					catch(e){}
 				});
 			 }
 		 }
@@ -36,9 +40,13 @@ $(document).ready(function(){
 			if(json)
 			{				
 				$(".GURUCORE_quiz_grade").each(function(index, element){
-					var quizid = $(element).attr('quizid');				
-					var grade = json[quizid]['grade'];
-					$(element).text(" (" + grade.leftPad(3, ' ') + "%) ");
+					var quizid = $(element).attr('quizid');
+					try
+					{						
+						var grade = json[quizid]['grade'];
+						$(element).text(" (" + grade.leftPad(3, ' ') + "%) ");
+					}
+					catch(e){}
 				});
 			}
 		 }
