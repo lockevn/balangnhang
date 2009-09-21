@@ -8,26 +8,26 @@ require_login();
 
 
 $message = required_param('message', PARAM_TEXT);
-$fromuserid = required_param('fromuserid', PARAM_INT);
-$touserid = required_param('touserid', PARAM_INT);
+$from = required_param('from', PARAM_TEXT);
+$to = required_param('to', PARAM_TEXT);
+$link = optional_param('link', 'http://gurucore.com', PARAM_TEXT);
+
 
 /// Save the new message in the database
 $savemessage = new object();
-$savemessage->useridfrom    = $fromuserid;
-$savemessage->useridto      = $touserid;
-$savemessage->message       = $message;
-// $savemessage->format        = $format;
-$savemessage->timecreated   = time();
-$savemessage->messagetype   = 'direct';
+$savemessage->senderusername = $from;
+$savemessage->receiverusername = $to;
+$savemessage->message = $message;
+$savemessage->link = $link;
 
 
-if (!$savemessage->id = insert_record('message', $savemessage)) 
+if (!$savemessage->id = insert_record('smartcom_notification', $savemessage)) 
 {
 	echo 'send message fail';
 }
 else
 {
-	echo "send message ok from $fromuserid, to $touserid, message: $message";
+	echo "send message ok from $from, to $to, message: $message";
 }	
 
 ?>
