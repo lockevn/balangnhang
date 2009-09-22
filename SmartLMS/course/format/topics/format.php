@@ -7,7 +7,6 @@
       // Included from "view.php"
       
 
-    require_once($CFG->libdir.'/ajax/ajaxlib.php');
   
     $topic = optional_param('topic', -1, PARAM_INT);
 
@@ -55,6 +54,12 @@
     $strgroups        = get_string('groups');
     $strgroupmy       = get_string('groupmy');
     $editing          = $PAGE->user_is_editing();
+    
+    if(!has_capability('moodle/course:update', get_context_instance(CONTEXT_COURSE, $course->id))) {
+    	redirect($CFG->wwwroot.'/smartcom/start/view.php?id=' . $course->id . '&section=1', '', 0);
+		
+		
+    }
 
     if ($editing) {
         $strstudents = moodle_strtolower($course->students);
