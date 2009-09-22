@@ -72,6 +72,12 @@ $string['target_category'] = 'Target categories';
 $string['current_course_section'] = 'Current course sections';
 $string['moveto'] = 'Move to target category';
 
+$string['lecture'] = 'Lecture';
+$string['lecturedescription'] = 'Lecture description';
+$string['testdescription'] = 'Test description';
+
+
+
 
 
 
