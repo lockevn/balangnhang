@@ -5305,7 +5305,7 @@ function update_categories_search_button($search,$page,$perpage) {
  * @return string
  * @todo Finish documenting this function
  */
-function navmenu($course, $cm=NULL, $targetwindow='self') {
+function navmenu($course, $cm=NULL, $targetwindow='self', $getNavLinks=false) {
 
 	global $CFG, $THEME, $USER;
 
@@ -5422,9 +5422,11 @@ function navmenu($course, $cm=NULL, $targetwindow='self') {
                     '<img class="icon log" src="'.$CFG->pixpath.'/i/log.gif" alt="'.$logstext.'" /></a>'."\n".'</li>';
 
 	}
+	$backmodStr = '';
+	$nextmodStr = '';
 	if ($backmod) {
 		$backtext= get_string('activityprev', 'access');
-		$backmod = '<li><form action="'.$CFG->wwwroot.'/mod/'.$backmod->modname.'/view.php" '.
+		$backmodStr = '<li><form action="'.$CFG->wwwroot.'/mod/'.$backmod->modname.'/view.php" '.
                    'onclick="this.target=\''.$CFG->framename.'\';"'.'><fieldset class="invisiblefieldset">'.
                    '<input type="hidden" name="id" value="'.$backmod->id.'" />'.
                    '<button type="submit" title="'.$backtext.'">'.link_arrow_left($backtext, $url='', $accesshide=true).
@@ -5432,7 +5434,7 @@ function navmenu($course, $cm=NULL, $targetwindow='self') {
 	}
 	if ($nextmod) {
 		$nexttext= get_string('activitynext', 'access');
-		$nextmod = '<li><form action="'.$CFG->wwwroot.'/mod/'.$nextmod->modname.'/view.php"  '.
+		$nextmodStr = '<li><form action="'.$CFG->wwwroot.'/mod/'.$nextmod->modname.'/view.php"  '.
                    'onclick="this.target=\''.$CFG->framename.'\';"'.'><fieldset class="invisiblefieldset">'.
                    '<input type="hidden" name="id" value="'.$nextmod->id.'" />'.
                    '<button type="submit" title="'.$nexttext.'">'.link_arrow_right($nexttext, $url='', $accesshide=true).
@@ -5447,7 +5449,18 @@ function navmenu($course, $cm=NULL, $targetwindow='self') {
 //                       '', '', true, $targetwindow, '', $menustyle).'</li>'.
 //	$nextmod . '</ul>'."\n".'</div>';
 /*danhut modifed*/
-	return '<div class="navigation">'."\n".'<ul>'. $backmod . $nextmod . '</ul>'."\n".'</div>';
+	if($getNavLinks === false) { 
+		return '<div class="navigation">'."\n".'<ul>'. $backmodStr . $nextmodStr . '</ul>'."\n".'</div>';
+	} else {
+		$nextLink = '';
+		$backLink = '';
+		if(!empty($nextmod))
+			$nextLink = $CFG->wwwroot.'/mod/'.$nextmod->modname.'/view.php?id=' . $nextmod->id;
+		if(!empty($backmod))
+			$backLink = $CFG->wwwroot.'/mod/'.$backmod->modname.'/view.php?id=' . $backmod->id;
+		return array('backLink'=>$backLink,'nextLink'=>$nextLink);
+	}
+	
 /*end of danhut modifed*/
 }
 
