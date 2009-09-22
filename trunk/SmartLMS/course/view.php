@@ -51,7 +51,14 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 	}
 
 	require_login($course);
+	
+	require_once($CFG->dirroot.'/mod/smartcom/locallib.php');
+	SmartComDataUtil::require_smartcom_ticket($id);
+	
 
+	
+	
+	
 	// Switchrole - sanity check in cost-order...
 	$reset_user_allowed_editing = false;
 	if ($switchrole > 0 && confirm_sesskey() &&
@@ -194,7 +201,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 	}
 
 	$CFG->blocksdrag = $useajax;   // this will add a new class to the header so we can style differently
-
+	
+	
 
 	$PAGE->print_header(get_string('course').': %fullname%', NULL, '', $bodytags);
 	// Course wrapper start.

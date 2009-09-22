@@ -8,6 +8,10 @@ require_once(ABSPATH.'lib/datalib.php');
 
 class SmartComDataUtil
 {
+	/**
+	* @desc 
+	* @return bool true if OK, false if not
+	*/
 	public static function CheckUserHasTicketOfCourse($username='', $courseid=1) {
 		if(empty($username))
 		{
@@ -32,17 +36,22 @@ class SmartComDataUtil
 		}
 	}
 	
-	public static function BuyTicketOfCourseForUser($username = '', $courseid = 0, $coursePrice) {
+	/**
+	* @desc 
+	* @return -1 if fail, 1 if already has ticket or buy OK
+	*/
+	public static function BuyTicketOfCourseForUser($username = '', $courseid = 0, $coursePrice = 0){
 		if(empty($username) || $courseid <= 1)
 		{
 			return -1;
 		}
-				
+		
 		if(SmartComDataUtil::CheckUserHasTicketOfCourse($username, $courseid))
 		{
 			return 1;
 		}
 		
+		$coursePrice = empty($coursePrice) ? 0 : (int)$coursePrice;
 		global $CFG;		
 		$mysqli = new mysqli($CFG->dbhost, $CFG->dbuser, $CFG->dbpass, $CFG->dbname);
 		if (mysqli_connect_errno()) {
@@ -192,11 +201,95 @@ join
 		}
 	}
 	
+	
+		
+	/**
+	 * @desc 
+	 *	 
+	 * @param mixed $courseorid id of the course or course object	 
+	 * @param bool $setwantsurltome Define if we want to set $SESSION->wantsurl, defaults to
+	 *             true. Used to avoid (=false) some scripts (file.php...) to set that variable,
+	 *             in order to keep redirects working properly. MDL-14495
+	 */
+	public static function require_smartcom_ticket($courseid=0, $setwantsurltome=true) 
+	{
+		global $CFG, $SESSION, $USER, $COURSE, $FULLME;
+		
+		$course = get_record('course', 'id', $courseid);
+		if(!$course)
+		{
+			// course does not existed, so ????            
+			// allow to continue
+			return;
+		}
+		
+		if($course && empty($course->cost))
+		{
+			// free for all course
+			// allow to continue
+			return;
+		}		
+	
+		
+		// PAID COURSE, now checking condition	
+	
+		// if do not HAVE ticket
+		if (SmartComDataUtil::CheckUserHasTicketOfCourse($USER->username, $courseid) == false) 
+		{
+			$urltoredirect = '';
+
+			if ($setwantsurltome) {
+				$SESSION->wantsurl = $FULLME;
+			}
+			if (!empty($_SERVER['HTTP_REFERER'])) {
+				$SESSION->fromurl = $_SERVER['HTTP_REFERER'];
+			}
+			
+			if (empty($CFG->loginhttps)) 
+			{ 
+				//do not require https
+				$wwwroot = $CFG->wwwroot;
+			} 
+			else 
+			{
+				$wwwroot = str_replace('http:','https:', $CFG->wwwroot);
+			}
+			$urltoredirect = $wwwroot ."/mod/smartcom/index.php?courseid=$courseid&submodule=ticket_buy";
+			
+			
+			// if ajax call, echo code and exit
+			if(defined('AJAX_CALL'))
+			{            
+				die("NOT_HAVE_TICKET,{$USER->username},$courseid,$urltoredirect");
+			}            
+			else
+			{
+				redirect($urltoredirect);
+				exit;
+			}
+		}		
+		
+				
+		/////////////***********************/////////////////
+		// GO HERE mean ticket is valid, continue their continue
+		/// Make sure current IP matches the one for this session (if required)
+		if (!empty($CFG->tracksessionip)) {
+			if ($USER->sessionIP != md5(getremoteaddr())) {
+				print_error('sessionipnomatch', 'error');
+			}
+		}		
+		
+		return;   // User is allowed to see this course
+	}
+
+
 	//function smartcom_user_candoanything() {
 //		$context = get_context_instance(CONTEXT_SYSTEM);
 
 //		return (has_capability('moodle/site:doanything', $context));
 //	}
+
+
 }
 	
 ?>
