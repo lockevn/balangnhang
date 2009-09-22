@@ -33,8 +33,8 @@ class mod_quiz_mod_form extends moodleform_mod {
 	    $indent = optional_param('indent', '', PARAM_INT);
 	    $mform->addElement('hidden', 'cat','');
 	    $mform->setDefault('cat', $cat);
-	    $mform->addElement('hidden', 'lotype','');
-	    $mform->setDefault('lotype', $lotype);
+//	    $mform->addElement('hidden', 'lotype','');
+//	    $mform->setDefault('lotype', $lotype);
 	    $mform->addElement('hidden', 'beforecm','');
 	    $mform->setDefault('beforecm', $beforecm);
 	    $mform->addElement('hidden', 'indent','');
@@ -46,11 +46,11 @@ class mod_quiz_mod_form extends moodleform_mod {
 		$quizTypeArr['test'] = 'test';
 		$quizTypeArr['practice'] = 'practice';
         $mform->addElement('header', 'quiztypehdr', get_string('quiztype', 'form'));
-        $mform->addElement('select', 'quiztype', get_string('quiztype', 'quiz'), $quizTypeArr);
-        $mform->setDefault('quiztype', $lotype);
+        $mform->addElement('select', 'lotype', get_string('quiztype', 'quiz'), $quizTypeArr);
+        $mform->setDefault('lotype', $lotype);
         //$mform->setHelpButton('quiz_type_selector', array('timeopen', get_string('quizopen', 'quiz'), 'quiz'));
-        $mform->addElement('hidden', 'smarttype','');
-    	$mform->setDefault('smarttype', $lotype);
+//        $mform->addElement('hidden', 'smarttype','');
+//    	$mform->setDefault('smarttype', $lotype);
         
         
 //-------------------------------------------------------------------------------

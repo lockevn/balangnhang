@@ -442,7 +442,7 @@
     }
 
     /*danhut added*/
-    echo '<table id="layout-table"><tr>';
+    echo '<table id="layout-table" class="' . $quiz->lotype. '"><tr>';
 
     if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
         echo '<td style="width: '.$blocks_preferred_width.'px;" id="left-column">';
@@ -518,7 +518,7 @@
 //    }
 
     /*danhut added: print quiz introduction*/
-    if($quiz->smarttype == 'exercise') {
+    if($quiz->lotype == 'exercise') {
     if (trim(strip_tags($quiz->intro))) {
             $formatoptions->noclean = true;
             $formatoptions->para    = false;
@@ -544,7 +544,7 @@
     
 	
         
-    echo "<div class=\"submitbtns mdl-align\">\n";
+    echo "<div class=\"submitbtns mdl-align $quiz->lotype\">\n";
 	/*danhut added: print previous page link if required*/
     if ($page > 0) {
         // Print previous link
@@ -552,16 +552,17 @@
          echo '&nbsp;<input type="button" src ="' . $CFG->pixpath.'/a/l_breadcrumb.gif" value="' . $strprev .'" class="quiz_page_previous" onclick="javascript:navigate(' . ($page - 1) . ');"/>&nbsp;';
 		
     }   
-    /*danhut added: hiển thị button save page answers cho cả test, exercise và practice 0 ở trạng thái đang hiển thị đáp án*/ 
+    /*danhut added: hiển thị button save page answers cho exercise và practice 0 ở trạng thái đang hiển thị đáp án*/ 
 	if ( isset($event) && ($event != QUESTION_EVENTSUBMIT)
-    	&& ($event != QUESTION_EVENTCLOSE)) {    	    	
+    	&& ($event != QUESTION_EVENTCLOSE)
+    	&& ($quiz->lotype != 'test')) {    	    	
         echo "<input type=\"submit\" name=\"saveattempt\" value=\"".get_string("savenosubmit", "quiz")."\" />\n";
     }
     
     
     /*danhut added: chỉ hiển thị button submit page nếu quiz là exercise và page 0 ở trạng thái hiển thị đáp án*/
     if ($quiz->optionflags & QUESTION_ADAPTIVE 
-    	&& ($quiz->smarttype == 'exercise' || $quiz->smarttype == 'practice') 
+    	&& ($quiz->lotype == 'exercise' || $quiz->lotype == 'practice') 
     	&& (isset($event) && $event != QUESTION_EVENTSUBMIT)) {    	    	
         echo "<input type=\"submit\" name=\"markall\" value=\"".get_string("markall", "quiz")."\" />\n";
     }

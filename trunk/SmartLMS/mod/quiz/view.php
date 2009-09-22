@@ -37,6 +37,13 @@
     // Check login and get context.
     require_login($course->id, false, $cm);
     $context = get_context_instance(CONTEXT_MODULE, $cm->id);
+    
+    /*danhut added: if student is taking a test then forward to attempt.php page*/
+    if($quiz->lotype == 'test' && 
+    	!has_capability('moodle/course:manageactivities', $context) && 
+    	has_capability('mod/quiz:attempt', $context)) {
+    		redirect($CFG->wwwroot . '/mod/quiz/attempt.php?id=' . $cm->id);
+    	}
 
     // if no questions have been set up yet redirect to edit.php
     if (!$quiz->questions and has_capability('mod/quiz:manage', $context)) {
@@ -68,7 +75,7 @@
     print_header_simple(format_string($quiz->name), "", $navigation, "", "", true, $strupdatemodule);
     /*end of danhut modified*/
 
-    echo '<table id="layout-table"><tr>';
+    echo '<table id="layout-table" class="'. $quiz->lotype .'"><tr>';
 
     if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
         echo '<td style="width: '.$blocks_preferred_width.'px;" id="left-column">';
