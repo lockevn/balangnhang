@@ -251,7 +251,12 @@
 
 			 
 			echo '<tr id="section-'.$section.'" class="section main'.$sectionstyle.'">';
-			echo '<td class="left side">' . format_text($thissection->label, FORMAT_HTML) . '</td>';
+			if(isset($thissection->label)) {
+				$sectionLabel = $thissection->label;
+			} else {
+				$sectionLabel = '';
+			}			
+			echo '<td class="left side">' . format_text($sectionLabel, FORMAT_HTML) . '</td>';
 
 			echo '<td class="content">';
 			if (!has_capability('moodle/course:viewhiddensections', $context) and !$thissection->visible) {   // Hidden for students
@@ -627,25 +632,25 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
 	if (!empty($section->sequence)) {
 		echo "</ul><!--class='section'-->\n\n";
 	}
-	
+    
 
-	
-	
+    
+    
 }
 
 /**
-	 * danhut added to get the lesson start link
-	 *
-	 * @param unknown_type $mods
-	 * @param unknown_type $sectionmods
-	 * @return unknown
-	 */
-	function getLessonStartUrl($courseid, $sectionIndex) {
-		$sectionUrl = false;
-		Global $CFG;    	
-		$sectionUrl = "{$CFG->wwwroot}/smartcom/start/view.php?id=$courseid&section=$sectionIndex";        
-		return $sectionUrl;
-	}
+     * danhut added to get the lesson start link
+     *
+     * @param unknown_type $mods
+     * @param unknown_type $sectionmods
+     * @return unknown
+     */
+    function getLessonStartUrl($courseid, $sectionIndex) {
+    	$sectionUrl = false;
+    	Global $CFG;    	
+        $sectionUrl = "{$CFG->wwwroot}/smartcom/start/view.php?id=$courseid&section=$sectionIndex";        
+    	return $sectionUrl;
+    }
 
 	
 	/**
