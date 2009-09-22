@@ -141,7 +141,7 @@ function display() {
                     navmenu($course, $cm));
 
             /*danhut added*/
-		    echo '<table id="layout-table"><tr>';
+		    echo '<table id="layout-table" class="' .$resource->lotype . '"><tr>';
 			if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
 		        echo '<td style="width: '.$left_blocks_preferred_width.'px;" id="left-column">';
 		        print_container_start();
@@ -152,15 +152,30 @@ function display() {
             echo '<td id="middle-column">';
     		print_container_start();
     		/*end of danhut added*/
-    		$menu = navmenu($course, $cm);
-			echo $menu;
+    		/*danhut modified: nếu là resource là test description 0 print navmenu*/
+    		if($resource->lotype != 'testdescription') {
+	    		$menu = navmenu($course, $cm);    		
+				echo $menu;
+    		}
             print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id), "center clearfix", "", "", "20");
 
             $strlastmodified = get_string("lastmodified");
             echo "<div class=\"modified\">$strlastmodified: ".userdate($resource->timemodified)."</div>";
 
             /*danhut added*/
-            echo $menu;
+            if($resource->lotype != 'testdescription') {
+            	echo $menu;
+            } else  {
+            	/*danhut added: print next button for testdescription resource*/
+            	$navLinks = navmenu($course, $cm, '', true);
+            	$nextLink = $navLinks['nextLink'];
+            	if(!empty($nextLink)) {
+	            	echo "<div class=\"submitbtns mdl-align $resource->lotype\">\n";	            
+	            	echo "<a href='$nextLink'>Next</a>";	            	
+	            	echo "</div>" ;
+            	}
+            }
+            
             print_container_end();
     		echo '</td>';
     		
@@ -214,13 +229,23 @@ function setup_elements(&$mform) {
     
     $mform->addElement('hidden', 'cat','');
     $mform->setDefault('cat', $cat);
-    $mform->addElement('hidden', 'lotype','');
-    $mform->setDefault('lotype', $lotype);
+    
+    $loResourceTypeArr = array(
+    						'lecture' => get_string('lecture', 'smartcom'), 
+    						'lecturedescription' => get_string('lecturedescription', 'smartcom'), 
+    						'testdescription' => get_string('testdescription', 'smartcom'));
+    
+    $mform->addElement('select', 'lotype','choose a type ...', $loResourceTypeArr );
+    if(isset($loResourceTypeArr[$lotype])) {
+    	$mform->setDefault('lotype', $lotype);
+    }
+    
+    
     $mform->addElement('hidden', 'indent','');
     $mform->setDefault('indent', $indent);
     
-    $mform->addElement('hidden', 'smarttype','');
-    $mform->setDefault('smarttype', $lotype);
+//    $mform->addElement('hidden', 'smarttype','');
+//    $mform->setDefault('smarttype', $lotype);
     
     /*lấy lại beforecm neu co*/
     $beforecm = optional_param('beforecm','', PARAM_INT);

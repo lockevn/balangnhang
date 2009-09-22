@@ -518,44 +518,96 @@ class resource_file extends resource_base {
                 echo '</div>';
 
             } else if ($resourcetype == "mp3") {
-                if (!empty($THEME->resource_mp3player_colors)) {
-                    $c = $THEME->resource_mp3player_colors;   // You can set this up in your theme/xxx/config.php
-                } else {
-                    $c = 'bgColour=000000&btnColour=ffffff&btnBorderColour=cccccc&iconColour=000000&'.
-                         'iconOverColour=00cc00&trackColour=cccccc&handleColour=ffffff&loaderColour=ffffff&'.
-                         'font=Arial&fontColour=FF33FF&buffer=10&waitForPlay=no&autoPlay=yes';
-                }
-                $c .= '&volText='.get_string('vol', 'resource').'&panText='.get_string('pan','resource');
-                $c = htmlentities($c);
-                $id = 'filter_mp3_'.time(); //we need something unique because it might be stored in text cache
-                $cleanurl = addslashes_js($fullurl);
+//                if (!empty($THEME->resource_mp3player_colors)) {
+//                    $c = $THEME->resource_mp3player_colors;   // You can set this up in your theme/xxx/config.php
+//                } else {
+//                    $c = 'bgColour=000000&btnColour=ffffff&btnBorderColour=cccccc&iconColour=000000&'.
+//                         'iconOverColour=00cc00&trackColour=cccccc&handleColour=ffffff&loaderColour=ffffff&'.
+//                         'font=Arial&fontColour=FF33FF&buffer=10&waitForPlay=no&autoPlay=yes';
+//                }
+//                $c .= '&volText='.get_string('vol', 'resource').'&panText='.get_string('pan','resource');
+//                $c = htmlentities($c);
+//                $id = 'filter_mp3_'.time(); //we need something unique because it might be stored in text cache
+//                $cleanurl = addslashes_js($fullurl);
+//
+//
+//                // If we have Javascript, use UFO to embed the MP3 player, otherwise depend on plugins
+//
+//                echo '<div class="resourcecontent resourcemp3">';
+//
+//                echo '<span class="mediaplugin mediaplugin_mp3" id="'.$id.'"></span>'.
+//                     '<script type="text/javascript">'."\n".
+//                     '//<![CDATA['."\n".
+//                       'var FO = { movie:"'.$CFG->wwwroot.'/lib/mp3player/mp3player.swf?src='.$cleanurl.'",'."\n".
+//                         'width:"600", height:"70", majorversion:"6", build:"40", flashvars:"'.$c.'", quality: "high" };'."\n".
+//                       'UFO.create(FO, "'.$id.'");'."\n".
+//                     '//]]>'."\n".
+//                     '</script>'."\n";
+//
+//                echo '<noscript>';
+//
+//                echo "<object type=\"audio/mpeg\" data=\"$fullurl\" width=\"600\" height=\"70\">";
+//                echo "<param name=\"src\" value=\"$fullurl\" />";
+//                echo '<param name="quality" value="high" />';
+//                echo '<param name="autoplay" value="true" />';
+//                echo '<param name="autostart" value="true" />';
+//                echo '</object>';
+//                echo '<p><a href="' . $fullurl . '">' . $fullurl . '</a></p>';
+//
+//                echo '</noscript>';
+//                echo '</div>';
 
-
-                // If we have Javascript, use UFO to embed the MP3 player, otherwise depend on plugins
-
-                echo '<div class="resourcecontent resourcemp3">';
-
-                echo '<span class="mediaplugin mediaplugin_mp3" id="'.$id.'"></span>'.
-                     '<script type="text/javascript">'."\n".
-                     '//<![CDATA['."\n".
-                       'var FO = { movie:"'.$CFG->wwwroot.'/lib/mp3player/mp3player.swf?src='.$cleanurl.'",'."\n".
-                         'width:"600", height:"70", majorversion:"6", build:"40", flashvars:"'.$c.'", quality: "high" };'."\n".
-                       'UFO.create(FO, "'.$id.'");'."\n".
-                     '//]]>'."\n".
-                     '</script>'."\n";
-
-                echo '<noscript>';
-
-                echo "<object type=\"audio/mpeg\" data=\"$fullurl\" width=\"600\" height=\"70\">";
-                echo "<param name=\"src\" value=\"$fullurl\" />";
-                echo '<param name="quality" value="high" />';
-                echo '<param name="autoplay" value="true" />';
-                echo '<param name="autostart" value="true" />';
-                echo '</object>';
-                echo '<p><a href="' . $fullurl . '">' . $fullurl . '</a></p>';
-
-                echo '</noscript>';
-                echo '</div>';
+            if (!empty($THEME->resource_wpplayer_colours)) {
+					$c = $THEME->resource_wpplayer_colours; // You can set this up in your theme/xxx/config.php
+					} else {
+					$c = 'bg=0xffffff&leftbg=0x00aaff&lefticon=0x0077bb&voltrack=0xf2f2f2&'.
+					'volslider=0x0077bb&rightbg=0x00aaff&rightbghover=0x00ccff&righticon=0x0077bb&'.
+					'righticonhover=0xffffff&loader=0x006699&track=0xffffff&tracker=0x00aaff&border=0xcccccc&'.
+					'skip=0x666666&text=0x333366&transparentpagebg=yes&autostart=no&buffer=10&loop=no';
+					}
+					$c = htmlentities($c);
+					$id = 'filter_mp3_'.time(); //we need something unique because it might be stored in text cache
+					$cleanurl = addslashes_js($fullurl);
+					
+					echo '<div class="resourcecontent resourcemp3">';
+					
+					$mp3playerstyle = 'vertical-align:bottom; margin:10px 0 5px 2px;'; // Flash mp3 player css style
+					
+					echo '<br /><object style="'.$mp3playerstyle.'" classid="CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6"'.
+					'type="application/x-oleobject"'.
+					//'codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0"'.
+					'width="600" height="24" id="player_'.time().'" align="middle">'.
+//					'<param name="wmode" value="transparent" />'.
+//					'<param name="allowScriptAccess" value="sameDomain" />'.
+//					'<param name="flashVars" value="'.$c.'&amp;soundFile='.$cleanurl.'" />'.
+//					'<param name="movie" value="'.$CFG->wwwroot.'/lib/audio-player/player.swf" /><param name="quality" value="high" />'.
+//					'<embed style="'.$mp3playerstyle.'" src="'.$CFG->wwwroot.'/lib/audio-player/player.swf" flashVars="'.$c.'&amp;soundFile='.$cleanurl.'" '.
+//					'quality="high" wmode="transparent" width="600" height="24" name="player"'.
+//					'align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"'.
+//					' pluginspage="http://www.macromedia.com/go/getflashplayer" /></object><br />';
+					'<PARAM NAME="URL" VALUE="' . $fullurl . '">' .
+					'<PARAM NAME="AudioStream" VALUE="true">'. 
+					'<PARAM NAME="SendPlayStateChangeEvents" VALUE="True">' .
+					'<PARAM NAME="AutoStart" VALUE="True">' .
+					'<PARAM name="uiMode" value="none">' .
+					'<PARAM name="PlayCount" value="9999">' .
+					
+					'<!-- BEGIN PLUG-IN HTML FOR FIREFOX-->'.
+					'<embed type="application/x-mplayer2"' .
+					'pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/"'.
+					'src="' . $fullurl . '"' .
+					'transparentatstart="0"' . 
+					'" align="middle"'.					
+					'width=176'.
+					'height=144'.
+					'defaultframe="rightFrame"'.
+					'showstatusbar=true>'.
+					'</embed>' .
+					'<!-- END PLUG-IN HTML FOR FIREFOX-->' .
+					'</object><br>';
+					
+					
+					echo '</div>';
 
             } else if ($resourcetype == "flv") {
                 $id = 'filter_flv_'.time(); //we need something unique because it might be stored in text cache
