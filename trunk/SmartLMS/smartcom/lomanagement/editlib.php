@@ -249,7 +249,7 @@ function lo_list($contexts, $pageurl, $categoryandcontext, $cm = null,
     if(!empty($loIdStr)) {
     	$loIdStr = substr($loIdStr, 0, strlen($loIdStr) - 1);    	 
     }
-    $loInstances = get_records_select($tbl, "smarttype='$lotype' AND id in ($loIdStr)", "name asc", '*', $page*$perpage, $perpage );
+    $loInstances = get_records_select($tbl, "lotype='$lotype' AND id in ($loIdStr)", "name asc", '*', $page*$perpage, $perpage );
     
     print_paging_bar($totalnumber, $page, $perpage, $pageurl, 'qpage');
 
@@ -274,92 +274,93 @@ function lo_list($contexts, $pageurl, $categoryandcontext, $cm = null,
     echo "<th style=\"white-space:nowrap; text-align: left;\" class=\"header\" scope=\"col\">$strquestionname</th>
     <th style=\"white-space:nowrap; text-align: right;\" class=\"header\" scope=\"col\">$strtype</th>";
     echo "</tr>\n";
-    foreach ($loInstances as $loInstance) {
-        $nameclass = '';
-        $textclass = '';
-        
-        if ($showquestiontext) {
-            $nameclass .= ' header';
-        }
-        if ($nameclass) {
-            $nameclass = 'class="' . $nameclass . '"';
-        }
-        if ($textclass) {
-            $textclass = 'class="' . $textclass . '"';
-        }
-
-        echo "<tr>\n<td style=\"white-space:nowrap;\" $nameclass>\n";
-
-        /*thêm thông tin category, course module cho loInstance*/
-        $loInstance->category = $loCategories[$loInstance->id];
-        $loInstance->cm = $loCM[$loInstance->id];
-        $canuseq = lo_has_capability_on($loInstance, 'use', $loInstance->category, $lotype);
-        if (function_exists('module_specific_actions')) {
-            echo module_specific_actions($pageurl, $loInstance->id, $cm->id, $canuseq);
-        }
-        
-        
-
-        // preview
-        if ($canuseq) {
-            $quizorcourseid = $quizid?('&amp;quizid=' . $quizid):('&amp;courseid=' .$COURSE->id);
-            $url = $loViewUrl->out(false, array('id'=>$loInstance->cm));
-            link_to_popup_window($url, 'lopreview',
-                    "<img src=\"$CFG->pixpath/t/preview.gif\" class=\"iconsmall\" alt=\"$strpreview\" />",
-                    0, 0, $strpreview, LO_PREVIEW_POPUP_OPTIONS);
-        }
-        // edit LO
-        if (lo_has_capability_on($loInstance, 'edit', $loInstance->category, $lotype) 
-        	|| lo_has_capability_on($loInstance, 'move', $loInstance->category, $lotype)) {
-            echo "<a title='$stredit' href='" . $loEditUrl->out(false, array('update'=>$loInstance->cm)) . "'\><img
-                    src=' $CFG->pixpath/t/edit.gif' alt='$stredit' /></a>&nbsp;";
-        } 
-
-
-        //move LO to another category
-        if (lo_has_capability_on($loInstance, 'move', $loInstance->category, $lotype) 
-        	&& lo_has_capability_on($loInstance, 'view', $loInstance->category, $lotype)) {
-            echo "<a title=\"$strmove\" href=\"".$loEditUrl->out(false, array('id'=>$loInstance->id, 'movecontext'=>1))."\"><img
-                    src=\"$CFG->pixpath/t/move.gif\" alt=\"$strmove\" /></a>&nbsp;";
-        }
-
-        //delete LO
-        if (lo_has_capability_on($loInstance, 'edit', $loInstance->category, $lotype)) {
-            // hide-feature
-            if(isset($loInstance->hidden) && $loInstance->hidden) {
-                echo "<a title=\"$strrestore\" href=\"edit.php?".$pageurl->get_query_string()."&amp;unhide=$loInstance->id&amp;sesskey=$USER->sesskey\"><img
-                        src=\"$CFG->pixpath/t/restore.gif\" alt=\"$strrestore\" /></a>";
-            } else {
-					echo "<a title=\"$strdelete\" href=\"edit.php?courseid=$COURSE->id&deleteselected=$loInstance->id&q$loInstance->id=1&lotype=$lotype\"><img
-                        src=\"$CFG->pixpath/t/delete.gif\" alt=\"$strdelete\" /></a>";
-            }
-        }
-        if ($caneditall || $canmoveall || $canuseall){
-            echo "&nbsp;<input title=\"$strselect\" type=\"checkbox\" name=\"q$loInstance->id\" value=\"1\" />";
-        }
-        echo "</td>\n";
-
-        echo "<td $nameclass>" . format_string($loInstance->name) . "</td>\n";
-        echo "<td $nameclass style='text-align: right'>\n";
-        print_lo_icon($loInstance);
-        echo "</td>\n";
-        echo "</tr>\n";
-        /*nếu lo là quiz và chọn $showquestiontext thì print thêm intro của quiz*/
-        if($showquestiontext){
-            echo '<tr><td colspan="3" ' . $textclass . '>';
-            $formatoptions = new stdClass;
-            $formatoptions->noclean = true;
-            $formatoptions->para = false;
-            if(in_array($lotype, $allowedQuizTypes)) {
-            	echo format_text($loInstance->intro, '',
-                    $formatoptions, $COURSE->id);
-            }
-            else if($lotype == 'lecture') {
-            	echo format_text($loInstance->alltext, '',
-                    $formatoptions, $COURSE->id);
-            }
-            echo "</td></tr>\n";
-        }
+    if(is_array($loInstances)) {
+	    foreach ($loInstances as $loInstance) {
+	        $nameclass = '';
+	        $textclass = '';
+	        
+	        if ($showquestiontext) {
+	            $nameclass .= ' header';
+	        }
+	        if ($nameclass) {
+	            $nameclass = 'class="' . $nameclass . '"';
+	        }
+	        if ($textclass) {
+	            $textclass = 'class="' . $textclass . '"';
+	        }
+	
+	        echo "<tr>\n<td style=\"white-space:nowrap;\" $nameclass>\n";
+	
+	        /*thêm thông tin category, course module cho loInstance*/
+	        $loInstance->category = $loCategories[$loInstance->id];
+	        $loInstance->cm = $loCM[$loInstance->id];
+	        $canuseq = lo_has_capability_on($loInstance, 'use', $loInstance->category, $lotype);
+	        if (function_exists('module_specific_actions')) {
+	            echo module_specific_actions($pageurl, $loInstance->id, $cm->id, $canuseq);
+	        }
+	        
+	        	
+	        // preview
+	        if ($canuseq) {
+	            $quizorcourseid = $quizid?('&amp;quizid=' . $quizid):('&amp;courseid=' .$COURSE->id);
+	            $url = $loViewUrl->out(false, array('id'=>$loInstance->cm));
+	            link_to_popup_window($url, 'lopreview',
+	                    "<img src=\"$CFG->pixpath/t/preview.gif\" class=\"iconsmall\" alt=\"$strpreview\" />",
+	                    0, 0, $strpreview, LO_PREVIEW_POPUP_OPTIONS);
+	        }
+	        // edit LO
+	        if (lo_has_capability_on($loInstance, 'edit', $loInstance->category, $lotype) 
+	        	|| lo_has_capability_on($loInstance, 'move', $loInstance->category, $lotype)) {
+	            echo "<a title='$stredit' href='" . $loEditUrl->out(false, array('update'=>$loInstance->cm)) . "'\><img
+	                    src=' $CFG->pixpath/t/edit.gif' alt='$stredit' /></a>&nbsp;";
+	        } 
+	
+	
+	        //move LO to another category
+	        if (lo_has_capability_on($loInstance, 'move', $loInstance->category, $lotype) 
+	        	&& lo_has_capability_on($loInstance, 'view', $loInstance->category, $lotype)) {
+	            echo "<a title=\"$strmove\" href=\"".$loEditUrl->out(false, array('id'=>$loInstance->id, 'movecontext'=>1))."\"><img
+	                    src=\"$CFG->pixpath/t/move.gif\" alt=\"$strmove\" /></a>&nbsp;";
+	        }
+	
+	        //delete LO
+	        if (lo_has_capability_on($loInstance, 'edit', $loInstance->category, $lotype)) {
+	            // hide-feature
+	            if(isset($loInstance->hidden) && $loInstance->hidden) {
+	                echo "<a title=\"$strrestore\" href=\"edit.php?".$pageurl->get_query_string()."&amp;unhide=$loInstance->id&amp;sesskey=$USER->sesskey\"><img
+	                        src=\"$CFG->pixpath/t/restore.gif\" alt=\"$strrestore\" /></a>";
+	            } else {
+						echo "<a title=\"$strdelete\" href=\"edit.php?courseid=$COURSE->id&deleteselected=$loInstance->id&q$loInstance->id=1&lotype=$lotype\"><img
+	                        src=\"$CFG->pixpath/t/delete.gif\" alt=\"$strdelete\" /></a>";
+	            }
+	        }
+	        if ($caneditall || $canmoveall || $canuseall){
+	            echo "&nbsp;<input title=\"$strselect\" type=\"checkbox\" name=\"q$loInstance->id\" value=\"1\" />";
+	        }
+	        echo "</td>\n";
+	
+	        echo "<td $nameclass>" . format_string($loInstance->name) . "</td>\n";
+	        echo "<td $nameclass style='text-align: right'>\n";
+	        print_lo_icon($loInstance);
+	        echo "</td>\n";
+	        echo "</tr>\n";
+	        /*nếu lo là quiz và chọn $showquestiontext thì print thêm intro của quiz*/
+	        if($showquestiontext){
+	            echo '<tr><td colspan="3" ' . $textclass . '>';
+	            $formatoptions = new stdClass;
+	            $formatoptions->noclean = true;
+	            $formatoptions->para = false;
+	            if(in_array($lotype, $allowedQuizTypes)) {
+	            	echo format_text($loInstance->intro, '',
+	                    $formatoptions, $COURSE->id);
+	            }
+	            else if($lotype == 'lecture') {
+	            	echo format_text($loInstance->alltext, '',
+	                    $formatoptions, $COURSE->id);
+	            }
+	            echo "</td></tr>\n";
+	        }
+	    }
     }
     echo "</table>\n";
 
@@ -525,7 +526,7 @@ function lo_showbank_actions($pageurl, $cm){
                 $fromcontext = get_context_instance_by_id($lo->contextid);
                 
                 /*get back loInstance*/
-                $loInstance = get_record($moduleName, 'id', $lo->instance, 'smarttype', $lo->lotype);
+                $loInstance = get_record($moduleName, 'id', $lo->instance, 'lotype', $lo->lotype);
                 
                 /*copy loInstance*/
                 $loInstance->course = $COURSE->id; 

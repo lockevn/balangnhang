@@ -207,7 +207,7 @@ function print_lo_icon($lo, $return = false) {
 //    } else {
 //        $namestr = 'missingtype';
 //    }
-	$namestr = $lo->smarttype;
+	$namestr = $lo->lotype;
 //    $html = '<img src="' . $CFG->wwwroot . '/question/type/' .
 //            $lo->qtype . '/icon.gif" alt="' .
 //            $namestr . '" title="' . $namestr . '" />';
