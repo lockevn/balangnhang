@@ -76,6 +76,13 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 				$message = get_string('noreview', 'quiz');
 			}
 			if (empty($popup)) {
+				/*danhut added: nếu là bài test thì build navigation menu và redirect sang next resource*/
+				if($quiz->lotype == 'test') {
+					$navlinks = navmenu($course, $cm, 'self', true);
+					if(!empty($navlinks['nextLink'])) {
+						redirect($navlinks['nextLink']);
+					}
+				}
 				redirect('view.php?q=' . $quiz->id, $message);
 			} else {
 				?><script type="text/javascript">
@@ -332,7 +339,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 	// print javascript button to close the window, if necessary
 	if (!$isteacher) {
 		include('attempt_close_js.php');
-	}	
+	}
+	
 	/*danhut added*/
 		finish_page($course, $pageblocks);
    /*end of danhut added*/
