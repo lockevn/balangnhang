@@ -43,8 +43,8 @@ function label_add_instance($label) {
 	if($cs) {
 		
     	
-		$sectionLabel = strtolower($cs->label);
-		$labelName = strtolower($label->name);
+		$sectionLabel = trim(strtolower($cs->label));
+		$labelName = trim(strtolower($label->name));
 		
 		
 		/*make data directory*/
@@ -55,15 +55,45 @@ function label_add_instance($label) {
 		if($context) {
 			
 			/*find the parent category e.g.: Lesson 1, review 1 ...*/
-			$parentCat = get_record('question_categories', 'contextid', $context->id, 'name', strtolower($sectionLabel)) ;			
-			if($parentCat) {
+			$parentCat = get_record('question_categories', 'contextid', $context->id, 'name', strtolower($sectionLabel)) ;
+			/*if $parentCat (Lesson 1...) not yet exists, create*/
+			if(!$parentCat) {
+				/*retrieve default course category*/
+				$defCourseCat = get_record('question_categories', 'contextid', $context->id, 'parent', 0) ;
+				if(empty($defCourseCat)) {
+					return $result; 
+				}
+				/*add new category corresponding to the section label as child category of $defCourseCat*/
+				require_capability('moodle/question:managecategory', $context);
+				/*calculate category sortorder*/
+				$sql = "select count(id) as count from $CFG->prefix" . "question_categories where contextid=$context->id AND parent=$defCourseCat->id";
+				$retObj = get_record_sql($sql);
+				if($retObj) {
+					$count = $retObj->count;
+				} else {
+					$count = 0;
+				}
+				$cat = new object();
+				$cat->name = $sectionLabel;
+				$cat->contextid = $context->id;
+				$cat->info = "$sectionLabel category";
+				$cat->sortorder = $count;
+				$cat->parent = $defCourseCat->id;
+				$cat->stamp = make_unique_id_code();
+				$parentCatId = insert_record('question_categories', $cat);
+			}
+			else {
+				$parentCatId = $parentCat->id;
+			}
+			/*insert activity (Vocab, Listening) level category*/
+			if($parentCatId) {
 				/*check if category with the same level and name already exists*/
-				$oldCat = get_record('question_categories', 'contextid', $context->id, 'parent', $parentCat->id, 'name', $labelName);
+				$oldCat = get_record('question_categories', 'contextid', $context->id, 'parent', $parentCatId, 'name', $labelName);
 				/*if not yet exist, insert new category*/
 				if(!$oldCat) {
 					/*add new category corresponding to new label as child category of $parentCat*/				
 					require_capability('moodle/question:managecategory', $context);
-					$sql = "select count(id) as count from $CFG->prefix" . "question_categories where contextid=$context->id AND parent=$parentCat->id";
+					$sql = "select count(id) as count from $CFG->prefix" . "question_categories where contextid=$context->id AND parent=$parentCatId";
 					$retObj = get_record_sql($sql);
 					if($retObj) {
 						$count = $retObj->count;
@@ -75,7 +105,7 @@ function label_add_instance($label) {
 					$cat->contextid = $context->id;
 					$cat->info = "$sectionLabel/$labelName category";
 					$cat->sortorder = $count;
-					$cat->parent = $parentCat->id;
+					$cat->parent = $parentCatId;
 					$cat->stamp = make_unique_id_code(); 
 					insert_record('question_categories', $cat);
 				}
