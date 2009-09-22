@@ -27,7 +27,7 @@ class block_lecture_guide extends block_base {
         
         
 		$resourceId = $PAGE->id;
-		$resource = get_record('resource', 'id', $resourceId, 'smarttype', 'lecture');
+		$resource = get_record('resource', 'id', $resourceId, 'lotype', 'lecture');
 		if(empty($resource) || empty($resource->summary)) {
 			return '';
 		}
