@@ -1674,7 +1674,7 @@ function get_coursemodule_from_id($modulename, $cmid, $courseid=0) {
 function get_parent_resource_name($cmObj) {
 	global $CFG;
 /*nếu resource này có parent, tìm parent cho nó*/
-	if($cmObj->indent == 1) {	                                  		
+	if(is_object($cmObj) &&  $cmObj->indent == 1) {	                                  		
 		$sequence = $cmObj->sequence;
 		/*lấy ra danh sách các resourceid đứng trước resource hiện tại từ sequence*/		
 		$pattern = "/(,$cmObj->id,)|(,$cmObj->id\z)/";
