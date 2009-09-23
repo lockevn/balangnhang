@@ -5,6 +5,8 @@ require_once(ABSPATH.'lib/datalib.php');
 
 
 
+define(EXPIRED_STUDENT_ROLE_ID, 10);
+define(STUDENT_ROLE_ID, 5);
 
 class SmartComDataUtil
 {
@@ -38,7 +40,7 @@ class SmartComDataUtil
 	
 	/**
 	* @desc 
-	* @return -1 if fail, 1 if already has ticket or buy OK
+	* @return int -1 if fail, 1 if already has ticket or buy OK
 	*/
 	public static function BuyTicketOfCourseForUser($username = '', $courseid = 0, $coursePrice = 0){
 		if(empty($username) || $courseid <= 1)
@@ -204,7 +206,7 @@ join
 	
 		
 	/**
-	 * @desc 
+	 * @desc only work with student role, hasCapa(buyticket)
 	 *	 
 	 * @param mixed $courseorid id of the course or course object	 
 	 * @param bool $setwantsurltome Define if we want to set $SESSION->wantsurl, defaults to
@@ -231,65 +233,83 @@ join
 		}		
 	
 		
-		// PAID COURSE, now checking condition	
-	
-		// if do not HAVE ticket
-		if (SmartComDataUtil::CheckUserHasTicketOfCourse($USER->username, $courseid) == false) 
+		// PAID COURSE, now checking condition
+		
+		// check course context, does this user has capa of buyticket?
+		$context = get_context_instance(CONTEXT_COURSE, $courseid);
+		if(has_capability('mod/smartcom:buyticket', $context))
 		{
-			$urltoredirect = '';
+			// student đang truy cập đây
+			
+			// if do not HAVE ticket
+			if (SmartComDataUtil::CheckUserHasTicketOfCourse($USER->username, $courseid) == false) 
+			{
+				$urltoredirect = '';
 
-			if ($setwantsurltome) {
-				$SESSION->wantsurl = $FULLME;
-			}
-			if (!empty($_SERVER['HTTP_REFERER'])) {
-				$SESSION->fromurl = $_SERVER['HTTP_REFERER'];
-			}
-			
-			if (empty($CFG->loginhttps)) 
-			{ 
-				//do not require https
-				$wwwroot = $CFG->wwwroot;
-			} 
-			else 
-			{
-				$wwwroot = str_replace('http:','https:', $CFG->wwwroot);
-			}
-			$urltoredirect = $wwwroot ."/mod/smartcom/index.php?courseid=$courseid&submodule=ticket_buy";
-			
-			
-			// if ajax call, echo code and exit
-			if(defined('AJAX_CALL'))
-			{            
-				die("NOT_HAVE_TICKET,{$USER->username},$courseid,$urltoredirect");
-			}            
-			else
-			{
-				redirect($urltoredirect);
-				exit;
-			}
-		}		
-		
+				if ($setwantsurltome) {
+					$SESSION->wantsurl = $FULLME;
+				}
+				if (!empty($_SERVER['HTTP_REFERER'])) {
+					$SESSION->fromurl = $_SERVER['HTTP_REFERER'];
+				}
 				
-		/////////////***********************/////////////////
-		// GO HERE mean ticket is valid, continue their continue
-		/// Make sure current IP matches the one for this session (if required)
-		if (!empty($CFG->tracksessionip)) {
-			if ($USER->sessionIP != md5(getremoteaddr())) {
-				print_error('sessionipnomatch', 'error');
+				if (empty($CFG->loginhttps)) 
+				{ 
+					//do not require https
+					$wwwroot = $CFG->wwwroot;
+				} 
+				else 
+				{
+					$wwwroot = str_replace('http:','https:', $CFG->wwwroot);
+				}
+				$urltoredirect = $wwwroot ."/mod/smartcom/index.php?courseid=$courseid&submodule=ticket_buy";
+				
+				
+				// if ajax call, echo code and exit
+				if(defined('AJAX_CALL'))
+				{            
+					die("NOT_HAVE_TICKET,{$USER->username},$courseid,$urltoredirect");
+				}            
+				else
+				{
+					redirect($urltoredirect);
+					exit;
+				}
 			}
-		}		
-		
-		return;   // User is allowed to see this course
+			else
+			{			
+				/////////////***********************/////////////////
+				// GO HERE mean ticket is valid, continue their continue
+				/// Make sure current IP matches the one for this session (if required)
+				if (!empty($CFG->tracksessionip)) {
+					if ($USER->sessionIP != md5(getremoteaddr())) {
+						print_error('sessionipnomatch', 'error');
+					}
+				}
+				return;   // User is allowed to see this course
+			}			
+		}
+		else
+		{
+			// không phải student, đành kệ nó thôi
+			return;
+		}
 	}
 
 
-	//function smartcom_user_candoanything() {
-//		$context = get_context_instance(CONTEXT_SYSTEM);
-
-//		return (has_capability('moodle/site:doanything', $context));
-//	}
-
-
-}
+	public static function ChangeRoleOfStudentToExpiredStudentInCourse($courseid, $userid)
+	{		
+		$context = get_context_instance(CONTEXT_COURSE, $courseid);
+		role_unassign(STUDENT_ROLE_ID, $userid, null, $context->id);        
+		role_assign(EXPIRED_STUDENT_ROLE_ID, $userid, null, $context->id);
+	}
 	
+	public static function ChangeRoleOfExpiredStudentToStudentInCourse($courseid, $userid)
+	{        
+		$context = get_context_instance(CONTEXT_COURSE, $courseid);
+		role_unassign(EXPIRED_STUDENT_ROLE_ID, $userid, null, $context->id);        
+		role_assign(STUDENT_ROLE_ID, $userid, null, $context->id);
+	}
+	
+}	
 ?>

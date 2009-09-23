@@ -17,6 +17,7 @@ if($username === $USER->username)
 		$buyresult = SmartComDataUtil::BuyTicketOfCourseForUser($USER->username, $course->id, empty($course->cost) ? 0 : $course->cost );
 		if($buyresult === 1)
 		{
+			SmartComDataUtil::ChangeRoleOfExpiredStudentToStudentInCourse($course->id, $USER->id);
 			echo 'ok';
 		}
 		else
