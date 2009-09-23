@@ -142,3 +142,13 @@ CREATE TABLE `mdl_smartcom_course_completion_suggestion` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `courseid` (`courseid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+
+
+/* Chạy đoạn này để thêm capa vào */
+/* vào admin, chỉnh tay, allow capa này cho role Student */
+insert into  `mdl_capabilities` (`name`, captype,contextlevel, component, riskbitmask)
+values('mod/smartcom:buyticket','read',50, 'mod/smartcom', 0)
+
+
