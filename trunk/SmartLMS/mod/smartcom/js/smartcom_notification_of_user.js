@@ -51,6 +51,6 @@ $(document).ready(function(){
 	// load in init pagelet
 	GetAndRenderNotificationList();    
 	// set loop
-	var oIntervalHandler = setInterval(GetAndRenderNotificationList, intervalTimeout);
+	// var oIntervalHandler = setInterval(GetAndRenderNotificationList, intervalTimeout);
 				
 });

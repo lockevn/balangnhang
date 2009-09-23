@@ -12,6 +12,11 @@ if(empty($course))
 }
 
 global $SESSION;
+if(!isset($SESSION->wantsurl))
+{
+	$SESSION->wantsurl = $CFG->wwwroot;
+}
+
 $alreadyHasTicket = SmartComDataUtil::CheckUserHasTicketOfCourse($USER->username, $courseid);
 if($alreadyHasTicket)
 {
