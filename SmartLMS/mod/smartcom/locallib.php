@@ -54,6 +54,11 @@ class SmartComDataUtil
 		}
 		
 		$coursePrice = empty($coursePrice) ? 0 : (int)$coursePrice;
+		if($coursePrice === 0)
+		{
+			return 1;
+		}
+		
 		global $CFG;		
 		$mysqli = new mysqli($CFG->dbhost, $CFG->dbuser, $CFG->dbpass, $CFG->dbname);
 		if (mysqli_connect_errno()) {
