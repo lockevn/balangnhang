@@ -5,8 +5,8 @@ require_once(ABSPATH.'lib/datalib.php');
 
 
 
-define(EXPIRED_STUDENT_ROLE_ID, 10);
-define(STUDENT_ROLE_ID, 5);
+define('EXPIRED_STUDENT_ROLE_ID', 10);
+define('STUDENT_ROLE_ID', 5);
 
 class SmartComDataUtil
 {
