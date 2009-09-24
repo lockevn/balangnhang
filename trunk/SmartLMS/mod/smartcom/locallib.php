@@ -238,14 +238,29 @@ join
 		}		
 	
 		
-		// PAID COURSE, now checking condition
+		// PAID COURSE, now checking condition role right
+		$context = get_context_instance(CONTEXT_COURSE, $courseid);
+		
+		//*********************
+		// cách này chặt chẽ hơn, vì dựa trên role name, tuy nhiên role (về mặt instance mà nói) là không tồn tại (theo recommend của moodle)
+		// cách này cũng tốn thêm một câu query, tạm thời không dùng, vì cách check capa là đã đủ
+				
+		// is this STUDENT?
+		//$bFoundStudentRoleOfCurrentUser = false;
+//		$roles = get_user_roles($context, $USER->id, false, 'r.shortname DESC', true);
+//		foreach (((array)$roles) as $role) {
+//			if($role->shortname === 'student')
+//			{
+//				$bFoundStudentRoleOfCurrentUser = true;
+//			}
+//		}
+		//*********************/
 		
 		// check course context, does this user has capa of buyticket?
-		$context = get_context_instance(CONTEXT_COURSE, $courseid);
-		if(has_capability('mod/smartcom:buyticket', $context))
+		// ignore the adminRole, because admin always has every roles		
+		$bIsCurrentUserHasAdminRole = has_capability('moodle/site:doanything', $context);
+		if(!$bIsCurrentUserHasAdminRole && has_capability('mod/smartcom:buyticket', $context))
 		{
-			// student đang truy cập đây
-			
 			// if do not HAVE ticket
 			if (SmartComDataUtil::CheckUserHasTicketOfCourse($USER->username, $courseid) == false) 
 			{
@@ -295,7 +310,7 @@ join
 			}			
 		}
 		else
-		{
+		{			
 			// không phải student, đành kệ nó thôi
 			return;
 		}
