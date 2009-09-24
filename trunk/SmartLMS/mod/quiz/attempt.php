@@ -55,7 +55,7 @@
         $finishattempt = 1;
     }
 
-    require_login($course->id, false, $cm);
+    require_login($course->id, false, $cm);             
 
     $coursecontext = get_context_instance(CONTEXT_COURSE, $cm->course); // course context
     $context = get_context_instance(CONTEXT_MODULE, $cm->id);
@@ -387,7 +387,23 @@
         add_to_log($course->id, 'quiz', 'close attempt',
                            "review.php?attempt=$attempt->id",
                            "$quiz->id", $cm->id);
+        /*danhut: lưu attempt id vào session trong trường hợp quiz là 1 test*/
+    	if($quiz->lotype == 'test') {
+    		global $SESSION;
+    		
+    		if(!isset($SESSION->attemptIdArr) || empty($SESSION->attemptIdArr)) {
+    			$attemptIdArr = array();
+    		} else {
+    			$attemptIdArr = $SESSION->attemptIdArr;
+    		}    		
+    		if(!in_array($attempt->id, $attemptIdArr)) {
+    			$attemptIdArr[] = $attempt->id;
+    		}
+    		$SESSION->attemptIdArr = $attemptIdArr;    		    		    
+    	}
+    	    	
     }
+    
 
 /// Update the quiz attempt and the overall grade for the quiz
     if ($responses || $finishattempt) {
