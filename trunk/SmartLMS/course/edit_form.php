@@ -406,6 +406,78 @@ class course_edit_form extends moodleform {
         }
 
 //--------------------------------------------------------------------------------
+        /*danhut added: với course format là test room, thêm các element để nhập các thang điểm đánh giá 
+			để assign user vào course thích hợp
+		*/
+        if($course->format == 'testroom') {
+        	/*get course list (all paid course and hibrid course)*/
+        	$sql = "SELECT id, fullname
+        			FROM $CFG->prefix"."course 
+        			WHERE format in ('topicstree','weeks') AND visible=1 ORDER BY shortname ASC";
+        	$courseList = get_records_sql($sql);
+        	
+        	/*get grade range*/
+        	$sql = "SELECT *
+        			FROM $CFG->prefix"."smartcom_testroom 
+        			WHERE testid = $course->id ORDER BY id ASC";
+        	$gradeRangeList = get_records_sql($sql);
+        	
+        	/*chuyển sang array với element key là index trong mảng chứ 0 phải id của object*/
+        	if(!empty($gradeRangeList)) {
+        		$gradeRangeArr = array();
+        		foreach($gradeRangeList as $gradeRange) {
+        			$gradeRangeArr[] = $gradeRange;
+        		}
+        	}        	
+        	
+        	if(!empty($courseList)) {
+        		$courseArr = array();
+        		$courseArr[''] = "select one ... ";
+        		foreach($courseList as $c) {
+        			$courseArr[$c->id] = $c->fullname;
+        		}
+        		$mform->addElement('header','testroomconfiguration', get_string('testroomconfiguration', 'smartcom'));
+        		/*print 10 grade ranges*/
+        		$mform->addElement('static', "grade0label", get_string('gradeboundary', 'quiz'), '100%');
+        		$mform->addElement('hidden', "grade[0]", '100%');
+        		$mform->addElement('select', "maincourse[0]", get_string('maincourse', 'smartcom'), $courseArr);        	
+        		$mform->addElement('select', "minorcourse[0]", get_string('minorcourse', 'smartcom') . ' 1', $courseArr);
+        		$mform->addElement('select', "minorcourse[1]", get_string('minorcourse', 'smartcom') . ' 2', $courseArr);
+        		/*lấy lại giá trị graderange đã set nếu có*/
+        		if(isset($gradeRangeArr[0])) {
+        			
+        			$mform->setDefault('maincourse[0]',$gradeRangeArr[0]->maincourseid);
+        			$mform->setDefault('minorcourse[0]',$gradeRangeArr[0]->minorcourseid1);
+        			$mform->setDefault('minorcourse[1]',$gradeRangeArr[0]->minorcourseid2);
+        		}
+        		for($i = 1; $i < 10; $i++) {
+        			if(isset($gradeRangeArr[$i-1])) {
+        				/*set mingrade của range trước*/
+        				$mform->setDefault("grade[$i]", $gradeRangeArr[$i-1]->mingrade);
+        			}
+        			$mform->addElement('text', "grade[$i]", get_string('gradeboundary', 'quiz'));
+        			$mform->addElement('select', "maincourse[$i]", get_string('maincourse', 'smartcom'), $courseArr);
+        			$mform->addElement('select', "minorcourse[" . ($i*2). "]", get_string('minorcourse', 'smartcom') . ' 1', $courseArr);
+        			$mform->addElement('select', "minorcourse[" . ($i*2 + 1). "]", get_string('minorcourse', 'smartcom') . ' 2', $courseArr);
+        			
+        			if(isset($gradeRangeArr[$i])) {
+        				$mform->setDefault("maincourse[$i]",$gradeRangeArr[$i]->maincourseid);
+        				$mform->setDefault("minorcourse[" . ($i*2). "]",$gradeRangeArr[$i]->minorcourseid1);
+        				$mform->setDefault("minorcourse[" . ($i*2 + 1). "]",$gradeRangeArr[$i]->minorcourseid2);
+        			}
+        		}
+        		$mform->addElement('static', "grade[$i]label", get_string('gradeboundary', 'quiz'), '0%');
+        		$mform->addElement('hidden', "grade[$i]", '0%');
+        	}
+        	
+        	
+        	
+        		
+        }
+        
+        
+        
+//--------------------------------------------------------------------------------
         $this->add_action_buttons();
 //--------------------------------------------------------------------------------
         $mform->addElement('hidden', 'id', null);
