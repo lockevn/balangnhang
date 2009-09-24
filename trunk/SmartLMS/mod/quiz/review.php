@@ -81,6 +81,9 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 					$navlinks = navmenu($course, $cm, 'self', true);
 					if(!empty($navlinks['nextLink'])) {
 						redirect($navlinks['nextLink']);
+					} else {
+						/*nếu không có next resource -> quiz cuối trong bài test: redirect sang trang kết quả*/
+						redirect($CFG->wwwroot.'/smartcom/testroom/review.php');
 					}
 				}
 				redirect('view.php?q=' . $quiz->id, $message);
