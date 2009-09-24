@@ -271,12 +271,13 @@
 						 '<img src="'.$CFG->pixpath.'/t/edit.gif" alt="'.$streditsummary.'" /></a>';
 				}
 				/*danhut added: n?u c� link start lesson th� print ra b�n c?nh lesson summary*/
-				$modsInSection = explode(',', $thissection->sequence);
-				$startLessonUrl = getLessonStartUrl($course->id, $section); 
+				if(isset($thissection->sequence)) {
+					$modsInSection = explode(',', $thissection->sequence);
+					$startLessonUrl = getLessonStartUrl($course->id, $section); 
 				
 					echo '<a title="' . get_string('enter_lesson', 'format_topicstree') . '" href = "' . $startLessonUrl . '"' .
 						'<img src="'.$CFG->pixpath.'/a/enter.png" alt="'.get_string('enter_lesson', 'format_topicstree').'" /></a>';
-				
+				}
 				
 				/**** GURUCORE Hack
 				* @desc Add grade percent to each lesson
@@ -645,7 +646,7 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
      * @param unknown_type $sectionmods
      * @return unknown
      */
-    function getLessonStartUrl($courseid, $sectionIndex) {
+	    function getLessonStartUrl($courseid, $sectionIndex) {
     	$sectionUrl = false;
     	Global $CFG;    	
         $sectionUrl = "{$CFG->wwwroot}/smartcom/start/view.php?id=$courseid&section=$sectionIndex";        
