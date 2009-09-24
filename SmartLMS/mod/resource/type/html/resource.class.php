@@ -52,7 +52,7 @@ function _postprocess(&$resource) {
 
 
 function display() {
-    global $CFG, $PAGE;
+    global $CFG, $PAGE, $COURSE, $SESSION;
 
     $formatoptions = new object();
     $formatoptions->noclean = true;
@@ -88,108 +88,117 @@ function display() {
 
     /*end of danhut's commentation*/
         /// Set up generic stuff first, including checking for access
-        parent::display();
+    parent::display();
 
-        $pagetitle = strip_tags($course->shortname.': '.format_string($resource->name));
-        $inpopup = optional_param('inpopup', '', PARAM_BOOL);
-        
-        if ($resource->popup) {
-            if ($inpopup) {                    /// Popup only
-                
-                print_header();
-                print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id),
+    $pagetitle = strip_tags($course->shortname.': '.format_string($resource->name));
+    $inpopup = optional_param('inpopup', '', PARAM_BOOL);
+
+    if ($resource->popup) {
+    	if ($inpopup) {                    /// Popup only
+
+    		print_header();
+    		print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id),
                         "center clearfix", "", "", "20");
-                
-                
-                print_footer($course);
-            } else {                           /// Make a page and a pop-up window
-                $navigation = build_navigation($this->navlinks, $cm);
-                /*danhut modified: no need to put navmenu in header*/
-                print_header($pagetitle, $course->fullname, $navigation,
+
+
+    		print_footer($course);
+    	} else {                           /// Make a page and a pop-up window
+    		$navigation = build_navigation($this->navlinks, $cm);
+    		/*danhut modified: no need to put navmenu in header*/
+    		print_header($pagetitle, $course->fullname, $navigation,
                         "", "", true, update_module_button($cm->id, $course->id, $this->strresource)/*,
-                        navmenu($course, $cm)*/);
-                
+    		navmenu($course, $cm)*/);
 
-                echo "\n<script type=\"text/javascript\">";
-                echo "\n//<![CDATA[\n";
-                echo "openpopup('/mod/resource/view.php?inpopup=true&id={$cm->id}','resource{$resource->id}','{$resource->popup}');\n";
-                echo "\n//]]>\n";
-                echo '</script>';
 
-                if (trim(strip_tags($resource->summary))) {
-                    print_simple_box(format_text($resource->summary, FORMAT_MOODLE, $formatoptions, $course->id), "center clearfix");
-                }
+    		echo "\n<script type=\"text/javascript\">";
+    		echo "\n//<![CDATA[\n";
+    		echo "openpopup('/mod/resource/view.php?inpopup=true&id={$cm->id}','resource{$resource->id}','{$resource->popup}');\n";
+    		echo "\n//]]>\n";
+    		echo '</script>';
 
-                $link = "<a href=\"$CFG->wwwroot/mod/resource/view.php?inpopup=true&amp;id={$cm->id}\" onclick=\"this.target='resource{$resource->id}'; return openpopup('/mod/resource/view.php?inpopup=true&amp;id={$cm->id}', 'resource{$resource->id}','{$resource->popup}');\">".format_string($resource->name,true)."</a>";
-
-                echo '<div class="popupnotice">';
-                print_string('popupresource', 'resource');
-                echo '<br />';
-                print_string('popupresourcelink', 'resource', $link);
-                echo '</div>';
-                /*danhut added*/
-                print_container_end();
-    			echo '</td></tr></table>';
-    			/*end of danhut added*/
-                print_footer($course);
-            }
-        } else {    /// not a popup at all
-            $navigation = build_navigation($this->navlinks, $cm);
-            
-            print_header($pagetitle, $course->fullname, $navigation,
-                    "", "", true, update_module_button($cm->id, $course->id, $this->strresource),
-                    navmenu($course, $cm));
-
-            /*danhut added*/
-		    echo '<table id="layout-table" class="' .$resource->lotype . '"><tr>';
-			if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
-		        echo '<td style="width: '.$left_blocks_preferred_width.'px;" id="left-column">';
-		        print_container_start();
-		        blocks_print_group($PAGE, $pageblocks, BLOCK_POS_LEFT);
-		        print_container_end();
-		        echo '</td>';
-		    }
-            echo '<td id="middle-column">';
-    		print_container_start();
-    		/*end of danhut added*/
-    		/*danhut modified: nếu là resource là test description 0 print navmenu*/
-    		if($resource->lotype != 'testdescription') {
-	    		$menu = navmenu($course, $cm);    		
-				echo $menu;
+    		if (trim(strip_tags($resource->summary))) {
+    			print_simple_box(format_text($resource->summary, FORMAT_MOODLE, $formatoptions, $course->id), "center clearfix");
     		}
-            print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id), "center clearfix", "", "", "20");
 
-            $strlastmodified = get_string("lastmodified");
-            echo "<div class=\"modified\">$strlastmodified: ".userdate($resource->timemodified)."</div>";
+    		$link = "<a href=\"$CFG->wwwroot/mod/resource/view.php?inpopup=true&amp;id={$cm->id}\" onclick=\"this.target='resource{$resource->id}'; return openpopup('/mod/resource/view.php?inpopup=true&amp;id={$cm->id}', 'resource{$resource->id}','{$resource->popup}');\">".format_string($resource->name,true)."</a>";
 
-            /*danhut added*/
-            if($resource->lotype != 'testdescription') {
-            	echo $menu;
-            } else  {
-            	/*danhut added: print next button for testdescription resource*/
-            	$navLinks = navmenu($course, $cm, '', true);
-            	$nextLink = $navLinks['nextLink'];
-            	if(!empty($nextLink)) {
-	            	echo "<div class=\"submitbtns mdl-align $resource->lotype\">\n";	            
-	            	echo "<a href='$nextLink'>Next</a>";	            	
-	            	echo "</div>" ;
-            	}
-            }
-            
-            print_container_end();
-    		echo '</td>';
-    		
-        	if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
-		        echo '<td style="width: '.$right_blocks_preferred_width.'px;" id="right-column">';
-		        print_container_start();
-		        blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
-		        print_container_end();
-		        echo '</td>';
-		    }
-    		
-    		echo '</tr></table>';
+    		echo '<div class="popupnotice">';
+    		print_string('popupresource', 'resource');
+    		echo '<br />';
+    		print_string('popupresourcelink', 'resource', $link);
+    		echo '</div>';
+    		/*danhut added*/
+    		print_container_end();
+    		echo '</td></tr></table>';
     		/*end of danhut added*/
-            print_footer($course);
+    		print_footer($course);
+    	}
+    } else {    /// not a popup at all
+    	$navigation = build_navigation($this->navlinks, $cm);
+
+    	print_header($pagetitle, $course->fullname, $navigation,
+                    "", "", true, update_module_button($cm->id, $course->id, $this->strresource),
+    	navmenu($course, $cm));
+
+    	/*danhut added*/
+    	echo '<table id="layout-table" class="' .$resource->lotype . '"><tr>';
+    	if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
+    		echo '<td style="width: '.$left_blocks_preferred_width.'px;" id="left-column">';
+    		print_container_start();
+    		blocks_print_group($PAGE, $pageblocks, BLOCK_POS_LEFT);
+    		print_container_end();
+    		echo '</td>';
+    	}
+    	echo '<td id="middle-column">';
+    	print_container_start();
+    	/*end of danhut added*/
+    	/*danhut modified: nếu là resource là test description 0 print navmenu*/
+    	if($resource->lotype != 'testdescription') {
+    		$menu = navmenu($course, $cm);
+    		echo $menu;
+    	}
+    	print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id), "center clearfix", "", "", "20");
+
+    	$strlastmodified = get_string("lastmodified");
+    	echo "<div class=\"modified\">$strlastmodified: ".userdate($resource->timemodified)."</div>";
+
+    	/*danhut added*/
+    	if($resource->lotype != 'testdescription') {
+    		echo $menu;
+    	} else  {
+    		/*danhut added: print next button for testdescription resource*/
+    		$navLinks = navmenu($course, $cm, '', true);
+    		$nextLink = $navLinks['nextLink'];
+    		if(!empty($nextLink)) {
+    			echo "<div class=\"submitbtns mdl-align $resource->lotype\">\n";
+    			if(empty($navLinks['backLink'])) {
+    				/*nếu là trang đầu tiên giới thiệu về bài test*/
+    				if(isset($SESSION->attemptIdArr)) {
+    					unset($SESSION->attemptIdArr);
+    				}
+    				$btnLabel = get_string("starttest", "smartcom");
+    			} else {
+    				$btnLabel = get_string("next", "smartcom");
+    			}
+    			echo "<a href='$nextLink'>" . $btnLabel . "</a>";
+    			echo "</div>" ;
+    		}
+    	}
+
+    	print_container_end();
+    	echo '</td>';
+
+    	if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
+    		echo '<td style="width: '.$right_blocks_preferred_width.'px;" id="right-column">';
+    		print_container_start();
+    		blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
+    		print_container_end();
+    		echo '</td>';
+    	}
+
+    	echo '</tr></table>';
+    	/*end of danhut added*/
+    	print_footer($course);
             
         }
 

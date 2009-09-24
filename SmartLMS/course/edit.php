@@ -6,6 +6,7 @@
     require_once($CFG->libdir.'/blocklib.php');
     require_once('lib.php');
     require_once('edit_form.php');
+    require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 
     $id         = optional_param('id', 0, PARAM_INT);       // course id
     $categoryid = optional_param('category', 0, PARAM_INT); // course category - can be changed in edit form
@@ -94,10 +95,16 @@
 
         $data->timemodified = time();
 
+        $gradeArr = $data->grade;
+        $mainCourseArr = $data->maincourse;
+        $minorCourseArr = $data->minorcourse;
         if (empty($course)) {
             if (!$course = create_course($data)) {
                 print_error('coursenotcreated');
             }
+            /*danhut added: nếu course là testroom, insert grade range if any*/            
+            addTestRanges($course->id, $gradeArr, $mainCourseArr, $minorCourseArr);
+            /*end of danhut added*/
 
             $context = get_context_instance(CONTEXT_COURSE, $course->id);
 
@@ -122,6 +129,13 @@
             if (!update_course($data)) {
                 print_error('coursenotupdated');
             }
+            /*danhut added: nếu course là testroom, update grade range if any*/
+            
+            /*delete old grade range data to insert new ones*/
+            deleteTestRanges($course->id);
+            addTestRanges($course->id, $gradeArr, $mainCourseArr, $minorCourseArr);
+            
+            /*end of danhut added*/
             redirect($CFG->wwwroot."/course/view.php?id=$course->id");
         }
     }

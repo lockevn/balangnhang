@@ -76,6 +76,14 @@ $string['lecture'] = 'Lecture';
 $string['lecturedescription'] = 'Lecture description';
 $string['testdescription'] = 'Test description';
 
+$string['overraltestgrade'] = 'Overall grade';
+$string['entrancetestresult'] = 'Your entrance test result';
+
+$string['testroomconfiguration'] = 'Entrance Test grade range configuration';
+$string['maincourse'] = 'Main course';
+$string['minorcourse'] = 'Minor course';
+
+
 
 
 
