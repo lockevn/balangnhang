@@ -41,4 +41,45 @@ function addTestRanges($testid, $gradeArr, $mainCourseArr, $minorCourseArr) {
 	}
 }
 
+/**
+ * get array of course obj từ kết quả test
+ *
+ * @param unknown_type $testid
+ * @param unknown_type $grade
+ */
+function selectCourseByGrade($testid, $percentage) {
+	if(empty($testid) || empty($percentage)) {
+		return false;
+	}
+	$obj = get_record_select("smartcom_testroom", "testid = $testid AND mingrade <= $percentage AND $percentage < maxgrade");
+	if(!$obj) {
+		return false;
+	}
+	$courseArr = array();
+	if(isset($obj->maincourseid)) {
+		$mainCourseObj = get_record("course", "id", $obj->maincourseid, 'visible', 1, '', '', 'id, category, fullname, shortname');
+		if($mainCourseObj) {
+			/*get category name*/
+			$cat = get_record("course_categories", "id", $mainCourseObj->category, 'visible', 1, '','', 'name');
+			if($cat) {
+				$mainCourseObj->categoryname = $cat->name;
+			}
+			$courseArr["maincourse"] = $mainCourseObj;
+		}		
+	}
+	if(isset($obj->minorcourseid1)) {
+		$minorCourseObj = get_record("course", "id", $obj->minorcourseid1);
+		$courseArr["minorcourse1"] = $minorCourseObj;
+	}
+	if(isset($obj->minorcourseid2)) {
+		$minorCourseObj = get_record("course", "id", $obj->minorcourseid2);
+		$courseArr["minorcourse2"] = $minorCourseObj;
+	}
+	if(empty($courseArr)) {
+		return false;
+	}
+	return $courseArr;
+	
+}
+
 ?>

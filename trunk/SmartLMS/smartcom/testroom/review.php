@@ -19,6 +19,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
 require_once("../../config.php");
 require_once($CFG->libdir.'/datalib.php');
+require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 
 	//$attemptList = optional_param('attempts', '', PARAM_TEXT);    // list of attemp ids
 	global $SESSION, $USER;
@@ -79,8 +80,8 @@ require_once($CFG->libdir.'/datalib.php');
 
 	$rows = array();
 	
-	$totalGrade = 0;
-	$maxGrade = 0;
+	$totalGrade = 0; /*tổng điểm của bài test user đạt được*/
+	$maxGrade = 0; /*điểm tối đa của bài test*/
 	/*danhut: duyệt toàn bộ các quiz trong bài test và in kết quả*/
 	for($i = 0; $i<sizeof($attemptArr); $i++) {
 		
@@ -128,6 +129,8 @@ require_once($CFG->libdir.'/datalib.php');
 	}
 	
 	
+	
+	
 	/// Now output the summary table, if there are any rows to be shown.
 	if (!empty($rows)) {
 		echo '<table class="generaltable generalbox quizreviewsummary"><tbody>', "\n";
@@ -143,7 +146,26 @@ require_once($CFG->libdir.'/datalib.php');
 		echo "\n</tbody></table>\n";
 	}
 
-	echo '</tr></table>';
+	echo '</tr>';
+	
+	/*xác định course dựa trên tổng điểm đạt được để recommend*/
+	$courseArr = selectCourseByGrade($course->id, $totalGrade/$maxGrade);
+	if(isset($courseArr['maincourse'])) {
+		echo '<tr><td>' . get_string('courselevel', 'smartcom') . $courseArr['maincourse']->categoryname . '</td></tr>';
+		echo '<tr><td>' . get_string('maincourse', 'smartcom') . 
+			' : <a href="'. $CFG->wwwroot . '/course/enrol.php?id=' . $courseArr['maincourse']->id .'">' . $courseArr['maincourse']->fullname . '</a></td></tr>';
+	} 
+	if(isset($courseArr['minorcourse1'])) {
+		echo '<tr><td>' . get_string('minorcourse', 'smartcom') . 
+			' 1: <a href="'. $CFG->wwwroot . '/course/enrol.php?id=' . $courseArr['minorcourse1']->id .'">' . $courseArr['minorcourse1']->fullname . '</a></td></tr>';
+	}
+	
+	if(isset($courseArr['minorcourse2'])) {
+		echo '<tr><td>' . get_string('minorcourse', 'smartcom') . 
+			' 2: <a href="'. $CFG->wwwroot . '/course/enrol.php?id=' . $courseArr['minorcourse2']->id .'">' . $courseArr['minorcourse2']->fullname . '</a></td></tr>';
+	}
+	
+	echo '</table>';
 	
 	if (empty($popup)) {
 		print_footer($course);
