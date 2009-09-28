@@ -137,9 +137,9 @@
     <td>
         <input type="text" name="name" size="30" value="<?php p($form->name) ?>" alt="<?php print_string('dimdimname', 'dimdim') ?>" />
     </td>
-    <td align="right"><b><?php print_string('dimdimintro', 'dimdim')?>:</b></td>
+    <td align="right"><b><?php print_string('confkey', 'dimdim')?>:</b></td>
 	    <td>
-	        <input type="text" name="intro" size="20" value="<?php p($form->intro) ?>" alt="<?php print_string('intro', 'dimdim') ?>" />
+	        <input type="text" name="confkey" size="20" value="<?php p($form->confkey) ?>" alt="<?php print_string('confkey', 'dimdim') ?>" />
 
 	</td>
             <td colspan=2>
@@ -422,20 +422,20 @@
 <?php
 	$form->displayname = $USER->firstname." ".$USER->lastname;
 	//Random number generator to append for conference key
-		srand((double)microtime()*1000000);
-		$vowels = array("a", "e", "i", "o", "u");
-		$cons = array("b", "c", "d", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "u", "v", "w", "tr",
-		"cr", "br", "fr", "th", "dr", "ch", "ph", "wr", "st", "sp", "sw", "pr", "sl", "cl");
-		$num_vowels = count($vowels);
-		$num_cons = count($cons);
+	//	srand((double)microtime()*1000000);
+	//	$vowels = array("a", "e", "i", "o", "u");
+	//	$cons = array("b", "c", "d", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "u", "v", "w", "tr",
+	//	"cr", "br", "fr", "th", "dr", "ch", "ph", "wr", "st", "sp", "sw", "pr", "sl", "cl");
+	//	$num_vowels = count($vowels);
+	//	$num_cons = count($cons);
 
-		for($i = 0; $i < 5; $i++){
-			$password .= $cons[rand(0, $num_cons - 1)] . $vowels[rand(0, $num_vowels - 1)];
-			}
-		$random = $password;
+	//	for($i = 0; $i < 5; $i++){
+	//		$password .= $cons[rand(0, $num_cons - 1)] . $vowels[rand(0, $num_vowels - 1)];
+	//		}
+	//	$random = $password;
 
 	//$form->confkey = $course->id.$CFG->siteidentifier.$form->dimdimtime;
-	$form->confkey = $random;
+	//$form->confkey = $random;
 	$form->emailuser = $USER->email;
 	$form->startnow = 'on';
 	$form->timezone = 'Asia/Calcutta';
@@ -448,7 +448,7 @@
 ?>
 
         <input type="hidden" name="displayname" size="30" value="<?php p($form->displayname) ?>" alt="<?php print_string('dimdimdisplayname', 'dimdim') ?>" />
-        <input type="hidden" name="confkey" size="30" value="<?php p($form->confkey) ?>" alt="<?php print_string('dimdimconfkey', 'dimdim') ?>" />
+       <!--  <input type="hidden" name="confkey" size="30" value="<?php p($form->confkey) ?>" alt="<?php print_string('dimdimconfkey', 'dimdim') ?>" /> -->
         <input type="hidden" name="emailuser" size="30" value="<?php p($form->emailuser) ?>" alt="<?php print_string('dimdimemailuser', 'dimdim') ?>" />
         <input type="hidden" name="startnow" size="30" value="<?php p($form->startnow) ?>" alt="<?php print_string('dimdimstartnow', 'dimdim') ?>" />
         <input type="hidden" name="timezone" size="30" value="<?php p($form->timezone) ?>" alt="<?php print_string('dimdimtimezone', 'dimdim') ?>" />

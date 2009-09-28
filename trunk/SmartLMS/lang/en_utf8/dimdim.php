@@ -131,4 +131,5 @@ $string['allowattendeeinvite'] = 'Allow Presenter to invite';
 $string['featuredocshare'] = 'Document Sharing';
 $string['featurecobshare'] = 'Cobrowsing';
 $string['featurerecording'] = 'Recording';
+$string['confkey'] = 'Conference key';
 ?>
