@@ -6,7 +6,10 @@
 <fieldset id="pnlChat">
 	<legend>Chat panel</legend>	 
 	<label for="username">Username to notice: </label>
-	<input type='text' id='username' value = '' maxlength="250"><br />
+	<input type='text' id='username' value = '' maxlength="100"><br />
+	<label for="confkey">Conference key: </label>
+	<input type='text' id='confkey' value = '' maxlength="50"><br />
+	
 	<label for="messageToUser">Message: </label>
 	<textarea rows="3" cols="50" id='messageToUser'>
 	</textarea>
@@ -30,7 +33,8 @@ $(document).ready(function(){
 	
 	function GetAndRenderOnlineUserList(){
 		$('#pnlOnlinelist').load('/mod/smartcom/Pagelet/online_user_in_course.php?courseid=<?=$this->courseid?>').fadeIn();
-	}	
+	}
+	
 	// load in init pagelet
 	GetAndRenderOnlineUserList();	
 	// set loop
@@ -41,11 +45,20 @@ $(document).ready(function(){
 		var currentUserid = <?=$this->userid?>;
 		var currentUsername = '<?=$this->username?>';
 		
+		if(jQuery.trim($('#confkey').val()) == '' || 
+		jQuery.trim($('#username').val()) == '')
+		{
+			alert('username and confkey must be provided');
+			return false;
+		}
+			   
+		
 		$("#sendResult").show().empty().load(
 			'/mod/smartcom/api/messages_send.php', 
 			{
 				from : currentUsername,
 				to : $('#username').val(),
+				confkey : $('#confkey').val(),
 				message: $('#messageToUser').val()
 			},
 			function(){				
@@ -62,7 +75,7 @@ $(document).ready(function(){
 		$('#username').val($(this).text());
 		$('#username').attr('userid', $(this).attr('userid'));
 		
-		message = 'Hello ' + $(this).text() + ', please click here http://gurucore.com to chat with me. I will assist you. ADMIN of SmartCom';
+		message = 'Dear ' + $(this).text() + ', please CLICK HERE to chat with me. I will assist you. (ADMIN of SmartCom)';
 		$('#messageToUser').val(message);
 	});    
 

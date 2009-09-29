@@ -17,6 +17,14 @@ and ul.timeaccess > $timefrom
 order by lastaccess DESC"
 );
 
+
+//$context = get_context_instance(CONTEXT_COURSE, $courseid);
+//foreach ($onlineUsers as &$onlineuser) {
+//	has_capability('mod/smartcom:realtimesupported', $context);
+//}
+//unset($onlineuser);
+
+
 $tpl->assign('courseid', $courseid);
 $tpl->assign('onlineUsers', $onlineUsers);
 		
