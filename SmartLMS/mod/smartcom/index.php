@@ -20,18 +20,9 @@ $tpl->setPath('template', 'Pagelet');
 require_once('./lib.php');
 require_once('./locallib.php');
 
-$courseid = required_param('courseid', PARAM_INT);   // course
+
 $submodule = required_param('submodule', PARAM_TEXT);   // submodule
-$userid = optional_param('userid', PARAM_INT);
 
-
-if (! $course = get_record('course', 'id', $courseid)) {
-	error('GURUCORE: Course ID is incorrect');
-}
-
-// TODO: uncomment out
-// require_course_login($course);
-// add_to_log($course->id, 'smartcom', 'view all', "index.php?coủid=$course->id", '');
 
 /// LITERAL STRING
 $strsmartcoms = get_string('modulenameplural', 'smartcom');

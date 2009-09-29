@@ -4,15 +4,15 @@
 
 <fieldset >
 	<legend>Input parameter for batch generator process</legend>
-	<label for="facevalue">facevalue: </label>
+	<label for="facevalue">facevalue (VND): </label>
 	<input type='text' id='facevalue' value = '' maxlength="10"><br />
-	<label for="coinvalue">coinvalue: </label>
+	<label for="coinvalue">coinvalue (coin): </label>
 	<input type='text' id='coinvalue' value = '0' maxlength="10"><br />
-	<label for="periodvalue">periodvalue: </label>
-	<input type='text' id='periodvalue' value = '0' maxlength="50"><br />	
+	<label for="periodvalue">periodvalue (day): </label>
+	<input type='text' id='periodvalue' value = '0' maxlength="10"><br />	
 	<label for="batchcode">batchcode: </label>
-	<input type='text' id='batchcode' value = '' maxlength="50"><br /><br />
-	<label for="howmuch">how much: </label>
+	<input type='text' id='batchcode' value = '' maxlength="50">(type text here to remind you about this generation)<br /><br />
+	<label for="howmuch">how many card do you want?: </label>
 	<input type='text' id='howmuch' value = '' maxlength="6"><br /><br />
 	
 	

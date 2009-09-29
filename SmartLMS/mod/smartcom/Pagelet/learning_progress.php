@@ -3,6 +3,13 @@ require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
 require_once(ABSPATH.'lib/ofc-library/open_flash_chart_object.php');
 
+
+require_login();
+$userid = $USER->id;
+
+$courseid = required_param('courseid', PARAM_INT);   // course
+
+
 $chartTongQuanKhoaHoc = open_flash_chart_object_str('45%', 300, 
 "/mod/smartcom/api/student_learning_progress_TongQuanKhoaHoc_ofc_data.php?courseid=$courseid&userid=$userid", 
 false, '/' );

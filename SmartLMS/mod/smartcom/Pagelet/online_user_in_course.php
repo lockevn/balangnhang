@@ -1,6 +1,8 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
+require_login();
+
 $courseid = required_param('courseid', PARAM_INT);   // course
 
 $nLastSeenSecond = 3000; //Seconds default, last seen
