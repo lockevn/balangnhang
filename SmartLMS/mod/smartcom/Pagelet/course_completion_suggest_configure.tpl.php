@@ -5,7 +5,7 @@
 <fieldset >
 	<legend>Final exam</legend>
 	<label for="finalexamquizpercent">finalexamquizpercent: </label>
-	<input type='text' id='finalexamquizpercent' value = '60' maxlength="2">%<br />    
+	<input type='text' id='finalexamquizpercent' value = '<?= $this->finalquizpercent ? $this->finalquizpercent : '60' ?>' maxlength="2">%<br />    
 		
 	<label for="finalexamid">finalexamid: </label>
 	<?php if(is_array($this->arrQuiz)): ?>
@@ -25,7 +25,7 @@
 <fieldset >
 	<legend>Overall quiz</legend>    
 	<label for="averageoverallquizzespercent">averageoverallquizzespercent: </label>
-	<input type='text' id='averageoverallquizzespercent' value = '60' maxlength="2">%<br />	
+	<input type='text' id='averageoverallquizzespercent' value = '<?= $this->overallquizzespercent ? $this->overallquizzespercent : '60' ?>' maxlength="2">%<br />	
 </fieldset>
 <br />
 
@@ -46,7 +46,7 @@
 <br /><br /><br /><br />
 
 <label for="enabletoapply">Enable this checkbox to apply this course: </label>
-<input type="checkbox" value="enabletoapply" name="enabletoapply" id="enabletoapply" /> 
+<input type="checkbox" value="enabletoapply" name="enabletoapply" id="enabletoapply" <?= $this->isenable ? 'CHECKED' : '' ?> />
 <input type='button' id='save' value = 'Save'><span id='saveResult'></span>
 
 <script type="text/javascript" >
