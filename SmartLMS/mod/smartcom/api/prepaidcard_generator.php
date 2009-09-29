@@ -67,7 +67,12 @@ values ";
 
 
 $filename = date('Ymd') . ".$facevalue.$coinvalue.$periodvalue.$batchcode." . time(). '.csv';
-$fhandler = fopen($CFG->dirroot . '/mod/smartcom/asset/' . $filename, 'w') or die("can't open and write to file storage");
+
+$writeCSVFilePath = $CFG->dirroot . '/mod/smartcom/asset/' . $filename;
+$fhandler = fopen($writeCSVFilePath, 'w') 
+or 
+die("GURUCORE: can't open and write to file storage: '$writeCSVFilePath'. Please contact technical administrator to change file write permission on that folder.");
+
 // HEADER
 $sData = "serialno,secretcode,facevalue,coinvalue,periodvalue,batchcode\n";
 fwrite($fhandler, $sData);
