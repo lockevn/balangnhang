@@ -68,7 +68,7 @@ values ";
 
 $filename = date('Ymd') . ".$facevalue.$coinvalue.$periodvalue.$batchcode." . time(). '.csv';
 
-$writeCSVFilePath = $CFG->dirroot . '/mod/smartcom/asset/' . $filename;
+$writeCSVFilePath = $CFG->dataroot . '/1/smartcom/prepaidcardgen/' . $filename;
 $fhandler = fopen($writeCSVFilePath, 'w') 
 or 
 die("GURUCORE: can't open and write to file storage: '$writeCSVFilePath'. Please contact technical administrator to change file write permission on that folder.");
@@ -91,8 +91,8 @@ fclose($fhandler);
 $sql = trim($sql, ',');
 $ret = execute_sql($sql, false);
 if($ret)
-{
-	echo $CFG->wwwroot. "/mod/smartcom/asset/$filename";
+{   
+	echo $CFG->wwwroot. "/file.php?file=/1/smartcom/prepaidcardgen/$filename";
 }
 
 ?>
