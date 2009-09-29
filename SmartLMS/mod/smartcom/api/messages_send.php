@@ -10,7 +10,12 @@ require_login();
 $message = required_param('message', PARAM_TEXT);
 $from = required_param('from', PARAM_TEXT);
 $to = required_param('to', PARAM_TEXT);
-$link = optional_param('link', 'http://gurucore.com', PARAM_TEXT);
+$confkey = required_param('confkey', PARAM_TEXT);
+$link = optional_param('link', 
+'http://smartlms.gurucore.com:3690/dimdim/html/envcheck/connect.action?action=join', 
+PARAM_TEXT);
+
+$link .= "&confKey=$confkey&displayName=$to";
 
 
 /// Save the new message in the database

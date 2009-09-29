@@ -31,11 +31,11 @@ $(document).ready(function(){
 				// save the last request to prevent duplicate display
 				lastJson = json;
 				$.each(json, function(i, item){
-				var content = item.message;
-					$('#jGrowlAnchor').jGrowl(content, 
+				var content = '<a href="'+ item.link +'" target="_blank" class="notificationlink">' + item.message + '</a>';
+				$('#jGrowlAnchor').jGrowl(content, 
 					{ 
-						header: 'Notification from ' + item.senderusername, 						
-						sticky : true ,
+						header: 'Notification from ' + item.senderusername,
+						sticky : true,
 						closer: false,
 						noticeid : item.id
 					});
