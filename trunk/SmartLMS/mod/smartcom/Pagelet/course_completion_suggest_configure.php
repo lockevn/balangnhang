@@ -32,8 +32,9 @@ if(is_array($arrCourseInSystem))
 $tpl->assign('arrCourseInSystem', $arrCourseInSystem);
 
 
-$arrQuiz = get_records( 'quiz', 'course', $courseid, '', 'name,id' );
+$arrQuiz = get_records( 'quiz', 'course', $courseid, 'name', 'id,name' );
 $arrQuiz = array_values($arrQuiz);
+
 foreach ($arrQuiz as &$value) {
 	if(!empty($currentConfigOfCourseCompletion) && $value->id == $currentConfigOfCourseCompletion->finalquizid)
 	{
