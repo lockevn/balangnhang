@@ -3,6 +3,15 @@ require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
 require_login();
 
+$courseid = required_param('courseid', PARAM_INT);   // course
+if (! $course = get_record('course', 'id', $courseid)) {
+	error('GURUCORE: Course ID is incorrect');
+}
+$context = get_context_instance(CONTEXT_COURSE, $courseid);
+require_capability('mod/smartcom:coursecompletionsuggestconfigure', $context);
+
+
+
 $currentConfigOfCourseCompletion = get_record('smartcom_course_completion_suggestion', 'courseid', $courseid);
 
 if($currentConfigOfCourseCompletion)

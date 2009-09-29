@@ -1,5 +1,8 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
+
+require_login();
+
 	
 $userid = required_param('userid', PARAM_INT);    // A particular attempt ID for review
 $courseid = required_param('courseid', PARAM_INT);    // A particular attempt ID for review
