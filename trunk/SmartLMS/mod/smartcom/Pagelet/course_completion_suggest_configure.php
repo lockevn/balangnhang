@@ -46,9 +46,13 @@ foreach ($arrQuiz as &$value) {
 }
 unset($value);
 $tpl->assign('arrQuiz', $arrQuiz);
-
-
 $tpl->assign('courseid', $courseid);
+
+
+$tpl->assign('overallquizzespercent', $currentConfigOfCourseCompletion->overallquizzespercent);
+$tpl->assign('finalquizpercent', $currentConfigOfCourseCompletion->finalquizpercent);
+$tpl->assign('isenable', $currentConfigOfCourseCompletion->isenable);
+
 
 $FILENAME = 'course_completion_suggest_configure';
 $$FILENAME = $tpl->display("$FILENAME.tpl.php");
