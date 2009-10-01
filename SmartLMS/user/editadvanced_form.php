@@ -24,9 +24,9 @@ class user_editadvanced_form extends moodleform {
         $mform->addElement('text', 'username', get_string('username'), 'size="20"');
         $mform->addRule('username', $strrequired, 'required', null, 'client');
         $mform->setType('username', PARAM_RAW);
-        $mform->addRule('username', get_string('minlength', '', 5), 'minlength', 5, 'server');
-        $mform->addRule('username', get_string('maxlength', '', 15), 'maxlength', 15, 'server');
-        $mform->addRule('username', get_string('alphanumerical'), 'alphanumeric', null, 'server');
+        $mform->addRule('username', get_string('minlength', '', 5), 'minlength', 5, 'client');
+        $mform->addRule('username', get_string('maxlength', '', 15), 'maxlength', 15, 'client');
+        $mform->addRule('username', get_string('alphanumerical'), 'alphanumeric', null, 'client');
 
         $modules = get_list_of_plugins('auth');
         $auth_options = array();
