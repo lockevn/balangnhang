@@ -23,14 +23,17 @@ ALTER TABLE `smartlms`.`mdl_resource`
 ALTER TABLE `smartlms`.`mdl_course_sections` 
 	ADD COLUMN `label` VARCHAR(50) NOT NULL DEFAULT '' AFTER `visible`;
 
-ALTER TABLE `smartlms`.`mdl_user` ADD COLUMN `dateofbirth` INTEGER UNSIGNED AFTER `screenreader`,
- ADD COLUMN `monthofbirth` INTEGER UNSIGNED AFTER `dateofbirth`,
- ADD COLUMN `yearofbirth` INTEGER UNSIGNED AFTER `monthofbirth`;	
+/*
+ * một số trường để lưu dữ liệu smartweb cũ
+ * */
+ALTER TABLE `smartlms`.`mdl_user` ADD COLUMN `birthday` BIGINT(10) UNSIGNED AFTER `officecity`;
 
 ALTER TABLE `smartlms`.`mdl_user` ADD COLUMN `district` VARCHAR(45) AFTER `yearofbirth`,
  ADD COLUMN `officeaddress` VARCHAR(100) AFTER `district`,
  ADD COLUMN `officedistrict` VARCHAR(45) AFTER `officeaddress`,
  ADD COLUMN `officecity` VARCHAR(45) AFTER `officedistrict`;
+
+
 
 
 	
