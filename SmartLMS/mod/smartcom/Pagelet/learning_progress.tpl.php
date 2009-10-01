@@ -1,5 +1,6 @@
 <?= $this->chartTongQuanKhoaHoc ?>
-<?= $this->chartTongQuanKhoaHocTheoKyNang ?>
+<?//=$this->chartTongQuanKhoaHocTheoKyNang 
+?>
 <br /><br />
 <div id='div_chart_3'>
 <?= $this->chartChiTietBaiHoc ?>

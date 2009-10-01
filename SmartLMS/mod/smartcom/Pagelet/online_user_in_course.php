@@ -18,11 +18,18 @@ order by lastaccess DESC"
 );
 
 
-//$context = get_context_instance(CONTEXT_COURSE, $courseid);
-//foreach ($onlineUsers as &$onlineuser) {
-//	has_capability('mod/smartcom:realtimesupported', $context);
-//}
-//unset($onlineuser);
+$context = get_context_instance(CONTEXT_COURSE, $courseid);
+foreach ($onlineUsers as $key => &$onlineuser) {
+	if(has_capability('mod/smartcom:realtimesupported', $context, $key, false))
+	{
+	}
+	else
+	{
+		// tháo bỏ các user không có quyền realtimesupported
+		unset($onlineUsers[$key]);
+	}
+}
+unset($onlineuser);
 
 
 $tpl->assign('courseid', $courseid);
