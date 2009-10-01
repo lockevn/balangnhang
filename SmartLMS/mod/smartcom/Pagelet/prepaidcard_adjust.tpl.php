@@ -1,5 +1,3 @@
-<? global $USER; ?>
-
 <? print_heading(get_string('modulenameplural', 'smartcom') . ' prepaid card adjust'); ?>
 
 <fieldset >
