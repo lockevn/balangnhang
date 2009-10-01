@@ -22,7 +22,7 @@ $batchcode = optional_param('batchcode', null, PARAM_TEXT);
 $fromdate = optional_param('fromdate', null, PARAM_TEXT);
 $todate = optional_param('todate', null, PARAM_TEXT);
 
-$sql = "from mdl_smartcom_card where true ";
+$sql = "from mdl_smartcom_card_used where true ";
 
 if($serialno)
 {

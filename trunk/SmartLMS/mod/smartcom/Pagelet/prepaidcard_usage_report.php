@@ -2,7 +2,6 @@
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
 require_login();
-
 $context = get_context_instance(CONTEXT_SYSTEM);
 require_capability('mod/smartcom:prepaidcardusagereport', $context);
 
