@@ -6,13 +6,9 @@ require_login();
 $userid = $USER->id;
 $username = $USER->username;
 
-
-$onlineUsers = get_records_sql(
-"select * from mdl_smartcom_account
-where username = '$username';"
-);
-
-$tpl->assign('onlineUsers', $onlineUsers);
+$sql = "select * from mdl_smartcom_account where username = '$username'";
+$accountBalance = get_record_sql($sql);
+$tpl->assign('accountBalance', $accountBalance);
 		
 $FILENAME = 'user_account_balance';
 $$FILENAME = $tpl->display("$FILENAME.tpl.php");

@@ -1,13 +1,11 @@
-<?php if(!is_array($this->onlineUsers)): ?>
-	<div class="info">No user online in current course</div> 
+<?php if(empty($this->accountBalance)): ?>
+	<div class="info">No smartcom account balance existed (of this user)</div> 
 <?php else:  ?>
-	<ul>
-		<? foreach((array)$this->onlineUsers as $element): ?>
-		<li class="onlineuser" >
-		tài khoản <?= $element->username ?> có số dư
-		<?= $element->coinvalue ?>, được sử dụng tới ngày
-		<?= $element->expiredate ?>
-		</li>
-		<? endforeach; ?>
-	</ul>
+<fieldset>
+<legend>Tài khoản <b><?= $this->accountBalance->username ?></b> có:</legend>
+<ul>
+<li>số dư: <?= $this->accountBalance->coinvalue ?></li>
+<li>được sử dụng tới ngày: <?= $this->accountBalance->expiredate ?></li>
+</ul>
+</fieldset>
 <?php endif;  ?>
