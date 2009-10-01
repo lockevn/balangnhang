@@ -3,7 +3,7 @@
 $string['smartcom'] = 'SmartCom';
 
 $string['modulename'] = 'SmartCom module';
-$string['modulenameplural'] = 'SmartComs';
+$string['modulenameplural'] = 'SmartCom';
 
 $string['smartcomfieldset'] = 'Custom example fieldset';
 $string['smartcomintro'] = 'SmartCom Intro';
