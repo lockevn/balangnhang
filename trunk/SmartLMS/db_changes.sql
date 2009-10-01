@@ -9,14 +9,13 @@ CREATE TABLE  `smartlms`.`mdl_lo` (
   `lotype` varchar(255) NOT NULL,
   `cm` bigint(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
+) ENGINE=INNODB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
 
 ALTER TABLE `smartlms`.`mdl_quiz` 
-	ADD COLUMN `smarttype` VARCHAR(50) BINARY NOT NULL DEFAULT 'exercise' AFTER `delay2`;
+	ADD COLUMN `lotype` VARCHAR(50) BINARY NOT NULL DEFAULT 'exercise' AFTER `delay2`;
 
-	
 ALTER TABLE `smartlms`.`mdl_resource`
-	ADD COLUMN `smarttype` VARCHAR(50) BINARY NOT NULL DEFAULT 'lecture';
+	ADD COLUMN `lotype` VARCHAR(50) BINARY NOT NULL DEFAULT 'lecture';
 
 /**
  * phục vụ chức năng hiển thị label cho course section
@@ -24,8 +23,16 @@ ALTER TABLE `smartlms`.`mdl_resource`
 ALTER TABLE `smartlms`.`mdl_course_sections` 
 	ADD COLUMN `label` VARCHAR(50) NOT NULL DEFAULT '' AFTER `visible`;
 
-	
-	
+ALTER TABLE `smartlms`.`mdl_user` ADD COLUMN `dateofbirth` INTEGER UNSIGNED AFTER `screenreader`,
+ ADD COLUMN `monthofbirth` INTEGER UNSIGNED AFTER `dateofbirth`,
+ ADD COLUMN `yearofbirth` INTEGER UNSIGNED AFTER `monthofbirth`;	
+
+ALTER TABLE `smartlms`.`mdl_user` ADD COLUMN `district` VARCHAR(45) AFTER `yearofbirth`,
+ ADD COLUMN `officeaddress` VARCHAR(100) AFTER `district`,
+ ADD COLUMN `officedistrict` VARCHAR(45) AFTER `officeaddress`,
+ ADD COLUMN `officecity` VARCHAR(45) AFTER `officedistrict`;
+
+
 	
 	
 	
@@ -55,7 +62,7 @@ CREATE TABLE `mdl_smartcom` (
   `name` varchar(20) DEFAULT 'SmartComModule',
   PRIMARY KEY (`id`),
   UNIQUE KEY `course` (`course`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Defines for module';
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Defines for module';
 
 #
 # Structure for the `mdl_smartcom_account` table : 
@@ -120,7 +127,22 @@ CREATE TABLE `mdl_smartcom_learning_ticket` (
   UNIQUE KEY `username_courseid_unique` (`username`,`courseid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-
+	
+/**
+ * Test room
+ */
+CREATE TABLE `smartlms`.`mdl_smartcom_testroom` (
+  `id` BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `testid` BIGINT(10) UNSIGNED NOT NULL,  
+  `mingrade` DOUBLE NOT NULL,
+  `maxgrade` DOUBLE NOT NULL,
+  `maincourseid` BIGINT(10) UNSIGNED NOT NULL,
+	`minorcourseid1` BIGINT(10) UNSIGNED NOT NULL,
+`minorcourseid2` BIGINT(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`)
+)
+ENGINE = InnoDB
+CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
 /**
