@@ -5,6 +5,8 @@ require_once(ABSPATH."lib/db/DBHelper.php");
 
 define('AJAX_CALL',true);
 require_login();
+$context = get_context_instance(CONTEXT_SYSTEM);
+require_capability('mod/smartcom:prepaidcardadjust', $context);
 
 
 

@@ -6,6 +6,8 @@ require_once(ABSPATH."lib/Text.php");
 
 define('AJAX_CALL',true);
 require_login();
+$context = get_context_instance(CONTEXT_SYSTEM);
+require_capability('mod/smartcom:prepaidcardgenerator', $context);
 
 
 

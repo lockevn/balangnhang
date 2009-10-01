@@ -3,8 +3,8 @@
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
 define('AJAX_CALL',true);
-require_login();
 // header("Content-type: text/javascript;charset=utf-8");
+require_login();
 
 $notificationid = required_param('id', PARAM_INT);
 $username = $USER->username;
