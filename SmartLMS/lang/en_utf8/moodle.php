@@ -108,7 +108,7 @@ $string['allownot'] = 'Do not allow';
 $string['allparticipants'] = 'All participants';
 $string['allteachers'] = 'All teachers';
 $string['alphabet'] = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
-$string['alphanumerical'] = 'Can only contain alphabetical letters or numbers';
+$string['alphanumerical'] = 'Can only contain alphabetical letters or numbers or \'_\'';
 $string['alreadyconfirmed'] = 'Registration has already been confirmed';
 $string['always'] = 'Always';
 $string['and'] = '$a->one and $a->two';
@@ -1589,7 +1589,7 @@ $string['user'] = 'User';
 $string['userconfirmed'] = 'Confirmed $a';
 $string['userdata'] = 'User Data';
 $string['userdeleted'] = 'This user account has been deleted';
-$string['userdescription'] = 'Description';
+$string['userdescription'] = 'Some words about yourself';
 $string['userfiles'] = 'User Files';
 $string['userlist'] = 'User list';
 $string['username'] = 'Username';
@@ -1691,5 +1691,8 @@ $string['zippingbackup'] = 'Zipping backup';
 $string['authenticationplugins'] = 'Authentication Plugins';
 $string['chooseauthmethod'] = 'Choose authentication plugin';
 $string['sectionlabel'] = 'Label <br>(e.g: Lesson 1, Review 1, ...)';
+$string['birthday'] = 'Birthday';
+$string['minlength'] = 'Min length is $a character(s)';
+$string['maxlength'] = 'Max length is $a character(s)';
 
 ?>
