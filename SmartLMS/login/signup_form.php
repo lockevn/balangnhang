@@ -15,6 +15,10 @@ class login_signup_form extends moodleform {
         $mform->addElement('text', 'username', get_string('username'), 'maxlength="100" size="12"');
         $mform->setType('username', PARAM_NOTAGS);
         $mform->addRule('username', get_string('missingusername'), 'required', null, 'server');
+        $mform->addRule('username', get_string('minlength', '', 5), 'minlength', 5, 'server');
+        $mform->addRule('username', get_string('maxlength', '', 15), 'maxlength', 15, 'server');
+        $mform->addRule('username', get_string('alphanumerical'), 'alphanumeric', null, 'server');
+        
 
         $mform->addElement('passwordunmask', 'password', get_string('password'), 'maxlength="32" size="12"');
         $mform->setType('password', PARAM_RAW);
@@ -43,19 +47,21 @@ class login_signup_form extends moodleform {
 
         $mform->setType('firstname', PARAM_TEXT);
         $mform->addRule('firstname', get_string('missingfirstname'), 'required', null, 'server');
+        $mform->addRule('firstname', get_string('alphanumerical'), 'alphanumeric', null, 'server');
 
         $mform->setType('lastname', PARAM_TEXT);
         $mform->addRule('lastname', get_string('missinglastname'), 'required', null, 'server');
+        $mform->addRule('lastname', get_string('alphanumerical'), 'alphanumeric', null, 'server');
 
         $mform->addElement('text', 'city', get_string('city'), 'maxlength="20" size="20"');
         $mform->setType('city', PARAM_TEXT);
         $mform->addRule('city', get_string('missingcity'), 'required', null, 'server');
 
-        $country = get_list_of_countries();
-        $default_country[''] = get_string('selectacountry');
-        $country = array_merge($default_country, $country);
-        $mform->addElement('select', 'country', get_string('country'), $country);
-        $mform->addRule('country', get_string('missingcountry'), 'required', null, 'server');
+//        $country = get_list_of_countries();
+//        $default_country[''] = get_string('selectacountry');
+//        $country = array_merge($default_country, $country);
+//        $mform->addElement('select', 'country', get_string('country'), $country);
+//        $mform->addRule('country', get_string('missingcountry'), 'required', null, 'server');
 
         if( !empty($CFG->country) ){
             $mform->setDefault('country', $CFG->country);
@@ -97,14 +103,15 @@ class login_signup_form extends moodleform {
 
         if (record_exists('user', 'username', $data['username'], 'mnethostid', $CFG->mnet_localhost_id)) {
             $errors['username'] = get_string('usernameexists');
-        } else {
-            if (empty($CFG->extendedusernamechars)) {
-                $string = eregi_replace("[^(-\.[:alnum:])]", '', $data['username']);
-                if (strcmp($data['username'], $string)) {
-                    $errors['username'] = get_string('alphanumerical');
-                }
-            }
-        }
+        } 
+//        else {
+//            if (empty($CFG->extendedusernamechars)) {
+//                $string = eregi_replace("[^(-\.[:alnum:])]", '', $data['username']);
+//                if (strcmp($data['username'], $string)) {
+//                    $errors['username'] = get_string('alphanumerical');
+//                }
+//            }
+//        }
 
         //check if user exists in external db
         //TODO: maybe we should check all enabled plugins instead
