@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	var intervalTimeout = 5000;
 	var lastJson = null;
+	var oPoolingIntervalHandler = null;
 	
 	$.jGrowl.defaults.close = function(e,m,o) {
 		// delete the notice which is closed by user
@@ -19,7 +20,16 @@ $(document).ready(function(){
 		 ,  
 		 function(json){
 			 if(json)
-			 {
+			 {		   
+				if(json.stat == 'NOT_ALLOW')
+				{
+					// alert('Stop pooling');
+					// not allow, do not has capability to pooling
+					clearInterval(oPoolingIntervalHandler);
+					return false;
+				}
+				
+				// ignore do anything if response is no change 
 				if(lastJson != null && 
 				lastJson.length >= json.length &&
 				lastJson[lastJson.length - 1].id >= json[json.length - 1].id
@@ -39,7 +49,6 @@ $(document).ready(function(){
 						closer: false,
 						noticeid : item.id
 					});
-					
 				});
 				
 			 }
@@ -51,6 +60,6 @@ $(document).ready(function(){
 	// load in init pagelet
 	GetAndRenderNotificationList();    
 	// set loop
-	// var oIntervalHandler = setInterval(GetAndRenderNotificationList, intervalTimeout);
+	oPoolingIntervalHandler = setInterval(GetAndRenderNotificationList, intervalTimeout);
 				
 });

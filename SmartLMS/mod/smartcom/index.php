@@ -22,6 +22,7 @@ require_once('./locallib.php');
 
 
 $submodule = required_param('submodule', PARAM_TEXT);   // submodule
+$courseid = optional_param('courseid', 0, PARAM_INT);
 
 
 /// LITERAL STRING
@@ -29,10 +30,17 @@ $strsmartcoms = get_string('modulenameplural', 'smartcom');
 
 /// Print the header
 $navlinks = array();
+if($courseid > 1)
+{
+	$course = get_record('course', 'id', $courseid);
+	$navlinks[] = array('name' => $course->shortname, 'link' => "{$CFG->wwwroot}/course/view.php?id=$courseid", 'type' => 'title');
+}
 $navlinks[] = array('name' => $strsmartcoms, 'link' => '', 'type' => 'activity');
+$navlinks[] = array('name' => $submodule, 'link' => '', 'type' => 'title');
 $navigation = build_navigation($navlinks);
-print_header_simple($strsmartcoms, '', $navigation, '', '', true, '', navmenu($course));
-
+print_header_simple($strsmartcoms, '', $navigation, '', '', true, '', '');
+	
+		
 $allowSubModule = array(
 'learning_progress',
 'realtime_performance_check',
