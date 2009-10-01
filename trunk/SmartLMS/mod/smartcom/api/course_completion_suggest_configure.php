@@ -5,6 +5,9 @@ require_once(ABSPATH."lib/db/DBHelper.php");
 
 define('AJAX_CALL',true);
 require_login();
+$context = get_context_instance(CONTEXT_COURSE, $courseid);
+require_capability('mod/smartcom:coursecompletionsuggestconfigure', $context);
+
 
 $finalexamquizpercent = required_param('finalexamquizpercent', PARAM_TEXT);
 $averageoverallquizzespercent = required_param('averageoverallquizzespercent', PARAM_INT);

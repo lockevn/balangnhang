@@ -3,10 +3,8 @@
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
 define('AJAX_CALL',true);
-require_login();
 header("Content-type: text/javascript;charset=utf-8");
-
-
+require_login();
 $username = $USER->username;
 
 $sql = "select * from mdl_smartcom_notification where receiverusername = '$username'";

@@ -3,8 +3,10 @@
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
 define('AJAX_CALL',true);
-require_login();
 header("Content-type: text/javascript;charset=utf-8");
+require_login();
+$context = get_context_instance(CONTEXT_SYSTEM);
+require_capability('mod/smartcom:prepaidcardusagereport', $context);
 
 
 $page = $_GET['page']; // get the requested page 
