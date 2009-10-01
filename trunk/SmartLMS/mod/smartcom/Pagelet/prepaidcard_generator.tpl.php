@@ -6,7 +6,7 @@
 	<legend>Input parameter for batch generator process</legend>
 	<label for="facevalue">facevalue (VND): </label>
 	<input type='text' id='facevalue' value = '' maxlength="10"><br />
-	<label for="coinvalue">coinvalue (coin): </label>
+	<label for="coinvalue">coinvalue (VND): </label>
 	<input type='text' id='coinvalue' value = '0' maxlength="10"><br />
 	<label for="periodvalue">periodvalue (day): </label>
 	<input type='text' id='periodvalue' value = '0' maxlength="10"><br />	
