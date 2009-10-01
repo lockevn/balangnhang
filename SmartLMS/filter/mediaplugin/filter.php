@@ -36,7 +36,7 @@ function mediaplugin_filter($courseid, $text) {
     $newtext = $text; // fullclone is slow and not needed here
 
     if ($CFG->filter_mediaplugin_enable_mp3) {
-        $search = '/<a.*?href="([^<]+\.mp3)"[^>]*>.*?<\/a>/is';
+        $search = '/<a.*?href="([^<]+\.mp3)(\?autoPlay=yes)?"[^>]*>.*?<\/a>/is';
         $newtext = preg_replace_callback($search, 'mediaplugin_filter_mp3_callback', $newtext);
     }
 
@@ -104,12 +104,15 @@ function mediaplugin_filter($courseid, $text) {
 function mediaplugin_filter_mp3_callback($link) {
     global $CFG, $THEME;
 
+    $autoPlay  = empty($link[2]) ? 'no' : 'yes';
     if (!empty($THEME->filter_mediaplugin_colors)) {
-        $c = $THEME->filter_mediaplugin_colors;   // You can set this up in your theme/xxx/config.php
+        $c = $THEME->filter_mediaplugin_colors . '&autoPlay=' . $autoPlay;   // You can set this up in your theme/xxx/config.php
+        
     } else {
         $c = 'bgColour=000000&btnColour=ffffff&btnBorderColour=cccccc&iconColour=000000&'.
-             'iconOverColour=00cc00&trackColour=cccccc&handleColour=ffffff&loaderColour=ffffff&'.
-             'waitForPlay=yes';
+             'iconOverColour=00cc00&trackColour=cccccc&handleColour=ffffff&loaderColour=ffffff'.
+             //'&waitForPlay=yes' . '&autoPlay=' . $autoPlay ;
+             '&autoPlay=' . $autoPlay ;
     }
     $c = htmlentities($c);
 
