@@ -1898,7 +1898,7 @@ function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsu
 		//  HACK: lockevn: for API call
 		if(defined('AJAX_CALL'))
 		{			
-			die('NOT_LOGIN');			
+			die('NOT_LOGIN');
 		}
 		//  HACK: END: lockevn: for API call
 		
