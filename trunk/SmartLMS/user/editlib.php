@@ -93,9 +93,11 @@ function useredit_shared_definition(&$mform) {
 
     $mform->addRule('firstname', $strrequired, 'required', null, 'client');
     $mform->setType('firstname', PARAM_NOTAGS);
+    $mform->addRule('firstname', get_string('alphanumerical'), 'alphanumeric', null, 'client');
 
     $mform->addRule('lastname', $strrequired, 'required', null, 'client');
     $mform->setType('lastname', PARAM_NOTAGS);
+    $mform->addRule('lastname', get_string('alphanumerical'), 'alphanumeric', null, 'client');
 
     // Do not show email field if change confirmation is pending
     if ($CFG->emailchangeconfirmation && !empty($user->preference_newemail)) {
@@ -107,6 +109,9 @@ function useredit_shared_definition(&$mform) {
         $mform->addElement('text', 'email', get_string('email'), 'maxlength="100" size="30"');
         $mform->addRule('email', $strrequired, 'required', null, 'client');
     }
+    
+    /*birthday*/
+    $mform->addElement('date_selector', 'birthday', get_string('birthday'));            
 
     $choices = array();
     $choices['0'] = get_string('emaildisplayno');
@@ -115,18 +120,23 @@ function useredit_shared_definition(&$mform) {
     $mform->addElement('select', 'maildisplay', get_string('emaildisplay'), $choices);
     $mform->setDefault('maildisplay', 2);
 
-    $choices = array();
-    $choices['0'] = get_string('emailenable');
-    $choices['1'] = get_string('emaildisable');
-    $mform->addElement('select', 'emailstop', get_string('emailactive'), $choices);
-    $mform->setDefault('emailenable', 1);
+//    $choices = array();
+//    $choices['0'] = get_string('emailenable');
+//    $choices['1'] = get_string('emaildisable');
+//    $mform->addElement('select', 'emailstop', get_string('emailactive'), $choices);
+//    $mform->setDefault('emailenable', 1);
+    $mform->addElement('hidden', 'emailstop');
+    $mform->setDefault('emailstop', 0);
 
-    $choices = array();
-    $choices['0'] = get_string('textformat');
-    $choices['1'] = get_string('htmlformat');
-    $mform->addElement('select', 'mailformat', get_string('emailformat'), $choices);
+//    $choices = array();
+//    $choices['0'] = get_string('textformat');
+//    $choices['1'] = get_string('htmlformat');
+//    $mform->addElement('select', 'mailformat', get_string('emailformat'), $choices);
+//    $mform->setDefault('mailformat', 1);
+//    $mform->setAdvanced('mailformat');
+
+    $mform->addElement('hidden', 'mailformat');
     $mform->setDefault('mailformat', 1);
-    $mform->setAdvanced('mailformat');
 
     if (!empty($CFG->allowusermailcharset)) {
         $choices = array();
@@ -141,13 +151,16 @@ function useredit_shared_definition(&$mform) {
         $mform->setAdvanced('preference_mailcharset');
     }
 
-    $choices = array();
-    $choices['0'] = get_string('emaildigestoff');
-    $choices['1'] = get_string('emaildigestcomplete');
-    $choices['2'] = get_string('emaildigestsubjects');
-    $mform->addElement('select', 'maildigest', get_string('emaildigest'), $choices);
+//    $choices = array();
+//    $choices['0'] = get_string('emaildigestoff');
+//    $choices['1'] = get_string('emaildigestcomplete');
+//    $choices['2'] = get_string('emaildigestsubjects');
+//    $mform->addElement('select', 'maildigest', get_string('emaildigest'), $choices);
+//    $mform->setDefault('maildigest', 0);
+//    $mform->setAdvanced('maildigest');
+	
+    $mform->addElement('hidden', 'maildigest');
     $mform->setDefault('maildigest', 0);
-    $mform->setAdvanced('maildigest');
 
     $choices = array();
     $choices['1'] = get_string('autosubscribeyes');
@@ -174,17 +187,17 @@ function useredit_shared_definition(&$mform) {
         $mform->setAdvanced('htmleditor');
     }
 
-    if (empty($CFG->enableajax)) {
-        $mform->addElement('static', 'ajaxdisabled', get_string('ajaxuse'), get_string('ajaxno'));
-        $mform->setAdvanced('ajaxdisabled');
-    } else {
-        $choices = array();
-        $choices['0'] = get_string('ajaxno');
-        $choices['1'] = get_string('ajaxyes');
-        $mform->addElement('select', 'ajax', get_string('ajaxuse'), $choices);
-        $mform->setDefault('ajax', 0);
-        $mform->setAdvanced('ajax');
-    }
+//    if (empty($CFG->enableajax)) {
+//        $mform->addElement('static', 'ajaxdisabled', get_string('ajaxuse'), get_string('ajaxno'));
+//        $mform->setAdvanced('ajaxdisabled');
+//    } else {
+//        $choices = array();
+//        $choices['0'] = get_string('ajaxno');
+//        $choices['1'] = get_string('ajaxyes');
+//        $mform->addElement('select', 'ajax', get_string('ajaxuse'), $choices);
+//        $mform->setDefault('ajax', 0);
+//        $mform->setAdvanced('ajax');
+//    }
 
     $choices = array();
     $choices['0'] = get_string('screenreaderno');
@@ -193,6 +206,12 @@ function useredit_shared_definition(&$mform) {
     $mform->setDefault('screenreader', 0);
     $mform->setAdvanced('screenreader');
 
+	/*address*/    
+    
+
+    $mform->addElement('text', 'address', get_string('address'), 'maxlength="70" size="25"');
+    $mform->setType('address', PARAM_MULTILANG);
+    
     $mform->addElement('text', 'city', get_string('city'), 'maxlength="20" size="21"');
     $mform->setType('city', PARAM_MULTILANG);
     $mform->addRule('city', $strrequired, 'required', null, 'client');
@@ -205,6 +224,16 @@ function useredit_shared_definition(&$mform) {
     if (!empty($CFG->country)) {
         $mform->setDefault('country', $CFG->country);
     }
+    /*phone*/
+    $mform->addElement('text', 'phone1', get_string('phone'), 'maxlength="20" size="25"');
+    $mform->setType('phone1', PARAM_CLEAN);
+
+    $mform->addElement('text', 'phone2', get_string('phone2'), 'maxlength="20" size="25"');
+    $mform->setType('phone2', PARAM_CLEAN);
+    
+    /*YM*/
+    $mform->addElement('text', 'yahoo', get_string('yahooid'), 'maxlength="50" size="25"');
+    $mform->setType('yahoo', PARAM_CLEAN);
 
     $choices = get_list_of_timezones();
     $choices['99'] = get_string('serverlocaltime');
@@ -214,6 +243,7 @@ function useredit_shared_definition(&$mform) {
         $mform->addElement('select', 'timezone', get_string('timezone'), $choices);
         $mform->setDefault('timezone', '99');
     }
+    $mform->setAdvanced('timezone');
 
     $mform->addElement('select', 'lang', get_string('preferredlanguage'), get_list_of_languages());
     $mform->setDefault('lang', $CFG->lang);
@@ -269,8 +299,7 @@ function useredit_shared_definition(&$mform) {
     $mform->addElement('text', 'aim', get_string('aimid'), 'maxlength="50" size="25"');
     $mform->setType('aim', PARAM_CLEAN);
 
-    $mform->addElement('text', 'yahoo', get_string('yahooid'), 'maxlength="50" size="25"');
-    $mform->setType('yahoo', PARAM_CLEAN);
+    
 
     $mform->addElement('text', 'msn', get_string('msnid'), 'maxlength="50" size="25"');
     $mform->setType('msn', PARAM_CLEAN);
@@ -284,14 +313,7 @@ function useredit_shared_definition(&$mform) {
     $mform->addElement('text', 'department', get_string('department'), 'maxlength="30" size="25"');
     $mform->setType('department', PARAM_MULTILANG);
 
-    $mform->addElement('text', 'phone1', get_string('phone'), 'maxlength="20" size="25"');
-    $mform->setType('phone1', PARAM_CLEAN);
-
-    $mform->addElement('text', 'phone2', get_string('phone2'), 'maxlength="20" size="25"');
-    $mform->setType('phone2', PARAM_CLEAN);
-
-    $mform->addElement('text', 'address', get_string('address'), 'maxlength="70" size="25"');
-    $mform->setType('address', PARAM_MULTILANG);
+    
 
 
 }

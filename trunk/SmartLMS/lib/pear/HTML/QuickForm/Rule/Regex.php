@@ -37,7 +37,7 @@ class HTML_QuickForm_Rule_Regex extends HTML_QuickForm_Rule
      */
     var $_data = array(
                     'lettersonly'   => '/^[a-zA-Z]+$/',
-                    'alphanumeric'  => '/^[a-zA-Z0-9]+$/',
+                    'alphanumeric'  => '/^[a-zA-Z0-9_]+$/',
                     'numeric'       => '/(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/',
                     'nopunctuation' => '/^[^().\/\*\^\?#!@$%+=,\"\'><~\[\]{}]+$/',
                     'nonzero'       => '/^-?[1-9][0-9]*/'
