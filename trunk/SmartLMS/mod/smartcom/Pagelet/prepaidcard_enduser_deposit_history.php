@@ -2,15 +2,12 @@
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
 require_login();
-$username = required_param('username', PARAM_TEXT);
+$userid = $USER->id;
+$username = $USER->username;
 
-$onlineUsers = get_records_sql(
-"
-select * from mdl_smartcom_card_used where depositforusername = '$username'
-");
-
-
-$tpl->assign('onlineUsers', $onlineUsers);
+$sql = "select * from mdl_smartcom_card_used where depositforusername = '$username'";
+$histories = get_records_sql($sql);
+$tpl->assign('histories', $histories);
 		
 $FILENAME = 'prepaidcard_enduser_deposit_history';
 $$FILENAME = $tpl->display("$FILENAME.tpl.php");
