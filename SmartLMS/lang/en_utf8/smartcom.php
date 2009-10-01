@@ -85,8 +85,10 @@ $string['maincourse'] = 'Main course';
 $string['minorcourse'] = 'Minor course';
 
 
-
-
+/*Card management*/
+$string['prepaidcard_generator'] = 'Prepaid cards generator';
+$string['prepaidcard_usage_report'] = 'Prepaid cards usage report';
+$string['prepaidcard_adjust'] = 'Prepaid cards adjustment';
 
 
 
