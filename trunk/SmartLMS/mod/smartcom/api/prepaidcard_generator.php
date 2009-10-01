@@ -52,13 +52,14 @@ while(count($arraySecretCodeUNIQUE) < $howmuch)
 		$code = '';
 		while(SecretCodeExisted($code))
 		{
-			$code = Text::generateRandomStr(10, '1234567890');
+			// không cho phép chữ số đầu là trắng hoặc số 0
+			$code = Text::generateRandomStr(1, '123456789') . Text::generateRandomStr(9, '1234567890');
 		}
 		$arraySecretCode[] = $code;
 	}
 	$arraySecretCodeUNIQUE = array_unique($arraySecretCode);
 }
-
+// cắt lấy phần vừa đủ theo yêu cầu, trong mảng đã check unique
 $arraySecretCodeUNIQUE = array_slice($arraySecretCodeUNIQUE, 0, $howmuch);
 
 
@@ -80,7 +81,7 @@ $sData = "serialno,secretcode,facevalue,coinvalue,periodvalue,batchcode\n";
 fwrite($fhandler, $sData);
 
 // DATA
-foreach (((array)$arraySecretCodeUNIQUE) as $value) {	
+foreach (((array)$arraySecretCodeUNIQUE) as $value) {
 	$serialno = time() . Text::generateRandomStr(5, '1234567890');
 		
 	$sData = "$serialno,$value,$facevalue,$coinvalue,$periodvalue,$batchcode";
