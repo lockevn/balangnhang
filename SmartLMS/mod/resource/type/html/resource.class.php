@@ -171,7 +171,8 @@ function display() {
     		$nextLink = $navLinks['nextLink'];
     		if(!empty($nextLink)) {
     			echo "<div class=\"submitbtns mdl-align $resource->lotype\">\n";
-    			if(empty($navLinks['backLink'])) {
+    			$start = optional_param('start'); 
+    			if(empty($navLinks['backLink']) || !empty($start)) {
     				/*nếu là trang đầu tiên giới thiệu về bài test*/
     				if(isset($SESSION->attemptIdArr)) {
     					unset($SESSION->attemptIdArr);
