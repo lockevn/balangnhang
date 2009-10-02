@@ -166,6 +166,14 @@
            error('Access not allowed');
         }
     }
+    
+    /*danhut added: check access to cardgen csv file*/
+    if(count($args) > 2 && $args[0] == 1 && $args[1] == 'smartcom' && $args[2] == 'prepaidcardgen') {
+    	if(!has_capability('mod/smartcom:prepaidcardgenerator', get_context_instance(CONTEXT_SYSTEM, 1))) {
+    		error('Access not allowed');
+    	}
+    }
+    
 
     // check that file exists
     if (!file_exists($pathname)) {
