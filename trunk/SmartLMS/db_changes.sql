@@ -173,7 +173,18 @@ CREATE TABLE `mdl_smartcom_course_completion_suggestion` (
 
 /* Chạy đoạn này để thêm capa vào */
 /* vào admin, chỉnh tay, allow capa này cho role Student */
-insert into  `mdl_capabilities` (`name`, captype,contextlevel, component, riskbitmask)
-values('mod/smartcom:buyticket','read',50, 'mod/smartcom', 0)
+insert into  `mdl_capabilities` 
+(`name`, captype,contextlevel, component, riskbitmask)
+values
+('mod/smartcom:prepaidcardadjust', 'write', 10, 'mod/smartcom', 0),
+('mod/smartcom:prepaidcardgenerator', 'write', 10, 'mod/smartcom', 0),
+('mod/smartcom:prepaidcardmanager', 'read', 10, 'mod/smartcom', 0),
+('mod/smartcom:prepaidcardusagereport', 'read', 10, 'mod/smartcom', 0),
+('mod/smartcom:sendnotification', 'read', 10, 'mod/smartcom', 0),
+('mod/smartcom:poolingnotification', 'read', 10, 'mod/smartcom', 0),
+('mod/smartcom:realtimesupported', 'read', 10, 'mod/smartcom', 0),
+('mod/smartcom:buyticket', 'read', 50, 'mod/smartcom', 0),
+('mod/smartcom:coursecompletionsuggestconfigure', 'read', 50, 'mod/smartcom', 0),
+('mod/smartcom:realtimeperformancecheck', 'write', 50, 'mod/smartcom', 0)
 
 
