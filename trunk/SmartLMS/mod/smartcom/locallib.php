@@ -209,6 +209,54 @@ join
 	}
 	
 	
+	public static function GetQuizAndLessonLabel($courseid)
+	{
+		if($courseid < 2)
+		{
+			return false;
+		}
+		
+		$recs = get_records_sql(
+		"
+select q.id, q.name, cs.label
+from mdl_quiz as q
+join
+(
+select instance as quiz, section from `mdl_course_modules` where module=12
+) as Lesson_Quiz
+on q.id = Lesson_Quiz.quiz
+join
+mdl_course_sections 
+as cs
+on Lesson_Quiz.section = cs.id
+and cs.course=$courseid
+		"
+		);
+
+		if($recs)
+		{
+			return $recs;
+		}
+		else
+		{
+			return null;
+		}		
+	}
+	
+	public static function GetQuizIdAndActivityLabel($courseid)
+	{
+		if($courseid < 2)
+		{
+			return false;
+		}
+		
+		$mapResourceName_QuizIDlist = array();
+		$arrCourseModule = get_coursemodules_in_course('quiz', $courseid);
+		foreach (((array)$arrCourseModule) as $key => $value) {
+			$mapResourceName_QuizIDlist[$value->instance] = trim(get_parent_resource_name($value));
+		}
+		return $mapResourceName_QuizIDlist;
+	}
 		
 	/**
 	 * @desc only work with student role, hasCapa(buyticket)
