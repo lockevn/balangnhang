@@ -40,10 +40,12 @@ if(is_array($arrCourseInSystem))
 }
 $tpl->assign('arrCourseInSystem', $arrCourseInSystem);
 
+// lookup label lesson of quiz
+$arrQuizLesson = SmartComDataUtil::GetQuizAndLessonLabel($courseid);
+$arrQuizIdActivity = SmartComDataUtil::GetQuizIdAndActivityLabel($courseid);
 
 $arrQuiz = get_records( 'quiz', 'course', $courseid, 'name', 'id,name' );
 $arrQuiz = array_values($arrQuiz);
-
 foreach ($arrQuiz as &$value) {
 	if(!empty($currentConfigOfCourseCompletion) && $value->id == $currentConfigOfCourseCompletion->finalquizid)
 	{
@@ -53,6 +55,9 @@ foreach ($arrQuiz as &$value) {
 	{
 		$value->selected = false;        
 	}
+	$lessonlabel = $arrQuizLesson[$value->id]->label;
+	$activitylabel = $arrQuizIdActivity[$value->id];
+	$value->name = "$lessonlabel--------$activitylabel----{$value->name}";
 }
 unset($value);
 $tpl->assign('arrQuiz', $arrQuiz);
