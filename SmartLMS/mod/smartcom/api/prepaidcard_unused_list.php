@@ -75,7 +75,7 @@ $responce->total = $total_pages;
 $responce->records = $count; 
 
 
-$sql = 'select id, serialno, facevalue, coinvalue, periodvalue, batchcode, publishdatetime ' .  $sql.
+$sql = 'select id, serialno, code, facevalue, coinvalue, periodvalue, batchcode, publishdatetime ' .  $sql.
 " ORDER BY $sidx $sord LIMIT $start , $limit";
 $result = mysql_query($sql);
 if($result)

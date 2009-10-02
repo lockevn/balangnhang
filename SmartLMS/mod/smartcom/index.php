@@ -30,6 +30,7 @@ $strsmartcoms = get_string('modulenameplural', 'smartcom');
 
 /// Print the header
 $navlinks = array();
+$course = null;
 if($courseid > 1)
 {
 	$course = get_record('course', 'id', $courseid);
@@ -67,5 +68,4 @@ else
 
 /// Finish the page
 print_footer($course);
-
 ?>
