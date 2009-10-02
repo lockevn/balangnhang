@@ -39,10 +39,11 @@ $(document).ready(function(){
 	jQuery("#grid").jqGrid({ 
 		url:'/mod/smartcom/api/prepaidcard_unused_list.php?q=2',
 		datatype: "json", 
-		colNames:['ID','SerialNo', 'FaceValue', 'CoinValue','PeriodValue','BatchCode','PublishDateTime'], 
+		colNames:['ID','SerialNo', 'Code', 'FaceValue', 'CoinValue','PeriodValue','BatchCode','PublishDateTime'], 
 		colModel:[ 
 			{name:'id',index:'id', width:55}, 		
-			{name:'serialno',index:'serialno', width:120}, 
+			{name:'serialno',index:'serialno', width:120},
+			{name:'code',index:'code', width:120},             
 			{name:'facevalue',index:'facevalue', width:80, align:"right"}, 
 			{name:'coinvalue',index:'coinvalue', width:80, align:"right"}, 
 			{name:'periodvalue',index:'periodvalue', width:80, align:"right"}, 

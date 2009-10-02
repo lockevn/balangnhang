@@ -18,7 +18,7 @@ order by lastaccess DESC"
 );
 
 
-$context = get_context_instance(CONTEXT_COURSE, $courseid);
+$context = get_context_instance(CONTEXT_SYSTEM);
 foreach ($onlineUsers as $key => &$onlineuser) {
 	if(has_capability('mod/smartcom:realtimesupported', $context, $key, false))
 	{

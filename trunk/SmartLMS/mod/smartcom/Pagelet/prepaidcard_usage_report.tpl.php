@@ -14,6 +14,15 @@
 	<label for="todate">todate: </label>
 	<input type='text' id='todate' value = '' maxlength="50"><br />
 	
+	<label for="depositforusername">depositforusername: </label>
+	<input type='text' id='depositforusername' value = '' maxlength="50"><br />
+	
+	<label for="fromuseddatetime">from useddatetime: </label>
+	<input type='text' id='fromuseddatetime' value = '' maxlength="50">
+	<label for="touseddatetime">to useddatetime: </label>
+	<input type='text' id='touseddatetime' value = '' maxlength="50"><br />
+	
+	
 	<input type='button' id='search' value = 'Search'><span id='searchResult'></span>
 </fieldset>
 
@@ -27,15 +36,18 @@ $(document).ready(function(){
 	jQuery("#grid").jqGrid({ 
 		url:'/mod/smartcom/api/prepaidcard_used_list.php?q=2',
 		datatype: "json", 
-		colNames:['ID','SerialNo', 'FaceValue', 'CoinValue','PeriodValue','BatchCode','PublishDateTime'], 
+		colNames:['ID','SerialNo', 'Code', 'FaceValue', 'CoinValue','PeriodValue','BatchCode','PublishDateTime','ForUser','UsedDateTime'], 
 		colModel:[ 
-			{name:'id',index:'id', width:55},         
-			{name:'serialno',index:'serialno', width:120}, 
+			{name:'id',index:'id', width:35},
+			{name:'serialno',index:'serialno', width:120},
+			{name:'code',index:'code', width:120},
 			{name:'facevalue',index:'facevalue', width:80, align:"right"}, 
 			{name:'coinvalue',index:'coinvalue', width:80, align:"right"}, 
 			{name:'periodvalue',index:'periodvalue', width:80, align:"right"}, 
-			{name:'batchcode',index:'batchcode', width:288},
-			{name:'publishdatetime',index:'publishdatetime', width:140, jsonmap:"publishdatetime"}
+			{name:'batchcode',index:'batchcode', width:200},
+			{name:'publishdatetime',index:'publishdatetime', width:140, jsonmap:"publishdatetime"},
+			{name:'depositforusername',index:'depositforusername', width:88},
+			{name:'useddatetime',index:'useddatetime', width:140, jsonmap:"useddatetime"}			
 		], 
 		rowNum:100, 
 		rowList:[100, 500, 1000], 
@@ -54,6 +66,12 @@ $(document).ready(function(){
 		var $batchcode = $('#batchcode').val();                
 		var $fromdate = $('#fromdate').val();
 		var $todate = $('#todate').val();
+		
+		var $depositforusername = $('#depositforusername').val();
+		var $fromuseddatetime = $('#fromuseddatetime').val();
+		var $touseddatetime = $('#touseddatetime').val();
+		
+		
 
 		$("#searchResult").show().html('loading grid ...');
 		$('#grid').fadeOut();
@@ -62,7 +80,11 @@ $(document).ready(function(){
 			'&facevalue=' + $facevalue + 
 			'&batchcode='+ $batchcode + 
 			'&fromdate='+ $fromdate +
-			'&todate='+ $todate;
+			'&todate='+ $todate + 
+			'&depositforusername='+ $depositforusername + 
+			'&fromuseddatetime='+ $fromuseddatetime +
+			'&touseddatetime='+ $touseddatetime
+			;
 			
 		jQuery("#grid").setGridParam(
 		{
@@ -74,8 +96,7 @@ $(document).ready(function(){
 
 		$('#grid').fadeIn();
 		$("#searchResult").fadeOut(500);
-	}
-	
+	}	
 	
 	
 	$("#search").click(LoadGridBaseOnSearchCondition);

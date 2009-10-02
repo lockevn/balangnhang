@@ -24,6 +24,11 @@ $batchcode = optional_param('batchcode', null, PARAM_TEXT);
 $fromdate = optional_param('fromdate', null, PARAM_TEXT);
 $todate = optional_param('todate', null, PARAM_TEXT);
 
+$depositforusername = optional_param('depositforusername', null, PARAM_TEXT);
+$fromuseddatetime = optional_param('fromuseddatetime', null, PARAM_TEXT);
+$touseddatetime = optional_param('touseddatetime', null, PARAM_TEXT);
+
+
 $sql = "from mdl_smartcom_card_used where true ";
 
 if($serialno)
@@ -56,6 +61,21 @@ if($todate)
 }
 
 
+if($depositforusername)
+{
+	$sql .= " and depositforusername = '$depositforusername'";
+}
+
+if($fromuseddatetime)
+{
+	$sql .= " and useddatetime >= $fromuseddatetime";
+}
+if($todate)
+{
+	$sql .= " and useddatetime <= $touseddatetime";
+}
+
+
 $result = mysql_query("SELECT COUNT(*) AS count " . $sql); 
 $row = mysql_fetch_array($result,MYSQL_ASSOC); 
 $count = $row['count']; 
@@ -75,7 +95,7 @@ $responce->total = $total_pages;
 $responce->records = $count; 
 
 
-$sql = 'select id, serialno, facevalue, coinvalue, periodvalue, batchcode, publishdatetime ' .  $sql.
+$sql = 'select id, serialno, code, facevalue, coinvalue, periodvalue, batchcode, publishdatetime, depositforusername, useddatetime ' .  $sql.
 " ORDER BY $sidx $sord LIMIT $start , $limit";
 $result = mysql_query($sql);
 if($result)
