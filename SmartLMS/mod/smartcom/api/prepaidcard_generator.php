@@ -53,7 +53,7 @@ while(count($arraySecretCodeUNIQUE) < $howmuch)
 		while(SecretCodeExisted($code))
 		{
 			// không cho phép chữ số đầu là trắng hoặc số 0
-			$code = Text::generateRandomStr(1, '123456789') . Text::generateRandomStr(9, '1234567890');
+			$code = Text::generateRandomStr(1, '123456789') . Text::generateRandomStr(11, '1234567890');
 		}
 		$arraySecretCode[] = $code;
 	}
@@ -80,9 +80,10 @@ die("GURUCORE: can't open and write to file storage: '$writeCSVFilePath'. Please
 $sData = "serialno,secretcode,facevalue,coinvalue,periodvalue,batchcode\n";
 fwrite($fhandler, $sData);
 
-// DATA
+// DATA 125444818610619
 foreach (((array)$arraySecretCodeUNIQUE) as $value) {
-	$serialno = time() . Text::generateRandomStr(5, '1234567890');
+		
+	$serialno = Text::generateRandomStr(1, '123456789') . Text::generateRandomStr(11, '1234567890');
 		
 	$sData = "$serialno,$value,$facevalue,$coinvalue,$periodvalue,$batchcode";
 	fwrite($fhandler, $sData . "\n");
