@@ -21,7 +21,7 @@ $(document).ready(function(){
 		 function(json){
 			 if(json)
 			 {		   
-				if(json.stat == 'NOT_ALLOW')
+				if(json.stat == 'NOT_ALLOW' || json.stat == 'NOT_LOGIN')
 				{
 					// alert('Stop pooling');
 					// not allow, do not has capability to pooling

@@ -1897,8 +1897,8 @@ function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsu
 		
 		//  HACK: lockevn: for API call
 		if(defined('AJAX_CALL'))
-		{			
-			die('NOT_LOGIN');
+		{
+			die('{"stat":"NOT_LOGIN"}');
 		}
 		//  HACK: END: lockevn: for API call
 		
@@ -2029,7 +2029,6 @@ function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsu
 		}
 
 	/// Non-guests who don't currently have access, check if they can be allowed in as a guest
-
 		if ($USER->username != 'guest' and !has_capability('moodle/course:view', $COURSE->context)) {
 			if ($COURSE->guest == 1) {
 				 // Temporarily assign them guest role for this context, if it fails later user is asked to enrol
@@ -2038,7 +2037,6 @@ function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsu
 		}
 
 	/// If the user is a guest then treat them according to the course policy about guests
-
 		if (has_capability('moodle/legacy:guest', $COURSE->context, NULL, false)) {
 			if (has_capability('moodle/site:doanything', $sysctx)) {
 				// administrators must be able to access any course - even if somebody gives them guest access
@@ -2057,8 +2055,15 @@ function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsu
 						redirect($CFG->wwwroot.'/course/view.php?id='.$cm->course,
 								 get_string('activityiscurrentlyhidden'));
 					}
-
+					
 					user_accesstime_log($COURSE->id); /// Access granted, update lastaccess times
+					
+					/****************************************
+					* @desc LockeVN Hack to check ticket
+					*/
+					require_once($CFG->dirroot.'/mod/smartcom/locallib.php');
+					SmartComDataUtil::require_smartcom_ticket($id);
+					/****************************************/
 					return;   // User is allowed to see this course
 
 					break;
@@ -2097,11 +2102,12 @@ function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsu
 			}
 
 		/// Make sure they can read this activity too, if specified
-
 			if (!empty($cm) and !$cm->visible and !has_capability('moodle/course:viewhiddenactivities', $COURSE->context)) {
 				redirect($CFG->wwwroot.'/course/view.php?id='.$cm->course, get_string('activityiscurrentlyhidden'));
 			}
 			user_accesstime_log($COURSE->id); /// Access granted, update lastaccess times
+			
+			echo "GURU TEST inject require_login({$COURSE->id})";
 			return;   // User is allowed to see this course
 
 		}
