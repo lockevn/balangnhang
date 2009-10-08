@@ -52,8 +52,6 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 
 	require_login($course);
 	
-	require_once($CFG->dirroot.'/mod/smartcom/locallib.php');
-	SmartComDataUtil::require_smartcom_ticket($id);
 	
 
 	
