@@ -1,29 +1,36 @@
-<html>
-<head>
+<?php require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
-<title>My first web service page</title>
-<script type="text/javascript" src="http://www.google.com/jsapi"></script>
-<script type="text/javascript">
-google.load("language","1");
+require_once(ABSPATH."lib/Text.php");
 
-function init () {
-        google.language.translate("kitchen", "en", "vi", function (translated) {
-        alert(translated.translation);
-    });
+$courseid = 15;
+$mapResourceName_QuizIDlist = array();
+$arrCourseModule = get_coursemodules_in_course('quiz', $courseid);
+foreach (((array)$arrCourseModule) as $key => $value) {	
+	$resourceName = trim(get_parent_resource_name($value));	   
+	$mapResourceName_QuizIDlist[$value->instance] = $resourceName;
+}
+$v = array_keys($mapResourceName_QuizIDlist);
+
+print_r($v);   
+
+
+
+require_login();
+$userid = $USER->id;
+
+$courseid = required_param('courseid', PARAM_INT);   // course
+if (! $course = get_record('course', 'id', $courseid)) {
+	error('GURUCORE: Course ID is incorrect');
 }
 
-google.setOnLoadCallback(init);
-</script>
-</head>
-<body>
 
-this is
-super man
-Danhut
-smart
-web    
+$context = get_context_instance(CONTEXT_SYSTEM);
+require_capability('mod/smartcom:prepaidcardusagereport', $context);
 
-long lanh
 
-</body>
-</html>
+require_once($CFG->dirroot.'/mod/smartcom/locallib.php');
+	SmartComDataUtil::require_smartcom_ticket($id);
+
+	 
+?>
