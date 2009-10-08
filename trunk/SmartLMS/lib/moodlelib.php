@@ -2063,6 +2063,7 @@ function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsu
 					*/
 					require_once($CFG->dirroot.'/mod/smartcom/locallib.php');
 					SmartComDataUtil::require_smartcom_ticket($id);
+					// echo "GURU TEST inject require_login({$COURSE->id})";			
 					/****************************************/
 					return;   // User is allowed to see this course
 
@@ -2107,7 +2108,7 @@ function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsu
 			}
 			user_accesstime_log($COURSE->id); /// Access granted, update lastaccess times
 			
-			echo "GURU TEST inject require_login({$COURSE->id})";
+			// echo "GURU TEST inject require_login({$COURSE->id})";
 			return;   // User is allowed to see this course
 
 		}
