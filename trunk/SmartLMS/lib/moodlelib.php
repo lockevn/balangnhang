@@ -1888,7 +1888,7 @@ function course_setup($courseorid=0) {
 function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsurltome=true) {
 
 	global $CFG, $SESSION, $USER, $COURSE, $FULLME;
-
+		
 /// setup global $COURSE, themes, language and locale
 	course_setup($courseorid);
 
@@ -2036,6 +2036,22 @@ function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsu
 			}
 		}
 
+		
+
+
+		// HACK: DEBUG: lockevn: role *******************************************/
+		$context = get_context_instance(CONTEXT_COURSE, $COURSE->id);        
+		$roles = get_user_roles($context, $USER->id, false, 'r.shortname DESC', true);
+		echo '<pre>';
+		foreach (((array)$roles) as $key => $value) {
+			echo $value->shortname;
+		}
+		echo '</pre>';		
+		// ENDHACK *******************************************/
+		
+		///////// REACH HERE MEAN LOGIN OK WITH NORMAL FLOW //////////
+		
+		
 	/// If the user is a guest then treat them according to the course policy about guests
 		if (has_capability('moodle/legacy:guest', $COURSE->context, NULL, false)) {
 			if (has_capability('moodle/site:doanything', $sysctx)) {
@@ -2058,13 +2074,7 @@ function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsu
 					
 					user_accesstime_log($COURSE->id); /// Access granted, update lastaccess times
 					
-					/****************************************
-					* @desc LockeVN Hack to check ticket
-					*/
-					require_once($CFG->dirroot.'/mod/smartcom/locallib.php');
-					SmartComDataUtil::require_smartcom_ticket($id);
-					// echo "GURU TEST inject require_login({$COURSE->id})";			
-					/****************************************/
+					
 					return;   // User is allowed to see this course
 
 					break;
@@ -2093,7 +2103,6 @@ function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsu
 			}
 
 	/// For non-guests, check if they have course view access
-
 		} else if (has_capability('moodle/course:view', $COURSE->context)) {
 			if (!empty($USER->realuser)) {   // Make sure the REAL person can also access this course
 				if (!has_capability('moodle/course:view', $COURSE->context, $USER->realuser)) {
@@ -2108,7 +2117,12 @@ function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsu
 			}
 			user_accesstime_log($COURSE->id); /// Access granted, update lastaccess times
 			
-			// echo "GURU TEST inject require_login({$COURSE->id})";
+			/****************************************
+			* @desc LockeVN Hack to check ticket
+			*/
+			require_once($CFG->dirroot.'/mod/smartcom/locallib.php');
+			SmartComDataUtil::require_smartcom_ticket($COURSE->id);
+			/****************************************/
 			return;   // User is allowed to see this course
 
 		}
