@@ -66,7 +66,7 @@ values ('$serialno', '$code', $facevalue, $coinvalue, $periodvalue, '$batchcode'
 		{            
 			$coinvalue = $card['coinvalue'];
 			$periodvalue = $card['periodvalue'];
-			$sql = "update mdl_smartcom_account set coinvalue = coinvalue + $coinvalue, expiredate = DATE_ADD(expiredate, INTERVAL $periodvalue DAY) ";
+			$sql = "update mdl_smartcom_account set coinvalue = coinvalue + $coinvalue, expiredate = DATE_ADD(IF(expiredate < CURDATE(), CURDATE(), expiredate), INTERVAL $periodvalue DAY) ";
 			$dbret = $mysqli->query($sql);
 		}
 		else
