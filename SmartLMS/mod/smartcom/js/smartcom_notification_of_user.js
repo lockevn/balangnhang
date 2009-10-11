@@ -16,7 +16,7 @@ $(document).ready(function(){
 		$.getJSON(
 		 '/mod/smartcom/api/notification_of_user.php'
 		 ,
-		 {}
+		 {courseid : CURRENT_COURSEID}
 		 ,  
 		 function(json){
 			 if(json)

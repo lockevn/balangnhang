@@ -6,10 +6,11 @@ define('AJAX_CALL',true);
 header("Content-type: text/javascript;charset=utf-8");
 require_login();
 
-$context = get_context_instance(CONTEXT_SYSTEM);
+$courseid = required_param('courseid', PARAM_INT);
+$context = get_context_instance(CONTEXT_COURSE, $courseid);
 if(!has_capability('mod/smartcom:poolingnotification', $context, $USER->id, false))
 {
-	die('{"stat":"NOT_ALLOW"}');
+	die("{'stat':'NOT_ALLOW', 'courseid':'$courseid', 'userid':'{$USER->id}'}");
 }
 
 $username = $USER->username;

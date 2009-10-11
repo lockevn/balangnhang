@@ -2040,13 +2040,13 @@ function require_login($courseorid=0, $autologinguest=true, $cm=null, $setwantsu
 
 
 		// HACK: DEBUG: lockevn: role *******************************************/
-		$context = get_context_instance(CONTEXT_COURSE, $COURSE->id);        
-		$roles = get_user_roles($context, $USER->id, false, 'r.shortname DESC', true);
-		echo '<pre>';
-		foreach (((array)$roles) as $key => $value) {
-			echo $value->shortname;
-		}
-		echo '</pre>';		
+		//$context = get_context_instance(CONTEXT_COURSE, $COURSE->id);        
+//		$roles = get_user_roles($context, $USER->id, false, 'r.shortname DESC', true);
+//		echo '<pre>';
+//		foreach (((array)$roles) as $key => $value) {
+//			echo $value->shortname;
+//		}
+//		echo '</pre>';
 		// ENDHACK *******************************************/
 		
 		///////// REACH HERE MEAN LOGIN OK WITH NORMAL FLOW //////////

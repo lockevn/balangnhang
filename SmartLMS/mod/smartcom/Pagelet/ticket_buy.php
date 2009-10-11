@@ -12,10 +12,7 @@ if(empty($course))
 }
 
 global $SESSION;
-if(!isset($SESSION->wantsurl))
-{
-	$SESSION->wantsurl = $CFG->wwwroot;
-}
+$SESSION->wantsurl = $_SERVER['HTTP_REFERER'];
 
 $alreadyHasTicket = SmartComDataUtil::CheckUserHasTicketOfCourse($USER->username, $courseid);
 if($alreadyHasTicket)

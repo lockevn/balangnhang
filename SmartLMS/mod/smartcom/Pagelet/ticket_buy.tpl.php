@@ -3,6 +3,7 @@
 	
 	
 <div>Buying ticket for <strong><?=$this->course->fullname ?></strong>, you will spend <?= (int)($this->course->cost) ?> coin(s) in your account:</div> 
+<a id="linkbacktowork" href="<?= $SESSION->wantsurl ?>" >Continue as Expired Student</a>
 
 <?php if(empty($this->accountinfo)): ?>
 <div class="error">You do not have account balance (do not have any coin) in Smartcom system. Please buy our prepaidcard and go <a href="/mod/smartcom/index.php?courseid=1&submodule=prepaidcard_enduser_deposit">PrepaidCard Deposit page</a> to deposit</div>
@@ -14,7 +15,6 @@
 <div>Acccount expire date is not changed</div>
 
 <input type='button' id='buy' value='I understand and agree to buy ticket'><span id='buyResult'></span>
-<a id="linkbacktowork" style="display:none;" href="<?= $SESSION->wantsurl ?>" >// TEST: CONTINUE to <?= $SESSION->wantsurl ?></a>
 
 <script type="text/javascript" >
 $(document).ready(function(){
