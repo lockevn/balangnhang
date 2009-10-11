@@ -240,6 +240,32 @@ class block_admin extends block_list {
             $this->content->items[]='<a href="'.$CFG->wwwroot.'/user/view.php?id='.$USER->id.'&amp;course='.$course->id.'">'.get_string('profile').'</a>';
             $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" alt="" />';
         }
+        
+/// Nap the
+        if (empty($course->metacourse) && ($course->id!==SITEID)) {
+
+        	$this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=1&submodule=prepaidcard_enduser_deposit">'.get_string('prepaidcard_enduser_deposit', 'smartcom').'</a>';
+        	$this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
+        }
+        /// History Nap the
+        if (empty($course->metacourse) && ($course->id!==SITEID)) {
+        	$this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=1&submodule=prepaidcard_enduser_deposit_history">'.get_string('prepaidcard_enduser_deposit_history', 'smartcom').'</a>';
+        	$this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
+        }
+    /// user_account_balance
+        if (empty($course->metacourse) && ($course->id!==SITEID)) {
+        	$this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=1&submodule=user_account_balance">'.get_string('user_account_balance', 'smartcom').'</a>';
+        	$this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
+        }
+
+         /// buy ticket
+        if (empty($course->metacourse) && ($course->id!==SITEID)) {
+        	//nếu đang view course với role là expiredstudent thì hiện link mua vé vào course
+            if (!has_capability('mod/smartcom:buyticket', $context, NULL, false)) {   
+                $this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=' . $course->id . '&submodule=ticket_buy">'.get_string('ticket_buy', 'smartcom').'</a>';
+                $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
+            } 
+        } 
 
         return $this->content;
     }
