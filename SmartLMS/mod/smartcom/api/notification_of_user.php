@@ -14,7 +14,7 @@ if(!has_capability('mod/smartcom:poolingnotification', $context, $USER->id, fals
 }
 
 $username = $USER->username;
-$sql = "select * from mdl_smartcom_notification where receiverusername = '$username'";
+$sql = "select * from mdl_smartcom_notification where receiverusername = '$username' order by id";
 $result = get_records_sql($sql);
 if($result && is_array($result))
 {	
