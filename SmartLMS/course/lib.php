@@ -2125,7 +2125,8 @@ function print_course($course, $highlightterms = '') {
     $options = NULL;
     $options->noclean = true;
     $options->para = false;
-    echo highlight($highlightterms, format_text($course->summary, FORMAT_MOODLE, $options,  $course->id));
+    //TODO: uncomment back
+    //echo highlight($highlightterms, format_text($course->summary, FORMAT_MOODLE, $options,  $course->id));
     echo '</div>';
     echo '</div>';
 }
