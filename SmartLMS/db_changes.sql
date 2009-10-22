@@ -1,3 +1,4 @@
+
 /**
  * phục vụ chức năng Learning Object management
  */
@@ -26,14 +27,12 @@ ALTER TABLE `smartlms`.`mdl_course_sections`
 /*
  * một số trường để lưu dữ liệu smartweb cũ
  * */
+ALTER TABLE `smartlms`.`mdl_user` ADD COLUMN `birthday` BIGINT(10) UNSIGNED AFTER `officecity`;
 
-
-ALTER TABLE `smartlms`.`mdl_user` ADD COLUMN `district` VARCHAR(45) ,
+ALTER TABLE `smartlms`.`mdl_user` ADD COLUMN `district` VARCHAR(45) AFTER `yearofbirth`,
  ADD COLUMN `officeaddress` VARCHAR(100) AFTER `district`,
  ADD COLUMN `officedistrict` VARCHAR(45) AFTER `officeaddress`,
  ADD COLUMN `officecity` VARCHAR(45) AFTER `officedistrict`;
-
-ALTER TABLE `smartlms`.`mdl_user` ADD COLUMN `birthday` BIGINT(10) UNSIGNED AFTER `officecity`;
 
 
 
