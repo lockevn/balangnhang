@@ -1,0 +1,25 @@
+</div> <!-- end div containerContent -->
+<!-- START OF FOOTER -->
+<div id="footer">
+<?php global $CFG, $COURSE; ?>
+<?
+if (function_exists('page_doc_link')) 
+{
+	echo '<p class="helplink">';
+	echo page_doc_link(get_string('moodledocslink'));
+	echo '</p>';
+}
+
+// echo $homelink; 
+if($home) 
+{
+	echo $GLOBALS['THEME']->footers; 
+}
+echo $loggedinas;
+?>
+</div>
+</div>
+<div id="jGrowlAnchor" class="bottom-right"></div>
+<script type="text/javascript" src="<?= $CFG->wwwroot ?>/mod/smartcom/js/smartcom_notification_of_user.js"></script>
+</body>
+</html>

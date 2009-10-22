@@ -1,0 +1,1091 @@
+﻿tr.section {
+  border-style: solid;
+  border-color: #DDDDDD;
+  border-width: 1px;
+}
+
+td.spacer {
+	height: 4px;
+	}
+
+
+#layout-table {
+  width:100%;
+  border-collapse:separate;
+  margin-top: 0px;
+  padding-left:12px;
+  padding-right:12px;
+}
+
+#layout-table #left-column,
+#layout-table #middle-column,
+#layout-table #right-column
+{
+  vertical-align:top;
+}
+
+#layout-table #middle-column {
+  padding-left:12px;
+  padding-right:12px;
+}
+
+div.mymenu {
+      float:right;
+     
+      font-size:0.85em;
+      line-height:normal;	  	               
+      }
+    div.mymenu ul {
+	  float:right;
+      position:absolute;
+	  top:95px;
+	  right:0px;
+
+      padding:10px 10px 0;
+      list-style:none;
+      }
+    div.mymenu li {
+      float:right;
+      background:url('pix/norm_right.gif') no-repeat right top;
+    
+      margin-left: 5px;
+      padding:0;
+      }
+    div.mymenu a {
+      display:block;
+      background:url('pix/norm_left.gif') no-repeat left top;
+      padding:5px 15px 4px;
+      font-size: 0.8em;
+      text-decoration: none;
+      
+      }
+
+
+
+
+
+
+
+
+
+body {
+  font-size: 100%;
+  color: #333333;
+  font-family: 'Arial', georgia, times, serif;
+
+
+  margin: 0;
+  padding: 0;
+
+   
+}
+div#wrapper{
+  
+  background: #F8F8F8;
+   width: 100%;
+   margin: 0;
+   
+   
+  }
+
+
+div#content {
+  background-color: #F8F8F8;
+  padding: 10px 0;
+  font-size: 0.75em;
+  line-height: 1.6em;
+  margin-top: 0px;
+  clear: both;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+div#footer {
+  margin-top: 0;
+  font-size: 0.75em;
+  border-top: 2px #CECAC9 solid;
+  background: #E0E9DF;
+height: 60px;
+   
+
+}
+
+
+
+
+
+
+#headwrapper {
+	
+	 background:   #fff ;	 
+	 
+	  border-bottom: 2px #CECAC9 solid;
+	  
+	
+	 
+	
+}
+
+.head {
+	
+ width: 100%;
+ float: right;
+	
+	
+}
+
+
+
+div.header-left {
+	
+	
+	 width: 50%;
+	 float: left;
+	
+	
+}
+
+div.header-left img {
+	
+margin: 20px 0 0 10px;
+
+
+}
+
+
+div.header-right {
+	
+	 float: right;
+	 width: 45%;
+	
+}
+
+div.header-right div.headerlogin {
+	
+	 float: right;
+	  margin: 10px 10px 47px 0;
+	  
+	  font-size: 0.8em;
+	 
+	
+	
+}
+ div.headerlogin div select {
+	
+	
+	  float: right;
+	  margin-top: 5px;
+	  margin-bottom: 0;
+	 
+	
+	
+}
+
+
+
+
+
+
+
+
+
+div.breadcrumb {
+  font-size: 0.8em;
+  padding-left: 0.3em;
+}
+
+
+
+div.navbar {
+ 
+  background-color: #C1E0E1;
+ 
+  border-style: none;
+  font-size: 0.9em;
+}
+
+
+
+
+
+div.navbar div.navbutton form {
+  float: left;
+}
+div.navbar div.navbutton {
+ 
+}
+
+
+div.langmenu  select {
+	
+	  margin: 0 10px;
+	
+	
+	
+}
+
+#footer div.logininfo {
+	
+	 margin-top: 20px;
+	
+	
+}
+
+#footer div.sitelink {
+	
+	 position: absolute;
+	  margin-top: -5px;
+	 
+	
+	
+}
+
+#footer p.helplink {
+	 float: right;
+	 padding-right: 20px;
+}
+
+
+div.mylink {
+float:right;
+font-size: 9px;
+color:#ccc;
+
+ margin-top: 40px;
+}
+div.mylink a:link, div.mylink a:visited {
+float:right;
+font-size: 9px;
+color:#ccc;
+text-decoration: none;
+
+}
+
+
+
+
+
+
+
+ul.section li {
+  margin: 0.2em 0;
+}
+div.sideblock div.content * {
+  text-align: left;
+}
+div.sideblock div.content input[type="submit"] {
+  width: auto;
+}
+button#searchform_button {
+  width: auto;
+}
+div.sideblock div.content div.btn input {
+  width: auto;
+}
+.block_login .loginform .fld {
+  text-align: right;
+}
+div.sideblock div.calendar-controls a.next {
+  text-align: right;
+}
+div.sideblock ul.list span.c1 {
+  padding-left: 0;
+}
+div.sideblock div.title h2 {
+  font-size: 1em;
+  line-height: 1.1em;
+}
+div.sideblock div.header {
+  background-color: #D1E7E8;
+  padding:  0.3em 0.3em;
+  border: none;
+}
+/*danhut modified*/
+div.sideblock div.content {
+  
+  
+  border: solid;
+  border-width: 1px;
+  border-color: #C1E0E1;
+  
+  
+  }
+  
+  div.sideblock div.content ul li {
+  padding: 0.4em 0;
+  
+
+  
+  
+  }
+
+div.sideblock table.minicalendar td.day {
+  text-align: center;
+  font-size: 0.9em;
+}
+div.sideblock table.minicalendar {
+  border-style: none;
+}
+
+
+.sideblock .content .message {
+  text-align: left;
+}
+.sideblock .header .hide-show-image {
+  margin-top: 0;
+}
+.sideblock.hidden .header .hide-show-image {
+  margin-top: 2px;
+}
+
+div.sideblock div.commands a.roles img {
+  width: 11px;
+  height: 11px;
+}
+div.sideblock span.icon {
+  display: block;
+  float: left;
+  margin-right: 0.3em;
+}
+div.sideblock ul.list li {
+  clear: left;
+}
+div.sideblock div.header div.commands {
+  height: 16px;
+  background-color: #ffffff;
+}
+
+
+
+
+
+#calendar .event_global {
+  background-color: #D6F8CD;
+  border-color: #D6F8CD;
+}
+.minicalendar .event_global {
+  background-color: #D6F8CD;
+  border-color: #D6F8CD;
+}
+.block_calendar_month .event_global {
+  background-color: #D6F8CD;
+  border-color: #D6F8CD;
+}
+#calendar .event_course {
+  background-color: #FFD3BD;
+  border-color: #FFD3BD;
+}
+.minicalendar .event_course {
+  background-color: #FFD3BD;
+  border-color: #FFD3BD;
+}
+.block_calendar_month .event_course {
+  background-color: #FFD3BD;
+  border-color: #FFD3BD;
+}
+#calendar .event_group {
+  background-color: #FEE7AE;
+  border-color: #FEE7AE;
+}
+.minicalendar .event_group {
+  background-color: #FEE7AE;
+  border-color: #FEE7AE;
+}
+.block_calendar_month .event_group {
+  background-color: #FEE7AE;
+  border-color: #FEE7AE;
+}
+#calendar .event_user {
+  background-color: #DCE7EC;
+  border-color: #DCE7EC;
+}
+.minicalendar .event_user {
+  background-color: #DCE7EC;
+  border-color: #DCE7EC;
+}
+.block_calendar_month .event_user {
+  background-color: #DCE7EC;
+  border-color: #DCE7EC;
+}
+table.cal_popup_bg {
+  background-color: #F8F8F8;
+  color: #333333;
+  border-color: #EEFFDD;
+}
+div.sideblock div.calendar-controls span.current {
+  text-align: center;
+}
+
+
+
+
+body#admin-lang h2.main {
+  font-size: 1em;
+  text-align: left;
+}
+body#course-index table.generalbox {
+  background-color: #EEEEEE;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+}
+
+div.generalbox {
+   background-color: #F8F8F8;
+   border: none;
+}
+div.coursebox {
+   
+    border: 1px 
+#C1E0E1 solid;
+   
+   
+   }
+
+div.clearer {
+  clear: both;
+}
+h1 {
+  font-size: 1.7em;
+}
+
+h2 {
+  font-size: 1.4em;
+}
+h3 {
+  font-size: 1.1em;
+}
+h4 {
+  font-size: 1.0em;
+}
+a:link {
+  color: #116699;
+}
+a:visited {
+  color: #AA2200;
+}
+a:hover {
+  color: #779911;
+}
+a.dimmed:link {
+  color: #AAAAAA;
+}
+a.dimmed:visited {
+  color: #AAAAAA;
+}
+table.generaltable {
+  background-color: #EEEEEE;
+}
+span.arrow {
+  font-family: Arial, Helvetica, Courier, sans-serif; 
+}
+p.arrow_button input {
+  font-family: Arial, Helvetica, Courier, sans-serif; 
+}
+img.resize {
+  width: 1em;
+  height: 1em;
+}
+p.helplink {
+  margin: 0.5em 0;
+}
+h1.headermain {
+  color: #449900;
+}
+h2.headingblock {
+  border-style: none;
+}
+.loginbox {
+  background-color: #EEEEEE;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+}
+.loginbox.twocolumns .loginpanel {
+  border-right-color: #DDDDDD;
+}
+div.noticebox {
+  background-color: #EEEEEE;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+}
+table.generaltable td {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+}
+table.generalbox {
+  border-top-width: 1px;
+  border-style: solid none none;
+  border-top-color: #DDDDDD;
+}
+table.generaltable th.header {
+  background-color: #DDDDDD;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #EEEEEE #CCCCCC #CCCCCC #EEEEEE;
+}
+table.forumheaderlist th.header {
+  background-color: #DDDDDD;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #EEEEEE #CCCCCC #CCCCCC #EEEEEE;
+}
+.forumheaderlist,
+.forumpost {
+  background-color: #EEEEEE;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+  width: 100%;
+}
+.forumheaderlist td {
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+}
+.forumpost .topic {
+  border-bottom-color: #FFFFFF;
+}
+div.informationbox {
+  background-color: #EEEEEE;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+}
+table.userinfobox {
+  border: 1px solid #DDDDDD;
+}
+p.copyright {
+  text-align: center;
+}
+.errorbox {
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+  background-color: #e15215;
+  color: #fff;
+}
+table.minicalendar td.today {
+  line-height: 1.4em;
+  border: 2px solid #88DD55;
+}
+div.sideblock table.minicalendar tr.weekdays {
+  font-size: 0.8em;
+}
+div.courseboxcontent {
+  background-color: #EEEEEE;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+}
+td.courseboxcontent {
+  background-color: #EEEEEE;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+}
+table.generaltable td.cell {
+  white-space: normal;
+}
+body.admin table.generaltable {
+  width: 100%;
+}
+body#course-view tr.section td.side {
+  border-style: none;  
+}
+body#course-view tr.section td.content {
+  border-style: none;
+}
+body#course-user .section {
+  background-color: #EEEEEE;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+}
+div.que {
+  border-style: none;
+}
+td.sitetopiccontent {
+  border-style: none;
+}
+body#site-index td.categoryboxcontent {
+  border-style: none;
+}
+.categorylist {
+  background-color: #EEEEEE;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+  padding: 4px;
+}
+body#admin-roles-manage td.generalboxcontent table td {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+body#admin-roles-override td.capcurrent {
+  background-color:#FFFFFF;
+  border: 1px solid #cecece;
+}
+div.breadcrumb span.sep {
+  font-family: verdana, arial, helvetica, sans-serif;
+  color: #449900;
+}
+div.calendar-controls span.previous {
+  font-family: verdana, arial, helvetica, sans-serif;
+}
+div.calendar-controls span.next {
+  font-family: verdana, arial, helvetica, sans-serif;
+  text-align: right;
+}
+table#calendar td.maincalendar {
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+}
+table#calendar td.sidecalendar {
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+  background-color: #efd;
+}
+#calendar .event_global,
+#calendar .event_course,
+#calendar .event_group,
+#calendar .event_user,
+.minicalendar .event_global,
+.minicalendar .event_course,
+.minicalendar .event_group,
+.minicalendar .event_user {
+  border: 1px solid !important;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+}
+table.minicalendar {
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+  background-color: #f8f8f8;
+}
+table#calendar td.today,
+div.minicalendar td.today {
+  border-color: #8d5;
+}
+#adminsettings fieldset span.form-shortname {
+  color: #cccccc;
+  font-size: 90%;
+}
+#adminsettings fieldset {
+  background-color: #EEEEEE;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+}
+form.mform fieldset {
+  background-color: #EEEEEE;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+}
+form.mform div.textarea textarea {
+  width: 35em;
+}
+body#grade-index table.grades {
+  background-color: #EEEEEE;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;  
+}
+body#grade-index .grades td {
+  border-color: #FFFFFF;
+}
+table.glossarypost {
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+  background-color: #f8f8f8;
+}
+table.glossarypost div.concept h3 {
+  display: inline;
+}
+table.glossarypost.continuous div.concept {
+  display: inline;
+}
+div.entrybox {
+  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+  background-color: #eee;
+}
+
+.tabrow0 {
+  font-size: 100%;
+  padding: 0;
+}
+.tabtree {
+  margin-bottom: 3%;
+}
+.tabrow0 li {
+  border: 1px solid #88DD55;
+  margin: 0;
+  padding: 4px;
+}
+.tabrow0 li.first {
+  margin-right: 0;
+}
+.tabrow0 li.selected,
+.tabrow0 li.here {
+  background-color: #efd;
+}
+.tabrow0 a span {
+  background-image: none;
+  padding: 0;
+}
+.tabrow0 a {
+  background-image: none;
+  padding: 5px;
+}
+.tabrow0 a:hover {
+  background-image: none;
+}
+.tabrow0 .here a:hover {
+  background-image: none;
+}
+.tabrow0 a:hover span {
+  background-image: none;
+}
+.tabrow0 .here a:hover span {
+  background-image: none;
+}
+.tabrow0 div,
+.tabrow0 ul {
+  background-image: none;
+  top: 100%;
+  padding: 0 0 0.25em;
+  line-height: 200%;
+  border-top-color: #5c0;
+}
+.tabrow0 ul {
+  background-color: #efd;
+  padding: 0;
+}
+.tabrow0 ul li.selected,
+.tabrow0 ul li.here {
+  background-color: #efd;
+}
+.tabrow0 ul li {
+  background-color: #f8f8f8;
+}
+
+#middle-column table ul li {
+
+list-style: none;
+	
+}
+
+#middle-column h2
+
+{
+
+border-bottom: 1px #eee solid;
+	
+}
+
+
+tr.main {
+  border-style: solid;
+  border-color: #C1E0E1;
+  border-width: 1px;
+  background-color: #f8f8f8;
+  
+}
+
+td.side {
+	background-color: white;
+	width: 30px;
+	vertical-align: top;	
+	font-size: 1em;	
+	font-weight: bold;
+}
+
+td.left {
+	background-color: white;
+	width: 60px;
+	vertical-align: top;	
+	font-size: 1em;	
+	font-weight: bold;
+}
+
+.separator {
+	height: 15px;
+	border-style: none;
+	}
+div.summary {
+	height: 30px;
+	vertical-align: top;
+	width: 100%;
+	
+}
+
+
+
+
+
+/***
+ *** Modules: Quiz
+ ***/
+
+#mod-quiz-view .quizinfo {
+  text-align: center;
+}
+#mod-quiz-view #page .quizgradefeedback,
+#mod-quiz-view #page .quizattempt
+{
+  text-align: center;
+}
+#mod-quiz-view #page .quizattemptsummary td p {
+  margin-top: 0;
+}
+#mod-quiz-view .generalbox#feedback {
+  width:70%;
+  margin-left:auto;
+  margin-right:auto;
+  padding-bottom:15px;
+}
+#mod-quiz-view .generalbox#feedback h2 {
+  margin: 0 0;
+}
+body#mod-quiz-view .generalbox#feedback .overriddennotice {
+  text-align: center;
+  font-size: 0.7em;
+}
+#mod-quiz-view .generalbox#feedback h3 {
+  text-align: left;
+}
+
+.generalbox#intro { /* Should probably match .generalbox#intro above */
+  width:70%;
+  margin-left:auto;
+  margin-right:auto;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.generalbox#passwordbox { /* Should probably match .generalbox#intro above */
+  width:70%;
+  margin-left:auto;
+  margin-right:auto;
+}
+#passwordform {
+  margin: 1em 0;
+}
+#mod-quiz-attempt #page {
+  text-align: center;
+}
+#mod-quiz-attempt .pagingbar {
+  margin: 1.5em auto;
+}
+#mod-quiz-attempt #page {
+    text-align: center;
+}
+
+#mod-quiz-attempt #timer .generalbox {
+  width:150px
+}
+#mod-quiz-attempt.securewindow .que {
+    margin-left: 155px;
+    margin-right: 155px;
+}
+
+#mod-quiz-attempt #timer {
+  position:absolute;
+  /*top:100px; is set by js*/
+  left:10px
+}
+
+body#question-preview .quemodname,
+body#question-preview .controls
+{
+  text-align: center;
+}
+body#question-preview .quemodname, body#question-preview .controls {
+  text-align: center;
+}
+
+#mod-quiz-attempt #page .controls,
+#mod-quiz-review #page .controls {
+  text-align: center;
+  margin: 8px auto;
+}
+#mod-quiz-review .pagingbar {
+  margin: 1.5em auto;
+}
+#mod-quiz-review .pagingbar {
+  margin: 1.5em auto;
+}
+table.quizreviewsummary {
+  margin-bottom: 1.8em;
+  width: 100%;
+}
+table.quizreviewsummary tr {
+}
+table.quizreviewsummary th.cell {
+  padding: 1px 0.5em 1px 1em;
+  font-weight: bold;
+  text-align: right;
+  width: 10em;
+}
+table.quizreviewsummary td.cell {
+  padding: 1px 1em 1px 0.5em;
+}
+
+#mod-quiz-mod #reviewoptionshdr .fitem {
+  float: left;
+  width: 30%;
+  margin-left: 10px;
+  clear: none;
+}
+#mod-quiz-mod #reviewoptionshdr .fitemtitle {
+  width: 100%;
+  font-weight: bold;
+  text-align: left;
+  height: 2.5em;
+ margin-left: 0;
+}
+#mod-quiz-mod #reviewoptionshdr fieldset.fgroup {
+  width: 100%;
+  text-align: left;
+ margin-left: 0;
+}
+#mod-quiz-mod #reviewoptionshdr fieldset.fgroup span {
+  float: left;
+  clear: left;
+}
+
+#mod-quiz-edit #page .controls,
+#mod-quiz-edit #page .quizattemptcounts
+{
+  clear : left;
+  text-align: center;
+}
+#mod-quiz-edit .quizquestions h2 {
+  margin-top: 0;
+}
+#mod-quiz-edit #showbreaks {
+  margin-top: 0.7em;
+}
+.quizquestionlistcontrols {
+  text-align: center;
+}
+
+#mod-quiz-report table#attempts,
+#mod-quiz-report table#commands,
+#mod-quiz-report table#itemanalysis
+{
+  width: 80%;
+  margin: auto;
+}
+#mod-quiz-report table#attempts,
+#mod-quiz-report h2.main {
+  clear: both;
+}
+#mod-quiz-report table#attempts {
+  margin: 20px auto;
+}
+#mod-quiz-report table#attempts .header,
+#mod-quiz-report table#attempts .cell
+{
+  padding: 4px;
+}
+#mod-quiz-report table#attempts .header .commands {
+  display: inline;
+}
+#mod-quiz-report table#attempts .picture {
+  width: 40px;
+}
+#mod-quiz-report table#attempts td {
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-left-style: solid;
+  border-right-style: solid;
+  vertical-align: middle;
+}
+#mod-quiz-report table#attempts .header {
+  text-align: left;
+}
+#mod-quiz-report table#attempts .picture {
+  text-align: center !important;
+}
+#mod-quiz-report .controls {
+  text-align: center;
+}
+
+#mod-quiz-report table#itemanalysis {
+  margin: 20px auto;
+}
+#mod-quiz-report table#itemanalysis .header,
+#mod-quiz-report table#itemanalysis .cell
+{
+  padding: 4px;
+}
+#mod-quiz-report table#itemanalysis .header .commands {
+  display: inline;
+}
+#mod-quiz-report table#itemanalysis td {
+  border-width: 1px;
+  border-style: solid;
+}
+#mod-quiz-report table#itemanalysis .header {
+  text-align: left;
+}
+#mod-quiz-report table#itemanalysis .numcol {
+  text-align: center;
+  vertical-align : middle !important;
+}
+
+#mod-quiz-report table#itemanalysis .uncorrect {
+  color: red;
+}
+
+#mod-quiz-report table#itemanalysis .correct {
+  color: blue;
+  font-weight : bold;
+}
+
+#mod-quiz-report table#itemanalysis .partialcorrect {
+  color: green !important;
+}
+
+#mod-quiz-report table#itemanalysis .qname {
+  color: green !important;
+}
+
+/* manual grading */
+#mod-quiz-grading table#grading
+{
+  width: 80%;
+  margin: auto;
+}
+
+#mod-quiz-grading table#grading
+{
+  margin: 20px auto;
+}
+
+#mod-quiz-grading table#grading .header,
+#mod-quiz-grading table#grading .cell
+{
+  padding: 4px;
+}
+
+#mod-quiz-grading table#grading .header .commands
+{
+  display: inline;
+}
+
+#mod-quiz-grading table#grading .picture
+{
+  width: 40px;
+}
+
+#mod-quiz-grading table#grading td
+{
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-left-style: solid;
+  border-right-style: solid;
+  vertical-align: bottom;
+}
+
+.mod-quiz .gradingdetails {
+  font-size: small;
+}
+.quizattemptcounts {
+  text-align: center;
+  clear : left;
+  margin: 6px 0;
+}
+
