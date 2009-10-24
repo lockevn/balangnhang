@@ -79,7 +79,11 @@
         $attemptnumber = 1;
     }
 
-    $strattemptnum = get_string('attempt', 'quiz', $attemptnumber);
+    if($quiz->lotype != 'test') {
+    	$strattemptnum = get_string('attempt', 'quiz', $attemptnumber);
+    } else {
+    	$strattemptnum = "";
+    }
     $strquizzes = get_string("modulenameplural", "quiz");
     $popup = $quiz->popup && !$ispreviewing; // Controls whether this is shown in a javascript-protected window.
 
@@ -497,7 +501,7 @@
             notify(get_string('subnetnotice', 'quiz'));
         }
     } else {
-        if ($quiz->attempts != 1) {
+        if ($quiz->attempts != 1 && $quiz->lotype != "test") {
             print_heading(format_string($quiz->name).' - '.$strattemptnum);
         } else {
             print_heading(format_string($quiz->name));
