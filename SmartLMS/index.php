@@ -77,12 +77,26 @@
             if (isloggedin() && $USER->username != 'guest') {
                 redirect($CFG->wwwroot .'/my/index.php');
             }
+        } /*danhut added: nếu user đang là student của 1 course nào đó thì redirect student vào ngay course đó (course đầu tiên trong my courselist)*/
+        else {
+        	$sql = "select c.instanceid as courseid from mdl_context c, mdl_role_assignments r
+				where c.id=r.contextid and r.roleid=5 and c.contextlevel=". CONTEXT_COURSE . " and r.userid=$USER->id
+        	order by r.timestart asc";
+        	$result = get_record_sql($sql);
+        	if(!empty($result)) {
+        		$courseid = $result->courseid;
+        		redirect($CFG->wwwroot . "/course/view.php?id=$courseid");
+        	}
+
         }
-    } else { // if upgrading from 1.6 or below
-        if (isadmin() && moodle_needs_upgrading()) {
+        /*end of added*/
+    } else {
+    	if (isadmin() && moodle_needs_upgrading()) { // if upgrading from 1.6 or below        
             redirect($CFG->wwwroot .'/'. $CFG->admin .'/index.php');
-        }
+    	}
+        
     }
+    
 
 
     if (get_moodle_cookie() == '') {
