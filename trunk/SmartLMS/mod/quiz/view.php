@@ -38,8 +38,15 @@
     require_login($course->id, false, $cm);
     $context = get_context_instance(CONTEXT_MODULE, $cm->id);
     
-    /*danhut added: if student is taking a test then forward to attempt.php page*/
-    if($quiz->lotype == 'test' && 
+    /*danhut added: if student is taking a test or 1st time enter this exercise then forward to attempt.php page*/
+    $attempts = quiz_get_user_attempts($quiz->id, $USER->id);
+    $unfinished = false;
+    if ($unfinishedattempt = quiz_get_user_attempt_unfinished($quiz->id, $USER->id)) {
+        $attempts[] = $unfinishedattempt;
+        $unfinished = true;
+    }
+    $numattempts = count($attempts);
+    if(($quiz->lotype == 'test' || $numattempts == 0)&& 
     	!has_capability('moodle/course:manageactivities', $context) && 
     	has_capability('mod/quiz:attempt', $context)) {
     		redirect($CFG->wwwroot . '/mod/quiz/attempt.php?id=' . $cm->id);
@@ -179,13 +186,13 @@
     }
 
     // Get this user's attempts.
-    $attempts = quiz_get_user_attempts($quiz->id, $USER->id);
-    $unfinished = false;
-    if ($unfinishedattempt = quiz_get_user_attempt_unfinished($quiz->id, $USER->id)) {
-        $attempts[] = $unfinishedattempt;
-        $unfinished = true;
-    }
-    $numattempts = count($attempts);
+    //$attempts = quiz_get_user_attempts($quiz->id, $USER->id);
+//    $unfinished = false;
+//    if ($unfinishedattempt = quiz_get_user_attempt_unfinished($quiz->id, $USER->id)) {
+//        $attempts[] = $unfinishedattempt;
+//        $unfinished = true;
+//    }
+//    $numattempts = count($attempts);
 
     // Work out the final grade, checking whether it was overridden in the gradebook.
     $mygrade = quiz_get_best_grade($quiz, $USER->id);

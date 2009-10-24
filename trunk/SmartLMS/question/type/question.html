@@ -8,12 +8,8 @@
     <span class="no"><span class="accesshide">Question </span><?php echo $number; ?></span>
     <?php if ($editlink) { ?>
       <span class="edit"><?php echo $editlink; ?></span>
-    <?php }
-    if ($grade) { ?>
-      <div class="grade">
-        <?php echo get_string('marks', 'quiz').': '.$grade; ?>
-      </div>
-    <?php } ?>
+    <?php }?>
+
   </div>
   <div class="content">
     <?php $this->print_question_formulation_and_controls($question, $state, $cmoptions, $options);
