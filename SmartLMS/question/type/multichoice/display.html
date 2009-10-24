@@ -7,10 +7,11 @@
 <?php } ?>
 
 <div class="ablock clearfix">
+<!-- 
   <div class="prompt">
     <?php echo $answerprompt; ?>
   </div>
-
+ -->
   <table class="answer">
     <?php $row = 1; foreach ($anss as $answer) { ?>
       <tr class="<?php echo 'r'.$row = $row ? 0 : 1; ?>">
@@ -35,5 +36,5 @@
     </div>
   <?php } ?>
   <!-- danhut commented out, 0 cần print submit button cho từng question -->
-   <?php $this->print_question_submit_buttons($question, $state, $cmoptions, $options); ?>
+<!--    <?php $this->print_question_submit_buttons($question, $state, $cmoptions, $options); ?>  -->
 </div>
