@@ -73,20 +73,7 @@ function display() {
     $right_blocks_preferred_width = 250;
     //$blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_LEFT]), 210);
     /*end of danhut addded*/
-    
-   /*danhut commented out: khôgn hiển thị toàn bộ block ở course page vào module page nữa*/
-    /// Are we displaying the course blocks?
-//    if ($this->resource->options == 'showblocks') {
-//
-//        parent::display_course_blocks_start();
-//
-//        echo format_text($this->resource->alltext, FORMAT_HTML, $formatoptions, $this->course->id);
-//
-//        parent::display_course_blocks_end();
-//
-//    } else {
-
-    /*end of danhut's commentation*/
+      
         /// Set up generic stuff first, including checking for access
     parent::display();
 
@@ -159,8 +146,8 @@ function display() {
     	}
     	print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id), "center clearfix", "", "", "20");
 
-    	$strlastmodified = get_string("lastmodified");
-    	echo "<div class=\"modified\">$strlastmodified: ".userdate($resource->timemodified)."</div>";
+//    	$strlastmodified = get_string("lastmodified");
+//    	echo "<div class=\"modified\">$strlastmodified: ".userdate($resource->timemodified)."</div>";
 
     	/*danhut added*/
     	if($resource->lotype != 'testdescription') {
