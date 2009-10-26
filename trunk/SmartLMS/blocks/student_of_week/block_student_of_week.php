@@ -1,7 +1,8 @@
 <?php //$Id: block_course_summary.php,v 1.26.2.2 2008/03/03 11:41:02 moodler Exp $
 
 require_once $CFG->libdir . '/memcached.class.php';
-define(STUDENT_OF_WEEK_KEY,'STUDENT_OF_WEEK_KEY');
+require_once $CFG->dirroot .'/smartcom/util/memcachedutil.php';
+
 
 class block_student_of_week extends block_base {
     function init() {
@@ -65,7 +66,7 @@ class block_student_of_week extends block_base {
     	if($memcached === false) {
     		return false;
     	}
-    	$studentList = $memcached->get(STUDENT_OF_WEEK_KEY);
+    	$studentList = $memcached->get(MemcachedUtil::$STUDENT_OF_WEEK_KEY);
     	if(!empty($studentList)) {
     		//cache hits    		
     		return $studentList;
@@ -84,7 +85,8 @@ class block_student_of_week extends block_base {
     	foreach($results as $result) {
     		$studentList[] = $result;
     	}
-    	$memcached->set(STUDENT_OF_WEEK_KEY, $studentList, 24*3600);
+    	//$memcached->set(MemcachedUtil::$STUDENT_OF_WEEK_KEY, $studentList, 24*3600);
+    	$memcached->set(MemcachedUtil::$STUDENT_OF_WEEK_KEY, $studentList, 10);
     	return $studentList;    	    	   
     }
     
