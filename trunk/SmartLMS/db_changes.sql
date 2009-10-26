@@ -188,4 +188,13 @@ values
 ('mod/smartcom:coursecompletionsuggestconfigure', 'read', 50, 'mod/smartcom', 0),
 ('mod/smartcom:realtimeperformancecheck', 'write', 50, 'mod/smartcom', 0)
 
+/*table lưu thông tin recommended course*/
 
+CREATE TABLE `smartlms`.`mdl_smartcom_recommend_course` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `courseid` INTEGER UNSIGNED NOT NULL,
+  `recommendcourseid` INTEGER UNSIGNED NOT NULL,
+	unique (courseid, recommendcourseid),
+  PRIMARY KEY (`id`)
+)
+ENGINE = InnoDB;
