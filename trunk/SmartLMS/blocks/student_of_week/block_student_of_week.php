@@ -116,6 +116,10 @@ class block_student_of_week extends block_base {
 function applicable_formats() {
         return array('all' => true);
     }
+    
+function instance_allow_multiple() {
+        return true;
+    }
      
 
 }
