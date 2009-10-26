@@ -95,6 +95,14 @@ else if ($heading) {  // This is what gets printed on any other page with a head
 		<div class="navbutton"><?php echo $button; ?></div>	   
 	<?php } ?>
 	</div>
+	
+	<?php    
+  require_once($CFG->dirroot.'/smartcom/util/uiutil.php');
+	printSupportToolMenuBar($COURSE->id);
+	?>
+	
+	
+	
 <?php } ?>
 	<!-- END OF HEADER -->
 <div id="content">
