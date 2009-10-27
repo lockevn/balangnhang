@@ -1,0 +1,195 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+	margin:0;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-style:italic;
+	color:#333;
+}
+
+img{
+	border:0
+}
+
+.topmenu{
+	float:right;
+	margin:8px 15px 0 15px;
+	height:22px;
+}
+
+a:link, a:visited{
+	color:#B00;
+	text-decoration:none;
+}
+
+a:hover{
+	color:#333;
+}
+
+.topmenusplit{
+	float:right;
+	background:url(../images/MN1_SP.jpg) center no-repeat;
+	width:1px;
+	height:30px;
+}
+
+.menu1{
+	float:right
+}
+
+.menu2{
+	float:left;
+	margin:0 10px 0 10px;
+}
+
+.menu2split{
+	float:left;
+	width:1px;
+	height:35px;
+	background:url(../images/MN2_SP.jpg);
+}
+
+.navigation{
+	float:left;
+	margin:5px 0 0 20px;
+	font-size:12px;
+	font-weight:bold;
+	font-style:normal;
+}
+
+.search{
+	float:right;
+	margin-right:10px;
+}
+
+.searchbutton{
+	float:right;
+	margin-right:20px;
+}
+
+.leftpanel{
+	margin-top:20px;
+}
+
+a.leftpaneltext:link, a.leftpaneltext:visited{
+	font-weight:bold;
+	font-style:normal;
+}
+
+a.titletext:link, a.titleText:visited{
+	font-size:14px;
+	font-weight:bold;
+	font-style:normal;
+}
+
+.title{
+	float:left;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+}
+
+.titleicon{
+	float:right;
+	margin-left:5px
+}
+
+.newsarea{
+	margin-top:20px;
+	width:100%;
+}
+
+a.username:link, a.username:visited{
+	color:#894
+}
+
+.datetime{
+	color:#999
+}
+
+.selectcourse{
+	float:right;
+	margin:3px 10px 0 5px;
+}
+
+.courseBB{
+	color:#333;
+	font-weight:bold;
+	font-style:normal;
+}
+
+.courseGB{
+	color:#060;
+	font-weight:bold;
+	font-style:normal;
+}
+
+.courseG{
+	font-style:normal;
+	color:#060;
+}
+
+.courseWB{
+	font-weight:bold;
+	font-style:normal;
+	color:#FFF;
+}
+
+.courseW{
+	font-style:normal;
+	color:#FFF;
+}
+
+.courseRB{
+	color:#B00;
+	font-weight:bold;
+	font-style:normal;
+}
+
+.courseG{
+	font-style:normal;
+	color:#B00;
+}
+
+.page{
+	float:left;
+	margin:0 0 0 10px;
+	text-align:center;
+	width:15px;
+	height:15px;
+}
+
+a.pagetext:link, a.pagetext:visited{
+	font-weight:bold;
+	font-style:normal;
+	color:#FFF;
+	text-decoration:none;
+}
+
+a.pagetext:hover{
+	color:#333
+}
+
+/* muinx */
+.header-main {
+    background: url(../images/MN1_BG.jpg);
+    float:left;
+    width:100%;
+}
+
+div.navbar {
+    text-decoration: none;
+    background: #f0f0e3;
+    height: 40px;
+    line-height: 40px;
+    font-style: normal;
+    font-size:14px;
+    font-weight: bold;
+    padding:0px;
+    margin:0px;
+}
+
+
+	

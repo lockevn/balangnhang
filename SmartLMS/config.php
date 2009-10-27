@@ -5,8 +5,8 @@ unset($CFG);
 $CFG->dbtype    = 'mysql';
 $CFG->dbhost    = 'localhost';
 $CFG->dbname    = 'smartlms';
-$CFG->dbuser    = 'smartlms';
-$CFG->dbpass    = 'guruunited2008';
+$CFG->dbuser    = 'root';
+$CFG->dbpass    = '1234';
 $CFG->dbpersist =  true;
 $CFG->prefix    = 'mdl_';
 
@@ -18,9 +18,9 @@ $CFG->prefix    = 'mdl_';
 //$CFG->dirroot   = 'D:\code_workspace\SmartLMS';
 //$CFG->dataroot  = 'D:\code_workspace\SmartLMSData';
 
-$CFG->wwwroot   = 'http://smartlms.gurucore.com:8080';
-$CFG->dirroot   = '/var/www/smartlms';
-$CFG->dataroot  = '/var/www/smartlmsdata';
+$CFG->wwwroot   = 'http://smartlms';
+$CFG->dirroot   = 'E:\AppServ\www\balangnhang\SmartLMS';
+$CFG->dataroot  = 'E:\AppServ\www\balangnhang\SmartLMS\smartlmsdata';
 
 
 $CFG->admin     = 'admin';
