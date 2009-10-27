@@ -37,6 +37,7 @@
 	var CURRENT_COURSEID = "<?=$COURSE->id?>";    
 	</script>
 	<?php include("$CFG->javascript"); ?>
+    <link href="<?php echo $CFG->themewww.'/'.current_theme() ?>/template/css/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body<?php
 	echo " $bodytags";
@@ -49,39 +50,67 @@
 <?php if ($home) {  // This is what gets printed on the home page only
 ?>
 	<div id="headwrapper" class="clearfix">	
-	 <div class="header-left">	 
+	 <?php /*
+     <div class="header-left">	 
 <img src="<?php echo $CFG->themewww.'/'.current_theme() ?>/pix/logo.gif"  alt="logo" title="logo" id="logo" />
-	</div>
+    */
+    ?>
+    
+        <div style="float:left; margin-left:30px"><img src="template/images/Logo.jpg" /></div>
+        <div class="menu1"><a href=""><img src="template/images/MN1_7.jpg" /></a></div>
+        <div class="menu1"><a href=""><img src="template/images/MN1_6.jpg" /></a></div>
+        <div class="menu1"><a href=""><img src="template/images/MN1_5.jpg" /></a></div>
+        <div class="menu1"><a href=""><img src="template/images/MN1_4.jpg" /></a></div>
+        <div class="menu1"><a href=""><img src="template/images/MN1_3.jpg" /></a></div>
+        <div class="menu1"><a href=""><img src="template/images/MN1_2.jpg" /></a></div>
+        <div class="menu1"><a href=""><img src="template/images/MN1_1.jpg" /></a></div>
+    </div>
 
-	<div class="header-right">	
+	<div class="header-right"> </div>
 	<!-- danhut commented out: do not display navigation menu in header 
 	
-	<div class="headerlogin"><?php echo $menu ?></div>
+	<div class="headerlogin"><?php #echo $menu; ?></div>
 	
 	 --> 	
 	<div style="clear:both"></div>
 	<?php include ('menu.html'); ?>	
-	</div>	
-	</div>
 	
 <?php } 
 else if ($heading) {  // This is what gets printed on any other page with a heading
 ?>
 	<div id="headwrapper" class="clearfix">	
+        <?php 
+        /*
+         * header menu for user
+         * muinx edited
 	 <div class="header-left">
 	 <img src="<?= $CFG->themewww.'/'.current_theme() ?>/pix/logo.gif"  alt="logo" id="logo" />
+     */ ?>
+        <div style="height:30px; background:#f0f0e3;">
+            <?php include ('menu.html'); ?>
+        </div>
+        <div style="clear:both"></div>
+        <div class="header-main">
+        
+            <div style="float:left; margin-left:30px"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/Logo.jpg" /></div>
+            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_7.jpg" /></a></div>
+            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_6.jpg" /></a></div>
+            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_5.jpg" /></a></div>
+            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_4.jpg" /></a></div>
+            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_3.jpg" /></a></div>
+            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_2.jpg" /></a></div>
+            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_1.jpg" /></a></div>
+        </div>
 	</div>
+    
 	
 <!-- danhut commented out: do not display navigation menu in header 
-	<div class="header-right">	
-	<div class="headerlogin"><?php echo $menu ?>	
-	</div> 
+	<div class="header-right">	</div>
+	<div class="headerlogin"><?php echo $menu ?></div> 
  -->
 	
 	<div style="clear:both"></div>
-	<?php include ('menu.html'); ?>
-	</div>	
-	</div>
+	<?php //include ('menu.html'); ?>
 		
 	<div class="navbar clearfix">
 	<!-- add for handbook to appear every where in the site -->
@@ -98,7 +127,6 @@ else if ($heading) {  // This is what gets printed on any other page with a head
 	
 	<?php    
   require_once($CFG->dirroot.'/smartcom/util/uiutil.php');
-	printSupportToolMenuBar($COURSE->id);
 	?>
 	
 	
