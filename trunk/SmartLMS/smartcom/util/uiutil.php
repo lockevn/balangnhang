@@ -13,10 +13,11 @@ function printSupportToolMenuBar($courseid) {
 		$str .= "<a href='$CFG->wwwroot/smartcom/resume/view.php?id=$courseid'>" . get_string('resume_course','resume') . "</a>";
 		$str .= " ";
 
-
-		foreach($cmList as $cm) {
-			$str .= "<a href='$CFG->wwwroot/mod/$cm->modulename/view.php?id=$cm->id'>$cm->name</a>";
-			$str .= " ";
+		if(!empty($cmList)) {
+			foreach($cmList as $cm) {
+				$str .= "<a href='$CFG->wwwroot/mod/$cm->modulename/view.php?id=$cm->id'>$cm->name</a>";
+				$str .= " ";
+			}
 		}
 	}
 	$str .= "</div>";
