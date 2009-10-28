@@ -62,14 +62,16 @@ class block_student_of_week extends block_base {
     
     function retrieveTopStudentList() {
     	global $CFG;
-    	$memcached = new memcached();
-    	if($memcached === false) {
-    		return false;
-    	}
-    	$studentList = $memcached->get(MemcachedUtil::$STUDENT_OF_WEEK_KEY);
-    	if(!empty($studentList)) {
-    		//cache hits    		
-    		return $studentList;
+    	if($CFG->cachetype === 'memcached') {
+    		$memcached = new memcached();
+    		if($memcached === false) {
+    			return false;
+    		}
+    		$studentList = $memcached->get(MemcachedUtil::$STUDENT_OF_WEEK_KEY);
+    		if(!empty($studentList)) {
+    			//cache hits
+    			return $studentList;
+    		}
     	}
     	$week = $this->get_start_and_end_date_from_week(date('W'));    	
     	$sql = "SELECT qg.userid id, avg(qg.grade/q.sumgrades) avg_, u.username username
@@ -82,11 +84,15 @@ class block_student_of_week extends block_base {
     	
     	$results = get_records_sql($sql);
     	$studentList = array();
-    	foreach($results as $result) {
-    		$studentList[] = $result;
+    	if(!empty($results)) {
+    		foreach($results as $result) {
+    			$studentList[] = $result;
+    		}
     	}
-    	//$memcached->set(MemcachedUtil::$STUDENT_OF_WEEK_KEY, $studentList, 24*3600);
-    	$memcached->set(MemcachedUtil::$STUDENT_OF_WEEK_KEY, $studentList, 10);
+    	if(!empty($memcached)) {
+    		//$memcached->set(MemcachedUtil::$STUDENT_OF_WEEK_KEY, $studentList, 24*3600);
+    		$memcached->set(MemcachedUtil::$STUDENT_OF_WEEK_KEY, $studentList, 10);
+    	}
     	return $studentList;    	    	   
     }
     
