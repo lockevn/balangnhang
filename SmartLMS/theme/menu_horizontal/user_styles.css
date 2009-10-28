@@ -90,10 +90,8 @@ div#wrapper{
 
 
 div#content {
-  background-color: #F8F8F8;
+  background-color: #FFF;
   padding: 10px 0;
-  font-size: 0.75em;
-  line-height: 1.6em;
   margin-top: 0px;
   clear: both;
   margin-left: 0px;
@@ -117,12 +115,7 @@ height: 60px;
 
 #headwrapper {
 	
-	 background:   #fff ;	 
-	 
-	  border-bottom: 2px #CECAC9 solid;
-	  
-	
-	 
+	 background:   #fff ;
 	
 }
 
@@ -292,21 +285,31 @@ div.sideblock ul.list span.c1 {
   padding-left: 0;
 }
 div.sideblock div.title h2 {
-  font-size: 1em;
-  line-height: 1.1em;
+  width: 215px;
+  font-size: 15px;
+  font-weight: bold;
+  font-style: normal;
+  text-transform: uppercase;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #CCC;
+  margin-bottom: 5px;
 }
 div.sideblock div.header {
+  /*
   background-color: #D1E7E8;
   padding:  0.3em 0.3em;
+  */
   border: none;
 }
 /*danhut modified*/
 div.sideblock div.content {
   
-  
+  /*
   border: solid;
   border-width: 1px;
   border-color: #C1E0E1;
+  */
+  border:none;
   
   
   }
@@ -319,12 +322,21 @@ div.sideblock div.content {
   
   }
 
-div.sideblock table.minicalendar td.day {
-  text-align: center;
-  font-size: 0.9em;
+div.sideblock table.minicalendar td.day, div.sideblock table.minicalendar td.dayblank {
+    border: 1px #6699CC solid;
+    
+text-align: center;
+font-family: Verdana, sans-serif, Arial;
+font-weight: normal;
+font-size: 11px;
+color: #404040;
+background-color: #fafafa;
+padding: 4px;
 }
 div.sideblock table.minicalendar {
-  border-style: none;
+  border: 1px #6699CC solid;
+  border-collapse: collapse;
+  border-spacing: 0px;
 }
 
 
@@ -415,9 +427,6 @@ table.cal_popup_bg {
 div.sideblock div.calendar-controls span.current {
   text-align: center;
 }
-
-
-
 
 body#admin-lang h2.main {
   font-size: 1em;
@@ -565,9 +574,17 @@ table.minicalendar td.today {
   line-height: 1.4em;
   border: 2px solid #88DD55;
 }
-div.sideblock table.minicalendar tr.weekdays {
-  font-size: 0.8em;
+div.sideblock table.minicalendar tr.weekdays th {
+  background: url(template/images/TB1_HD.jpg);
+  padding:4px;
+  border: 1px #6699CC solid;
+  
 }
+
+div.sideblock table.minicalendar tr.weekdays th abbr {
+    border:none;
+}
+
 div.courseboxcontent {
   background-color: #EEEEEE;
   border-width: 1px;
