@@ -3505,14 +3505,18 @@ function user_login_string($course=NULL, $user=NULL) {
  * @uses $THEME
  */
 function check_theme_arrows() {
-	global $THEME;
+	global $THEME, $CFG;
 
 	if (!isset($THEME->rarrow) and !isset($THEME->larrow)) {
 		// Default, looks good in Win XP/IE 6, Win/Firefox 1.5, Win/Netscape 8...
 		// Also OK in Win 9x/2K/IE 5.x
+        
+        /* muinx commented
 		$THEME->rarrow = '&#x25BA;';
 		$THEME->larrow = '&#x25C4;';
-		if (empty($_SERVER['HTTP_USER_AGENT'])) {
+        */
+        
+        if (empty($_SERVER['HTTP_USER_AGENT'])) {
 			$uagent = '';
 		} else {
 			$uagent = $_SERVER['HTTP_USER_AGENT'];
@@ -3542,6 +3546,11 @@ function check_theme_arrows() {
 			$THEME->rarrow = $THEME->larrow;
 			$THEME->larrow = $t;
 		}
+        
+        //muinx add
+        $THEME->rarrow = '<img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BT_GT.JPG" />';
+        $THEME->larrow = '<img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BT_LT.JPG" />';
+        
 	}
 }
 

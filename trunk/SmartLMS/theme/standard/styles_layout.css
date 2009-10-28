@@ -458,8 +458,8 @@ img.icon {
 img.iconsmall {
   vertical-align:middle;
   margin-right:1px;
-  width:11px;
-  height:11px;
+  width:15px;
+  height:15px;
   border:0px;
 }
 
@@ -1249,8 +1249,8 @@ a.skip:focus, a.skip:active {
 
 .sideblock .header .hide-show-image {
   float:right;
-  height:11px;
-  width:11px;
+  height:15px;
+  width:15px;
   margin-top:0.25em;
 }
 
@@ -1267,8 +1267,7 @@ a.skip:focus, a.skip:active {
 #left-column .hidden .header,
 #right-column .hidden .header
 {
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
+    padding-bottom: 20px;
 }
 
 #left-column .hidden .content,
