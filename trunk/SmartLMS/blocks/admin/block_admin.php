@@ -81,28 +81,28 @@ class block_admin extends block_list {
 
     /// View course grades (or just your own grades, same link)
     /// find all accessible reports
-        if ($course->id !== SITEID) {
-            $reportavailable = false;
-            if (has_capability('moodle/grade:viewall', $context)) {
-                $reportavailable = true;
-            } else if (!empty($course->showgrades)) {
-                if ($reports = get_list_of_plugins('grade/report')) {     // Get all installed reports
-                    arsort($reports); // user is last, we want to test it first
-                    foreach ($reports as $plugin) {
-                        if (has_capability('gradereport/'.$plugin.':view', $context)) {
-                            //stop when the first visible plugin is found
-                            $reportavailable = true;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if ($reportavailable) {
-                $this->content->items[]='<a href="'.$CFG->wwwroot.'/grade/report/index.php?id='.$this->instance->pageid.'">'.get_string('grades').'</a>';
-                $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/grades.gif" class="icon" alt="" />';
-            }
-        }
+//        if ($course->id !== SITEID) {
+//            $reportavailable = false;
+//            if (has_capability('moodle/grade:viewall', $context)) {
+//                $reportavailable = true;
+//            } else if (!empty($course->showgrades)) {
+//                if ($reports = get_list_of_plugins('grade/report')) {     // Get all installed reports
+//                    arsort($reports); // user is last, we want to test it first
+//                    foreach ($reports as $plugin) {
+//                        if (has_capability('gradereport/'.$plugin.':view', $context)) {
+//                            //stop when the first visible plugin is found
+//                            $reportavailable = true;
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//
+//            if ($reportavailable) {
+//                $this->content->items[]='<a href="'.$CFG->wwwroot.'/grade/report/index.php?id='.$this->instance->pageid.'">'.get_string('grades').'</a>';
+//                $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/grades.gif" class="icon" alt="" />';
+//            }
+//        }
 
     /// Course outcomes (to help give it more prominence because it's important)
         if (!empty($CFG->enableoutcomes)) {
@@ -160,7 +160,7 @@ class block_admin extends block_list {
         }
         
     /// Real time performance check
-        if ($course->id !== SITEID) {// and has_capability('moodle/site:viewreports', $context)) { // basic capability for listing of reports
+        if ($course->id !== SITEID && has_capability('mod/smartcom:realtimeperformancecheck', $context)) {
             $this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=' . $course->id . '&submodule=realtime_performance_check">'.get_string('realtimeperformancecheck', 'smartcom').'</a>';
             $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/stats.gif" class="icon" alt="" />';
         }
@@ -225,33 +225,51 @@ class block_admin extends block_list {
         }
 
     /// Unenrol link
-        if (empty($course->metacourse) && ($course->id!==SITEID)) {
-            if (has_capability('moodle/legacy:guest', $context, NULL, false)) {   // Are a guest now
-                $this->content->items[]='<a href="'.$CFG->wwwroot.'/course/enrol.php?id='.$this->instance->pageid.'">'.get_string('enrolme', '', format_string($course->shortname)).'</a>';
-                $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
-            } else if (has_capability('moodle/role:unassignself', $context, NULL, false) and get_user_roles($context, $USER->id, false)) {  // Have some role
-                $this->content->items[]='<a href="'.$CFG->wwwroot.'/course/unenrol.php?id='.$this->instance->pageid.'">'.get_string('unenrolme', '', format_string($course->shortname)).'</a>';
-                $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
-            }
-        }
+//        if (empty($course->metacourse) && ($course->id!==SITEID)) {
+//            if (has_capability('moodle/legacy:guest', $context, NULL, false)) {   // Are a guest now
+//                $this->content->items[]='<a href="'.$CFG->wwwroot.'/course/enrol.php?id='.$this->instance->pageid.'">'.get_string('enrolme', '', format_string($course->shortname)).'</a>';
+//                $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
+//            } else if (has_capability('moodle/role:unassignself', $context, NULL, false) and get_user_roles($context, $USER->id, false)) {  // Have some role
+//                $this->content->items[]='<a href="'.$CFG->wwwroot.'/course/unenrol.php?id='.$this->instance->pageid.'">'.get_string('unenrolme', '', format_string($course->shortname)).'</a>';
+//                $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
+//            }
+//        }
 
     /// Link to the user own profile (except guests)
         if (!isguestuser() and isloggedin()) {
-            $this->content->items[]='<a href="'.$CFG->wwwroot.'/user/view.php?id='.$USER->id.'&amp;course='.$course->id.'">'.get_string('profile').'</a>';
+            $this->content->items[]='<a href="'.$CFG->wwwroot.'/user/view.php?id='.$USER->id.'&amp;course='.$COURSE->id.'">'.get_string('profile').'</a>';
+            $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" alt="" />';
+        }
+        
+    /// My course link
+        if (!isguestuser() and isloggedin()) {
+            $this->content->items[]="<a href='$CFG->wwwroot/my/index.php'>" . get_string('mycourses'). "</a>";
+            $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" alt="" />';
+        }
+        
+    /// My progress link
+        if (!isguestuser() and isloggedin()) {
+            $this->content->items[]="<a href='$CFG->wwwroot/mod/smartcom/index.php?courseid=$COURSE->id&userid=$USER->id&submodule=learning_progress'>" . get_string('myprogress'). "</a>";
+            $this->content->icons[]="<img src='$CFG->pixpath/i/user.gif' alt=''/>";
+        }
+        
+    /// My noteboook link
+        if (!isguestuser() and isloggedin()) {
+            $this->content->items[]="<a href='$CFG->wwwroot/mod/studynotes/view.php'>" . get_string('mynotebook'). "</a>";
             $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" alt="" />';
         }
         
 /// Nap the
-        if (empty($course->metacourse) && ($course->id!==SITEID)) {
+        if (!isguestuser() and isloggedin()) {
 
         	$this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=1&submodule=prepaidcard_enduser_deposit">'.get_string('prepaidcard_enduser_deposit', 'smartcom').'</a>';
         	$this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
         }
         /// History Nap the
-        if (empty($course->metacourse) && ($course->id!==SITEID)) {
-        	$this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=1&submodule=prepaidcard_enduser_deposit_history">'.get_string('prepaidcard_enduser_deposit_history', 'smartcom').'</a>';
-        	$this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
-        }
+//        if (empty($course->metacourse) && ($course->id!==SITEID)) {
+//        	$this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=1&submodule=prepaidcard_enduser_deposit_history">'.get_string('prepaidcard_enduser_deposit_history', 'smartcom').'</a>';
+//        	$this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
+//        }
     /// user_account_balance
         if (empty($course->metacourse) && ($course->id!==SITEID)) {
         	$this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=1&submodule=user_account_balance">'.get_string('user_account_balance', 'smartcom').'</a>';
@@ -259,13 +277,13 @@ class block_admin extends block_list {
         }
 
          /// buy ticket
-        if (empty($course->metacourse) && ($course->id!==SITEID)) {
-        	//nếu đang view course với role là expiredstudent thì hiện link mua vé vào course
-            if (!has_capability('mod/smartcom:buyticket', $context, NULL, false)) {   
-                $this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=' . $course->id . '&submodule=ticket_buy">'.get_string('ticket_buy', 'smartcom').'</a>';
-                $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
-            } 
-        } 
+//        if (empty($course->metacourse) && ($course->id!==SITEID)) {
+//        	//nếu đang view course với role là expiredstudent thì hiện link mua vé vào course
+//            if (!has_capability('mod/smartcom:buyticket', $context, NULL, false)) {   
+//                $this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=' . $course->id . '&submodule=ticket_buy">'.get_string('ticket_buy', 'smartcom').'</a>';
+//                $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
+//            } 
+//        } 
 
         return $this->content;
     }
