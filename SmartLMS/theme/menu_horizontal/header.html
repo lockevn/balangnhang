@@ -67,11 +67,7 @@
     </div>
 
 	<div class="header-right"> </div>
-	<!-- danhut commented out: do not display navigation menu in header 
-	
-	<div class="headerlogin"><?php #echo $menu; ?></div>
-	
-	 --> 	
+
 	<div style="clear:both"></div>
 	<?php include ('menu.html'); ?>	
 	
@@ -104,20 +100,16 @@ else if ($heading) {  // This is what gets printed on any other page with a head
 	</div>
     
 	
-<!-- danhut commented out: do not display navigation menu in header 
-	<div class="header-right">	</div>
-	<div class="headerlogin"><?php echo $menu ?></div> 
- -->
+
 	
 	<div style="clear:both"></div>
 	<?php //include ('menu.html'); ?>
 		
 	<div class="navbar clearfix">
-	<!-- add for handbook to appear every where in the site -->
-	<?php    
+	<!-- add for handbook to appear every where in the site 	    
   include_once($CFG->dirroot.'/mod/studynotes/ext/overlay_snippet.php');
-	?>
-	<!-- end of add -->
+	
+	 end of add -->
 	<?php if ($navigation) { // This is the navigation table with breadcrumbs
 	?>	
 		<div class="breadcrumb"><?php print_navigation($navigation); ?></div>
