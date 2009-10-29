@@ -238,32 +238,32 @@ class block_admin extends block_list {
     /// Link to the user own profile (except guests)
         if (!isguestuser() and isloggedin()) {
             $this->content->items[]='<a href="'.$CFG->wwwroot.'/user/view.php?id='.$USER->id.'&amp;course='.$COURSE->id.'">'.get_string('profile').'</a>';
-            $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" alt="" />';
+            $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/IC5.JPG" alt="" />';
         }
         
     /// My course link
         if (!isguestuser() and isloggedin()) {
             $this->content->items[]="<a href='$CFG->wwwroot/my/index.php'>" . get_string('mycourses'). "</a>";
-            $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" alt="" />';
+            $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/IC2.JPG" alt="" />';
         }
         
     /// My progress link
         if (!isguestuser() and isloggedin()) {
             $this->content->items[]="<a href='$CFG->wwwroot/mod/smartcom/index.php?courseid=$COURSE->id&userid=$USER->id&submodule=learning_progress'>" . get_string('myprogress'). "</a>";
-            $this->content->icons[]="<img src='$CFG->pixpath/i/user.gif' alt=''/>";
+            $this->content->icons[]="<img src='$CFG->pixpath/i/IC3.JPG' alt=''/>";
         }
         
     /// My noteboook link
         if (!isguestuser() and isloggedin()) {
             $this->content->items[]="<a href='$CFG->wwwroot/mod/studynotes/view.php'>" . get_string('mynotebook'). "</a>";
-            $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" alt="" />';
+            $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/IC2.JPG" alt="" />';
         }
         
 /// Nap the
         if (!isguestuser() and isloggedin()) {
 
         	$this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=1&submodule=prepaidcard_enduser_deposit">'.get_string('prepaidcard_enduser_deposit', 'smartcom').'</a>';
-        	$this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
+        	$this->content->icons[]='<img src="'.$CFG->pixpath.'/i/IC4.JPG" class="icon" alt="" />';
         }
         /// History Nap the
 //        if (empty($course->metacourse) && ($course->id!==SITEID)) {
@@ -273,7 +273,7 @@ class block_admin extends block_list {
     /// user_account_balance
         if (empty($course->metacourse) && ($course->id!==SITEID)) {
         	$this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/smartcom/index.php?courseid=1&submodule=user_account_balance">'.get_string('user_account_balance', 'smartcom').'</a>';
-        	$this->content->icons[]='<img src="'.$CFG->pixpath.'/i/user.gif" class="icon" alt="" />';
+        	$this->content->icons[]='<img src="'.$CFG->pixpath.'/i/IC1.JPG" class="icon" alt="" />';
         }
 
          /// buy ticket
