@@ -41,11 +41,9 @@
                                 </td>
                             </tr>
                             <tr><td height="30px" align="left">
-                                            Tin nhắn:
+                                            Tin nhắn: ' . "<a href='$CFG->wwwroot/message/index.php'>$this->getTotalUnreadMessageOfUser($USER->id)</a>" . '
                                         </td></tr>
-                                        <tr><td height="30px" style="padding:0 10px 0 10px" align="left">
-                                            Chưa đọc: <a href="" class="leftpaneltext">10</a>
-                                        </td></tr>
+                                        
                         </table>
                     
         ';
@@ -69,6 +67,14 @@
       function applicable_formats() {
          return array('all'=>true);
       } // function applicable_formats()
+      
+      private function getTotalUnreadMessageOfUser($userid) {
+      		$result = get_record("message", "useridto", $userid, "", "", "", "", "count(id) as count");
+      		if(!empty($result)) {
+      			return $result->count;
+      		}
+      		return 0;
+      }
 
    } // class block_countdown
 
