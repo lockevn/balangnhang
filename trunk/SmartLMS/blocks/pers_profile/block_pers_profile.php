@@ -41,7 +41,7 @@
                                 </td>
                             </tr>
                             <tr><td height="30px" align="left">
-                                            Tin nhắn: ' . "<a href='$CFG->wwwroot/message/index.php'>$this->getTotalUnreadMessageOfUser($USER->id)</a>" . '
+                                            Tin nhắn: ' . "<a href='$CFG->wwwroot/message/index.php'>" . $this->getTotalUnreadMessageOfUser($USER->id) . "</a>" . '
                                         </td></tr>
                                         
                         </table>
