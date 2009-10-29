@@ -74,7 +74,7 @@ $string['adminhelpthemes'] = 'Choose how the site looks (colours, fonts etc)';
 $string['adminhelpuploadusers'] = 'Import new user accounts from a text file';
 $string['adminhelpusers'] = 'Define your users and set up authentication';
 $string['adminhelpxmldbeditor'] = 'Interface to edit the XMLDB files. Only for developers.';
-$string['administration'] = 'Administration';
+$string['administration'] = 'My Info';
 $string['administrationsite'] = 'Site Administration';
 $string['administrator'] = 'Administrator';
 $string['administratordescription'] = 'Administrators can usually do anything on the site, in all courses.';
@@ -1227,7 +1227,7 @@ $string['previeworchoose'] = 'Preview or choose a theme';
 $string['previous'] = 'Previous';
 $string['previoussection'] = 'Previous section';
 $string['primaryadminsetup'] = 'Setup administrator account';
-$string['profile'] = 'Profile';
+$string['profile'] = 'My profile';
 $string['profilenotshown'] = 'This profile description will not be shown until this person is enrolled in at least one course.';
 $string['publicdirectory'] = 'Public directory';
 $string['publicdirectory0'] = 'Please do not publish this site';
@@ -1694,5 +1694,11 @@ $string['sectionlabel'] = 'Label <br>(e.g: Lesson 1, Review 1, ...)';
 $string['birthday'] = 'Birthday';
 $string['minlength'] = 'Min length is $a character(s)';
 $string['maxlength'] = 'Max length is $a character(s)';
+
+$string['mycourses'] = 'My courses';
+$string['myprogress'] = 'My progress';
+$string['mynotebook'] = 'My notebook';
+
+
 
 ?>
