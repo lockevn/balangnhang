@@ -198,3 +198,6 @@ CREATE TABLE `smartlms`.`mdl_smartcom_recommend_course` (
   PRIMARY KEY (`id`)
 )
 ENGINE = InnoDB;
+
+/*dùng label để lưu content cho activity*/
+ALTER TABLE `smartlms`.`mdl_label` MODIFY COLUMN `label` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci;
