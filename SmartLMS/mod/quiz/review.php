@@ -173,6 +173,11 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 
 	echo '<td id="middle-column">';
 	print_container_start();
+	/*danhut: print activity list của lesson*/
+    printSectionActivities($COURSE->id, $cm->id, QUIZ, $USER->id);
+    $menu = navmenu($course, $cm);
+	echo $menu;
+    
 	/*end of added*/
 	
 	echo '<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>'; // for overlib
@@ -345,7 +350,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 	}
 	
 	/*danhut added*/
-		finish_page($course, $pageblocks);
+		finish_page($course, $pageblocks, $menu);
    /*end of danhut added*/
 
 
@@ -388,11 +393,12 @@ if (empty($popup)) {
 }
 
 
-function finish_page($course, $pageblocks) {
+function finish_page($course, $pageblocks, $menu) {
 	global $THEME;
 	global $PAGE;
 	global $CFG;
 	print_container_end();
+	echo $menu;
 	echo '</td>';
 	$blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_RIGHT]), 210);
 	/*danhut added: print right blocks*/

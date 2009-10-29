@@ -155,7 +155,7 @@ function getCourseSupportTools($courseid) {
  * 			->link 
  * 			->selected (true/false)
  */
-function getLessonActivities($courseid, $selectedCmid, $type) {
+function getLessonActivitiesFromLOId($courseid, $selectedCmid, $type) {
 	global $CFG;
 		
 	/*select current section id from selectedCmID*/	
@@ -176,11 +176,11 @@ function getLessonActivities($courseid, $selectedCmid, $type) {
 	foreach($activityArr as $activity) {
 		foreach($activity->los as $lo) {
 			if($lo->id == $selectedCmid && $lo->type == $type) {
-				$activity->selected = true;
+				$activity->selected = 1;
 				break;
 			} 
 			else {
-				$activity->selected = false;
+				$activity->selected = 0;
 			}
 		}
 	}
@@ -216,7 +216,7 @@ function getSectionListOfCourse($courseid) {
  * 			->content 			
  * 			->link 
  */
-function getActivityListOfSection($courseid, $sectionid) {
+function getLessonActivitiesFromSectionId($courseid, $sectionid) {
 	if(empty($courseid) || empty($sectionid)) {
 		return false;
 	}
@@ -228,6 +228,27 @@ function getActivityListOfSection($courseid, $sectionid) {
 	
 }
 
+function getAvgGradeOfAllQuizInActivityOfUserFromLOId($courseid, $selectedCmid, $activityid, $userid) {
+	/*select current section id from selectedCmID*/	
+	$result = get_record("course_modules", "id", $selectedCmid, "course", $courseid, "", "", "section");
+	if(empty($result)) {
+		return false;
+	}
+	$sectionId = $result->section;
+	return getAvgGradeOfAllQuizInActivityOfUser($courseid, $sectionId, $activityid, $userid);
+}
+
+/**
+ * Lấy điểm TB của 1 activity của 1 user
+ * và xác định user đã hòan thành tất cả quiz của activity đó chưa
+ *
+ * @param int $courseid
+ * @param int $sectionid
+ * @param int $activityid
+ * @param int $userid
+ * @return GradeObj $grade->avg :điểm trung bình nếu có hoặc false
+ * 					$grade->status: 'failed' / 'passed' / 'incompleted'
+ */
 function getAvgGradeOfAllQuizInActivityOfUser($courseid, $sectionid, $activityid, $userid) {
 	global $CFG;
 	if(empty($courseid) || empty($sectionid) || empty($activityid) || empty($userid)) {
@@ -238,26 +259,40 @@ function getAvgGradeOfAllQuizInActivityOfUser($courseid, $sectionid, $activityid
 		return false;
 	}	
 	$quizIdStr = "";
+	$quizCount = 0;
 	foreach($section->activities as $activity) {
 		if($activity->id == $activityid) {
 			foreach($activity->los as $lo) {
 				if($lo->type == QUIZ) {
 					$quizIdStr .= $lo->instance . ",";
+					$quizCount++;
 				}
 			}
 			$quizIdStr = trim($quizIdStr, ",");
 			break;
 		}
 	}
-	$sql = "SELECT avg(qg.grade/q.sumgrades) avg_
+	$sql = "SELECT count(qg.grade) as count, avg(qg.grade/q.sumgrades) avg_
 				FROM " . $CFG->prefix ."quiz_grades qg, mdl_quiz q 
 				WHERE qg.quiz=q.id AND qg.userid=$userid 
-				AND qg.quiz in ($quizIdStr) ";
+				AND qg.quiz in ($quizIdStr) ";					
 	$result = get_record_sql($sql);
 	if(empty($result)) {
 		return false;							
 	}
-	return $result->avg_;	
+	$grade = new stdClass();
+	$grade->avg = $result->avg_;
+	if($result->avg_ !== null && $result->avg_ < 0.6) {
+		$grade->status = 'failed';	
+	}
+	else if($result->avg_ >= 0.6 && $quizCount == $result->count) {
+		$grade->status = 'passed';
+	}
+	else {
+		$grade->status = 'incompleted';
+	}
+	 
+	return $grade;	
 }
 
 
@@ -290,8 +325,7 @@ function getCourseSectionStructure($courseid, $sectionid) {
 	if(empty($courseid) || empty($sectionid) ) {
 		return false;
 	}
-
-	echo "cache type: $CFG->cachetype";
+	
 	if($CFG->cachetype === 'memcached') {
 		$memcached = new memcached();
 		if($memcached === false) {
@@ -394,6 +428,32 @@ function getCourseSectionStructure($courseid, $sectionid) {
 	return $section;
 }
 
+/**
+ * list course objects of an user
+ *
+ * @param int $userid
+ * @return array of course obj with key is $course->id
+ * $course->id
+ * $course->name
+ * return false if empty
+ */
+function getMyCourseList($userid) {
+	if(empty($userid)) {
+		return false;
+	}
+	global $CFG;
+	$sql = "SELECT c.id,c.fullname as name
+			FROM {$CFG->prefix}course c, {$CFG->prefix}context ctx, {$CFG->prefix}role_assignments r
+			WHERE ctx.instanceid=c.id AND ctx.contextlevel=" .CONTEXT_COURSE. 
+			" AND r.contextid=ctx.id AND r.roleid in (5,10) AND c.id <> 1 AND r.userid=$userid";
+	$results = get_records_sql($sql);
+	if(empty($results)){
+		return false;
+	}
+	return $results;
+	
+}
+
 //$section = getCourseSectionStructure(104, 172);
 //if($section !== false) {
 //echo "sectionid: $section->id label: $section->label summary: $section->summary <br>";
@@ -416,7 +476,6 @@ function getCourseSectionStructure($courseid, $sectionid) {
 
 //$grade = getAvgGradeOfAllQuizInActivityOfUser(7, 52, 255, 4);
 //echo $grade;
-
 
 
 ?>

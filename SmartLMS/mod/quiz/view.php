@@ -96,7 +96,9 @@
     
     /*danhut added: print navigation buttons*/
     
-    print_container_start();	    
+    print_container_start();	
+    /*danhut: print activity list của lesson*/
+    printSectionActivities($COURSE->id, $cm->id, QUIZ, $USER->id);    
     $menu = navmenu($course, $cm);
 	echo $menu;
     /*end of danhut added*/

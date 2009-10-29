@@ -3,6 +3,7 @@
 require_once($CFG->libdir.'/blocklib.php');
 require_once($CFG->libdir.'/pagelib.php');
 require_once($CFG->dirroot.'/mod/resource/pagelib.php');
+require_once($CFG->dirroot.'/smartcom/util/uiutil.php');
 
 
 
@@ -52,7 +53,7 @@ function _postprocess(&$resource) {
 
 
 function display() {
-    global $CFG, $PAGE, $COURSE, $SESSION;
+    global $CFG, $PAGE, $COURSE, $SESSION, $USER;
 
     $formatoptions = new object();
     $formatoptions->noclean = true;
@@ -125,7 +126,7 @@ function display() {
 
     	print_header($pagetitle, $course->fullname, $navigation,
                     "", "", true, update_module_button($cm->id, $course->id, $this->strresource),
-    	navmenu($course, $cm));
+    	$menu = navmenu($course, $cm));
 
     	/*danhut added*/
     	echo '<table id="layout-table" class="' .$resource->lotype . '"><tr>';
@@ -141,7 +142,8 @@ function display() {
     	/*end of danhut added*/
     	/*danhut modified: nếu là resource là test description 0 print navmenu*/
     	if($resource->lotype != 'testdescription') {
-    		$menu = navmenu($course, $cm);
+			/*danhut: print activity list của lesson*/
+    		printSectionActivities($COURSE->id, $cm->id, RESOURCE, $USER->id);
     		echo $menu;
     	}
     	print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id), "center clearfix", "", "", "20");
