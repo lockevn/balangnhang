@@ -185,7 +185,8 @@ div.navbar {
 }
 
 .navbar .breadcrumb {
-    margin-top: 10px;
+    margin-top: 0px;
+    line-height: 25px;
 }
 
 div.user-sub-menu {

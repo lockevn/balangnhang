@@ -120,7 +120,8 @@
 
 
 /// Layout the whole page as three big columns.
-	echo '<table id="layout-table" cellspacing="0" summary="'.get_string('layouttable').'"><tr>';
+
+	echo '<table id="layout-table" border="0" cellspacing="0" summary="'.get_string('layouttable').'"><tr>';
 
 /// The left column ...
 	$lt = (empty($THEME->layouttable)) ? array('left', 'middle', 'right') : $THEME->layouttable;
@@ -140,6 +141,19 @@
 			case 'middle':
 /// Start main column
 	echo '<td id="middle-column">';
+    
+    /******************************
+    * @desc muinx add content here: bulletin
+    */
+    
+    echo '<table width="100%" border="1"><tr><td>';
+    print_heading_block(get_string('topicoutline'), 'outline');
+    echo '</td></tr></table>';
+    
+    /******************************
+    * @desc muinx add content here
+    */
+    
 	print_container_start();
 	echo skip_main_destination();
 
@@ -189,7 +203,7 @@
 			print_topicstree_section($course, $thissection, $mods, $modnamesused);
 		}
 
-		echo '</td>';
+        echo '</td>';
 		echo '<td class="right side">&nbsp;</td>';
 		echo '</tr>';
 		echo '<tr class="section separator"><td colspan="3" class="spacer"></td></tr>';
@@ -256,7 +270,7 @@
 			} else {
 				$sectionLabel = '';
 			}			
-			echo '<td class="left side">' . format_text($sectionLabel, FORMAT_HTML) . '</td>';
+			echo '<td class="left side">nnn' . format_text($sectionLabel, FORMAT_HTML) . '</td>';
 
 			echo '<td class="content">';
 			if (!has_capability('moodle/course:viewhiddensections', $context) and !$thissection->visible) {   // Hidden for students
@@ -355,6 +369,19 @@
 	}
 
 	print_container_end();
+    
+    /******************************
+    * @desc muinx add content here
+    */
+    
+    echo '<table width="100%" border="1"><tr><td>';
+    print_heading_block(get_string('topicoutline'), 'outline');
+    echo '</td></tr></table>';
+    
+    /******************************
+    * @desc muinx add content here
+    */
+    
 	echo '</td>';
 
 			break;
@@ -371,7 +398,8 @@
 			break;
 		}
 	}
-	echo '</tr></table>';
+    
+    echo '</tr></table>';
 
 	
 	

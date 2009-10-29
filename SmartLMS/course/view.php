@@ -208,7 +208,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 
 	$modinfo =& get_fast_modinfo($COURSE);
 	get_all_mods($course->id, $mods, $modnames, $modnamesplural, $modnamesused);
-	foreach($mods as $modid=>$unused) {
+    
+    foreach($mods as $modid=>$unused) {
 		if (!isset($modinfo->cms[$modid])) {
 			rebuild_course_cache($course->id);
 			$modinfo =& get_fast_modinfo($COURSE);
