@@ -176,7 +176,7 @@ function getLessonActivitiesFromLOId($courseid, $selectedCmid, $type) {
 	foreach($activityArr as $activity) {
 		foreach($activity->los as $lo) {
 			if($lo->id == $selectedCmid && $lo->type == $type) {
-				$activity->selected = 1;
+				$activity->selected = 1;			
 				break;
 			} 
 			else {
@@ -263,7 +263,7 @@ function getAvgGradeOfAllQuizInActivityOfUser($courseid, $sectionid, $activityid
 	foreach($section->activities as $activity) {
 		if($activity->id == $activityid) {
 			foreach($activity->los as $lo) {
-				if($lo->type == QUIZ) {
+				if($lo->type == "exercise") {
 					$quizIdStr .= $lo->instance . ",";
 					$quizCount++;
 				}
@@ -316,7 +316,7 @@ function getAvgGradeOfAllQuizInActivityOfUser($courseid, $sectionid, $activityid
  * 
  * $lo->id (course module id)
 	  ->instance (instance id)
-	  ->type 	(resource, quiz, label)
+	  ->type 	(lecture, exercise, practice, activity)
 	  ->name  (lecture1, exercise1 ..)
  */
 function getCourseSectionStructure($courseid, $sectionid) {
@@ -393,16 +393,25 @@ function getCourseSectionStructure($courseid, $sectionid) {
 			if(empty($cmObj)) {
 				continue;
 			}
-			$tmpArr = array(LABEL=>"label", QUIZ=>"quiz", RESOURCE=>"resource");
+			$tmpArr = array(LABEL=>"label", QUIZ=>"quiz", RESOURCE=>"resource", "lecture"=>"resource", "exercise"=>"quiz", "practice"=>"quiz", "test"=>"quiz");
 			if(!in_array($cmObj->module, array_keys($tmpArr))) {
 				continue;
 			} 			
 			$moduleName = $tmpArr[$cmObj->module];
-			$result = get_record($moduleName, "id", $cmObj->instance, "", "", "", "", "name");
+			if($cmObj->module == LABEL) {
+				$result = get_record($moduleName, "id", $cmObj->instance, "", "", "", "", "name");
+			} else {
+				$result = get_record($moduleName, "id", $cmObj->instance, "", "", "", "", "name, lotype");
+			}			
 			$lo = new stdClass();
 			$lo->id = $loCmIdArr[$j];
 			$lo->instance = $cmObj->instance;
-			$lo->type = $cmObj->module;
+			if(isset($result->lotype)) {
+				$lo->type = $result->lotype	;
+			} else {
+				$lo->type = "activity";
+			}
+			
 			if(!empty($result)) {
 				$lo->name = $result->name;
 			}			
@@ -454,6 +463,61 @@ function getMyCourseList($userid) {
 	
 }
 
+/**
+ * get list of all lectures in an activity to display  "Bạn đang xem bài giảng số 1 2 3 của bài học này in Lecture page
+ *
+ * @param int $cmid lecture cmid
+ * @param ActivityObj $selectedActivity
+ * @return array of LectureObj ->id ->selected
+ */
+function getLectureListOfCurrentLecture($cmid, $selectedActivity) {
+	if(empty($cmid) || empty($selectedActivity)) {
+		return false;
+	}
+	$lectureArr = array();
+	foreach($selectedActivity->los as $lo) {
+		if($lo->type == "lecture" || $lo->type == "practice") {			
+			if($lo->id == $cmid && $lo->type == "lecture") {
+				$lo->selected = 1;
+			}
+			else {
+				$lo->selected = 0;
+			}
+			$lectureArr[] = $lo;
+		}
+		
+	}
+	return $lectureArr;	
+}
+
+/**
+ * get list of all lectures in current section to display 
+ * Xem lại bài giảng ngữ phap 1 2 3
+ * Xem lại bài giảng từ vựng 1 2 3
+	in quiz page 
+ * @param int $cmid quiz cmid
+ * @param Activity array $activityArr
+ * @return Associate array of array of lectureObj
+ * $activityArr['vocab'][]
+ * $activityArr['listening'][]
+ */
+function getLectureListOfCurrentQuiz($cmid, $activityArr) {
+	if(empty($cmid) || empty($activityArr)) {
+		return false;
+	}
+	$lectureArr = array();
+	foreach($activityArr as $selectedActivity) {
+		$lectureArr[$selectedActivity->name] = array();
+		foreach($selectedActivity->los as $lo) {
+			if($lo->type == RESOURCE) {				
+				$lectureArr[$selectedActivity->name][] = $lo;
+			}
+		}
+	}
+	return $lectureArr;
+	
+}
+
 //$section = getCourseSectionStructure(104, 172);
 //if($section !== false) {
 //echo "sectionid: $section->id label: $section->label summary: $section->summary <br>";
@@ -476,6 +540,16 @@ function getMyCourseList($userid) {
 
 //$grade = getAvgGradeOfAllQuizInActivityOfUser(7, 52, 255, 4);
 //echo $grade;
+
+//function danhut($link) {
+//	echo sizeof($link);
+//}
+//
+//$newtext = '<a href="/file.php/104/lesson_14/vocabulary/lecture1/lesson14.swf?d=508x406"></a>';
+//$search = '/<a.*?href="([^<]+\.swf)(\?d=([\d]{1,4}%?)x([\d]{1,4}%?))?"[^>]*>.*?<\/a>/is';
+//$newtext = preg_replace_callback($search, 'danhut', $newtext);
+
+
 
 
 ?>
