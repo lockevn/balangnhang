@@ -37,9 +37,8 @@ function printSupportToolMenuBar($courseid) {
  * @param int $type (QUIZ / RESOURCE)
  * @param int $userid
  */
-function printSectionActivities($courseid, $selectedLOId, $type, $userid) {
-	$activityArr = getLessonActivitiesFromLOId($courseid, $selectedLOId, $type) ;
-	if($activityArr === false) {
+function printSectionActivities($activityArr, $courseid, $selectedLOId, $userid) {	
+	if(empty($activityArr)) {
 		return;
 	}
 	$str = "";
@@ -56,6 +55,39 @@ function printSectionActivities($courseid, $selectedLOId, $type, $userid) {
 		$str .= "</a> ";		
 	}
 	echo $str;
+}
+
+function printLectureListOfCurrentActivity($loList) {
+	global $CFG;
+	if(empty($loList)) {
+		return;
+	}
+	
+	$link = "";
+	$lectureIndex = 1;	
+	for($i = 0; $i < sizeof($loList); $i++) {
+		$lo = $loList[$i];
+		if($lo->type == "lecture") {
+			if($lo->selected == 0) {
+				$link .= "<a href='$CFG->wwwroot/mod/resource/view.php?id=$lo->id'>$lectureIndex</a>  ";
+			}
+			else {
+				$link .= "<a href='$CFG->wwwroot/mod/resource/view.php?id=$lo->id'><b>$lectureIndex</b></a>  ";
+				/*thử kiểm tra ngay sau current lecture có phải là 1 practice k*/
+				if(($i + 1) < sizeof($loList) && $loList[$i+1]->type == "practice") {
+					$practice = $loList[$i+1];
+				}
+			}
+			
+			$lectureIndex++;
+		}
+	}
+	echo get_string("lecture_list", "smartcom", $link);
+	if(empty($practice)) {
+		return;
+	}	
+	$link = "<a href='$CFG->wwwroot/mod/quiz/view.php?id=$practice->id'>". get_string("practice", "smartcom") . "</a>";
+	echo $link;
 }
 
 ?>

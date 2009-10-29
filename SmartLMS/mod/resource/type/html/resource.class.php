@@ -143,7 +143,10 @@ function display() {
     	/*danhut modified: nếu là resource là test description 0 print navmenu*/
     	if($resource->lotype != 'testdescription') {
 			/*danhut: print activity list của lesson*/
-    		printSectionActivities($COURSE->id, $cm->id, RESOURCE, $USER->id);
+    		$activityArr = getLessonActivitiesFromLOId($COURSE->id, $cm->id, $resource->lotype) ;
+    		if(!empty($activityArr)) {
+    			printSectionActivities($activityArr, $COURSE->id, $cm->id, $USER->id);
+    		}
     		echo $menu;
     	}
     	print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id), "center clearfix", "", "", "20");
@@ -153,6 +156,20 @@ function display() {
 
     	/*danhut added*/
     	if($resource->lotype != 'testdescription') {
+    		/*get selected activity to print list of lecture*/
+    		if(!empty($activityArr)) {
+    			foreach($activityArr as $activity) {
+    				if($activity->selected == 1) {
+    					$currentActivity = $activity;
+    					break;
+    				}
+    			}
+    		}    		
+			/*print lecture list of current activity*/
+    		
+    		$lectureList = getLectureListOfCurrentLecture($cm->id, $currentActivity);
+    		printLectureListOfCurrentActivity($lectureList);
+    		
     		echo $menu;
     	} else  {
     		/*danhut added: print next button for testdescription resource*/

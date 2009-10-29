@@ -90,6 +90,14 @@ $string['prepaidcard_generator'] = 'Prepaid cards generator';
 $string['prepaidcard_usage_report'] = 'Prepaid cards usage report';
 $string['prepaidcard_adjust'] = 'Prepaid cards adjustment';
 
+$string['prepaidcard_enduser_deposit'] = 'Prepaid cards topup';
+$string['user_account_balance'] = 'My account';
+
+$string['lecture_list'] = 'You are viewing lecture $a of this activity';
+$string['practice'] = 'Practice';
+
+
+
 
 
 
