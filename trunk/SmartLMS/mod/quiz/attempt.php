@@ -559,7 +559,7 @@
             print_box(format_text($quiz->intro, FORMAT_MOODLE, $formatoptions), 'generalbox', 'intro');
         }
     }
-    /*end of danhut added*/
+    /*end of danhut added*/      
     
 /// Print all the questions
     $number = quiz_first_questionnumber($attempt->layout, $pagelist);

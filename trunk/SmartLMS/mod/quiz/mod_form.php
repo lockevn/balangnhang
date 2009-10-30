@@ -40,6 +40,11 @@ class mod_quiz_mod_form extends moodleform_mod {
 	    $mform->addElement('hidden', 'indent','');
     	$mform->setDefault('indent', $indent);
 
+    	//danhut added transcript -------------------------------------------------------------------------------		
+        $mform->addElement('header', 'transcripthdr', get_string('transcript', 'quiz'));
+        $mform->addElement('htmleditor', 'transcript', get_string("transcript", "quiz"));
+        $mform->setType('transcript', PARAM_RAW);        
+    	
 		//danhut added quiz type -------------------------------------------------------------------------------
 		$quizTypeArr = array();
 		$quizTypeArr['exercise'] = 'exercise';
