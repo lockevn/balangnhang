@@ -2,6 +2,7 @@
 
 /*   background */
 
+/*
 .body{
 background-image:url('../images/activities_50.gif');
 background-repeat:repeat-y;
@@ -10,6 +11,7 @@ font-size:12px;
 background-position: center 100%;
 }
 
+
 a, a:visited {
 	color:#blue;
 	font-size:12px;
@@ -17,6 +19,7 @@ a, a:visited {
 	text-decoration:none;
 
 }
+
 A:hover {
 	color:#000000;
 	font-size:12px;
@@ -24,6 +27,7 @@ A:hover {
 	text-decoration:underline;
 
 }
+*/
 
 .back_left{
 background:url('../images/activities_01.gif');
@@ -916,6 +920,7 @@ font-weight:bold}
 padding-left:; font-style:normal; font-variant:normal; font-weight:normal; font-size:12px
 }
 
+/*
 .login{
 width:90px;
 font-family:Arial, Helvetica, sans-serif;
@@ -923,7 +928,7 @@ font-size:12px;
 text-align:right;
 padding-left:60px;
 }
-
+*/
 .inputbox_com{
 border:solid 1px #2563a2;
 width:150px;
