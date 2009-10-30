@@ -212,6 +212,22 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 	$lectureList = getLectureListOfCurrentQuiz($cm->id, $activityArr);
 	printLectureListOfCurrentQuiz($lectureList);
 	/************/
+	
+	/*danhut added: print quiz introduction*/
+    if($quiz->lotype == 'exercise') {
+    if (trim(strip_tags($quiz->intro))) {
+            $formatoptions->noclean = true;
+            $formatoptions->para    = false;
+            print_box(format_text($quiz->intro, FORMAT_MOODLE, $formatoptions), 'generalbox', 'intro');
+        }
+    }
+    /*end of danhut added*/
+    
+    /*danhut: print transcript of quiz if any*/
+        if(!empty($quiz->transcript)) {
+        	echo "TRANSCRIPT: " . format_text($quiz->transcript, FORMAT_MOODLE, $formatoptions);
+        }
+        /*************/
 
 	// print javascript button to close the window, if necessary
 	if (!$isteacher) {
