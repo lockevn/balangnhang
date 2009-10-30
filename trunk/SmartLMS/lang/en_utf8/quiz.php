@@ -610,4 +610,5 @@ $string['quiztype'] = 'Select quiz type';
 $string['previouspage'] = 'Previous page';
 $string['nextpage'] = 'Next page';
 $string['addquiz'] = 'Quiz';
+$string['transcript'] = 'Transcript';
 ?>
