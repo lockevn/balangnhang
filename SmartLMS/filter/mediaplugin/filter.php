@@ -41,7 +41,7 @@ function mediaplugin_filter($courseid, $text) {
     }
 
     if ($CFG->filter_mediaplugin_enable_swf) {
-        $search = '/<a.*?href="([^<]+\.swf)(\?d=([\d]{1,4}%?)x([\d]{1,4}%?))?"[^>]*>.*?<\/a>/is';
+        $search = '/<a.*?href=\s*"([^<]+\.swf)(\?d=([\d]{1,4}%?)x([\d]{1,4}%?))?"[^>]*>.*?<\/a>/is';
         $newtext = preg_replace_callback($search, 'mediaplugin_filter_swf_callback', $newtext);
     }
 
