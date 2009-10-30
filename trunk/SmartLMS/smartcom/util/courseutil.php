@@ -509,7 +509,7 @@ function getLectureListOfCurrentQuiz($cmid, $activityArr) {
 	foreach($activityArr as $selectedActivity) {
 		$lectureArr[$selectedActivity->name] = array();
 		foreach($selectedActivity->los as $lo) {
-			if($lo->type == RESOURCE) {				
+			if($lo->type == "lecture") {				
 				$lectureArr[$selectedActivity->name][] = $lo;
 			}
 		}

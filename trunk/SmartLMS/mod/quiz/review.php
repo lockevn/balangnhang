@@ -174,7 +174,10 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 	echo '<td id="middle-column">';
 	print_container_start();
 	/*danhut: print activity list của lesson*/
-    printSectionActivities($COURSE->id, $cm->id, QUIZ, $USER->id);
+    $activityArr = getLessonActivitiesFromLOId($COURSE->id, $cm->id, $quiz->lotype);
+    if(!empty($activityArr)) {
+    	printSectionActivities($activityArr, $COURSE->id, $cm->id, $USER->id);
+    }
     $menu = navmenu($course, $cm);
 	echo $menu;
     
@@ -205,6 +208,10 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 		echo '</div>';
 	}
 	print_heading($strreviewtitle);
+	/*danhut: print list of lecture: "Xem lai bai giang Grammar 1 2 3 ..."*/
+	$lectureList = getLectureListOfCurrentQuiz($cm->id, $activityArr);
+	printLectureListOfCurrentQuiz($lectureList);
+	/************/
 
 	// print javascript button to close the window, if necessary
 	if (!$isteacher) {

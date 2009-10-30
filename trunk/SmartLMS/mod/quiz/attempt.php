@@ -14,6 +14,8 @@
     require_once($CFG->dirroot.'/mod/quiz/locallib.php');
     require_once($CFG->dirroot.'/mod/quiz/quiz_attempt_pagelib.php');
     require_once($CFG->libdir.'/blocklib.php');
+    require_once($CFG->dirroot.'/smartcom/util/uiutil.php');
+    require_once($CFG->dirroot.'/smartcom/util/courseutil.php');
 
     // remember the current time as the time any responses were submitted
     // (so as to make sure students don't get penalized for slow processing on this page)
@@ -476,7 +478,10 @@
     
     print_container_start();
     /*danhut: print activity list của lesson*/
-    printSectionActivities($COURSE->id, $cm->id, QUIZ, $USER->id);
+    $activityArr = getLessonActivitiesFromLOId($COURSE->id, $cm->id, $quiz->lotype);
+    if(!empty($activityArr)) {
+    	printSectionActivities($activityArr, $COURSE->id, $cm->id, $USER->id);
+    }
     $menu = navmenu($course, $cm);
 	echo $menu;
     /*end of added*/
@@ -511,6 +516,10 @@
         } else {
             print_heading(format_string($quiz->name));
         }
+        /*danhut: print list of lecture: "Xem lai bai giang Grammar 1 2 3 ..."*/
+        $lectureList = getLectureListOfCurrentQuiz($cm->id, $activityArr);
+        printLectureListOfCurrentQuiz($lectureList);
+        /************/
     }
 
     // Start the form
