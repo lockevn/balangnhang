@@ -98,7 +98,10 @@
     
     print_container_start();	
     /*danhut: print activity list của lesson*/
-    printSectionActivities($COURSE->id, $cm->id, QUIZ, $USER->id);    
+    $activityArr = getLessonActivitiesFromLOId($COURSE->id, $cm->id, $quiz->lotype);
+    if(!empty($activityArr)) {
+    	printSectionActivities($activityArr, $COURSE->id, $cm->id, $USER->id);
+    }    
     $menu = navmenu($course, $cm);
 	echo $menu;
     /*end of danhut added*/

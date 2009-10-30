@@ -90,4 +90,25 @@ function printLectureListOfCurrentActivity($loList) {
 	echo $link;
 }
 
+function printLectureListOfCurrentQuiz($lectureList) {
+	global $CFG;
+	if(empty($lectureList)) {
+		return;
+	}
+	$str = "";
+	foreach($lectureList as $key => $lectureArr) {
+		if(empty($lectureArr)) {
+			continue;
+		}
+		$str .= get_string("lecture_review", "smartcom", $key);
+		$i = 1;
+		foreach($lectureArr as $lecture) {
+			$str .= "<a href='$CFG->wwwroot/mod/resource/view.php?id=$lecture->id'>$i</a> | ";
+			$i++;
+		}
+		$str .= "<br>";
+	}
+	echo $str;
+}
+
 ?>
