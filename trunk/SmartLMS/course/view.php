@@ -232,7 +232,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 	}
 
 	// Include the actual course format.
-	require($CFG->dirroot .'/course/format/'. $course->format .'/format.php');
+    //require($CFG->dirroot .'/course/format/'. $course->format .'/format.php');
+	require($CFG->dirroot .'/course/format/'. $course->format .'/format_student.php'); //@muinx test
 	// Content wrapper end.
 	echo "</div>\n\n";
 
