@@ -247,6 +247,7 @@
                                             <div style="margin:10px 5px 10px 5px">
                                                 <table cellpadding="0" cellspacing="0" width="100%">
                                                     <tr><td valign="top" width="180px">
+														<div class="leftInner">
                                                         <table cellpadding="0" cellspacing="0" width="100%">
                                                             <tr>
                                                                 <td rowspan="2" width="5px"/>
@@ -288,12 +289,12 @@
                                                         </table>                                
                                                         <!------------------------------------------------>
                                                         <table cellpadding="0" cellspacing="0" width="100%">
-                                                            <tr>
-                                                                <td><img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG3_TL.gif" /></td>
-                                                                <td colspan="4" bgcolor="#EEEEDD"></td>
+                                                            <tr class="h-border">
+                                                                <td><img class="h-border" src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG3_TL.gif" /></td>
+                                                                <td colspan="4" bgcolor="#EEEEDD"> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td rowspan="2" width="5px" bgcolor="#EEEEDD"/>
+                                                                <td rowspan="2" width="5px" bgcolor="#EEEEDD" class="v-border"/>
                                                                 <td rowspan="2" valign="top" style="background:#EED url('.$CFG->themewww.'/'.current_theme().'/template/images/CircleBG.gif) top center no-repeat" width="15px" align="center">
                                                                     <span class="courseWB">3</span>
                                                                 </td>
@@ -306,10 +307,10 @@
                                                                 <td bgcolor="#EEEEDD">
                                                                     <span class="courseG">Overview</span>
                                                                 </td>
-                                                            <tr>
-                                                            <tr>
-                                                                <td><img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG3_BL.gif" /></td>
-                                                                <td colspan="4" bgcolor="#EEEEDD"></td>
+                                                            </tr>
+                                                            <tr class="h-border">
+                                                                <td class="h-border" vaglin="top"><img  src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG3_BL.gif" /></td>
+                                                                <td colspan="4" bgcolor="#EEEEDD" class="h-border"></td>
                                                             </tr>    
                                                         </table>                                
                                                         <!------------------------------------------------>
@@ -375,10 +376,50 @@
                                                             <tr><td colspan="2" height="10px"/></tr>
                                                         </table>    
                                                         <!------------------------------------------------>
-                                                            
-                                                    </td><td valign="top">
                                                         <table cellpadding="0" cellspacing="0" width="100%">
+                                                            <tr><td colspan="5" height="10px"/></tr>
                                                             <tr>
+                                                                <td rowspan="2" width="5px"/>
+                                                                <td rowspan="2" valign="top" style="background:url('.$CFG->themewww.'/'.current_theme().'/template/images/CircleBW.gif) top center no-repeat" width="15px" align="center">
+                                                                    <span class="courseGB">6</span>
+                                                                </td>
+                                                                <td rowspan="2" width="10px"/>
+                                                                <td height="20px" valign="top">
+                                                                    <span class="courseWB">UNIT 6</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <span class="courseW">Overview</span>
+                                                                </td>
+                                                            <tr>
+                                                            <tr><td colspan="2" height="10px"/></tr>
+                                                        </table>    
+                                                        <!------------------------------------------------>	
+                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                            <tr><td colspan="5" height="10px"/></tr>
+                                                            <tr>
+                                                                <td rowspan="2" width="5px"/>
+                                                                <td rowspan="2" valign="top" style="background:url('.$CFG->themewww.'/'.current_theme().'/template/images/CircleBW.gif) top center no-repeat" width="15px" align="center">
+                                                                    <span class="courseGB">6</span>
+                                                                </td>
+                                                                <td rowspan="2" width="10px"/>
+                                                                <td height="20px" valign="top">
+                                                                    <span class="courseWB">UNIT 6</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <span class="courseW">Overview</span>
+                                                                </td>
+                                                            <tr>
+                                                            <tr><td colspan="2" height="10px"/></tr>
+                                                        </table>    
+                                                        <!------------------------------------------------>														
+                                                     </div> <!-- leftInner--->       
+                                                    </td><td valign="top">
+														  <table cellpadding="0" cellspacing="0" width="100%">
+                                                            <tr class="h-border">
                                                                 <td width="5px"><img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG3_TL.gif" /></td>
                                                                 <td bgcolor="#EEEEDD" />
                                                                 <td width="5px"><img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG3_TR.gif" /></td>
@@ -386,6 +427,7 @@
                                                             <tr>
                                                                 <td bgcolor="#EEEEDD" />
                                                                 <td bgcolor="#EEEEDD">
+																<div class="rightInner">
                                                                     <table cellpadding="10px" cellspacing="1" width="100%" bgcolor="#999999">
                                                                         <tr valign="middle">
                                                                             <td align="center" class="courseBB" background="'.$CFG->themewww.'/'.current_theme().'/template/images/TB1_HD.jpg">
@@ -520,11 +562,29 @@
                                                                                 <a href="">73</a>
                                                                             </td>
                                                                         </tr>
+                                                                        <tr valign="middle">
+                                                                            <td height="44px" width="40px" align="center" bgcolor="#EEEEEE" class="courseGB">
+                                                                                7
+                                                                            </td>
+                                                                            <td align="left" bgcolor="#FFFFFF" class="courseBB">
+                                                                                <a href="">Writing</a>
+                                                                            </td>
+                                                                            <td align="left" bgcolor="#FFFFFF" class="courseB">
+                                                                                what the heck is it? Is it a really difficult programming language that casual...
+                                                                            </td>
+                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
+                                                                                <img src="'.$CFG->themewww.'/'.current_theme().'/template/images/checkOk.gif" />
+                                                                            </td>
+                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
+                                                                                <a href="">73</a>
+                                                                            </td>
+                                                                        </tr>																		
                                                                     </table>
+																</div> <!--rightInner-->	
                                                                 </td>
                                                                 <td bgcolor="#EEEEDD" />
                                                             </tr>
-                                                            <tr>
+                                                            <tr class="h-border">
                                                                 <td width="5px"><img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG3_BL.gif" /></td>
                                                                 <td bgcolor="#EEEEDD" />
                                                                 <td width="5px"><img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG3_BR.gif" /></td>
@@ -538,7 +598,7 @@
                                 </td>
                                 <td valign="top" width="5px" bgcolor="#88e25c"><img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG2_R.jpg" /></td>
                             </tr>
-                            <tr>
+                            <tr class="h-border">
                                 <td valign="top" width="5px"><img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG2_BL.jpg" /></td>
                                 <td valign="top" bgcolor="#88e25c"></td>
                                 <td valign="top" width="5px"><img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG2_BR.jpg" /></td>
