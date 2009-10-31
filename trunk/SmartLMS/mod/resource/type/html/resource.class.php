@@ -166,9 +166,10 @@ function display() {
     			}
     		}    		
 			/*print lecture list of current activity*/
-    		
-    		$lectureList = getLectureListOfCurrentLecture($cm->id, $currentActivity);
-    		printLectureListOfCurrentActivity($lectureList);
+    		if(!empty($currentActivity)) {
+    			$lectureList = getLectureListOfCurrentLecture($cm->id, $currentActivity);
+    			printLectureListOfCurrentActivity($lectureList);
+    		}
     		
     		echo $menu;
     	} else  {
