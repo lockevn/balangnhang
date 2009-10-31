@@ -38,7 +38,6 @@ function getRecommendCourseList($courseid, $summaryTextLength = 250) {
 		$results = $memcached->get($key);
 		if(!empty($results)) {
 			//cache hits
-			echo "cache hits";
 			return $results;
 		}
 	}	
@@ -336,7 +335,7 @@ function getCourseSectionStructure($courseid, $sectionid) {
 		$results = $memcached->get($key);
 		if(!empty($results)) {
 			//cache hits
-			echo "cache hits";
+			//echo "cache hits";
 			return $results;
 		}
 	}	
@@ -431,8 +430,7 @@ function getCourseSectionStructure($courseid, $sectionid) {
 
 	/*luu vao cache*/
 	if(!empty($memcached)) {
-		$memcached->set($key, $section, 10);
-		echo "set memcached $key";
+		$memcached->set($key, $section, 10);		
 	}
 	return $section;
 }
