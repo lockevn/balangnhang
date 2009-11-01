@@ -349,7 +349,7 @@ function showCourseContentDetail($courseId = null, $sectionId = null)
                     '.$obj->content.'
                 </td>
                 <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                    <img src="'.$CFG->themewww.'/'.current_theme().'/template/images/'.$grade->status.'.gif" />
+                    <img title="'.$grade->status.'" src="'.$CFG->themewww.'/'.current_theme().'/template/images/'.$grade->status.'.gif" />
                 </td>
                 <td align="center" bgcolor="#FFFFFF" class="courseBB">
                     '.$gradePercent.'
