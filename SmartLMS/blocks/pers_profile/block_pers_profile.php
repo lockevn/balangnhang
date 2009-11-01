@@ -11,7 +11,7 @@
       } // function has_config()
 
       function get_content() {
-         global $db, $USER, $CFG;
+         global $db, $USER, $CFG, $COURSE;
 
          if ($this->content !== NULL) {
 	    return $this->content;
@@ -29,6 +29,9 @@
 	 $this->content->footer = '';
      */
      
+	$isTicketRequired = isTicketRequired($USER->id, $COURSE->id);
+	
+	
         $this->content->text = '
                 
                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -40,13 +43,20 @@
                                     <a style="float:right;" href="/login/logout.php?sesskey='.sesskey().'" class="leftpaneltext">Log out</a>
                                 </td>
                             </tr>
-                            <tr><td height="30px" align="left">
-                                            Tin nhắn: ' . "<a href='$CFG->wwwroot/message/index.php'>" . $this->getTotalUnreadMessageOfUser($USER->id) . "</a>" . '
-                                        </td></tr>
-                                        
-                        </table>
-                    
-        ';
+                            <tr>
+                            	<td height="30px" align="left">
+                                            ' . get_string("new_messages", "block_pers_profile") . ": <a href='$CFG->wwwroot/message/index.php'>" . $this->getTotalUnreadMessageOfUser($USER->id) . "</a>" . '
+                                </td>
+                            </tr> ';
+        if($isTicketRequired) {
+        	$this->content->text .= '
+        					<tr>
+        						<td>' . get_string("ticket_required", "block_pers_profile", $CFG->wwwroot.'/mod/smartcom/index.php?submodule=ticket_buy&courseid='.$COURSE->id) .
+        						'</td>
+        					</tr> ';
+        				      	        	
+        }               
+        $this->content->text .= '</table>';                                                                           
         $this->content->footer = '';
 
          return $this->content;
