@@ -1,6 +1,8 @@
 <?php // $Id: view.php,v 1.106.2.6 2009/02/12 02:29:34 jerome Exp $
 require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 
+
+
 //  Display the course home page.
 
 	require_once('../config.php');
@@ -91,6 +93,9 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 
 
 	require_once($CFG->dirroot.'/calendar/lib.php');    /// This is after login because it needs $USER
+    
+    
+    
 
 	add_to_log($course->id, 'course', 'view', "view.php?id=$course->id", "$course->id");
 
@@ -200,9 +205,32 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 
 	$CFG->blocksdrag = $useajax;   // this will add a new class to the header so we can style differently
 	
-	
+	/**
+    * commented by muinx
+    * display ajax content
+    */
+    
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && $_REQUEST['task'] == 'ajax')
+    {
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            $courseId = $_REQUEST['id'];
+            $sectionId = $_REQUEST['sectionid'];
+            
+            echo showCourseContentDetail($courseId, $sectionId);
+            
+        }
+        
+        exit();
+    }
+    
+    /**
+    * end section muinx add code to get ajax content
+    */
 
-	$PAGE->print_header(get_string('course').': %fullname%', NULL, '', $bodytags);
+    $PAGE->print_header(get_string('course').': %fullname%', NULL, '', $bodytags);
+        
+        
 	// Course wrapper start.
 	echo '<div class="course-content">';
 
@@ -230,10 +258,13 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 			error('Error finding or creating section structures for this course');
 		}
 	}
-
+    
 	// Include the actual course format.
     //require($CFG->dirroot .'/course/format/'. $course->format .'/format.php');
 	require($CFG->dirroot .'/course/format/'. $course->format .'/format_student.php'); //@muinx test
+    
+    
+    
 	// Content wrapper end.
 	echo "</div>\n\n";
 
@@ -252,4 +283,83 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 
 	print_footer(NULL, $course);
 
-?>
+    
+    
+    
+/**
+* show course content
+* muinx add to get content & use for ajax
+* 
+* @param mixed $courseId
+* @param mixed $sectionId
+* 
+* @return html to display content
+*/
+function showCourseContentDetail($courseId = null, $sectionId = null)
+{
+    global $USER, $CFG;
+    
+    if(!function_exists('getLessonActivitiesFromSectionId') || !function_exists('getAvgGradeOfAllQuizInActivityOfUser'))
+        require_once('../smartcom/util/courseutil.php');
+    
+    if(!$courseId || !$sectionId) return false;
+    
+    $listActivities = getLessonActivitiesFromSectionId ($courseId, $sectionId);
+    
+    //echo '<pre>'; print_r($arrData);
+    $str = 
+    
+        '<table cellpadding="10px" cellspacing="1" width="100%" border="1" style="border-color:#6699CC;" bgcolor="#999999">
+            <tr valign="middle">
+                <td align="center" class="courseBB" background="'.$CFG->themewww.'/'.current_theme().'/template/images/TB1_HD.jpg">
+                    #
+                </td>
+                <td align="center" class="courseBB" background="'.$CFG->themewww.'/'.current_theme().'/template/images/TB1_HD.jpg">
+                    Activitiest
+                </td>
+                <td align="center" class="courseBB" background="'.$CFG->themewww.'/'.current_theme().'/template/images/TB1_HD.jpg">
+                    Contents
+                </td>
+                <td align="center" class="courseBB" background="'.$CFG->themewww.'/'.current_theme().'/template/images/TB1_HD.jpg">
+                    Status
+                </td>
+                <td align="center" class="courseBB" background="'.$CFG->themewww.'/'.current_theme().'/template/images/TB1_HD.jpg">
+                    Result
+                </td>
+            </tr>';
+        
+        $i = 1;
+        
+        foreach($listActivities as $obj)
+        {
+            $grade = getAvgGradeOfAllQuizInActivityOfUser($courseId, $sectionId, $obj->id, $USER->id);
+            
+            //print_r($grade);
+            $gradePercent = ($grade->avg)*100;
+            
+            $str .= '
+            <tr valign="middle">
+                <td height="44px" width="40px" align="center" bgcolor="#EEEEEE" style="font-weight:bold;">
+                    '.$i.'
+                </td>
+                <td align="left" bgcolor="#FFFFFF" class="courseBB">
+                    <a href="'.$obj->link.'">'.$obj->name.'</a>
+                </td>
+                <td align="left" bgcolor="#FFFFFF" class="courseB">
+                    '.$obj->content.'
+                </td>
+                <td align="center" bgcolor="#FFFFFF" class="courseBB">
+                    <img src="'.$CFG->themewww.'/'.current_theme().'/template/images/'.$grade->status.'.gif" />
+                </td>
+                <td align="center" bgcolor="#FFFFFF" class="courseBB">
+                    '.$gradePercent.'
+                </td>
+            </tr>';       
+            
+            $i ++; 
+        }
+        
+        $str .= '</table>';
+                                                                    
+    return $str;
+} //showCourseConentDetail
