@@ -9,6 +9,7 @@ define("RESOURCE", 13);
 define("ASSIGNMENT", 1);
 
 
+
 /**
  * get list of recommended course for a course id
  *
@@ -40,7 +41,7 @@ function getRecommendCourseList($courseid, $summaryTextLength = 250) {
 			//cache hits
 			return $results;
 		}
-	}	
+	}
 
 	$sql = "select c.id as id, c.fullname as fullname, c.summary as summary
 			from " . $CFG->prefix . "course c, " . $CFG->prefix. "smartcom_recommend_course rc
@@ -146,45 +147,45 @@ function getCourseSupportTools($courseid) {
  *
  * @param int $courseid
  * @param int $selectedCmid
- * @param int $type 
+ * @param int $type
  * @return array of activity obj
  * $activity->id (course module id)
  * 			->name (listening  ...)
  * 			->los (array of lo obj)
- * 			->link 
+ * 			->link
  * 			->selected (true/false)
  */
 function getLessonActivitiesFromLOId($courseid, $selectedCmid, $type) {
 	global $CFG;
-		
-	/*select current section id from selectedCmID*/	
+
+	/*select current section id from selectedCmID*/
 	$result = get_record("course_modules", "id", $selectedCmid, "course", $courseid, "", "", "section");
 	if(empty($result)) {
 		return false;
 	}
 	$sectionId = $result->section;
-	
+
 	/*build section structure*/
 	$section = getCourseSectionStructure($courseid, $sectionId);
 	if(empty($section)) {
 		return false;
-	}	
+	}
 	$activityArr = $section->activities;
-	
+
 	/*get selected activity*/
 	foreach($activityArr as $activity) {
 		foreach($activity->los as $lo) {
 			if($lo->id == $selectedCmid && $lo->type == $type) {
-				$activity->selected = 1;			
+				$activity->selected = 1;
 				break;
-			} 
+			}
 			else {
 				$activity->selected = 0;
 			}
 		}
 	}
 	return $activityArr;
-		
+
 }
 
 /**
@@ -201,7 +202,7 @@ function getSectionListOfCourse($courseid) {
 		return false;
 	}
 	$sectionList = get_records_select("course_sections", "course=$courseid and visible=1", "", "id, label, summary");
-	return $sectionList;	
+	return $sectionList;
 }
 
 /**
@@ -212,8 +213,8 @@ function getSectionListOfCourse($courseid) {
  * @return array of Activity obj
  * * $activity->id (course module id)
  * 			->name (listening  ...)
- * 			->content 			
- * 			->link 
+ * 			->content
+ * 			->link
  */
 function getLessonActivitiesFromSectionId($courseid, $sectionid) {
 	if(empty($courseid) || empty($sectionid)) {
@@ -224,11 +225,11 @@ function getLessonActivitiesFromSectionId($courseid, $sectionid) {
 		return false;
 	}
 	return $section->activities;
-	
+
 }
 
 function getAvgGradeOfAllQuizInActivityOfUserFromLOId($courseid, $selectedCmid, $activityid, $userid) {
-	/*select current section id from selectedCmID*/	
+	/*select current section id from selectedCmID*/
 	$result = get_record("course_modules", "id", $selectedCmid, "course", $courseid, "", "", "section");
 	if(empty($result)) {
 		return false;
@@ -256,7 +257,7 @@ function getAvgGradeOfAllQuizInActivityOfUser($courseid, $sectionid, $activityid
 	$section = getCourseSectionStructure($courseid, $sectionid);
 	if(empty($section)) {
 		return false;
-	}	
+	}
 	$quizIdStr = "";
 	$quizCount = 0;
 	foreach($section->activities as $activity) {
@@ -271,27 +272,37 @@ function getAvgGradeOfAllQuizInActivityOfUser($courseid, $sectionid, $activityid
 			break;
 		}
 	}
-	$sql = "SELECT count(qg.grade) as count, avg(qg.grade/q.sumgrades) avg_
+	if(!empty($quizIdStr)) {
+		$sql = "SELECT count(qg.grade) as count, avg(qg.grade/q.sumgrades) avg_
 				FROM " . $CFG->prefix ."quiz_grades qg, mdl_quiz q 
-				WHERE qg.quiz=q.id AND qg.userid=$userid 
-				AND qg.quiz in ($quizIdStr) ";					
-	$result = get_record_sql($sql);
-	if(empty($result)) {
-		return false;							
+		WHERE qg.quiz=q.id AND qg.userid=$userid
+		AND qg.quiz in ($quizIdStr) ";
+		$result = get_record_sql($sql);
+		if(empty($result)) {
+			return false;
+		}
 	}
 	$grade = new stdClass();
-	$grade->avg = $result->avg_;
-	if($result->avg_ !== null && $result->avg_ < 0.6) {
-		$grade->status = 'failed';	
-	}
-	else if($result->avg_ >= 0.6 && $quizCount == $result->count) {
-		$grade->status = 'passed';
+	if(!empty($result)) {
+		$grade = new stdClass();
+		$grade->avg = $result->avg_;
+		if($result->avg_ !== null && $result->avg_ < 0.6) {
+			$grade->status = 'failed';
+		}
+		else if($result->avg_ >= 0.6 && $quizCount == $result->count) {
+			$grade->status = 'passed';
+		}
+		else {
+			$grade->status = 'incompleted';
+		}
 	}
 	else {
 		$grade->status = 'incompleted';
+		$grade->avg_ = '';
 	}
-	 
-	return $grade;	
+	
+
+	return $grade;
 }
 
 
@@ -301,7 +312,7 @@ function getAvgGradeOfAllQuizInActivityOfUser($courseid, $sectionid, $activityid
  * @param unknown_type $courseid
  * @param unknown_type $sectionid
  * @return section object có dạng:
- * 
+ *
  * $section ->id
  * 			->label (lesson 1 , unit1..)
  * 			->section
@@ -311,26 +322,26 @@ function getAvgGradeOfAllQuizInActivityOfUser($courseid, $sectionid, $activityid
  * 			->name (listening  ...)
  * 			->content
  * 			->los (array of lo obj)
- * 			->link 
- * 
+ * 			->link
+ *
  * $lo->id (course module id)
-	  ->instance (instance id)
-	  ->type 	(lecture, exercise, practice, activity)
-	  ->name  (lecture1, exercise1 ..)
+ ->instance (instance id)
+ ->type 	(lecture, exercise, practice, activity)
+ ->name  (lecture1, exercise1 ..)
  */
 function getCourseSectionStructure($courseid, $sectionid) {
 	global $CFG;
-	
+
 	if(empty($courseid) || empty($sectionid) ) {
 		return false;
 	}
-	
+
 	if($CFG->cachetype === 'memcached') {
 		$memcached = new memcached();
 		if($memcached === false) {
 			return false;
 		}
-		
+
 		$key = MemcachedUtil::$COURSE_SECTION_KEY . $courseid . "_" . $sectionid;
 		$results = $memcached->get($key);
 		if(!empty($results)) {
@@ -338,45 +349,45 @@ function getCourseSectionStructure($courseid, $sectionid) {
 			//echo "cache hits";
 			return $results;
 		}
-	}	
-	
+	}
+
 	/*get section info*/
 	$result = get_record("course_sections", "id", $sectionid, "visible", 1);
 	if(empty($result)) {
 		return false;
-	}		
+	}
 	/*lưu section*/
-	$section = $result;	
-	
+	$section = $result;
+
 	/*get activity list of section*/
 	$sql = "SELECT cm.id, l.name, l.label as content
-			FROM {$CFG->prefix}course_modules cm, {$CFG->prefix}label l
-			WHERE cm.module=9 AND cm.indent=0 AND cm.visible=1 AND cm.instance=l.id
-		  	AND cm.section=$sectionid AND cm.course=$courseid";	
+	FROM {$CFG->prefix}course_modules cm, {$CFG->prefix}label l
+	WHERE cm.module=9 AND cm.indent=0 AND cm.visible=1 AND cm.instance=l.id
+	AND cm.section=$sectionid AND cm.course=$courseid";
 	$results = get_records_sql($sql);
-	
-	
-	$activityArr = array(); 
-		
+
+
+	$activityArr = array();
+
 	foreach($results as $activity) {
-		$index = stripos("$section->sequence", "$activity->id");		
-		if($index !== false) {			
+		$index = stripos("$section->sequence", "$activity->id");
+		if($index !== false) {
 			$activity->index = $index;
 			$activityArr[] = $activity;
 		}
 	}
-	
+
 	/*sắp xếp $activityArr*/
 	for($i = 0; $i < sizeof($activityArr)-1; $i++) {
 		for($j = $i+1; $j < sizeof($activityArr); $j++) {
 			if($activityArr[$i]->index > $activityArr[$j]->index) {
 				$temp = $activityArr[$i];
 				$activityArr[$i] = $activityArr[$j];
-				$activityArr[$j] = $temp;				
+				$activityArr[$j] = $temp;
 			}
 		}
 	}
-	
+
 	/*duyet $activityArr để xác định cmid của các lecture, exercise ... con của activity*/
 	for($i = 0; $i < sizeof($activityArr); $i++){
 		if($i < sizeof($activityArr) - 1) {
@@ -395,13 +406,13 @@ function getCourseSectionStructure($courseid, $sectionid) {
 			$tmpArr = array(LABEL=>"label", QUIZ=>"quiz", RESOURCE=>"resource", "lecture"=>"resource", "exercise"=>"quiz", "practice"=>"quiz", "test"=>"quiz");
 			if(!in_array($cmObj->module, array_keys($tmpArr))) {
 				continue;
-			} 			
+			}
 			$moduleName = $tmpArr[$cmObj->module];
 			if($cmObj->module == LABEL) {
 				$result = get_record($moduleName, "id", $cmObj->instance, "", "", "", "", "name");
 			} else {
 				$result = get_record($moduleName, "id", $cmObj->instance, "", "", "", "", "name, lotype");
-			}			
+			}
 			$lo = new stdClass();
 			$lo->id = $loCmIdArr[$j];
 			$lo->instance = $cmObj->instance;
@@ -410,10 +421,10 @@ function getCourseSectionStructure($courseid, $sectionid) {
 			} else {
 				$lo->type = "activity";
 			}
-			
+				
 			if(!empty($result)) {
 				$lo->name = $result->name;
-			}			
+			}
 			$loArr[] = $lo;
 		}
 		/*set loArr cho activity*/
@@ -424,13 +435,13 @@ function getCourseSectionStructure($courseid, $sectionid) {
 			$activityArr[$i]->link = $CFG->wwwroot . "/mod/" . $tmpArr[$activityArr[$i]->los[0]->type] . "/view.php?id=" . $activityArr[$i]->los[0]->id;
 		}
 	}
-		
+
 	/*lưu activity list vào section*/
-	$section->activities = $activityArr; 
+	$section->activities = $activityArr;
 
 	/*luu vao cache*/
 	if(!empty($memcached)) {
-		$memcached->set($key, $section, 10);		
+		$memcached->set($key, $section, 10);
 	}
 	return $section;
 }
@@ -450,15 +461,15 @@ function getMyCourseList($userid) {
 	}
 	global $CFG;
 	$sql = "SELECT c.id,c.fullname as name
-			FROM {$CFG->prefix}course c, {$CFG->prefix}context ctx, {$CFG->prefix}role_assignments r
-			WHERE ctx.instanceid=c.id AND ctx.contextlevel=" .CONTEXT_COURSE. 
+	FROM {$CFG->prefix}course c, {$CFG->prefix}context ctx, {$CFG->prefix}role_assignments r
+	WHERE ctx.instanceid=c.id AND ctx.contextlevel=" .CONTEXT_COURSE.
 			" AND r.contextid=ctx.id AND r.roleid in (5,10) AND c.id <> 1 AND r.userid=$userid";
 	$results = get_records_sql($sql);
 	if(empty($results)){
 		return false;
 	}
 	return $results;
-	
+
 }
 
 /**
@@ -474,7 +485,7 @@ function getLectureListOfCurrentLecture($cmid, $selectedActivity) {
 	}
 	$lectureArr = array();
 	foreach($selectedActivity->los as $lo) {
-		if($lo->type == "lecture" || $lo->type == "practice") {			
+		if($lo->type == "lecture" || $lo->type == "practice") {
 			if($lo->id == $cmid && $lo->type == "lecture") {
 				$lo->selected = 1;
 			}
@@ -483,16 +494,16 @@ function getLectureListOfCurrentLecture($cmid, $selectedActivity) {
 			}
 			$lectureArr[] = $lo;
 		}
-		
+
 	}
-	return $lectureArr;	
+	return $lectureArr;
 }
 
 /**
- * get list of all lectures in current section to display 
+ * get list of all lectures in current section to display
  * Xem lại bài giảng ngữ phap 1 2 3
  * Xem lại bài giảng từ vựng 1 2 3
-	in quiz page 
+ in quiz page
  * @param int $cmid quiz cmid
  * @param Activity array $activityArr
  * @return Associate array of array of lectureObj
@@ -507,13 +518,25 @@ function getLectureListOfCurrentQuiz($cmid, $activityArr) {
 	foreach($activityArr as $selectedActivity) {
 		$lectureArr[$selectedActivity->name] = array();
 		foreach($selectedActivity->los as $lo) {
-			if($lo->type == "lecture") {				
+			if($lo->type == "lecture") {
 				$lectureArr[$selectedActivity->name][] = $lo;
 			}
 		}
 	}
 	return $lectureArr;
-	
+
+}
+
+function isTicketRequired($userid, $courseid) {
+	$context = get_context_instance(CONTEXT_COURSE, $courseid);
+	if(empty($context)) {
+		return false;
+	}
+	$result = get_record_select("role_assignments", "contextid=$context->id AND userid=$userid AND roleid <= 5", "id");
+	if(empty($result)) {
+		return true;
+	}
+	return false;
 }
 
 //$section = getCourseSectionStructure(104, 172);
@@ -528,7 +551,7 @@ function getLectureListOfCurrentQuiz($cmid, $activityArr) {
 
 //$activityArr = getLessonActivities(104, 309, QUIZ);
 //foreach($activityArr as $activity) {
-//	echo "id: $activity->id name: $activity->name link: $activity->link selected: $activity->selected "; 
+//	echo "id: $activity->id name: $activity->name link: $activity->link selected: $activity->selected ";
 //}
 
 //$quizIdArr = getAllQuizOfActivity(104, 172, 302);
