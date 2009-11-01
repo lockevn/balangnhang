@@ -1,3 +1,24 @@
+<script language="javascript">
+    $().ready(function(){
+        $('span[sectionid][class*="course"]').click(function(){
+            //$('#current_unit_active').attr('id','')
+            //$(this).parents('table').attr('id','current_unit_active');
+            var courseid = $(this).attr('courseid');
+            var sectionid = $(this).attr('sectionid');
+            
+            $('#list_activities').html('<div style="padding:10px">Waiting ...</div>');
+            
+            $.post(
+                    '<?php echo $CFG->wwwroot .'/course/view.php?id='.$_REQUEST['id'].'&task=ajax' ?>',
+                    {courseid:courseid, sectionid:sectionid},
+                    function(data)
+                    {
+                        $('#list_activities').html(data);
+                    }
+            );
+        })
+    })
+</script>
 <?php // $Id: format.php,v 1.2 2008/09/11 22:19:02 stronk7 Exp $
 
 ///////////////////////////////////////////////////////////////////////////
@@ -54,9 +75,6 @@
     * @desc GURUCORE hack
     */
 
-
-
-        
     
     // Define if we want tree in section 0
     $topicstree_tree_in_section0 = false;
@@ -142,94 +160,21 @@
 /// Start main column
     echo '<td id="middle-column">';
     
-    /******************************
-    * @desc muinx add content here: bulletin
-    */
-    
-    echo '<table width="100%" border="1"><tr><td>';
-    print_heading_block(get_string('topicoutline'), 'outline');
-    echo '</td></tr></table>';
-    
-    /******************************
-    * @desc muinx add content here
-    */
-    
     print_container_start();
     echo skip_main_destination();
 
     print_heading_block(get_string('topicoutline'), 'outline');
     
+    $courseId = $_REQUEST['id'];
+    
+    $sectionListCourse = getSectionListOfCourse($courseId);
+    
+    //echo '<pre>';
+    //print_r($sectionListCourse);
+    
     echo '
     <div style="clear:both;"></div>
-    <!-------------------------------------------------------------------->
-                    <div class="newsarea">
-                        <table cellpadding="0" cellspacing="0" width="100%" >
-                            <tr><td height="30px" colspan="3">
-                                <div class="title">BULLETIN</div>
-                                <div class="titleicon"><a href=""><img src="template/images/BT_GT.JPG" /></a></div>
-                                <div class="titleicon"><a href=""><img src="template/images/BT_LT.JPG" /></a></div>
-                            </td></tr>
-                            <tr>
-                                <td valign="top" width="5px"><img src="template/images/BG1_L.jpg" /></td>
-                                <td valign="top">
-                                    <table cellpadding="10px" cellspacing="0" width="100%" style="background:url(template/images/BG1_M.jpg) top repeat-x" height="100px">
-                                        <tr>
-                                            <td valign="top" width="33%">
-                                                <table cellpadding="0" cellspacing="0" width="100%">
-                                                    <tr><td>
-                                                        <a href="" class="titleText">Hard hours and low pay – a worker’s long day in IZ</a></div>
-                                                    </td></td>
-                                                    <tr><td>
-                                                        <a href="" class="username">Admin User</a> <span class="datetime">(17 Sep, 13:26)</span>
-                                                    </td></tr>
-                                                    <tr><td height="10px"></td></tr>
-                                                    <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
-                                                    <tr><td height="10px"></td></tr>
-                                                    <tr><td align="justify">
-                                                        What’s it like to be one of the millions of young women who work in these factories? VietNamNet discovers.
-                                                    </td></tr>
-                                                </table>
-                                            </td>
-                                            <td valign="top" width="34%">
-                                                <table cellpadding="0" cellspacing="0" width="100%">
-                                                    <tr><td>
-                                                        <a href="" class="titleText">Vietnam protests inhumane acts against fishermen</a></div>
-                                                    </td></td>
-                                                    <tr><td>
-                                                        <a href="" class="username">Admin User</a> <span class="datetime">(17 Sep, 13:26)</span>
-                                                    </td></tr>
-                                                    <tr><td height="10px"></td></tr>
-                                                    <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
-                                                    <tr><td height="10px"></td></tr>
-                                                    <tr><td align="justify">
-                                                        Vietnam has asked China to compensate fisherman who were beaten by armed Chinese men as they attempted to shelter from the Ketsana typhoon.
-                                                    </td></tr>
-                                                </table>
-                                            </td>
-                                            <td valign="top" width="33%">
-                                                <table cellpadding="0" cellspacing="0" width="100%">
-                                                    <tr><td>
-                                                        <a href="" class="titleText">’Indochine’ movie star: I’m so proud of beautiful Choi Voi</a></div>
-                                                    </td></td>
-                                                    <tr><td>
-                                                        <a href="" class="username">Admin User</a> <span class="datetime">(17 Sep, 13:26)</span>
-                                                    </td></tr>
-                                                    <tr><td height="10px"></td></tr>
-                                                    <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
-                                                    <tr><td height="10px"></td></tr>
-                                                    <tr><td align="justify">
-                                                        Saigon-born Pham Linh Dan is still celebrating her most recent movie Choi Voi’s (Adrift) success after it received an award at the recent Venice Film Festival.
-                                                    </td></tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td valign="top" width="5px"><img src="template/images/BG1_R.jpg" /></td>
-                            </tr>
-                        </table>
-                    </div>
-    <!-------------------------------------------------------------------->
+    
                     <div class="newsarea">
                         <table cellpadding="0" cellspacing="0" width="100%" >
                             <tr><td height="30px" colspan="3">
@@ -248,47 +193,21 @@
                                                 <table cellpadding="0" cellspacing="0" width="100%">
                                                     <tr><td valign="top" width="180px">
 														<div class="leftInner">
-                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                            <tr>
-                                                                <td rowspan="2" width="5px"/>
-                                                                <td rowspan="2" valign="top" style="background:url('.$CFG->themewww.'/'.current_theme().'/template/images/CircleBW.gif) top center no-repeat" width="15px" align="center">
-                                                                    <span class="courseGB">1</span>
-                                                                </td>
-                                                                <td rowspan="2" width="10px"/>
-                                                                <td height="20px" valign="top">
-                                                                    <span class="courseWB">UNIT 1</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="courseW">Overview</span>
-                                                                </td>
-                                                            <tr>
-                                                            <tr><td colspan="2" height="10px"/></tr>
-                                                            <tr><td/><td colspan="3" background="'.$CFG->themewww.'/'.current_theme().'/template/images/BG2_Split.gif" height="1px"/></tr>            
-                                                        </table>                    
-                                                        <!------------------------------------------------>
-                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                            <tr><td colspan="5" height="10px"/></tr>
-                                                            <tr>
-                                                                <td rowspan="2" width="5px"/>
-                                                                <td rowspan="2" valign="top" style="background:url('.$CFG->themewww.'/'.current_theme().'/template/images/CircleBW.gif) top center no-repeat" width="15px" align="center">
-                                                                    <span class="courseGB">2</span>
-                                                                </td>
-                                                                <td rowspan="2" width="10px"/>
-                                                                <td height="20px" valign="top">
-                                                                    <span class="courseWB">UNIT 2</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="courseW">Overview</span>
-                                                                </td>
-                                                            <tr>
-                                                            <tr><td colspan="2" height="10px"/></tr>
-                                                        </table>                                
-                                                        <!------------------------------------------------>
-                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                        ';
+                                                        $i = 1;
+                                                        foreach($sectionListCourse as $objCourse)
+                                                        {
+                                                            if($objCourse->label != '')
+                                                            {
+                                                                
+                                                                $sectionId = $objCourse->id;
+                                                                //echo '<pre>'; print_r($activitiesList); die;
+                                                                if($i  == 1)
+                                                                {
+                                                                    $currentSectionId = $objCourse->id;
+                                                                    
+                                                                    echo 
+                                                        '<table cellpadding="0" cellspacing="0" width="100%" id="current_unit_active">
                                                             <tr class="h-border">
                                                                 <td><img class="h-border" src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG3_TL.gif" /></td>
                                                                 <td colspan="4" bgcolor="#EEEEDD"> </td>
@@ -296,126 +215,58 @@
                                                             <tr>
                                                                 <td rowspan="2" width="5px" bgcolor="#EEEEDD" class="v-border"/>
                                                                 <td rowspan="2" valign="top" style="background:#EED url('.$CFG->themewww.'/'.current_theme().'/template/images/CircleBG.gif) top center no-repeat" width="15px" align="center">
-                                                                    <span class="courseWB">3</span>
+                                                                    <span class="courseWB">'.$i.'</span>
                                                                 </td>
                                                                 <td rowspan="2" width="10px" bgcolor="#EEEEDD"/>
                                                                 <td height="20px" valign="top" bgcolor="#EEEEDD">
-                                                                    <span class="courseGB">UNIT 3</span>
+                                                                    <span courseid="'.$courseId.'" sectionid="'.$sectionId.'" class="courseGB" title="'.$objCourse->label.'">'.$objCourse->label.'</span>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td bgcolor="#EEEEDD">
-                                                                    <span class="courseG">Overview</span>
+                                                                    <span class="courseG">'.$objCourse->summary.'</span>
                                                                 </td>
                                                             </tr>
                                                             <tr class="h-border">
                                                                 <td class="h-border" vaglin="top"><img  src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG3_BL.gif" /></td>
                                                                 <td colspan="4" bgcolor="#EEEEDD" class="h-border"></td>
-                                                            </tr>    
-                                                        </table>                                
-                                                        <!------------------------------------------------>
-                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                            <tr><td colspan="5" height="10px"/></tr>
+                                                            </tr>
+                                                            <tr><td colspan="2" height="10px"/></tr>
+                                                        </table>';
+                                                                }
+                                                                else
+                                                                {
+                                                                    echo 
+                                                        '<table cellpadding="0" cellspacing="0" width="100%">
                                                             <tr>
                                                                 <td rowspan="2" width="5px"/>
                                                                 <td rowspan="2" valign="top" style="background:url('.$CFG->themewww.'/'.current_theme().'/template/images/CircleBW.gif) top center no-repeat" width="15px" align="center">
-                                                                    <span class="courseGB">4</span>
+                                                                    <span class="courseGB">'.$i.'</span>
                                                                 </td>
                                                                 <td rowspan="2" width="10px"/>
                                                                 <td height="20px" valign="top">
-                                                                    <span class="courseWB">UNIT 4</span>
+                                                                    <span courseid="'.$courseId.'" sectionid="'.$sectionId.'" class="courseWB" title="'.$objCourse->label.'">'.$objCourse->label.'</span>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>
-                                                                    <span class="courseW">Overview</span>
+                                                                    <span class="courseW">'.$objCourse->summary.'</span>
                                                                 </td>
                                                             <tr>
                                                             <tr><td colspan="2" height="10px"/></tr>
                                                             <tr><td/><td colspan="3" background="'.$CFG->themewww.'/'.current_theme().'/template/images/BG2_Split.gif" height="1px"/></tr>            
-                                                        </table>                                
-                                                        <!------------------------------------------------>
-                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                            <tr><td colspan="5" height="10px"/></tr>
-                                                            <tr>
-                                                                <td rowspan="2" width="5px"/>
-                                                                <td rowspan="2" valign="top" style="background:url('.$CFG->themewww.'/'.current_theme().'/template/images/CircleBW.gif) top center no-repeat" width="15px" align="center">
-                                                                    <span class="courseGB">5</span>
-                                                                </td>
-                                                                <td rowspan="2" width="10px"/>
-                                                                <td height="20px" valign="top">
-                                                                    <span class="courseWB">UNIT 5</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="courseW">Overview</span>
-                                                                </td>
-                                                            <tr>
                                                             <tr><td colspan="2" height="10px"/></tr>
-                                                            <tr><td/><td colspan="3" background="'.$CFG->themewww.'/'.current_theme().'/template/images/BG2_Split.gif" height="1px"/></tr>            
-                                                        </table>                                
-                                                        <!------------------------------------------------>
-                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                            <tr><td colspan="5" height="10px"/></tr>
-                                                            <tr>
-                                                                <td rowspan="2" width="5px"/>
-                                                                <td rowspan="2" valign="top" style="background:url('.$CFG->themewww.'/'.current_theme().'/template/images/CircleBW.gif) top center no-repeat" width="15px" align="center">
-                                                                    <span class="courseGB">6</span>
-                                                                </td>
-                                                                <td rowspan="2" width="10px"/>
-                                                                <td height="20px" valign="top">
-                                                                    <span class="courseWB">UNIT 6</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="courseW">Overview</span>
-                                                                </td>
-                                                            <tr>
-                                                            <tr><td colspan="2" height="10px"/></tr>
-                                                        </table>    
-                                                        <!------------------------------------------------>
-                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                            <tr><td colspan="5" height="10px"/></tr>
-                                                            <tr>
-                                                                <td rowspan="2" width="5px"/>
-                                                                <td rowspan="2" valign="top" style="background:url('.$CFG->themewww.'/'.current_theme().'/template/images/CircleBW.gif) top center no-repeat" width="15px" align="center">
-                                                                    <span class="courseGB">6</span>
-                                                                </td>
-                                                                <td rowspan="2" width="10px"/>
-                                                                <td height="20px" valign="top">
-                                                                    <span class="courseWB">UNIT 6</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="courseW">Overview</span>
-                                                                </td>
-                                                            <tr>
-                                                            <tr><td colspan="2" height="10px"/></tr>
-                                                        </table>    
-                                                        <!------------------------------------------------>	
-                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                            <tr><td colspan="5" height="10px"/></tr>
-                                                            <tr>
-                                                                <td rowspan="2" width="5px"/>
-                                                                <td rowspan="2" valign="top" style="background:url('.$CFG->themewww.'/'.current_theme().'/template/images/CircleBW.gif) top center no-repeat" width="15px" align="center">
-                                                                    <span class="courseGB">6</span>
-                                                                </td>
-                                                                <td rowspan="2" width="10px"/>
-                                                                <td height="20px" valign="top">
-                                                                    <span class="courseWB">UNIT 6</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="courseW">Overview</span>
-                                                                </td>
-                                                            <tr>
-                                                            <tr><td colspan="2" height="10px"/></tr>
-                                                        </table>    
-                                                        <!------------------------------------------------>														
+                                                        </table>';
+                                                                } //end if
+                                                                $i ++;
+                                                                
+                                                                echo '<!------------------------------------------------>';
+                                                            }  //end if
+                                                            
+                                                        } //end for
+                                                        
+                                                        echo ' 
+                                                        
                                                      </div> <!-- leftInner--->       
                                                     </td><td valign="top">
 														  <table cellpadding="0" cellspacing="0" width="100%">
@@ -427,159 +278,8 @@
                                                             <tr>
                                                                 <td bgcolor="#EEEEDD" />
                                                                 <td bgcolor="#EEEEDD">
-																<div class="rightInner">
-                                                                    <table cellpadding="10px" cellspacing="1" width="100%" bgcolor="#999999">
-                                                                        <tr valign="middle">
-                                                                            <td align="center" class="courseBB" background="'.$CFG->themewww.'/'.current_theme().'/template/images/TB1_HD.jpg">
-                                                                                #
-                                                                            </td>
-                                                                            <td align="center" class="courseBB" background="'.$CFG->themewww.'/'.current_theme().'/template/images/TB1_HD.jpg">
-                                                                                Activitiest
-                                                                            </td>
-                                                                            <td align="center" class="courseBB" background="'.$CFG->themewww.'/'.current_theme().'/template/images/TB1_HD.jpg">
-                                                                                Contents
-                                                                            </td>
-                                                                            <td align="center" class="courseBB" background="'.$CFG->themewww.'/'.current_theme().'/template/images/TB1_HD.jpg">
-                                                                                Status
-                                                                            </td>
-                                                                            <td align="center" class="courseBB" background="'.$CFG->themewww.'/'.current_theme().'/template/images/TB1_HD.jpg">
-                                                                                Result
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr valign="middle">
-                                                                            <td height="44px" width="40px" align="center" bgcolor="#EEEEEE" class="courseGB">
-                                                                                1
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <a href="">Vocabulary</a>
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseB">
-                                                                                what the heck is it? Is it a really difficult programming language that casual...
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <img src="'.$CFG->themewww.'/'.current_theme().'/template/images/checkOk.gif" />
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <a href="">95</a>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr valign="middle">
-                                                                            <td height="44px" width="40px" align="center" bgcolor="#DDDDDD" class="courseGB">
-                                                                                2
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <a href="">Grammar</a>
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseB">
-                                                                                what the heck is it? Is it a really difficult programming language that casual...
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <img src="'.$CFG->themewww.'/'.current_theme().'/template/images/checkNotOk.gif" />
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr valign="middle">
-                                                                            <td height="44px" width="40px" align="center" bgcolor="#EEEEEE" class="courseGB">
-                                                                                3
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <a href="">Reading</a>
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseB">
-                                                                                what the heck is it? Is it a really difficult programming language that casual...
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <img src="'.$CFG->themewww.'/'.current_theme().'/template/images/checkOk.gif" />
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <a href="">80</a>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr valign="middle">
-                                                                            <td height="44px" width="40px" align="center" bgcolor="#DDDDDD" class="courseGB">
-                                                                                4
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <a href="">Listening</a>
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseB">
-                                                                                what the heck is it? Is it a really difficult programming language that casual...
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <img src="'.$CFG->themewww.'/'.current_theme().'/template/images/checkOk.gif" />
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <a href="">68</a>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr valign="middle">
-                                                                            <td height="44px" width="40px" align="center" bgcolor="#EEEEEE" class="courseGB">
-                                                                                5
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <a href="">Expressions</a>
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseB">
-                                                                                what the heck is it? Is it a really difficult programming language that casual...
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <img src="'.$CFG->themewww.'/'.current_theme().'/template/images/checkNotOk.gif" />
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr valign="middle">
-                                                                            <td height="44px" width="40px" align="center" bgcolor="#DDDDDD" class="courseGB">
-                                                                                6
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <a href="">Speaking</a>
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseB">
-                                                                                what the heck is it? Is it a really difficult programming language that casual...
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <img src="'.$CFG->themewww.'/'.current_theme().'/template/images/checkNotOk.gif" />
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr valign="middle">
-                                                                            <td height="44px" width="40px" align="center" bgcolor="#EEEEEE" class="courseGB">
-                                                                                7
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <a href="">Writing</a>
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseB">
-                                                                                what the heck is it? Is it a really difficult programming language that casual...
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <img src="'.$CFG->themewww.'/'.current_theme().'/template/images/checkOk.gif" />
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <a href="">73</a>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr valign="middle">
-                                                                            <td height="44px" width="40px" align="center" bgcolor="#EEEEEE" class="courseGB">
-                                                                                7
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <a href="">Writing</a>
-                                                                            </td>
-                                                                            <td align="left" bgcolor="#FFFFFF" class="courseB">
-                                                                                what the heck is it? Is it a really difficult programming language that casual...
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <img src="'.$CFG->themewww.'/'.current_theme().'/template/images/checkOk.gif" />
-                                                                            </td>
-                                                                            <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                                                                                <a href="">73</a>
-                                                                            </td>
-                                                                        </tr>																		
-                                                                    </table>
+																<div class="rightInner" id="list_activities">
+                                                                    '.showCourseContentDetail($courseId, $currentSectionId).'
 																</div> <!--rightInner-->	
                                                                 </td>
                                                                 <td bgcolor="#EEEEDD" />
@@ -663,152 +363,6 @@
     $section = 1;
     $sectionmenu = array();
 
-    while ($section <= $course->numsections) {
-
-        if (!empty($sections[$section])) {
-            $thissection = $sections[$section];
-
-        } else {
-            unset($thissection);
-            $thissection->course = $course->id;   // Create a new section structure
-            $thissection->section = $section;
-            $thissection->summary = '';
-            $thissection->visible = 1;
-            if (!$thissection->id = insert_record('course_sections', $thissection)) {
-                notify('Error inserting new topic!');
-            }
-        }
-
-        $showsection = (has_capability('moodle/course:viewhiddensections', $context) or $thissection->visible or !$course->hiddensections);
-
-        if (!empty($displaysection) and $displaysection != $section) {
-            if ($showsection) {
-                $strsummary = strip_tags(format_string($thissection->summary,true));
-                if (strlen($strsummary) < 57) {
-                    $strsummary = ' - '.$strsummary;
-                } else {
-                    $strsummary = ' - '.substr($strsummary, 0, 60).'...';
-                }
-                $sectionmenu['topic='.$section] = s($section.$strsummary);
-            }
-            $section++;
-            continue;
-        }
-
-        if ($showsection) {
-
-            $currenttopic = ($course->marker == $section);
-
-            $currenttext = '';
-            if (!$thissection->visible) {
-                $sectionstyle = ' hidden';
-            } else if ($currenttopic) {
-                $sectionstyle = ' current';
-                $currenttext = get_accesshide(get_string('currenttopic','access'));
-            } else {
-                $sectionstyle = '';
-            }
-
-             
-            //echo '<tr id="section-'.$section.'" class="section main'.$sectionstyle.'">';
-            echo '<tr id="section-'.$section.'">'; //@muinx
-            if(isset($thissection->label)) {
-                $sectionLabel = $thissection->label;
-            } else {
-                $sectionLabel = '';
-            }            
-            //echo '<td class="left side">' . format_text($sectionLabel, FORMAT_HTML) . '</td>';
-            echo '<td>' . format_text($sectionLabel, FORMAT_HTML) . '</td>'; //@muinx
-
-            //echo '<td class="content">';
-            echo '<td>'; //@muinx
-            if (!has_capability('moodle/course:viewhiddensections', $context) and !$thissection->visible) {   // Hidden for students
-                echo get_string('notavailable');
-            } else {
-                echo '<div class="summary">';
-                $summaryformatoptions->noclean = true;
-                echo format_text($thissection->summary, FORMAT_HTML, $summaryformatoptions); 
-
-                if (isediting($course->id) && has_capability('moodle/course:update', get_context_instance(CONTEXT_COURSE, $course->id))) {
-                    echo ' <a title="'.$streditsummary.'" href="editsection.php?id='.$thissection->id.'">'.
-                         '<img src="'.$CFG->pixpath.'/t/edit.gif" alt="'.$streditsummary.'" /></a>';
-                }
-                /*danhut added: n?u c� link start lesson th� print ra b�n c?nh lesson summary*/
-                if(isset($thissection->sequence)) {
-                    $modsInSection = explode(',', $thissection->sequence);
-                    $startLessonUrl = getLessonStartUrl($course->id, $section); 
-                
-                    echo '<a style="border:1px solid red;" title="' . get_string('enter_lesson', 'format_topicstree') . '" href = "' . $startLessonUrl . '"' .
-                        '<img src="'.$CFG->pixpath.'/a/enter.png" alt="'.get_string('enter_lesson', 'format_topicstree').'" /></a>';
-                }
-                
-                /**** GURUCORE Hack
-                * @desc Add grade percent to each lesson
-                ***/                                
-                $GURUCORE_lesson_grade_string = "<span class='GURUCORE_lesson_grade' sectionid='{$thissection->id}' ></span>";
-                echo $GURUCORE_lesson_grade_string;
-                /**** GURUCORE Hack                
-                **************************************/
-                
-                
-                /*end of danhut added*/
-                echo '</div>';
-
-                if (isediting($course->id)) { /// Editing use the mainstream print_section
-                    print_section($course, $thissection, $mods, $modnamesused);
-                    print_section_add_menus($course, $section, $modnames);
-                } else { /// Non-editing use our own print_section
-                    print_topicstree_section($course, $thissection, $mods, $modnamesused);
-                }
-            }
-            echo '</td>';
-
-            //echo '<td class="right side">';
-            echo '<td valign="top">'; //@muinx
-            if ($displaysection == $section) {      // Show the zoom boxes
-                echo '<a href="view.php?id='.$course->id.'&amp;topic=0#section-'.$section.'" title="'.$strshowalltopics.'">'.
-                     '<img src="'.$CFG->pixpath.'/i/all.gif" alt="'.$strshowalltopics.'" /></a><br />';
-            } else {
-                $strshowonlytopic = get_string('showonlytopic', '', $section);
-                echo '<a href="view.php?id='.$course->id.'&amp;topic='.$section.'" title="'.$strshowonlytopic.'">'.
-                     '<img src="'.$CFG->pixpath.'/i/one.gif" alt="'.$strshowonlytopic.'" /></a><br />';
-            }
-
-            if (isediting($course->id) && has_capability('moodle/course:update', get_context_instance(CONTEXT_COURSE, $course->id))) {
-                if ($course->marker == $section) {  // Show the "light globe" on/off
-                    echo '<a href="view.php?id='.$course->id.'&amp;marker=0&amp;sesskey='.$USER->sesskey.'#section-'.$section.'" title="'.$strmarkedthistopic.'">'.
-                         '<img src="'.$CFG->pixpath.'/i/marked.gif" alt="'.$strmarkedthistopic.'" /></a><br />';
-                } else {
-                    echo '<a href="view.php?id='.$course->id.'&amp;marker='.$section.'&amp;sesskey='.$USER->sesskey.'#section-'.$section.'" title="'.$strmarkthistopic.'">'.
-                         '<img src="'.$CFG->pixpath.'/i/marker.gif" alt="'.$strmarkthistopic.'" /></a><br />';
-                }
-
-                if ($thissection->visible) {        // Show the hide/show eye
-                    echo '<a href="view.php?id='.$course->id.'&amp;hide='.$section.'&amp;sesskey='.$USER->sesskey.'#section-'.$section.'" title="'.$strtopichide.'">'.
-                         '<img src="'.$CFG->pixpath.'/i/hide.gif" alt="'.$strtopichide.'" /></a><br />';
-                } else {
-                    echo '<a href="view.php?id='.$course->id.'&amp;show='.$section.'&amp;sesskey='.$USER->sesskey.'#section-'.$section.'" title="'.$strtopicshow.'">'.
-                         '<img src="'.$CFG->pixpath.'/i/show.gif" alt="'.$strtopicshow.'" /></a><br />';
-                }
-
-                if ($section > 1) {                       // Add a arrow to move section up
-                    echo '<a href="view.php?id='.$course->id.'&amp;random='.rand(1,10000).'&amp;section='.$section.'&amp;move=-1&amp;sesskey='.$USER->sesskey.'#section-'.($section-1).'" title="'.$strmoveup.'">'.
-                         '<img src="'.$CFG->pixpath.'/t/up.gif" alt="'.$strmoveup.'" /></a><br />';
-                }
-
-                if ($section < $course->numsections) {    // Add a arrow to move section down
-                    echo '<a href="view.php?id='.$course->id.'&amp;random='.rand(1,10000).'&amp;section='.$section.'&amp;move=1&amp;sesskey='.$USER->sesskey.'#section-'.($section+1).'" title="'.$strmovedown.'">'.
-                         '<img src="'.$CFG->pixpath.'/t/down.gif" alt="'.$strmovedown.'" /></a><br />';
-                }
-
-            }
-
-            echo '</td></tr>';
-            echo '<tr class="section separator"><td colspan="3" class="spacer"></td></tr>';
-        }
-
-        $section++;
-    }
     echo '</table>';
 
     if (!empty($sectionmenu)) {
@@ -819,18 +373,6 @@
     }
 
     print_container_end();
-    
-    /******************************
-    * @desc muinx add content here
-    */
-    
-    echo '<table width="100%" border="1"><tr><td>';
-    print_heading_block(get_string('topicoutline'), 'outline');
-    echo '</td></tr></table>';
-    
-    /******************************
-    * @desc muinx add content here
-    */
     
     echo '</td>';
 
@@ -1288,3 +830,4 @@ function preprocessmods4topicstree($sectionmods, &$mods, &$modinfo) {
         }
     }
 }
+
