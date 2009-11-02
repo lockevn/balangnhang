@@ -56,7 +56,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 	
 	
 
-	
+	//print_string('configcontent', 'block_news_items');
 	
 	
 	// Switchrole - sanity check in cost-order...
@@ -309,7 +309,7 @@ function showCourseContentDetail($courseId = null, $sectionId = null)
     //echo '<pre>'; print_r($arrData);
     $str = 
     
-        '<table cellpadding="10px" cellspacing="1" width="100%" border="1" style="border-color:#6699CC;" bgcolor="#999999">
+        '<table id="table_course_detail" cellpadding="10px" cellspacing="1" width="100%" border="1" style="border-color:#6699CC;" bgcolor="#999999">
             <tr valign="middle">
                 <td align="center" class="courseBB" background="'.$CFG->themewww.'/'.current_theme().'/template/images/TB1_HD.jpg">
                     #
