@@ -115,96 +115,22 @@
 //    print_box_start('forumcontrol clearfix');
 
 //    print_box_start('subscription clearfix');
-    echo '<div class="subscription">';
 
-    if (!empty($USER->id) && !has_capability('moodle/legacy:guest', $context, NULL, false)) {
-        $SESSION->fromdiscussion = "$FULLME";
-        if (forum_is_forcesubscribed($forum)) {
-            $streveryoneisnowsubscribed = get_string('everyoneisnowsubscribed', 'forum');
-            $strallowchoice = get_string('allowchoice', 'forum');
-            echo '<span class="helplink">' . get_string("forcessubscribe", 'forum') . '</span><br />';
-            helpbutton("subscription", $strallowchoice, "forum");
-            echo '&nbsp;<span class="helplink">';
-            if (has_capability('mod/forum:managesubscriptions', $context)) {
-                echo "<a title=\"$strallowchoice\" href=\"subscribe.php?id=$forum->id&amp;force=no\">$strallowchoice</a>";
-            } else {
-                echo $streveryoneisnowsubscribed;
-            }
-            echo '</span><br />';
-
-        } else if ($forum->forcesubscribe == FORUM_DISALLOWSUBSCRIBE) {
-            $strsubscriptionsoff = get_string('disallowsubscribe','forum');
-            echo $strsubscriptionsoff;
-            helpbutton("subscription", $strsubscriptionsoff, "forum");
-        } else {
-            $streveryonecannowchoose = get_string("everyonecannowchoose", "forum");
-            $strforcesubscribe = get_string("forcesubscribe", "forum");
-            $strshowsubscribers = get_string("showsubscribers", "forum");
-            echo '<span class="helplink">' . get_string("allowsallsubscribe", 'forum') . '</span><br />';
-            helpbutton("subscription", $strforcesubscribe, "forum");
-            echo '&nbsp;';
-
-            if (has_capability('mod/forum:managesubscriptions', $context)) {
-                echo "<span class=\"helplink\"><a title=\"$strforcesubscribe\" href=\"subscribe.php?id=$forum->id&amp;force=yes\">$strforcesubscribe</a></span>";
-            } else {
-                echo '<span class="helplink">'.$streveryonecannowchoose.'</span>';
-            }
-
-            if(has_capability('mod/forum:viewsubscribers', $context)){
-                echo "<br />";
-                echo "<span class=\"helplink\"><a href=\"subscribers.php?id=$forum->id\">$strshowsubscribers</a></span>";
-            }
-
-            echo '<div class="helplink" id="subscriptionlink">', forum_get_subscribe_link($forum, $context,
-                    array('forcesubscribed' => '', 'cantsubscribe' => '')), '</div>';
-        }
-
-        if (forum_tp_can_track_forums($forum)) {
-            echo '<div class="helplink" id="trackinglink">'. forum_get_tracking_link($forum). '</div>';
-        }
-
-    }
-
-    /// If rss are activated at site and forum level and this forum has rss defined, show link
-    if (isset($CFG->enablerssfeeds) && isset($CFG->forum_enablerssfeeds) &&
-        $CFG->enablerssfeeds && $CFG->forum_enablerssfeeds && $forum->rsstype and $forum->rssarticles) {
-
-        if ($forum->rsstype == 1) {
-            $tooltiptext = get_string("rsssubscriberssdiscussions","forum",format_string($forum->name));
-        } else {
-            $tooltiptext = get_string("rsssubscriberssposts","forum",format_string($forum->name));
-        }
-        if (empty($USER->id)) {
-            $userid = 0;
-        } else {
-            $userid = $USER->id;
-        }
-//        print_box_start('rsslink');
-        echo '<span class="wrap rsslink">';
-        rss_print_link($course->id, $userid, "forum", $forum->id, $tooltiptext);
-        echo '</span>';
-//        print_box_end(); // subscription
-
-    }
-//    print_box_end(); // subscription
-    echo '</div>';
-
-//    print_box_end();  // forumcontrol
-
-//    print_box('&nbsp;', 'clearer');
-
-
-    if (!empty($forum->blockafter) && !empty($forum->blockperiod)) {
-        $a->blockafter = $forum->blockafter;
-        $a->blockperiod = get_string('secondstotime'.$forum->blockperiod);
-        notify(get_string('thisforumisthrottled','forum',$a));
-    }
-
-    if ($forum->type == 'qanda' && !has_capability('moodle/course:manageactivities', $context)) {
-        notify(get_string('qandanotify','forum'));
-    }
-
-    $forum->intro = trim($forum->intro);
+echo '
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td width="20px"></td>				
+				<td valign="top">
+				
+					<!-------------------------------------------------------------------->
+					<div class="newsarea">
+						<table cellpadding="0" cellspacing="0" width="100%" border="0">		
+							<tr><td height="30px" colspan="3">
+								<div class="title">';
+	/**
+	 * Start Forum Intro
+	 */
+	$forum->intro = trim($forum->intro);
 
     switch ($forum->type) {
         case 'single':
@@ -263,7 +189,8 @@
             if (!empty($forum->intro)) {
                 $options = new stdclass;
                 $options->para = false;
-                print_box(format_text($forum->intro, FORMAT_MOODLE, $options), 'generalbox', 'intro');
+				echo strtoupper($forum->intro);
+                //print_box(format_text($forum->intro, FORMAT_MOODLE, $options), 'generalbox', 'intro');
             }
             echo '<br />';
             if (!empty($showall)) {
@@ -274,7 +201,244 @@
 
 
             break;
+    }	
+	/**
+	 * End Forum Intro
+	 */							
+echo '							</div>
+								<div class="titleicon"><a href=""><img src="/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
+								<div class="titleicon"><a href=""><img src="/theme/menu_horizontal/template/images/BT_LT.JPG" /></a></div>
+							</td></tr>';
+
+echo '							
+							<tr>
+								<td valign="top" width="5px"><img src="/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+								<td valign="top" width="100%">
+									<table cellpadding="10px" cellspacing="0" width="100%" style="background:url(/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
+										<tr>
+											<td>
+												<table cellpadding="10px" cellspacing="0" width="100%" style="background:url(/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
+													<tr>
+														<td valign="top">
+															<table cellpadding="0" cellspacing="0" width="100%">
+																<tr><td height="30px">'; 
+	/**
+	 * START
+	 * This forum allows everyone to choose whether to subscribe or not
+	 */																
+	if (!empty($USER->id) && !has_capability('moodle/legacy:guest', $context, NULL, false)) {
+        $SESSION->fromdiscussion = "$FULLME";
+        if (forum_is_forcesubscribed($forum)) {
+            $streveryoneisnowsubscribed = get_string('everyoneisnowsubscribed', 'forum');
+            $strallowchoice = get_string('allowchoice', 'forum');
+            echo '<span class="helplink">' . get_string("forcessubscribe", 'forum') . '</span><br />';
+            helpbutton("subscription", $strallowchoice, "forum");
+            echo '&nbsp;<span class="helplink">';
+            if (has_capability('mod/forum:managesubscriptions', $context)) {
+                echo "<a class=courseRB title=\"$strallowchoice\" href=\"subscribe.php?id=$forum->id&amp;force=no\">$strallowchoice</a>";
+            } else {
+                echo $streveryoneisnowsubscribed;
+            }
+            echo '</span><br />';
+
+        } else if ($forum->forcesubscribe == FORUM_DISALLOWSUBSCRIBE) {
+            $strsubscriptionsoff = get_string('disallowsubscribe','forum');
+            echo $strsubscriptionsoff;
+            helpbutton("subscription", $strsubscriptionsoff, "forum");
+        } else {
+            $streveryonecannowchoose = get_string("everyonecannowchoose", "forum");
+            $strforcesubscribe = get_string("forcesubscribe", "forum");
+            $strshowsubscribers = get_string("showsubscribers", "forum");
+            echo '<span class="helplink">' . get_string("allowsallsubscribe", 'forum') . '</span><br /><br />';
+            helpbutton("subscription", $strforcesubscribe, "forum");
+            echo '&nbsp;';
+
+            if (has_capability('mod/forum:managesubscriptions', $context)) {
+                echo "<span class=\"helplink\"><a class=\"courseRB\" title=\"$strforcesubscribe\" href=\"subscribe.php?id=$forum->id&amp;force=yes\">$strforcesubscribe</a></span><br /><br />";
+            } else {
+                echo '<span class="helplink">'.$streveryonecannowchoose.'</span><br /><br />';
+            }
+
+            if(has_capability('mod/forum:viewsubscribers', $context)){
+                echo "<br /><br />";
+                echo "<span class=\"helplink\"><a class=\"courseRB\" href=\"subscribers.php?id=$forum->id\">$strshowsubscribers</a></span><br /><br />";
+            }
+
+            echo '<div style="font-weight:bold;" class="helplink" id="subscriptionlink">', forum_get_subscribe_link($forum, $context,
+                    array('forcesubscribed' => '', 'cantsubscribe' => '')), '</div><br />';
+        }
+
+        if (forum_tp_can_track_forums($forum)) {
+            echo '<div class="helplink" id="trackinglink">'. forum_get_tracking_link($forum). '</div>';
+        }
+
+    }																	
+	/**
+	 * END
+	 * This forum allows everyone to choose whether to subscribe or not
+	 */
+echo '																	
+																</td></tr>
+															</table>
+															<table cellpadding="0" cellspacing="0">
+																<tr><td><a href=""><img src="/theme/menu_horizontal/template/images/BT_Adddiscussiontopic.jpg" /></a></td></tr>
+																<tr><td height="10px"/></tr>
+															</table>
+															<table style="border-collapse: separate; border-spacing: 1px;" cellpadding="10px" cellspacing="1" width="100%" bgcolor="#999999">
+																<tr valign="middle">
+																	<td align="center" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">
+																		Discussion
+																	</td>
+																	<td align="center" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">
+																		Started by
+																	</td>
+																	<td align="center" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">
+																		Replies
+																	</td>
+																	<td align="center" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">
+																		Last post
+																	</td>
+																</tr>
+																<tr valign="middle">
+																	<td height="44px" align="center" bgcolor="#FFFFFF" class="courseGB">
+																		<a href="">Classical drama seeks ways to survive</a>
+																	</td>
+																	<td align="left" bgcolor="#FFFFFF">
+																		<a href="" class="courseRB">Thiennp</a><br />
+																		Monday, 19 October 2009, 09:14 AM
+																	</td>
+																	<td align="center" bgcolor="#FFFFFF" class="courseB">
+																	5
+																	</td>
+																	<td align="left" bgcolor="#FFFFFF">
+																		<a href="" class="courseRB">Thiennp</a><br />
+																		Monday, 19 October 2009, 09:14 AM
+																	</td>
+																</tr>
+																<tr valign="middle">
+																	<td height="44px" align="center" bgcolor="#FFFFFF" class="courseGB">
+																		<a href="">Classical drama seeks ways to survive</a>
+																	</td>
+																	<td align="left" bgcolor="#FFFFFF">
+																		<a href="" class="courseRB">Thiennp</a><br />
+																		Monday, 19 October 2009, 09:14 AM
+																	</td>
+																	<td align="center" bgcolor="#FFFFFF" class="courseB">
+																	5
+																	</td>
+																	<td align="left" bgcolor="#FFFFFF">
+																		<a href="" class="courseRB">Thiennp</a><br />
+																		Monday, 19 October 2009, 09:14 AM
+																	</td>
+																</tr>
+																<tr valign="middle">
+																	<td height="44px" align="center" bgcolor="#FFFFFF" class="courseGB">
+																		<a href="">Classical drama seeks ways to survive</a>
+																	</td>
+																	<td align="left" bgcolor="#FFFFFF">
+																		<a href="" class="courseRB">Thiennp</a><br />
+																		Monday, 19 October 2009, 09:14 AM
+																	</td>
+																	<td align="center" bgcolor="#FFFFFF" class="courseB">
+																	5
+																	</td>
+																	<td align="left" bgcolor="#FFFFFF">
+																		<a href="" class="courseRB">Thiennp</a><br />
+																		Monday, 19 October 2009, 09:14 AM
+																	</td>
+																</tr>
+																<tr valign="middle">
+																	<td height="44px" align="center" bgcolor="#FFFFFF" class="courseGB">
+																		<a href="">Classical drama seeks ways to survive</a>
+																	</td>
+																	<td align="left" bgcolor="#FFFFFF">
+																		<a href="" class="courseRB">Thiennp</a><br />
+																		Monday, 19 October 2009, 09:14 AM
+																	</td>
+																	<td align="center" bgcolor="#FFFFFF" class="courseB">
+																	5
+																	</td>
+																	<td align="left" bgcolor="#FFFFFF">
+																		<a href="" class="courseRB">Thiennp</a><br />
+																		Monday, 19 October 2009, 09:14 AM
+																	</td>
+																</tr>
+															</table>
+														</td>
+													</tr>
+												</table>
+													
+											</td>
+										</tr>
+									</table>
+								</td>
+								<td valign="top" width="5px"><img src="/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+							</tr>
+						</table>
+					</div>
+				
+					<!-------------------------------------------------------------------->
+					<div class="newsarea">
+						<table cellpadding="0" cellspacing="0" width="100%" border="0">
+							<tr><td height="30px" colspan="3">
+								<div class="titleicon"><a href=""><img src="/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
+								<div class="titleicon"><a href=""><img src="/theme/menu_horizontal/template/images/BT_LT.JPG" /></a></div>
+							</td></tr>
+						</table>
+					</div>
+				
+					
+				</td>
+				<td width="20px"></td>
+			</tr>
+		</table>
+	';
+
+
+    echo '<div class="subscription">';
+
+    
+
+    /// If rss are activated at site and forum level and this forum has rss defined, show link
+    if (isset($CFG->enablerssfeeds) && isset($CFG->forum_enablerssfeeds) &&
+        $CFG->enablerssfeeds && $CFG->forum_enablerssfeeds && $forum->rsstype and $forum->rssarticles) {
+
+        if ($forum->rsstype == 1) {
+            $tooltiptext = get_string("rsssubscriberssdiscussions","forum",format_string($forum->name));
+        } else {
+            $tooltiptext = get_string("rsssubscriberssposts","forum",format_string($forum->name));
+        }
+        if (empty($USER->id)) {
+            $userid = 0;
+        } else {
+            $userid = $USER->id;
+        }
+//        print_box_start('rsslink');
+        echo '<span class="wrap rsslink">';
+        rss_print_link($course->id, $userid, "forum", $forum->id, $tooltiptext);
+        echo '</span>';
+//        print_box_end(); // subscription
+
     }
+//    print_box_end(); // subscription
+    echo '</div>';
+
+//    print_box_end();  // forumcontrol
+
+//    print_box('&nbsp;', 'clearer');
+
+
+    if (!empty($forum->blockafter) && !empty($forum->blockperiod)) {
+        $a->blockafter = $forum->blockafter;
+        $a->blockperiod = get_string('secondstotime'.$forum->blockperiod);
+        notify(get_string('thisforumisthrottled','forum',$a));
+    }
+
+    if ($forum->type == 'qanda' && !has_capability('moodle/course:manageactivities', $context)) {
+        notify(get_string('qandanotify','forum'));
+    }
+
+    
     print_footer($course);
 
 ?>

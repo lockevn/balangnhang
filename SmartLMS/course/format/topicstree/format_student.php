@@ -2,22 +2,66 @@
     $().ready(function(){
         $('span[sectionid][class*="course"]').click(function(){
             //$('#current_unit_active').attr('id','')
-            //$(this).parents('table').attr('id','current_unit_active');
-            var courseid = $(this).attr('courseid');
-            var sectionid = $(this).attr('sectionid');
-            
-            $('#list_activities').html('<div style="padding:10px">Waiting ...</div>');
-            
-            $.post(
-                    '<?php echo $CFG->wwwroot .'/course/view.php?id='.$_REQUEST['id'].'&task=ajax' ?>',
-                    {courseid:courseid, sectionid:sectionid},
-                    function(data)
-                    {
-                        $('#list_activities').html(data);
-                    }
-            );
-        })
-    })
+            //$(this).parents('table').attr('id','current_unit_active');    
+            doStuff($(this));
+        });
+    });
+    
+    function doStuff(el)
+    {
+    	var courseid = $(el).attr('courseid');
+        var sectionid = $(el).attr('sectionid');
+        
+        if($('#course-tab-'+courseid+'-'+sectionid).hasClass('course-tab-actived'))
+        {
+        	return false;
+        }
+        
+        var number = $(el).attr('number');
+        var label = $(el).html();
+        
+        //change focus!
+        
+        $activeCid = $('.course-tab-actived').attr('courseid');
+        $activeSid = $('.course-tab-actived').attr('sectionid');
+        $activeNumber = $('.course-tab-actived .courseWB').html();
+        $activeLabel = $('.course-tab-actived .courseGB').html();
+        
+        $('.course-tab-actived').html(unactiveTable($activeCid, $activeSid, $activeLabel, $activeNumber)).removeClass('course-tab-actived').addClass('course-tab-unactive');
+        $('#course-tab-'+courseid+'-'+sectionid).html(activeTable(courseid, sectionid, label, number)).removeClass('course-tab-unactive').addClass('course-tab-actived');
+        
+        $('span[sectionid][class*="course"]').click(function(){
+            //$('#current_unit_active').attr('id','')
+            //$(this).parents('table').attr('id','current_unit_active');    
+            doStuff($(this));
+        });
+        
+        //end change focus
+        
+        var htmlWaiting = '<div style="float:left; width:350px;">Waiting ... </div>'; 
+        //htmlWaiting += '<tr><td style="padding:10px">Waiting...</td></tr><table>';
+        
+        //$('#table_course_detail').attr('style', 'display:none;');
+        $('#list_activities').html(htmlWaiting);
+        
+        $.post(
+                '<?php echo $CFG->wwwroot .'/course/view.php?id='.$_REQUEST['id'].'&task=ajax' ?>',
+                {courseid:courseid, sectionid:sectionid},
+                function(data)
+                {
+                    $('#list_activities').html(data);
+                }
+        );
+    }
+    
+    function activeTable(courseid, sectionid, label, number)
+    {
+        return '<table cellpadding="0" cellspacing="0" width="100%" id="current_unit_active"><tr class="h-border"><td><img class="h-border" src="<?php echo $CFG->themewww."/".current_theme(); ?>/template/images/BG3_TL.gif" /></td><td colspan="4" bgcolor="#EEEEDD"> </td></tr><tr><td rowspan="2" width="5px" bgcolor="#EEEEDD" class="v-border"/><td rowspan="2" valign="top" style="background:#EED url(<?php echo $CFG->themewww."/".current_theme(); ?>/template/images/CircleBG.gif) top center no-repeat" width="15px" align="center"><span class="courseWB">'+number+'</span></td><td rowspan="2" width="10px" bgcolor="#EEEEDD"/><td height="20px" valign="top" bgcolor="#EEEEDD"><span courseid="'+courseid+'" sectionid="'+sectionid+'" number="'+number+'" class="courseGB" title="'+label+'">'+label+'</span></td></tr><tr><td bgcolor="#EEEEDD"><span class="courseG"></span></td></tr><tr class="h-border"><td class="h-border" vaglin="top"><img  src="<?php echo $CFG->themewww."/".current_theme(); ?>/template/images/BG3_BL.gif" /></td><td colspan="4" bgcolor="#EEEEDD" class="h-border"></td></tr><tr><td colspan="2" height="10px"/></tr></table>';
+    }
+    function unactiveTable(courseid, sectionid, label, number)
+    {
+    	return '<table cellpadding="0" cellspacing="0" width="100%"><tr><td rowspan="2" width="5px"/><td rowspan="2" valign="top" style="background:url(<?php echo $CFG->themewww.'/'.current_theme(); ?>/template/images/CircleBW.gif) top center no-repeat" width="15px" align="center"><span class="courseGB">'+number+'</span></td><td rowspan="2" width="10px"/><td height="20px" valign="top"><span courseid="'+courseid+'" sectionid="'+sectionid+'" number="'+number+'" class="courseWB" title="'+label+'">'+label+'</span></td></tr><tr><td><span class="courseW"></span></td><tr><tr><td colspan="2" height="10px"/></tr><tr><td/><td colspan="3" background="<?php echo$CFG->themewww.'/'.current_theme();?>/template/images/BG2_Split.gif" height="1px"/></tr><tr><td colspan="2" height="10px"/></tr></table>';
+    }
 </script>
 <?php // $Id: format.php,v 1.2 2008/09/11 22:19:02 stronk7 Exp $
 
@@ -192,7 +236,7 @@
                                             <div style="margin:10px 5px 10px 5px">
                                                 <table cellpadding="0" cellspacing="0" width="100%">
                                                     <tr><td valign="top" width="180px">
-														<div class="leftInner">
+														<div class="leftInner" style="width:180px;">
                                                         ';
                                                         $i = 1;
                                                         foreach($sectionListCourse as $objCourse)
@@ -207,7 +251,8 @@
                                                                     $currentSectionId = $objCourse->id;
                                                                     
                                                                     echo 
-                                                        '<table cellpadding="0" cellspacing="0" width="100%" id="current_unit_active">
+                                                        '<div id="course-tab-'.$courseId.'-'.$sectionId.'" class="course-tab-actived" courseid="'.$courseId.'" sectionid="'.$sectionId.'">
+                                                        <table cellpadding="0" cellspacing="0" width="100%" id="current_unit_active">
                                                             <tr class="h-border">
                                                                 <td><img class="h-border" src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG3_TL.gif" /></td>
                                                                 <td colspan="4" bgcolor="#EEEEDD"> </td>
@@ -232,12 +277,14 @@
                                                                 <td colspan="4" bgcolor="#EEEEDD" class="h-border"></td>
                                                             </tr>
                                                             <tr><td colspan="2" height="10px"/></tr>
-                                                        </table>';
+                                                        </table>
+                                                        </div>';
                                                                 }
                                                                 else
                                                                 {
                                                                     echo 
-                                                        '<table cellpadding="0" cellspacing="0" width="100%">
+                                                        '<div id="course-tab-'.$courseId.'-'.$sectionId.'" class="course-tab-unactive" courseid="'.$courseId.'" sectionid="'.$sectionId.'">
+                                                        <table cellpadding="0" cellspacing="0" width="100%">
                                                             <tr>
                                                                 <td rowspan="2" width="5px"/>
                                                                 <td rowspan="2" valign="top" style="background:url('.$CFG->themewww.'/'.current_theme().'/template/images/CircleBW.gif) top center no-repeat" width="15px" align="center">
@@ -245,7 +292,7 @@
                                                                 </td>
                                                                 <td rowspan="2" width="10px"/>
                                                                 <td height="20px" valign="top">
-                                                                    <span courseid="'.$courseId.'" sectionid="'.$sectionId.'" class="courseWB" title="'.$objCourse->label.'">'.$objCourse->label.'</span>
+                                                                    <span courseid="'.$courseId.'" sectionid="'.$sectionId.'" number="'.$i.'" class="courseWB" title="'.$objCourse->label.'">'.$objCourse->label.'</span>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -256,7 +303,8 @@
                                                             <tr><td colspan="2" height="10px"/></tr>
                                                             <tr><td/><td colspan="3" background="'.$CFG->themewww.'/'.current_theme().'/template/images/BG2_Split.gif" height="1px"/></tr>            
                                                             <tr><td colspan="2" height="10px"/></tr>
-                                                        </table>';
+                                                        </table>
+                                                        </div>';
                                                                 } //end if
                                                                 $i ++;
                                                                 
@@ -278,9 +326,9 @@
                                                             <tr>
                                                                 <td bgcolor="#EEEEDD" />
                                                                 <td bgcolor="#EEEEDD">
-																<div class="rightInner" id="list_activities">
-                                                                    '.showCourseContentDetail($courseId, $currentSectionId).'
-																</div> <!--rightInner-->	
+																<div id="list_activities" class="rightInner">
+                                                                    '.showCourseContentDetail($courseId, $currentSectionId).'</div>
+                                                                <!--rightInner-->	
                                                                 </td>
                                                                 <td bgcolor="#EEEEDD" />
                                                             </tr>
