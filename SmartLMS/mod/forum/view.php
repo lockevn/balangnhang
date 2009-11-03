@@ -170,6 +170,7 @@ echo '
                 echo '&nbsp;';
             }
             echo '</p>';
+            forum_print_latest_discussions($course, $forum, 0, 'header', '', -1, -1, -1, 0, $cm);
             if (!empty($showall)) {
                 forum_print_latest_discussions($course, $forum, 0, 'header', '', -1, -1, -1, 0, $cm);
             } else {
@@ -281,7 +282,14 @@ echo '
 																</td></tr>
 															</table>
 															<table cellpadding="0" cellspacing="0">
-																<tr><td><a href=""><img src="/theme/menu_horizontal/template/images/BT_Adddiscussiontopic.jpg" /></a></td></tr>
+																<tr>
+                                                                    <td>
+                                                                        <form id="newdiscussionform" action="/mod/forum/post.php" method="get">
+                                                                            <input type="hidden" value="'. $f. '" name="forum" />
+                                                                            <input style="background: url(/theme/menu_horizontal/template/images/BT_Adddiscussiontopic.jpg) no-repeat top left; width: 173px; height: 35px; border: none;" type="submit" value="" />
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
 																<tr><td height="10px"/></tr>
 															</table>
 															<table style="border-collapse: separate; border-spacing: 1px;" cellpadding="10px" cellspacing="1" width="100%" bgcolor="#999999">
