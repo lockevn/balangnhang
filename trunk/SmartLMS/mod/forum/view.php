@@ -153,7 +153,7 @@ echo '
             $displaymode = get_user_preferences("forum_displaymode", $CFG->forum_displaymode);
 
             echo '&nbsp;'; // this should fix the floating in FF
-            forum_print_discussion($course, $cm, $forum, $discussion, $post, $displaymode, $canreply, $canrate);
+            //forum_print_discussion($course, $cm, $forum, $discussion, $post, $displaymode, $canreply, $canrate);
             break;
 
         case 'eachuser':
@@ -169,20 +169,11 @@ echo '
                 echo '&nbsp;';
             }
             echo '</p>';
-            forum_print_latest_discussions($course, $forum, 0, 'header', '', -1, -1, -1, 0, $cm);
-            if (!empty($showall)) {
-                forum_print_latest_discussions($course, $forum, 0, 'header', '', -1, -1, -1, 0, $cm);
-            } else {
-                forum_print_latest_discussions($course, $forum, -1, 'header', '', -1, -1, $page, $CFG->forum_manydiscussions, $cm);
-            }
+            
             break;
 
         case 'teacher':
-            if (!empty($showall)) {
-                forum_print_latest_discussions($course, $forum, 0, 'header', '', -1, -1, -1, 0, $cm);
-            } else {
-                forum_print_latest_discussions($course, $forum, -1, 'header', '', -1, -1, $page, $CFG->forum_manydiscussions, $cm);
-            }
+            
             break;
 
         default:
@@ -193,13 +184,6 @@ echo '
                 //print_box(format_text($forum->intro, FORMAT_MOODLE, $options), 'generalbox', 'intro');
             }
             echo '<br />';
-            if (!empty($showall)) {
-                forum_print_latest_discussions($course, $forum, 0, 'header', '', -1, -1, -1, 0, $cm);
-            } else {
-                forum_print_latest_discussions($course, $forum, -1, 'header', '', -1, -1, $page, $CFG->forum_manydiscussions, $cm);
-            }
-
-
             break;
     }	
 	/**
@@ -231,7 +215,7 @@ echo '
         if (forum_is_forcesubscribed($forum)) {
             $streveryoneisnowsubscribed = get_string('everyoneisnowsubscribed', 'forum');
             $strallowchoice = get_string('allowchoice', 'forum');
-            echo '<span class="helplink">' . get_string("forcessubscribe", 'forum') . '</span><br />';
+            echo '<span class="helplink">' . get_string("forcessubscribe", 'forum') . '</span><br /><br />';
             helpbutton("subscription", $strallowchoice, "forum");
             echo '&nbsp;<span class="helplink">';
             if (has_capability('mod/forum:managesubscriptions', $context)) {
@@ -285,14 +269,6 @@ echo '
 */
 echo '                                                                                                                        
 															<table cellpadding="0" cellspacing="0">
-																<tr>
-                                                                    <td>
-                                                                        <form id="newdiscussionform" action="/mod/forum/post.php" method="get">
-                                                                            <input type="hidden" value="'. $f. '" name="forum" />
-                                                                            <input style="background: url(/theme/menu_horizontal/template/images/BT_Adddiscussiontopic.jpg) no-repeat top left; width: 173px; height: 35px; border: none;" type="submit" value="" />
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
 																<tr><td height="10px"/></tr>
 															</table>'; 
 /**
@@ -356,7 +332,7 @@ switch ($forum->type) {
             if (!empty($forum->intro)) {
                 $options = new stdclass;
                 $options->para = false;
-                echo strtoupper($forum->intro);
+                //echo strtoupper($forum->intro);
                 //print_box(format_text($forum->intro, FORMAT_MOODLE, $options), 'generalbox', 'intro');
             }
             echo '<br />';
