@@ -2333,7 +2333,7 @@ function forum_get_discussions($cm, $forumsort="d.timemodified DESC", $fullpost=
     }
 
     $sql = "SELECT $postdata, d.name, d.timemodified, d.usermodified, d.groupid, d.timestart, d.timeend,
-                   u.firstname, u.lastname, u.email, u.picture, u.imagealt $umfields
+                   u.firstname, u.lastname, u.email, u.picture, u.imagealt, p.message $umfields
               FROM {$CFG->prefix}forum_discussions d
                    JOIN {$CFG->prefix}forum_posts p ON p.discussion = d.id
                    JOIN {$CFG->prefix}user u ON p.userid = u.id
