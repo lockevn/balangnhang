@@ -16,6 +16,7 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="/css/humanity/jquery-ui-1.7.2.custom.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/css/ui.jqgrid.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/css/jquery.jgrowl.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/template_css.css" />
 
 
 	<?php if(strpos($_SERVER['REQUEST_URI'], 'mod/lightboxgallery') === false): ?>	
@@ -116,7 +117,7 @@ else if ($heading) {  // This is what gets printed on any other page with a head
 		<div class="navbutton"><?php echo $button; ?></div>	   
 	<?php } ?>
 	</div>
-    
+    <?php if($COURSE->id != 1 && !empty($COURSE->id)) { ?>
     <div class="user-sub-menu">
         <div class="menu2"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN2_1.jpg" /></a></div>    
         <div class="menu2split"></div>
@@ -133,6 +134,7 @@ else if ($heading) {  // This is what gets printed on any other page with a head
         <div class="menu2"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN2_7.jpg" /></a></div>
         <div class="menu2split"></div>
     </div>
+    <?php }?>
     
 	<?php    
   require_once($CFG->dirroot.'/smartcom/util/uiutil.php');
