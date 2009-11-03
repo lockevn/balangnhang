@@ -3132,10 +3132,10 @@ function forum_print_discussion_header(&$post, $forum, $group=-1, $datestring=""
     $post->subject = format_string($post->subject,true);
 
     echo "\n\n";
-    echo '<tr class="discussion r'.$rowcount.'">';
+    echo '<tr valign="middle" class="discussion r'.$rowcount.'">';
 
     // Topic
-    echo '<td class="topic starter">';
+    echo '<td height="44px" align="center" bgcolor="#FFFFFF" class="topic starter courseGB">';
     echo '<a href="'.$CFG->wwwroot.'/mod/forum/discuss.php?d='.$post->discussion.'">'.$post->subject.'</a>';
     echo "</td>\n";
 
@@ -3146,20 +3146,22 @@ function forum_print_discussion_header(&$post, $forum, $group=-1, $datestring=""
     $postuser->lastname = $post->lastname;
     $postuser->imagealt = $post->imagealt;
     $postuser->picture = $post->picture;
-
-    echo '<td class="picture">';
+    $usedate = (empty($post->timemodified)) ? $post->modified : $post->timemodified;  // Just in case
+    
+    echo '<td class="picture" align="left" bgcolor="#FFFFFF">';
     print_user_picture($postuser, $forum->course);
     echo "</td>\n";
 
     // User name
     $fullname = fullname($post, has_capability('moodle/site:viewfullnames', $modcontext));
-    echo '<td class="author">';
-    echo '<a href="'.$CFG->wwwroot.'/user/view.php?id='.$post->userid.'&amp;course='.$forum->course.'">'.$fullname.'</a>';
+    echo '<td class="author" align="left" bgcolor="#FFFFFF">';
+    echo '<a class="courseRB" href="'.$CFG->wwwroot.'/user/view.php?id='.$post->userid.'&amp;course='.$forum->course.'">'.$fullname.'</a>';
+    echo '<br />'. userdate($usedate, $datestring);
     echo "</td>\n";
 
     // Group picture
     if ($group !== -1) {  // Groups are active - group is a group data object or NULL
-        echo '<td class="picture group">';
+        echo '<td class="picture group" align="left" bgcolor="#FFFFFF">';
         if (!empty($group->picture) and empty($group->hidepicture)) {
             print_group_picture($group, $forum->course, false, false, true);
         } else if (isset($group->id)) {
@@ -3173,13 +3175,13 @@ function forum_print_discussion_header(&$post, $forum, $group=-1, $datestring=""
     }
 
     if (has_capability('mod/forum:viewdiscussion', $modcontext)) {   // Show the column with replies
-        echo '<td class="replies">';
+        echo '<td align="center" bgcolor="#FFFFFF" class="replies courseB">';
         echo '<a href="'.$CFG->wwwroot.'/mod/forum/discuss.php?d='.$post->discussion.'">';
         echo $post->replies.'</a>';
         echo "</td>\n";
 
         if ($cantrack) {
-            echo '<td class="replies">';
+            echo '<td align="center" bgcolor="#FFFFFF" class="replies courseB">';
             if ($forumtracked) {
                 if ($post->unread > 0) {
                     echo '<span class="unread">';
@@ -3204,17 +3206,18 @@ function forum_print_discussion_header(&$post, $forum, $group=-1, $datestring=""
         }
     }
 
-    echo '<td class="lastpost">';
-    $usedate = (empty($post->timemodified)) ? $post->modified : $post->timemodified;  // Just in case
+    echo '<td class="lastpost" align="left" bgcolor="#FFFFFF">';
+    
     $parenturl = (empty($post->lastpostid)) ? '' : '&amp;parent='.$post->lastpostid;
     $usermodified = new object();
     $usermodified->id        = $post->usermodified;
     $usermodified->firstname = $post->umfirstname;
     $usermodified->lastname  = $post->umlastname;
-    echo '<a href="'.$CFG->wwwroot.'/user/view.php?id='.$post->usermodified.'&amp;course='.$forum->course.'">'.
+    echo '<a class="courseRB" href="'.$CFG->wwwroot.'/user/view.php?id='.$post->usermodified.'&amp;course='.$forum->course.'">'.
          fullname($usermodified).'</a><br />';
-    echo '<a href="'.$CFG->wwwroot.'/mod/forum/discuss.php?d='.$post->discussion.$parenturl.'">'.
-          userdate($usedate, $datestring).'</a>';
+    //echo '<a href="'.$CFG->wwwroot.'/mod/forum/discuss.php?d='.$post->discussion.$parenturl.'">'.
+    //      userdate($usedate, $datestring).'</a>';
+    echo userdate($usedate, $datestring);
     echo "</td>\n";
 
     echo "</tr>\n\n";
@@ -4726,19 +4729,37 @@ function forum_print_latest_discussions($course, $forum, $maxdiscussions=-1, $di
         ($forum->type != 'news'
          and (isguestuser() or !isloggedin() or has_capability('moodle/legacy:guest', $context, NULL, false))) ) {
 
-        echo '<div class="singlebutton forumaddnew">';
-        echo "<form id=\"newdiscussionform\" method=\"get\" action=\"$CFG->wwwroot/mod/forum/post.php\">";
-        echo '<div>';
-        echo "<input type=\"hidden\" name=\"forum\" value=\"$forum->id\" />";
-        echo '<input type="submit" value="';
-        echo ($forum->type == 'news') ? get_string('addanewtopic', 'forum')
-            : (($forum->type == 'qanda')
-               ? get_string('addanewquestion','forum')
-               : get_string('addanewdiscussion', 'forum'));
-        echo '" />';
-        echo '</div>';
-        echo '</form>';
-        echo "</div>\n";
+            echo '<table cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <form id="newdiscussionform" action="/mod/forum/post.php" method="get">
+                        <form id="newdiscussionform" method="get" action="'. $CFG->wwwroot. '/mod/forum/post.php">';
+            echo            "<input type=\"hidden\" name=\"forum\" value=\"$forum->id\" />";
+            echo            '<input style="background: url(/theme/menu_horizontal/template/images/BT_Adddiscussiontopic.jpg) no-repeat top left; width: 173px; height: 35px; border: none;" type="submit" value="';
+//            echo            ($forum->type == 'news') ? get_string('addanewtopic', 'forum')
+//                            : (($forum->type == 'qanda')
+//                            ? get_string('addanewquestion','forum')
+//                            : get_string('addanewdiscussion', 'forum'));
+            echo            '" />';
+            echo            '
+                        </form>
+                    </td>
+                </tr>
+                <tr><td height="10px"/></tr>
+            </table>';             
+        //echo '<div class="singlebutton forumaddnew">';
+//        echo "<form id=\"newdiscussionform\" method=\"get\" action=\"$CFG->wwwroot/mod/forum/post.php\">";
+//        echo '<div>';
+//        echo "<input type=\"hidden\" name=\"forum\" value=\"$forum->id\" />";
+//        echo '<input type="submit" value="';
+//        echo ($forum->type == 'news') ? get_string('addanewtopic', 'forum')
+//            : (($forum->type == 'qanda')
+//               ? get_string('addanewquestion','forum')
+//               : get_string('addanewdiscussion', 'forum'));
+//        echo '" />';
+//        echo '</div>';
+//        echo '</form>';
+//        echo "</div>\n";
 
     } else if (isguestuser() or !isloggedin() or $forum->type == 'news') {
         // no button and no info
@@ -4809,31 +4830,30 @@ function forum_print_latest_discussions($course, $forum, $maxdiscussions=-1, $di
     }
 
     if ($displayformat == 'header') {
-        echo '<table cellspacing="0" class="forumheaderlist">';
-        echo '<thead>';
-        echo '<tr>';
-        echo '<th class="header topic" scope="col">'.get_string('discussion', 'forum').'</th>';
-        echo '<th class="header author" colspan="2" scope="col">'.get_string('startedby', 'forum').'</th>';
+        echo '<table style="border-collapse: separate; border-spacing: 1px;" cellpadding="10px" cellspacing="1" width="100%" bgcolor="#999999">
+                <tr valign="middle">
+                    <td align="center" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">'.get_string('discussion', 'forum').'</td>
+                    <td align="center" colspan="2" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">'.get_string('startedby', 'forum').'</td>
+                    ';
         if ($groupmode > 0) {
-            echo '<th class="header group" scope="col">'.get_string('group').'</th>';
+            echo '<td align="center" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">'.get_string('group').'</td>';
         }
         if (has_capability('mod/forum:viewdiscussion', $context)) {
-            echo '<th class="header replies" scope="col">'.get_string('replies', 'forum').'</th>';
+            echo '<td align="center" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">'.get_string('replies', 'forum').'</td>';
             // If the forum can be tracked, display the unread column.
             if ($cantrack) {
-                echo '<th class="header replies" scope="col">'.get_string('unread', 'forum');
+                echo '<td align="center" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">'.get_string('unread', 'forum');
                 if ($forumtracked) {
                     echo '&nbsp;<a title="'.get_string('markallread', 'forum').
                          '" href="'.$CFG->wwwroot.'/mod/forum/markposts.php?f='.
                          $forum->id.'&amp;mark=read&amp;returnpage=view.php">'.
                          '<img src="'.$CFG->pixpath.'/t/clear.gif" class="iconsmall" alt="'.get_string('markallread', 'forum').'" /></a>';
                 }
-                echo '</th>';
+                echo '</td>';
             }
         }
-        echo '<th class="header lastpost" scope="col">'.get_string('lastpost', 'forum').'</th>';
+        echo '<td align="center" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">'.get_string('lastpost', 'forum').'</td>';
         echo '</tr>';
-        echo '</thead>';
         echo '<tbody>';
     }
 
