@@ -439,7 +439,7 @@
         }
     }
     
-    echo '</tr></table>';
+    echo '</tr></table>';    
 
     
     
@@ -877,9 +877,19 @@ function preprocessmods4topicstree($sectionmods, &$mods, &$modinfo) {
             $modinfo->cms[$key]->extra = '<img src="' . $CFG->pixpath . '/f/folder.gif" alt="" />';
         }
     }
+    
 }
 
-
+/**
+ * get list of latest news of course
+ *
+ * @return array of news Obj
+ * news->subject
+ * 		->modified: last modified time in miliseconds
+ * 		->firstname: first name của user edit post cuối cùng
+ * 		->lastname: last name của user edit post cuối cùng
+ * 		->message: nội dung news
+ */	
 function getNewsItemContent() {
     global $CFG, $USER, $COURSE;
 
@@ -913,67 +923,15 @@ function getNewsItemContent() {
         $currentgroup = groups_get_activity_group($cm, true);
 
 
-        if (forum_user_can_post_discussion($forum, $currentgroup, $groupmode, $cm, $context)) {
-            $text .= '<div class="newlink"><a href="'.$CFG->wwwroot.'/mod/forum/post.php?forum='.$forum->id.'">'.
-                      get_string('addanewtopic', 'forum').'</a>...</div>';
-        }
 
     /// Get all the recent discussions we're allowed to see
-
-        if (! $discussions = forum_get_discussions($cm, 'p.modified DESC', false, 
-                                                   $currentgroup, $COURSE->newsitems) ) {
-            $text .= '('.get_string('nonews', 'forum').')';
-            $content->text = $text;
-            return $content;
+		$discussions = forum_get_discussions($cm, 'p.modified DESC', false, $currentgroup, $COURSE->newsitems); 
+                                                    
+        if (empty($discussions))  {
+            return false;
         }
-
-    /// Actually create the listing now
-
-        $strftimerecent = get_string('strftimerecent');
-        $strmore = get_string('more', 'forum');
-
-    /// Accessibility: markup as a list.
-        $text .= "\n<ul class='unlist'>\n";
-        foreach ($discussions as $discussion) {
-
-            $discussion->subject = $discussion->name;
-
-            $discussion->subject = format_string($discussion->subject, true, $forum->course);
-
-            $text .= '<li class="post">'.
-                     '<div class="head">'.
-                     '<div class="date">'.userdate($discussion->modified, $strftimerecent).'</div>'.
-                     '<div class="name">'.fullname($discussion).'</div></div>'.
-                     '<div class="info">'.$discussion->subject.' '.
-                     '<a href="'.$CFG->wwwroot.'/mod/forum/discuss.php?d='.$discussion->discussion.'">'.
-                     $strmore.'...</a></div>'.
-                     "</li>\n";
-        }
-        $text .= "</ul>\n";
-
-        $content->text = $text;
-
-        $content->footer = '<a href="'.$CFG->wwwroot.'/mod/forum/view.php?f='.$forum->id.'">'.
-                                  get_string('oldertopics', 'forum').'</a> ...';
-
-    /// If RSS is activated at site and forum level and this forum has rss defined, show link
-        if (isset($CFG->enablerssfeeds) && isset($CFG->forum_enablerssfeeds) &&
-            $CFG->enablerssfeeds && $CFG->forum_enablerssfeeds && $forum->rsstype && $forum->rssarticles) {
-            require_once($CFG->dirroot.'/lib/rsslib.php');   // We'll need this
-            if ($forum->rsstype == 1) {
-                $tooltiptext = get_string('rsssubscriberssdiscussions','forum',format_string($forum->name));
-            } else {
-                $tooltiptext = get_string('rsssubscriberssposts','forum',format_string($forum->name));
-            }
-            if (empty($USER->id)) {
-                $userid = 0;
-            } else {
-                $userid = $USER->id;
-            }
-            $content->footer .= '<br />'.rss_get_link($COURSE->id, $userid, 'forum', $forum->id, $tooltiptext);
-        }
-
+        return $discussions;
+    
     }
 
-    return $content;
 }
