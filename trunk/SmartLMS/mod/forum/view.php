@@ -66,8 +66,7 @@
 
 /// Print header.
     $navigation = build_navigation('', $cm);
-    print_header_simple(format_string($forum->name), "",
-                 $navigation, "", "", true, $buttontext, navmenu($course, $cm));
+    print_header_simple(format_string($forum->name), "", $navigation, "", "", true, $buttontext, navmenu($course, $cm));
 
 /// Some capability checks.
     if (empty($cm->visible) and !has_capability('moodle/course:viewhiddenactivities', $context)) {
@@ -107,7 +106,7 @@
                 set_user_preference("forum_displaymode", $mode);
             }
             $displaymode = get_user_preferences("forum_displaymode", $CFG->forum_displaymode);
-            forum_print_mode_form($forum->id, $displaymode, $forum->type);
+            forum_print_mode_form($forum->id, $displaymode, $forum->type); 
         }
     }
 
@@ -280,7 +279,11 @@ echo '
 	 */
 echo '																	
 																</td></tr>
-															</table>
+															</table>';
+/**
+*   START forum_print_latest_discussions
+*/
+echo '                                                                                                                        
 															<table cellpadding="0" cellspacing="0">
 																<tr>
                                                                     <td>
@@ -291,87 +294,85 @@ echo '
                                                                     </td>
                                                                 </tr>
 																<tr><td height="10px"/></tr>
-															</table>
-															<table style="border-collapse: separate; border-spacing: 1px;" cellpadding="10px" cellspacing="1" width="100%" bgcolor="#999999">
-																<tr valign="middle">
-																	<td align="center" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">
-																		Discussion
-																	</td>
-																	<td align="center" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">
-																		Started by
-																	</td>
-																	<td align="center" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">
-																		Replies
-																	</td>
-																	<td align="center" class="courseBB" background="/theme/menu_horizontal/template/images/TB1_HD.jpg">
-																		Last post
-																	</td>
-																</tr>
-																<tr valign="middle">
-																	<td height="44px" align="center" bgcolor="#FFFFFF" class="courseGB">
-																		<a href="">Classical drama seeks ways to survive</a>
-																	</td>
-																	<td align="left" bgcolor="#FFFFFF">
-																		<a href="" class="courseRB">Thiennp</a><br />
-																		Monday, 19 October 2009, 09:14 AM
-																	</td>
-																	<td align="center" bgcolor="#FFFFFF" class="courseB">
-																	5
-																	</td>
-																	<td align="left" bgcolor="#FFFFFF">
-																		<a href="" class="courseRB">Thiennp</a><br />
-																		Monday, 19 October 2009, 09:14 AM
-																	</td>
-																</tr>
-																<tr valign="middle">
-																	<td height="44px" align="center" bgcolor="#FFFFFF" class="courseGB">
-																		<a href="">Classical drama seeks ways to survive</a>
-																	</td>
-																	<td align="left" bgcolor="#FFFFFF">
-																		<a href="" class="courseRB">Thiennp</a><br />
-																		Monday, 19 October 2009, 09:14 AM
-																	</td>
-																	<td align="center" bgcolor="#FFFFFF" class="courseB">
-																	5
-																	</td>
-																	<td align="left" bgcolor="#FFFFFF">
-																		<a href="" class="courseRB">Thiennp</a><br />
-																		Monday, 19 October 2009, 09:14 AM
-																	</td>
-																</tr>
-																<tr valign="middle">
-																	<td height="44px" align="center" bgcolor="#FFFFFF" class="courseGB">
-																		<a href="">Classical drama seeks ways to survive</a>
-																	</td>
-																	<td align="left" bgcolor="#FFFFFF">
-																		<a href="" class="courseRB">Thiennp</a><br />
-																		Monday, 19 October 2009, 09:14 AM
-																	</td>
-																	<td align="center" bgcolor="#FFFFFF" class="courseB">
-																	5
-																	</td>
-																	<td align="left" bgcolor="#FFFFFF">
-																		<a href="" class="courseRB">Thiennp</a><br />
-																		Monday, 19 October 2009, 09:14 AM
-																	</td>
-																</tr>
-																<tr valign="middle">
-																	<td height="44px" align="center" bgcolor="#FFFFFF" class="courseGB">
-																		<a href="">Classical drama seeks ways to survive</a>
-																	</td>
-																	<td align="left" bgcolor="#FFFFFF">
-																		<a href="" class="courseRB">Thiennp</a><br />
-																		Monday, 19 October 2009, 09:14 AM
-																	</td>
-																	<td align="center" bgcolor="#FFFFFF" class="courseB">
-																	5
-																	</td>
-																	<td align="left" bgcolor="#FFFFFF">
-																		<a href="" class="courseRB">Thiennp</a><br />
-																		Monday, 19 October 2009, 09:14 AM
-																	</td>
-																</tr>
-															</table>
+															</table>'; 
+/**
+*   START FORUM LIST 
+*/
+switch ($forum->type) {
+        case 'single':
+            if (! $discussion = get_record("forum_discussions", "forum", $forum->id)) {
+                if ($discussions = get_records("forum_discussions", "forum", $forum->id, "timemodified ASC")) {
+                    notify("Warning! There is more than one discussion in this forum - using the most recent");
+                    $discussion = array_pop($discussions);
+                } else {
+                    error("Could not find the discussion in this forum");
+                }
+            }
+            if (! $post = forum_get_post_full($discussion->firstpost)) {
+                error("Could not find the first post in this forum");
+            }
+            if ($mode) {
+                set_user_preference("forum_displaymode", $mode);
+            }
+
+            $canreply    = forum_user_can_post($forum, $discussion, $USER, $cm, $course, $context);
+            $canrate     = has_capability('mod/forum:rate', $context);
+            $displaymode = get_user_preferences("forum_displaymode", $CFG->forum_displaymode);
+
+            echo '&nbsp;'; // this should fix the floating in FF
+            forum_print_discussion($course, $cm, $forum, $discussion, $post, $displaymode, $canreply, $canrate);
+            break;
+
+        case 'eachuser':
+            if (!empty($forum->intro)) {
+                $options = new stdclass;
+                $options->para = false;
+                print_box(format_text($forum->intro, FORMAT_MOODLE, $options), 'generalbox', 'intro');
+            }
+            echo '<p class="mdl-align">';
+            if (forum_user_can_post_discussion($forum, null, -1, $cm)) {
+                print_string("allowsdiscussions", "forum");
+            } else {
+                echo '&nbsp;';
+            }
+            echo '</p>';
+            forum_print_latest_discussions($course, $forum, 0, 'header', '', -1, -1, -1, 0, $cm);
+            if (!empty($showall)) {
+                forum_print_latest_discussions($course, $forum, 0, 'header', '', -1, -1, -1, 0, $cm);
+            } else {
+                forum_print_latest_discussions($course, $forum, -1, 'header', '', -1, -1, $page, $CFG->forum_manydiscussions, $cm);
+            }
+            break;
+
+        case 'teacher':
+            if (!empty($showall)) {
+                forum_print_latest_discussions($course, $forum, 0, 'header', '', -1, -1, -1, 0, $cm);
+            } else {
+                forum_print_latest_discussions($course, $forum, -1, 'header', '', -1, -1, $page, $CFG->forum_manydiscussions, $cm);
+            }
+            break;
+
+        default:
+            if (!empty($forum->intro)) {
+                $options = new stdclass;
+                $options->para = false;
+                echo strtoupper($forum->intro);
+                //print_box(format_text($forum->intro, FORMAT_MOODLE, $options), 'generalbox', 'intro');
+            }
+            echo '<br />';
+            if (!empty($showall)) {
+                forum_print_latest_discussions($course, $forum, 0, 'header', '', -1, -1, -1, 0, $cm);
+            } else {
+                forum_print_latest_discussions($course, $forum, -1, 'header', '', -1, -1, $page, $CFG->forum_manydiscussions, $cm);
+            }
+
+
+            break;
+    }    
+/**
+*   END FORUM LIST
+*/
+echo '                                                            
 														</td>
 													</tr>
 												</table>

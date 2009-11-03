@@ -3,10 +3,20 @@
 unset($CFG);
 
 $CFG->dbtype    = 'mysql';
+
 $CFG->dbhost    = 'localhost';
 $CFG->dbname    = 'smartlms';
 $CFG->dbuser    = 'root';
 $CFG->dbpass    = '1234';
+
+/*
+$CFG->dbhost = 'smartlms.gurucore.com';
+$CFG->dbname = 'smartlms';
+$CFG->dbuser = 'smartlms';
+$CFG->dbpass = 'guruunited2008';
+*/
+
+
 $CFG->dbpersist =  true;
 $CFG->prefix    = 'mdl_';
 
