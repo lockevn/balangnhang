@@ -219,6 +219,7 @@
     echo '<table cellpadding="10px" cellspacing="0" width="100%" style="background:url('.$CFG->themewww.'/'.current_theme().'/template/images/BG1_M.jpg) top repeat-x" height="100px">
             <tr>
             ';
+    if(!empty($latestNews)) {
             foreach($latestNews as $objNews)
             {
                 
@@ -240,6 +241,7 @@
                     </table>
                 </td>';
             }
+    }
             echo '
             </tr>
         </table>';
