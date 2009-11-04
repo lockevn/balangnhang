@@ -69,7 +69,14 @@ function display() {
 
     /*danhut addded to enable blocks in resource page*/
     $PAGE       = page_create_instance($resource->id);
-    $pageblocks = blocks_setup($PAGE, BLOCKS_PINNED_BOTH);   
+    if($COURSE->format != 'testroom') {
+    	$pageblocks = blocks_setup($PAGE, BLOCKS_PINNED_BOTH);
+    }
+    else {
+    	/*danhut: không print fixed blocks nếu resource nằm trong test room*/
+    	$pageblocks = blocks_setup($PAGE, BLOCKS_PINNED_FALSE);
+    }
+    	   
     $left_blocks_preferred_width = 180;
     $right_blocks_preferred_width = 250;
     //$blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_LEFT]), 210);
