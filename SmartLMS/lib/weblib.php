@@ -3556,8 +3556,8 @@ function check_theme_arrows() {
 		}
         
         //muinx add
-        $THEME->rarrow = '<img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BT_GT.JPG" />';
-        $THEME->larrow = '<img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BT_LT.JPG" />';
+        $THEME->rarrow = '<img src="'.$CFG->themewww.'/'.current_theme().'/'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" />';
+        $THEME->larrow = '<img src="'.$CFG->themewww.'/'.current_theme().'/'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG" />';
         
 	}
 }
@@ -5443,19 +5443,19 @@ function navmenu($course, $cm=NULL, $targetwindow='self', $getNavLinks=false) {
 	$nextmodStr = '';
 	if ($backmod) {
 		$backtext= get_string('activityprev', 'access');
-		$backmodStr = '<li><form action="'.$CFG->wwwroot.'/mod/'.$backmod->modname.'/view.php" '.
+		$backmodStr = '<div class="titleicon"><form action="'.$CFG->wwwroot.'/mod/'.$backmod->modname.'/view.php" '.
                    'onclick="this.target=\''.$CFG->framename.'\';"'.'><fieldset class="invisiblefieldset">'.
                    '<input type="hidden" name="id" value="'.$backmod->id.'" />'.
-                   '<button type="submit" title="'.$backtext.'">'.link_arrow_left($backtext, $url='', $accesshide=true).
-                   '</button></fieldset></form></li>';
+                   '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG) no-repeat top center; width:15px ; height:15px ; border: none;" type="submit" title="'.$backtext.'">'.link_arrow_left($backtext, $url='', $accesshide=true).
+                   '</button></fieldset></form></div>';
 	}
 	if ($nextmod) {
 		$nexttext= get_string('activitynext', 'access');
-		$nextmodStr = '<li><form action="'.$CFG->wwwroot.'/mod/'.$nextmod->modname.'/view.php"  '.
+		$nextmodStr = '<div class="titleicon"><form action="'.$CFG->wwwroot.'/mod/'.$nextmod->modname.'/view.php"  '.
                    'onclick="this.target=\''.$CFG->framename.'\';"'.'><fieldset class="invisiblefieldset">'.
                    '<input type="hidden" name="id" value="'.$nextmod->id.'" />'.
-                   '<button type="submit" title="'.$nexttext.'">'.link_arrow_right($nexttext, $url='', $accesshide=true).
-                   '</button></fieldset></form></li>';
+                   '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG) no-repeat top center; width:15px ; height:15px ; border: none;" type="submit" title="'.$nexttext.'">'.link_arrow_right($nexttext, $url='', $accesshide=true).
+                   '</button></fieldset></form></div>';
 	}
 
 	
@@ -5467,7 +5467,7 @@ function navmenu($course, $cm=NULL, $targetwindow='self', $getNavLinks=false) {
 //	$nextmod . '</ul>'."\n".'</div>';
 /*danhut modifed*/
 	if($getNavLinks === false) { 
-		return '<div class="navigation">'."\n".'<ul>'. $backmodStr . $nextmodStr . '</ul>'."\n".'</div>';
+		return '<div class="">'."\n".''. $backmodStr . $nextmodStr . ''."\n".'</div>';
 	} else {
 		$nextLink = '';
 		$backLink = '';
