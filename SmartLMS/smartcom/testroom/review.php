@@ -64,7 +64,7 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 
 	echo '<table id="layout-table"><tr>';
 
-	echo '<td id="middle-column">';
+	echo '<td id="middle-column" >';
 	print_container_start();
 	/*end of added*/
 	
@@ -146,17 +146,17 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 	
 	/*xác định course dựa trên tổng điểm đạt được để recommend*/
 	$courseArr = selectCourseByGrade($course->id, $totalGrade/$maxGrade);
-	if(isset($courseArr['maincourse'])) {
+	if(!empty($courseArr['maincourse'])) {
 		echo '<tr><td>' . get_string('courselevel', 'smartcom') . $courseArr['maincourse']->categoryname . '</td></tr>';
 		echo '<tr><td>' . get_string('maincourse', 'smartcom') . 
 			' : <a href="'. $CFG->wwwroot . '/course/enrol.php?id=' . $courseArr['maincourse']->id .'">' . $courseArr['maincourse']->fullname . '</a></td></tr>';
 	} 
-	if(isset($courseArr['minorcourse1'])) {
+	if(!empty($courseArr['minorcourse1'])) {
 		echo '<tr><td>' . get_string('minorcourse', 'smartcom') . 
 			' 1: <a href="'. $CFG->wwwroot . '/course/enrol.php?id=' . $courseArr['minorcourse1']->id .'">' . $courseArr['minorcourse1']->fullname . '</a></td></tr>';
 	}
 	
-	if(isset($courseArr['minorcourse2'])) {
+	if(!empty($courseArr['minorcourse2'])) {
 		echo '<tr><td>' . get_string('minorcourse', 'smartcom') . 
 			' 2: <a href="'. $CFG->wwwroot . '/course/enrol.php?id=' . $courseArr['minorcourse2']->id .'">' . $courseArr['minorcourse2']->fullname . '</a></td></tr>';
 	}
