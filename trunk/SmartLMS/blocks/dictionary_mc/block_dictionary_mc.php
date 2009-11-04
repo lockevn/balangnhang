@@ -39,16 +39,17 @@ function get_content() {
 	}
 	
 	global $CFG;
+    //'.get_string('dic_mc_button_search', 'block_dictionary_mc').'
 	$this->content->items[] = '
 	<form id="gurucore_dictionary_popup" action="#" method="get">
 		<div style="padding-bottom:6px"> '.get_string('dic_mc_db', 'block_dictionary_mc').' <br /> 
-		<select id="gurucore_dictionary_dictionaries" name="dictionaries" > 
+		<select style="width: 180px;" id="gurucore_dictionary_dictionaries" name="dictionaries" > 
 			<option value="eng2vie" selected="true">'.get_string('dic_mc_db_ev', 'block_dictionary_mc').'</option>             
 			<option value="vie2eng">'.get_string('dic_mc_db_ve', 'block_dictionary_mc').'</option> 
 		</select></div>
 		<div> '.get_string('dic_mc_enter_word', 'block_dictionary_mc').'<br /> 
-		<input type="text" name="word" id="gurucore_dictionary_word" />	    
-		<a title="Dictionary" class="thickbox" href="#">'.get_string('dic_mc_button_search', 'block_dictionary_mc').'</a>
+		<input style="width: 180px;" type="text" name="word" id="gurucore_dictionary_word" /><br /><br />
+		<a title="Dictionary" class="thickbox" href="#"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_Go.jpg" /></a></a>
 		</div> 
 	</form>
 	
