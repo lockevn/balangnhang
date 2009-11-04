@@ -87,7 +87,8 @@
 		if (isset($userid)) {
 			$user = get_record('user','id', $userid);
 		}
-		print_heading(fullname($user, has_capability('moodle/site:viewfullnames', get_context_instance(CONTEXT_COURSE, $course->id))));
+        // HUT DAN O DAY HEEEEE
+		// print_heading(fullname($user, has_capability('moodle/site:viewfullnames', get_context_instance(CONTEXT_COURSE, $course->id))));
 
 		$systemcontext   = get_context_instance(CONTEXT_SYSTEM);
 		$coursecontext   = get_context_instance(CONTEXT_COURSE, $course->id);

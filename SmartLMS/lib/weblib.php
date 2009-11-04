@@ -2932,7 +2932,9 @@ function print_footer($course=NULL, $usercourse=NULL, $return=false) {
 
 	/// Course links or special footer
 	if ($course) {
+       
 		if ($course === 'empty') {
+           
 			// special hack - sometimes we do not want even the docs link in footer
 			$output = '';
 			if (!empty($THEME->open_header_containers)) {
@@ -2952,11 +2954,13 @@ function print_footer($course=NULL, $usercourse=NULL, $return=false) {
 			}
 
 		} else if ($course === 'none') {          // Don't print any links etc
-			$homelink = '';
+			 
+            $homelink = '';
 			$loggedinas = '';
 			$home  = false;
 
 		} else if ($course === 'home') {   // special case for site home page - please do not remove
+        
 			$course = get_site();
 			$homelink  = '<div class="sitelink">'.
                '<a title="Moodle '. $CFG->release .'" href="http://moodle.org/">'.
@@ -2964,12 +2968,15 @@ function print_footer($course=NULL, $usercourse=NULL, $return=false) {
 			$home  = true;
 
 		} else {
+            
 			$homelink = '<div class="homelink"><a '.$CFG->frametarget.' href="'.$CFG->wwwroot.
                         '/course/view.php?id='.$course->id.'">'.format_string($course->shortname).'</a></div>';
 			$home  = false;
+            // ok
 		}
 
 	} else {
+        
 		$course = get_site();  // Set course as site course by default
 		$homelink = '<div class="homelink"><a '.$CFG->frametarget.' href="'.$CFG->wwwroot.'/">'.get_string('home').'</a></div>';
 		$home  = false;
@@ -3024,6 +3031,7 @@ function print_footer($course=NULL, $usercourse=NULL, $return=false) {
 	if ($return) {
 		return $output;
 	} else {
+        
 		echo $output;
 	}
 }
@@ -4518,7 +4526,7 @@ function print_user_picture($user, $courseid, $picture=NULL, $size=0, $return=fa
 		}
 	}
 
-	$output .= "<img class=\"$class\" src=\"$src\" height=\"$size\" width=\"$size\" alt=\"".s($imagealt).'"  />';
+	$output .= "<img src=\"$src\" height=\"$size\" width=\"$size\" alt=\"".s($imagealt).'"  />';
 	if ($link) {
 		$output .= '</a>';
 	}
@@ -6370,14 +6378,14 @@ function print_paging_bar($totalcount, $page, $perpage, $baseurl, $pagevar='page
 	$output = '';
 
 	if ($totalcount > $perpage) {
-		$output .= '<div class="paging">';
-		$output .= get_string('page') .':';
+		$output .= '<div class="paging" style="text-align: right;">';
+		$output .= strtoupper(get_string('page')) .':&nbsp;&nbsp;&nbsp;';
 		if ($page > 0) {
 			$pagenum = $page - 1;
 			if (!is_a($baseurl, 'moodle_url')){
-				$output .= '&nbsp;(<a class="previous" href="'. $baseurl . $pagevar .'='. $pagenum .'">'. get_string('previous') .'</a>)&nbsp;';
+				$output .= '&nbsp;<a class="previous" href="'. $baseurl . $pagevar .'='. $pagenum .'">Prev</a>&nbsp;';
 			} else {
-				$output .= '&nbsp;(<a class="previous" href="'. $baseurl->out(false, array($pagevar => $pagenum)).'">'. get_string('previous') .'</a>)&nbsp;';
+				$output .= '&nbsp;<a class="previous" href="'. $baseurl->out(false, array($pagevar => $pagenum)).'">Prev</a>&nbsp;&nbsp;&nbsp;';
 			}
 		}
 		if ($perpage > 0) {
@@ -6423,9 +6431,9 @@ function print_paging_bar($totalcount, $page, $perpage, $baseurl, $pagevar='page
 		$pagenum = $page + 1;
 		if ($pagenum != $displaypage) {
 			if (!is_a($baseurl, 'moodle_url')){
-				$output .= '&nbsp;&nbsp;(<a class="next" href="'. $baseurl . $pagevar .'='. $pagenum .'">'. get_string('next') .'</a>)';
+				$output .= '&nbsp;&nbsp;&nbsp;&nbsp;<a class="next" href="'. $baseurl . $pagevar .'='. $pagenum .'">'. get_string('next') .'</a>';
 			} else {
-				$output .= '&nbsp;&nbsp;(<a class="next" href="'. $baseurl->out(false, array($pagevar => $pagenum)) .'">'. get_string('next') .'</a>)';
+				$output .= '&nbsp;&nbsp;<a class="next" href="'. $baseurl->out(false, array($pagevar => $pagenum)) .'">'. get_string('next') .'</a>';
 			}
 		}
 		$output .= '</div>';
@@ -6790,7 +6798,7 @@ function print_tabs($tabrows, $selected=NULL, $inactive=NULL, $activated=NULL, $
 
 function convert_tree_to_html($tree, $row=0) {
 
-	$str = "\n".'<ul class="tabrow'.$row.'">'."\n";
+	$str = "\n".'<ul style="padding: 0; list-style: none; font-weight: bold;" class="'.$row.'">'."\n";
 
 	$first = true;
 	$count = count($tree);
@@ -6822,7 +6830,7 @@ function convert_tree_to_html($tree, $row=0) {
 			}
 		}
 
-		$str .= (!empty($liclass)) ? '<li class="'.$liclass.'">' : '<li>';
+		$str .= (!empty($liclass)) ? '<li class="'.$liclass.'">' : '<li style="line-height: 30px;">';
 
 		if ($tab->inactive || $tab->active || ($tab->selected && !$tab->linkedwhenselected)) {
 			// The a tag is used for styling
