@@ -38,23 +38,40 @@ function printSupportToolMenuBar($courseid) {
  * @param int $userid
  */
 function printSectionActivities($activityArr, $courseid, $selectedLOId, $userid) {	
+    global $CFG;
 	if(empty($activityArr)) {
 		return;
 	}
-	$str = "";
+	$str = '<table cellpadding="0" cellspacing="0"><tr>';
 	foreach($activityArr as $activity) {
 		
 		/*tính điểm all quiz*/
 		$grade = getAvgGradeOfAllQuizInActivityOfUserFromLOId($courseid, $selectedLOId, $activity->id, $userid );
-		$str .= "<a href='$activity->link'>";
-		if($activity->selected == 1) {
-			$str .= "<b>$activity->name ($grade->status)</b>";	
-		} else {
-			$str .= $activity->name ."($grade->status)";
-		}
-		$str .= "</a> ";		
+        $str .= '<td>
+            <table cellpadding="0" cellspacing="5px">
+                <tr>
+                    <td class="courseBB">
+                        &nbsp;&nbsp;<a href='.$activity->link.'>';
+                        
+                            if($activity->selected == 1) {
+                                $str .= "<b>$activity->name </b>";     //($grade->status)
+                            } else {
+                               $str .= $activity->name ;
+                            }                  
+        $str .= '       </a>
+                    </td>                                            
+                    <td>
+                        <img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/coursemenu_x.JPG" /> 
+                    </td>                                            
+                    <td>
+                        <img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/MN1_SP.jpg" /> 
+                    </td>
+                </tr>
+             </table>
+             </td>                           
+            ';
 	}
-	echo $str;
+	echo $str. '</tr></table>';
 }
 
 function printLectureListOfCurrentActivity($loList) {
