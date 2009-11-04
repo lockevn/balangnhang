@@ -34,6 +34,7 @@
     require_course_login($course, true, $cm);
 
     require ($CFG->dirroot.'/mod/resource/type/'.$resource->type.'/resource.class.php');
+    // html
     $resourceclass = 'resource_'.$resource->type;
     $resourceinstance = new $resourceclass($cm->id);
 

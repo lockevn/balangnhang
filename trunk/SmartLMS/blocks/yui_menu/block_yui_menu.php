@@ -81,8 +81,8 @@ class block_yui_menu extends block_base {
             if (!empty($item->children)) $class .= " yui_menu_tree";
             $menu .= "
 <li class='$class'>
-<div class='icon column c0'>{$item->icon()}</div>
-<div class='column c1'>{$item->html()}</div>";
+<div class='icon column c0'></div>
+<div style='text-transform: uppercase; ' class='column c1'><b>{$item->html()}</b></div>";
             if (!empty($item->children)) {
                 // display the first level of children
                 $menuid = "yui_menu_{$name}_tree_{$this->instance->id}";
@@ -129,7 +129,8 @@ tree.subscribe('expandComplete', addTreeIcons);";
 </script>";
         }
         $this->content = new stdClass;
-        $this->content->text = "<div style='overflow: auto; height: 200px;'>$output</div>";
+        
+        $this->content->text = "<div style='border: 1px solid #CCC; overflow-x: auto; display: block; overflow-y: scroll; height: 150px; width: 218px;'>$output</div>";
         $this->content->footer = '';
         return $this->content;
     }

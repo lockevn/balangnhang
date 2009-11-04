@@ -140,83 +140,158 @@ function display() {
     		$this->display_test_description($course, $cm, $resource, $formatoptions);
     		return;
     	}
-    	/*danhut added*/
-    	echo '<table id="layout-table" class="' .$resource->lotype . '"><tr>';
-    	if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
-    		echo '<td style="width: '.$left_blocks_preferred_width.'px;" id="left-column">';
-    		print_container_start();
-    		blocks_print_group($PAGE, $pageblocks, BLOCK_POS_LEFT);
-    		print_container_end();
-    		echo '</td>';
-    	}
-    	echo '<td id="middle-column">';
-    	print_container_start();
-    	/*end of danhut added*/
-    	/*danhut modified: nếu là resource là test description 0 print navmenu*/
-    	if($resource->lotype != 'testdescription') {
-			/*danhut: print activity list của lesson*/
-    		$activityArr = getLessonActivitiesFromLOId($COURSE->id, $cm->id, $resource->lotype) ;
-    		if(!empty($activityArr)) {
-    			printSectionActivities($activityArr, $COURSE->id, $cm->id, $USER->id);
-    		}
-    		echo $menu;
-    	}
-    	print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id), "center clearfix", "", "", "20");
+        
+echo '
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <td width="20px"></td>
+                <td width="220px" valign="top" id="left-column">                    
+                
+                    <!-------------COURSEMENU---------------------------------------->
+                    <div class="leftpanel">';
+                    
+if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
+    //echo '<td style="width: '.$left_blocks_preferred_width.'px;" id="left-column">';
+    print_container_start();
+    echo '<div style="float:left; width:220px;">';
+    blocks_print_group($PAGE, $pageblocks, BLOCK_POS_LEFT);
+    echo '</div>';
+    //blocks_print_group($PAGE, $pageblocks, BLOCK_POS_LEFT);
+    print_container_end();
+    echo '</td>';
+}                        
+echo '              </div>
+                </td>
+                <td width="20px"></td>
+                <td valign="top">
+                
+                    <!-------------------------------------------------------------------->
+                    <div class="newsarea">
+                        <table cellpadding="0" cellspacing="0" width="100%" border="0">
+                            <tr><td height="30px" colspan="3">';
 
-//    	$strlastmodified = get_string("lastmodified");
-//    	echo "<div class=\"modified\">$strlastmodified: ".userdate($resource->timemodified)."</div>";
+/*danhut modified: nếu là resource là test description 0 print navmenu*/
 
-    	/*danhut added*/
-    	if($resource->lotype != 'testdescription') {
-    		/*get selected activity to print list of lecture*/
-    		if(!empty($activityArr)) {
-    			foreach($activityArr as $activity) {
-    				if($activity->selected == 1) {
-    					$currentActivity = $activity;
-    					break;
-    				}
-    			}
-    		}    		
-			/*print lecture list of current activity*/
-    		if(!empty($currentActivity)) {
-    			$lectureList = getLectureListOfCurrentLecture($cm->id, $currentActivity);
-    			printLectureListOfCurrentActivity($lectureList);
-    		}
-    		
-    		echo $menu;
-    	} else  {
-    		/*danhut added: print next button for testdescription resource*/
-    		$navLinks = navmenu($course, $cm, '', true);
-    		$nextLink = $navLinks['nextLink'];
-    		if(!empty($nextLink)) {
-    			echo "<div class=\"submitbtns mdl-align $resource->lotype\">\n";
-    			$start = optional_param('start'); 
-    			if(empty($navLinks['backLink']) || !empty($start)) {
-    				/*nếu là trang đầu tiên giới thiệu về bài test*/
-    				if(isset($SESSION->attemptIdArr)) {
-    					unset($SESSION->attemptIdArr);
-    				}
-    				$btnLabel = get_string("starttest", "smartcom");
-    			} else {
-    				$btnLabel = get_string("next", "smartcom");
-    			}
-    			echo "<a href='$nextLink'>" . $btnLabel . "</a>";
-    			echo "</div>" ;
-    		}
-    	}
+    /*danhut: print activity list của lesson*/
+if($resource->lotype != 'testdescription') {    
+    $activityArr = getLessonActivitiesFromLOId($COURSE->id, $cm->id, $resource->lotype) ;
+    if(!empty($activityArr)) {
+        printSectionActivities($activityArr, $COURSE->id, $cm->id, $USER->id);
+    }
+}
+                                
+echo '                      </td></tr>
+                            <tr>
+                                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+                                <td valign="top" width="100%">
+                                    <table cellpadding="0" cellspacing="10px" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
+                                        <tr><td height="30px">
+                                            <div style="float:left" class="title">LECTURE 1</div>';
+                                            
+/**
+* MENU NEXT PREV                                            
+*/
+if($resource->lotype != 'testdescription') {
+    echo $menu;
+}
 
-    	print_container_end();
-    	echo '</td>';
+echo '                                      
+                                        </td></tr>                     
+                                        <tr>
+                                            <td valign="top">'; 
+print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id), "center clearfix", "", "", "20");
 
-    	if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
-    		echo '<td style="width: '.$right_blocks_preferred_width.'px;" id="right-column">';
-    		print_container_start();
-    		blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
-    		print_container_end();
-    		echo '</td>';
-    	}
 
-    	echo '</tr></table>';
+//        $strlastmodified = get_string("lastmodified");
+//        echo "<div class=\"modified\">$strlastmodified: ".userdate($resource->timemodified)."</div>";
+
+        /*danhut added*/
+if($resource->lotype != 'testdescription') {
+    /*get selected activity to print list of lecture*/
+    if(!empty($activityArr)) {
+        foreach($activityArr as $activity) {
+            if($activity->selected == 1) {
+                $currentActivity = $activity;
+                break;
+            }
+        }
+    }            
+    /*print lecture list of current activity*/
+    if(!empty($currentActivity)) {
+        $lectureList = getLectureListOfCurrentLecture($cm->id, $currentActivity);
+        printLectureListOfCurrentActivity($lectureList);
+    }
+    
+} else  {
+    /*danhut added: print next button for testdescription resource*/
+    $navLinks = navmenu($course, $cm, '', true);
+    $nextLink = $navLinks['nextLink'];
+    if(!empty($nextLink)) {
+        echo "<div class=\"submitbtns mdl-align $resource->lotype\">\n";
+        $start = optional_param('start'); 
+        if(empty($navLinks['backLink']) || !empty($start)) {
+            /*nếu là trang đầu tiên giới thiệu về bài test*/
+            if(isset($SESSION->attemptIdArr)) {
+                unset($SESSION->attemptIdArr);
+            }
+            $btnLabel = get_string("starttest", "smartcom");
+        } else {
+            $btnLabel = get_string("next", "smartcom");
+        }
+        echo "<a href='$nextLink'>" . $btnLabel . "</a>";
+        echo "</div>" ;
+    }
+}
+if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
+    echo '<td style="width: '.$right_blocks_preferred_width.'px;" id="right-column">';
+    print_container_start();
+    blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
+    print_container_end();
+    echo '</td>';
+}
+echo '                                      </td>
+                                        </tr>
+                                    </table>
+                                                                        
+                                    <table cellpadding="0" cellspacing="10px" width="100%" border="0">
+                                        <tr />
+                                        <tr>
+                                                <td align="right" class="courseBB" height="20px" width="160px">
+                                                        - Bạn đang xem bài giảng số
+                                                </td>
+                                                <td width="20px">
+                                                    <div class="page" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/CircleBR.gif) center no-repeat"><a href="" class="pagetext">1</a></div>
+                                                </td><td width="20px">
+                                                    <div class="page" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/CircleBR.gif) center no-repeat"><a href="" class="pagetext">2</a></div>
+                                                </td><td width="20px">
+                                                    <div class="page" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/CircleBR.gif) center no-repeat"><a href="" class="pagetext">3</a></div>
+                                                </td>
+                                                <td>của bài học này</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+                            </tr>                            
+                        </table>
+                    </div>
+                
+                    <!-------------------------------------------------------------------->
+                    <div class="newsarea">
+                        <table cellpadding="0" cellspacing="0" width="100%" border="0">
+                            <tr><td height="30px" colspan="3">
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG" /></a></div>
+                            </td></tr>
+                        </table>
+                    </div>
+                
+                    
+                </td>
+                <td width="20px"></td>
+            </tr>
+        </table>
+    ';
+
     	/*end of danhut added*/
     	print_footer($course);
             
