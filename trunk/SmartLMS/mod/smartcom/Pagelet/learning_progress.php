@@ -32,7 +32,26 @@ $tpl->assign('chartTongQuanKhoaHocTheoKyNang', $chartTongQuanKhoaHocTheoKyNang);
 $tpl->assign('chartChiTietBaiHoc', $chartChiTietBaiHoc);
 $tpl->assign('chitietbaihocurl', "/mod/smartcom/api/student_learning_progress_ChiTietBaiHoc_ofc_data.php?courseid=$courseid&userid=$userid");
 
-		
+/**
+* Tabs include
+* 
+* @var mixed
+*/
+$userid = optional_param('id', $USER->id, PARAM_INT);    // user id
+$course = optional_param('course', SITEID, PARAM_INT);   // course id (defaults to Site)
+if (!$course = get_record('course', 'id', $course)) {
+    error('Course ID was incorrect');
+}
+// The user profile we are editing
+if (!$user = get_record('user', 'id', $userid)) {
+    error('User ID was incorrect');
+}
+$tpl->assign('user', $user);
+$tpl->assign('USER', $USER);
+$tpl->assign('course', $course);
+$tpl->assign('CFG', $CFG);
+
+        
 $FILENAME = 'learning_progress';
 $$FILENAME = $tpl->fetch("$FILENAME.tpl.php");
 

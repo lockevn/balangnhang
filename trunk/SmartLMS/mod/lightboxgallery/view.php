@@ -40,7 +40,7 @@
         require_login($course->id);
         $userid = $USER->id;
     }
-
+//echo '<pre>'; print_r($USER); exit;
     $context = get_context_instance(CONTEXT_MODULE, $cm->id);
 
     if ($editing) {
@@ -78,19 +78,102 @@
     if ($allowrssfeed) {
         $heading .= ' ' . rss_get_link($course->id, $userid, 'lightboxgallery', $gallery->id, get_string('rsssubscribe', 'lightboxgallery'));
     }
-
-    print_heading($heading);
-
+    
+echo '
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <td width="20px"></td>
+                <td width="220px" valign="top">
+                
+                    <!----------------------------------------------------->
+                    <div class="leftpanel">
+                        <table cellpadding="0" cellspacing="0" width="100%">
+                            <tr><td height="30px">
+                                <div class="title">PERSONAL</div>
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_ST.JPG" /></a></div>
+                            </td></tr>
+                            <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
+                            <tr><td align="center">
+                                <div style="width:200px;">
+                                    <table cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td height="30px" align="left">
+                                                Hello <a href="" class="leftpaneltext">'. $USER->username .'</a>!
+                                            </td>
+                                            <td height="30px" align="right">
+                                                <a class="leftpaneltext" '. $CFG->frametarget .'href="'. $CFG->wwwroot.'/login/logout.php?sesskey='.sesskey().'">'. 
+                                                    get_string('logout').
+                                                '</a>
+                                            </td>
+                                        </tr>
+                                        <tr><td height="30px" align="left">
+                                            Tin nhắn:
+                                        </td></tr>
+                                        <tr><td height="30px" style="padding:0 10px 0 10px" align="left">
+                                            Chưa đọc: <a href="" class="leftpaneltext">10</a>
+                                        </td></tr>
+                                        <tr><td height="30px" style="padding:0 10px 0 10px" align="left">
+                                            Có: <a href="" class="leftpaneltext">10</a>
+                                        </td></tr>
+                                    </table>
+                                </div>
+                            </td></tr>
+                        </table>
+                    </div>
+                    
+                    <!----------------------------------------------------->                    
+                    <div class="leftpanel">    
+                    </div>            
+                    
+                </td>
+                <td width="20px"></td>
+                <td valign="top">
+                
+                    <!-------------------------------------------------------------------->
+                    <div class="newsarea">
+                        <table cellpadding="0" cellspacing="0" width="100%" border="0">
+                            <tr><td height="30px" colspan="3">
+                                <div class="title">';
+                                /** 
+                                *   Title cho gallery
+                                */
+                                    echo strtoupper($heading);
+                                    //print_heading($heading);
+                                /**
+                                *  End title
+                                */
+echo                            '</div>
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG" /></a></div>
+                            </td></tr>
+                            <tr>
+                                <td colspan="3">';
     lightboxgallery_print_js_config($gallery->autoresize);
 
     $fobj = new object;
     $fobj->para = false;
 
+    /**
+    * Description of gallery
+    */
     if ($gallery->description && !$editing) {
         print_simple_box(format_text($gallery->description, FORMAT_MOODLE, $fobj), 'center');
     }
-
-    print_simple_box_start('center');
+    /**
+    * end description
+    */                                    
+echo                           '</td>
+                            </tr>
+                            <tr>
+                                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+                                <td valign="top" width="100%">
+                                    <table cellpadding="10px" cellspacing="0" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
+                                        <tr>
+                                            <td>';
+   /**
+    *  Print images 
+    */
 
     $dataroot = $CFG->dataroot . '/' . $course->id . '/' . $gallery->folder;
     $webroot = lightboxgallery_get_image_url($gallery->id);
@@ -131,18 +214,46 @@
             $imagetitle = (isset($captions[$image]) ? $captions[$image] : $image);
             echo('<div class="thumb">
                     <div class="image"><a class="overlay" href="'.$imageurl.'" rel="lightbox[gallery-' . $gallery->id . ']" title="'.$imagetitle.'">'.lightboxgallery_image_thumbnail($course->id, $gallery, $image).'</a></div>
-                    '.$imagelabel.$imageextra.'
+                    <a class="courseBB" href="'.$imageurl.'" rel="lightbox[gallery-' . $gallery->id . ']">'.$imagelabel.$imageextra.'</a>
                   </div>');
         }
     } else {
         print_string('errornoimages', 'lightboxgallery');
     }
 
-    print_simple_box_end();
-
+    
+    /**
+    *  End print images
+    */                                            
+echo '                                       
+                                            </td>
+                                        </tr>
+                                    </table>
+                                                                        
+                                    <table cellpadding="0" cellspacing="0" width="100%">
+                                        <tr><td bgcolor="#CCCCCC" height="1px"></td></tr>
+                                        <tr><td align="right" class="courseBB" height="25px">';
+/**
+* Pagination
+*/
     if ($gallery->perpage) {
         print_paging_bar(count($allimages), $page, $gallery->perpage, $CFG->wwwroot.'/mod/lightboxgallery/view.php?id='.$cm->id.'&amp;' . ($editing ? 'editing=1&amp;' : ''));
     }
+/**
+* End pagination
+* 
+* 
+*/
+echo '                                        
+                                        </td></tr>                                        
+                                    </table>
+                                    <table cellpadding="0" cellspacing="0">
+                                        <tr><td height="10px"/></tr>
+                                        <tr><td>';
+/**
+* Show tag and add comment
+*     
+*/
 
     $showtags = !in_array('tag', explode(',', get_config('lightboxgallery', 'disabledplugins')));
 
@@ -165,7 +276,8 @@
     }
 
     if ($gallery->comments && has_capability('mod/lightboxgallery:addcomment', $context)) {
-        $options[] = '<a href="' . $CFG->wwwroot . '/mod/lightboxgallery/comment.php?id=' . $gallery->id . '">' . get_string('addcomment', 'lightboxgallery') . '</a>';
+        $options[] = '<a  href="' . $CFG->wwwroot . '/mod/lightboxgallery/comment.php?id=' . $gallery->id . '"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_Addcomment.jpg" /></a>';
+        
     }
 
     if (count($options) > 0) {
@@ -179,6 +291,35 @@
             }
         }
     }
+/**
+* End Show tag and add comment
+*/                                        
+echo '                                        
+                                        <a href=""></a>
+                                        </td></tr>
+                                    </table>
+                                </td>
+                                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                
+                    <!-------------------------------------------------------------------->
+                    <div class="newsarea">
+                        <table cellpadding="0" cellspacing="0" width="100%" border="0">
+                            <tr><td height="30px" colspan="3">
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG" /></a></div>
+                            </td></tr>
+                        </table>
+                    </div>
+                
+                    
+                </td>
+                <td width="20px"></td>
+            </tr>
+        </table>
+    ';
 
     print_footer($course);
 

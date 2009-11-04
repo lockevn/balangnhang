@@ -167,57 +167,118 @@
         $hiddenfields = array_flip(explode(',', $CFG->hiddenuserfields));
     }
 
+    
+echo '
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <td width="20px"></td>
+                <td width="220px" valign="top">
+                
+                    <!----------------------------------------------------->
+                    <div class="leftpanel">
+                        <table cellpadding="0" cellspacing="0" width="100%">
+                            <tr><td height="30px">
+                                <div class="title">PERSONAL</div>
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_ST.JPG" /></a></div>
+                            </td></tr>
+                            <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
+                            <tr><td align="center">
+                                <div style="width:200px;">
+                                    <table cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td height="30px" align="left">
+                                                Hello <a href="" class="leftpaneltext">'. $USER->username .'</a>!
+                                            </td>
+                                            <td height="30px" align="right">
+                                                <a class="leftpaneltext" '. $CFG->frametarget .'href="'. $CFG->wwwroot.'/login/logout.php?sesskey='.sesskey().'">'. 
+                                                    get_string('logout').
+                                                '</a>
+                                            </td>
+                                        </tr>
+                                        <tr><td height="30px" align="left">
+                                            Tin nhắn:
+                                        </td></tr>
+                                        <tr><td height="30px" style="padding:0 10px 0 10px" align="left">
+                                            Chưa đọc: <a href="" class="leftpaneltext">10</a>
+                                        </td></tr>
+                                        <tr><td height="30px" style="padding:0 10px 0 10px" align="left">
+                                            Có: <a href="" class="leftpaneltext">10</a>
+                                        </td></tr>
+                                    </table>
+                                </div>
+                            </td></tr>
+                        </table>
+                    </div>
+                    
+                    <!----------------------------------------------------->                    
+                    <div class="leftpanel">
+                        <table cellpadding="0" cellspacing="0" width="100%">
+                            <tr><td height="30px">
+                                <div class="title">PERSONAL MENU</div>
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_ST.JPG" /></a></div>
+                            </td></tr>
+                            <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
+                            <tr><td align="center">
+                                <div style="width:200px;">
+                                    <table cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td>';
 /// Print tabs at top
 /// This same call is made in:
 ///     /user/view.php
 ///     /user/edit.php
-///     /course/user.php
-
+///     /course/user.php                                            
     $currenttab = 'profile';
     $showroles = 1;
     if (!$user->deleted) {
         include('tabs.php');
-    }
-
-    if (is_mnet_remote_user($user)) {
-        $sql = "
-             SELECT DISTINCT
-                 h.id,
-                 h.name,
-                 h.wwwroot,
-                 a.name as application,
-                 a.display_name
-             FROM
-                 {$CFG->prefix}mnet_host h,
-                 {$CFG->prefix}mnet_application a
-             WHERE
-                 h.id = '{$user->mnethostid}' AND
-                 h.applicationid = a.id
-             ORDER BY
-                 a.display_name,
-                 h.name";
-
-        $remotehost = get_record_sql($sql);
-
-        echo '<p class="errorboxcontent">'.get_string('remoteappuser', $remotehost->application)." <br />\n";
-        if ($USER->id == $user->id) {
-            if ($remotehost->application =='moodle') {
-                echo "Remote {$remotehost->display_name}: <a href=\"{$remotehost->wwwroot}/user/edit.php\">{$remotehost->name}</a> ".get_string('editremoteprofile')." </p>\n";
-            } else {
-                echo "Remote {$remotehost->display_name}: <a href=\"{$remotehost->wwwroot}/\">{$remotehost->name}</a> ".get_string('gotoyourserver')." </p>\n";
-            }
-        } else {
-            echo "Remote {$remotehost->display_name}: <a href=\"{$remotehost->wwwroot}/\">{$remotehost->name}</a></p>\n";
-        }
-    }
-
-    echo '<table width="80%" class="userinfobox" summary="">';
-    echo '<tr>';
-    echo '<td class="side">';
-    print_user_picture($user, $course->id, $user->picture, true, false, false);
-    echo '</td><td class="content">';
-
-    // Print the description
+    }                                                
+echo '                                      </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td></tr>
+                        </table>
+                    </div>        
+                    
+                    <!----------------------------------------------------->                    
+                    <div class="leftpanel">    
+                    </div>
+                    
+                </td>
+                <td width="20px"></td>
+                <td valign="top">
+                
+                    <!-------------------------------------------------------------------->
+                    <div class="newsarea">
+                        <table cellpadding="0" cellspacing="0" width="100%" border="0">
+                            <tr><td height="30px" colspan="3">
+                                <div class="title">';
+                                echo strtoupper(fullname($user, has_capability('moodle/site:viewfullnames', get_context_instance(CONTEXT_COURSE, $course->id))));
+echo '                            
+                                    \'S'. strtoupper(get_string('profile')). 
+                                '</div>
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG" /></a></div>
+                            </td></tr>
+                            <tr>
+                                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+                                <td valign="top" width="100%">
+                                    <table class="" cellpadding="10px" cellspacing="0" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
+                                        <tr>
+                                            <td valign="top" width="180px">';
+/**
+* Print user image                                            
+*/
+print_user_picture($user, $course->id, $user->picture, 180, false, false);
+echo '                                            
+                                            </td>
+                                            </td>
+                                            <td valign="top">
+                                                <table  style="font-style: italic" cellpadding="0" cellspacing="0" width="100%">
+                                                <tr><td colspan="2">';
+// Print the description
 
     if ($user->description && !isset($hiddenfields['description'])) {
         $has_courseid = ($course->id != SITEID);
@@ -226,13 +287,12 @@
         } else {
             echo format_text($user->description, FORMAT_MOODLE)."<hr />";
         }
-    }
-
-    // Print all the little details in a list
-
-    echo '<table class="list">';
-
-    if (! isset($hiddenfields['country']) && $user->country) {
+    }                                                
+echo                                                '</td></tr>';
+/**
+* Start detail info
+*/
+if (! isset($hiddenfields['country']) && $user->country) {
         $countries = get_list_of_countries();
         print_row(get_string('country') . ':', $countries[$user->country]);
     }
@@ -391,17 +451,58 @@
 /// End of printing groups
 
 /// Printing Interests
-	if( !empty($CFG->usetags)) {
-	    if ( $interests = tag_get_tags_csv('user', $user->id) ) { 
+    if( !empty($CFG->usetags)) {
+        if ( $interests = tag_get_tags_csv('user', $user->id) ) { 
             print_row(get_string('interests') .": ", $interests);
         }
     }
 /// End of Printing Interests
+/**
+* end detail info
+*/
+echo '                                                    
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" align="center">
+                                                <table cellpadding="5px" cellspacing="0">
+                                                <tr><td colspan=2>';
+/**
+* Start button                                                
+*/
+if (is_mnet_remote_user($user)) {
+        $sql = "
+             SELECT DISTINCT
+                 h.id,
+                 h.name,
+                 h.wwwroot,
+                 a.name as application,
+                 a.display_name
+             FROM
+                 {$CFG->prefix}mnet_host h,
+                 {$CFG->prefix}mnet_application a
+             WHERE
+                 h.id = '{$user->mnethostid}' AND
+                 h.applicationid = a.id
+             ORDER BY
+                 a.display_name,
+                 h.name";
 
-    echo "</table>";
+        $remotehost = get_record_sql($sql);
 
-    echo "</td></tr></table>";
-
+        echo '<p class="errorboxcontent">'.get_string('remoteappuser', $remotehost->application)." <br />\n";
+        if ($USER->id == $user->id) {
+            if ($remotehost->application =='moodle') {
+                echo "Remote {$remotehost->display_name}: <a href=\"{$remotehost->wwwroot}/user/edit.php\">{$remotehost->name}</a> ".get_string('editremoteprofile')." </p>\n";
+            } else {
+                echo "Remote {$remotehost->display_name}: <a href=\"{$remotehost->wwwroot}/\">{$remotehost->name}</a> ".get_string('gotoyourserver')." </p>\n";
+            }
+        } else {
+            echo "Remote {$remotehost->display_name}: <a href=\"{$remotehost->wwwroot}/\">{$remotehost->name}</a></p>\n";
+        }
+    }
+//button
     $userauth = get_auth_plugin($user->auth);
 
     $passwordchangeurl = false;
@@ -441,9 +542,9 @@
         }
         if (!empty($USER->realuser)) {
             // changing of password when "Logged in as" is not allowed
-            echo "<input type=\"submit\" value=\"".get_string("changepassword")."\" disabled=\"disabled\" />";
+            echo "<input style=\"border: none; width:125px; height: 36px; background: url(". $CFG->wwwroot."/theme/menu_horizontal/template/images/BT_Changepass.jpg) top center; \" type=\"submit\" value=\"\" disabled=\"disabled\" />";
         } else {
-            echo "<input type=\"submit\" value=\"".get_string("changepassword")."\" />";
+            echo "<input style=\"border: none; width:125px; height: 36px; background: url(". $CFG->wwwroot."/theme/menu_horizontal/template/images/BT_Changepass.jpg) top center; \" type=\"submit\" value=\"\" />"; //".get_string("changepassword")."
         }
         echo "</div>";
         echo "</form>";
@@ -488,7 +589,7 @@
         echo '<input type="hidden" name="id" value="'.$course->id.'" />';
         echo '<input type="hidden" name="user" value="'.$user->id.'" />';
         echo '<input type="hidden" name="sesskey" value="'.sesskey().'" />';
-        echo '<input type="submit" value="'.get_string('loginas').'" />';
+        echo '<input style="border: none; width:125px; height: 36px; background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_Changepass.jpg) top center; " type="submit" value="'.get_string('loginas').'" />';
         echo '</div>';
         echo '</form>';
     }
@@ -500,16 +601,16 @@
             } else {
                 $messagebuttonname = get_string("messages", "message");
             }
-            echo "<form onclick=\"this.target='message'\" action=\"../message/index.php\" method=\"get\">";
+            echo "<form  onclick=\"this.target='message'\" action=\"../message/index.php\" method=\"get\">";
             echo "<div>";
             echo "<input type=\"submit\" value=\"$messagebuttonname\" onclick=\"return openpopup('/message/index.php', 'message', 'menubar=0,location=0,scrollbars,status,resizable,width=400,height=500', 0);\" />";
             echo "</div>";
             echo "</form>";
         } else {
-            echo "<form onclick=\"this.target='message$user->id'\" action=\"../message/discussion.php\" method=\"get\">";
+            echo "<form style=\"padding-left: 10px;\" onclick=\"this.target='message$user->id'\" action=\"../message/discussion.php\" method=\"get\">";
             echo "<div>";
             echo "<input type=\"hidden\" name=\"id\" value=\"$user->id\" />";
-            echo "<input type=\"submit\" value=\"".get_string("sendmessage", "message")."\" onclick=\"return openpopup('/message/discussion.php?id=$user->id', 'message_$user->id', 'menubar=0,location=0,scrollbars,status,resizable,width=400,height=500', 0);\" />";
+            echo "<input style=\"border: none; width:85px; height: 36px; background: url(". $CFG->wwwroot."/theme/menu_horizontal/template/images/BT_Message.jpg) top center; \" type=\"submit\" value=\"\" onclick=\"return openpopup('/message/discussion.php?id=$user->id', 'message_$user->id', 'menubar=0,location=0,scrollbars,status,resizable,width=400,height=500', 0);\" />";
             echo "</div>";
             echo "</form>";
         }
@@ -531,13 +632,46 @@
         print_heading('DEBUG MODE:  User session variables');
         print_object($USER);
     }
+/**
+* End button
+*/
+echo '                                              </td>  
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>                                                                
+                                </td>
+                                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+                            </tr>
+                            
+                        </table>
+                    </div>
+                
+                    <!-------------------------------------------------------------------->
+                    <div class="newsarea">
+                        <table cellpadding="0" cellspacing="0" width="100%" border="0">
+                            <tr><td height="30px" colspan="3">
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
+                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG" /></a></div>
+                            </td></tr>
+                        </table>
+                    </div>
+                
+                    
+                </td>
+                <td width="20px"></td>
+            </tr>
+        </table>
+    ';
+
 
     print_footer($course);
 
 /// Functions ///////
 
 function print_row($left, $right) {
-    echo "\n<tr><td class=\"label c0\">$left</td><td class=\"info c1\">$right</td></tr>\n";
+    echo "\n<tr><td width=\"100\" height=\"30\" class=\"label c0\">$left</td><td class=\"info c1\">$right</td></tr>\n";
 }
 
 ?>
