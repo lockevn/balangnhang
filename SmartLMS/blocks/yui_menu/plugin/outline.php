@@ -179,10 +179,10 @@ class yui_menu_plugin_outline extends yui_menu_plugin {
             $sectionUrl = $this->getLessonStartUrl($mods, $sectionmods);
             /*nếu section có chứa 1 StartLesson activity thì sẽ dùng link đó cho section node trên cây*/ 
             if( $sectionUrl === false) {
-            	$item = new yui_menu_item($this, $sectionText, $iconpath . '/i/one.gif');
+            	$item = new yui_menu_item($this, $sectionText, ''); # $iconpath . '/i/one.gif');
             } 
             else {
-            	$item = new yui_menu_item_link($this, $sectionText, $sectionUrl, $iconpath . '/i/one.gif');
+            	$item = new yui_menu_item_link($this, $sectionText, $sectionUrl, ''); # $iconpath . '/i/one.gif');
             }            
             $item->expand = $expand;
 
@@ -223,11 +223,13 @@ class yui_menu_plugin_outline extends yui_menu_plugin {
                 } else {
                     $style = "yui_menu_mod_{$mod->modname}";
                 }
-                $icon = "$iconpath/mod/{$mod->modname}/icon.gif";
+                //$icon = "$iconpath/mod/{$mod->modname}/icon.gif";
+                $icon = '';
                 if ($mod->modname == 'resource') {
                     $info = resource_get_coursemodule_info($mod);
                     if (isset($info) && isset($info->icon)) {
-                        $icon = "$CFG->pixpath/$info->icon";
+                        //$icon = "$CFG->pixpath/$info->icon";
+                        $icon = '';
                     }
                 }
                 

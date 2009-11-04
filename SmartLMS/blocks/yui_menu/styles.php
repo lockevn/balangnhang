@@ -51,7 +51,7 @@ IE 6 and earlier, but the browser will degrade nicely */
 .ygtvtm + td, .ygtvtmh + td,
 .ygtvlm + td, .ygtvlmh + td {
     /* dots behind the section menus */
-    background: url(<?php echo "$skin/l.gif" ?>) 7px bottom no-repeat;
+    background: url(<?php echo "$skin/l.gif" ?>) 5px bottom no-repeat;
 }
 .yui_menu_tree .highlight {
     font-weight: bold;
@@ -90,13 +90,13 @@ IE 6 and earlier, but the browser will degrade nicely */
 }
 /* Cell backgrounds */
 .ygtvdepthcell, .ygtvtn, .ygtvtm, .ygtvtmh, .ygtvtp, .ygtvtph {
-    background: url(<?php echo "$skin/t.gif" ?>) center 0 repeat-y;
+    background: url(<?php echo "$skin/t.gif" ?>) 5px 0 repeat-y;
 }
 .ygtvln, .ygtvlm, .ygtvlmh, .ygtvlp, .ygtvlph {
-    background: url(<?php echo "$skin/l.gif" ?>) center top no-repeat;
+    background: url(<?php echo "$skin/l.gif" ?>) 5px -2px no-repeat;
 }
 .ygtvtn .ygtvspacer, .ygtvln .ygtvspacer {
-    background: url(<?php echo "$skin/n.gif" ?>) right center no-repeat;
+    background: url(<?php echo "$skin/n.gif" ?>) 5px center no-repeat;
 }
 .ygtvtm .ygtvspacer, .ygtvlm .ygtvspacer {
     background: url(<?php echo "$skin/m.gif" ?>) right center no-repeat;
