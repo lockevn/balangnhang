@@ -67,6 +67,7 @@ function display() {
     // fix for MDL-15387, thanks to John Beedell
     add_to_log($course->id, "resource", "view", "view.php?id={$cm->id}", $resource->id, $cm->id);
 
+    
     /*danhut addded to enable blocks in resource page*/
     $PAGE       = page_create_instance($resource->id);
     if($COURSE->format != 'testroom') {
@@ -135,6 +136,10 @@ function display() {
                     "", "", true, update_module_button($cm->id, $course->id, $this->strresource),
     	$menu = navmenu($course, $cm));
 
+    	if($course->format == 'testroom') {
+    		$this->display_test_description($course, $cm, $resource, $formatoptions);
+    		return;
+    	}
     	/*danhut added*/
     	echo '<table id="layout-table" class="' .$resource->lotype . '"><tr>';
     	if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
@@ -218,6 +223,46 @@ function display() {
         }
 
     //}
+
+}
+
+function display_test_description($course, $cm, $resource, $formatoptions) {
+	/*danhut added*/
+	global $SESSION;
+	
+	echo '<table id="layout-table" class="' .$resource->lotype . '"><tr>';
+	
+	echo '<td id="middle-column">';
+	print_container_start();
+	/*end of danhut added*/
+	
+	print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id), "center clearfix", "", "", "20");
+	
+	/*danhut added: print next button for testdescription resource*/
+	$navLinks = navmenu($course, $cm, '', true);
+	$nextLink = $navLinks['nextLink'];
+	if(!empty($nextLink)) {
+		echo "<div class=\"submitbtns mdl-align $resource->lotype\">\n";
+		$start = optional_param('start');
+		if(empty($navLinks['backLink']) || !empty($start)) {
+			/*nếu là trang đầu tiên giới thiệu về bài test*/
+			if(isset($SESSION->attemptIdArr)) {
+				unset($SESSION->attemptIdArr);
+			}
+			$btnLabel = get_string("starttest", "smartcom");
+		} else {
+			$btnLabel = get_string("next", "smartcom");
+		}
+		echo "<a href='$nextLink'>" . $btnLabel . "</a>";
+		echo "</div>" ;
+	}
+	
+	print_container_end();
+	echo '</td>';
+	echo '</tr></table>';
+	/*end of danhut added*/
+	print_footer($course);
+
 
 }
 
