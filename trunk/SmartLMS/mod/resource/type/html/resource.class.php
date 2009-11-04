@@ -199,7 +199,8 @@ echo '
                                         </td></tr>                     
                                         <tr>
                                             <td valign="top">'; 
-print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id), "center clearfix", "", "", "20");
+//print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id), "center clearfix", "", "", "20");
+echo format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id); 
 
 
 //        $strlastmodified = get_string("lastmodified");
@@ -242,13 +243,7 @@ if($resource->lotype != 'testdescription') {
         echo "</div>" ;
     }
 }
-if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
-    echo '<td style="width: '.$right_blocks_preferred_width.'px;" id="right-column">';
-    print_container_start();
-    blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
-    print_container_end();
-    echo '</td>';
-}
+
 echo '                                      </td>
                                         </tr>
                                     </table>
@@ -270,6 +265,9 @@ echo '                                      </td>
                                         </tr>
                                     </table>
                                 </td>
+                                ';
+                                                             
+echo                            '
                                 <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
                             </tr>                            
                         </table>
@@ -288,6 +286,17 @@ echo '                                      </td>
                     
                 </td>
                 <td width="20px"></td>
+                ';
+                
+if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
+    echo '<td style="width: 230px" valign="top" id="left-column">';
+    //print_container_start();
+    blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
+    //print_container_end();
+    echo '</td><td width="20px"></td>';
+}                   
+echo            '
+                
             </tr>
         </table>
     ';
