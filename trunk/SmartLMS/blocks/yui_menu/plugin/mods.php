@@ -34,7 +34,8 @@ class yui_menu_plugin_mods extends yui_menu_plugin {
             $list["mod_{$mod->name}"] = new yui_menu_item_link($this,
                 get_string('modulenameplural', $mod->name),
                 "{$CFG->wwwroot}/mod/{$mod->name}/?id={$COURSE->id}",
-                "{$CFG->modpixpath}/{$mod->name}/icon.gif"
+                ''
+                #"{$CFG->modpixpath}/{$mod->name}/icon.gif"
                 );
         }
     }

@@ -469,7 +469,9 @@
     if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
         echo '<td style="width: '.$blocks_preferred_width.'px;" id="left-column">';
         print_container_start();
+        echo '<div style="float:left; width:220px;">';
         blocks_print_group($PAGE, $pageblocks, BLOCK_POS_LEFT);
+        echo '</div>';
         print_container_end();
         echo '</td>';
     }
@@ -670,7 +672,7 @@ function finish_page($course, $pageblocks, $menu) {
     $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_RIGHT]), 210);
     /*danhut added: print right blocks*/
 	if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
-        echo '<td style="width: '.$blocks_preferred_width.'px;" id="right-column">';
+        echo '<td style="display:none; width: '.$blocks_preferred_width.'px;" id="right-column">';
         print_container_start();
         blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
         print_container_end();
