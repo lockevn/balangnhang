@@ -463,68 +463,122 @@
         print_header_simple(format_string($quiz->name), "", $navigation, "", $headtags, true, $strupdatemodule);
     }
 
+    
     /*danhut added*/
     echo '<table id="layout-table" class="' . $quiz->lotype. '"><tr>';
-
+    echo '<td style="width: '.$blocks_preferred_width.'px;" id="left-column">';
     if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
-        echo '<td style="width: '.$blocks_preferred_width.'px;" id="left-column">';
         print_container_start();
         echo '<div style="float:left; width:220px;">';
         blocks_print_group($PAGE, $pageblocks, BLOCK_POS_LEFT);
         echo '</div>';
         print_container_end();
-        echo '</td>';
-    }
 
-    echo '<td id="middle-column">';
-    
-    print_container_start();
-    /*danhut: print activity list của lesson*/
-    $activityArr = getLessonActivitiesFromLOId($COURSE->id, $cm->id, $quiz->lotype);
-    if(!empty($activityArr)) {
-    	printSectionActivities($activityArr, $COURSE->id, $cm->id, $USER->id);
     }
-    $menu = navmenu($course, $cm);
-	echo $menu;
-    /*end of added*/
-    
-    echo '<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>'; // for overlib
-
-    // Print the quiz name heading and tabs for teacher, etc.
     if ($ispreviewing) {
         $currenttab = 'preview';
         include('tabs.php');
-
-        print_heading(get_string('previewquiz', 'quiz', format_string($quiz->name)));
-        unset($buttonoptions);
-        $buttonoptions['q'] = $quiz->id;
-        $buttonoptions['forcenew'] = true;
-        echo '<div class="controls">';
-        print_single_button($CFG->wwwroot.'/mod/quiz/attempt.php', $buttonoptions, get_string('startagain', 'quiz'));
-        echo '</div>';
-    /// Notices about restrictions that would affect students.
-        if ($quiz->popup) {
-            notify(get_string('popupnotice', 'quiz'));
-        }
-        if ($timestamp < $quiz->timeopen || ($quiz->timeclose && $timestamp > $quiz->timeclose)) {
-            notify(get_string('notavailabletostudents', 'quiz'));
-        }
-        if ($quiz->subnet && !address_in_subnet(getremoteaddr(), $quiz->subnet)) {
-            notify(get_string('subnetnotice', 'quiz'));
-        }
-    } else {
-        if ($quiz->attempts != 1 && $quiz->lotype != "test") {
-            print_heading(format_string($quiz->name).' - '.$strattemptnum);
-        } else {
-            print_heading(format_string($quiz->name));
-        }
-        /*danhut: print list of lecture: "Xem lai bai giang Grammar 1 2 3 ..."*/
-        $lectureList = getLectureListOfCurrentQuiz($cm->id, $activityArr);
-        printLectureListOfCurrentQuiz($lectureList);
-        /************/
     }
+    echo '</td>';
+    echo '<td id="middle-column">';
 
-    // Start the form
+echo '
+        <div class="newsarea">
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tr><td height="30px" colspan="3">
+                    <div style="float:left">';
+/*danhut: print activity list của lesson*/
+    $activityArr = getLessonActivitiesFromLOId($COURSE->id, $cm->id, $quiz->lotype);
+    if(!empty($activityArr)) {
+        printSectionActivities($activityArr, $COURSE->id, $cm->id, $USER->id);
+    }                    
+echo '                        
+                    </div>';
+$menu = navmenu($course, $cm);
+echo $menu;
+echo '<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>'; // for overlib
+echo '                    
+                </td></tr>
+                <tr>
+                    <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+                    <td valign="top" width="100%">
+                        <table cellpadding="0" cellspacing="0" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="120px">
+                            <tr><td valign="top" align="left" style="padding: 10px">
+                                <table cellpadding="0" cellspacing="10px">
+                                        <tr><td height="30px" ><span class="title">';
+// heading
+if ($ispreviewing) {
+        echo strtoupper(get_string('previewquiz', 'quiz', format_string($quiz->name)));
+} else {
+    if ($quiz->attempts != 1 && $quiz->lotype != "test") {
+        echo strtoupper($quiz->name. ' - '. $strattemptnum);
+        //print_heading(format_string($quiz->name).' - '.$strattemptnum);
+    } else {
+        echo strtoupper($quiz->name);
+        //print_heading(format_string($quiz->name));
+    }
+    
+    /************/
+}
+echo '                                        
+                                        </span> 
+                                        </td></tr>
+                                        <tr><td>';
+
+/*danhut added: print quiz introduction*/
+    if($quiz->lotype == 'exercise') {
+    if (trim(strip_tags($quiz->intro))) {
+            $formatoptions->noclean = true;
+            $formatoptions->para    = false;
+            echo '<i>'. $quiz->intro . '</i>';
+        }
+    }
+                                            
+echo '                                        
+                                        </td></tr>
+                                        <tr>
+                                                <td valign="top">';
+// Button start again                                                 
+if ($ispreviewing) {        
+    unset($buttonoptions);
+    $buttonoptions['q'] = $quiz->id;
+    $buttonoptions['forcenew'] = true;
+    echo '<div class="controls">';
+    //print_single_button($CFG->wwwroot.'/mod/quiz/attempt.php', $buttonoptions, get_string('startagain', 'quiz'));
+    echo '</div>';
+    /// Notices about restrictions that would affect students.
+    if ($quiz->popup) {
+        notify(get_string('popupnotice', 'quiz'));
+    }
+    if ($timestamp < $quiz->timeopen || ($quiz->timeclose && $timestamp > $quiz->timeclose)) {
+        notify(get_string('notavailabletostudents', 'quiz'));
+    }
+    if ($quiz->subnet && !address_in_subnet(getremoteaddr(), $quiz->subnet)) {
+        notify(get_string('subnetnotice', 'quiz'));
+    }
+}
+
+echo '
+                                                </td>
+                                        </tr>
+                                        <tr>
+                                            <td>';
+/// Print the navigation panel if required
+    $numpages = quiz_number_of_pages($attempt->layout);
+    /*danhut modified: print page index / total page*/
+//    if ($numpages > 1 && ($event == QUESTION_EVENTSUBMIT || $quiz->type == 'test')) {
+        echo '<div class="paging pagingbar">';
+        echo '<span class="title">' . get_string('page') . ' ' . ($page + 1) . '/' . $numpages . '</span>';
+        echo '</div>';
+//    }
+echo '                                            
+                                            </td>
+                                        </tr>
+                                </table>
+                                <table cellpadding="0" cellspacing="10px">
+                                        <tr>
+                                          <td>';
+// Start the form
     $quiz->thispageurl = $CFG->wwwroot . '/mod/quiz/attempt.php?q=' . s($quiz->id) . '&amp;page=' . s($page);
     $quiz->cmid = $cm->id;
     echo '<form id="responseform" method="post" action="', $quiz->thispageurl . '" enctype="multipart/form-data"' .
@@ -544,23 +598,9 @@
     }
     echo '<div>';
 
-/// Print the navigation panel if required
-    $numpages = quiz_number_of_pages($attempt->layout);
-    /*danhut modified: print page index / total page*/
-//    if ($numpages > 1 && ($event == QUESTION_EVENTSUBMIT || $quiz->type == 'test')) {
-        echo '<div class="paging pagingbar">';
-    	echo '<span class="title">' . get_string('page') . ' ' . ($page + 1) . '/' . $numpages . '</span>';
-    	echo '</div>';
-//    }
 
-    /*danhut added: print quiz introduction*/
-    if($quiz->lotype == 'exercise') {
-    if (trim(strip_tags($quiz->intro))) {
-            $formatoptions->noclean = true;
-            $formatoptions->para    = false;
-            print_box(format_text($quiz->intro, FORMAT_MOODLE, $formatoptions), 'generalbox', 'intro');
-        }
-    }
+
+    
     /*end of danhut added*/      
     
 /// Print all the questions
@@ -571,40 +611,40 @@
         print_question($questions[$i], $states[$i], $number, $quiz, $options);
         save_question_session($questions[$i], $states[$i]);
         $number += $questions[$i]->length;
-    }
-
-/// Print the submit buttons
+    }   
+    
+    /// Print the submit buttons
 
     $strconfirmattempt = addslashes(get_string("confirmclose", "quiz"));
     $onclick = "return confirm('$strconfirmattempt')";
     
-	
+    
         
     echo "<div class=\"submitbtns mdl-align $quiz->lotype\">\n";
-	/*danhut added: print previous page link if required*/
+    /*danhut added: print previous page link if required*/
     if ($page > 0) {
         // Print previous link
         $strprev = get_string('previouspage', 'quiz');        
          echo '&nbsp;<input type="button" src ="' . $CFG->pixpath.'/a/l_breadcrumb.gif" value="' . $strprev .'" class="quiz_page_previous" onclick="javascript:navigate(' . ($page - 1) . ');"/>&nbsp;';
-		
+        
     }   
     /*danhut added: hiển thị button save page answers cho exercise và practice 0 ở trạng thái đang hiển thị đáp án*/ 
-	if ( isset($event) && ($event != QUESTION_EVENTSUBMIT)
-    	&& ($event != QUESTION_EVENTCLOSE)
-    	&& ($quiz->lotype != 'test')) {    	    	
+    if ( isset($event) && ($event != QUESTION_EVENTSUBMIT)
+        && ($event != QUESTION_EVENTCLOSE)
+        && ($quiz->lotype != 'test')) {                
         echo "<input type=\"submit\" name=\"saveattempt\" value=\"".get_string("savenosubmit", "quiz")."\" />\n";
     }
     
     
     /*danhut added: chỉ hiển thị button submit page nếu quiz là exercise và page 0 ở trạng thái hiển thị đáp án*/
     if ($quiz->optionflags & QUESTION_ADAPTIVE 
-    	&& ($quiz->lotype == 'exercise' || $quiz->lotype == 'practice') 
-    	&& (isset($event) && $event != QUESTION_EVENTSUBMIT)) {    	    	
+        && ($quiz->lotype == 'exercise' || $quiz->lotype == 'practice') 
+        && (isset($event) && $event != QUESTION_EVENTSUBMIT)) {                
         echo "<input type=\"submit\" name=\"markall\" value=\"".get_string("markall", "quiz")."\" />\n";
     }
     /*danhut added: only display submit All button at the last page of the quiz*/
     if($page == $numpages - 1) {
-    	echo "<input type=\"submit\" name=\"finishattempt\" value=\"".get_string("finishattempt", "quiz")."\" onclick=\"$onclick\" />\n";
+        echo "<input type=\"submit\" name=\"finishattempt\" value=\"".get_string("finishattempt", "quiz")."\" onclick=\"$onclick\" />\n";
     }
     
     /*danhut added: print next page link if required*/
@@ -651,8 +691,32 @@
     if ($showtimer && (!$ispreviewing || $timerstartvalue > 0)) {
         $timerstartvalue = max($timerstartvalue, 1); // Make sure it starts just above zero.
         require('jstimer.php');
-    }
-    
+    }                                       
+echo '                                          
+                                          </td>
+                                        </tr>
+                                </table>
+                                
+                                
+                            </td>
+                            <td align="right" valign="top" width="270px" style="font-weight:bold;">';
+/*danhut: print list of lecture: "Xem lai bai giang Grammar 1 2 3 ..."*/
+    $lectureList = getLectureListOfCurrentQuiz($cm->id, $activityArr);
+    printLectureListOfCurrentQuiz($lectureList);
+echo '                                
+                        </td></tr></table>
+                        <table cellpadding="0" cellspacing="0">
+                            <tr><td height="10px"/></tr>
+                            <tr><td><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_Submitreview.jpg" /></a></td></tr>
+                        </table>
+                                                       
+                    </td>
+                    <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+                </tr>                            
+            </table>
+        </div>
+    ';    
+    //print_container_start();
     /*danhut added*/
         finish_page($course, $pageblocks, $menu);
    /*end of danhut added*/
@@ -666,7 +730,7 @@ function finish_page($course, $pageblocks, $menu) {
     global $THEME;
     global $PAGE;
     global $CFG;
-    print_container_end();
+   // print_container_end();
     echo $menu;
     echo '</td>';
     $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_RIGHT]), 210);
