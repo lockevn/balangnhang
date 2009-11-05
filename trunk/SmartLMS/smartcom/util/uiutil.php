@@ -86,10 +86,10 @@ function printLectureListOfCurrentActivity($loList) {
 		$lo = $loList[$i];
 		if($lo->type == "lecture") {
 			if($lo->selected == 0) {
-				$link .= "<a href='$CFG->wwwroot/mod/resource/view.php?id=$lo->id'>$lectureIndex</a>  ";
+				$link .= "<a style=\"color: #FFF; padding: 0 5px;background: transparent url(http://smartlms/theme/menu_horizontal/template/images/CircleBR.gif) no-repeat scroll center center; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;\" href='$CFG->wwwroot/mod/resource/view.php?id=$lo->id'>$lectureIndex</a>";
 			}
 			else {
-				$link .= "<a href='$CFG->wwwroot/mod/resource/view.php?id=$lo->id'><b>$lectureIndex</b></a>  ";
+				$link .= "<a style=\"color: #FFF; padding: 0 5px; background: gray; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;\" href='$CFG->wwwroot/mod/resource/view.php?id=$lo->id'><b>$lectureIndex</b></a>";
 				/*thử kiểm tra ngay sau current lecture có phải là 1 practice k*/
 				if(($i + 1) < sizeof($loList) && $loList[$i+1]->type == "practice") {
 					$practice = $loList[$i+1];
@@ -99,6 +99,7 @@ function printLectureListOfCurrentActivity($loList) {
 			$lectureIndex++;
 		}
 	}
+    
 	echo get_string("lecture_list", "smartcom", $link);
 	if(empty($practice)) {
 		return;

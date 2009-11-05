@@ -186,7 +186,7 @@ echo '                      </td></tr>
                                 <td valign="top" width="100%">
                                     <table cellpadding="0" cellspacing="10px" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
                                         <tr><td height="30px">
-                                            <div style="float:left" class="title">LECTURE 1</div>';
+                                            <div style="float:left" class="title">'. strtoupper($resource->name).'</div>';
                                             
 /**
 * MENU NEXT PREV                                            
@@ -206,6 +206,14 @@ echo format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id);
 //        $strlastmodified = get_string("lastmodified");
 //        echo "<div class=\"modified\">$strlastmodified: ".userdate($resource->timemodified)."</div>";
 
+
+echo '                                      </td>
+                                        </tr>
+                                    </table>
+                                                                        
+                                    <table cellpadding="0" cellspacing="10px" width="100%" border="0">
+                                        <tr>
+                                            <td class="courseBB">';
         /*danhut added*/
 if($resource->lotype != 'testdescription') {
     /*get selected activity to print list of lecture*/
@@ -243,25 +251,8 @@ if($resource->lotype != 'testdescription') {
         echo "</div>" ;
     }
 }
-
+                                            
 echo '                                      </td>
-                                        </tr>
-                                    </table>
-                                                                        
-                                    <table cellpadding="0" cellspacing="10px" width="100%" border="0">
-                                        <tr />
-                                        <tr>
-                                                <td align="right" class="courseBB" height="20px" width="160px">
-                                                        - Bạn đang xem bài giảng số
-                                                </td>
-                                                <td width="20px">
-                                                    <div class="page" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/CircleBR.gif) center no-repeat"><a href="" class="pagetext">1</a></div>
-                                                </td><td width="20px">
-                                                    <div class="page" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/CircleBR.gif) center no-repeat"><a href="" class="pagetext">2</a></div>
-                                                </td><td width="20px">
-                                                    <div class="page" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/CircleBR.gif) center no-repeat"><a href="" class="pagetext">3</a></div>
-                                                </td>
-                                                <td>của bài học này</td>
                                         </tr>
                                     </table>
                                 </td>
@@ -276,10 +267,15 @@ echo                            '
                     <!-------------------------------------------------------------------->
                     <div class="newsarea">
                         <table cellpadding="0" cellspacing="0" width="100%" border="0">
-                            <tr><td height="30px" colspan="3">
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG" /></a></div>
-                            </td></tr>
+                            <tr><td height="30px" colspan="3">';
+/**
+* MENU NEXT PREV                                            
+*/
+if($resource->lotype != 'testdescription') {
+    echo $menu;
+}                               
+                               
+echo '                      </td></tr>
                         </table>
                     </div>
                 
@@ -288,13 +284,13 @@ echo                            '
                 <td width="20px"></td>
                 ';
                 
-if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
-    echo '<td style="width: 230px" valign="top" id="left-column">';
+//if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_RIGHT) || $PAGE->user_is_editing())) {
+//    echo '<td style="width: 230px" valign="top" id="left-column">';
     //print_container_start();
-    blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
+    //blocks_print_group($PAGE, $pageblocks, BLOCK_POS_RIGHT);
     //print_container_end();
-    echo '</td><td width="20px"></td>';
-}                   
+//    echo '</td><td width="20px"></td>';
+//}                   
 echo            '
                 
             </tr>
