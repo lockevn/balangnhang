@@ -47,33 +47,8 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 	}
 	
 	require_login($course->id, false);
-	
-
 	add_to_log($course->id, 'testroom', 'review', '/smartcom/testroom/review.php?attempt=' . $attemptIdArr);
-
-	
-	
-	$context = get_context_instance(CONTEXT_COURSE, $course->id);
-	
-	
-	$strreviewtitle = get_string('entrancetestresult', 'smartcom', $attempt->attempt);
-	$navigation = build_navigation($strreviewtitle, $cm);
-	print_header_simple(format_string($quiz->name), "", $navigation, "", '', true);
-
-	
-
-	echo '<table id="layout-table"><tr>';
-
-	echo '<td id="middle-column" >';
-	print_container_start();
-	/*end of added*/
-	
-
-/// Print heading.
-
-		
-	print_heading($strreviewtitle);
-
+	$context = get_context_instance(CONTEXT_COURSE, $course->id);	
 	$rows = array();
 	
 	$totalGrade = 0; /*tổng điểm của bài test user đạt được*/
@@ -124,9 +99,31 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 		
 	}
 	
+	/*xác định course dựa trên tổng điểm đạt được để recommend*/
+	$courseArr = selectCourseByGrade($course->id, $totalGrade/$maxGrade);
+	/*nếu có test tiếp theo với kết quả user đã đạt được, redirect user tới test đó*/
+	if(!empty($courseArr) && !is_array($courseArr)) {		
+		/*xóa session*/
+		unset($SESSION->attemptIdArr);
+		redirect($CFG->wwwroot . '/course/view.php?id=' . $courseArr);
+	}
+		
+	/// Send emails to those who have the capability set
+    
+    //quiz_send_notification_emails($course, $quiz, $attempt, $context, $cm);
+    
+    //email_to_user($USER, get_admin(), $subject, $body);
+    
+    
+	$strreviewtitle = get_string('entrancetestresult', 'smartcom', $attempt->attempt);
+	$navigation = build_navigation($strreviewtitle, $cm);
+	print_header_simple(format_string($quiz->name), "", $navigation, "", '', true);
+
 	
-	
-	
+	echo '<table id="layout-table"><tr>';
+	echo '<td id="middle-column" >';
+	print_container_start();	
+	print_heading($strreviewtitle);
 	/// Now output the summary table, if there are any rows to be shown.
 	if (!empty($rows)) {
 		echo '<table class="generaltable generalbox quizreviewsummary"><tbody>', "\n";
@@ -144,8 +141,7 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 
 	echo '</tr>';
 	
-	/*xác định course dựa trên tổng điểm đạt được để recommend*/
-	$courseArr = selectCourseByGrade($course->id, $totalGrade/$maxGrade);
+
 	if(!empty($courseArr['maincourse'])) {
 		echo '<tr><td>' . get_string('courselevel', 'smartcom') . $courseArr['maincourse']->categoryname . '</td></tr>';
 		echo '<tr><td>' . get_string('maincourse', 'smartcom') . 
@@ -163,8 +159,8 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 	
 	echo '</table>';
 	
-	if (empty($popup)) {
-		print_footer($course);
-	}
+	
+	print_footer($course);
+	
 
 ?>
