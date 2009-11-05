@@ -260,10 +260,15 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
 	}
     
 	// Include the actual course format.
-	if($PAGE->user_allowed_editing()) {
-    	require($CFG->dirroot .'/course/format/'. $course->format .'/format.php');
-	} else {
-		require($CFG->dirroot .'/course/format/'. $course->format .'/format_student.php'); //@muinx test
+	if($course->format == 'topicstree' ) {
+		if($PAGE->user_allowed_editing()) {
+			require($CFG->dirroot .'/course/format/'. $course->format .'/format.php');
+		} else {
+			require($CFG->dirroot .'/course/format/'. $course->format .'/format_student.php'); //@muinx test
+		}
+	}
+	else {
+		require($CFG->dirroot .'/course/format/'. $course->format .'/format.php');
 	}
     
     
