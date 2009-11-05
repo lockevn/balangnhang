@@ -4328,7 +4328,9 @@ function _print_custom_corners_end($idbase) {
  * @return string / nothing depending on the $return paramter.
  */
 function print_single_button($link, $options, $label='OK', $method='get', $target='_self', $return=false, $tooltip='', $disabled = false, $jsconfirmmessage='') {
-	$output = '';
+	global $CFG;
+    $output = '';
+    
 	$link = str_replace('"', '&quot;', $link); //basic XSS protection
 	$output .= '<div class="singlebutton">';
 	// taking target out, will need to add later target="'.$target.'"
@@ -4353,7 +4355,11 @@ function print_single_button($link, $options, $label='OK', $method='get', $targe
 		$jsconfirmmessage = addslashes_js($jsconfirmmessage);
 		$jsconfirmmessage = 'onclick="return confirm(\''. $jsconfirmmessage .'\');" ';
 	}
-	$output .= '<input type="submit" value="'. s($label) ."\" $tooltip $disabled $jsconfirmmessage/></div></form></div>";
+    
+    //if ($link == 'attempt.php') 
+//        $output .= '<input style="border: none; background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_ReAttemptQuiz.jpg) no-repeat; width: 115px; height: 35px;" type="submit" value="'. "\" $tooltip $disabled $jsconfirmmessage/></div></form></div>";
+//    else 
+	    $output .= '<input type="submit" value="'. s($label) ."\" $tooltip $disabled $jsconfirmmessage/></div></form></div>";
 
 	if ($return) {
 		return $output;
@@ -4788,6 +4794,7 @@ function print_png($url, $sizex, $sizey, $return, $parameters='alt=""') {
  * @todo Finish documenting this function
  */
 function print_table($table, $return=false) {
+    global $CFG;
 	$output = '';
 
 	if (isset($table->align)) {
@@ -4839,16 +4846,20 @@ function print_table($table, $return=false) {
 	}
 
 	$tableid = empty($table->id) ? '' : 'id="'.$table->id.'"';
-
-	$output .= '<table width="'.$table->width.'" ';
-	if (!empty($table->summary)) {
-		$output .= " summary=\"$table->summary\"";
-	}
-	$output .= " cellpadding=\"$table->cellpadding\" cellspacing=\"$table->cellspacing\" class=\"$table->class boxalign$table->tablealign\" $tableid>\n";
+    if ($table->class == 'generaltable quizattemptsummary')
+        $output .= '<table style="border-collapse:separate; border-spacing:1px;" cellpadding="10px" cellspacing="1" width="100%" bgcolor="#999999">';
+    else {
+        $output .= '<table width="'.$table->width.'" ';
+        if (!empty($table->summary)) {
+            $output .= " summary=\"$table->summary\"";
+        }
+        $output .= " cellpadding=\"$table->cellpadding\" cellspacing=\"$table->cellspacing\" class=\"$table->class boxalign$table->tablealign\" $tableid>\n";    
+    }
 
 	$countcols = 0;
 
 	if (!empty($table->head)) {
+        
 		$countcols = count($table->head);
 		$output .= '<tr>';
 		$keys=array_keys($table->head);
@@ -4866,13 +4877,18 @@ function print_table($table, $return=false) {
 			} else {
 				$extraclass = '';
 			}
-
-			$output .= '<th style="vertical-align:top;'. $align[$key].$size[$key] .';white-space:nowrap;" class="header c'.$key.$extraclass.'" scope="col">'. $heading .'</th>';
+            if ($table->class == 'generaltable quizattemptsummary') {
+                $output .= '<td align="center" class="courseBB" background="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/TB1_HD.jpg">'. $heading. '</td>';
+            } else {
+                $output .= '<th style="vertical-align:top;'. $align[$key].$size[$key] .';white-space:nowrap;" class="header c'.$key.$extraclass.'" scope="col">'. $heading .'</th>';    
+            }
+			
 		}
 		$output .= '</tr>'."\n";
 	}
 
 	if (!empty($table->data)) {
+        
 		$oddeven = 1;
 		$keys=array_keys($table->data);
 		$lastrowkey = end($keys);
@@ -4890,7 +4906,9 @@ function print_table($table, $return=false) {
 			} else {  /// it's a normal row of data
 				$keys2=array_keys($row);
 				$lastkey = end($keys2);
+                
 				foreach ($row as $key => $item) {
+                    
 					if (!isset($size[$key])) {
 						$size[$key] = '';
 					}
@@ -4905,7 +4923,12 @@ function print_table($table, $return=false) {
 					} else {
 						$extraclass = '';
 					}
-					$output .= '<td style="'. $align[$key].$size[$key].$wrap[$key] .'" class="cell c'.$key.$extraclass.'">'. $item .'</td>';
+                    if ($table->class == 'generaltable quizattemptsummary') {
+                        $output .= '<td height="44px" align="center" bgcolor="#EEEEEE" class="courseGB">'. $item. '</td>';
+                    } else {
+                        $output .= '<td bgcolor="#EEEEEE" class="courseGB" style="'. $align[$key].$size[$key].$wrap[$key] .'" class="cell c'.$key.$extraclass.'">'. $item .'</td>';    
+                    }
+					
 				}
 			}
 			$output .= '</tr>'."\n";
@@ -6830,7 +6853,7 @@ function convert_tree_to_html($tree, $row=0) {
 			}
 		}
 
-		$str .= (!empty($liclass)) ? '<li class="'.$liclass.'">' : '<li style="line-height: 30px;">';
+		$str .= (!empty($liclass)) ? '<li style="line-height: 20px; height: 20px !important; " class="'.$liclass.'">' : '<li style="line-height: 30px;">';
 
 		if ($tab->inactive || $tab->active || ($tab->selected && !$tab->linkedwhenselected)) {
 			// The a tag is used for styling
