@@ -575,7 +575,7 @@ echo '
                                             </td>
                                         </tr>
                                 </table>
-                                <table cellpadding="0" cellspacing="10px">
+                                <table cellpadding="0" cellspacing="10px" width="100%">
                                         <tr>
                                           <td>';
 // Start the form
@@ -644,7 +644,7 @@ echo '
     }
     /*danhut added: only display submit All button at the last page of the quiz*/
     if($page == $numpages - 1) {
-        echo "<input type=\"submit\" name=\"finishattempt\" value=\"".get_string("finishattempt", "quiz")."\" onclick=\"$onclick\" />\n";
+        echo "<input style=\"border:none; width: 129px; height: 35px; background: url(". $CFG->wwwroot."/theme/menu_horizontal/template/images/BT_Submitreview.jpg) no-repeat top center; \"  type=\"submit\" name=\"finishattempt\" value=\"\" onclick=\"$onclick\" />\n"; //get_string("finishattempt", "quiz")
     }
     
     /*danhut added: print next page link if required*/
@@ -707,7 +707,7 @@ echo '
                         </td></tr></table>
                         <table cellpadding="0" cellspacing="0">
                             <tr><td height="10px"/></tr>
-                            <tr><td><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_Submitreview.jpg" /></a></td></tr>
+                            
                         </table>
                                                        
                     </td>
