@@ -431,6 +431,7 @@ function getCourseSectionStructure($courseid, $sectionid) {
 		$activityArr[$i]->los = $loArr;
 		/*get first lo cmid*/
 		if(sizeof($activityArr[$i]->los) > 0) {
+			if(!empty($tmpArr[$activityArr[$i]->los[0]->type]))
 			/*link cho activity sẽ là view lo đầu tiên của activity*/
 			$activityArr[$i]->link = $CFG->wwwroot . "/mod/" . $tmpArr[$activityArr[$i]->los[0]->type] . "/view.php?id=" . $activityArr[$i]->los[0]->id;
 		}

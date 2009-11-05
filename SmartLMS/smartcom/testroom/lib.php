@@ -45,7 +45,7 @@ function addTestRanges($testid, $gradeArr, $mainCourseArr, $minorCourseArr) {
  * get array of course obj từ kết quả test
  *
  * @param unknown_type $testid
- * @param unknown_type $grade
+ * @param unknown_type $percentage
  */
 function selectCourseByGrade($testid, $percentage) {
 	if(empty($testid) || empty($percentage)) {
@@ -56,6 +56,11 @@ function selectCourseByGrade($testid, $percentage) {
 		return false;
 	}
 	$courseArr = array();
+	
+	/*nếu có test tiếp theo, trả về id test tiếp theo */
+	if(!empty($obj->nexttestid)) {
+		return $obj->nexttestid;
+	}
 	if(isset($obj->maincourseid)) {
 		$mainCourseObj = get_record("course", "id", $obj->maincourseid, 'visible', 1, '', '', 'id, category, fullname, shortname');
 		if($mainCourseObj) {
@@ -81,5 +86,7 @@ function selectCourseByGrade($testid, $percentage) {
 	return $courseArr;
 	
 }
+
+
 
 ?>

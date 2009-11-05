@@ -84,7 +84,7 @@ function display() {
     /*end of danhut addded*/
       
         /// Set up generic stuff first, including checking for access
-    parent::display();
+    parent::display();    
 
     $pagetitle = strip_tags($course->shortname.': '.format_string($resource->name));
     $inpopup = optional_param('inpopup', '', PARAM_BOOL);
@@ -309,7 +309,7 @@ echo            '
 function display_test_description($course, $cm, $resource, $formatoptions) {
 	/*danhut added*/
 	global $SESSION;
-	
+	echo "<div align='center'>";
 	echo '<table id="layout-table" class="' .$resource->lotype . '"><tr>';
 	
 	echo '<td id="middle-column">';
@@ -335,15 +335,12 @@ function display_test_description($course, $cm, $resource, $formatoptions) {
 		}
 		echo "<a href='$nextLink'>" . $btnLabel . "</a>";
 		echo "</div>" ;
-	}
-	
+	}	
 	print_container_end();
 	echo '</td>';
 	echo '</tr></table>';
-	/*end of danhut added*/
+	echo "</div>";	
 	print_footer($course);
-
-
 }
 
 function setup_preprocessing(&$defaults){
