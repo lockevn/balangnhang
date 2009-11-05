@@ -251,7 +251,9 @@
     //echo '<pre>';
     //print_r($sectionListCourse);
     
+    $myCourseList = getMyCourseList($USER->id);
     
+    //print_r($myCourseList);
     
     echo '
     <div style="clear:both;"></div>
@@ -261,7 +263,18 @@
                             <tr><td height="30px" colspan="3">
                                 <div class="title">YOUR CURRENT COURSES</div>
                                 <div class="selectcourse">
-                                    <select name="" style="width:225px; height:21px">
+                                    <select name="current_course" style="width:225px; height:21px" onchange="location.href=this.value">';
+                                        foreach($myCourseList as $course)
+                                        {
+                                            if($course->id == $_REQUEST['id'])
+                                                $selected = 'selected';
+                                            else
+                                                $selected = '';
+                                            
+                                            echo '<option value="/course/view.php?id='.$course->id.'" '.$selected.'>'.$course->name.'</option>';
+                                        }
+
+    echo '
                                     </select>
                                 </div>
                             </td></tr>
