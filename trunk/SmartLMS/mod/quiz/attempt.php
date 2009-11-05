@@ -699,7 +699,7 @@ echo '
                                 
                                 
                             </td>
-                            <td align="right" valign="top" width="270px" style="font-weight:bold;">';
+                            <td align="right" valign="top" width="270px" style="font-weight:bold; padding-top: 10px;">';
 /*danhut: print list of lecture: "Xem lai bai giang Grammar 1 2 3 ..."*/
     $lectureList = getLectureListOfCurrentQuiz($cm->id, $activityArr);
     printLectureListOfCurrentQuiz($lectureList);

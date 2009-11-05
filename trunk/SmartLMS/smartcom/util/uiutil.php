@@ -121,7 +121,7 @@ function printLectureListOfCurrentQuiz($lectureList) {
 		$str .= get_string("lecture_review", "smartcom", $key);
 		$i = 1;
 		foreach($lectureArr as $lecture) {
-			$str .= "<a href='$CFG->wwwroot/mod/resource/view.php?id=$lecture->id'>$i</a> | ";
+			$str .= "<a style=\"color: #FFF; background: url(".$CFG->wwwroot."/theme/menu_horizontal/template/images/CircleBR.gif) no-repeat; margin-right: 5px; padding: 0 5px;\" href='$CFG->wwwroot/mod/resource/view.php?id=$lecture->id'>$i</a> ";
 			$i++;
 		}
 		$str .= "<br>";
