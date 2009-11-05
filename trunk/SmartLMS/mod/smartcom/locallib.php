@@ -260,11 +260,11 @@ and cs.course=$courseid
 		
 	/**
 	 * @desc only work with student role, hasCapa(buyticket)
+	 * Use only in moodlelib.php:require_login()
 	 *	 
 	 * @param mixed $courseorid id of the course or course object	 
 	 * @param bool $setwantsurltome Define if we want to set $SESSION->wantsurl, defaults to
-	 *             true. Used to avoid (=false) some scripts (file.php...) to set that variable,
-	 *             in order to keep redirects working properly. MDL-14495
+	 *             true. Used to avoid (=false) some scripts (file.php...) to set that variable
 	 */
 	public static function require_smartcom_ticket($courseid=0, $setwantsurltome=true) 
 	{
