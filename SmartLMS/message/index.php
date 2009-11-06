@@ -59,6 +59,8 @@
         print_header(get_string('messages', 'message').' - '.format_string($SITE->fullname));
     }
 echo '
+<table cellpadding="0" cellspacing="0" width="100%" border="0">
+    <tr><td width="20"></td><td>
         <!-------------------------------------------------------------------->
         <div class="newsarea">
             <table cellpadding="0" cellspacing="0" width="100%" border="0">
@@ -68,6 +70,7 @@ echo '
                                     <table cellpadding="0" cellspacing="0"><tr>
                                         <td id="smartlms-message-tab" colspan="3"> 
                                         <style type="text/css">
+                                       
                                         #smartlms-message-tab ul li {
                                             float: left;
                                             height: 20px !important;
@@ -79,6 +82,7 @@ echo '
                                         .message {
                                             color: #333333;
                                             font-style: italic;
+                                            padding-left: 0px !important;
                                         }
                                         </style>
                                         ';
@@ -110,30 +114,16 @@ echo '
                             <td align="right"></td>                             
                     </tr></table>
                 </td></tr>
-                <tr>
-                    <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
-                    <td valign="top" width="100%">
-                        <table cellpadding="0" cellspacing="10px" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="120px">
-                            <tr><td height="30px">
-                                <div style="float:left; color: #000;" class="title">'. strtoupper($tab).'</div>
-                            </td></tr>
-                            <tr>
-                                <td valign="top">';
+               </table>
+               
+                        ';
 /// a print function is associated with each tab
 $tabprintfunction = 'message_print_'.$tab;
 if (function_exists($tabprintfunction)) {
     $tabprintfunction();
 }
                                 
-echo '                                
-                                </td>
-                            </tr>
-                        </table>
-                                                            
-                    </td>
-                    <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
-                </tr>                            
-            </table>
+echo '
         </div>                    
     
         <!-------------------------------------------------------------------->
@@ -142,21 +132,9 @@ echo '
                 <tr><td height="30px" colspan="3"></td></tr>
             </table>
         </div>
+</td><td width="20"></td></tr></table>        
     ';
-    echo '<table cellspacing="2" cellpadding="2" border="0" width="95%" class="boxaligncenter">';  
-    echo '<tr>';
-
-/// Print out the tabs
-    echo '<td>';
     
-    echo '</td>';
-    echo '</tr><tr>';
-
-/// Print out contents of the tab
-    echo '<td>';
-
-
-    echo '</td> </tr> </table>';
     print_footer('none');
 
 ?>

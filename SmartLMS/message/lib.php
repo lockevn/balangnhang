@@ -92,19 +92,33 @@ function message_print_contacts() {
     $countonlinecontacts  = count($onlinecontacts);
     $countofflinecontacts = count($offlinecontacts);
     $countstrangers       = count($strangers);
-
+    $tab            = optional_param('tab', 'contacts'); // current tab - default to contacts
+    
+echo '
+            <table cellpadding="0" cellspacing="0" width="100%" border="0">
+                <tr>
+                    <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+                    <td valign="top" width="100%">
+                        <table cellpadding="0" cellspacing="10px" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="120px">
+                            <tr><td colspan="3" height="30px">
+                                <div style="float:left; color: #000;" class="title">'. strtoupper($tab).'</div>
+                            </td></tr>';
     if ($countonlinecontacts + $countofflinecontacts == 0) {
+        echo '<tr><td colspan="3">';
         echo '<div class="heading">';
         print_string('contactlistempty', 'message');
         echo '</div>';
         echo '<div class="note">';
         print_string('addsomecontacts', 'message', $CFG->wwwroot.'/message/index.php?tab=search');
         echo '</div>';
+        echo '</td></tr>';
     }
+    
 if ($countonlinecontacts ||  $countofflinecontacts || $countstrangers) 
 {
-    echo '<table id="message_contacts" class="boxaligncenter" cellspacing="2" cellpadding="0" border="0">';
-
+   // echo '<table id="message_contacts" class="boxaligncenter" cellspacing="2" cellpadding="0" border="0">';
+    
+                            
     if($countonlinecontacts) {
         /// print out list of online contacts
 
@@ -142,20 +156,23 @@ if ($countonlinecontacts ||  $countofflinecontacts || $countstrangers)
         }
     }
 
-    echo '</table>';
+    
 }
     if ($countstrangers && ($countonlinecontacts + $countofflinecontacts == 0)) {  // Extra help
+        echo '<tr><td colspan="3">';
         echo '<div class="note">(';
         print_string('addsomecontactsincoming', 'message');
         echo ')</div>';
+        echo '</td></tr>';
     }
 
     //echo '<br />';
 
-    $autorefresh = '<p align="center" class="note">'.get_string('pagerefreshes', 'message', $CFG->message_contacts_refresh).'</p>';
+    $autorefresh = '<tr><td colspan="3"><p align="center" class="note">'.get_string('pagerefreshes', 'message', $CFG->message_contacts_refresh).'</p></td></tr>';
     $autorefresh = addslashes_js($autorefresh); // js escaping
 
     // gracefully degrade JS autorefresh
+    echo '<tr><td colspan="3">';
     echo '<script type="text/javascript">
 //<![CDATA[
 document.write("'.$autorefresh.'")
@@ -164,6 +181,12 @@ document.write("'.$autorefresh.'")
     echo '<noscript><div class="button aligncenter">';
     echo print_single_button('index.php', false, get_string('refresh'));
     echo '</div></noscript>';
+    echo '</td></tr>';
+    echo '</table>';
+    echo '</td>
+                    <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+                </tr>                            
+            </table>';
 }
 
 
