@@ -1128,3 +1128,10 @@ table.quizreviewsummary td.cell {
   margin: 6px 0;
 }
 
+.cls_button {
+    background: url(template/images/BT_Background.jpg);
+    border: none;
+    height: 35px;
+    color: #FFF;
+    width:140px;
+}
