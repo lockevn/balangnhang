@@ -173,44 +173,6 @@ echo '
             <tr>
                 <td width="20px"></td>
                 <td width="220px" valign="top">
-                
-                    <!----------------------------------------------------->
-                    <div class="leftpanel">
-                        <table cellpadding="0" cellspacing="0" width="100%">
-                            <tr><td height="30px">
-                                <div class="title">PERSONAL</div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_ST.JPG" /></a></div>
-                            </td></tr>
-                            <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
-                            <tr><td align="center">
-                                <div style="width:200px;">
-                                    <table cellpadding="0" cellspacing="0" width="100%">
-                                        <tr>
-                                            <td height="30px" align="left">
-                                                Hello <a href="" class="leftpaneltext">'. $USER->username .'</a>!
-                                            </td>
-                                            <td height="30px" align="right">
-                                                <a class="leftpaneltext" '. $CFG->frametarget .'href="'. $CFG->wwwroot.'/login/logout.php?sesskey='.sesskey().'">'. 
-                                                    get_string('logout').
-                                                '</a>
-                                            </td>
-                                        </tr>
-                                        <tr><td height="30px" align="left">
-                                            Tin nhắn:
-                                        </td></tr>
-                                        <tr><td height="30px" style="padding:0 10px 0 10px" align="left">
-                                            Chưa đọc: <a href="" class="leftpaneltext">10</a>
-                                        </td></tr>
-                                        <tr><td height="30px" style="padding:0 10px 0 10px" align="left">
-                                            Có: <a href="" class="leftpaneltext">10</a>
-                                        </td></tr>
-                                    </table>
-                                </div>
-                            </td></tr>
-                        </table>
-                    </div>
-                    
                     <!----------------------------------------------------->                    
                     <div class="leftpanel">
                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -259,8 +221,6 @@ echo '                                      </td>
 echo '                            
                                     \'S'. strtoupper(get_string('profile')). 
                                 '</div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG" /></a></div>
                             </td></tr>
                             <tr>
                                 <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
@@ -542,9 +502,9 @@ if (is_mnet_remote_user($user)) {
         }
         if (!empty($USER->realuser)) {
             // changing of password when "Logged in as" is not allowed
-            echo "<input style=\"border: none; width:125px; height: 36px; background: url(". $CFG->wwwroot."/theme/menu_horizontal/template/images/BT_Changepass.jpg) top center; \" type=\"submit\" value=\"\" disabled=\"disabled\" />";
+            echo "<input class=\"cls_button\" type=\"submit\" value=\"\" disabled=\"disabled\" />";
         } else {
-            echo "<input style=\"border: none; width:125px; height: 36px; background: url(". $CFG->wwwroot."/theme/menu_horizontal/template/images/BT_Changepass.jpg) top center; \" type=\"submit\" value=\"\" />"; //".get_string("changepassword")."
+            echo "<input class=\"cls_button\" type=\"submit\" value=\"".get_string("changepassword")."\" />"; //
         }
         echo "</div>";
         echo "</form>";
@@ -576,7 +536,7 @@ if (is_mnet_remote_user($user)) {
             echo '<div>';
             echo '<input type="hidden" name="id" value="'.$course->id.'" />';
             echo '<input type="hidden" name="user" value="'.$user->id.'" />';
-            echo '<input type="submit" value="'.s(get_string('unenrolme', '', $course->shortname)).'" />';
+            echo '<input class="cls_button" type="submit" value="'.s(get_string('unenrolme', '', $course->shortname)).'" />';
             echo '</div>';
             echo '</form>';
         }
@@ -589,7 +549,7 @@ if (is_mnet_remote_user($user)) {
         echo '<input type="hidden" name="id" value="'.$course->id.'" />';
         echo '<input type="hidden" name="user" value="'.$user->id.'" />';
         echo '<input type="hidden" name="sesskey" value="'.sesskey().'" />';
-        echo '<input style="border: none; width:125px; height: 36px; background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_Changepass.jpg) top center; " type="submit" value="'.get_string('loginas').'" />';
+        echo '<input class="cls_button" type="submit" value="'.get_string('loginas').'" />';
         echo '</div>';
         echo '</form>';
     }
@@ -610,7 +570,7 @@ if (is_mnet_remote_user($user)) {
             echo "<form style=\"padding-left: 10px;\" onclick=\"this.target='message$user->id'\" action=\"../message/discussion.php\" method=\"get\">";
             echo "<div>";
             echo "<input type=\"hidden\" name=\"id\" value=\"$user->id\" />";
-            echo "<input style=\"border: none; width:85px; height: 36px; background: url(". $CFG->wwwroot."/theme/menu_horizontal/template/images/BT_Message.jpg) top center; \" type=\"submit\" value=\"\" onclick=\"return openpopup('/message/discussion.php?id=$user->id', 'message_$user->id', 'menubar=0,location=0,scrollbars,status,resizable,width=400,height=500', 0);\" />";
+            echo "<input class=\"cls_button\" type=\"submit\" value=\"".get_string("sendmessage", "message")."\" onclick=\"return openpopup('/message/discussion.php?id=$user->id', 'message_$user->id', 'menubar=0,location=0,scrollbars,status,resizable,width=400,height=500', 0);\" />";
             echo "</div>";
             echo "</form>";
         }
@@ -647,18 +607,6 @@ echo '                                              </td>
                             
                         </table>
                     </div>
-                
-                    <!-------------------------------------------------------------------->
-                    <div class="newsarea">
-                        <table cellpadding="0" cellspacing="0" width="100%" border="0">
-                            <tr><td height="30px" colspan="3">
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG" /></a></div>
-                            </td></tr>
-                        </table>
-                    </div>
-                
-                    
                 </td>
                 <td width="20px"></td>
             </tr>
