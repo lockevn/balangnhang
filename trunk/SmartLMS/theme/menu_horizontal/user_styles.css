@@ -684,12 +684,34 @@ div.minicalendar td.today {
   border-style: solid;
   border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
 }
-form.mform fieldset {
-  background-color: #EEEEEE;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #FFFFFF #DDDDDD #DDDDDD #FFFFFF;
+
+form.mform {
+    width:90%;
 }
+
+form.mform fieldset {
+  border: none;
+  width:100%;
+}
+
+form.mform fieldset legend {
+    text-transform: uppercase;
+    margin: 0px;
+}
+
+#id_submitbutton {
+    background: url(template/images/BT_Createmynewaccount.jpg);
+    width:180px;
+    height:35px;
+    border: none;
+}
+#id_cancel {
+    background: url(template/images/BT_Cancel.jpg);
+    width:180px;
+    height:35px;
+    border: none;
+}
+
 form.mform div.textarea textarea {
   width: 35em;
 }
