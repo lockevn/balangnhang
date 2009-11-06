@@ -24,8 +24,8 @@ class MoodleQuickForm_cancel extends MoodleQuickForm_submit
             $elementName='cancel';
         }
         if ($value==null){
-            //$value=get_string('cancel');
-            $value = '';
+            $value=get_string('cancel');
+            //$value = '';
         }
         MoodleQuickForm_submit::MoodleQuickForm_submit($elementName, $value, $attributes);
         $this->updateAttributes(array('onclick'=>'skipClientValidation = true; return true;'));

@@ -84,7 +84,7 @@ class login_signup_form extends moodleform {
         }
 
         // buttons
-        $this->add_action_buttons(true, '');
+        $this->add_action_buttons(true, get_string('createaccount'));
 
     }
 
