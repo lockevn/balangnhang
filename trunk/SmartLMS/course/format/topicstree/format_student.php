@@ -219,7 +219,9 @@
     echo '<table cellpadding="10px" cellspacing="0" width="100%" style="background:url('.$CFG->themewww.'/'.current_theme().'/template/images/BG1_M.jpg) top repeat-x" height="100px">
             <tr>
             ';
-    if(!empty($latestNews)) {
+            
+    if(!empty($latestNews)) 
+    {
             foreach($latestNews as $objNews)
             {
                 
@@ -407,7 +409,7 @@
     //suggest course
     $recommendCourse = getRecommendCourseList($courseId);
     
-    print_r($recommendCourse);
+    //print_r($recommendCourse);
     
     if(is_array($recommendCourse))
     {
@@ -417,13 +419,13 @@
                 <table cellpadding="0" cellspacing="0" width="100%" >
                     <tr><td height="30px" colspan="3">
                         <div class="title">SUGGEST COURSES</div>
-                        <div class="titleicon"><a href=""><img src="template/images/BT_GT.JPG" /></a></div>
-                        <div class="titleicon"><a href=""><img src="template/images/BT_LT.JPG" /></a></div>
+                        <div class="titleicon"><a href=""><img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BT_GT.JPG" /></a></div>
+                        <div class="titleicon"><a href=""><img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BT_LT.JPG" /></a></div>
                     </td></tr>
                     <tr>
-                        <td valign="top" width="5px"><img src="template/images/BG1_L.jpg" /></td>
+                        <td valign="top" width="5px"><img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG1_L.jpg" /></td>
                         <td valign="top">
-                            <table cellpadding="10px" cellspacing="0" width="100%" style="background:url(template/images/BG1_M.jpg) top repeat-x" height="100px">
+                            <table cellpadding="10px" cellspacing="0" width="100%" style="background:url('.$CFG->themewww.'/'.current_theme().'/template/images/BG1_M.jpg) top repeat-x" height="100px">
                                 <tr>
                                 ';
                                 foreach($recommendCourse as $rCourse)
@@ -432,7 +434,7 @@
                                     <td valign="top" width="33%">
                                         <table cellpadding="0" cellspacing="0" width="100%">
                                             <tr><td>
-                                                <a href="" class="titleText">'.$rCourse->fullname.'</a></div>
+                                                <a href="/course/view.php?id='.$rCourse->id.'" class="titleText">'.$rCourse->fullname.'</a></div>
                                             </td></td>
                                             <tr><td height="10px"></td></tr>
                                             <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
