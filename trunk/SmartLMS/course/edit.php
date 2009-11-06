@@ -98,12 +98,13 @@
         $gradeArr = $data->grade;
         $mainCourseArr = $data->maincourse;
         $minorCourseArr = $data->minorcourse;
+        $nextTestIdArr = $data->nexttestid;
         if (empty($course)) {
             if (!$course = create_course($data)) {
                 print_error('coursenotcreated');
             }
             /*danhut added: nếu course là testroom, insert grade range if any*/            
-            addTestRanges($course->id, $gradeArr, $mainCourseArr, $minorCourseArr);
+            addTestRanges($course->id, $gradeArr, $mainCourseArr, $minorCourseArr, $nextTestIdArr);
             /*end of danhut added*/
 
             $context = get_context_instance(CONTEXT_COURSE, $course->id);
@@ -132,8 +133,8 @@
             /*danhut added: nếu course là testroom, update grade range if any*/
             
             /*delete old grade range data to insert new ones*/
-            deleteTestRanges($course->id);
-            addTestRanges($course->id, $gradeArr, $mainCourseArr, $minorCourseArr);
+            deleteTestRanges($course->id);            
+            addTestRanges($course->id, $gradeArr, $mainCourseArr, $minorCourseArr, $nextTestIdArr);
             
             /*end of danhut added*/
             redirect($CFG->wwwroot."/course/view.php?id=$course->id");
