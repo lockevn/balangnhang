@@ -261,6 +261,8 @@ class default_questiontype {
         // First, save the basic question itself
         $question->name = trim($form->name);
         $question->questiontext = trim($form->questiontext);
+        $question->questionguide = trim($form->questionguide);
+        
         $question->questiontextformat = $form->questiontextformat;
         $question->parent = isset($form->parent) ? $form->parent : 0;
         $question->length = $this->actual_number_of_questions($question);

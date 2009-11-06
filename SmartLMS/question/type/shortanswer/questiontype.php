@@ -111,6 +111,11 @@ class question_shortanswer_qtype extends default_questiontype {
         $questiontext = format_text($question->questiontext,
                 $question->questiontextformat,
                 $formatoptions, $cmoptions->course);
+                
+		/*danhut add*/
+        $questionguide = format_text($question->questionguide,
+                $question->questiontextformat,
+                $formatoptions, $cmoptions->course);                
         $image = get_question_image($question);
 
         /// Print input controls
