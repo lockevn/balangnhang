@@ -700,16 +700,18 @@ form.mform fieldset legend {
 }
 
 #id_submitbutton {
-    background: url(template/images/BT_Createmynewaccount.jpg);
-    width:180px;
+    background: url(template/images/BT_Background.jpg);
+    width:150px;
     height:35px;
     border: none;
+    color: #FFF;
 }
 #id_cancel {
-    background: url(template/images/BT_Cancel.jpg);
-    width:180px;
+    background: url(template/images/BT_Background.jpg);
+    width:150px;
     height:35px;
     border: none;
+    color: #FFF;
 }
 
 form.mform div.textarea textarea {
@@ -1133,5 +1135,5 @@ table.quizreviewsummary td.cell {
     border: none;
     height: 35px;
     color: #FFF;
-    width:140px;
+    width:150px;
 }
