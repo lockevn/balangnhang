@@ -110,12 +110,18 @@ function getCourseSupportTools($courseid) {
 		return false;
 	}
 	$sequence = $result->sequence;
+	
+	if(empty($sequence)) {
+		return false;
+	}
 
 	$sql = "SELECT cm.id as id, m.name as modulename, cm.instance as instanceid
 	FROM mdl_modules m, mdl_course_modules cm
 	WHERE m.id = cm.module AND cm.id in ($sequence)";
 	$results = get_records_sql($sql);
-
+	if(empty($results)) {
+		return false;
+	}
 	/*lấy module name để hiển thị trên menu*/
 	$cmArr = array();
 	foreach($results as $result) {
