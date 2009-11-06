@@ -266,15 +266,17 @@
                                 <div class="title">YOUR CURRENT COURSES</div>
                                 <div class="selectcourse">
                                     <select name="current_course" style="width:225px; height:21px" onchange="location.href=this.value">';
-                                        foreach($myCourseList as $course)
-                                        {
-                                            if($course->id == $_REQUEST['id'])
-                                                $selected = 'selected';
-                                            else
-                                                $selected = '';
-                                            
-                                            echo '<option value="/course/view.php?id='.$course->id.'" '.$selected.'>'.$course->name.'</option>';
-                                        }
+    									if(!empty($myCourseList)) {
+    										foreach($myCourseList as $course)
+    										{
+    											if($course->id == $_REQUEST['id'])
+    											$selected = 'selected';
+    											else
+    											$selected = '';
+
+    											echo '<option value="/course/view.php?id='.$course->id.'" '.$selected.'>'.$course->name.'</option>';
+    										}
+    									}
 
     echo '
                                     </select>
