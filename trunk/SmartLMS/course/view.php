@@ -210,7 +210,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Gconfig.php");
     * display ajax content
     */
     
-    if($_SERVER['REQUEST_METHOD'] == 'POST' && $_REQUEST['task'] == 'ajax')
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_REQUEST['task']) && $_REQUEST['task'] == 'ajax')
     {
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
