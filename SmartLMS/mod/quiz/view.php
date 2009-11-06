@@ -34,6 +34,12 @@
         }
     }
 
+        
+    if($quiz->lotype == 'test') {
+    	redirect($CFG->wwwroot . '/smartcom/testroom/attempt.php?id=' . $cm->id);
+    }
+    
+    
     // Check login and get context.
     require_login($course->id, false, $cm);
     $context = get_context_instance(CONTEXT_MODULE, $cm->id);
