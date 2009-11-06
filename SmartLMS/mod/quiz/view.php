@@ -82,7 +82,9 @@
     $strupdatemodule = has_capability('moodle/course:manageactivities', $context)
                     ? update_module_button($cm->id, $course->id, get_string('modulename', 'quiz'))
                     : "";
+                    
     $navigation = build_navigation('', $cm);
+
     //$PAGE->print_header($course->shortname.': %fullname%','',$bodytags);
     
     print_header_simple(format_string($quiz->name), "", $navigation, "", "", true, $strupdatemodule);
