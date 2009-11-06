@@ -410,7 +410,7 @@ class course_edit_form extends moodleform {
 			để assign user vào course thích hợp
 		*/
         if($course->format == 'testroom') {
-        	/*get course list (all paid course and hibrid course)*/
+        	/*get course list (all elearning course and hibrid course)*/
         	$sql = "SELECT id, fullname
         			FROM $CFG->prefix"."course 
         			WHERE format in ('topicstree','weeks') AND visible=1 ORDER BY shortname ASC";
@@ -430,6 +430,19 @@ class course_edit_form extends moodleform {
         		}
         	}        	
         	
+        	/*lấy danh sách các bài test có trong hệ thống khac test hien tai*/
+        	$testList = get_records_select("course", "format='testroom' AND id <> $course->id", "", "id, fullname");
+        	/*tạo array để lưu test->fullname*/
+        	$testArr = array();
+        	$testArr[''] = "select one ... ";
+        	if(!empty($testList)) {
+        		
+        		foreach ($testList as $key => $test) {
+        			$testArr[$key] = $test->fullname;
+        		}
+        	}
+        	
+        	
         	if(!empty($courseList)) {
         		$courseArr = array();
         		$courseArr[''] = "select one ... ";
@@ -440,12 +453,17 @@ class course_edit_form extends moodleform {
         		/*print 10 grade ranges*/
         		$mform->addElement('static', "grade0label", get_string('gradeboundary', 'quiz'), '100%');
         		$mform->addElement('hidden', "grade[0]", '100%');
+        		/*set test tiếp theo sau test này nếu cần*/
+        		$mform->addElement('select', "nexttestid[0]", get_string('nexttest', 'smartcom'), $testArr);
+        		
         		$mform->addElement('select', "maincourse[0]", get_string('maincourse', 'smartcom'), $courseArr);        	
         		$mform->addElement('select', "minorcourse[0]", get_string('minorcourse', 'smartcom') . ' 1', $courseArr);
         		$mform->addElement('select', "minorcourse[1]", get_string('minorcourse', 'smartcom') . ' 2', $courseArr);
         		/*lấy lại giá trị graderange đã set nếu có*/
         		if(isset($gradeRangeArr[0])) {
-        			
+        			if(!empty($gradeRangeArr[0]->nexttestid)) {
+        				$mform->setDefault('nexttestid[0]',$gradeRangeArr[0]->nexttestid);
+        			}
         			$mform->setDefault('maincourse[0]',$gradeRangeArr[0]->maincourseid);
         			$mform->setDefault('minorcourse[0]',$gradeRangeArr[0]->minorcourseid1);
         			$mform->setDefault('minorcourse[1]',$gradeRangeArr[0]->minorcourseid2);
@@ -456,11 +474,17 @@ class course_edit_form extends moodleform {
         				$mform->setDefault("grade[$i]", $gradeRangeArr[$i-1]->mingrade);
         			}
         			$mform->addElement('text', "grade[$i]", get_string('gradeboundary', 'quiz'));
+        			/*set test tiếp theo sau test này nếu cần*/
+        			$mform->addElement('select', "nexttestid[$i]", get_string('nexttest', 'smartcom'), $testArr);
+        			
         			$mform->addElement('select', "maincourse[$i]", get_string('maincourse', 'smartcom'), $courseArr);
         			$mform->addElement('select', "minorcourse[" . ($i*2). "]", get_string('minorcourse', 'smartcom') . ' 1', $courseArr);
         			$mform->addElement('select', "minorcourse[" . ($i*2 + 1). "]", get_string('minorcourse', 'smartcom') . ' 2', $courseArr);
         			
         			if(isset($gradeRangeArr[$i])) {
+        				if(!empty($gradeRangeArr[$i]->nexttestid)) {
+        					$mform->setDefault('nexttestid[$i]',$gradeRangeArr[$i]->nexttestid);
+        				}
         				$mform->setDefault("maincourse[$i]",$gradeRangeArr[$i]->maincourseid);
         				$mform->setDefault("minorcourse[" . ($i*2). "]",$gradeRangeArr[$i]->minorcourseid1);
         				$mform->setDefault("minorcourse[" . ($i*2 + 1). "]",$gradeRangeArr[$i]->minorcourseid2);
