@@ -7,7 +7,7 @@ function deleteTestRanges($testid) {
 	return delete_records("smartcom_testroom", 'testid', $testid );
 }
 
-function addTestRanges($testid, $gradeArr, $mainCourseArr, $minorCourseArr) {
+function addTestRanges($testid, $gradeArr, $mainCourseArr, $minorCourseArr, $nextTestIdArr) {
 	if(empty($testid) || empty($gradeArr) || empty($mainCourseArr)) {
 		return false;
 	}
@@ -22,17 +22,24 @@ function addTestRanges($testid, $gradeArr, $mainCourseArr, $minorCourseArr) {
 			return false;
 		}
 		/*nếu tìm thấy $minGrade, insert vào db*/
-		$mainCourseId = $mainCourseArr[$maxGradeIndex];
-		$minorCourseId1 = $minorCourseArr[$maxGradeIndex * 2];
-		$minorCourseId2 = $minorCourseArr[$maxGradeIndex * 2 + 1];
-		if($mainCourseId) {
+		$nextTestId = $nextTestIdArr[$maxGradeIndex];
+		if(empty($nextTestId)) {
+			$mainCourseId = $mainCourseArr[$maxGradeIndex];
+			$minorCourseId1 = $minorCourseArr[$maxGradeIndex * 2];
+			$minorCourseId2 = $minorCourseArr[$maxGradeIndex * 2 + 1];
+		}
+		if(!empty($mainCourseId) || !empty($nextTestId)) {
 			$range = new object();
 			$range->testid = $testid;
-			$range->maincourseid = $mainCourseId;
-			$range->minorcourseid1 = $minorCourseId1;
-			$range->minorcourseid2 = $minorCourseId2;
 			$range->mingrade = $minGrade;
 			$range->maxgrade = $maxGrade;
+			$range->nexttestid = $nextTestId;
+			if(empty($nextTestId)) {
+				$range->maincourseid = $mainCourseId;
+				$range->minorcourseid1 = $minorCourseId1;
+				$range->minorcourseid2 = $minorCourseId2;
+			}
+			
 			insert_record("smartcom_testroom", $range);			
 		}
 		
