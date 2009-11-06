@@ -1,6 +1,5 @@
 <?php // $Id: index.php,v 1.129.2.4 2009/02/07 22:54:04 skodak Exp $
 
-
     require_once("../config.php");
 
     // check if major upgrade needed - also present in /index.php
