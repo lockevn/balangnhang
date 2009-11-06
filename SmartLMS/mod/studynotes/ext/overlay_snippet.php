@@ -93,9 +93,11 @@ else {
 <script type="text/javascript"
 	src="<?php echo $CFG->wwwroot.'/mod/studynotes/js/overlay.js'; ?>">
 </script>
-<a class="mediabird-overlay-link" href="javascript:void(0)"
-	id="mediabirdLink"><img src="<?php echo $CFG->wwwroot.$iconPath; ?>"
+<a href="javascript:void(0)"
+	id="mediabirdLink"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_6.jpg"
 	alt="Mediabird" title="<?php echo $titleString; ?>" /></a>
+	
+	
 <div id="mediabirdOverlay" class="mediabird-overlay">
 <div class="bar"><a href="javascript:void(0)" class="closer"
 	title="<?php echo get_string('save_and_close','studynotes'); ?>"></a> <a
