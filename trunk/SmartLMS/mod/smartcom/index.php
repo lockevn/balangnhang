@@ -10,12 +10,6 @@ require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
  */
 
 global $CFG;
-
- // init share Template Savant engine here
-$tpl->setPath('template', 'Pagelet');
-
-
-
 /********** MODULE LIB *************/ 
 require_once('./lib.php');
 require_once('./locallib.php');
@@ -25,10 +19,13 @@ $submodule = required_param('submodule', PARAM_TEXT);   // submodule
 $courseid = optional_param('courseid', 0, PARAM_INT);
 
 
-/// LITERAL STRING
+///////////////////////////////// LITERAL STRING
 $strsmartcoms = get_string('modulenameplural', 'smartcom');
 
-/// Print the header
+
+
+
+///////////////////////////////// Print the header
 $navlinks = array();
 $course = null;
 if($courseid > 1)
@@ -41,6 +38,12 @@ $navlinks[] = array('name' => $submodule, 'link' => '', 'type' => 'title');
 $navigation = build_navigation($navlinks);
 print_header_simple($strsmartcoms, '', $navigation, '', '', true, '', '');
 	
+
+
+
+///////////////////////////////// 
+ // init share Template Savant engine here
+$tpl->setPath('template', 'Pagelet');
 		
 $allowSubModule = array(
 'learning_progress',
@@ -56,6 +59,14 @@ $allowSubModule = array(
 'ticket_buy'
 );
 
+
+
+///////////////////////////////// RENDER content template
+require_once("Pagelet/SHARE_leftmenu_user.php");        
+echo $SHARE_leftmenu_user;
+
+
+///////////////////////////////// RENDER content template
 if(in_array($submodule, $allowSubModule, true))
 {
 	require_once("Pagelet/$submodule.php");        
@@ -66,6 +77,8 @@ else
 	echo 'Hacking activities are logged';
 }
 
-/// Finish the page
+
+
+///////////////////////////////// Finish the page
 print_footer($course);
 ?>
