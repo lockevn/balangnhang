@@ -201,3 +201,10 @@ ENGINE = InnoDB;
 
 /*dùng label để lưu content cho activity*/
 ALTER TABLE `smartlms`.`mdl_label` MODIFY COLUMN `label` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+
+/*đánh dấu sau 1 bài test có phải làm bài test nào khác 0*/
+ALTER TABLE `smartlms`.`mdl_smartcom_testroom` MODIFY COLUMN `maincourseid` BIGINT(10) UNSIGNED DEFAULT NULL,
+ MODIFY COLUMN `minorcourseid1` BIGINT(10) UNSIGNED DEFAULT NULL,
+ MODIFY COLUMN `minorcourseid2` BIGINT(10) UNSIGNED DEFAULT NULL,
+ ADD COLUMN `nexttestid` BIGINT UNSIGNED AFTER `minorcourseid2`;
