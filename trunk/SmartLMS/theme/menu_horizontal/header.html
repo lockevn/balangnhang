@@ -17,6 +17,8 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="/css/ui.jqgrid.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/css/jquery.jgrowl.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/css/template_css.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/smartcom.css" />
+	
 
 
 	<?php if(strpos($_SERVER['REQUEST_URI'], 'mod/lightboxgallery') === false): ?>	
@@ -73,6 +75,7 @@
 	<?php include ('menu.html'); ?>	
 	
 <?php } 
+
 else if ($heading) {  // This is what gets printed on any other page with a heading
 ?>
 	<div id="headwrapper" class="clearfix">	
@@ -117,28 +120,12 @@ else if ($heading) {  // This is what gets printed on any other page with a head
 		<div class="navbutton"><?php echo $button; ?></div>	   
 	<?php } ?>
 	</div>
-    <?php if($COURSE->id != 1 && !empty($COURSE->id)) { ?>
-    <div class="user-sub-menu">
-        <div class="menu2"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN2_1.jpg" /></a></div>    
-        <div class="menu2split"></div>
-        <div class="menu2"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN2_2.jpg" /></a></div>
-        <div class="menu2split"></div>
-        <div class="menu2"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN2_3.jpg" /></a></div>
-        <div class="menu2split"></div>
-        <div class="menu2"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN2_4.jpg" /></a></div>
-        <div class="menu2split"></div>
-        <div class="menu2"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN2_5.jpg" /></a></div>
-        <div class="menu2split"></div>
-        <div class="menu2"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN2_6.jpg" /></a></div>
-        <div class="menu2split"></div>
-        <div class="menu2"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN2_7.jpg" /></a></div>
-        <div class="menu2split"></div>
-    </div>
-    <?php }?>
-    
-	<?php    
-  require_once($CFG->dirroot.'/smartcom/util/uiutil.php');
-    ?>
-<?php } ?>
+
+
+<?php 
+require_once($CFG->dirroot.'/smartcom/util/uiutil.php');
+	printSupportToolMenuBar($COURSE->id);
+
+} ?>
 	<!-- END OF HEADER -->
 <div id="content">

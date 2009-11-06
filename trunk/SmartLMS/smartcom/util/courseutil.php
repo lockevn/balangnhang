@@ -130,7 +130,7 @@ function getCourseSupportTools($courseid) {
 			continue;
 		}
 		$result->name = $tmpResult->name;
-		$cmArr[] = $result;
+		$cmArr[$result->modulename] = $result;
 	}
 	if(empty($cmArr)) {
 		return false;
