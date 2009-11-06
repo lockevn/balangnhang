@@ -59,7 +59,7 @@ if ($show_instructions) {
                                         </td></tr>
                                         <tr><td height="10px"></td></tr>
                                         <tr><td align="center" colspan="2">
-                                            <input type="image" src="<?php echo $CFG->themewww.'/'.current_theme(); ?>/template/images/BT_Login.jpg" />
+                                            <input type="submit" class="cls_button" value="<?php print_string("login") ?>" />
                                             <input type="hidden" name="testcookies" value="1" />
                                         </td></tr>
                                         </form>
@@ -74,7 +74,7 @@ if ($show_instructions) {
                                                 <input type="hidden" name="username" value="guest" />
                                                 <input type="hidden" name="password" value="guest" />
                                                 <input type="hidden" name="testcookies" value="1" />
-                                                <input type="image" src="<?php echo $CFG->themewww.'/'.current_theme(); ?>/template/images/BT_Loginasaguest.jpg" />
+                                                <input type="submit" class="cls_button" value="<?php print_string("loginguest") ?>" />
                                             </form>
                                         </td></tr>
                                         <?php } ?>
@@ -86,7 +86,7 @@ if ($show_instructions) {
                                         <tr><td align="center" colspan="2">
                                             <form action="forgot_password.php" method="post" id="changepassword">
                                                 <input type="hidden" name="sesskey" value="<?php echo sesskey() ?>" />
-                                                <input type="image" src="<?php echo $CFG->themewww.'/'.current_theme(); ?>/template/images/BT_Yeshelpmelogin.jpg" />
+                                                <input type="submit" class="cls_button" value="<?php print_string("passwordrecovery") ?>" />
                                             </form>
                                         </td></tr>
                                     </table>
@@ -124,16 +124,16 @@ if ($show_instructions) {
                                           } else {
                                               print_string("loginsteps", "", "signup.php");
                                           } ?>
-                                             <div class="signupform">
+                                             <div class="signupform" style="text-align:center">
                                                <form action="signup.php" method="get" id="signup">
-                                               <div style="text-align:center;"><input type="image" src="<?php echo $CFG->themewww.'/'.current_theme(); ?>/template/images/BT_Createnewaccount.jpg" /></div>
+                                               <input type="submit" class="cls_button" value="<?php print_string("startsignup") ?>" />
                                                </form>
                                              </div>
                             <?php     } else if (!empty($CFG->registerauth)) {
                                           echo format_text($CFG->auth_instructions); ?>
                                           <div class="signupform">
                                             <form action="signup.php" method="get" id="signup">
-                                            <div style="text-align:center;"><input type="image" src="<?php echo $CFG->themewww.'/'.current_theme(); ?>/template/images/BT_Createnewaccount.jpg" /></div>
+                                            <div style="text-align:center;"><input type="submit" class="cls_button" value="<?php print_string("startsignup") ?>" /></div>
                                             </form>
                                           </div>
                             <?php     } else {
