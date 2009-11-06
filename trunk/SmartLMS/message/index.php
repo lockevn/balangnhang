@@ -22,6 +22,8 @@
     $unblockcontact = optional_param('unblockcontact', 0, PARAM_INT); // unblocking a contact
     $popup          = optional_param('popup', false, PARAM_ALPHANUM);    // If set then starts a new popup window
 
+    //$id             = optional_param('id', 0, PARAM_INT); // Course Module ID, or
+
 /// Popup a window if required and quit (usually from external links).
     if ($popup) {
         print_header();
@@ -56,36 +58,103 @@
     } else {
         print_header(get_string('messages', 'message').' - '.format_string($SITE->fullname));
     }
+echo '
+        <!-------------------------------------------------------------------->
+        <div class="newsarea">
+            <table cellpadding="0" cellspacing="0" width="100%" border="0">
+                <tr><td height="30px" colspan="3">
+                    <table cellpadding="0" cellspacing="0" width="100%"><tr>
+                            <td>
+                                    <table cellpadding="0" cellspacing="0"><tr>
+                                        <td id="smartlms-message-tab" colspan="3"> 
+                                        <style type="text/css">
+                                        #smartlms-message-tab ul li {
+                                            float: left;
+                                            height: 20px !important;
+                                            line-height: 20px !important; 
+                                            padding-right: 10px; 
+                                            margin-right: 10px;
+                                            background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/MN1_SP.jpg) no-repeat right center;
+                                        }
+                                        .message {
+                                            color: #333333;
+                                            font-style: italic;
+                                        }
+                                        </style>
+                                        ';
+/**
+* Start Tabs
+*                                                             
+* @var mixed
+*/
+$tabrow = array();
+$tabrow[] = new tabobject('contacts', $CFG->wwwroot.'/message/index.php?tab=contacts', 
+                           get_string('contacts', 'message'));
+$tabrow[] = new tabobject('search', $CFG->wwwroot.'/message/index.php?tab=search', 
+                           get_string('search', 'message'));
+$tabrow[] = new tabobject('settings', $CFG->wwwroot.'/message/index.php?tab=settings', 
+                           get_string('settings', 'message'));
+$tabrows = array($tabrow);
+         
+print_tabs($tabrows, $tab);                                                             
+/**
+* End tabs
+*/
+echo '                                                            
 
+                                        </td>
+                                                                                         
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align="right"></td>                             
+                    </tr></table>
+                </td></tr>
+                <tr>
+                    <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+                    <td valign="top" width="100%">
+                        <table cellpadding="0" cellspacing="10px" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="120px">
+                            <tr><td height="30px">
+                                <div style="float:left; color: #000;" class="title">'. strtoupper($tab).'</div>
+                            </td></tr>
+                            <tr>
+                                <td valign="top">';
+/// a print function is associated with each tab
+$tabprintfunction = 'message_print_'.$tab;
+if (function_exists($tabprintfunction)) {
+    $tabprintfunction();
+}
+                                
+echo '                                
+                                </td>
+                            </tr>
+                        </table>
+                                                            
+                    </td>
+                    <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+                </tr>                            
+            </table>
+        </div>                    
+    
+        <!-------------------------------------------------------------------->
+        <div class="newsarea">
+            <table cellpadding="0" cellspacing="0" width="100%" border="0">
+                <tr><td height="30px" colspan="3"></td></tr>
+            </table>
+        </div>
+    ';
     echo '<table cellspacing="2" cellpadding="2" border="0" width="95%" class="boxaligncenter">';  
     echo '<tr>';
 
 /// Print out the tabs
     echo '<td>';
-    $tabrow = array();
-    $tabrow[] = new tabobject('contacts', $CFG->wwwroot.'/message/index.php?tab=contacts', 
-                               get_string('contacts', 'message'));
-    $tabrow[] = new tabobject('search', $CFG->wwwroot.'/message/index.php?tab=search', 
-                               get_string('search', 'message'));
-    $tabrow[] = new tabobject('settings', $CFG->wwwroot.'/message/index.php?tab=settings', 
-                               get_string('settings', 'message'));
-    $tabrows = array($tabrow);
-         
-    print_tabs($tabrows, $tab); 
     
     echo '</td>';
-
-
     echo '</tr><tr>';
 
 /// Print out contents of the tab
     echo '<td>';
 
-/// a print function is associated with each tab
-    $tabprintfunction = 'message_print_'.$tab;
-    if (function_exists($tabprintfunction)) {
-        $tabprintfunction();
-    }
 
     echo '</td> </tr> </table>';
     print_footer('none');

@@ -101,7 +101,8 @@ function message_print_contacts() {
         print_string('addsomecontacts', 'message', $CFG->wwwroot.'/message/index.php?tab=search');
         echo '</div>';
     }
-
+if ($countonlinecontacts ||  $countofflinecontacts || $countstrangers) 
+{
     echo '<table id="message_contacts" class="boxaligncenter" cellspacing="2" cellpadding="0" border="0">';
 
     if($countonlinecontacts) {
@@ -114,8 +115,8 @@ function message_print_contacts() {
         foreach ($onlinecontacts as $contact) {
             message_print_contactlist_user($contact);
         }
+        echo '<tr><td colspan="3">&nbsp;</td></tr>';
     }
-    echo '<tr><td colspan="3">&nbsp;</td></tr>';
 
     if ($countofflinecontacts) {
         /// print out list of offline contacts
@@ -142,14 +143,14 @@ function message_print_contacts() {
     }
 
     echo '</table>';
-
+}
     if ($countstrangers && ($countonlinecontacts + $countofflinecontacts == 0)) {  // Extra help
         echo '<div class="note">(';
         print_string('addsomecontactsincoming', 'message');
         echo ')</div>';
     }
 
-    echo '<br />';
+    //echo '<br />';
 
     $autorefresh = '<p align="center" class="note">'.get_string('pagerefreshes', 'message', $CFG->message_contacts_refresh).'</p>';
     $autorefresh = addslashes_js($autorefresh); // js escaping
