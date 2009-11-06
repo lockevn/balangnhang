@@ -105,11 +105,24 @@ class question_edit_form extends moodleform {
         $mform->addElement('text', 'name', get_string('questionname', 'quiz'), array('size' => 50));
         $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', null, 'required', null, 'client');
+        
+        /*danhut: question guide*/
+        $mform->addElement('htmleditor', 'questionguide', get_string('questionguide', 'quiz'),
+                array('rows' => 15, 'course' => $this->coursefilesid));
+        $mform->setType('questionguide', PARAM_RAW);
+        //$mform->setHelpButton('questiontext', array(array('questiontext', get_string('questiontext', 'quiz'), 'quiz'), 'richtext'), false, 'editorhelpbutton');
+        
+        
 
         $mform->addElement('htmleditor', 'questiontext', get_string('questiontext', 'quiz'),
                 array('rows' => 15, 'course' => $this->coursefilesid));
         $mform->setType('questiontext', PARAM_RAW);
         $mform->setHelpButton('questiontext', array(array('questiontext', get_string('questiontext', 'quiz'), 'quiz'), 'richtext'), false, 'editorhelpbutton');
+        
+        
+        
+        
+        
         $mform->addElement('format', 'questiontextformat', get_string('format'));
 
         make_upload_directory($this->coursefilesid);    // Just in case

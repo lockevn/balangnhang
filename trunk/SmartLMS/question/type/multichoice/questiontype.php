@@ -271,6 +271,11 @@ class question_multichoice_qtype extends default_questiontype {
         $formatoptions->para = false;
 
         // Print formulation
+        /*danhut added*/
+        $questionguide = format_text($question->questionguide,
+                         $question->questiontextformat,
+                         $formatoptions, $cmoptions->course);
+        
         $questiontext = format_text($question->questiontext,
                          $question->questiontextformat,
                          $formatoptions, $cmoptions->course);
