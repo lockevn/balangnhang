@@ -231,7 +231,7 @@ echo '
                             <tr><td height="30px">
                                 <div class="title">PERSONAL MENU</div>
                                 <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_ST.JPG" /></a></div>
+                                
                             </td></tr>
                             <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
                             <tr><td align="left">

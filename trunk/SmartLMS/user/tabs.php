@@ -143,8 +143,8 @@
 
 	/// add logic to see course read posts permission
 		if (has_capability('moodle/user:readuserposts', $personalcontext) || has_capability('mod/forum:viewdiscussion', get_context_instance(CONTEXT_COURSE, $course->id))) {
-			$toprow[] = new tabobject('forumposts', $CFG->wwwroot.'/mod/forum/user.php?id='.$user->id.'&amp;course='.$course->id,
-						get_string('forumposts', 'forum'));
+			//$toprow[] = new tabobject('forumposts', $CFG->wwwroot.'/mod/forum/user.php?id='.$user->id.'&amp;course='.$course->id,
+//						get_string('forumposts', 'forum'));
 
 			if (in_array($currenttab, array('posts', 'discussions'))) {
 				$inactive = array('forumposts');
@@ -168,8 +168,8 @@
 			or (has_capability('moodle/blog:view', $systemcontext) or has_capability('moodle/blog:view', $coursecontext))
 			) // able to read blogs in site or course context
 		) { //end if
-
-			$toprow[] = new tabobject('blogs', $CFG->wwwroot.'/blog/index.php?userid='.$user->id.'&amp;courseid='.$course->id, get_string('blog', 'blog'));
+            
+			//$toprow[] = new tabobject('blogs', $CFG->wwwroot.'/blog/index.php?userid='.$user->id.'&amp;courseid='.$course->id, get_string('blog', 'blog'));
 		}
 
 		if (!empty($CFG->enablenotes) and (has_capability('moodle/notes:manage', $coursecontext) || has_capability('moodle/notes:view', $coursecontext))) {
