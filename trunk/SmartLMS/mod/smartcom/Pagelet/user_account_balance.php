@@ -9,7 +9,7 @@ $username = $USER->username;
 $sql = "select * from mdl_smartcom_account where username = '$username'";
 $accountBalance = get_record_sql($sql);
 $tpl->assign('accountBalance', $accountBalance);
-		
+$tpl->assign('CFG', $CFG);		
 $FILENAME = 'user_account_balance';
 $$FILENAME = $tpl->display("$FILENAME.tpl.php");
 

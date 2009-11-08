@@ -37,7 +37,7 @@ $navlinks[] = array('name' => $strsmartcoms, 'link' => '', 'type' => 'activity')
 $navlinks[] = array('name' => $submodule, 'link' => '', 'type' => 'title');
 $navigation = build_navigation($navlinks);
 print_header_simple($strsmartcoms, '', $navigation, '', '', true, '', '');
-	
+//print_header($strsmartcoms, '', $navigation, "", "", true, "&nbsp;", navmenu($course));	
 
 
 
