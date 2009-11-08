@@ -169,6 +169,11 @@
 
     
 echo '
+    <style type="text/css">
+        .buttons form {
+            padding-right: 10px;
+        }
+    </style>
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
                 <td width="20px"></td>
@@ -563,7 +568,7 @@ if (is_mnet_remote_user($user)) {
             }
             echo "<form  onclick=\"this.target='message'\" action=\"../message/index.php\" method=\"get\">";
             echo "<div>";
-            echo "<input type=\"submit\" value=\"$messagebuttonname\" onclick=\"return openpopup('/message/index.php', 'message', 'menubar=0,location=0,scrollbars,status,resizable,width=400,height=500', 0);\" />";
+            echo "<input class=\"cls_button\" type=\"submit\" value=\"$messagebuttonname\" onclick=\"return openpopup('/message/index.php', 'message', 'menubar=0,location=0,scrollbars,status,resizable,width=400,height=500', 0);\" />";
             echo "</div>";
             echo "</form>";
         } else {
@@ -581,7 +586,7 @@ if (is_mnet_remote_user($user)) {
         echo "<div>";
         echo "<input type=\"hidden\" name=\"course\" value=\"$course->id\" />";
         echo "<input type=\"hidden\" name=\"user\" value=\"$user->id\" />";
-        echo "<input type=\"submit\" value=\"".get_string('payments')."\" />";
+        echo "<input class=\"cls_button\" type=\"submit\" value=\"".get_string('payments')."\" />";
         echo "</div>";
         echo "</form>";
     }
