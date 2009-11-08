@@ -242,7 +242,7 @@ echo '
 /// Print tabs at the top
     $showroles = 1;
     $currenttab = 'editprofile';
-    require('tabs.php');
+    require('profile/menu_block.php');
 echo '                          </div>
                             </td></tr>
                         </table>

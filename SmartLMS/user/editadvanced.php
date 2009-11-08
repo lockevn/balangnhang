@@ -213,7 +213,7 @@
         /// Print tabs at the top
         $showroles = 1;
         $currenttab = 'editprofile';
-        require('tabs.php');
+        require('profile/menu_block.php');
     }
 
 /// Finally display THE form
