@@ -223,9 +223,7 @@ echo '
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
                 <td width="20px"></td>
-                
-                <td valign="top">
-                    <div>';
+                <td valign="top" width="220" style="padding-top: 20px;">';
 /**
 * Tab
 */
@@ -233,8 +231,12 @@ echo '
     $showroles = 1;
     $currenttab = 'editprofile';
     require('profile/menu_block.php');                    
-echo '                    
-                    </div>
+                
+echo '                
+                </td>
+                <td width="20px"></td>
+                <td valign="top" >';
+echo '              
                     <!-------------------------------------------------------------------->
                     <style type="text/css">
                     .mynewarea form {
