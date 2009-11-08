@@ -199,7 +199,7 @@ echo '
     $currenttab = 'profile';
     $showroles = 1;
     if (!$user->deleted) {
-        include('tabs.php');
+        include('profile/menu_block.php');
     }                                                
 echo '                                      </td>
                                         </tr>
