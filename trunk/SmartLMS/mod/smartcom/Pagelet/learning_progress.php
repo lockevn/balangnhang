@@ -3,7 +3,6 @@ require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 
 require_once(ABSPATH.'lib/ofc-library/open_flash_chart_object.php');
 
-
 require_login();
 $userid = $USER->id;
 

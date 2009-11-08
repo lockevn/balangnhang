@@ -23,7 +23,7 @@ $CFG = $this->CFG;
                         <?php 
                         $showroles = 1;
                         $currenttab = 'Learning progress';
-                        require($CFG->dirroot.'/user/tabs.php');
+                        require($CFG->dirroot.'/user/profile/menu_block.php');
                         ?>                            
                         </div>
                     </td></tr>
