@@ -59,13 +59,22 @@ $allowSubModule = array(
 'ticket_buy'
 );
 
+echo '<table width="100%" cellspacing="0" cellpadding="0">
+        <tr><td width="20"></td>';
+if ($submodule == 'prepaidcard_enduser_deposit' || $submodule == 'prepaidcard_enduser_deposit_history' || $submodule == 'user_account_balance') 
+{
+    echo '<td width="220" valign="top" style="padding-top: 20px;" >';
+    ///////////////////////////////// RENDER content template
+    require_once("Pagelet/SHARE_leftmenu_user.php");        
+    //echo $SHARE_leftmenu_user;
+    echo '</td><td width="20"></td>';
+}
+else {
+    
+}
 
 
-///////////////////////////////// RENDER content template
-require_once("Pagelet/SHARE_leftmenu_user.php");        
-echo $SHARE_leftmenu_user;
-
-
+echo '<td>';
 ///////////////////////////////// RENDER content template
 if(in_array($submodule, $allowSubModule, true))
 {
@@ -78,7 +87,7 @@ else
 }
 
 
-
+echo '</td><td width="20"></td></tr></table>';
 ///////////////////////////////// Finish the page
 print_footer($course);
 ?>
