@@ -1,7 +1,14 @@
-<?php  // $Id: tabs.php,v 1.43.2.8 2008/12/19 01:44:48 moodler Exp $
+<?php global $CFG; 
+  // $Id: tabs.php,v 1.43.2.8 2008/12/19 01:44:48 moodler Exp $
 /// This file to be included so we can assume config.php has already been included.
 /// We also assume that $user, $course, $currenttab have been set
-
+echo '<table cellpadding="0" cellspacing="0" width="100%">
+    <tr><td height="30px">
+        <div class="title">PERSONAL MENU</div>
+        <div class="titleicon"><a href=""><img src="'.$CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_ST.JPG" /></a></div>
+    </td></tr>
+    <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
+    <tr><td align="left">';
     if (!isset($filtertype)) {
         $filtertype = '';
     }
@@ -294,5 +301,8 @@
       /// Print out the tabs and continue!
       print_tabs($tabs, $currenttab, $inactive, $activetwo);
     }
-
+echo '
+        </td></tr>
+        </table>
+    ';
 ?>

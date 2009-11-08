@@ -6807,8 +6807,8 @@ function print_tabs($tabrows, $selected=NULL, $inactive=NULL, $activated=NULL, $
 	/// Print out the current tree of tabs (this function is recursive)
 
 	$output = convert_tree_to_html($tree);
-    if ($selected == 'editprofile') 
-    {
+    //if ($selected == 'editprofile') 
+//    {
         $style = '
                 <style type="text/css">
                     .advancedbutton input {
@@ -6825,13 +6825,7 @@ function print_tabs($tabrows, $selected=NULL, $inactive=NULL, $activated=NULL, $
                     .tabtree {
                         margin-bottom: 0; 
                     }
-                    .tabtree ul li {
-                        float: left;
-                        height: 20px !important;
-                        line-height: 20px !important;
-                        padding: 0 10px;
-                        background: url('.$CFG->wwwroot.'/theme/menu_horizontal/template/images/MN1_SP.jpg) no-repeat right center;
-                    }
+                    
                     #mform1 {
                         width: 98%;
                     }
@@ -6853,7 +6847,7 @@ function print_tabs($tabrows, $selected=NULL, $inactive=NULL, $activated=NULL, $
                     }
                 </style>
             ';
-    }else $style = '';
+//    }else $style = '';
 	$output = $style. "\n\n".'<div class="tabtree">'.$output.'</div><div class="clearer"> </div>'."\n\n";
 
 	/// We're done!
