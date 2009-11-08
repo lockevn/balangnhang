@@ -223,43 +223,24 @@ echo '
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
                 <td width="20px"></td>
-                <td width="220px" valign="top">
                 
-                    <!----------------------------------------------------->
-                    <div class="leftpanel">
-                        <table cellpadding="0" cellspacing="0" width="100%">
-                            <tr><td height="30px">
-                                <div class="title">PERSONAL MENU</div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
-                                
-                            </td></tr>
-                            <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
-                            <tr><td align="left">
-                                <div style="width:200px;">';
+                <td valign="top">
+                    <div>';
 /**
 * Tab
 */
 /// Print tabs at the top
     $showroles = 1;
     $currenttab = 'editprofile';
-    require('profile/menu_block.php');
-echo '                          </div>
-                            </td></tr>
-                        </table>
-                    </div>                                        
-                </td>
-                <td width="20px"></td>
-                <td valign="top">
-                
+    require('profile/menu_block.php');                    
+echo '                    
+                    </div>
                     <!-------------------------------------------------------------------->
                     <style type="text/css">
                     .mynewarea form {
                         width: 100% !important; 
                     }
-                    .mynewarea legend {
-                        padding: 0 5px; 
-                        background: #FFF;
-                    }
+                    
                     </style>
                     <div class="newsarea mynewarea">';
 if ($email_changed) {

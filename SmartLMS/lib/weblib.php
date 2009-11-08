@@ -6807,8 +6807,54 @@ function print_tabs($tabrows, $selected=NULL, $inactive=NULL, $activated=NULL, $
 	/// Print out the current tree of tabs (this function is recursive)
 
 	$output = convert_tree_to_html($tree);
-
-	$output = "\n\n".'<div class="tabtree">'.$output.'</div><div class="clearer"> </div>'."\n\n";
+    if ($selected == 'editprofile') 
+    {
+        $style = '
+                <style type="text/css">
+                    .advancedbutton input {
+                        -moz-background-clip:border;
+                        -moz-background-inline-policy:continuous;
+                        -moz-background-origin:padding;
+                        background:transparent url('.$CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_Background.jpg) repeat scroll 0 0;
+                        border:medium none;
+                        color:#FFFFFF;
+                        height:35px;
+                        width:150px;
+                        margin-right: 15px;
+                    }
+                    .tabtree {
+                        margin-bottom: 0; 
+                    }
+                    .tabtree ul li {
+                        float: left;
+                        height: 20px !important;
+                        line-height: 20px !important;
+                        padding: 0 10px;
+                        background: url('.$CFG->wwwroot.'/theme/menu_horizontal/template/images/MN1_SP.jpg) no-repeat right center;
+                    }
+                    #mform1 {
+                        width: 98%;
+                    }
+                    #mform1 fieldset.clearfix {
+                        background: url('.$CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) repeat-x;
+                    }
+                    #id_url {
+                        width: 173px; 
+                    }
+                    #id_newpassword, #id_username,  #id_country, #id_timezone, #id_lang, #id_address,  #id_phone1, #id_phone2, #id_yahoo, #id_city {
+                        width: 200px;
+                    }
+                    #id_maildisplay, #id_autosubscribe, #id_trackforums, #id_htmleditor, #id_timezone, #id_lang, #id_country{
+                        width: 208px;
+                    }
+                    #id_interests {
+                        width: 400px;
+                        height:200px;
+                    }
+                </style>
+            ';
+    }else $style = '';
+	$output = $style. "\n\n".'<div class="tabtree">'.$output.'</div><div class="clearer"> </div>'."\n\n";
 
 	/// We're done!
 
