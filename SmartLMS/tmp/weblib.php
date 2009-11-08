@@ -1,4 +1,4 @@
-<?php // $Id$
+<?php // $Id: weblib.php,v 1.970.2.137 2009/05/13 05:35:37 jerome Exp $
 
 ///////////////////////////////////////////////////////////////////////////
 //                                                                       //
@@ -33,7 +33,7 @@
  * - datalib.php - functions that access the database.
  * - moodlelib.php - general-purpose Moodle functions.
  * @author Martin Dougiamas
- * @version  $Id$
+ * @version  $Id: weblib.php,v 1.970.2.137 2009/05/13 05:35:37 jerome Exp $
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  * @package moodlecore
  */
@@ -2285,11 +2285,11 @@ function html_to_text($html) {
 
     require_once($CFG->libdir .'/html2text.php');
 
-    $result = html2text($html);
+    $h2t = new html2text($html);
+    $result = $h2t->get_text();
 
-    // html2text does not fix numerical entities so handle those here.
-    $tl=textlib_get_instance();
-    $result = $tl->entities_to_utf8($result,false);
+    // html2text does not fix HTML entities so handle those here.
+    $result = html_entity_decode($result, ENT_NOQUOTES, 'UTF-8');
 
     return $result;
 }
@@ -4936,7 +4936,7 @@ function print_textarea($usehtmleditor, $rows, $cols, $width, $height, $name, $v
 
             }
             $str .= ($scriptcount < 1) ? '<script type="text/javascript" src="'.
-                    $CFG->httpswwwroot .'/lib/editor/htmlarea/lang/en.php"></script>'."\n" : '';
+                    $CFG->httpswwwroot .'/lib/editor/htmlarea/lang/en.php?id='.$courseid.'"></script>'."\n" : '';
             $scriptcount++;
 
             if ($height) {    // Usually with legacy calls
@@ -7081,6 +7081,18 @@ function is_in_popup() {
     return ($inpopup);
 }
 
+/**
+ * Return the authentication plugin title
+ * @param string $authtype plugin type
+ * @return string
+ */
+function auth_get_plugin_title ($authtype) {
+    $authtitle = get_string("auth_{$authtype}title", "auth");
+    if ($authtitle == "[[auth_{$authtype}title]]") {
+        $authtitle = get_string("auth_{$authtype}title", "auth_{$authtype}");
+    }
+    return $authtitle;
+}
 
 // vim:autoindent:expandtab:shiftwidth=4:tabstop=4:tw=140:
 ?>
