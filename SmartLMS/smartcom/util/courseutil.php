@@ -55,7 +55,8 @@ function getRecommendCourseList($courseid, $summaryTextLength = 250) {
 	/*cut summary text if necessary*/
 	foreach($results as $result) {
 		if(strlen($result->summary) > $summaryTextLength) {
-			$tmp = substr($result->summary, 0, $summaryTextLength);
+			$raw = html_to_text($result->summary);
+			$tmp = substr($raw, 0, $summaryTextLength);
 			$lastSpaceIndex = strripos($tmp, ' ');
 			if(!empty($lastSpaceIndex)) {
 				$result->summary = 	substr($tmp, 0, $lastSpaceIndex) . " ...";
