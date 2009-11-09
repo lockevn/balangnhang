@@ -196,7 +196,7 @@
 
 /// Print settings and things in a table across the top
 
-    echo '<table class="controls" cellspacing="0" border="1"><tr>';
+    echo '<table class="controls" cellspacing="0"><tr>';
 
 /// Print my course menus
     if ($mycourses = get_my_courses($USER->id)) {
@@ -275,34 +275,6 @@
         }
     }
     
-    echo '<td align="center" width="33%">test</td>';
-
-
-    echo '<td class="right" width="33%">';
-    $formatmenu = array( '0' => get_string('detailedless'),
-                         '1' => get_string('detailedmore'));
-    popup_form($baseurl.'&amp;mode=', $formatmenu, 'formatmenu', $fullmode, '', '', '', false, 'self', get_string('userlist'));
-    echo '</td></tr></table>';
-
-    if ($currentgroup and (!$isseparategroups or has_capability('moodle/site:accessallgroups', $context))) {    /// Display info about the group
-        if ($group = groups_get_group($currentgroup)) {
-            if (!empty($group->description) or (!empty($group->picture) and empty($group->hidepicture))) {
-                echo '<table class="groupinfobox"><tr><td class="left side picture">';
-                print_group_picture($group, $course->id, true, false, false);
-                echo '</td><td class="content">';
-                echo '<h3>'.$group->name;
-                if (has_capability('moodle/course:managegroups', $context)) {
-                    echo '&nbsp;<a title="'.get_string('editgroupprofile').'" href="'.$CFG->wwwroot.'/group/group.php?id='.$group->id.'&amp;courseid='.$group->courseid.'">';
-                    echo '<img src="'.$CFG->pixpath.'/t/edit.gif" alt="'.get_string('editgroupprofile').'" />';
-                    echo '</a>';
-                }
-                echo '</h3>';
-                echo format_text($group->description);
-                echo '</td></tr></table>';
-            }
-        }
-    }
-
     /// Define a table showing a list of users in the current role selection
 
     $tablecolumns = array('userpic', 'fullname');
@@ -499,6 +471,8 @@
         }
         $rolenames = array(-1 => $strallsiteusers) + $rolenames;
     }
+    
+    echo '<td align="center" width="33%">';
 
     /// If there are multiple Roles in the course, then show a drop down menu for switching
     if (count($rolenames) > 1) {
@@ -524,6 +498,36 @@
         echo $rolename;
         echo '</div>';
     }
+    
+    echo '</td>';
+
+
+    echo '<td class="right" width="33%">';
+    $formatmenu = array( '0' => get_string('detailedless'),
+                         '1' => get_string('detailedmore'));
+    popup_form($baseurl.'&amp;mode=', $formatmenu, 'formatmenu', $fullmode, '', '', '', false, 'self', get_string('userlist'));
+    echo '</td></tr></table>';
+
+    if ($currentgroup and (!$isseparategroups or has_capability('moodle/site:accessallgroups', $context))) {    /// Display info about the group
+        if ($group = groups_get_group($currentgroup)) {
+            if (!empty($group->description) or (!empty($group->picture) and empty($group->hidepicture))) {
+                echo '<table class="groupinfobox"><tr><td class="left side picture">';
+                print_group_picture($group, $course->id, true, false, false);
+                echo '</td><td class="content">';
+                echo '<h3>'.$group->name;
+                if (has_capability('moodle/course:managegroups', $context)) {
+                    echo '&nbsp;<a title="'.get_string('editgroupprofile').'" href="'.$CFG->wwwroot.'/group/group.php?id='.$group->id.'&amp;courseid='.$group->courseid.'">';
+                    echo '<img src="'.$CFG->pixpath.'/t/edit.gif" alt="'.get_string('editgroupprofile').'" />';
+                    echo '</a>';
+                }
+                echo '</h3>';
+                echo format_text($group->description);
+                echo '</td></tr></table>';
+            }
+        }
+    }
+
+    
 
     if ($roleid > 0) {
         if (!$currentrole = get_record('role','id',$roleid)) {
