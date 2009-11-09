@@ -210,7 +210,9 @@
     print_container_start();
     echo skip_main_destination();
 
-    print_heading_block(get_string('topicoutline'), 'outline');
+    
+    
+    print_heading_block(get_string('bulletin', 'smartcom'));    
     
     $courseId = $_REQUEST['id'];
     
@@ -271,7 +273,7 @@
                     <div class="newsarea">
                         <table cellpadding="0" cellspacing="0" width="100%" >
                             <tr><td height="30px" colspan="3">
-                                <div class="title">YOUR CURRENT COURSES</div>
+                                <div>' . print_heading_block(get_string('topicoutline')) . '</div>
                                 <div class="selectcourse">
                                     <select name="current_course" style="width:225px; height:21px" onchange="location.href=this.value">';
     									if(!empty($myCourseList)) {
