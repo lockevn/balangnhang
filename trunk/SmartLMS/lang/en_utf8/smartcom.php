@@ -96,6 +96,7 @@ $string['user_account_balance'] = 'My account';
 $string['lecture_list'] = 'You are viewing lecture $a of this activity';
 $string['practice'] = 'Practice';
 $string['lecture_review'] = 'Review $a lecture ';
+$string['learning_progress'] = 'Learning progress';
 
 
 

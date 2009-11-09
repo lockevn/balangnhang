@@ -666,16 +666,17 @@ HTMLArea.prototype.generate = function () {
         }
         f.onsubmit = function() {
             // Moodle hack. Bug fix #2736
-            var test = editor.getHTML();
-            test = test.replace(/<br \/>/gi, '');
-            test = test.replace(/\&nbsp\;/gi, '');
-            test = test.trim();
-            //alert(test + test.length);
-            if (test.length < 1) {
-                editor._textArea.value = test.trim();
-            } else {
+            //danhut commented
+//            var test = editor.getHTML();
+//            test = test.replace(/<br \/>/gi, '');
+//            test = test.replace(/\&nbsp\;/gi, '');
+//            test = test.trim();
+//            //alert(test + test.length);
+//            if (test.length < 1) {
+//                editor._textArea.value = test.trim();
+//            } else {
                 editor._textArea.value = editor.getHTML();
-            }
+//            }
             // Moodle hack end.
             var a = this.__msh_prevOnSubmit;
             var ret = true;
@@ -1009,7 +1010,7 @@ HTMLArea.prototype._wordClean = function() {
     var D = this.getInnerHTML();
     if (/[Mm]so/.test(D)) {
 
-        // make one line
+        // make one line        
         D = D.replace(/\r\n/g, '\[br\]').
             replace(/\n/g, '').
             replace(/\r/g, '').
@@ -1068,7 +1069,7 @@ HTMLArea.prototype._wordClean = function() {
             replace(/<\/([a-z][a-z]*)><\/\1>/gi,'<\/$1>');
 
         // nuke double spaces
-        D = D.replace(/  */gi,' ');
+        //D = D.replace(/  */gi,' ');
 
         // Split into lines and remove
         // empty lines and add carriage returns back
@@ -1085,8 +1086,8 @@ HTMLArea.prototype._wordClean = function() {
             if (emptyLine.test(line)) {
                 continue;
             }
-
-            line = line.replace(/^\s+\s+$/g, '');
+			//danhut commented
+            //line = line.replace(/^\s+\s+$/g, '');
             strHTML += line + '\n';
         }
         D = strHTML;
@@ -2643,8 +2644,17 @@ HTMLArea.getHTML = function(root, outputRoot, editor) {
         case 3: // Node.TEXT_NODE
         // If a text node is alone in an element and all spaces, replace it with an non breaking one
         // This partially undoes the damage done by moz, which translates '&nbsp;'s into spaces in the data element
-        if ( !root.previousSibling && !root.nextSibling && root.data.match(/^\s*$/i) && root.data.length > 1 ) html = '&nbsp;';
+        if ( !root.previousSibling && !root.nextSibling && root.data.match(/^\s*$/i) && root.data.length > 1 ) {
+        
+        //html = 'whitespace';
+	        for (i = 0; i < root.data.length; i++) {
+	            html += '&nbsp;';
+	        }
+	        
+         	
+         }
         else html = HTMLArea.htmlEncode(root.data);
+        
         break;
         case 8: // Node.COMMENT_NODE
         html = "<!--" + root.data + "-->";

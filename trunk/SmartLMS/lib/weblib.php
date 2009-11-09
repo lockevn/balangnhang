@@ -5477,7 +5477,9 @@ function navmenu($course, $cm=NULL, $targetwindow='self', $getNavLinks=false) {
 		$backmodStr = '<div class="titleicon"><form action="'.$CFG->wwwroot.'/mod/'.$backmod->modname.'/view.php" '.
                    'onclick="this.target=\''.$CFG->framename.'\';"'.'><fieldset class="invisiblefieldset">'.
                    '<input type="hidden" name="id" value="'.$backmod->id.'" />'.
-                   '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG) no-repeat top center; width:15px ; height:15px ; border: none;" type="submit" title="'.$backtext.'">'.link_arrow_left($backtext, $url='', $accesshide=true).
+                   '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG) 
+                   								no-repeat top center; width:15px ; height:15px ; border: none;" 
+                   			type="submit" title="'.$backtext.'">'.link_arrow_left($backtext, $url='', $accesshide=true).
                    '</button></fieldset></form></div>';
 	}
 	if ($nextmod) {
@@ -5485,7 +5487,9 @@ function navmenu($course, $cm=NULL, $targetwindow='self', $getNavLinks=false) {
 		$nextmodStr = '<div class="titleicon"><form action="'.$CFG->wwwroot.'/mod/'.$nextmod->modname.'/view.php"  '.
                    'onclick="this.target=\''.$CFG->framename.'\';"'.'><fieldset class="invisiblefieldset">'.
                    '<input type="hidden" name="id" value="'.$nextmod->id.'" />'.
-                   '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG) no-repeat top center; width:15px ; height:15px ; border: none;" type="submit" title="'.$nexttext.'">'.link_arrow_right($nexttext, $url='', $accesshide=true).
+                   '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG) 
+                   								no-repeat top center; width:15px ; height:15px ; border: none;" 
+                   			type="submit" title="'.$nexttext.'">'.link_arrow_right($nexttext, $url='', $accesshide=true).
                    '</button></fieldset></form></div>';
 	}
 
