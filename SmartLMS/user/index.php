@@ -196,7 +196,7 @@
 
 /// Print settings and things in a table across the top
 
-    echo '<table class="controls" cellspacing="0"><tr>';
+    echo '<table class="controls" cellspacing="0" border="1"><tr>';
 
 /// Print my course menus
     if ($mycourses = get_my_courses($USER->id)) {
@@ -268,15 +268,17 @@
         }
 
         if (count($timeoptions) > 1) {
-            echo '<td class="left">';
+            echo '<td class="left" width="33%">';
             $baseurl = preg_replace('/&amp;accesssince='.$accesssince.'/','',$baseurl);
             popup_form($baseurl.'&amp;accesssince=',$timeoptions,'timeoptions',$accesssince, '', '', '', false, 'self', get_string('usersnoaccesssince'));
             echo '</td>';
         }
     }
+    
+    echo '<td align="center" width="33%">test</td>';
 
 
-    echo '<td class="right">';
+    echo '<td class="right" width="33%">';
     $formatmenu = array( '0' => get_string('detailedless'),
                          '1' => get_string('detailedmore'));
     popup_form($baseurl.'&amp;mode=', $formatmenu, 'formatmenu', $fullmode, '', '', '', false, 'self', get_string('userlist'));
