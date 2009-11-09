@@ -186,7 +186,7 @@
             admin_externalpage_setup('editusers', '', array('id' => $user->id, 'course' => SITEID), $CFG->wwwroot . '/user/editadvanced.php');
             admin_externalpage_print_header();
             $userfullname = fullname($user, true);
-            print_heading($userfullname);
+            //print_heading($userfullname);
         }
     } else if (!empty($USER->newadminuser)) {
         $strprimaryadminsetup = get_string('primaryadminsetup');

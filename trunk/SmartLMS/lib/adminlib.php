@@ -4227,7 +4227,8 @@ function admin_externalpage_setup($section, $extrabutton='', $extraurlparams=arr
  * @param string $focus focus element
  */
 function admin_externalpage_print_header($focus='') {
-
+    global $CFG, $course, $user, $USER;
+    
     if (!is_string($focus)) {
         $focus = ''; // BC compatibility, there used to be adminroot parameter
     }
@@ -4259,7 +4260,16 @@ function admin_externalpage_print_header($focus='') {
                 case 'left':
                     echo '<td style="width: '.$preferred_width_left.'px;" id="left-column">';
                     print_container_start();
-                    blocks_print_group($PAGE, $pageblocks, BLOCK_POS_LEFT);
+                    if (strpos($CFG->pagepath, 'editadvanced.php') !== false )
+                    {
+                        /// Print tabs at the top
+                        $showroles = 1;
+                        $currenttab = 'editprofile';
+                        require('profile/menu_block.php');
+                    }else {
+                        blocks_print_group($PAGE, $pageblocks, BLOCK_POS_LEFT);  
+                    }
+                    
                     print_container_end();
                     echo '</td>';
                 break;
