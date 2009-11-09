@@ -1,0 +1,897 @@
+BODY
+{}
+/*Style dung chung*/
+/*
+li
+{
+	list-style-image:url(images/list.gif);
+	list-style-type:square;
+	height:22px;
+	list-style-position:inside;
+	vertical-align:text-top;
+	font:normal 12px Arial;
+	color:#333333;
+}*/
+.tdList
+{
+	vertical-align:top;
+}
+.boldNormal
+{
+	font:bold 12px Arial;
+	color:#333333;
+}
+.boldSmall
+{
+	font:bold 11px Arial;
+	color:#333333;
+}
+.small
+{
+	font:normal 11px Arial;
+	color:#333333;
+}
+.normal
+{
+	font:normal 12px Arial;
+	text-align:justify;
+	color:#333333;
+}
+.normalLeft
+{
+	font:normal 12px Arial;
+	text-align:left;
+	color:#333333;
+}
+.nameBar
+{
+	font:bold 13px Arial;
+	padding-left:10px;
+	color:#FFFFFF;
+}
+.title
+{
+	font:bold 14px Arial;
+}
+
+A.linkGrey:hover{color: #b50102; text-decoration: underline}
+A.linkGrey:link{color: #333333; text-decoration: none}
+A.linkGrey:active{color: #333333; text-decoration: none}
+A.linkGrey:visited{color: #333333; text-decoration: none}
+A.linkGrey:active{color: #333333; text-decoration: none}
+A.linkGrey:hover{color: #b50102; text-decoration: underline}
+
+A.linkGrey1:hover{color: #356a18; text-decoration: none}
+A.linkGrey1:link{color: #333333; text-decoration: none}
+A.linkGrey1:active{color: #333333; text-decoration: none}
+A.linkGrey1:visited{color: #333333; text-decoration: none}
+A.linkGrey1:active{color: #333333; text-decoration: none}
+A.linkGrey1:hover{color: #356a18; text-decoration: none}
+
+A.linkLesson:hover{color: #38721e; text-decoration: none}
+A.linkLesson:link{color: #a9a9a9; text-decoration: none}
+A.linkLesson:active{color: #a9a9a9; text-decoration: none}
+A.linkLesson:visited{color: #a9a9a9; text-decoration: none}
+A.linkLesson:active{color: #a9a9a9; text-decoration: none}
+A.linkLesson:hover{color: #38721e; text-decoration: none}
+
+A.linkPink:hover{color: #f09395; text-decoration: none}
+A.linkPink:link{color: #fac2c3; text-decoration: none}
+A.linkPink:active{color: #fac2c3; text-decoration: none}
+A.linkPink:visited{color: #fac2c3; text-decoration: none}
+A.linkPink:active{color: #fac2c3; text-decoration: none}
+A.linkPink:hover{color: #f09395; text-decoration: none}
+
+A.linkWhite:hover{color: #FFFFFF; text-decoration: underline}
+A.linkWhite:link{color: #FFFFFF; text-decoration: none}
+A.linkWhite:active{color: #FFFFFF; text-decoration: none}
+A.linkWhite:visited{color: #FFFFFF; text-decoration: none}
+A.linkWhite:active{color: #FFFFFF; text-decoration: none}
+A.linkWhite:hover{color: #FFFFFF; text-decoration: underline}
+
+A.linkHozMenu:hover{color: #99ff66; text-decoration: none}
+A.linkHozMenu:link{color: #FFFFFF; text-decoration: none}
+A.linkHozMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkHozMenu:visited{color: #FFFFFF; text-decoration: none}
+A.linkHozMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkHozMenu:hover{color: #99ff66; text-decoration: none}
+
+A.linkRed:hover{color: #333333; text-decoration: underline}
+A.linkRed:link{color: #b50102; text-decoration: none}
+A.linkRed:active{color: #b50102; text-decoration: none}
+A.linkRed:visited{color: #b50102; text-decoration: none}
+A.linkRed:active{color: #b50102; text-decoration: none}
+A.linkRed:hover{color: #333333; text-decoration: underline}
+
+A.linkNewsIndex:hover{color: #ffffff; text-decoration: none}
+A.linkNewsIndex:link{color: #b50102; text-decoration: none}
+A.linkNewsIndex:active{color: #b50102; text-decoration: none}
+A.linkNewsIndex:visited{color: #b50102; text-decoration: none}
+A.linkNewsIndex:active{color: #b50102; text-decoration: none}
+A.linkNewsIndex:hover{color: #ffffff; text-decoration: none}
+
+A.linkLeftMenu:hover{color: #c6fe93; text-decoration: none}
+A.linkLeftMenu:link{color: #FFFFFF; text-decoration: none}
+A.linkLeftMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkLeftMenu:visited{color: #FFFFFF; text-decoration: none}
+A.linkLeftMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkLeftMenu:hover{color: #c6fe93; text-decoration: none}
+
+A.linkLeftRedMenu:hover{color: #ffff00; text-decoration: none}
+A.linkLeftRedMenu:link{color: #FFFFFF; text-decoration: none}
+A.linkLeftRedMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkLeftRedMenu:visited{color: #FFFFFF; text-decoration: none}
+A.linkLeftRedMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkLeftRedMenu:hover{color: #ffff00; text-decoration: none}
+
+.greyTextBox
+{
+	border:solid 1px #bdbdbd;
+	height:20px;
+}
+.redTextBox
+{
+	border:solid 1px #b50102;
+	height:20px;
+}
+.greenTextBox
+{
+	border:solid 1px #005d00;
+	height:20px;
+}
+.activeTab
+{
+	font:bold 12px Arial;
+	color:#b50102;
+	padding-top:2px;
+	background-image:url(images/activeTabMenuBg.gif);
+	height:22px;
+	white-space:nowrap;
+}
+.inactiveTab
+{
+	font:bold 12px Arial;
+	padding-top:2px;
+	background-image:url(images/inactiveTabMenuBg.gif);
+	height:22px;
+	white-space:nowrap;
+}
+
+.activeHozMenu
+{
+	font:bold 13px Arial;
+	color:#FFFFFF;
+	text-align:center;
+	background-image:url(images/hozActiveMenuBg.gif);
+	white-space:nowrap;
+}
+.inactiveHozMenu
+{
+	font:bold 13px Arial;
+	text-align:center;
+	background-image:url(images/hozMenuBg.gif);
+	white-space:nowrap;
+}
+
+.bigTitle
+{
+	font:bold 12px Arial;
+	color:#b50102;
+	background-image:url(images/bigTitleBg.gif);
+	white-space:nowrap;
+}
+.loginButton
+{
+	font:bold 12px Arial;
+	color:#FFFFFF;
+	background-image:url(images/loginButtonBg.gif);
+	white-space:nowrap;
+}
+.onlineName
+{
+	font:bold 12px Arial;
+	color:#333333;
+	padding-left:10px;
+	padding-top:12px;
+}
+.onlineStatus
+{
+	font:bold 11px Arial;
+	color:#356a18;
+	padding-left:10px;
+	padding-top:2px;
+}
+.offlineStatus
+{
+	font:bold 11px Arial;
+	color:#bf0808;
+	padding-left:10px;
+	padding-top:3px;
+}
+.lessonStatic
+{
+	font:bold 14px Arial;
+	color:#b4e893;
+	padding-top:10px;
+	height:30px;
+	background-color:#38721e;
+	border-top:solid 1px #83a75d;
+}
+.lessonNameStatic
+{
+	font:bold 12px Arial;
+	color:#FFFFFF;
+	padding-bottom:10px;
+	height:30px;
+	background-color:#38721e;
+	border-bottom:solid 1px #83a75d;
+}
+.lessonNormal
+{
+	font:bold 14px Arial;
+	color:#a9a9a9;
+	padding-top:10px;
+	height:30px;
+	background-color:#e6e6e6;
+}
+.lessonNameNormal
+{
+	font:bold 12px Arial;
+	color:#bebebe;
+	padding-bottom:10px;
+	height:30px;
+	background-color:#e6e6e6;
+}
+.tableHeader
+{
+	font:bold 12px Arial;
+	color:#FFFFFF;
+	text-align:center;
+	background-color:#b50100;
+}
+.tableNormalRow
+{
+	font:bold 12px Arial;
+	color:#333333;
+	text-align:center;
+	background-color:#f1f1f1;
+	height:40px;
+}
+.tableAlterRow
+{
+	font:bold 12px Arial;
+	color:#333333;
+	text-align:center;
+	background-color:#e6e6e6;
+	height:40px;
+}
+.labelGreenProfile
+{
+	border:solid 1px #7aac40;
+	background-color:#356a18;
+	height:15px;
+	font:bold 11px Arial;
+	color:#ffffff;
+	vertical-align:middle;
+	padding-left:5px;
+}
+.labelRedArchivement
+{
+	border:solid 1px #f65656;
+	background-color:#b50101;
+	height:15px;
+	font:bold 11px Arial;
+	padding-left:5px;
+	color:#ffffff;
+	vertical-align:middle;
+}
+
+.leftMenuItemOff
+{
+	width:178px;
+	height:26px;
+	background-image:url(images/leftMenuItemBg.gif);
+	text-align:left;
+	padding-left:24px;
+	padding-top:2px;
+	font:bold 12px Arial;
+	color:#ffffff;
+}
+
+.leftMenuItemHover
+{
+	width:178px;
+	height:26px;
+	background:#4d8133 url(images/leftMenuSelectedItemBg.gif);
+	text-align:left;
+	padding-left:24px;
+	padding-top:2px;
+	font:bold 12px Arial;
+	color:#c6fe93;
+}
+
+.leftRedMenuItemOff
+{
+	width:178px;
+	height:26px;
+	background-image:url(images/leftRedMenuItemBg.gif);
+	text-align:left;
+	padding-left:24px;
+	padding-top:2px;
+	font:bold 12px Arial;
+	color:#ffffff;
+}
+
+.leftRedMenuItemHover
+{
+	width:178px;
+	height:26px;
+	background:#b50102 url(images/leftRedMenuSelectedItemBg.gif);
+	text-align:left;
+	padding-left:24px;
+	padding-top:2px;
+	font:bold 12px Arial;
+	color:#ffff00;
+}
+
+.activeRecTab
+{
+	background-image:url(images/activeRecTab.gif);
+	border-left:solid 1px #ffffff;
+	border-right:solid 1px #ffffff;
+	color:#b50102;
+	height:37px;
+	font:bold 12px Arial;
+	padding-left:10px;
+	color:#b80607;
+}
+.inactiveRecTab
+{
+	background-image:url(images/inactiveRecTab.gif);
+	border-left:solid 1px #bdbdbd;
+	border-right:solid 1px #bdbdbd;
+	color:#ffffff;
+	font:bold 12px Arial;
+	padding-left:10px;
+	height:37px;
+}
+.redButton
+{
+	background:#921d13 url(images/redButton.gif);
+	width:150px;
+	height:20px;
+	text-align:center;
+	font:bold 11px Arial;
+	color:#ffffff;
+	border-width:0px;
+}
+.redTransparentButton
+{
+	background:transparent url(images/redButton.png);
+	width:100px;
+	height:20px;
+	text-align:left;
+	padding-left:25px;
+	font:bold 11px Arial;
+	color:#ffffff;
+	border-width:0px;
+}
+.redTransparentButton1
+{
+	background:transparent url(images/redButton1.png);
+	width:100px;
+	height:20px;
+	text-align:right;
+	padding-right:25px;
+	font:bold 11px Arial;
+	color:#ffffff;
+	border-width:0px;
+}
+.greenTransparentButton
+{
+	background:transparent url(images/greenButton.png);
+	width:100px;
+	height:20px;
+	text-align:left;
+	padding-left:25px;
+	font:bold 11px Arial;
+	color:#ffffff;
+	border-width:0px;
+}
+.pages
+{
+	border:solid 1px #bdbdbd;
+	font:normal 11px Arial;
+	color:#333333;
+	text-align:center;
+	vertical-align:middle;
+	height:20px;
+	padding-left:3px;
+	padding-right:3px;
+	background-color:#ffffff;
+}
+
+.selectedPages
+{
+	font:bold 11px Arial;
+	color:#b50102;
+	text-align:center;
+	vertical-align:middle;
+	height:20px;
+	padding-left:3px;
+	padding-right:3px;
+}
+.buttonGreenDetail
+{
+	background:#376b19 url(images/greenArrow.gif) no-repeat left;
+	font:normal 11px Arial;
+	color:#ffffff;
+	padding-left:24px;
+	padding-right:10px;
+	height:16px;
+}
+.titleNewsIndex
+{
+	background:#e6e6e6 url(images/normalNewsIndex.gif) no-repeat left;
+	font:bold 13px Arial;
+	color: #b50100;
+	text-transform:uppercase;
+	text-align:left;
+	padding-left:40px;
+	height:26px;
+}
+.titleNewsIndexHover
+{
+	background:#e6e6e6 url(images/hoverNewsIndex.gif) no-repeat left;
+	font:bold 13px Arial;
+	color: #ffffff;
+	text-transform:uppercase;
+	text-align:left;
+	padding-left:40px;
+	height:26px;
+}
+.contentNewsIndex
+{
+	border-left:solid 1px #bdbdbd;
+	border-right:solid 1px #bdbdbd;
+	padding:10px 10px 0px 10px;
+	font:normal 12px Arial;
+	color:#333333;
+	background-color:#ffffff;
+	height:120px;
+	vertical-align:top;
+}
+.greySolidButton
+{
+	font:bold 11px Arial;
+	color:#ffffff;
+	padding-left:10px;
+	padding-right:10px;
+	height:18px;
+	border:solid 1px #b50102;
+	background-color:#c91b1c;
+}
+.activeLessonTab
+{
+	background-image:url(images/lessonTabBg.gif);
+	font:bold 12px Arial;
+	color:#b50102;
+	white-space:nowrap;
+}
+.inactiveLessonTab
+{
+	padding-left:10px;
+	padding-right:10px;
+	font:bold 12px Arial;
+	white-space:nowrap;
+}
+.supportNormal
+{
+	background-image:url(images/supportBg.gif);
+	height:40px;
+	width:107px;
+	font:bold 12px Arial;
+	padding-left:40px;
+	vertical-align:middle;
+}
+.supportHover
+{
+	background-image:url(images/supportHoverBg.gif);
+	height:40px;
+	width:107px;
+	font:bold 12px Arial;
+	padding-left:40px;
+	vertical-align:middle;
+}
+.titleNote
+{
+	background-color:#356a18;
+	border:solid 1px #ffffff;
+	height:24px;
+	font:bold 13px Arial;
+	color:#ffffff;
+	padding-left:10px;
+	padding-top:3px;
+}
+.saveNoteCmd
+{
+	background:#356a18 url(images/saveNoteCmd.gif);
+	width:100px;
+	height:20px;
+	border-width:0px;
+}
+.viewNoteCmd
+{
+	background:#356a18 url(images/viewNoteCmd.gif);
+	width:100px;
+	height:20px;
+	border-width:0px;
+}
+
+/*Blue Page*/
+.blueMenu
+{
+	background-image:url(images/blueMenuBg.gif);
+	font:bold 13px Arial;
+	text-align:center;
+	text-transform:uppercase;
+	white-space:nowrap;
+}
+.activeBlueMenu
+{
+	background-image:url(images/activeBlueMenuBg.gif);
+	font:bold 13px Arial;
+	color:#0043cf;
+	text-align:center;
+	text-transform:uppercase;
+	white-space:nowrap;
+}
+
+A.linkBlueMenu:hover{color: #d8edff; text-decoration: none}
+A.linkBlueMenu:link{color: #FFFFFF; text-decoration: none}
+A.linkBlueMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkBlueMenu:visited{color: #FFFFFF; text-decoration: none}
+A.linkBlueMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkBlueMenu:hover{color: #d8edff; text-decoration: none}
+
+.blueLeftMenu
+{
+	font:bold 12px Arial;
+	height:35px;
+	width:180px;
+	background:transparent url(images/blueMenuItem.png) no-repeat top;
+}
+
+A.linkBlueLeftMenu:hover{color: #0043cf; text-decoration: none;}
+A.linkBlueLeftMenu:link{color: #333333; text-decoration: none;}
+A.linkBlueLeftMenu:active{color: #333333; text-decoration: none;}
+A.linkBlueLeftMenu:visited{color: #333333; text-decoration: none;}
+A.linkBlueLeftMenu:active{color: #333333; text-decoration: none;}
+A.linkBlueLeftMenu:hover{color: #0043cf; text-decoration: none;}
+
+A.linkBlueSubject:hover{color: #333333; text-decoration: none;}
+A.linkBlueSubject:link{color: #0043cf; text-decoration: none;}
+A.linkBlueSubject:active{color: #0043cf; text-decoration: none;}
+A.linkBlueSubject:visited{color: #0043cf; text-decoration: none;}
+A.linkBlueSubject:active{color: #0043cf; text-decoration: none;}
+A.linkBlueSubject:hover{color: #333333; text-decoration: none;}
+
+.blueTitle
+{
+	font:bold 13px Arial;
+	color:#ffffff;
+	height:31px;
+	background-image:url(images/blueTitleBg.gif);
+}
+
+/*Green Page*/
+.greenMenu
+{
+	background-image:url(images/greenMenuBg.gif);
+	font:bold 13px Arial;
+	text-align:center;
+	text-transform:uppercase;
+	white-space:nowrap;
+}
+.activeGreenMenu
+{
+	background-image:url(images/activeGreenMenuBg.gif);
+	font:bold 13px Arial;
+	color:#37711d;
+	text-align:center;
+	text-transform:uppercase;
+	white-space:nowrap;
+}
+
+A.linkGreenMenu:hover{color: #e2fdd1; text-decoration: none}
+A.linkGreenMenu:link{color: #FFFFFF; text-decoration: none}
+A.linkGreenMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkGreenMenu:visited{color: #FFFFFF; text-decoration: none}
+A.linkGreenMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkGreenMenu:hover{color: #e2fdd1; text-decoration: none}
+
+.greenLeftMenu
+{
+	font:bold 12px Arial;
+	height:35px;
+	width:180px;
+	background:transparent url(images/greenMenuItem.png) no-repeat top;
+}
+
+A.linkGreenLeftMenu:hover{color: #214d0d; text-decoration: none;}
+A.linkGreenLeftMenu:link{color: #333333; text-decoration: none;}
+A.linkGreenLeftMenu:active{color: #333333; text-decoration: none;}
+A.linkGreenLeftMenu:visited{color: #333333; text-decoration: none;}
+A.linkGreenLeftMenu:active{color: #333333; text-decoration: none;}
+A.linkGreenLeftMenu:hover{color: #214d0d; text-decoration: none;}
+
+A.linkGreenSubject:hover{color: #333333; text-decoration: none;}
+A.linkGreenSubject:link{color: #214d0d; text-decoration: none;}
+A.linkGreenSubject:active{color: #214d0d; text-decoration: none;}
+A.linkGreenSubject:visited{color: #214d0d; text-decoration: none;}
+A.linkGreenSubject:active{color: #214d0d; text-decoration: none;}
+A.linkGreenSubject:hover{color: #333333; text-decoration: none;}
+
+.greenTitle
+{
+	font:bold 13px Arial;
+	color:#ffffff;
+	height:31px;
+	background-image:url(images/greenTitleBg.gif);
+}
+
+/*Red Page*/
+.redMenu
+{
+	background-image:url(images/redMenuBg.gif);
+	font:bold 13px Arial;
+	text-align:center;
+	text-transform:uppercase;
+	white-space:nowrap;
+}
+.activeRedMenu
+{
+	background-image:url(images/activeRedMenuBg.gif);
+	font:bold 13px Arial;
+	color:#b50102;
+	text-align:center;
+	text-transform:uppercase;
+	white-space:nowrap;
+}
+
+A.linkRedMenu:hover{color: #ffd1d1; text-decoration: none}
+A.linkRedMenu:link{color: #FFFFFF; text-decoration: none}
+A.linkRedMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkRedMenu:visited{color: #FFFFFF; text-decoration: none}
+A.linkRedMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkRedMenu:hover{color: #ffd1d1; text-decoration: none}
+
+.redLeftMenu
+{
+	font:bold 12px Arial;
+	height:35px;
+	width:180px;
+	background:transparent url(images/redMenuItem.png) no-repeat top;
+}
+
+A.linkRedLeftMenu:hover{color: #b50102; text-decoration: none;}
+A.linkRedLeftMenu:link{color: #333333; text-decoration: none;}
+A.linkRedLeftMenu:active{color: #333333; text-decoration: none;}
+A.linkRedLeftMenu:visited{color: #333333; text-decoration: none;}
+A.linkRedLeftMenu:active{color: #333333; text-decoration: none;}
+A.linkRedLeftMenu:hover{color: #b50102; text-decoration: none;}
+
+A.linkRedSubject:hover{color: #333333; text-decoration: none;}
+A.linkRedSubject:link{color: #b50102; text-decoration: none;}
+A.linkRedSubject:active{color: #b50102; text-decoration: none;}
+A.linkRedSubject:visited{color: #b50102; text-decoration: none;}
+A.linkRedSubject:active{color: #b50102; text-decoration: none;}
+A.linkRedSubject:hover{color: #333333; text-decoration: none;}
+
+.redTitle
+{
+	font:bold 13px Arial;
+	color:#ffffff;
+	height:31px;
+	background-image:url(images/redTitleBg.gif);
+}
+
+/*Orange Page*/
+.orangeMenu
+{
+	background-image:url(images/orangeMenuBg.gif);
+	font:bold 13px Arial;
+	text-align:center;
+	text-transform:uppercase;
+	white-space:nowrap;
+}
+
+.activeOrangeMenu
+{
+	background-image:url(images/activeOrangeMenuBg.gif);
+	font:bold 13px Arial;
+	color:#f83f09;
+	text-align:center;
+	text-transform:uppercase;
+	white-space:nowrap;
+}
+
+A.linkOrangeMenu:hover{color: #ffe2da; text-decoration: none}
+A.linkOrangeMenu:link{color: #FFFFFF; text-decoration: none}
+A.linkOrangeMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkOrangeMenu:visited{color: #FFFFFF; text-decoration: none}
+A.linkOrangeMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkOrangeMenu:hover{color: #ffe2da; text-decoration: none}
+
+.orangeLeftMenu
+{
+	font:bold 12px Arial;
+	height:35px;
+	width:180px;
+	background:transparent url(images/orangeMenuItem.png) no-repeat top;
+}
+
+.orangeSubMenu
+{
+	background:transparent url(images/bulletOrangeSubMenu.gif) no-repeat left;
+	font:normal 12px Arial;
+	height:24px;
+	width:180px;
+}
+
+A.linkOrangeLeftMenu:hover{color: #f83f09; text-decoration: none;}
+A.linkOrangeLeftMenu:link{color: #333333; text-decoration: none;}
+A.linkOrangeLeftMenu:active{color: #333333; text-decoration: none;}
+A.linkOrangeLeftMenu:visited{color: #333333; text-decoration: none;}
+A.linkOrangeLeftMenu:active{color: #333333; text-decoration: none;}
+A.linkOrangeLeftMenu:hover{color: #f83f09; text-decoration: none;}
+
+A.linkOrangeSubject:hover{color: #333333; text-decoration: none;}
+A.linkOrangeSubject:link{color: #f83f09; text-decoration: none;}
+A.linkOrangeSubject:active{color: #f83f09; text-decoration: none;}
+A.linkOrangeSubject:visited{color: #f83f09; text-decoration: none;}
+A.linkOrangeSubject:active{color: #f83f09; text-decoration: none;}
+A.linkOrangeSubject:hover{color: #333333; text-decoration: none;}
+
+.orangeTitle
+{
+	font:bold 13px Arial;
+	color:#ffffff;
+	height:31px;
+	background-image:url(images/orangeTitleBg.gif);
+}
+
+/*Violet Page*/
+.violetMenu
+{
+	background-image:url(images/violetMenuBg.gif);
+	font:bold 13px Arial;
+	text-align:center;
+	text-transform:uppercase;
+	white-space:nowrap;
+}
+
+.activeVioletMenu
+{
+	background-image:url(images/activeVioletMenuBg.gif);
+	font:bold 13px Arial;
+	color:#820279;
+	text-align:center;
+	text-transform:uppercase;
+	white-space:nowrap;
+}
+
+A.linkVioletMenu:hover{color: #ffe5fd; text-decoration: none}
+A.linkVioletMenu:link{color: #FFFFFF; text-decoration: none}
+A.linkVioletMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkVioletMenu:visited{color: #FFFFFF; text-decoration: none}
+A.linkVioletMenu:active{color: #FFFFFF; text-decoration: none}
+A.linkVioletMenu:hover{color: #ffe5fd; text-decoration: none}
+
+.violetLeftMenu
+{
+	font:bold 12px Arial;
+	height:35px;
+	width:180px;
+	background:transparent url(images/violetMenuItem.png) no-repeat top;
+}
+
+.violetSubMenu
+{
+	background:transparent url(images/bulletVioletSubMenu.gif) no-repeat left;
+	font:normal 12px Arial;
+	height:24px;
+	width:180px;
+}
+
+A.linkVioletLeftMenu:hover{color: #820279; text-decoration: none;}
+A.linkVioletLeftMenu:link{color: #333333; text-decoration: none;}
+A.linkVioletLeftMenu:active{color: #333333; text-decoration: none;}
+A.linkVioletLeftMenu:visited{color: #333333; text-decoration: none;}
+A.linkVioletLeftMenu:active{color: #333333; text-decoration: none;}
+A.linkVioletLeftMenu:hover{color: #820279; text-decoration: none;}
+
+A.linkVioletSubject:hover{color: #333333; text-decoration: none;}
+A.linkVioletSubject:link{color: #820279; text-decoration: none;}
+A.linkVioletSubject:active{color: #820279; text-decoration: none;}
+A.linkVioletSubject:visited{color: #820279; text-decoration: none;}
+A.linkVioletSubject:active{color: #820279; text-decoration: none;}
+A.linkVioletSubject:hover{color: #333333; text-decoration: none;}
+
+.violetTitle
+{
+	font:bold 13px Arial;
+	color:#ffffff;
+	height:31px;
+	background-image:url(images/violetTitleBg.gif);
+}
+
+/*Hozirontal Menu of Homepage*/
+.homeHozMenu
+{
+	font:bold 13px Arial;
+	padding-left:5px;
+	padding-right:5px;
+}
+
+A.linkHomeHozMenu:hover{color: #ffdad9; text-decoration: none;}
+A.linkHomeHozMenu:link{color: #ffffff; text-decoration: none;}
+A.linkHomeHozMenu:active{color: #ffffff; text-decoration: none;}
+A.linkHomeHozMenu:visited{color: #ffffff; text-decoration: none;}
+A.linkHomeHozMenu:active{color: #ffffff; text-decoration: none;}
+A.linkHomeHozMenu:hover{color: #ffdad9; text-decoration: none;}
+
+.activeHomeTab
+{
+	font:bold 12px Arial;
+	color:#b50b0c;
+	padding-left:10px;
+	padding-right:5px;
+	background-image:url(images/whiteHomeTabBg.gif);
+	height:32px;
+	white-space:nowrap;
+}
+
+.inactiveHomeTab
+{
+	font:bold 12px Arial;
+	color:#ffffff;
+	padding-left:10px;
+	padding-right:5px;
+	background-image:url(images/redHomeTabBg1.gif);
+	height:32px;
+	white-space:nowrap;
+}
+
+/*Exercise*/
+.exerciseTab
+{
+	font:bold 12px Arial;
+	padding-left:5px;
+	padding-right:5px;
+	background-image:url(images/exerciseTabBg.gif);
+	white-space:nowrap;
+}
+
+.questionTab
+{
+	font:bold 12px Arial;
+	padding-left:5px;
+	padding-right:5px;
+	background-image:url(images/questionTabBg.gif);
+	white-space:nowrap;
+}
+
+/*Entrance Test*/
+.bigRedButton
+{
+	background:#b50102 url(images/bigRedButton.gif);
+	border-style:none;
+	width:170px;
+	height:40px;
+	font:bold 14px Arial;
+	color:#ffffff;
+	vertical-align:middle;
+	text-align:center;
+	text-transform:uppercase;
+}
