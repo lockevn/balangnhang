@@ -180,17 +180,7 @@ echo '
                 <td width="220px" valign="top">
                     <!----------------------------------------------------->                    
                     <div class="leftpanel">
-                        <table cellpadding="0" cellspacing="0" width="100%">
-                            <tr><td height="30px">
-                                <div class="title">PERSONAL MENU</div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_ST.JPG" /></a></div>
-                            </td></tr>
-                            <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
-                            <tr><td align="center">
-                                <div style="width:200px;">
-                                    <table cellpadding="0" cellspacing="0" width="100%">
-                                        <tr>
-                                            <td>';
+                        ';
 /// Print tabs at top
 /// This same call is made in:
 ///     /user/view.php
@@ -201,12 +191,7 @@ echo '
     if (!$user->deleted) {
         include('profile/menu_block.php');
     }                                                
-echo '                                      </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </td></tr>
-                        </table>
+echo '                                     
                     </div>        
                     
                     <!----------------------------------------------------->                    
