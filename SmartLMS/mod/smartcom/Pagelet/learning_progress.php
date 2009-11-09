@@ -37,7 +37,7 @@ $tpl->assign('chitietbaihocurl', "/mod/smartcom/api/student_learning_progress_Ch
 * @var mixed
 */
 $userid = optional_param('id', $USER->id, PARAM_INT);    // user id
-$course = optional_param('course', SITEID, PARAM_INT);   // course id (defaults to Site)
+$course = optional_param('courseid', SITEID, PARAM_INT);   // course id (defaults to Site)
 if (!$course = get_record('course', 'id', $course)) {
     error('Course ID was incorrect');
 }
