@@ -12,27 +12,13 @@ $CFG = $this->CFG;
         <td width="20px"></td>
         <td width="220px" valign="top">
             <div class="leftpanel">
-                <table cellpadding="0" cellspacing="0" width="100%">
-                    <tr><td height="30px">
-                        <div class="title">PERSONAL MENU</div>
-                        <div class="titleicon"><a href=""><img src="<?php echo $CFG->wwwroot ?>/theme/menu_horizontal/template/images/BT_ST.JPG" /></a></div>
-                    </td></tr>
-                    <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
-                    <tr><td align="left">
-                        <div style="width:200px;">
+                
                         <?php 
                         $showroles = 1;
                         $currenttab = 'Learning progress';
                         require($CFG->dirroot.'/user/profile/menu_block.php');
-                        ?>                            
-                        </div>
-                    </td></tr>
-                </table>
+                        ?>                                                    
             </div>        
-            
-            <!----------------------------------------------------->                    
-            <div class="leftpanel">    
-            </div>
             
         </td>
         <td width="20px"></td>
