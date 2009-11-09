@@ -100,6 +100,7 @@
 
     require_once($CFG->libdir.'/ajax/ajaxlib.php');
 
+    global $CFG;
     echo '<script type="text/javascript" ';
     echo "src=\"{$CFG->wwwroot}/course/format/topicstree/list.js\"></script>\n";
 
@@ -220,19 +221,26 @@
             <tr>
             ';
             
+//    news->subject
+// * 		->modified: last modified time in miliseconds
+// * 		->firstname: first name của user edit post cuối cùng
+// * 		->lastname: last name của user edit post cuối cùng
+// * 		->message: nội dung news
     if(!empty($latestNews)) 
     {
             foreach($latestNews as $objNews)
             {
+            	$usernameLink = $CFG->wwwroot . "/user/view.php?id=$objNews->userid&course=1";
+            	$titleLink = $CFG->wwwroot. "/mod/forum/discuss.php?d=$objNews->discussionid";
                 
                 echo '
                 <td valign="top" width="33%">
                     <table cellpadding="0" cellspacing="0" width="100%">
                         <tr><td>
-                            <a href="#" class="titleText">'.$objNews->subject.'</a></div>
+                            <a href="'. $titleLink . '" class="titleText">'.$objNews->subject.'</a></div>
                         </td></td>
                         <tr><td>
-                            <a href="#" class="username">'.$objNews->firstname.' '.$objNews->lastname.'</a> <span class="datetime">('.date('d M, H:i', $objNews->timemodified).')</span>
+                            <a href="' . $usernameLink . '" class="username">'.$objNews->firstname.' '.$objNews->lastname.'</a> <span class="datetime">('.date('d M, H:i', $objNews->timemodified).')</span>
                         </td></tr>
                         <tr><td height="10px"></td></tr>
                         <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
@@ -475,39 +483,7 @@
     $section = 0;
     $thissection = $sections[$section];
 
-    /*
-    if ($thissection->summary or $thissection->sequence or isediting($course->id)) {
-        echo '<tr id="section-0" class="section main">';
-        echo '<td class="left side">&nbsp;</td>';
-        echo '<td class="content">';
-
-        echo '<div class="summary">';
-        $summaryformatoptions->noclean = true;
-        echo format_text($thissection->summary, FORMAT_HTML, $summaryformatoptions);
-
-        if (isediting($course->id) && has_capability('moodle/course:update', get_context_instance(CONTEXT_COURSE, $course->id))) {
-            echo '<a title="'.$streditsummary.'" '.
-                 ' href="editsection.php?id='.$thissection->id.'"><img src="'.$CFG->pixpath.'/t/edit.gif" '.
-                 ' alt="'.$streditsummary.'" /></a>';
-        }
-        echo '</div>';
-
-        if (isediting($course->id) || !$topicstree_tree_in_section0) { /// Editing use the mainstream print_section
-            
-            print_section($course, $thissection, $mods, $modnamesused);
-            if (isediting($course->id)) {
-                print_section_add_menus($course, $section, $modnames);
-            }
-        } else { /// Non-editing use our own print_section
-            print_topicstree_section($course, $thissection, $mods, $modnamesused);
-        }
-
-        echo '</td>';
-        echo '<td class="right side">&nbsp;</td>';
-        echo '</tr>';
-        echo '<tr class="section separator"><td colspan="3" class="spacer"></td></tr>';
-    }
-    */
+    
 
 
 /// Now all the normal modules by topic
@@ -995,6 +971,8 @@ function preprocessmods4topicstree($sectionmods, &$mods, &$modinfo) {
  * 		->firstname: first name của user edit post cuối cùng
  * 		->lastname: last name của user edit post cuối cùng
  * 		->message: nội dung news
+ * 		->discussionid: id discussion
+ * 		->userid
  */	
 function getNewsItemContent() {
     global $CFG, $USER, $COURSE;
