@@ -100,6 +100,7 @@ function printSectionActivities($activityArr, $courseid, $selectedLOId, $userid)
 		
 		/*tính điểm all quiz*/
 		$grade = getAvgGradeOfAllQuizInActivityOfUserFromLOId($courseid, $selectedLOId, $activity->id, $userid );
+        
         $str .= '<td>
             <table cellpadding="0" cellspacing="5px">
                 <tr>
@@ -107,14 +108,20 @@ function printSectionActivities($activityArr, $courseid, $selectedLOId, $userid)
                         &nbsp;&nbsp;<a href='.$activity->link.'>';
                         
                             if($activity->selected == 1) {
-                                $str .= "<b>$activity->name </b>";     //($grade->status)
+                                $str .= "<b><font color=\"#000\">$activity->name </font></b>";     //($grade->status)
                             } else {
                                $str .= $activity->name ;
                             }                  
         $str .= '       </a>
                     </td>                                            
-                    <td>
-                        <img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/coursemenu_x.JPG" /> 
+                    <td>';
+                        if ($grade->status == 'incompleted') 
+                            $str .= '<img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/coursemenu_o.jpg" /> ';
+                        else if ($grade->status == 'failed') 
+                                $str .= '<img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/coursemenu_x.JPG" /> ';
+                        else if ($grade->status == 'passed')
+                                $str .= '<img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/coursemenu_v.JPG" /> ';
+        $str .= '                    
                     </td>                                            
                     <td>
                         <img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/MN1_SP.jpg" /> 

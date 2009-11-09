@@ -463,7 +463,7 @@
                     $attempturl = sid_process_url($attempturl);
                 }
 
-                echo '<input type="button" value="'.$buttontext.'" onclick="javascript:';
+                echo '<input class="cls_button" type="button" value="'.$buttontext.'" onclick="javascript:';
                 if ($strconfirmstartattempt) {
                     $strconfirmstartattempt = addslashes($strconfirmstartattempt);
                     echo "if (confirm('".addslashes_js($strconfirmstartattempt)."')) ";
