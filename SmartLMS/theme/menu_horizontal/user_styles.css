@@ -267,16 +267,17 @@ div.sideblock div.content * {
   text-align: left;
 }
 div.sideblock div.content input[type="submit"] {
-  width: auto;
+  /* width: auto;*/
 }
 button#searchform_button {
-  width: auto;
+  /*width: auto;*/
 }
 div.sideblock div.content div.btn input {
-  width: auto;
+  /*width: auto;*/
+  text-align: center;
 }
 .block_login .loginform .fld {
-  text-align: right;
+  text-align: left;
 }
 div.sideblock div.calendar-controls a.next {
   text-align: right;

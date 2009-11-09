@@ -7,7 +7,9 @@
 }
 
 .block_login .loginform .fld input {
-  width:5em;
+  /* width:5em; */
+  margin:5px 0px;
+  padding:3px 0px;
 }
 
 .block_login .loginform label {
@@ -21,5 +23,6 @@
 }
 
 .block_login .loginform div.c1.btn {
-  text-align:center;
+  /* text-align:center; */
+  width:150px;
 }
