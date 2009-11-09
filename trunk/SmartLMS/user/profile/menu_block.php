@@ -185,78 +185,78 @@ echo '<table cellpadding="0" cellspacing="0" width="100%">
 
     /// Find out if user allowed to see all reports of this user (usually parent) or individual course reports
 
-        $myreports  = ($course->showreports and $USER->id == $user->id);
-        $anyreport  = has_capability('moodle/user:viewuseractivitiesreport', $personalcontext);
-
-        $reportsecondrow = array();
-
-        if ($myreports or $anyreport or has_capability('coursereport/outline:view', $coursecontext)) {
-            $reportsecondrow[] = new tabobject('outline', $CFG->wwwroot.'/course/user.php?id='.$course->id.
-                                         '&amp;user='.$user->id.'&amp;mode=outline', get_string('outlinereport'));
-        }
-
-        if ($myreports or $anyreport or has_capability('coursereport/outline:view', $coursecontext)) {
-            $reportsecondrow[] = new tabobject('complete', $CFG->wwwroot.'/course/user.php?id='.$course->id.
-                                         '&amp;user='.$user->id.'&amp;mode=complete', get_string('completereport'));
-        }
-
-        if ($myreports or $anyreport or has_capability('coursereport/log:viewtoday', $coursecontext)) {
-            $reportsecondrow[] = new tabobject('todaylogs', $CFG->wwwroot.'/course/user.php?id='.$course->id.
-                                         '&amp;user='.$user->id.'&amp;mode=todaylogs', get_string('todaylogs'));
-        }
-
-        if ($myreports or $anyreport or has_capability('coursereport/log:view', $coursecontext)) {
-            $reportsecondrow[] = new tabobject('alllogs', $CFG->wwwroot.'/course/user.php?id='.$course->id.
-                                         '&amp;user='.$user->id.'&amp;mode=alllogs', get_string('alllogs'));
-        }
-
-        if (!empty($CFG->enablestats)) {
-            if ($myreports or $anyreport or has_capability('coursereport/stats:view', $coursecontext)) {
-                $reportsecondrow[] = new tabobject('stats',$CFG->wwwroot.'/course/user.php?id='.$course->id.
-                                             '&amp;user='.$user->id.'&amp;mode=stats',get_string('stats'));
-            }
-        }
-
-        if (has_capability('moodle/grade:viewall', $coursecontext)) {
-            //ok - can view all course grades
-            $gradeaccess = true;
-
-        } else if ($course->showgrades and $user->id == $USER->id and has_capability('moodle/grade:view', $coursecontext)) {
-            //ok - can view own grades
-            $gradeaccess = true;
-
-        } else if ($course->showgrades and has_capability('moodle/grade:viewall', $personalcontext)) {
-            // ok - can view grades of this user - parent most probably
-            $gradeaccess = true;
-
-        } else if ($course->showgrades and $anyreport) {
-            // ok - can view grades of this user - parent most probably
-            $gradeaccess = true;
-
-        } else {
-            $gradeaccess = false;
-        }
-
-        if ($gradeaccess) {
-            $reportsecondrow[] = new tabobject('grade', $CFG->wwwroot.'/course/user.php?id='.$course->id.
-                                         '&amp;user='.$user->id.'&amp;mode=grade', get_string('grade'));
-        }
-
-        if ($reportsecondrow) {
-            $toprow[] = new tabobject('reports', $CFG->wwwroot.'/course/user.php?id='.$course->id.
-                                      '&amp;user='.$user->id.'&amp;mode=outline', get_string('activityreports'));
-            if (in_array($currenttab, array('outline', 'complete', 'todaylogs', 'alllogs', 'stats', 'grade'))) {
-                $inactive  = array('reports');
-                $activetwo = array('reports');
-                $secondrow = $reportsecondrow;
-            }
-        }
+//        $myreports  = ($course->showreports and $USER->id == $user->id);
+//        $anyreport  = has_capability('moodle/user:viewuseractivitiesreport', $personalcontext);
+//
+//        $reportsecondrow = array();
+//
+//        if ($myreports or $anyreport or has_capability('coursereport/outline:view', $coursecontext)) {
+//            $reportsecondrow[] = new tabobject('outline', $CFG->wwwroot.'/course/user.php?id='.$course->id.
+//                                         '&amp;user='.$user->id.'&amp;mode=outline', get_string('outlinereport'));
+//        }
+//
+//        if ($myreports or $anyreport or has_capability('coursereport/outline:view', $coursecontext)) {
+//            $reportsecondrow[] = new tabobject('complete', $CFG->wwwroot.'/course/user.php?id='.$course->id.
+//                                         '&amp;user='.$user->id.'&amp;mode=complete', get_string('completereport'));
+//        }
+//
+//        if ($myreports or $anyreport or has_capability('coursereport/log:viewtoday', $coursecontext)) {
+//            $reportsecondrow[] = new tabobject('todaylogs', $CFG->wwwroot.'/course/user.php?id='.$course->id.
+//                                         '&amp;user='.$user->id.'&amp;mode=todaylogs', get_string('todaylogs'));
+//        }
+//
+//        if ($myreports or $anyreport or has_capability('coursereport/log:view', $coursecontext)) {
+//            $reportsecondrow[] = new tabobject('alllogs', $CFG->wwwroot.'/course/user.php?id='.$course->id.
+//                                         '&amp;user='.$user->id.'&amp;mode=alllogs', get_string('alllogs'));
+//        }
+//
+//        if (!empty($CFG->enablestats)) {
+//            if ($myreports or $anyreport or has_capability('coursereport/stats:view', $coursecontext)) {
+//                $reportsecondrow[] = new tabobject('stats',$CFG->wwwroot.'/course/user.php?id='.$course->id.
+//                                             '&amp;user='.$user->id.'&amp;mode=stats',get_string('stats'));
+//            }
+//        }
+//
+//        if (has_capability('moodle/grade:viewall', $coursecontext)) {
+//            //ok - can view all course grades
+//            $gradeaccess = true;
+//
+//        } else if ($course->showgrades and $user->id == $USER->id and has_capability('moodle/grade:view', $coursecontext)) {
+//            //ok - can view own grades
+//            $gradeaccess = true;
+//
+//        } else if ($course->showgrades and has_capability('moodle/grade:viewall', $personalcontext)) {
+//            // ok - can view grades of this user - parent most probably
+//            $gradeaccess = true;
+//
+//        } else if ($course->showgrades and $anyreport) {
+//            // ok - can view grades of this user - parent most probably
+//            $gradeaccess = true;
+//
+//        } else {
+//            $gradeaccess = false;
+//        }
+//
+//        if ($gradeaccess) {
+//            $reportsecondrow[] = new tabobject('grade', $CFG->wwwroot.'/course/user.php?id='.$course->id.
+//                                         '&amp;user='.$user->id.'&amp;mode=grade', get_string('grade'));
+//        }
+//
+//        if ($reportsecondrow) {
+//            $toprow[] = new tabobject('reports', $CFG->wwwroot.'/course/user.php?id='.$course->id.
+//                                      '&amp;user='.$user->id.'&amp;mode=outline', get_string('activityreports'));
+//            if (in_array($currenttab, array('outline', 'complete', 'todaylogs', 'alllogs', 'stats', 'grade'))) {
+//                $inactive  = array('reports');
+//                $activetwo = array('reports');
+//                $secondrow = $reportsecondrow;
+//            }
+//        }
         
         /*danhut added*/
         //if (!empty($CFG->enablenotes) and (has_capability('moodle/notes:manage', $coursecontext) || has_capability('moodle/notes:view', $coursecontext))) {
         $toprow[] = new tabobject('Learning progress', 
             $CFG->wwwroot.'/mod/smartcom/index.php?courseid='.$course->id . '&amp;userid=' . $user->id  .'&amp;submodule=learning_progress', 
-            get_string('Learning progress', 'smartcom')
+            get_string('learning_progress', 'smartcom')
         );
        //}
        /*end of danhut added*/
