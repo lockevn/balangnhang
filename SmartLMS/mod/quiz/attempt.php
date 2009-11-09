@@ -81,11 +81,7 @@
         $attemptnumber = 1;
     }
 
-    if($quiz->lotype != 'test') {
-    	$strattemptnum = get_string('attempt', 'quiz', $attemptnumber);
-    } else {
-    	$strattemptnum = "";
-    }
+    $strattemptnum = get_string('attempt', 'quiz', $attemptnumber);    
     $strquizzes = get_string("modulenameplural", "quiz");
     $popup = $quiz->popup && !$ispreviewing; // Controls whether this is shown in a javascript-protected window.
 
@@ -392,21 +388,7 @@
 
         add_to_log($course->id, 'quiz', 'close attempt',
                            "review.php?attempt=$attempt->id",
-                           "$quiz->id", $cm->id);
-        /*danhut: lưu attempt id vào session trong trường hợp quiz là 1 test*/
-    	if($quiz->lotype == 'test') {
-    		global $SESSION;
-    		
-    		if(!isset($SESSION->attemptIdArr) || empty($SESSION->attemptIdArr)) {
-    			$attemptIdArr = array();
-    		} else {
-    			$attemptIdArr = $SESSION->attemptIdArr;
-    		}    		
-    		if(!in_array($attempt->id, $attemptIdArr)) {
-    			$attemptIdArr[] = $attempt->id;
-    		}
-    		$SESSION->attemptIdArr = $attemptIdArr;    		    		    
-    	}
+                           "$quiz->id", $cm->id);        
     	    	
     }
     
@@ -510,11 +492,11 @@ echo '
 if ($ispreviewing) {
         echo strtoupper(get_string('previewquiz', 'quiz', format_string($quiz->name)));
 } else {
-    if ($quiz->attempts != 1 && $quiz->lotype != "test") {
-        echo strtoupper($quiz->name. ' - '. $strattemptnum);
+    if ($quiz->attempts != 1) {
+        echo $quiz->name. ' - '. $strattemptnum ;
         //print_heading(format_string($quiz->name).' - '.$strattemptnum);
     } else {
-        echo strtoupper($quiz->name);
+        echo $quiz->name;
         //print_heading(format_string($quiz->name));
     }
     
@@ -524,7 +506,7 @@ echo '
                                         </span> 
                                         </td></tr>
                                         <tr><td>';
-
+                                          
 /*danhut added: print quiz introduction*/
     if($quiz->lotype == 'exercise') {
     if (trim(strip_tags($quiz->intro))) {
@@ -644,7 +626,7 @@ echo '
     }
     /*danhut added: only display submit All button at the last page of the quiz*/
     if($page == $numpages - 1) {
-        echo "<input style=\"border:none; width: 129px; height: 35px; background: url(". $CFG->wwwroot."/theme/menu_horizontal/template/images/BT_Submitreview.jpg) no-repeat top center; \"  type=\"submit\" name=\"finishattempt\" value=\"\" onclick=\"$onclick\" />\n"; //get_string("finishattempt", "quiz")
+        echo "<input class='cls_button'  type=\"submit\" name=\"finishattempt\" value='". get_string("finishattempt", "quiz"). "' onclick=\"$onclick\" />\n"; //get_string("finishattempt", "quiz")
     }
     
     /*danhut added: print next page link if required*/

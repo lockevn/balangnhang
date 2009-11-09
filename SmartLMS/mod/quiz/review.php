@@ -76,16 +76,6 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 				$message = get_string('noreview', 'quiz');
 			}
 			if (empty($popup)) {
-				/*danhut added: nếu là bài test thì build navigation menu và redirect sang next resource*/
-				if($quiz->lotype == 'test') {
-					$navlinks = navmenu($course, $cm, 'self', true);
-					if(!empty($navlinks['nextLink'])) {
-						redirect($navlinks['nextLink']);
-					} else {
-						/*nếu không có next resource -> quiz cuối trong bài test: redirect sang trang kết quả*/
-						redirect($CFG->wwwroot.'/smartcom/testroom/review.php');
-					}
-				}
 				redirect('view.php?q=' . $quiz->id, $message);
 			} else {
 				?><script type="text/javascript">
@@ -209,8 +199,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 	}
 	print_heading($strreviewtitle);
 	/*danhut: print list of lecture: "Xem lai bai giang Grammar 1 2 3 ..."*/
-	$lectureList = getLectureListOfCurrentQuiz($cm->id, $activityArr);
-	printLectureListOfCurrentQuiz($lectureList);
+//	$lectureList = getLectureListOfCurrentQuiz($cm->id, $activityArr);
+//	printLectureListOfCurrentQuiz($lectureList);
 	/************/
 	
 	/*danhut added: print quiz introduction*/
@@ -230,9 +220,9 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
         /*************/
 
 	// print javascript button to close the window, if necessary
-	if (!$isteacher) {
-		include('attempt_close_js.php');
-	}
+//	if (!$isteacher) {
+//		include('attempt_close_js.php');
+//	}
 
 /// Work out some time-related things.
 	$timelimit = (int)$quiz->timelimit * 60;
