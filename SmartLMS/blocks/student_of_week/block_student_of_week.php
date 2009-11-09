@@ -37,15 +37,8 @@ class block_student_of_week extends block_base {
         	$str .= "<a href='$CFG->wwwroot/user/view.php?id=$student->id&course=1'>$student->username</a><br>";
         }
         $this->content->text = $str;
-        if (isediting($COURSE->id)) { // ?? courseid param not there??
-            if($COURSE->id == SITEID) {
-                $editpage = $CFG->wwwroot.'/'.$CFG->admin.'/settings.php?section=frontpagesettings';
-            } else {
-                $editpage = $CFG->wwwroot.'/course/edit.php?id='.$COURSE->id;
-            }
-            $this->content->text .= "<div class=\"editbutton\"><a href=\"$editpage\"><img src=\"$CFG->pixpath/t/edit.gif\" alt=\"".get_string('edit')."\" /></a></div>";
-        }
-        $this->content->footer = '';
+        
+        $this->content->footer = '';               
 
         return $this->content;
     }
@@ -113,9 +106,11 @@ class block_student_of_week extends block_base {
     	$smonth = $calcdate["mon"];
     	$syear = $calcdate["year"];
     	 
-    	 
-    	$timestamp['start_timestamp'] =  mktime(0, 0, 0, $smonth, $sday, $syear);
-    	$timestamp['end_timestamp'] =  $timestamp['start_timestamp'] + (60*60*24*7);
+    	/*0 hiểu sao bị tính quá mất 7 ngày, nên tạm đảo ngược lại*/ 
+//    	$timestamp['start_timestamp'] =  mktime(0, 0, 0, $smonth, $sday, $syear);
+//    	$timestamp['end_timestamp'] =  $timestamp['start_timestamp'] + (60*60*24*7);
+		$timestamp['end_timestamp'] =  mktime(0, 0, 0, $smonth, $sday, $syear);
+    	$timestamp['start_timestamp'] =  $timestamp['end_timestamp'] - (60*60*24*7);
 
     	return $timestamp;
 
