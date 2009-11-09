@@ -178,7 +178,8 @@
     $currenttab = 'participants';
     $user = $USER;
 
-    require_once($CFG->dirroot .'/user/tabs.php');
+    //danhut commented out
+    //require_once($CFG->dirroot .'/user/tabs.php');
 
 
 /// Get the hidden field list
