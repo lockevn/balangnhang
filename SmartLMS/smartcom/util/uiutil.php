@@ -139,7 +139,7 @@ function printLectureListOfCurrentActivity($loList) {
 		$lo = $loList[$i];
 		if($lo->type == "lecture") {
 			if($lo->selected == 0) {
-				$link .= "<a style=\"margin: 0 5px; color: #FFF; padding: 0 5px;background: transparent url(http://smartlms/theme/menu_horizontal/template/images/CircleBR.gif) no-repeat scroll center center; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;\" href='$CFG->wwwroot/mod/resource/view.php?id=$lo->id'>$lectureIndex</a>";
+				$link .= "<a style=\"margin: 0 5px; color: #FFF; padding: 0 5px;background: transparent url($CFG->themewww/".current_theme() ."/template/images/CircleBR.gif) no-repeat scroll center center; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;\" href='$CFG->wwwroot/mod/resource/view.php?id=$lo->id'>$lectureIndex</a>";
 			}
 			else {
 				$link .= "<a style=\"margin: 0 5px; color: #FFF; padding: 0 5px; background: gray; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;\" href='$CFG->wwwroot/mod/resource/view.php?id=$lo->id'><b>$lectureIndex</b></a>";
