@@ -259,7 +259,7 @@ class default_questiontype {
         // question types.
 
         // First, save the basic question itself
-        $question->name = trim($form->name);
+        $question->name = trim($form->name);        
         $question->questiontext = trim($form->questiontext);
         $question->questionguide = trim($form->questionguide);
         

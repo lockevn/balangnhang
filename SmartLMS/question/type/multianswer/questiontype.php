@@ -251,7 +251,13 @@ class embedded_cloze_qtype extends default_questiontype {
             echo "<img src=\"$CFG->wwwroot/question/type/$question->qtype/icon.gif\" ".
                 "class=\"icon\" alt=\"".get_string('clozeaid','qtype_multichoice')."\" />  ";
         }
+        
+        /*danhut added*/
+        $questionguide = format_text($question->questionguide,
+                         $question->questiontextformat,
+                         $formatoptions, $cmoptions->course);
 
+        echo "<div class='qguide'>$questionguide</div>";
         echo '<div class="ablock clearfix">';
         // For this question type, we better print the image on top:
         if ($image = get_question_image($question)) {
@@ -260,6 +266,8 @@ class embedded_cloze_qtype extends default_questiontype {
 
         $qtextremaining = format_text($question->questiontext,
                 $question->questiontextformat, $formatoptions, $cmoptions->course);
+                
+      
 
         $strfeedback = get_string('feedback', 'quiz');
 
