@@ -21,7 +21,7 @@ if ($show_instructions) {
                             <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
                             <tr><td align="center">
                                 <div style="width:380px;">
-                                    <table cellpadding="0" cellspacing="0" width="100%">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                         <tr><td height="10px">
                                         <tr><td height="20px" colspan="2">
                                             <?php
@@ -58,7 +58,9 @@ if ($show_instructions) {
                                             <input type="password" name="password" id="password" style="width:180px;" value="" />
                                         </td></tr>
                                         <tr><td height="10px"></td></tr>
-                                        <tr><td align="center" colspan="2">
+                                        <tr>
+                                            <td height="10px">&nbsp;</td>
+                                            <td align="left" colspan="2">
                                             <input type="submit" class="cls_button" value="<?php print_string("login") ?>" />
                                             <input type="hidden" name="testcookies" value="1" />
                                         </td></tr>
@@ -69,7 +71,9 @@ if ($show_instructions) {
                                             <?php print_string("someallowguest") ?>
                                         </td></tr>
                                         <tr><td height="10px"></td></tr>
-                                        <tr><td align="center" colspan="2">
+                                        <tr>
+                                            <td height="10px">&nbsp;</td>
+                                            <td align="left" colspan="2">
                                             <form action="index.php" method="post" id="guestlogin">
                                                 <input type="hidden" name="username" value="guest" />
                                                 <input type="hidden" name="password" value="guest" />
@@ -83,7 +87,9 @@ if ($show_instructions) {
                                             <?php print_string("forgotten") ?>
                                         </td></tr>
                                         <tr><td height="10px"></td></tr>
-                                        <tr><td align="center" colspan="2">
+                                        <tr>
+                                            <td height="10px">&nbsp;</td>
+                                            <td align="left" colspan="2">
                                             <form action="forgot_password.php" method="post" id="changepassword">
                                                 <input type="hidden" name="sesskey" value="<?php echo sesskey() ?>" />
                                                 <input type="submit" class="cls_button" value="<?php print_string("passwordrecovery") ?>" />
