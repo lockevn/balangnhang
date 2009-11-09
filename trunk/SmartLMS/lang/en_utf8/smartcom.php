@@ -98,6 +98,8 @@ $string['practice'] = 'Practice';
 $string['lecture_review'] = 'Review $a lecture ';
 $string['learning_progress'] = 'Learning progress';
 
+$string['bulletin'] = 'Bulletin';
+
 
 
 
