@@ -50,33 +50,9 @@
 	?>>
 <div id="wrapper">
 
-<?php if ($home) {  // This is what gets printed on the home page only
-?>
-	<div id="headwrapper" class="clearfix">	
-	 <?php /*
-     <div class="header-left">	 
-<img src="<?php echo $CFG->themewww.'/'.current_theme() ?>/pix/logo.gif"  alt="logo" title="logo" id="logo" />
-    */
-    ?>
-    
-        <div style="float:left; margin-left:30px"><img src="template/images/Logo.jpg" /></div>
-        <div class="menu1"><a href=""><img src="template/images/MN1_7.jpg" /></a></div>
-        <div class="menu1"><a href=""><img src="template/images/MN1_6.jpg" /></a></div>
-        <div class="menu1"><a href=""><img src="template/images/MN1_5.jpg" /></a></div>
-        <div class="menu1"><a href=""><img src="template/images/MN1_4.jpg" /></a></div>
-        <div class="menu1"><a href=""><img src="template/images/MN1_3.jpg" /></a></div>
-        <div class="menu1"><a href=""><img src="template/images/MN1_2.jpg" /></a></div>
-        <div class="menu1"><a href=""><img src="template/images/MN1_1.jpg" /></a></div>
-    </div>
 
-	<div class="header-right"> </div>
-
-	<div style="clear:both"></div>
-	<?php include ('menu.html'); ?>	
-	
-<?php } 
-
-else if ($heading) {  // This is what gets printed on any other page with a heading
+<?
+if ($heading || $home) {  // This is what gets printed on any other page with a heading
 ?>
 	<div id="headwrapper" class="clearfix">	
         <?php 
@@ -94,12 +70,12 @@ else if ($heading) {  // This is what gets printed on any other page with a head
         
             <div style="float:left; margin-left:30px"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/Logo.jpg" /></div>
             <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_7.jpg" /></a></div>
-            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_6.jpg" /></a></div>
-            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_5.jpg" /></a></div>
-            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_4.jpg" /></a></div>
-            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_3.jpg" /></a></div>
-            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_2.jpg" /></a></div>
-            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_1.jpg" /></a></div>
+            <div class="menu1"><?php include_once($CFG->dirroot.'/mod/studynotes/ext/overlay_snippet.php');?></div>            
+            <div class="menu1"><a href="<?= $CFG->wwwroot.'/message/index.php'?>"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_5.jpg" /></a></div>
+            <div class="menu1"><a href="<?= $CFG->wwwroot.'/mod/forum/view.php?id=7118'?>"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_4.jpg" /></a></div>
+            <div class="menu1"><a href="<?= $CFG->wwwroot.'/user/view.php?course=1&id='.$USER->id ?>"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_3.jpg" /></a></div>
+            <div class="menu1"><a href="<?= $CFG->wwwroot.':3690'?>"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_2.jpg" /></a></div>
+            <div class="menu1"><a href="<?= $CFG->wwwroot.'/course/view.php?id='.$COURSE->id ?>"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_1.jpg" /></a></div>
         </div>
 	</div>
     
@@ -110,10 +86,10 @@ else if ($heading) {  // This is what gets printed on any other page with a head
 	<?php //include ('menu.html'); ?>
 		
 	<div class="navbar clearfix">
-	<!-- add for handbook to appear every where in the site 	    
-  include_once($CFG->dirroot.'/mod/studynotes/ext/overlay_snippet.php');
+	 	    
+  
 	
-	 end of add -->
+	
 	<?php if ($navigation) { // This is the navigation table with breadcrumbs
 	?>	
 		<div class="breadcrumb"><?php print_navigation($navigation); ?></div>
