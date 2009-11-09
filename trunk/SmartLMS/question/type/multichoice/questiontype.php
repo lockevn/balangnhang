@@ -276,7 +276,8 @@ class question_multichoice_qtype extends default_questiontype {
                          $question->questiontextformat,
                          $formatoptions, $cmoptions->course);
         
-        $questiontext = format_text($question->questiontext,
+        $tmp = str_replace('  ', '&nbsp; ', $question->questiontext);
+        $questiontext = format_text($tmp,
                          $question->questiontextformat,
                          $formatoptions, $cmoptions->course);
         $image = get_question_image($question);
