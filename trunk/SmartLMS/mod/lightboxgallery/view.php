@@ -81,52 +81,7 @@
     
 echo '
         <table cellpadding="0" cellspacing="0" width="100%">
-            <tr>
-                <td width="20px"></td>
-                <td width="220px" valign="top">
-                
-                    <!----------------------------------------------------->
-                    <div class="leftpanel">
-                        <table cellpadding="0" cellspacing="0" width="100%">
-                            <tr><td height="30px">
-                                <div class="title">PERSONAL</div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_ST.JPG" /></a></div>
-                            </td></tr>
-                            <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
-                            <tr><td align="center">
-                                <div style="width:200px;">
-                                    <table cellpadding="0" cellspacing="0" width="100%">
-                                        <tr>
-                                            <td height="30px" align="left">
-                                                Hello <a href="" class="leftpaneltext">'. $USER->username .'</a>!
-                                            </td>
-                                            <td height="30px" align="right">
-                                                <a class="leftpaneltext" '. $CFG->frametarget .'href="'. $CFG->wwwroot.'/login/logout.php?sesskey='.sesskey().'">'. 
-                                                    get_string('logout').
-                                                '</a>
-                                            </td>
-                                        </tr>
-                                        <tr><td height="30px" align="left">
-                                            Tin nhắn:
-                                        </td></tr>
-                                        <tr><td height="30px" style="padding:0 10px 0 10px" align="left">
-                                            Chưa đọc: <a href="" class="leftpaneltext">10</a>
-                                        </td></tr>
-                                        <tr><td height="30px" style="padding:0 10px 0 10px" align="left">
-                                            Có: <a href="" class="leftpaneltext">10</a>
-                                        </td></tr>
-                                    </table>
-                                </div>
-                            </td></tr>
-                        </table>
-                    </div>
-                    
-                    <!----------------------------------------------------->                    
-                    <div class="leftpanel">    
-                    </div>            
-                    
-                </td>
+            <tr>                
                 <td width="20px"></td>
                 <td valign="top">
                 
@@ -144,8 +99,7 @@ echo '
                                 *  End title
                                 */
 echo                            '</div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG" /></a></div>
+                                
                             </td></tr>
                             <tr>
                                 <td colspan="3">';
@@ -304,15 +258,7 @@ echo '
                         </table>
                     </div>
                 
-                    <!-------------------------------------------------------------------->
-                    <div class="newsarea">
-                        <table cellpadding="0" cellspacing="0" width="100%" border="0">
-                            <tr><td height="30px" colspan="3">
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
-                                <div class="titleicon"><a href=""><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG" /></a></div>
-                            </td></tr>
-                        </table>
-                    </div>
+                    
                 
                     
                 </td>
