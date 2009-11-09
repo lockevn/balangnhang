@@ -164,7 +164,7 @@ function printLectureListOfCurrentActivity($loList) {
 	if(empty($practice)) {
 		return;
 	}	
-	$link = "<a href='$CFG->wwwroot/mod/quiz/view.php?id=$practice->id'>". get_string("practice", "smartcom") . "</a>";
+	$link = "&nbsp;<a href='$CFG->wwwroot/mod/quiz/view.php?id=$practice->id'>". get_string("practice", "smartcom") . "</a>";
 	echo $link;
 }
 

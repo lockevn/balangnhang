@@ -37,7 +37,7 @@
                         <table cellpadding="0" cellspacing="0" width="100%">
                             <tr>
                                 <td height="30px">
-                                    Hello <a href="" class="leftpaneltext">'.$USER->firstname.'</a>!
+                                    Hello <a href="'. $CFG->wwwroot."/user/view.php?id=$USER->id &course=$COURSE->id" . '" class="leftpaneltext">'.$USER->firstname.'</a>!
                                 </td>
                                 <td height="30px" align="right">
                                     <a style="float:right;" href="/login/logout.php?sesskey='.sesskey().'" class="leftpaneltext">Log out</a>
