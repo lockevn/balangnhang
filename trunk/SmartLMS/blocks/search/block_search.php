@@ -57,7 +57,7 @@
             '<form id="searchquery" method="get" action="'. $CFG->wwwroot .'/search/query.php"><div>'
           . '<label for="block_search_q">'. $label .'</label>'
           . '<input id="block_search_q" type="text" name="query_string" />'
-          . '<input type="submit" value="'.$button.'" />'
+          . '<input type="submit" value="sss'.$button.'" />'
           . '</div></form>';
       } else {
         $this->content->text = "Sorry folks, PHP 5 is needed for the new search module.";
@@ -65,7 +65,7 @@
         
       //no footer, thanks
       $this->content->footer = '';
-      
+    
       return $this->content;      
     } //get_content
     

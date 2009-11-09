@@ -1308,11 +1308,11 @@ $targetwindow='self', $selectlabel='', $optionsextra=NULL, $gobutton=NULL) {
 	$output .= '</select>';
 	$output .= '<input type="hidden" name="sesskey" value="'.sesskey().'" />';
 	if ($gobutton) {
-		$output .= '<input type="submit" value="'.
+		$output .= '<input class="cls_button" type="submit" value="'.
 		($gobutton===true ? $go : $gobutton).'" />';
 	} else {
 		$output .= '<div id="noscript'.$formid.'" style="display: inline;">';
-		$output .= '<input type="submit" value="'.$go.'" /></div>';
+		$output .= '<input class="cls_button" type="submit" value="'.$go.'" /></div>';
 		$output .= '<script type="text/javascript">'.
                    "\n//<![CDATA[\n".
                    'document.getElementById("noscript'.$formid.'").style.display = "none";'.
@@ -4359,7 +4359,7 @@ function print_single_button($link, $options, $label='OK', $method='get', $targe
     //if ($link == 'attempt.php') 
 //        $output .= '<input style="border: none; background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_ReAttemptQuiz.jpg) no-repeat; width: 115px; height: 35px;" type="submit" value="'. "\" $tooltip $disabled $jsconfirmmessage/></div></form></div>";
 //    else 
-	    $output .= '<input type="submit" value="'. s($label) ."\" $tooltip $disabled $jsconfirmmessage/></div></form></div>";
+	    $output .= '<input class="cls_button" type="submit" value="'. s($label) ."\" $tooltip $disabled $jsconfirmmessage/></div></form></div>";
 
 	if ($return) {
 		return $output;
@@ -5180,7 +5180,7 @@ function update_course_icon($courseid) {
            '<input type="hidden" name="id" value="'.$courseid.'" />'.
            '<input type="hidden" name="edit" value="'.$edit.'" />'.
            '<input type="hidden" name="sesskey" value="'.sesskey().'" />'.
-           '<input type="submit" value="'.$string.'" />'.
+           '<input class="cls_button" type="submit" value="'.$string.'" />'.
            '</div></form>';
 }
 
@@ -5249,7 +5249,7 @@ function update_mymoodle_icon() {
 	return "<form $CFG->frametarget method=\"get\" action=\"$CFG->wwwroot/my/index.php\">".
            "<div>".
            "<input type=\"hidden\" name=\"edit\" value=\"$edit\" />".
-           "<input type=\"submit\" value=\"$string\" /></div></form>";
+           "<input class=\"cls_button\" type=\"submit\" value=\"$string\" /></div></form>";
 }
 
 /**
@@ -5275,7 +5275,7 @@ function update_tag_button($tagid) {
            "<div>".
            "<input type=\"hidden\" name=\"edit\" value=\"$edit\" />".
            "<input type=\"hidden\" name=\"id\" value=\"$tagid\" />".
-           "<input type=\"submit\" value=\"$string\" /></div></form>";
+           "<input class=\"cls_button\" type=\"submit\" value=\"$string\" /></div></form>";
 }
 
 /**
@@ -5296,7 +5296,7 @@ function update_module_button($moduleid, $courseid, $string) {
                "<input type=\"hidden\" name=\"update\" value=\"$moduleid\" />".
                "<input type=\"hidden\" name=\"return\" value=\"true\" />".
                "<input type=\"hidden\" name=\"sesskey\" value=\"".sesskey()."\" />".
-               "<input type=\"submit\" value=\"$string\" /></div></form>";
+               "<input class=\"cls_button\" type=\"submit\" value=\"$string\" /></div></form>";
 	} else {
 		return '';
 	}
@@ -5328,7 +5328,7 @@ function update_categories_search_button($search,$page,$perpage) {
                "<input type=\"hidden\" name=\"search\" value=\"".s($search, true)."\" />".
                "<input type=\"hidden\" name=\"page\" value=\"$page\" />".
                "<input type=\"hidden\" name=\"perpage\" value=\"$perpage\" />".
-               "<input type=\"submit\" value=\"".s($string)."\" /></div></form>";
+               "<input class=\"cls_button\" type=\"submit\" value=\"".s($string)."\" /></div></form>";
 	}
 }
 
@@ -5469,7 +5469,7 @@ function navmenu($course, $cm=NULL, $targetwindow='self', $getNavLinks=false) {
 		$backmodStr = '<div class="titleicon"><form action="'.$CFG->wwwroot.'/mod/'.$backmod->modname.'/view.php" '.
                    'onclick="this.target=\''.$CFG->framename.'\';"'.'><fieldset class="invisiblefieldset">'.
                    '<input type="hidden" name="id" value="'.$backmod->id.'" />'.
-                   '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG) no-repeat top center; width:15px ; height:15px ; border: none;" type="submit" title="'.$backtext.'">'.link_arrow_left($backtext, $url='', $accesshide=true).
+                   '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG) no-repeat top center; width:15px ; height:15px ; border: none;" type="submit" title="'.$backtext.'">'.link_arrow_left($backtext, $url='', $accesshide=true).
                    '</button></fieldset></form></div>';
 	}
 	if ($nextmod) {
@@ -5477,7 +5477,7 @@ function navmenu($course, $cm=NULL, $targetwindow='self', $getNavLinks=false) {
 		$nextmodStr = '<div class="titleicon"><form action="'.$CFG->wwwroot.'/mod/'.$nextmod->modname.'/view.php"  '.
                    'onclick="this.target=\''.$CFG->framename.'\';"'.'><fieldset class="invisiblefieldset">'.
                    '<input type="hidden" name="id" value="'.$nextmod->id.'" />'.
-                   '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG) no-repeat top center; width:15px ; height:15px ; border: none;" type="submit" title="'.$nexttext.'">'.link_arrow_right($nexttext, $url='', $accesshide=true).
+                   '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG) no-repeat top center; width:15px ; height:15px ; border: none;" type="submit" title="'.$nexttext.'">'.link_arrow_right($nexttext, $url='', $accesshide=true).
                    '</button></fieldset></form></div>';
 	}
 
@@ -5490,7 +5490,7 @@ function navmenu($course, $cm=NULL, $targetwindow='self', $getNavLinks=false) {
 //	$nextmod . '</ul>'."\n".'</div>';
 /*danhut modifed*/
 	if($getNavLinks === false) { 
-		return '<div class="">'."\n".''. $backmodStr . $nextmodStr . ''."\n".'</div>';
+		return '<div class="">'."\n".''.  $nextmodStr .$backmodStr. ''."\n".'</div>';
 	} else {
 		$nextLink = '';
 		$backLink = '';
