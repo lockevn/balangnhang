@@ -3579,6 +3579,12 @@ function link_arrow_right($text, $url='', $accesshide=false, $addclass='') {
 	if (! $url) {
 		$arrowclass .= $addclass;
 	}
+    
+    /**
+    * muinx commented, overwirte $THEME->rarrow
+    */
+    $THEME->rarrow = '<span class="sep">&raquo;</span>';
+    
 	$arrow = '<span class="'.$arrowclass.'">'.$THEME->rarrow.'</span>';
 	$htmltext = '';
 	if ($text) {
@@ -3663,7 +3669,7 @@ function get_separator() {
  * @return string or null, depending on $return.
  */
 function print_navigation ($navigation, $separator=0, $return=false) {
-	global $CFG, $THEME;
+    global $CFG, $THEME;
 	$output = '';
 
 	if (0 === $separator) {
@@ -3675,18 +3681,18 @@ function print_navigation ($navigation, $separator=0, $return=false) {
 
 	if ($navigation) {
 
-		if (is_newnav($navigation)) {
+        if (is_newnav($navigation)) {
 			if ($return) {
-				return($navigation['navlinks']);
+                return($navigation['navlinks']);
 			} else {
-				echo $navigation['navlinks'];
+                echo $navigation['navlinks'];
 				return;
 			}
 		} else {
 			debugging('Navigation needs to be updated to use build_navigation()', DEBUG_DEVELOPER);
 		}
-
-		if (!is_array($navigation)) {
+        
+        if (!is_array($navigation)) {
 			$ar = explode('->', $navigation);
 			$navigation = array();
 
@@ -3701,6 +3707,8 @@ function print_navigation ($navigation, $separator=0, $return=false) {
 			}
 		}
 
+        
+        
 		if (! $site = get_site()) {
 			$site = new object();
 			$site->shortname = get_string('home');
@@ -3715,14 +3723,14 @@ function print_navigation ($navigation, $separator=0, $return=false) {
 		? '/my' : '') .'/">'. format_string($site->shortname) ."</a>\n</li>\n";
 
 
-		foreach ($navigation as $navitem) {
+        foreach ($navigation as $navitem) {
 			$title = trim(strip_tags(format_string($navitem['title'], false)));
 			$url   = $navitem['url'];
 
 			if (empty($url)) {
 				$output .= '<li>'."$separator $title</li>\n";
 			} else {
-				$output .= '<li>'."$separator\n<a ".$CFG->frametarget.' onclick="this.target=\''.$CFG->framename.'\'" href="'
+				$output .= '<li>'."$separator \n<a ".$CFG->frametarget.' onclick="this.target=\''.$CFG->framename.'\'" href="'
 				.$url.'">'."$title</a>\n</li>\n";
 			}
 		}
