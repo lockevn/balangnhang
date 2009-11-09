@@ -6838,7 +6838,7 @@ function print_tabs($tabrows, $selected=NULL, $inactive=NULL, $activated=NULL, $
                     #id_newpassword, #id_username,  #id_country, #id_timezone, #id_lang, #id_address,  #id_phone1, #id_phone2, #id_yahoo, #id_city {
                         width: 200px;
                     }
-                    #id_maildisplay, #id_autosubscribe, #id_trackforums, #id_htmleditor, #id_timezone, #id_lang, #id_country{
+                    #id_maildisplay, #id_autosubscribe, #id_trackforums, #id_htmleditor, #id_timezone, #id_lang, #id_country, #id_auth {
                         width: 208px;
                     }
                     #id_interests {
