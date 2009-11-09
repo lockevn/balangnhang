@@ -9,11 +9,11 @@ $userid = $USER->id;
 $courseid = required_param('courseid', PARAM_INT);   // course
 
 
-$chartTongQuanKhoaHoc = open_flash_chart_object_str('45%', 300, 
+$chartTongQuanKhoaHoc = open_flash_chart_object_str('90%', 300, 
 "/mod/smartcom/api/student_learning_progress_TongQuanKhoaHoc_ofc_data.php?courseid=$courseid&userid=$userid", 
 false, '/' );
 
-$chartTongQuanKhoaHocTheoKyNang = open_flash_chart_object_str('45%', 300, 
+$chartTongQuanKhoaHocTheoKyNang = open_flash_chart_object_str('90%', 300, 
 "/mod/smartcom/api/student_learning_progress_TongQuanKhoaHocTheoKyNang_ofc_data.php?courseid=$courseid&userid=$userid", 
 false, '/' );
 
