@@ -6825,7 +6825,13 @@ function print_tabs($tabrows, $selected=NULL, $inactive=NULL, $activated=NULL, $
                     .tabtree {
                         margin-bottom: 0; 
                     }
-                    
+                    .tabtree ul li {
+                        height: 20px !important;
+                        float: left;
+                        line-height: 20px !important;
+                        padding: 0 10px 0 10px;
+                        background: url('.$CFG->wwwroot.'/theme/menu_horizontal/template/images/MN1_SP.jpg) no-repeat right center;
+                    }
                     #mform1 {
                         width: 98%;
                     }
