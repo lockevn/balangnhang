@@ -51,7 +51,7 @@ class block_login extends block_base {
             $this->content->text .= '<div class="c1 fld password"><label for="login_password">'.get_string('password').'</label>';
             $this->content->text .= '<input type="password" name="password" id="login_password" value="" /></div>';
 
-            $this->content->text .= '<div class="c1 btn"><input type="submit" value="'.get_string('login').'" /></div>';
+            $this->content->text .= '<div class="c1 btn"><input class="cls_button" type="submit" value="'.get_string('login').'" /></div>';
 
             $this->content->text .= "</form>\n";
 
