@@ -319,12 +319,27 @@
         
 //        print_box('&nbsp;', 'clearer');
     }
+echo '
+        <style type="text/css">
+            #intro {
+                background-color: transparent !important;
+            }
+            .entrybox {
+                border: none;
+                background-color: transparent !important;
+            }
+            .glossarydisplay, .glossarypost {
+                width: 100% !important;
+            }
+        </style>
+    ';
 
 /// Info box
     if ( $glossary->intro && $showcommonelements ) {
         $options = new stdclass;
         $options->para = false;
         print_box(format_text($glossary->intro, FORMAT_MOODLE, $options), 'generalbox', 'intro');
+        
     }
 
 /// Search box
@@ -334,7 +349,7 @@
         echo '<table class="boxaligncenter" width="70%" border="0">';
         echo '<tr><td align="center" class="glossarysearchbox">';
 
-        echo '<input type="submit" value="'.$strsearch.'" name="searchbutton" /> ';
+        echo '<input class="cls_button" type="submit" value="'.$strsearch.'" name="searchbutton" /> ';
         if ($mode == 'search') {
             echo '<input type="text" name="hook" size="20" value="'.s($hook).'" alt="'.$strsearch.'" /> ';
         } else {
@@ -371,7 +386,15 @@
     }
 
     echo '<br />';
-
+echo '
+        <table cellpadding="0" cellspacing="0" width="100%" border="0">
+            <tr>
+                <td width="20"></td>
+                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+                <td valign="top">
+                    <table cellpadding="10px" cellspacing="0" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
+                        <tr>
+                            <td>';
     include("tabs.php");
 
     include_once("sql.php");
@@ -520,7 +543,17 @@
     glossary_print_tabbed_table_end();
 
 /// Finish the page
-
+?>
+                            
+                    </td>
+                </tr>
+            </table>                                                                
+        </td>
+        <td valign="top" width="5px"><img src="<?php echo $CFG->wwwroot; ?>/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+        <td width="20"></td>
+    </tr>
+</table>
+<?php
     print_footer($course);
 
 ?>
