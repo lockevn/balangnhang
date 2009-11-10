@@ -21,21 +21,21 @@
     }
 
 
-    $browserow[] = new tabobject(GLOSSARY_STANDARD_VIEW, 
-                                 $CFG->wwwroot.'/mod/glossary/view.php?id='.$id.'&amp;mode=letter',
-                                 get_string('standardview', 'glossary'));
-
-    $browserow[] = new tabobject(GLOSSARY_CATEGORY_VIEW, 
-                                 $CFG->wwwroot.'/mod/glossary/view.php?id='.$id.'&amp;mode=cat', 
-                                 get_string('categoryview', 'glossary'));
-
-    $browserow[] = new tabobject(GLOSSARY_DATE_VIEW, 
-                                 $CFG->wwwroot.'/mod/glossary/view.php?id='.$id.'&amp;mode=date',
-                                 get_string('dateview', 'glossary'));
-
-    $browserow[] = new tabobject(GLOSSARY_AUTHOR_VIEW, 
-                                 $CFG->wwwroot.'/mod/glossary/view.php?id='.$id.'&amp;mode=author',
-                                 get_string('authorview', 'glossary'));
+//    $browserow[] = new tabobject(GLOSSARY_STANDARD_VIEW, 
+//                                 $CFG->wwwroot.'/mod/glossary/view.php?id='.$id.'&amp;mode=letter',
+//                                 get_string('standardview', 'glossary'));
+//
+//    $browserow[] = new tabobject(GLOSSARY_CATEGORY_VIEW, 
+//                                 $CFG->wwwroot.'/mod/glossary/view.php?id='.$id.'&amp;mode=cat', 
+//                                 get_string('categoryview', 'glossary'));
+//
+//    $browserow[] = new tabobject(GLOSSARY_DATE_VIEW, 
+//                                 $CFG->wwwroot.'/mod/glossary/view.php?id='.$id.'&amp;mode=date',
+//                                 get_string('dateview', 'glossary'));
+//
+//    $browserow[] = new tabobject(GLOSSARY_AUTHOR_VIEW, 
+//                                 $CFG->wwwroot.'/mod/glossary/view.php?id='.$id.'&amp;mode=author',
+//                                 get_string('authorview', 'glossary'));
 
     if ($tab < GLOSSARY_STANDARD_VIEW || $tab > GLOSSARY_AUTHOR_VIEW) {   // We are on second row
         $inactive = array('edit');
@@ -69,16 +69,16 @@
 
     
     switch ($tab) {
-        case GLOSSARY_CATEGORY_VIEW:
-            glossary_print_categories_menu($cm, $glossary, $hook, $category);
-        break;
-        case GLOSSARY_APPROVAL_VIEW:
-            glossary_print_approval_menu($cm, $glossary, $mode, $hook, $sortkey, $sortorder);
-        break;
-        case GLOSSARY_AUTHOR_VIEW:
-            $search = "";
-            glossary_print_author_menu($cm, $glossary, "author", $hook, $sortkey, $sortorder, 'print');
-        break;
+//        case GLOSSARY_CATEGORY_VIEW:
+//            glossary_print_categories_menu($cm, $glossary, $hook, $category);
+//        break;
+//        case GLOSSARY_APPROVAL_VIEW:
+//            glossary_print_approval_menu($cm, $glossary, $mode, $hook, $sortkey, $sortorder);
+//        break;
+//        case GLOSSARY_AUTHOR_VIEW:
+//            $search = "";
+//            glossary_print_author_menu($cm, $glossary, "author", $hook, $sortkey, $sortorder, 'print');
+//        break;
         case GLOSSARY_IMPORT_VIEW:
             $search = "";
             $l = "";
@@ -89,15 +89,15 @@
             $l = "";
             glossary_print_export_menu($cm, $glossary, 'export', $hook, $sortkey, $sortorder);
         break;
-        case GLOSSARY_DATE_VIEW:
-            if (!$sortkey) {
-                $sortkey = 'UPDATE';
-            }
-            if (!$sortorder) {
-                $sortorder = 'desc';
-            }
-            glossary_print_alphabet_menu($cm, $glossary, "date", $hook, $sortkey, $sortorder);
-        break;
+//        case GLOSSARY_DATE_VIEW:
+//            if (!$sortkey) {
+//                $sortkey = 'UPDATE';
+//            }
+//            if (!$sortorder) {
+//                $sortorder = 'desc';
+//            }
+//            glossary_print_alphabet_menu($cm, $glossary, "date", $hook, $sortkey, $sortorder);
+//        break;
         case GLOSSARY_STANDARD_VIEW:
         default:
             glossary_print_alphabet_menu($cm, $glossary, "letter", $hook, $sortkey, $sortorder);
