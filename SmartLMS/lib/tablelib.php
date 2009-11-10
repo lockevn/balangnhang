@@ -603,8 +603,20 @@ class flexible_table {
         $suppress_lastrow = NULL;
         // Start of main data table
 
-        echo '<table'.$this->make_attributes_string($this->attributes).'>';
-
+        //echo '<table'.$this->make_attributes_string($this->attributes).'>';
+        echo '
+            <style type="text/css">
+                .flexible th {
+                    padding: 10px !important;
+                    border: 1px solid #999 !important;
+                }
+                .flexible td {
+                    background: #FFF;
+                    border: 1px solid #999 !important;
+                }
+                .flexible {background: #999 !important; }
+            </style>
+            <table'.$this->make_attributes_string($this->attributes).' cellspacing="1" cellpadding="10px" bgcolor="#999999" width="100%">';
         echo '<tr>';
         foreach($this->columns as $column => $index) {
             $icon_hide = '';
@@ -686,10 +698,10 @@ class flexible_table {
             }
 
             if($this->headers[$index] === NULL) {
-                echo '<th class="header c'.$index.$this->column_class[$column].'" scope="col">&nbsp;</th>';
+                echo '<th background="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/TB1_HD.jpg" class="header c'.$index.$this->column_class[$column].' courseBB" scope="col">&nbsp;</th>';
             }
             else if(!empty($this->sess->collapse[$column])) {
-                echo '<th class="header c'.$index.$this->column_class[$column].'" scope="col">'.$icon_hide.'</th>';
+                echo '<th background="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/TB1_HD.jpg" class="header c'.$index.$this->column_class[$column].' courseBB" scope="col">'.$icon_hide.'</th>';
             }
             else {
                 // took out nowrap for accessibility, might need replacement
@@ -700,7 +712,7 @@ class flexible_table {
                     // $usestyles = $this->column_style[$column]+array('white-space'=>'nowrap');
                     $usestyles = $this->column_style[$column];
                  }
-                echo '<th class="header c'.$index.$this->column_class[$column].'" '.$this->make_styles_string($usestyles).' scope="col">'.$this->headers[$index].$icon_sort.'<div class="commands">'.$icon_hide.'</div></th>';
+                echo '<th background="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/TB1_HD.jpg" class="header c'.$index.$this->column_class[$column].' courseBB" '.$this->make_styles_string($usestyles).' scope="col">'.$this->headers[$index].$icon_sort.'<div class="commands">'.$icon_hide.'</div></th>';
             }
 
         }
