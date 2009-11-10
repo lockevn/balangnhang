@@ -53,7 +53,27 @@ require_once("{$CFG->dirroot}/search/lib.php");
         $site = get_site();
         print_header("$strsearch", "$site->fullname" , $navigation, "", "", true, "&nbsp;", navmenu($site));
     }
-    
+    echo '
+        <style type="text/css">
+                .search {
+                    float:none !important;
+                    margin-right: 0px !important;
+                }
+                div.generalbox {
+                    background: transparent !important;
+                }
+                
+                select { width: 206px;}
+                .smartlms-td-header {
+                    background: url('. $CFG->wwwroot. '/theme/menu_horizontal/template/images/TB1_HD.jpg) repeat-x;
+                    border-color: #999 !important;
+                }
+                .smartlms-td-data {
+                    background: #FFF;
+                    border-color: #999 !important;
+                }
+        </style>
+        ';
 /// keep things pretty, even if php5 isn't available
 
     print_box_start();
