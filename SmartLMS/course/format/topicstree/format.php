@@ -142,17 +142,11 @@
 /// Start main column
 	echo '<td id="middle-column">';
     
-    /******************************
-    * @desc muinx add content here: bulletin
-    */
     
     echo '<table width="100%" border="1"><tr><td>';
     print_heading_block(get_string('topicoutline'), 'outline');
     echo '</td></tr></table>';
     
-    /******************************
-    * @desc muinx add content here
-    */
     
 	print_container_start();
 	echo skip_main_destination();
@@ -206,7 +200,7 @@
         echo '</td>';
 		echo '<td class="right side">&nbsp;</td>';
 		echo '</tr>';
-		echo '<tr class="section separator"><td colspan="3" class="spacer"></td></tr>';
+		echo '<tr class="section separator" main><td colspan="3" class="spacer"></td></tr>';
 	}
 
 
@@ -264,18 +258,18 @@
 			}
 
 			 
-            //echo '<tr id="section-'.$section.'" class="section main'.$sectionstyle.'">';
-			echo '<tr id="section-'.$section.'">'; //@muinx
+            echo '<tr id="section-'.$section.'" class="section main'.$sectionstyle.'">';
+			
 			if(isset($thissection->label)) {
 				$sectionLabel = $thissection->label;
 			} else {
 				$sectionLabel = '';
 			}			
-            //echo '<td class="left side">' . format_text($sectionLabel, FORMAT_HTML) . '</td>';
-			echo '<td>' . format_text($sectionLabel, FORMAT_HTML) . '</td>'; //@muinx
+            echo '<td class="left side">' . format_text($sectionLabel, FORMAT_HTML) . '</td>';
+			
 
-			//echo '<td class="content">';
-            echo '<td>'; //@muinx
+			echo '<td class="content">';
+            
 			if (!has_capability('moodle/course:viewhiddensections', $context) and !$thissection->visible) {   // Hidden for students
 				echo get_string('notavailable');
 			} else {
@@ -317,8 +311,8 @@
 			}
 			echo '</td>';
 
-            //echo '<td class="right side">';
-			echo '<td valign="top">'; //@muinx
+            echo '<td class="right side">';
+			
 			if ($displaysection == $section) {      // Show the zoom boxes
 				echo '<a href="view.php?id='.$course->id.'&amp;topic=0#section-'.$section.'" title="'.$strshowalltopics.'">'.
 					 '<img src="'.$CFG->pixpath.'/i/all.gif" alt="'.$strshowalltopics.'" /></a><br />';
@@ -466,8 +460,7 @@ function print_topicstree_section($course, $section, $mods, $modnamesused, $abso
 		echo '</script>';
 
 		// Fix bug #5027, don't want style=\"width:$width\".
-        //echo "<ul id=\"{$collapsablename}\" class=\"section img-text treesection\">\n";
-		echo "<ul id=\"{$collapsablename}\" class=\"section img-text\">\n"; //@muinx
+        echo "<ul id=\"{$collapsablename}\" class=\"section img-text treesection\">\n";
 		$sectionmods = explode(",", $section->sequence);
 
 
