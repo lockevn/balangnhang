@@ -189,6 +189,12 @@
         } 
     }
     ?>
+    <style type="text/css">
+                .search {
+                    float:none !important;
+                }
+    </style>
+    
     <form id="query" method="get" action="query.php">
     <?php 
     if (!$advanced) { 
