@@ -70,19 +70,19 @@
 /// only if the glossary is viewed by the first time
     if ( $dp = get_record('glossary_formats','name', addslashes($glossary->displayformat)) ) {
     /// Based on format->defaultmode, we build the defaulttab to be showed sometimes
-        switch ($dp->defaultmode) {
-            case 'cat':
-                $defaulttab = GLOSSARY_CATEGORY_VIEW;
-                break;
-            case 'date':
-                $defaulttab = GLOSSARY_DATE_VIEW;
-                break;
-            case 'author':
-                $defaulttab = GLOSSARY_AUTHOR_VIEW;
-                break;
-            default:
+//        switch ($dp->defaultmode) {
+//            case 'cat':
+//                $defaulttab = GLOSSARY_CATEGORY_VIEW;
+//                break;
+//            case 'date':
+//                $defaulttab = GLOSSARY_DATE_VIEW;
+//                break;
+//            case 'author':
+//                $defaulttab = GLOSSARY_AUTHOR_VIEW;
+//                break;
+//            default:
                 $defaulttab = GLOSSARY_STANDARD_VIEW;
-        }
+//        }
     /// Fetch the rest of variables
         $printpivot = $dp->showgroup;
         if ( $mode == '' and $hook == '' and $show == '') {
