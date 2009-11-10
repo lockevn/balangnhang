@@ -616,7 +616,7 @@ class flexible_table {
                 }
                 .flexible {background: #999 !important; }
             </style>
-            <table'.$this->make_attributes_string($this->attributes).' cellspacing="1" cellpadding="10px" bgcolor="#999999" width="100%">';
+            <table'.$this->make_attributes_string($this->attributes).' cellspacing="1" cellpadding="10px" bgcolor="#999999" style="width: 100%;">';
         echo '<tr>';
         foreach($this->columns as $column => $index) {
             $icon_hide = '';

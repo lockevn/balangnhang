@@ -195,12 +195,26 @@
     }
 
 /// Print settings and things in a table across the top
-
-    echo '<table class="controls" cellspacing="0"><tr>';
+echo '
+<style type="text/css">
+    .left {
+        background-color: transparent !important;
+    }
+</style>
+        <table cellpadding="0" cellspacing="0" width="100%" border="0">
+            <tr>
+                <td width="20"></td>
+                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+                <td valign="top">
+                    <table cellpadding="10px" cellspacing="0" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
+                        <tr>                            
+                            <td valign="top">';
+    echo '<table class="controls" cellspacing="0"><tr>
+        ';
 
 /// Print my course menus
     if ($mycourses = get_my_courses($USER->id)) {
-        echo '<td class="left">';
+        echo '<td class="left" >';
         $courselist = array();
         foreach ($mycourses as $mycourse) {
             $courselist[$mycourse->id] = format_string($mycourse->shortname);
@@ -506,7 +520,8 @@
     $formatmenu = array( '0' => get_string('detailedless'),
                          '1' => get_string('detailedmore'));
     popup_form($baseurl.'&amp;mode=', $formatmenu, 'formatmenu', $fullmode, '', '', '', false, 'self', get_string('userlist'));
-    echo '</td></tr></table>';
+    echo '</td></tr></table>';                                
+//========================================
 
     if ($currentgroup and (!$isseparategroups or has_capability('moodle/site:accessallgroups', $context))) {    /// Display info about the group
         if ($group = groups_get_group($currentgroup)) {
@@ -808,13 +823,25 @@
         echo '<div id="showall"><a href="'.$perpageurl.'&amp;perpage='.SHOW_ALL_PAGE_SIZE.'">'.get_string('showall', '', $matchcount).'</a></div>';
     }
 
+echo '                                
+                            </td>
+                        </tr>                       
+                    </table>                                                                
+                </td>
+                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+                <td width="20"><span></span></td>
+            </tr>
+            
+        </table>
+        
+    ';
+
     print_footer($course);
 
     if ($userlist) {
         rs_close($userlist);
     }
-
-
+    
 function get_course_lastaccess_sql($accesssince='') {
     if (empty($accesssince)) {
         return '';
