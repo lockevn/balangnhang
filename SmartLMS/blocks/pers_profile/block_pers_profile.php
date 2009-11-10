@@ -12,10 +12,15 @@
 
       function get_content() {
          global $db, $USER, $CFG, $COURSE;
+      	if(!isloggedin()) {
+        	return false; 	
+         }
 
          if ($this->content !== NULL) {
 	    return $this->content;
          }
+         
+         
 	  
 	 $this->content = new stdClass;
 	 if ($USER->picture)
