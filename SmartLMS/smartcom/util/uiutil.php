@@ -116,11 +116,11 @@ function printSectionActivities($activityArr, $courseid, $selectedLOId, $userid)
                     </td>                                            
                     <td>';
                         if ($grade->status == 'incompleted') 
-                            $str .= '<img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/coursemenu_o.jpg" /> ';
+                            $str .= '<img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/coursemenu_o.jpg" title="incompleted"/> ';
                         else if ($grade->status == 'failed') 
-                                $str .= '<img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/coursemenu_x.JPG" /> ';
+                                $str .= '<img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/coursemenu_x.jpg" title="failed" /> ';
                         else if ($grade->status == 'passed')
-                                $str .= '<img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/coursemenu_v.JPG" /> ';
+                                $str .= '<img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/coursemenu_v.jpg" title="passed" /> ';
         $str .= '                    
                     </td>                                            
                     <td>
@@ -146,10 +146,11 @@ function printLectureListOfCurrentActivity($loList) {
 		$lo = $loList[$i];
 		if($lo->type == "lecture") {
 			if($lo->selected == 0) {
-				$link .= "<a style=\"margin: 0 5px; color: #FFF; padding: 0 5px;background: transparent url($CFG->themewww/".current_theme() ."/template/images/CircleBR.gif) no-repeat scroll center center; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;\" href='$CFG->wwwroot/mod/resource/view.php?id=$lo->id'>$lectureIndex</a>";
+				$link .= "<a style=\"margin: 0 5px; color: #FFF; padding: 0 5px; background: gray; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;\" href='$CFG->wwwroot/mod/resource/view.php?id=$lo->id'><b>$lectureIndex</b></a>"; 
 			}
 			else {
-				$link .= "<a style=\"margin: 0 5px; color: #FFF; padding: 0 5px; background: gray; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;\" href='$CFG->wwwroot/mod/resource/view.php?id=$lo->id'><b>$lectureIndex</b></a>";
+				$link .= "<a style=\"margin: 0 5px; color: #FFF; padding: 0 5px;background: transparent url($CFG->themewww/".current_theme() ."/template/images/CircleBR.gif) no-repeat scroll center center; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;\" href='$CFG->wwwroot/mod/resource/view.php?id=$lo->id'>$lectureIndex</a>"; 
+				
 				/*thử kiểm tra ngay sau current lecture có phải là 1 practice k*/
 				if(($i + 1) < sizeof($loList) && $loList[$i+1]->type == "practice") {
 					$practice = $loList[$i+1];

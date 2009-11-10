@@ -536,6 +536,9 @@ function getLectureListOfCurrentQuiz($cmid, $activityArr) {
 }
 
 function isTicketRequired($userid, $courseid) {
+	if($courseid == 1) {
+		return false;
+	}
 	$context = get_context_instance(CONTEXT_COURSE, $courseid);
 	if(empty($context)) {
 		return false;
