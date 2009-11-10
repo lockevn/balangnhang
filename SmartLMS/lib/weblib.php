@@ -5479,7 +5479,7 @@ function navmenu($course, $cm=NULL, $targetwindow='self', $getNavLinks=false) {
                    '<input type="hidden" name="id" value="'.$backmod->id.'" />'.
                    '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG) 
                    								no-repeat top center; width:15px ; height:15px ; border: none;" 
-                   			type="submit" title="'.$backtext.'">'.link_arrow_left($backtext, $url='', $accesshide=true).
+                   			type="submit" title="'.$backtext.'">'. //link_arrow_left($backtext, $url='', $accesshide=true).
                    '</button></fieldset></form></div>';
 	}
 	if ($nextmod) {
@@ -5489,7 +5489,7 @@ function navmenu($course, $cm=NULL, $targetwindow='self', $getNavLinks=false) {
                    '<input type="hidden" name="id" value="'.$nextmod->id.'" />'.
                    '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG) 
                    								no-repeat top center; width:15px ; height:15px ; border: none;" 
-                   			type="submit" title="'.$nexttext.'">'.link_arrow_right($nexttext, $url='', $accesshide=true).
+                   			type="submit" title="'.$nexttext.'">'. //link_arrow_right($nexttext, $url='', $accesshide=true).
                    '</button></fieldset></form></div>';
 	}
 
