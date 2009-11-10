@@ -62,6 +62,15 @@
 ?>
 <br />
 <?php
+echo '
+        <table cellpadding="0" cellspacing="0" width="100%" border="0">
+            <tr>
+                <td width="20"></td>
+                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+                <td valign="top">
+                    <table cellpadding="10px" cellspacing="0" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
+                        <tr>
+                            <td>';
     // Print the activity description
     $options = new object();
     $options->para = true;
@@ -195,7 +204,15 @@
     else
         nanogong_print_message_list($course, $id, $nanogong, $groupid, true, isguest());
 ?>
-    </tbody>
+    <!-- /tbody>
+</table -->
+                    </td>
+                </tr>
+            </table>                                                                
+        </td>
+        <td valign="top" width="5px"><img src="<?php echo $CFG->wwwroot; ?>/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+        <td width="20"></td>
+    </tr>
 </table>
 </center>
 <?php
