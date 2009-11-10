@@ -80,35 +80,24 @@ if ($heading || $home) {  // This is what gets printed on any other page with a 
 	</div>
     
 	
-
-	
-	<div style="clear:both"></div>
-	<?php //include ('menu.html'); ?>
-		
 	<div class="navbar clearfix">
-	 	    
-  
-	
-	
+	 	      
 	<?php if ($navigation) { // This is the navigation table with breadcrumbs
 	?>	
 		<div class="breadcrumb"><?php print_navigation($navigation); ?></div>
 		<div class="navbutton"><?php echo $button; ?></div>
 			  
 	<?php } ?>	
-	<!-- 
+	
 		 <div class="global_search">
             <?php 
             
-                if (check_php_version("5.0.0")) {        
-                //fetch values if defined in admin, otherwise use defaults
-                $label  = (!empty($CFG->block_search_text)) ? $CFG->block_search_text : get_string('searchmoodle', 'block_search');
+                if (check_php_version("5.0.0")) {                                       
                 $button = (!empty($CFG->block_search_button)) ? $CFG->block_search_button : get_string('go', 'block_search');
                 
                 //basic search form
                 echo
-                    '<form id="searchquery" method="get" action="'. $CFG->wwwroot .'/search/query.php"><div>'
-                  . '<label for="block_search_q">'. $label .'</label> '
+                    '<form id="searchquery" method="get" action="'. $CFG->wwwroot .'/search/query.php"><div>'                  
                   . '<input id="block_search_q" type="text" name="query_string" /> '
                   . '<input type="submit" value="'.$button.'" />'
                   . '</div></form>';
@@ -117,7 +106,7 @@ if ($heading || $home) {  // This is what gets printed on any other page with a 
               } //else
             ?>
         </div>
-        --> 
+        
         <!-- language menu here -->
 		<div class="headermenu">
 			<?php echo "<a href='$CFG->wwwroot/course/view.php?id=$COURSE->id&lang=vi_utf8'><img src='$CFG->themewww/" . current_theme() . "/template/images/VN.gif' alt='Tiếng Việt'/></a>"; ?>
