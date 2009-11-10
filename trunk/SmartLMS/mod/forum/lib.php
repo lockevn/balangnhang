@@ -2793,6 +2793,7 @@ function forum_print_post($post, $discussion, $forum, &$cm, $course, $ownpost=fa
             return;
         }
         echo '<a id="p'.$post->id.'"></a>';
+       
         echo '<table cellspacing="0" class="forumpost">';
         echo '<tr class="header"><td class="picture left">';
         //        print_user_picture($post->userid, $courseid, $post->picture);
@@ -2848,7 +2849,11 @@ function forum_print_post($post, $discussion, $forum, &$cm, $course, $ownpost=fa
     }
 
     echo '<a id="p'.$post->id.'"></a>';
-    echo '<table cellspacing="0" class="forumpost'.$read_style.'">';
+    echo '
+    <style type="text/css">
+        td.left {background-color: transparent;}
+    </style>
+    <table cellspacing="0" class="forumpost'.$read_style.'" style="background-color: transparent">';
 
     // Picture
     $postuser = new object();
@@ -2857,8 +2862,8 @@ function forum_print_post($post, $discussion, $forum, &$cm, $course, $ownpost=fa
     $postuser->lastname  = $post->lastname;
     $postuser->imagealt  = $post->imagealt;
     $postuser->picture   = $post->picture;
-
-    echo '<tr class="header"><td class="picture left">';
+ 
+    echo '<tr class="header"  style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x"><td class="picture left">';
     print_user_picture($postuser, $course->id);
     echo '</td>';
 
