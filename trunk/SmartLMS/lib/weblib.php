@@ -4861,7 +4861,7 @@ function print_table($table, $return=false) {
         if (!empty($table->summary)) {
             $output .= " summary=\"$table->summary\"";
         }
-        $output .= " cellpadding=\"$table->cellpadding\" cellspacing=\"$table->cellspacing\" class=\"$table->class boxalign$table->tablealign\" $tableid>\n";    
+        $output .= " cellpadding=\"$table->cellpadding\" cellspacing=\"$table->cellspacing\" class=\"$table->class boxalign$table->tablealign \" $tableid bgcolor=\"#999999\">\n";    
     }
 
 	$countcols = 0;
@@ -4915,6 +4915,11 @@ function print_table($table, $return=false) {
 				$keys2=array_keys($row);
 				$lastkey = end($keys2);
                 
+                if ($key == 0) 
+                    $smartlms_class = 'smartlms-td-header';
+                else 
+                    $smartlms_class = 'smartlms-td-data';
+                    
 				foreach ($row as $key => $item) {
                     
 					if (!isset($size[$key])) {
@@ -4931,10 +4936,11 @@ function print_table($table, $return=false) {
 					} else {
 						$extraclass = '';
 					}
+                    
                     if ($table->class == 'generaltable quizattemptsummary') {
-                        $output .= '<td height="44px" align="center" bgcolor="#EEEEEE" class="courseGB">'. $item. '</td>';
+                        $output .= '<td height="44px" align="center" bgcolor="#EEEEEE" class="courseGB '.$smartlms_class.'" >'. $item. '</td>';
                     } else {
-                        $output .= '<td bgcolor="#EEEEEE" class="courseGB" style="'. $align[$key].$size[$key].$wrap[$key] .'" class="cell c'.$key.$extraclass.'">'. $item .'</td>';    
+                        $output .= '<td bgcolor="#EEEEEE" class="courseGB '.$smartlms_class.'" style="'. $align[$key].$size[$key].$wrap[$key] .'" class="cell c'.$key.$extraclass.'">'. $item .'</td>';    
                     }
 					
 				}

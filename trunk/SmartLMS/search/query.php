@@ -173,7 +173,17 @@
     if (!empty($error)){
         notice ($error);
     }
-    
+ 
+ echo '
+        <table cellpadding="0" cellspacing="0" width="100%" border="0">
+            <tr>
+                <td width="20"></td>
+                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+                <td valign="top">
+                    <table cellpadding="10px" cellspacing="0" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
+                        <tr>
+                            <td>';
+
     print_box_start();
     print_heading($strquery);
     
@@ -192,15 +202,21 @@
     <style type="text/css">
                 .search {
                     float:none !important;
+                    margin-right: 0px !important;
                 }
+                div.generalbox {
+                    background: transparent !important;
+                }
+                .width-200 {width: 200px;}
+                select { width: 206px;}
     </style>
     
     <form id="query" method="get" action="query.php">
     <?php 
     if (!$advanced) { 
     ?>
-        <input type="text" name="query_string" length="50" value="<?php p($query_string) ?>" />
-        &nbsp;<input type="submit" value="<?php print_string('search', 'search') ?>" /> &nbsp;
+        <input class="width-200" type="text" name="query_string" length="50" value="<?php p($query_string) ?>" />
+        &nbsp;<input class="cls_button" type="submit" value="<?php print_string('search', 'search') ?>" /> &nbsp;
         <a href="query.php?a=1"><?php print_string('advancedsearch', 'search') ?></a> |
         <a href="stats.php"><?php print_string('statistics', 'search') ?></a>
     <?php 
@@ -214,17 +230,17 @@
     
         <tr>
           <td width="240"><?php print_string('thesewordsmustappear', 'search') ?>:</td>
-          <td><input type="text" name="mustappear" length="50" value="<?php print $adv->mustappear; ?>" /></td>
+          <td><input class="width-200" type="text" name="mustappear" length="50" value="<?php print $adv->mustappear; ?>" /></td>
         </tr>
     
         <tr>
           <td><?php print_string('thesewordsmustnotappear', 'search') ?>:</td>
-          <td><input type="text" name="notappear" length="50" value="<?php print $adv->notappear; ?>" /></td>
+          <td><input class="width-200" type="text" name="notappear" length="50" value="<?php print $adv->notappear; ?>" /></td>
         </tr>
     
         <tr>
           <td><?php print_string('thesewordshelpimproverank', 'search') ?>:</td>
-          <td><input type="text" name="canappear" length="50" value="<?php print $adv->canappear; ?>" /></td>
+          <td><input class="width-200" type="text" name="canappear" length="50" value="<?php print $adv->canappear; ?>" /></td>
         </tr>
     
         <tr>
@@ -257,16 +273,16 @@
     
         <tr>
           <td><?php print_string('wordsintitle', 'search') ?>:</td>
-          <td><input type="text" name="title" length="50" value="<?php print $adv->title; ?>" /></td>
+          <td><input class="width-200" type="text" name="title" length="50" value="<?php print $adv->title; ?>" /></td>
         </tr>
     
         <tr>
           <td><?php print_string('authorname', 'search') ?>:</td>
-          <td><input type="text" name="author" length="50" value="<?php print $adv->author; ?>" /></td>
+          <td><input class="width-200" type="text" name="author" length="50" value="<?php print $adv->author; ?>" /></td>
         </tr>
     
         <tr>
-          <td colspan="3" align="center"><br /><input type="submit" value="<?php print_string('search', 'search') ?>" /></td>
+          <td colspan="3" align="center"><br /><input class="cls_button" type="submit" value="<?php print_string('search', 'search') ?>" /></td>
         </tr>
     
         <tr>
@@ -353,7 +369,7 @@
                     $iconpath = $CFG->modpixpath.'/'.$listing->doctype.'/icon.gif';
                     $icon = "<img align=\"top\" src=\"".$iconpath."\" class=\"activityicon\" alt=\"\"/>";
                 }
-              	$coursename = get_field('course', 'fullname', 'id', $listing->courseid);
+                  $coursename = get_field('course', 'fullname', 'id', $listing->courseid);
                 $courseword = mb_convert_case(get_string('course', 'moodle'), MB_CASE_LOWER, 'UTF-8');
                 $course = ($listing->doctype != 'user') ? '<strong> ('.$courseword.': \''.$coursename.'\')</strong>' : '' ;
 
@@ -398,5 +414,17 @@
     <?php
     }
     print_box_end();
+?>                            
+                            
+                            
+                    </td>
+                </tr>
+            </table>                                                                
+        </td>
+        <td valign="top" width="5px"><img src="<?php echo $CFG->wwwroot; ?>/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+        <td width="20"></td>
+    </tr>
+</table>
+<?php 
     print_footer();
 ?>
