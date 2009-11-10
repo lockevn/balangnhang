@@ -766,8 +766,8 @@
 
     if ($bulkoperations) {
         echo '<br /><div class="buttons">';
-        echo '<input type="button" onclick="checkall()" value="'.get_string('selectall').'" /> ';
-        echo '<input type="button" onclick="checknone()" value="'.get_string('deselectall').'" /> ';
+        echo '<input class="cls_button" type="button" onclick="checkall()" value="'.get_string('selectall').'" /> ';
+        echo '<input class="cls_button" type="button" onclick="checknone()" value="'.get_string('deselectall').'" /> ';
         $displaylist = array();
         $displaylist['messageselect.php'] = get_string('messageselectadd');
         if (!empty($CFG->enablenotes) && has_capability('moodle/notes:manage', $context) && $context->id != $frontpagectx->id) {
@@ -784,7 +784,7 @@
         choose_from_menu ($displaylist, "formaction", "", get_string("withselectedusers"), "if(checksubmit(this.form))this.form.submit();", "");
         echo '<input type="hidden" name="id" value="'.$course->id.'" />';
         echo '<div id="noscriptparticipantsform" style="display: inline;">';
-        echo '<input type="submit" value="'.get_string('ok').'" /></div>';
+        echo '<input class="cls_button" type="submit" value="'.get_string('ok').'" /></div>';
         echo '<script type="text/javascript">'.
                "\n//<![CDATA[\n".
                'document.getElementById("noscriptparticipantsform").style.display = "none";'.
@@ -797,7 +797,7 @@
 
     if ($bulkoperations && $totalcount > ($perpage*3)) {
         echo '<form action="index.php" class="searchform"><div><input type="hidden" name="id" value="'.$course->id.'" />'.get_string('search').':&nbsp;'."\n";
-        echo '<input type="text" name="search" value="'.s($search).'" />&nbsp;<input type="submit" value="'.get_string('search').'" /></div></form>'."\n";
+        echo '<input type="text" name="search" value="'.s($search).'" />&nbsp;<input class="cls_button" type="submit" value="'.get_string('search').'" /></div></form>'."\n";
     }
 
     $perpageurl = preg_replace('/&amp;perpage=\d*/','', $baseurl);
