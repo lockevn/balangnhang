@@ -1129,7 +1129,7 @@ class default_questiontype {
 
         if (($cmoptions->optionflags & QUESTION_ADAPTIVE) and !$options->readonly) {
             echo '<input type="submit" name="', $question->name_prefix, 'submit" value="',
-                    get_string('mark', 'quiz'), '" class="submit btn" onclick="',
+                    get_string('mark', 'quiz'), '" class="cls_button_small" onclick="',
                     "form.action = form.action + '#q", $question->id, "'; return true;", '" />';
         }
     }

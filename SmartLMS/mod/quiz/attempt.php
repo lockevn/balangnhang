@@ -588,8 +588,14 @@ echo '
     
 /// Print all the questions
     $number = quiz_first_questionnumber($attempt->layout, $pagelist);
-    foreach ($pagequestions as $i) {
+    foreach ($pagequestions as $i) {    	
         $options = quiz_get_renderoptions($quiz->review, $states[$i]);
+        if($quiz->lotype == 'practice' && $states[$i]->event == QUESTION_EVENTGRADE) {
+        	$options->correct_responses = 1;
+        	$options->generalfeedback = 1;
+        	$options->overallfeedback = true;
+        	
+        }
         // Print the question
         print_question($questions[$i], $states[$i], $number, $quiz, $options);
         save_question_session($questions[$i], $states[$i]);
