@@ -447,7 +447,9 @@
 
     
     /*danhut added*/
-    echo '<table id="layout-table" class="' . $quiz->lotype. '"><tr>';
+    echo '
+    
+    <table id="layout-table" class="' . $quiz->lotype. '"><tr>';
     echo '<td style="width: '.$blocks_preferred_width.'px;" id="left-column">';
     if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
         print_container_start();
@@ -457,10 +459,7 @@
         print_container_end();
 
     }
-    if ($ispreviewing) {
-        $currenttab = 'preview';
-        include('tabs.php');
-    }
+    
     echo '</td>';
     echo '<td id="middle-column">';
 
@@ -479,7 +478,11 @@ echo '
 $menu = navmenu($course, $cm);
 echo $menu;
 echo '<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>'; // for overlib
-echo '                    
+if ($ispreviewing) {
+        $currenttab = 'preview';
+        include('tabs.php');
+    }
+echo '             
                 </td></tr>
                 <tr>
                     <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
