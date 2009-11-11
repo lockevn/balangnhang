@@ -100,12 +100,8 @@ $string['learning_progress'] = 'Learning progress';
 
 $string['bulletin'] = 'BULLETIN';
 
-
-
-
-
-
-
+$string['pretest_suggest'] = 'You have currently not enrolled in any courses. We suggest you to take the <a href=\'$a\'><b>Entrance Test</b></a>  
+to be allocated the most appropriate course. <br><br>Alternatively, you can choose courses in the category below to enroll manually';
 
 
 
