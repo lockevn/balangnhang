@@ -186,6 +186,14 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 		include('tabs.php');
 	}
 
+ echo '
+        <table cellpadding="0" cellspacing="0" width="100%" border="0">
+            <tr>
+                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+                <td valign="top">
+                    <table cellpadding="10px" cellspacing="0" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
+                        <tr>
+                            <td>';
 /// Print heading.
 	print_heading(format_string($quiz->name));
 	if ($isteacher and $attempt->userid == $USER->id) {
@@ -365,9 +373,18 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 	/*danhut added*/
 		finish_page($course, $pageblocks, $menu);
    /*end of danhut added*/
+?>
 
+                    </td>
+                </tr>
+            </table>                                                                
+        </td>
+        <td valign="top" width="5px"><img src="<?php echo $CFG->wwwroot; ?>/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+        
+    </tr>
+</table>
 
-   
+<?php   
 /*******************/
 // LOCKEVN: add for auto suggestion after finish final exam
 $courseCompletionConfig = get_record('smartcom_course_completion_suggestion', 'courseid', $course->id);
@@ -426,3 +443,4 @@ function finish_page($course, $pageblocks, $menu) {
 	echo '</tr></table>';    
 }
 ?>
+                            

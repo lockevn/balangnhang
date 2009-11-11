@@ -33,9 +33,12 @@ class block_student_of_week extends block_base {
         $options->noclean = true;    // Don't clean Javascripts etc
         $studentList = $this->retrieveTopStudentList();
         $str = "";
-        foreach($studentList as $student) {        	
-        	$str .= "<a href='$CFG->wwwroot/user/view.php?id=$student->id&course=1'>$student->username</a><br>";
+        $str .= '<div style="overflow: auto; display: block; overflow-x: no; overflow-y: scroll; height: 150px; width:218px; border: 1px solid #ccc; padding-left: 10px;"><marquee onmouseover="this.stop();" onmouseout="this.start();" direction="up">';
+        foreach($studentList as $student) {    
+                	
+        	$str .= "<div><img align=\"absmiddle\" src=\"".$CFG->wwwroot."/user/pix.php?file=/$student->id/f1.jpg\" width=\"11\" height=\"11\" /><a class='courseRB' href='$CFG->wwwroot/user/view.php?id=$student->id&course=1'>$student->username</a></div>";
         }
+        $str .= '</marquee></div>';
         $this->content->text = $str;
         
         $this->content->footer = '';               

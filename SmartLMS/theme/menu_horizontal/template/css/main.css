@@ -226,6 +226,5 @@ div.user-sub-menu {
     float:left;
     width:100%;
 }
-.calendar-controls {
-    background: #eee;
-}
+
+table.minicalendar td.today {background-color: #CCC !important;}
