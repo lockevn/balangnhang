@@ -143,9 +143,9 @@
 	echo '<td id="middle-column">';
     
     
-    echo '<table width="100%" border="1"><tr><td>';
-    print_heading_block(get_string('topicoutline'), 'outline');
-    echo '</td></tr></table>';
+   // echo '<table width="100%" border="1"><tr><td>';
+//    print_heading_block(get_string('topicoutline'), 'outline');
+//    echo '</td></tr></table>';
     
     
 	print_container_start();
@@ -153,7 +153,12 @@
 
 	print_heading_block(get_string('topicoutline'), 'outline');
 
-	echo '<table style="background:#88e25c url('.$CFG->themewww.'/'.current_theme().'/template/images/BG2_M.jpg) top repeat-x" height="350px" class="topics" border="1" width="100%" summary="'.get_string('layouttable').'">';
+	echo '
+    <style type="text/css">
+        .separator .spacer {background: #88e25c !important;}
+        img.iconsmall {width: auto !important; height: auto !important;}
+    </style>
+    <table style="background:#88e25c url('.$CFG->themewww.'/'.current_theme().'/template/images/BG2_M.jpg) top repeat-x" height="350px" class="topics" border="1" width="100%" summary="'.get_string('layouttable').'">';
 
 /// If currently moving a file then show the current clipboard
 	if (ismoving($course->id)) {
