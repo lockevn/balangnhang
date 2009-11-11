@@ -217,11 +217,11 @@ echo '
                                 <td valign="top" width="100%">
                                     <table class="" cellpadding="10px" cellspacing="0" width="100%" style="background:url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
                                         <tr>
-                                            <td valign="top" width="180px">';
+                                            <td valign="top" width="100px">';
 /**
 * Print user image                                            
 */
-print_user_picture($user, $course->id, $user->picture, 180, false, false);
+print_user_picture($user, $course->id, $user->picture, 100, false, false);
 echo '                                            
                                             </td>
                                             </td>
