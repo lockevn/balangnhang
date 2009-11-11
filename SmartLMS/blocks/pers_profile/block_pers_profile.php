@@ -56,7 +56,7 @@
         if($isTicketRequired) {
         	$this->content->text .= '
         					<tr>
-        						<td>' . get_string("ticket_required", "block_pers_profile", $CFG->wwwroot.'/mod/smartcom/index.php?submodule=ticket_buy&courseid='.$COURSE->id) .
+        						<td>' . get_string("course_price", "block_pers_profile", $isTicketRequired) . " " . get_string("ticket_required", "block_pers_profile", $CFG->wwwroot.'/mod/smartcom/index.php?submodule=ticket_buy&courseid='.$COURSE->id) .
         						'</td>
         					</tr> ';
         				      	        	
