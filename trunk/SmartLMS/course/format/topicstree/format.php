@@ -158,7 +158,7 @@
         .separator .spacer {background: transparent !important;}
         img.iconsmall {width: auto !important; height: auto !important;}
     </style>
-    <table height="350px" class="topics" border="1" width="100%" summary="'.get_string('layouttable').'">';
+    <table style="border-color: #ccc;" height="350px" class="topics" border="1" width="100%" summary="'.get_string('layouttable').'">';
 
 /// If currently moving a file then show the current clipboard
 	if (ismoving($course->id)) {
