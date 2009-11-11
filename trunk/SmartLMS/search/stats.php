@@ -72,6 +72,7 @@ require_once("{$CFG->dirroot}/search/lib.php");
                     background: #FFF;
                     border-color: #999 !important;
                 }
+                
         </style>
         ';
 /// keep things pretty, even if php5 isn't available
