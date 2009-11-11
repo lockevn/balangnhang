@@ -1719,7 +1719,6 @@ function format_string ($string, $striplinks=true, $courseid=NULL ) {
 	if ($strcache === false or count($strcache) > 2000 ) { // this number might need some tuning to limit memory usage in cron
 		$strcache = array();
 	}
-
 	//init course id
 	if (empty($courseid)) {
 		$courseid = $COURSE->id;
@@ -6806,7 +6805,7 @@ class tabobject {
  * @param array  $inactive  An array of ids of inactive tabs that are not selectable.
  * @param array  $activated An array of ids of other tabs that are currently activated
  **/
-function print_tabs($tabrows, $selected=NULL, $inactive=NULL, $activated=NULL, $return=false) {
+function print_tabs($tabrows, $selected=NULL, $inactive=NULL, $activated=NULL, $return=false, $vertical = false) {
 	global $CFG;
 
 	/// $inactive must be an array
@@ -6826,16 +6825,10 @@ function print_tabs($tabrows, $selected=NULL, $inactive=NULL, $activated=NULL, $
 
 	/// Print out the current tree of tabs (this function is recursive)
 
-	$output = convert_tree_to_html($tree);
-    //.tabtree ul li {
-//                        height: 20px !important;
-//                        float: left;
-//                        line-height: 20px !important;
-//                        padding: 0 10px 0 10px;
-//                        background: url('.$CFG->wwwroot.'/theme/menu_horizontal/template/images/MN1_SP.jpg) no-repeat right center;
-//                    }
-    //if ($selected == 'editprofile') 
-    //{
+	$output = convert_tree_to_html($tree, 0, $vertical);
+                    
+    if ($vertical === true) 
+    {
         $style = '
                 <style type="text/css">
                     .advancedbutton input {
@@ -6873,9 +6866,23 @@ function print_tabs($tabrows, $selected=NULL, $inactive=NULL, $activated=NULL, $
                         height:200px;
                     }
                 </style>
-            '; 
-    //}else $style = '';
-	$output =  $style. "\n\n".'<div class="tabtree">'.$output.'</div><div class="clearer"> </div>'."\n\n";
+            ';
+         
+    }else $style = '
+                <style type="text/css">
+                    .tabtree ul li {
+                        height: 20px !important;
+                        float: left;
+                        line-height: 20px !important;
+                        padding: 0 0 0 10px;
+                        
+                    }
+                    .tabtree ul li a {
+                        padding-right: 10px;
+                    }
+                </style>
+        ';
+	$output =  $style. "\n\n".'<div class="tabtree">'.$output.'</div><div class="clearer"><span></span></div>'."\n\n";
 
 	/// We're done!
 
@@ -6886,8 +6893,8 @@ function print_tabs($tabrows, $selected=NULL, $inactive=NULL, $activated=NULL, $
 }
 
 
-function convert_tree_to_html($tree, $row=0) {
-
+function convert_tree_to_html($tree, $row=0, $vertical = false) {
+    global $CFG;
 	$str = "\n".'<ul style="padding: 0; list-style: none; font-weight: bold;" class="'.$row.'">'."\n";
 
 	$first = true;
@@ -6928,7 +6935,7 @@ function convert_tree_to_html($tree, $row=0) {
 		} else {
 			$str .= '<a href="'.$tab->link.'" title="'.$tab->title.'"><span>'.$tab->text.'</span></a>';
 		}
-
+        $str .= ($vertical === false)? '<img align="absmiddle" src="'.$CFG->wwwroot.'/theme/menu_horizontal/template/images/MN1_SP.jpg" />': '';
 		if (!empty($tab->subtree)) {
 			$str .= convert_tree_to_html($tab->subtree, $row+1);
 		} else if ($tab->selected) {
@@ -6937,7 +6944,7 @@ function convert_tree_to_html($tree, $row=0) {
 
 		$str .= ' </li>'."\n";
 	}
-	$str .= '</ul>'."\n";
+	$str .= '<div style="clear:both;"><span></span></div></ul>'."\n";
 
 	return $str;
 }
