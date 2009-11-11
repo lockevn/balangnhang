@@ -35,7 +35,7 @@
     }
 
         
-    if($quiz->lotype == 'test') {
+    if($quiz->lotype == 'test' && !$edit) {
     	redirect($CFG->wwwroot . '/smartcom/testroom/attempt.php?id=' . $cm->id);
     }
     
