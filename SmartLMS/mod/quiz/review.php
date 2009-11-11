@@ -233,6 +233,21 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 
                   });
             </script>
+            <style type="text/css">
+                table.quizreviewsummary th {
+                    background: url('. $CFG->wwwroot. '/theme/menu_horizontal/template/images/TB1_HD.jpg) repeat-x;
+                    border-color: #999 !important;
+                }
+                table.quizreviewsummary td {
+                    background: #FFF;
+                    border-color: #999 !important;
+                }
+                table.quizreviewsummary td * {margin: 0;}
+                table.quizreviewsummary td, table.quizreviewsummary th {
+                    height: 25px; 
+                    line-height: 25px;
+                }
+            </style>
             <span id="transcript-button" style="color: #BB0000; cursor: pointer;" class="courseBB">TRANSCRIPT: </span><div id="transcript-content" style="display: none;">'. format_text($quiz->transcript, FORMAT_MOODLE, $formatoptions).'</div>';
         }
         /*************/
