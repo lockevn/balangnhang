@@ -543,43 +543,19 @@ function isTicketRequired($userid, $courseid) {
 	if(empty($context)) {
 		return false;
 	}
-	$result = get_record_select("role_assignments", "contextid=$context->id AND userid=$userid AND roleid <= 5", "id");
-	if(empty($result)) {
-		return true;
+	$course = get_record("course", "id", $courseid, "", "", "",  "","cost, currency");
+	if(empty($course)) {
+		return false;
+	}
+	
+	$result = get_record_select("role_assignments", "contextid=$context->id AND userid=$userid AND roleid >= 5", "id");
+	if(!empty($result) && !empty($course->cost) && $course->cost > 0) {
+		return $course->cost;
 	}
 	return false;
 }
 
-//$section = getCourseSectionStructure(104, 172);
-//if($section !== false) {
-//echo "sectionid: $section->id label: $section->label summary: $section->summary <br>";
-//foreach($section->activities as $activity) {
-//	echo "=====	activity id: $activity->id , activity name: $activity->name <br>";
-//	foreach($activity->lolist as $lo) {
-//		echo "===========	lo id: $lo->id , lo name: $lo->name, lo instance: $lo->instance, lo type: $lo->type <br>";
-//	}
-//}
 
-//$activityArr = getLessonActivities(104, 309, QUIZ);
-//foreach($activityArr as $activity) {
-//	echo "id: $activity->id name: $activity->name link: $activity->link selected: $activity->selected ";
-//}
-
-//$quizIdArr = getAllQuizOfActivity(104, 172, 302);
-//foreach($quizIdArr as $id ) {
-//	echo "$id ";
-//}
-
-//$grade = getAvgGradeOfAllQuizInActivityOfUser(7, 52, 255, 4);
-//echo $grade;
-
-//function danhut($link) {
-//	echo sizeof($link);
-//}
-//
-//$newtext = '<a href="/file.php/104/lesson_14/vocabulary/lecture1/lesson14.swf?d=508x406"></a>';
-//$search = '/<a.*?href="([^<]+\.swf)(\?d=([\d]{1,4}%?)x([\d]{1,4}%?))?"[^>]*>.*?<\/a>/is';
-//$newtext = preg_replace_callback($search, 'danhut', $newtext);
 
 
 
