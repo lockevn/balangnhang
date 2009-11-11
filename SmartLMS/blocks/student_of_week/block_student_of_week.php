@@ -36,7 +36,7 @@ class block_student_of_week extends block_base {
         $str .= '<div style="overflow: auto; display: block; overflow-x: no; overflow-y: scroll; height: 150px; width:218px; border: 1px solid #ccc; padding-left: 10px;"><marquee scrolldelay="120" onmouseover="this.stop();" onmouseout="this.start();" direction="up">';
         foreach($studentList as $student) {    
                 	
-        	$str .= "<div style=\"padding: 5px 0;\"><img align=\"absmiddle\" src=\"".$CFG->wwwroot."/user/pix.php?file=/$student->id/f1.jpg\" width=\"50\" height=\"50\" />&nbsp;&nbsp;<a class='courseRB' href='$CFG->wwwroot/user/view.php?id=$student->id&course=1'>$student->username</a></div>";
+        	$str .= "<div style=\"padding: 5px 0;\"><img align=\"absmiddle\" src=\"".$CFG->wwwroot."/user/pix.php?file=/$student->id/f1.jpg\" width=\"100\" height=\"100\" />&nbsp;&nbsp;<a class='courseRB' href='$CFG->wwwroot/user/view.php?id=$student->id&course=1'>$student->username</a></div>";
         }
         $str .= '</marquee></div>';
         $this->content->text = $str;
