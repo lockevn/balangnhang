@@ -30,6 +30,7 @@ class block_calendar_month_2 extends block_base {
         
         $this->content = new stdClass;
         $this->content->text = '';
+       
         $this->content->footer = '';
 
         // [pj] To me it looks like this if would never be needed, but Penny added it 

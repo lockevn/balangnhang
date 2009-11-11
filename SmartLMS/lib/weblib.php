@@ -3614,12 +3614,14 @@ function link_arrow_right($text, $url='', $accesshide=false, $addclass='') {
  */
 function link_arrow_left($text, $url='', $accesshide=false, $addclass='') {
 	global $THEME;
+    
 	check_theme_arrows();
 	$arrowclass = 'arrow ';
 	if (! $url) {
 		$arrowclass .= $addclass;
 	}
-	$arrow = '<span class="'.$arrowclass.'">'.$THEME->larrow.'</span>';
+
+	$arrow = '<span class="'.$arrowclass.'">&laquo;</span>'; //.$THEME->larrow.'</span>';
 	$htmltext = '';
 	if ($text) {
 		$htmltext = '&nbsp;'.$text;
