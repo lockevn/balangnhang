@@ -85,7 +85,9 @@
         	$result = get_record_sql($sql);
         	if(!empty($result)) {
         		$courseid = $result->courseid;
-        		redirect($CFG->wwwroot . "/course/view.php?id=$courseid");
+        		if($courseid != 1) {
+        			redirect($CFG->wwwroot . "/course/view.php?id=$courseid");
+        		}
         	}
 
         }
