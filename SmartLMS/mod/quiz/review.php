@@ -223,7 +223,17 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
     
     /*danhut: print transcript of quiz if any*/
         if(!empty($quiz->transcript)) {
-        	echo "TRANSCRIPT: " . format_text($quiz->transcript, FORMAT_MOODLE, $formatoptions);
+        	echo '
+            <script type="text/javascript">
+                 jQuery(document).ready(function(){
+        
+                    jQuery("#transcript-button").click(function () {
+                      $("#transcript-content").toggle("slow");
+                    });
+
+                  });
+            </script>
+            <span id="transcript-button" style="color: #BB0000; cursor: pointer;" class="courseBB">TRANSCRIPT: </span><div id="transcript-content" style="display: none;">'. format_text($quiz->transcript, FORMAT_MOODLE, $formatoptions).'</div>';
         }
         /*************/
 
