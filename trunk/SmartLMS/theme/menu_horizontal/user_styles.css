@@ -1139,6 +1139,14 @@ table.quizreviewsummary td.cell {
     width:150px;
 }
 
+.cls_button_small {
+    background: url(template/images/BT_Background_Small.jpg);
+    border: none;
+    height: 35px;
+    color: #FFF;
+    width:86px;
+}
+
 .global_search {
     float:right;
     font-size: 12px;
