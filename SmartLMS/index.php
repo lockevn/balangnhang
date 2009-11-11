@@ -106,6 +106,8 @@
     if (!empty($USER->id)) {
         add_to_log(SITEID, 'course', 'view', 'view.php?id='.SITEID, SITEID);
     }
+    
+    
 
     if (empty($CFG->langmenu)) {
         $langmenu = '';
@@ -238,15 +240,25 @@
                     print_heading_block(get_string('availablecourses'));
                     print_courses(0);
                 }
+                
             break;
 
             case FRONTPAGECATEGORYNAMES:
+            	
+            	/*danhut: authenticated user đến đc đây có nghĩa là chưa là student của course nào, in thông tin gợi ý thi đầu vào */
+            	if(isloggedin() && !isguestuser($USER)) {
+            		print_box_start('generalbox');
+            		$pretestLink = $CFG->wwwroot .  "/course/view.php?id=64";
+            		echo get_string("pretest_suggest",  "smartcom", $pretestLink);
+            		print_box_end();
+            	}
 
                 print_heading_block(get_string('categories'));
                 print_box_start('generalbox categorybox');
                 print_whole_category_list(NULL, NULL, NULL, -1, false);
                 print_box_end();
-                print_course_search('', false, 'short');
+                //print_course_search('', false, 'short');
+                
             break;
 
             case FRONTPAGECATEGORYCOMBO:
