@@ -299,7 +299,7 @@ echo '<table cellpadding="0" cellspacing="0" width="100%">
       notify(get_string('moreprofileinfoneeded'));
     } else {
       /// Print out the tabs and continue!
-      print_tabs($tabs, $currenttab, $inactive, $activetwo);
+      print_tabs($tabs, $currenttab, $inactive, $activetwo, false, true);
     }
 echo '
         </td></tr>
