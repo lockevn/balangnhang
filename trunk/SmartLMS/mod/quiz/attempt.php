@@ -447,9 +447,7 @@
 
     
     /*danhut added*/
-    echo '
-    
-    <table id="layout-table" class="' . $quiz->lotype. '"><tr>';
+    echo '<table id="layout-table" class="' . $quiz->lotype. '"><tr>';
     echo '<td style="width: '.$blocks_preferred_width.'px;" id="left-column">';
     if(!empty($CFG->showblocksonmodpages) && (blocks_have_content($pageblocks, BLOCK_POS_LEFT) || $PAGE->user_is_editing())) {
         print_container_start();
@@ -610,22 +608,22 @@ echo '
     if ($page > 0) {
         // Print previous link
         $strprev = get_string('previouspage', 'quiz');        
-         echo '&nbsp;<input type="button" src ="' . $CFG->pixpath.'/a/l_breadcrumb.gif" value="' . $strprev .'" class="quiz_page_previous" onclick="javascript:navigate(' . ($page - 1) . ');"/>&nbsp;';
+         echo '&nbsp;<input class="cls_button" type="button" src ="' . $CFG->pixpath.'/a/l_breadcrumb.gif" value="' . $strprev .'"  onclick="javascript:navigate(' . ($page - 1) . ');"/>&nbsp;';
         
     }   
-    /*danhut added: hiển thị button save page answers cho exercise và practice 0 ở trạng thái đang hiển thị đáp án*/ 
-    if ( isset($event) && ($event != QUESTION_EVENTSUBMIT)
-        && ($event != QUESTION_EVENTCLOSE)
-        && ($quiz->lotype != 'test')) {                
-        echo "<input type=\"submit\" name=\"saveattempt\" value=\"".get_string("savenosubmit", "quiz")."\" />\n";
-    }
+    /*danhut added: hiển thị button save page answers cho exercise 0 ở trạng thái đang hiển thị đáp án*/ 
+//    if ( isset($event) && ($event != QUESTION_EVENTSUBMIT)
+//        && ($event != QUESTION_EVENTCLOSE)
+//        && ($quiz->lotype == 'exercise')) {                
+//        echo "<input class='cls_button' type=\"submit\" name=\"saveattempt\" value=\"".get_string("savenosubmit", "quiz")."\" />\n";
+//    }
     
     
     /*danhut added: chỉ hiển thị button submit page nếu quiz là exercise và page 0 ở trạng thái hiển thị đáp án*/
     if ($quiz->optionflags & QUESTION_ADAPTIVE 
-        && ($quiz->lotype == 'exercise' || $quiz->lotype == 'practice') 
+        && ($quiz->lotype == 'exercise') 
         && (isset($event) && $event != QUESTION_EVENTSUBMIT)) {                
-        echo "<input type=\"submit\" name=\"markall\" value=\"".get_string("markall", "quiz")."\" />\n";
+        echo "<input class='cls_button' type=\"submit\" name=\"markall\" value=\"".get_string("markall", "quiz")."\" />\n";
     }
     /*danhut added: only display submit All button at the last page of the quiz*/
     if($page == $numpages - 1) {
@@ -638,7 +636,7 @@ echo '
         $strnext = get_string('nextpage', 'quiz');
 //        echo '&nbsp;<a class="quiz_page_next" href="javascript:navigate(' . ($page + 1) . ');" title="'
 //         . $strnext . '"><img src= "' . $CFG->pixpath.'/a/r_breadcrumb.gif" alt="' . $strnext . '"/>   </a>&nbsp;';
-         echo '&nbsp;<input type="button" src ="' . $CFG->pixpath.'/a/r_breadcrumb.gif" value="' . $strnext .'" class="quiz_page_next" onclick="javascript:navigate(' . ($page + 1) . ');"/>&nbsp;';
+         echo '&nbsp;<input class="cls_button" type="button" src ="' . $CFG->pixpath.'/a/r_breadcrumb.gif" value="' . $strnext .'"  onclick="javascript:navigate(' . ($page + 1) . ');"/>&nbsp;';
     }
 
     echo "</div>";
