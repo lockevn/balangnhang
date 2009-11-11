@@ -99,7 +99,17 @@ if ($currenttab == 'edit' and isset($mode)) {
 if (!$quiz->questions) {
     $inactive += array('info', 'reports', 'preview');
 }
-
+echo '
+    <style type="text/css">
+        .tabtree ul {clear: both;}
+        .tabtree ul li {
+            float: left !important; 
+            height: 20px !important; 
+            line-height: 20px !important;
+            padding: 0 10px !important;
+        }
+    </style>
+    ';
 print_tabs($tabs, $currenttab, $inactive, $activated);
 
 ?>
