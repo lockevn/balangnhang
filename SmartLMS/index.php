@@ -222,7 +222,8 @@
                         } else {
                             $subtext = get_string('subscribe', 'forum');
                         }
-                        print_heading_block($newsforum->name);
+                        //print_heading_block($newsforum->name);
+                        print_heading_block(get_string('news', 'smartcom'));
                         echo '<div class="subscribelink"><a href="mod/forum/subscribe.php?id='.$newsforum->id.'">'.$subtext.'</a></div>';
                     } else {
                         print_heading_block($newsforum->name);
