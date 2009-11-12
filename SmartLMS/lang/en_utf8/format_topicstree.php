@@ -4,5 +4,11 @@ $string['nametopicstree']='Topic'; // Name of a section within your format
 
 $string['enter_lesson']='Enter lesson';
 
+$string['suggest_courses']='RECOMMENDED COURSES';
+
+$string['bulletin']='BULLETIN';
+
+
+
 
 ?>
