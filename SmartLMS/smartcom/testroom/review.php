@@ -79,7 +79,7 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 		$maxGrade += $quiz->sumgrades;
 		
 		/*danhut: tính điểm thành phần theo từng question category cho quiz hiện tại*/
-		$sql = "SELECT cat.info, sum(qs.grade) as sumgrade, sum(q.defaultgrade) as sumdefaultgrade
+		$sql = "SELECT cat.name, cat.info, sum(qs.grade) as sumgrade, sum(q.defaultgrade) as sumdefaultgrade
 				FROM mdl_question_states qs, mdl_question_categories cat, mdl_question q
 				WHERE qs.question = q.id AND q.category=cat.id AND qs.event=6 AND qs.attempt = $attempt->id
 				GROUP BY cat.id";
@@ -92,7 +92,17 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 				$a->grade = '<b>' . $result->sumgrade . '</b>';
 				$a->maxgrade = $result->sumdefaultgrade;
 				$a->percent = '<b>' . round(($result->sumgrade/$result->sumdefaultgrade)*100, 0) . '</b>';
-				$rows[] = '<tr><td scope="row" class="cell">' . $result->info . '</td><td class="cell">' 
+				
+				if(empty($result->info) && empty($result->name)) {
+					continue;
+				}
+				if(!empty($result->info)) {
+					$catinfo = $result->info;
+				}
+				else if(!empty($result->name)) {
+					$catinfo = $result->name;
+				}
+				$rows[] = '<tr><td scope="row" class="cell">' . $catinfo . '</td><td class="cell">' 
 						. get_string('outofpercent', 'quiz', $a) . '</td></tr>';
 			}
 		}	
