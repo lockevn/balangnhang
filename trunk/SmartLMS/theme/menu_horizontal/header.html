@@ -51,17 +51,12 @@
 <div id="wrapper">
 
 
-<?
+<?php
+$lang = current_language();
+$prefix = ($lang == 'vi_utf8') ? 'VN_' : '';
 if ($heading || $home) {  // This is what gets printed on any other page with a heading
 ?>
 	<div id="headwrapper" class="clearfix">	
-        <?php 
-        /*
-         * header menu for user
-         * muinx edited
-	 <div class="header-left">
-	 <img src="<?= $CFG->themewww.'/'.current_theme() ?>/pix/logo.gif"  alt="logo" id="logo" />
-     */ ?>
         <div style="height:30px; background:#f0f0e3;">
             <?php include ('menu.html'); ?>
         </div>
@@ -69,13 +64,18 @@ if ($heading || $home) {  // This is what gets printed on any other page with a 
         <div class="header-main">
         
             <div style="float:left; margin-left:30px"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/Logo.jpg" /></div>
-            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_7.jpg" /></a></div>
+            <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() . '/template/images/'.$prefix.'MN1_7.jpg'?>" /></a></div>
             <div class="menu1"><?php include_once($CFG->dirroot.'/mod/studynotes/ext/overlay_snippet.php');?></div>            
-            <div class="menu1"><a href="<?= $CFG->wwwroot.'/message/index.php'?>"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_5.jpg" /></a></div>
-            <div class="menu1"><a href="<?= $CFG->wwwroot.'/mod/forum/view.php?id=7118'?>"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_4.jpg" /></a></div>
-            <div class="menu1"><a href="<?= $CFG->wwwroot.'/mod/smartcom/index.php?courseid=1&submodule=user_account_balance'?>"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_3.jpg" /></a></div>
-            <div class="menu1"><a href="<?= $CFG->wwwroot.':3690'?>"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_2.jpg" /></a></div>
-            <div class="menu1"><a href="<?= $CFG->wwwroot.'/course/view.php?id='.$COURSE->id ?>"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_1.jpg" /></a></div>
+            <div class="menu1"><a href="<?= $CFG->wwwroot.'/message/index.php'?>">
+            	<img src="<?= $CFG->themewww.'/'.current_theme() . '/template/images/'.$prefix.'MN1_5.jpg'?>" /></a></div>
+            <div class="menu1"><a href="<?= $CFG->wwwroot.'/mod/forum/view.php?id=7118'?>">
+            	<img src="<?= $CFG->themewww.'/'.current_theme() . '/template/images/'. $prefix . 'MN1_4.jpg' ?>" /></a></div>
+            <div class="menu1"><a href="<?= $CFG->wwwroot.'/mod/smartcom/index.php?courseid=1&submodule=user_account_balance'?>">
+            	<img src="<?= $CFG->themewww.'/'.current_theme() . '/template/images/' . $prefix . 'MN1_3.jpg' ?>" /></a></div>
+            <div class="menu1"><a href="<?= $CFG->wwwroot.':3690'?>">
+            	<img src="<?= $CFG->themewww.'/'.current_theme() . '/template/images/'  . $prefix . 'MN1_2.jpg' ?>" /></a></div>
+            <div class="menu1"><a href="<?= $CFG->wwwroot.'/course/view.php?id='.$COURSE->id ?>">
+            	<img src="<?= $CFG->themewww.'/'.current_theme() . '/template/images/MN1_1.jpg'?>" /></a></div>
         </div>
 	</div>
     

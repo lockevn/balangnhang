@@ -86,6 +86,9 @@ else {
 	$iconPath = '/mod/studynotes/ext/launcher-new.png';
 }
 
+$lang = current_language();
+$prefix = ($lang == 'vi_utf8') ? 'VN_' : '';
+
 ?>
 <link
 	rel="stylesheet"
@@ -94,7 +97,7 @@ else {
 	src="<?php echo $CFG->wwwroot.'/mod/studynotes/js/overlay.js'; ?>">
 </script>
 <a href="javascript:void(0)"
-	id="mediabirdLink"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/MN1_6.jpg"
+	id="mediabirdLink"><img src="<?= $CFG->themewww.'/'.current_theme() . '/template/images/' . $prefix . 'MN1_6.jpg' ?>"
 	alt="Mediabird" title="<?php echo $titleString; ?>" /></a>
 	
 	
