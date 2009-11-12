@@ -63,6 +63,11 @@
 <br />
 <?php
 echo '
+<style type="text/css">
+    div.generalbox{
+        background-color: transparent !important;
+    }
+</style>
         <table cellpadding="0" cellspacing="0" width="100%" border="0">
             <tr>
                 <td width="20"></td>

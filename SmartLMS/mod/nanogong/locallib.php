@@ -101,12 +101,12 @@ function nanogong_print_new_message_form($nanogong) {
     <?php nanogong_print_submit_form_script($nanogong) ?>
     <input id="path" name="path" type="hidden" value="" />
     <input id="action" name="action" type="hidden" value="submit" />
-    <input type="submit" value="<?php  print_string("submitmessage", "nanogong") ?>" onclick="return submitMessage()" />
+    <input class="cls_button_small" type="submit" value="<?php  print_string("submitmessage", "nanogong") ?>" onclick="return submitMessage()" />
 
 <?php
     if ($nanogong_message = get_record("nanogong_message", "nanogongid", $nanogong->id, "userid", $USER->id)) {
 ?>
-    <input type="button" value="<?php  print_string("cancel") ?>" onclick="location.replace('view.php?id=<?php p($nanogong->id) ?>')" />
+    <input class="cls_button_small" type="button" value="<?php  print_string("cancel") ?>" onclick="location.replace('view.php?id=<?php p($nanogong->id) ?>')" />
 <?php
     }
 ?>
