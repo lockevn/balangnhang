@@ -75,9 +75,7 @@ echo '
                                             float: left;
                                             height: 20px !important;
                                             line-height: 20px !important; 
-                                            padding-right: 10px; 
-                                            margin-right: 10px;
-                                            background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/MN1_SP.jpg) no-repeat right center;
+                                            
                                         }
                                         .message {
                                             color: #333333;

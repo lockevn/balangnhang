@@ -175,7 +175,7 @@
     echo '</div>';
     echo '</div>';
 
-    echo '<div class="felement fsubmit"><input name="submitbutton" value="'.get_string('registrationsend').'" type="submit" id="id_submitbutton" /></div>';
+    echo '<div class="felement fsubmit"><input class="cls_button" name="submitbutton" value="'.get_string('registrationsend').'" type="submit" id="id_submitbutton" /></div>';
 
     echo "</fieldset>\n";
 
