@@ -35,16 +35,18 @@
     }
 
         
-    if($quiz->lotype == 'test' && !$edit) {
-    	redirect($CFG->wwwroot . '/smartcom/testroom/attempt.php?id=' . $cm->id);
-    }
+    
     
     
     // Check login and get context.
     require_login($course->id, false, $cm);
     $context = get_context_instance(CONTEXT_MODULE, $cm->id);
     
-    /*danhut added: if student is taking a test or 1st time enter this exercise then forward to attempt.php page*/
+    if($quiz->lotype == 'test' && $edit == -1 && !has_capability('moodle/course:manageactivities', $context)) {
+    	redirect($CFG->wwwroot . '/smartcom/testroom/attempt.php?id=' . $cm->id);
+    }
+        
+    /*danhut added: if student is 1st time enter this exercise then forward to attempt.php page*/
     $attempts = quiz_get_user_attempts($quiz->id, $USER->id);
     $unfinished = false;
     if ($unfinishedattempt = quiz_get_user_attempt_unfinished($quiz->id, $USER->id)) {
@@ -52,7 +54,7 @@
         $unfinished = true;
     }
     $numattempts = count($attempts);
-    if(($quiz->lotype == 'test' || $numattempts == 0)&& 
+    if($numattempts == 0 && 
     	!has_capability('moodle/course:manageactivities', $context) && 
     	has_capability('mod/quiz:attempt', $context)) {
     		redirect($CFG->wwwroot . '/mod/quiz/attempt.php?id=' . $cm->id);
