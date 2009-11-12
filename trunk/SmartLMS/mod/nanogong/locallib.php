@@ -205,8 +205,8 @@ function nanogong_print_edit_message_form($id, $nanogong, $nanogong_message) {
     <input id="path" name="path" type="hidden" value="<?php p($nanogong_message->path) ?>" />
     <input id="action" name="action" type="hidden" value="editsubmit" />
     <input id="messageid" name="messageid" type="hidden" value="<?php p($nanogong_message->id) ?>" />
-    <input type="submit" value="<?php  print_string("updatemessage", "nanogong") ?>" onclick="return submitMessage()" />
-    <input type="button" value="<?php  print_string("cancel") ?>" onclick="location.replace('view.php?id=<?php p($id) ?>')" />
+    <input class="cls_button" type="submit" value="<?php  print_string("updatemessage", "nanogong") ?>" onclick="return submitMessage()" />
+    <input class="cls_button_small" type="button" value="<?php  print_string("cancel") ?>" onclick="location.replace('view.php?id=<?php p($id) ?>')" />
     <br />&nbsp;
     </center>
     <?php print_simple_box_end() ?>
@@ -249,7 +249,7 @@ function nanogong_print_message_list_student($course, $modid, $nanogong, $groupi
     if ($nanogong->maxmessages <= 0 ||
         count($nanogong_messages) < $nanogong->maxmessages) {
 ?>
-        <input type="button" value="<?php  print_string("newmessage", "nanogong") ?>" onclick="submitForm(this.form, '', 'new')" />
+        <input class="cls_button" type="button" value="<?php  print_string("newmessage", "nanogong") ?>" onclick="submitForm(this.form, '', 'new')" />
 <?php
     }
 ?>
@@ -344,8 +344,8 @@ function nanogong_print_message_list_student($course, $modid, $nanogong, $groupi
         if (!$nanogong_message->locked) {
 ?>
     <br />
-    <input type="button" value="<?php  print_string("editmessage", "nanogong") ?>" onclick="submitForm(this.form, <?php p($nanogong_message->id) ?>, 'edit')" />
-    <input type="button" value="<?php  print_string("deletemessage", "nanogong") ?>" onclick="submitForm(this.form, <?php p($nanogong_message->id) ?>, 'delete')" />
+    <input class="cls_button" type="button" value="<?php  print_string("editmessage", "nanogong") ?>" onclick="submitForm(this.form, <?php p($nanogong_message->id) ?>, 'edit')" />
+    <input class="cls_button" type="button" value="<?php  print_string("deletemessage", "nanogong") ?>" onclick="submitForm(this.form, <?php p($nanogong_message->id) ?>, 'delete')" />
 <?php
         }
 ?>
@@ -564,8 +564,8 @@ function nanogong_print_message_list($course, $modid, $nanogong, $groupid = NULL
                 print "<img alt=\"" . get_string("altopen","nanogong") . "\" src=\"$CFG->wwwroot/mod/nanogong/pix/unlock.gif\" />";
 ?></td>
         <td align="center">
-        <input type="button" value="<?php  print_string("editmessage", "nanogong") ?>" onclick="submitForm(this.form, <?php p($nanogong_message->id) ?>, 'edit')" style="width: 100%" /><br />
-        <input type="button" value="<?php  print_string("deletemessage", "nanogong") ?>" onclick="submitForm(this.form, <?php p($nanogong_message->id) ?>, 'delete')" style="width: 100%" /></td>
+        <input class="cls_button" type="button" value="<?php  print_string("editmessage", "nanogong") ?>" onclick="submitForm(this.form, <?php p($nanogong_message->id) ?>, 'edit')" style="width: 100%" /><br />
+        <input class="cls_button" type="button" value="<?php  print_string("deletemessage", "nanogong") ?>" onclick="submitForm(this.form, <?php p($nanogong_message->id) ?>, 'delete')" style="width: 100%" /></td>
 <?php
         }
 ?>
@@ -588,8 +588,8 @@ function nanogong_print_message_list($course, $modid, $nanogong, $groupid = NULL
     <input id="id" name="id" type="hidden" value="<?php p($modid) ?>" />
     <input id="messageid" name="messageid" type="hidden" value="" />
     <input id="action" name="action" type="hidden" value="" />
-    <input type="button" value="<?php  print_string("lockallmessage", "nanogong") ?>" onclick="submitForm(this.form, '', 'lockall')" />
-    <input type="button" value="<?php  print_string("unlockallmessage", "nanogong") ?>" onclick="submitForm(this.form, '', 'unlockall')" />
+    <input class="cls_button" type="button" value="<?php  print_string("lockallmessage", "nanogong") ?>" onclick="submitForm(this.form, '', 'lockall')" />
+    <input class="cls_button" type="button" value="<?php  print_string("unlockallmessage", "nanogong") ?>" onclick="submitForm(this.form, '', 'unlockall')" />
 <?php
     }
 ?>
