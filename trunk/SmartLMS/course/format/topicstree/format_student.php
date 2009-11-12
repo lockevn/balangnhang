@@ -212,7 +212,7 @@
 
     
     
-    print_heading_block(get_string('bulletin', 'smartcom'));    
+    print_heading_block(get_string('bulletin', 'format_topicstree'));    
     
     $courseId = $_REQUEST['id'];
     
@@ -430,7 +430,7 @@
                 <div class="newsarea">
                 <table cellpadding="0" cellspacing="0" width="100%" >
                     <tr><td height="30px" colspan="3">
-                        <div class="title">SUGGEST COURSES</div>                       
+                        <div class="title">' . get_string("suggest_courses", "format_topicstree") . '</div>                       
                     </td></tr>
                     <tr>
                         <td valign="top" width="5px"><img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BG1_L.jpg" /></td>
