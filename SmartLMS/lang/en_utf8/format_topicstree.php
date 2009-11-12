@@ -8,6 +8,8 @@ $string['suggest_courses']='RECOMMENDED COURSES';
 
 $string['bulletin']='BULLETIN';
 
+$string['topicoutline']='COURSE STRUCTURE';
+
 
 
 
