@@ -1769,7 +1769,7 @@ function print_whole_category_list($category=NULL, $displaylist=NULL, $parentsli
                 <style type="text/css">
                     
                     .categorylist .smartlms-content {
-                        background: #F8F8F8;
+                        background: #F3F3E9;
                         border: 1px solid #ccc;
                         font-weight: bold;
                     }
