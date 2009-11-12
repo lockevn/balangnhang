@@ -394,12 +394,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 	if (!$isteacher) {
 		include('attempt_close_js.php');
 	}
-	
-	/*danhut added*/
-		finish_page($course, $pageblocks, $menu);
-   /*end of danhut added*/
 ?>
-
                     </td>
                 </tr>
             </table>                                                                
@@ -408,8 +403,10 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
         
     </tr>
 </table>
-
-<?php   
+<?php 
+	/*danhut added*/
+		finish_page($course, $pageblocks, $menu);
+   /*end of danhut added*/
 /*******************/
 // LOCKEVN: add for auto suggestion after finish final exam
 $courseCompletionConfig = get_record('smartcom_course_completion_suggestion', 'courseid', $course->id);
