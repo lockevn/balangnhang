@@ -16,8 +16,10 @@ function printSupportToolMenuBar($courseid) {
 		
 		$cmList = getCourseSupportTools($courseid);
 
+		$lang = current_language();
+		$prefix = ($lang == 'vi_utf8') ? 'VN_' : '';
 		/*resume course link*/		
-		$str .= "<div class='menu2'><a href='$CFG->wwwroot/smartcom/resume/view.php?id=$courseid'><img src='$CFG->themewww/".current_theme() ."/template/images/MN2_1.jpg' /></a></div>";
+		$str .= "<div class='menu2'><a href='$CFG->wwwroot/smartcom/resume/view.php?id=$courseid'><img src='$CFG->themewww/".current_theme() ."/template/images/" . $prefix . "MN2_1.jpg' /></a></div>";
 		$str .= "<div class='menu2split'></div>";			
 		//$str .= "<a href='$CFG->wwwroot/smartcom/resume/view.php?id=$courseid'>" . get_string('resume_course','resume') . "</a>";
 		/*course forum link*/
@@ -26,7 +28,7 @@ function printSupportToolMenuBar($courseid) {
 			$cm = $cmList['forum'];
 			$link = "$CFG->wwwroot/mod/$cm->modulename/view.php?id=$cm->id";
 		}
-		$str .= "<div class='menu2'><a href='$link'><img src='$CFG->themewww/".current_theme() ."/template/images/MN2_2.jpg' /></a></div>";
+		$str .= "<div class='menu2'><a href='$link'><img src='$CFG->themewww/".current_theme() ."/template/images/". $prefix . "MN2_2.jpg' /></a></div>";
 		$str .= "<div class='menu2split'></div>";
 
 		/*course gallery link*/
@@ -37,7 +39,7 @@ function printSupportToolMenuBar($courseid) {
 		else {
 			$link = "#";
 		}		
-		$str .= "<div class='menu2'><a href='$link'><img src='$CFG->themewww/".current_theme() ."/template/images/MN2_3.jpg' /></a></div>";
+		$str .= "<div class='menu2'><a href='$link'><img src='$CFG->themewww/".current_theme() ."/template/images/". $prefix . "MN2_3.jpg' /></a></div>";
 		$str .= "<div class='menu2split'></div>";
 		
 		/*course chatroom link*/
@@ -48,7 +50,7 @@ function printSupportToolMenuBar($courseid) {
 		else {
 			$link = "#";
 		}
-		$str .= "<div class='menu2'><a href='$link'><img src='$CFG->themewww/".current_theme() ."/template/images/MN2_4.jpg' /></a></div>";
+		$str .= "<div class='menu2'><a href='$link'><img src='$CFG->themewww/".current_theme() ."/template/images/". $prefix . "MN2_4.jpg' /></a></div>";
 		$str .= "<div class='menu2split'></div>";
 		
 		/*course glossary link*/
@@ -59,7 +61,7 @@ function printSupportToolMenuBar($courseid) {
 		else {
 			$link = "#";
 		}
-		$str .= "<div class='menu2'><a href='$link'><img src='$CFG->themewww/".current_theme() ."/template/images/MN2_5.jpg' /></a></div>";
+		$str .= "<div class='menu2'><a href='$link'><img src='$CFG->themewww/".current_theme() ."/template/images/". $prefix . "MN2_5.jpg' /></a></div>";
 		$str .= "<div class='menu2split'></div>";
 		
 		/*voice recording link*/
@@ -70,11 +72,12 @@ function printSupportToolMenuBar($courseid) {
 		else {
 			$link = "#";
 		}
-		$str .= "<div class='menu2'><a href='$link'><img src='$CFG->themewww/".current_theme() ."/template/images/MN2_6.jpg' /></a></div>";
+		$str .= "<div class='menu2'><a href='$link'><img src='$CFG->themewww/".current_theme() ."/template/images/". $prefix . "MN2_6.jpg' /></a></div>";
 		$str .= "<div class='menu2split'></div>";
 		
 		/*nạp thẻ*/
-		$str .= "<div class='menu2'><a href='$CFG->wwwroot/mod/smartcom/index.php?courseid=$courseid&submodule=prepaidcard_enduser_deposit'><img src='$CFG->themewww/".current_theme() ."/template/images/MN2_7.jpg' /></a></div>";
+		$str .= "<div class='menu2'><a href='$CFG->wwwroot/mod/smartcom/index.php?courseid=$courseid&submodule=prepaidcard_enduser_deposit'>
+			<img src='$CFG->themewww/".current_theme() ."/template/images/". $prefix . "MN2_7.jpg' /></a></div>";
 		$str .= "<div class='menu2split'></div>";	
 	}
 	$str .= "</div>";
