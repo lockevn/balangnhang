@@ -53,185 +53,184 @@
     }
     
     /*check user đã hoàn thành quiz này trong session login hiện tại chưa, nếu rồi, gán finish=1*/
-    if(isset($SESSION->completedQuizIdArr) && !empty($SESSION->completedQuizIdArr) && in_array($quiz->id, $SESSION->completedQuizIdArr)) {
+    if((isset($SESSION->completedQuizIdArr) 
+    	&& !empty($SESSION->completedQuizIdArr) 
+    	&& in_array($quiz->id, $SESSION->completedQuizIdArr))
+    	|| $timeup) {
     	$finishattempt = 1;
-    } else if ($timeup) {
-    	// We treat automatically closed attempts just like normally closed attempts
-        $finishattempt = 1;
-    } else {
+    }
     	       
-    	require_login($course->id, false, $cm);
-    	$coursecontext = get_context_instance(CONTEXT_COURSE, $cm->course); // course context
-    	$context = get_context_instance(CONTEXT_MODULE, $cm->id);
-    	$ispreviewing = has_capability('mod/quiz:preview', $context);
+    require_login($course->id, false, $cm);
+    $coursecontext = get_context_instance(CONTEXT_COURSE, $cm->course); // course context
+    $context = get_context_instance(CONTEXT_MODULE, $cm->id);
+    $ispreviewing = has_capability('mod/quiz:preview', $context);
 
-    	/// Get number for the next or unfinished attempt
-    	if(!$attemptnumber = (int)get_field_sql('SELECT MAX(attempt)+1 FROM ' .
+    /// Get number for the next or unfinished attempt
+    if(!$attemptnumber = (int)get_field_sql('SELECT MAX(attempt)+1 FROM ' .
             "{$CFG->prefix}quiz_attempts WHERE quiz = '{$quiz->id}' AND " .
             "userid = '{$USER->id}' AND timefinish > 0 AND preview != 1")) {
-    			$attemptnumber = 1;
-            }
+    	$attemptnumber = 1;
+    }
 
-            $strquizzes = get_string("modulenameplural", "quiz");
-            $popup = $quiz->popup && !$ispreviewing; // Controls whether this is shown in a javascript-protected window.
+    $strquizzes = get_string("modulenameplural", "quiz");
+    $popup = $quiz->popup && !$ispreviewing; // Controls whether this is shown in a javascript-protected window.
 
-            /// Check number of attempts
-            $numberofpreviousattempts = count_records_select('quiz_attempts', "quiz = '{$quiz->id}' AND " .
+    /// Check number of attempts
+    $numberofpreviousattempts = count_records_select('quiz_attempts', "quiz = '{$quiz->id}' AND " .
         		"userid = '{$USER->id}' AND timefinish > 0 AND preview != 1");
 
 
 
-            $attempt = quiz_get_user_attempt_unfinished($quiz->id, $USER->id);
+    $attempt = quiz_get_user_attempt_unfinished($quiz->id, $USER->id);
 
-            $newattempt = false;
-            if (!$attempt) {
-            	// Delete any previous preview attempts belonging to this user.
-            	if ($oldattempts = get_records_select('quiz_attempts', "quiz = '$quiz->id'
-            			AND userid = '$USER->id' AND preview = 1")) {
-            		foreach ($oldattempts as $oldattempt) {
-            			quiz_delete_attempt($oldattempt, $quiz);
-            		}
-            	}
-            	$newattempt = true;
-            	// Start a new attempt and initialize the question sessions
-            	$attempt = quiz_create_attempt($quiz, $attemptnumber);
-            	// If this is an attempt by a teacher mark it as a preview
-            	if ($ispreviewing) {
-            		$attempt->preview = 1;
-            	}
-            	// Save the attempt
-            	if (!$attempt->id = insert_record('quiz_attempts', $attempt)) {
-            		error('Could not create new attempt');
-            	}
-            	// make log entries
-            	if ($ispreviewing) {
-            		add_to_log($course->id, 'quiz', 'preview',
+    $newattempt = false;
+    if (!$attempt) {
+    	// Delete any previous preview attempts belonging to this user.
+    	if ($oldattempts = get_records_select('quiz_attempts', "quiz = '$quiz->id'
+    	AND userid = '$USER->id' AND preview = 1")) {
+    		foreach ($oldattempts as $oldattempt) {
+    			quiz_delete_attempt($oldattempt, $quiz);
+    		}
+    	}
+    	$newattempt = true;
+    	// Start a new attempt and initialize the question sessions
+    	$attempt = quiz_create_attempt($quiz, $attemptnumber);
+    	// If this is an attempt by a teacher mark it as a preview
+    	if ($ispreviewing) {
+    		$attempt->preview = 1;
+    	}
+    	// Save the attempt
+    	if (!$attempt->id = insert_record('quiz_attempts', $attempt)) {
+    		error('Could not create new attempt');
+    	}
+    	// make log entries
+    	if ($ispreviewing) {
+    		add_to_log($course->id, 'quiz', 'preview',
                            "attempt.php?id=$cm->id",
                            "$quiz->id", $cm->id);
-            	} else {
-            		add_to_log($course->id, 'quiz', 'attempt',
+    	} else {
+    		add_to_log($course->id, 'quiz', 'attempt',
                            "review.php?attempt=$attempt->id",
                            "$quiz->id", $cm->id);
-            	}
-            }
+    	}
+    }
 
-            if (!$attempt->timestart) { // shouldn't really happen, just for robustness
-            	debugging('timestart was not set for this attempt. That should be impossible.', DEBUG_DEVELOPER);
-            	$attempt->timestart = $timestamp - 1;
-            }
+    if (!$attempt->timestart) { // shouldn't really happen, just for robustness
+    	debugging('timestart was not set for this attempt. That should be impossible.', DEBUG_DEVELOPER);
+    	$attempt->timestart = $timestamp - 1;
+    }
 
-            /// Load all the questions and states needed by this script
+    /// Load all the questions and states needed by this script
 
-            // list of questions needed by page
-            $pagelist = quiz_questions_on_page($attempt->layout, $page);
+    // list of questions needed by page
+    $pagelist = quiz_questions_on_page($attempt->layout, $page);
 
-            if ($newattempt) {
-            	$questionlist = quiz_questions_in_quiz($attempt->layout);
-            } else {
-            	$questionlist = $pagelist;
-            }
+    if ($newattempt) {
+    	$questionlist = quiz_questions_in_quiz($attempt->layout);
+    } else {
+    	$questionlist = $pagelist;
+    }
 
-            // add all questions that are on the submitted form
-            if ($questionids) {
-            	$questionlist .= ','.$questionids;
-            }
+    // add all questions that are on the submitted form
+    if ($questionids) {
+    	$questionlist .= ','.$questionids;
+    }
 
-            if (!$questionlist) {
-            	print_error('noquestionsfound', 'quiz', 'view.php?q='.$quiz->id);
-            }
+    if (!$questionlist) {
+    	print_error('noquestionsfound', 'quiz', 'view.php?q='.$quiz->id);
+    }
 
-            $sql = "SELECT q.*, i.grade AS maxgrade, i.id AS instance".
+    $sql = "SELECT q.*, i.grade AS maxgrade, i.id AS instance".
 		           "  FROM {$CFG->prefix}question q,".
 		           "       {$CFG->prefix}quiz_question_instances i".
 		           " WHERE i.quiz = '$quiz->id' AND q.id = i.question".
 		           "   AND q.id IN ($questionlist)";
 
-            // Load the questions
-            if (!$questions = get_records_sql($sql)) {
-            	print_error('noquestionsfound', 'quiz', 'view.php?q='.$quiz->id);
-            }
+    // Load the questions
+    if (!$questions = get_records_sql($sql)) {
+    	print_error('noquestionsfound', 'quiz', 'view.php?q='.$quiz->id);
+    }
 
-            // Load the question type specific information
-            if (!get_question_options($questions)) {
-            	error('Could not load question options');
-            }
+    // Load the question type specific information
+    if (!get_question_options($questions)) {
+    	error('Could not load question options');
+    }
 
-            // If the new attempt is to be based on a previous attempt find its id
-            $lastattemptid = false;
-            if ($newattempt and $attempt->attempt > 1 and $quiz->attemptonlast and !$attempt->preview) {
-            	// Find the previous attempt
-            	if (!$lastattemptid = get_field('quiz_attempts', 'uniqueid', 'quiz', $attempt->quiz, 'userid', $attempt->userid, 'attempt', $attempt->attempt-1)) {
-            		error('Could not find previous attempt to build on');
-            	}
-            }
+    // If the new attempt is to be based on a previous attempt find its id
+    $lastattemptid = false;
+    if ($newattempt and $attempt->attempt > 1 and $quiz->attemptonlast and !$attempt->preview) {
+    	// Find the previous attempt
+    	if (!$lastattemptid = get_field('quiz_attempts', 'uniqueid', 'quiz', $attempt->quiz, 'userid', $attempt->userid, 'attempt', $attempt->attempt-1)) {
+    		error('Could not find previous attempt to build on');
+    	}
+    }
 
-            // Restore the question sessions to their most recent states
-            // creating new sessions where required
-            if (!$states = get_question_states($questions, $quiz, $attempt, $lastattemptid)) {
-            	error('Could not restore question sessions');
-            }
+    // Restore the question sessions to their most recent states
+    // creating new sessions where required
+    if (!$states = get_question_states($questions, $quiz, $attempt, $lastattemptid)) {
+    	error('Could not restore question sessions');
+    }
 
-            // Save all the newly created states
-            if ($newattempt) {
-            	foreach ($questions as $i => $question) {
-            		save_question_session($questions[$i], $states[$i]);
-            	}
-            }
+    // Save all the newly created states
+    if ($newattempt) {
+    	foreach ($questions as $i => $question) {
+    		save_question_session($questions[$i], $states[$i]);
+    	}
+    }
 
-            /// Process form data /////////////////////////////////////////////////
+    /// Process form data /////////////////////////////////////////////////
 
-            if ($responses = data_submitted() and empty($responses->quizpassword)) {
+    if ($responses = data_submitted() and empty($responses->quizpassword)) {
 
-            	// set the default event. This can be overruled by individual buttons.
-            	$event = (array_key_exists('markall', $responses)) ? QUESTION_EVENTSUBMIT :
-            	($finishattempt ? QUESTION_EVENTCLOSE : QUESTION_EVENTSAVE);
+    	// set the default event. This can be overruled by individual buttons.
+    	$event = (array_key_exists('markall', $responses)) ? QUESTION_EVENTSUBMIT :
+    	($finishattempt ? QUESTION_EVENTCLOSE : QUESTION_EVENTSAVE);
 
-            	// Unset any variables we know are not responses
-            	unset($responses->id);
-            	unset($responses->q);
-            	unset($responses->oldpage);
-            	unset($responses->newpage);
-            	unset($responses->review);
-            	unset($responses->questionids);
-            	unset($responses->saveattempt); // responses get saved anway
-            	unset($responses->finishattempt); // same as $finishattempt
-            	unset($responses->markall);
-            	unset($responses->forcenewattempt);
+    	// Unset any variables we know are not responses
+    	unset($responses->id);
+    	unset($responses->q);
+    	unset($responses->oldpage);
+    	unset($responses->newpage);
+    	unset($responses->review);
+    	unset($responses->questionids);
+    	unset($responses->saveattempt); // responses get saved anway
+    	unset($responses->finishattempt); // same as $finishattempt
+    	unset($responses->markall);
+    	unset($responses->forcenewattempt);
 
-            	// extract responses
-            	// $actions is an array indexed by the questions ids
-            	$actions = question_extract_responses($questions, $responses, $event);
+    	// extract responses
+    	// $actions is an array indexed by the questions ids
+    	$actions = question_extract_responses($questions, $responses, $event);
 
-            	// Process each question in turn
+    	// Process each question in turn
 
-            	$questionidarray = explode(',', $questionids);
-            	$success = true;
-            	foreach($questionidarray as $i) {
-            		if (!isset($actions[$i])) {
-            			$actions[$i]->responses = array('' => '');
-            			$actions[$i]->event = QUESTION_EVENTOPEN;
-            		}
-            		$actions[$i]->timestamp = $timestamp;
-            		if (question_process_responses($questions[$i], $states[$i], $actions[$i], $quiz, $attempt)) {
-            			save_question_session($questions[$i], $states[$i]);
-            		} else {
-            			$success = false;
-            		}
-            	}
+    	$questionidarray = explode(',', $questionids);
+    	$success = true;
+    	foreach($questionidarray as $i) {
+    		if (!isset($actions[$i])) {
+    			$actions[$i]->responses = array('' => '');
+    			$actions[$i]->event = QUESTION_EVENTOPEN;
+    		}
+    		$actions[$i]->timestamp = $timestamp;
+    		if (question_process_responses($questions[$i], $states[$i], $actions[$i], $quiz, $attempt)) {
+    			save_question_session($questions[$i], $states[$i]);
+    		} else {
+    			$success = false;
+    		}
+    	}
 
-            	if (!$success) {
-            		$pagebit = '';
-            		if ($page) {
-            			$pagebit = '&amp;page=' . $page;
-            		}
-            		print_error('errorprocessingresponses', 'question',
-            					$CFG->wwwroot . '/smartcom/testroom/attempt.php?q=' . $quiz->id . $pagebit);
-            	}
+    	if (!$success) {
+    		$pagebit = '';
+    		if ($page) {
+    			$pagebit = '&amp;page=' . $page;
+    		}
+    		print_error('errorprocessingresponses', 'question',
+    		$CFG->wwwroot . '/smartcom/testroom/attempt.php?q=' . $quiz->id . $pagebit);
+    	}
 
-            	$attempt->timemodified = $timestamp;
+    	$attempt->timemodified = $timestamp;
 
-            	// We have now finished processing form data
-            }
+    	// We have now finished processing form data
     }
 
 /// Finish attempt if requested
