@@ -1763,9 +1763,28 @@ function print_whole_category_list($category=NULL, $displaylist=NULL, $parentsli
     if (!$displaylist) {
         make_categories_list($displaylist, $parentslist);
     }
-
+    if ($depth == -1) 
+    {
+        echo '
+                <style type="text/css">
+                    
+                    .categorylist .smartlms-content {
+                        background: #FFF;
+                        border: 1px solid #ccc;
+                        font-weight: bold;
+                    }
+                    .categorylist * {margin: 0;}
+                    .categorylist td {
+                        height: 25px; 
+                        line-height: 25px;
+                    }
+                </style>
+            ';
+         
+    }
     if ($category) {
         if ($category->visible or has_capability('moodle/category:viewhiddencategories', get_context_instance(CONTEXT_SYSTEM))) {
+            
             print_category_info($category, $depth, $showcourses);
         } else {
             return;  // Don't bother printing children of invisible categories
@@ -1834,15 +1853,16 @@ function print_category_info($category, $depth, $showcourses = false) {
 
     echo "\n\n".'<table class="categorylist">';
 
+    $lmsClass = 'smartlms-content';
+
     $courses = get_courses($category->id, 'c.sortorder ASC', 'c.id,c.sortorder,c.visible,c.fullname,c.shortname,c.password,c.summary,c.guest,c.cost,c.currency');
     if ($showcourses and $coursecount) {
-
-        echo '<tr>';
+        echo '<tr class=" '. $lmsClass. '">';
 
         if ($depth) {
             $indent = $depth*30;
             $rows = count($courses) + 1;
-            echo '<td class="category indentation" rowspan="'.$rows.'" valign="top">';
+            echo '<td class="category indentation" rowspan="'.$rows.'" valign="top" >';
             print_spacer(10, $indent);
             echo '</td>';
         }
@@ -1890,7 +1910,7 @@ function print_category_info($category, $depth, $showcourses = false) {
         }
     } else {
 
-        echo '<tr>';
+        echo '<tr  class='. $lmsClass. '>';
 
         if ($depth) {
             $indent = $depth*20;
