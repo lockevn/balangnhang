@@ -80,7 +80,15 @@
 
         // print tabs
         $currenttab = $lotype;
+        echo '
+            <table class="boxaligncenter">
+                <tr><td>
+            ';
         include('tabs.php');
+        echo '
+                </td></tr>
+                </table>
+            ';
     }
 
 
