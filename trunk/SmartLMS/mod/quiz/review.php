@@ -220,22 +220,10 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
         }
     }
     /*end of danhut added*/
-    
-    /*danhut: print transcript of quiz if any*/
-        if(!empty($quiz->transcript)) {
-        	echo '
-            <script type="text/javascript">
-                 jQuery(document).ready(function(){
-        
-                    jQuery("#transcript-button").click(function () {
-                      $("#transcript-content").toggle("slow");
-                    });
-
-                  });
-            </script>
-            <style type="text/css">
+    echo '
+        <style type="text/css">
                 table.quizreviewsummary th {
-                    background: url('. $CFG->wwwroot. '/theme/menu_horizontal/template/images/TB1_HD.jpg) repeat-x;
+                    background: url('. $CFG->wwwroot. '/theme/menu_horizontal/template/images/TB1_HD.jpg) repeat;
                     border-color: #999 !important;
                 }
                 table.quizreviewsummary td {
@@ -248,7 +236,21 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
                     line-height: 25px;
                 }
             </style>
-            <span id="transcript-button" style="color: #BB0000; cursor: pointer;" class="courseBB">TRANSCRIPT: </span><div id="transcript-content" style="display: none;">'. format_text($quiz->transcript, FORMAT_MOODLE, $formatoptions).'</div>';
+    ';
+    /*danhut: print transcript of quiz if any*/
+        if(!empty($quiz->transcript)) {
+        	echo '
+            <script type="text/javascript">
+                 jQuery(document).ready(function(){
+        
+                    jQuery("#transcript-button").click(function () {
+                      $("#transcript-content").toggle("slow");
+                    });
+
+                  });
+            </script>
+            <span id="transcript-button" style="color: #BB0000; cursor: pointer;" class="courseBB">TRANSCRIPT: </span>
+            <div id="transcript-content" style="display: none;">'. format_text($quiz->transcript, FORMAT_MOODLE, $formatoptions).'</div>';
         }
         /*************/
 
