@@ -446,8 +446,7 @@ div.generalbox {
 }
 div.coursebox {
    
-    border: 1px 
-#C1E0E1 solid;
+    border: 1px #a0a0a0 solid; /*#C1E0E1 solid;*/
    
    
    }

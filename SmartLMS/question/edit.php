@@ -45,7 +45,15 @@
 
         // print tabs
         $currenttab = 'questions';
+        echo '
+            <table class="boxaligncenter">
+                <tr><td>
+            ';
         include('tabs.php');
+        echo '
+                </td></tr>
+                </table>
+            ';
     }
 
 
