@@ -1699,6 +1699,8 @@ $string['mycourses'] = 'My courses';
 $string['myprogress'] = 'My progress';
 $string['mynotebook'] = 'My notebook';
 
+$string['selectaprovince'] = 'Select a city/province';
+
 
 
 ?>
