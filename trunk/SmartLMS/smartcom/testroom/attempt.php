@@ -357,9 +357,13 @@
     $navigation = build_navigation("", $cm);
     print_header_simple(format_string($quiz->name), "", $navigation, "", $headtags, true, $strupdatemodule);
 
-
+    echo '
+        <table align="center" cellpadding="0" cellspacing="0" style="width: 1024px !important;" border="0">
+            <tr>
+                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+                <td valign="top">';
     /*danhut added*/
-    echo '<table align="center" style="width: 1024px !important;" id="layout-table" class="' . $quiz->lotype. '"><tr>';
+    echo '<table align="center" width="100%" id="layout-table" class="' . $quiz->lotype. ' smartlms-table-wrapper"><tr>';
     echo '<td id="middle-column">';
     
     print_container_start();
@@ -367,11 +371,11 @@
     if($course->format != 'testroom') {
     $activityArr = getLessonActivitiesFromLOId($COURSE->id, $cm->id, $quiz->lotype);
     if(!empty($activityArr)) {
-    	printSectionActivities($activityArr, $COURSE->id, $cm->id, $USER->id);
+        printSectionActivities($activityArr, $COURSE->id, $cm->id, $USER->id);
     }
     }
 //    $menu = navmenu($course, $cm);
-//	echo $menu;
+//    echo $menu;
     /*end of added*/
     
     echo '<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>'; // for overlib
@@ -406,9 +410,10 @@
 //        }
        
 //    }
-
+    
     // Start the form
     $quiz->thispageurl = $CFG->wwwroot . '/smartcom/testroom/attempt.php?q=' . s($quiz->id) . '&amp;page=' . s($page);
+    
     $quiz->cmid = $cm->id;
     echo '<form id="responseform" method="post" action="', $quiz->thispageurl . '" enctype="multipart/form-data"' .
             ' onclick="this.autocomplete=\'off\'" onkeypress="return check_enter(event);" accept-charset="utf-8">', "\n";
@@ -432,11 +437,25 @@
     /*danhut modified: print page index / total page*/
 //    if ($numpages > 1 && ($event == QUESTION_EVENTSUBMIT || $quiz->type == 'test')) {
         echo '<div class="paging pagingbar">';
-    	echo '<span class="title">' . get_string('page') . ' ' . ($page + 1) . '/' . $numpages . '</span>';
-    	echo '</div>';
+        echo '<span class="title smartlms-title" >' . get_string('page') . ' ' . ($page + 1) . '/' . $numpages . '</span>';
+        echo '</div>';
 //    }
-
-
+    // ECHO TIME
+    // If the quiz has a time limit, or if we are close to the close time, include a floating timer.
+    $showtimer = false;
+    $timerstartvalue = 999999999999;
+    if ($quiz->timeclose) {
+        $timerstartvalue = min($timerstartvalue, $quiz->timeclose - time());
+        $showtimer = $timerstartvalue < 60*60; // Show the timer if we are less than 60 mins from the deadline.
+    }
+    if ($quiz->timelimit > 0 && !has_capability('mod/quiz:ignoretimelimits', $context, NULL, false)) {
+        $timerstartvalue = min($timerstartvalue, $attempt->timestart + $quiz->timelimit*60- time());
+        $showtimer = true;
+    }
+    if ($showtimer && (!$ispreviewing || $timerstartvalue > 0)) {
+        $timerstartvalue = max($timerstartvalue, 1); // Make sure it starts just above zero.
+        require($CFG->dirroot.'/mod/quiz/jstimer.php');
+    }
 /// Print all the questions
     $number = quiz_first_questionnumber($attempt->layout, $pagelist);
     foreach ($pagequestions as $i) {
@@ -452,20 +471,20 @@
     $strconfirmattempt = addslashes(get_string("confirmclose", "quiz"));
     $onclick = "return confirm('$strconfirmattempt')";
     
-	
+    
         
     echo "<div class=\"submitbtns mdl-align $quiz->lotype\">\n";
-	/*danhut added: print previous page link if required*/
+    /*danhut added: print previous page link if required*/
     if ($page > 0) {
         // Print previous link
         $strprev = get_string('previouspage', 'quiz');        
          echo '&nbsp;<input type="button" src ="' . $CFG->pixpath.'/a/l_breadcrumb.gif" value="' . $strprev .'" class="quiz_page_previous cls_button" onclick="javascript:navigate(' . ($page - 1) . ');"/>&nbsp;';
-		
+        
     }     
 
     /*danhut added: only display submit All button at the last page of the quiz*/
     if($page == $numpages - 1) {
-    	echo "<input class=\"cls_button\" type=\"submit\" name=\"finishattempt\" value=\"".get_string("finishattempt", "quiz")."\" onclick=\"$onclick\" />\n";
+        echo "<input class=\"cls_button\" type=\"submit\" name=\"finishattempt\" value=\"".get_string("finishattempt", "quiz")."\" onclick=\"$onclick\" />\n";
     }
     
     /*danhut added: print next page link if required*/
@@ -497,25 +516,24 @@
     echo '<input type="hidden" name="questionids" value="'.$pagelist."\" />\n";
 
     echo "</form>\n";
-
-    // If the quiz has a time limit, or if we are close to the close time, include a floating timer.
-    $showtimer = false;
-    $timerstartvalue = 999999999999;
-    if ($quiz->timeclose) {
-        $timerstartvalue = min($timerstartvalue, $quiz->timeclose - time());
-        $showtimer = $timerstartvalue < 60*60; // Show the timer if we are less than 60 mins from the deadline.
-    }
-    if ($quiz->timelimit > 0 && !has_capability('mod/quiz:ignoretimelimits', $context, NULL, false)) {
-        $timerstartvalue = min($timerstartvalue, $attempt->timestart + $quiz->timelimit*60- time());
-        $showtimer = true;
-    }
-    if ($showtimer && (!$ispreviewing || $timerstartvalue > 0)) {
-        $timerstartvalue = max($timerstartvalue, 1); // Make sure it starts just above zero.
-        require($CFG->dirroot.'/mod/quiz/jstimer.php');
-    }
+// ECHO TIME
+    
     
 
+    // Finish the page
+    finish_page($course);
+    echo '                                                                                
+                </td>
+                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+            </tr>
+            
+        </table>
+        ';
+
     
+    if (empty($popup)) {
+        print_footer($course);
+    }
     
 function finish_page($course, $pageblocks, $menu) {
     global $THEME;
@@ -527,8 +545,4 @@ function finish_page($course, $pageblocks, $menu) {
     $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_RIGHT]), 210);    
     echo '</tr></table>';    
 }
-// Finish the page
-    if (empty($popup)) {
-        print_footer($course);
-    }
 ?>

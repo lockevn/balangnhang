@@ -129,8 +129,12 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 	$navigation = build_navigation($strreviewtitle, $cm);
 	print_header_simple(format_string($quiz->name), "", $navigation, "", '', true);
 
-	
-	echo '<table class="smartlms-table-wrapper" align="center" style="width: 1024px !important;" id="layout-table"><tr>';
+	echo '
+        <table align="center" cellpadding="0" cellspacing="0" style="width: 1024px !important;" border="0">
+            <tr>
+                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+                <td valign="top">';
+	echo '<table class="smartlms-table-wrapper" align="center" width="100%" id="layout-table"><tr>';
 	echo '
         <td id="middle-column" >';
 	print_container_start();	
@@ -170,7 +174,13 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 	
 	echo '</table>';
 	
-	
+	echo '                                                                                
+                </td>
+                <td valign="top" width="5px"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BG1_R.jpg" /></td>
+            </tr>
+            
+        </table>
+        ';
 	print_footer($course);
 	
 
