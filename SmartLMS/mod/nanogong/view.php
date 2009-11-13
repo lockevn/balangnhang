@@ -67,6 +67,10 @@ echo '
     div.generalbox{
         background-color: transparent !important;
     }
+    table.forumheaderlist {
+        border-collapse: collapse !important;
+        
+    }
     table.forumheaderlist th.header {
         background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/TB1_HD.jpg) !important;
         height: 25px !important;
