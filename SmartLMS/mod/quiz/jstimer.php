@@ -20,12 +20,13 @@ var ec_quiz_finish = ec_page_start + <?php echo ($timerstartvalue * 1000); ?>;
 
 //]]>
 </script>
-<div id="timer">
+<div>
+<div style="position: absolute;" id="timer">
 <!--EDIT BELOW CODE TO YOUR OWN MENU-->
-<table class="generalbox" border="0" cellpadding="0" cellspacing="0" style="width:150px;">
+<table style="border-color: #CCC;" class="generalbox" border="0" cellpadding="0" cellspacing="0" style="width:150px;">
 <tr>
     <td class="generalboxcontent" bgcolor="#ffffff" width="100%">
-    <table class="generaltable" border="0" width="150" cellspacing="0" cellpadding="0">
+    <table style="border: none" class="generaltable" border="0" width="150" cellspacing="0" cellpadding="0">
     <tr>
         <th class="generaltableheader" width="100%" scope="col"><?php print_string("timeleft","quiz");?></th>
     </tr>
@@ -43,12 +44,15 @@ var ec_quiz_finish = ec_page_start + <?php echo ($timerstartvalue * 1000); ?>;
 </table>
 <!--END OF EDIT-->
 </div>
+</div>
 <script type="text/javascript">
+
 //<![CDATA[
 
 var timerbox = document.getElementById('timer');
 var theTimer = document.getElementById('QuizTimer');
-var theTop = 100;
+//var scrollPos = document.documentElement.scrollTop;
+var theTop = 250;
 var old = theTop;
 
 movecounter(timerbox);

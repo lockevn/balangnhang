@@ -1164,3 +1164,6 @@ table.quizreviewsummary td.cell {
 .smartlms-table-data td.header{
     background: url(template/images/TB1_HD.jpg);
 }
+.smartlms-title {
+    float: none !important;
+}
