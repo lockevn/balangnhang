@@ -5,6 +5,7 @@ require_once $CFG->libdir.'/formslib.php';
 class login_forgot_password_form extends moodleform {
 
     function definition() {
+        
         $mform    =& $this->_form;
         $renderer =& $mform->defaultRenderer();
 
