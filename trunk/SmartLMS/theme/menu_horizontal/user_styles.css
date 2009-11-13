@@ -1151,3 +1151,16 @@ table.quizreviewsummary td.cell {
     font-size: 12px;
     font-weight: normal;
 }
+.smartlms-table-wrapper {
+    
+    background: url(template/images/BG1_M.jpg) repeat-x;
+}
+.smartlms-table-data td{
+    height: 25px;
+    line-height: 25px;
+    background-color: #FFF;
+    border-color: #999;
+}
+.smartlms-table-data td.header{
+    background: url(template/images/TB1_HD.jpg);
+}

@@ -359,7 +359,7 @@
 
 
     /*danhut added*/
-    echo '<table id="layout-table" class="' . $quiz->lotype. '"><tr>';
+    echo '<table align="center" style="width: 1024px !important;" id="layout-table" class="' . $quiz->lotype. '"><tr>';
     echo '<td id="middle-column">';
     
     print_container_start();
@@ -459,13 +459,13 @@
     if ($page > 0) {
         // Print previous link
         $strprev = get_string('previouspage', 'quiz');        
-         echo '&nbsp;<input type="button" src ="' . $CFG->pixpath.'/a/l_breadcrumb.gif" value="' . $strprev .'" class="quiz_page_previous" onclick="javascript:navigate(' . ($page - 1) . ');"/>&nbsp;';
+         echo '&nbsp;<input type="button" src ="' . $CFG->pixpath.'/a/l_breadcrumb.gif" value="' . $strprev .'" class="quiz_page_previous cls_button" onclick="javascript:navigate(' . ($page - 1) . ');"/>&nbsp;';
 		
     }     
 
     /*danhut added: only display submit All button at the last page of the quiz*/
     if($page == $numpages - 1) {
-    	echo "<input type=\"submit\" name=\"finishattempt\" value=\"".get_string("finishattempt", "quiz")."\" onclick=\"$onclick\" />\n";
+    	echo "<input class=\"cls_button\" type=\"submit\" name=\"finishattempt\" value=\"".get_string("finishattempt", "quiz")."\" onclick=\"$onclick\" />\n";
     }
     
     /*danhut added: print next page link if required*/
@@ -474,7 +474,7 @@
         $strnext = get_string('nextpage', 'quiz');
 //        echo '&nbsp;<a class="quiz_page_next" href="javascript:navigate(' . ($page + 1) . ');" title="'
 //         . $strnext . '"><img src= "' . $CFG->pixpath.'/a/r_breadcrumb.gif" alt="' . $strnext . '"/>   </a>&nbsp;';
-         echo '&nbsp;<input type="button" src ="' . $CFG->pixpath.'/a/r_breadcrumb.gif" value="' . $strnext .'" class="quiz_page_next" onclick="javascript:navigate(' . ($page + 1) . ');"/>&nbsp;';
+         echo '&nbsp;<input type="button" src ="' . $CFG->pixpath.'/a/r_breadcrumb.gif" value="' . $strnext .'" class="quiz_page_next cls_button" onclick="javascript:navigate(' . ($page + 1) . ');"/>&nbsp;';
     }
 
     echo "</div>";
@@ -515,10 +515,7 @@
     }
     
 
-    // Finish the page
-    if (empty($popup)) {
-        print_footer($course);
-    }
+    
     
 function finish_page($course, $pageblocks, $menu) {
     global $THEME;
@@ -530,4 +527,8 @@ function finish_page($course, $pageblocks, $menu) {
     $blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_RIGHT]), 210);    
     echo '</tr></table>';    
 }
+// Finish the page
+    if (empty($popup)) {
+        print_footer($course);
+    }
 ?>
