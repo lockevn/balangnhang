@@ -71,7 +71,7 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 			$a->grade = '<b>' . $attempt->sumgrades . '</b>';
 			$a->maxgrade = $quiz->sumgrades;
 			$a->percent = '<b>' . round(($attempt->sumgrades/$quiz->sumgrades)*100, 0) . '</b>';
-			$rows[] = '<tr><td scope="row" class="cell"><b>' . $parentActivityLabel . '</b></td><td class="cell">' .
+			$rows[] = '<tr><td  class="header" scope="row" class="cell"><b>' . $parentActivityLabel . '</b></td><td class="cell">' .
 			get_string('outofpercent', 'quiz', $a) . '</td></tr>';
 		}
 		
@@ -102,7 +102,7 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 				else if(!empty($result->name)) {
 					$catinfo = $result->name;
 				}
-				$rows[] = '<tr><td scope="row" class="cell">' . $catinfo . '</td><td class="cell">' 
+				$rows[] = '<tr><td class="header" scope="row" class="cell">' . $catinfo . '</td><td class="cell">' 
 						. get_string('outofpercent', 'quiz', $a) . '</td></tr>';
 			}
 		}	
@@ -130,19 +130,20 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 	print_header_simple(format_string($quiz->name), "", $navigation, "", '', true);
 
 	
-	echo '<table id="layout-table"><tr>';
-	echo '<td id="middle-column" >';
+	echo '<table class="smartlms-table-wrapper" align="center" style="width: 1024px !important;" id="layout-table"><tr>';
+	echo '
+        <td id="middle-column" >';
 	print_container_start();	
 	print_heading($strreviewtitle);
 	/// Now output the summary table, if there are any rows to be shown.
 	if (!empty($rows)) {
-		echo '<table class="generaltable generalbox quizreviewsummary"><tbody>', "\n";
+		echo '<table class="generaltable generalbox quizreviewsummary smartlms-table-data"><tbody>', "\n";
 		/*in overall test result*/
 		$a = new stdClass;
 		$a->grade = '<b>' . $totalGrade . '</b>';
 		$a->maxgrade = $maxGrade;
 		$a->percent = '<b>' . round(($totalGrade/$maxGrade)*100, 0) . '</b>';
-		echo '<tr><td>' . get_string('overraltestgrade', 'smartcom') . '</td><td >'
+		echo '<tr><td class="header">' . get_string('overraltestgrade', 'smartcom') . '</td><td >'
 			. get_string('outofpercent', 'quiz', $a) . '</td></tr>';
 		
 		echo implode("\n", $rows);
@@ -153,17 +154,17 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 	
 
 	if(!empty($courseArr['maincourse'])) {
-		echo '<tr><td>' . get_string('courselevel', 'smartcom') . $courseArr['maincourse']->categoryname . '</td></tr>';
-		echo '<tr><td>' . get_string('maincourse', 'smartcom') . 
+		echo '<tr><td class="header">' . get_string('courselevel', 'smartcom') . $courseArr['maincourse']->categoryname . '</td></tr>';
+		echo '<tr><td class="header">' . get_string('maincourse', 'smartcom') . 
 			' : <a href="'. $CFG->wwwroot . '/course/enrol.php?id=' . $courseArr['maincourse']->id .'">' . $courseArr['maincourse']->fullname . '</a></td></tr>';
 	} 
 	if(!empty($courseArr['minorcourse1'])) {
-		echo '<tr><td>' . get_string('minorcourse', 'smartcom') . 
+		echo '<tr><td class="header">' . get_string('minorcourse', 'smartcom') . 
 			' 1: <a href="'. $CFG->wwwroot . '/course/enrol.php?id=' . $courseArr['minorcourse1']->id .'">' . $courseArr['minorcourse1']->fullname . '</a></td></tr>';
 	}
 	
 	if(!empty($courseArr['minorcourse2'])) {
-		echo '<tr><td>' . get_string('minorcourse', 'smartcom') . 
+		echo '<tr class="header"><td>' . get_string('minorcourse', 'smartcom') . 
 			' 2: <a href="'. $CFG->wwwroot . '/course/enrol.php?id=' . $courseArr['minorcourse2']->id .'">' . $courseArr['minorcourse2']->fullname . '</a></td></tr>';
 	}
 	
