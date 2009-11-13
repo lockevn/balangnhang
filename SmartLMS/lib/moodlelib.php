@@ -5764,6 +5764,51 @@ function get_list_of_countries() {
 }
 
 /**
+ * Returns a list of country names in the current language
+ *
+ * @uses $CFG
+ * @uses $USER
+ * @return array
+ */
+function get_list_of_provinces() {
+	global $CFG, $USER;
+
+	$lang = current_language();
+
+	if (!file_exists($CFG->dirroot .'/lang/'. $lang .'/provinces.php') &&
+		!file_exists($CFG->dataroot.'/lang/'. $lang .'/provinces.php')) {
+		if ($parentlang = get_string('parentlanguage')) {
+			if (file_exists($CFG->dirroot .'/lang/'. $parentlang .'/provinces.php') ||
+				file_exists($CFG->dataroot.'/lang/'. $parentlang .'/provinces.php')) {
+				$lang = $parentlang;
+			} else {
+				$lang = 'en_utf8';  // provinces.php must exist in this pack
+			}
+		} else {
+			$lang = 'en_utf8';  // provinces.php must exist in this pack
+		}
+	}
+
+	if (file_exists($CFG->dataroot .'/lang/'. $lang .'/provinces.php')) {
+		include($CFG->dataroot .'/lang/'. $lang .'/provinces.php');
+	} else if (file_exists($CFG->dirroot .'/lang/'. $lang .'/provinces.php')) {
+		include($CFG->dirroot .'/lang/'. $lang .'/provinces.php');
+	}
+	
+	if (empty($string)) {
+		print_error('provincesphpempty', '', '', $lang);
+	}
+
+//	if (!empty($string)) {
+//		uasort($string, 'strcoll');
+//	} else {
+//		print_error('provincesphpempty', '', '', $lang);
+//	}
+
+	return $string;
+}
+
+/**
  * Returns a list of valid and compatible themes
  *
  * @uses $CFG

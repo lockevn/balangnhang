@@ -53,8 +53,11 @@ class login_signup_form extends moodleform {
         $mform->addRule('lastname', get_string('missinglastname'), 'required', null, 'server');
         $mform->addRule('lastname', get_string('alphanumerical'), 'alphanumeric', null, 'server');
 
-        $mform->addElement('text', 'city', get_string('city'), 'maxlength="20" size="20"');
-        $mform->setType('city', PARAM_TEXT);
+        $provinces = get_list_of_provinces();
+        $default_province[''] = get_string('selectaprovince');
+        $provinces = array_merge($default_province, $provinces);
+        $mform->addElement('select', 'city', get_string('city'), $provinces);
+        //$mform->setType('city', PARAM_TEXT);
         $mform->addRule('city', get_string('missingcity'), 'required', null, 'server');
 
 //        $country = get_list_of_countries();
@@ -66,7 +69,7 @@ class login_signup_form extends moodleform {
         if( !empty($CFG->country) ){
             $mform->setDefault('country', $CFG->country);
         }else{
-            $mform->setDefault('country', '');
+            $mform->setDefault('country', 'VN');
         }
 
         if (signup_captcha_enabled()) {
