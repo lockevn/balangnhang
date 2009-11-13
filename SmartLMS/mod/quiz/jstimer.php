@@ -21,9 +21,9 @@ var ec_quiz_finish = ec_page_start + <?php echo ($timerstartvalue * 1000); ?>;
 //]]>
 </script>
 <div>
-<div style="position: absolute;" id="timer">
+<div style="position: absolute; width: 965px;" id="timer">
 <!--EDIT BELOW CODE TO YOUR OWN MENU-->
-<table style="border-color: #CCC;" class="generalbox" border="0" cellpadding="0" cellspacing="0" style="width:150px;">
+<table align="right" style="border-color: #CCC;" class="generalbox" border="0" cellpadding="0" cellspacing="0" style="width:150px;">
 <tr>
     <td class="generalboxcontent" bgcolor="#ffffff" width="100%">
     <table style="border: none" class="generaltable" border="0" width="150" cellspacing="0" cellpadding="0">

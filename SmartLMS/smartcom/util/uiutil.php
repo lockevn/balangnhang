@@ -188,7 +188,7 @@ function printLectureListOfCurrentQuiz($lectureList) {
 			$str .= "<a style=\"color: #FFF; background: url(".$CFG->wwwroot."/theme/menu_horizontal/template/images/CircleBR.gif) no-repeat; margin-right: 5px; padding: 0 5px;\" href='$CFG->wwwroot/mod/resource/view.php?id=$lecture->id'>$i</a> ";
 			$i++;
 		}
-		$str .= "<br>";
+		$str .= "<br /><br />";
 	}
 	echo $str;
 }

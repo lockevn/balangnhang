@@ -87,7 +87,14 @@ if ($p_secret !== false) {
 
     die; //never reached
 }
-
+echo '
+    <style type="text/css">
+        #id_submitbutton, #id_cancel {
+            background: transparent url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_Background_Small.jpg) no-repeat scroll 0 0 !important;
+            width: 86px !important;
+        }
+    </style>
+    ';
 $mform = new login_forgot_password_form();
 
 if ($mform->is_cancelled()) {

@@ -67,6 +67,18 @@ echo '
     div.generalbox{
         background-color: transparent !important;
     }
+    table.forumheaderlist th.header {
+        background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/TB1_HD.jpg) !important;
+        height: 25px !important;
+        line-height: 25px !important;
+        border: 1px solid #999;
+    }
+    .forumheaderlist td {
+        background: #fff;
+        border: 1px solid #999;
+        height: 25px !important;
+        line-height: 25px !important;
+    }
 </style>
         <table cellpadding="0" cellspacing="0" width="100%" border="0">
             <tr>
