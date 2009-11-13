@@ -49,7 +49,9 @@ function get_content() {
 		</select></div>
 		<div> '.get_string('dic_mc_enter_word', 'block_dictionary_mc').'<br /> 
 		<input style="width: 180px;" type="text" name="word" id="gurucore_dictionary_word" /><br /><br />
-		<a title="Dictionary" class="thickbox" href="#"><img src="'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_Go.jpg" /></a></a>
+		<a title="Dictionary" class="thickbox" href="#">
+            <div class="cls_button_small" style="line-height: 35px; text-align: center !important;">Go!</div>
+        </a>
 		</div> 
 	</form>
 	

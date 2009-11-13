@@ -614,7 +614,7 @@ echo '
     if ($page > 0) {
         // Print previous link
         $strprev = get_string('previouspage', 'quiz');        
-         echo '&nbsp;<input class="cls_button" type="button" src ="' . $CFG->pixpath.'/a/l_breadcrumb.gif" value="' . $strprev .'"  onclick="javascript:navigate(' . ($page - 1) . ');"/>&nbsp;';
+         echo '&nbsp;<input class="cls_button_small" type="button" src ="' . $CFG->pixpath.'/a/l_breadcrumb.gif" value="' . $strprev .'"  onclick="javascript:navigate(' . ($page - 1) . ');"/>&nbsp;';
         
     }   
     /*danhut added: hiển thị button save page answers cho exercise 0 ở trạng thái đang hiển thị đáp án*/ 
@@ -642,7 +642,7 @@ echo '
         $strnext = get_string('nextpage', 'quiz');
 //        echo '&nbsp;<a class="quiz_page_next" href="javascript:navigate(' . ($page + 1) . ');" title="'
 //         . $strnext . '"><img src= "' . $CFG->pixpath.'/a/r_breadcrumb.gif" alt="' . $strnext . '"/>   </a>&nbsp;';
-         echo '&nbsp;<input class="cls_button" type="button" src ="' . $CFG->pixpath.'/a/r_breadcrumb.gif" value="' . $strnext .'"  onclick="javascript:navigate(' . ($page + 1) . ');"/>&nbsp;';
+         echo '&nbsp;<input class="cls_button_small" type="button" src ="' . $CFG->pixpath.'/a/r_breadcrumb.gif" value="' . $strnext .'"  onclick="javascript:navigate(' . ($page + 1) . ');"/>&nbsp;';
     }
 
     echo "</div>";

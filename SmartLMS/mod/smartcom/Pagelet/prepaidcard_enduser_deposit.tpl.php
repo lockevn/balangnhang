@@ -60,7 +60,7 @@
             
             <!-------------------------------------------------------------------->
             <div class="newsarea">
-                <input class="cls_button" type='button' id='send' value = 'Send'>
+                <input class="cls_button_small" type='button' id='send' value = 'Send'>
             </div>
             <br />
             <div id='sendResult'></div>

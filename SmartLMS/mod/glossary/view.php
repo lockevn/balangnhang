@@ -349,7 +349,7 @@ echo '
         echo '<table class="boxaligncenter" width="70%" border="0">';
         echo '<tr><td align="center" class="glossarysearchbox">';
 
-        echo '<input class="cls_button" type="submit" value="'.$strsearch.'" name="searchbutton" /> ';
+        echo '<input class="cls_button_small" type="submit" value="'.$strsearch.'" name="searchbutton" /> ';
         if ($mode == 'search') {
             echo '<input type="text" name="hook" size="20" value="'.s($hook).'" alt="'.$strsearch.'" /> ';
         } else {

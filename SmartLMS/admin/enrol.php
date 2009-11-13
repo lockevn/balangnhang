@@ -108,7 +108,7 @@
 
     print_table($table);
 
-    echo "<div style=\"text-align:center\"><input type=\"submit\" value=\"".get_string("savechanges")."\" /></div>\n";
+    echo "<div style=\"text-align:center\"><input class=\"cls_button\" type=\"submit\" value=\"".get_string("savechanges")."\" /></div>\n";
     echo "</div>";
     echo "</form>";
 
