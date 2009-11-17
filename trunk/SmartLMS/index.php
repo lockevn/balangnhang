@@ -252,7 +252,7 @@
             	/*danhut: authenticated user đến đc đây có nghĩa là chưa là student của course nào, in thông tin gợi ý thi đầu vào */
             	if(isloggedin() && !isguestuser($USER)) {
             		print_box_start('generalbox');
-            		$pretestLink = $CFG->wwwroot .  "/course/view.php?id=64";
+            		$pretestLink = $CFG->wwwroot .  "/smartcom/testroom/test.html";
             		echo get_string("pretest_suggest",  "smartcom", $pretestLink);
             		print_box_end();
             	}
