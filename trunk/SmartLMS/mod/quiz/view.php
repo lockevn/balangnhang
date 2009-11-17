@@ -43,7 +43,18 @@
     $context = get_context_instance(CONTEXT_MODULE, $cm->id);
     
     if($quiz->lotype == 'test' && $edit == -1 && !has_capability('moodle/course:manageactivities', $context)) {
-    	redirect($CFG->wwwroot . '/smartcom/testroom/attempt.php?id=' . $cm->id);
+    	if(!isset($SESSION->currentQuizPageArr)) {
+    		redirect($CFG->wwwroot . '/smartcom/testroom/attempt.php?id=' . $cm->id);
+    	} 
+    	else if(!in_array($quiz->id, array_keys($SESSION->currentQuizPageArr))) {
+    		/*nếu đã sang quiz khác, xóa biến session lưu current page của quiz trước*/
+    		unset($SESSION->currentQuizPageArr);	
+    		redirect($CFG->wwwroot . '/smartcom/testroom/attempt.php?id=' . $cm->id);
+    	}
+    	else {    		    	
+    		$page = $SESSION->currentQuizPageArr[$quiz->id];    		
+    		redirect($CFG->wwwroot . '/smartcom/testroom/attempt.php?q=' . $quiz->id . '&page=' . $page);
+    	}
     }
         
     /*danhut added: if student is 1st time enter this exercise then forward to attempt.php page*/
