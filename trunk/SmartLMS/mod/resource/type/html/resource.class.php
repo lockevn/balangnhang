@@ -231,26 +231,28 @@ if($resource->lotype != 'testdescription') {
         printLectureListOfCurrentActivity($lectureList);
     }
     
-} else  {
-    /*danhut added: print next button for testdescription resource*/
-    $navLinks = navmenu($course, $cm, '', true);
-    $nextLink = $navLinks['nextLink'];
-    if(!empty($nextLink)) {
-        echo "<div class=\"submitbtns mdl-align $resource->lotype\">\n";
-        $start = optional_param('start'); 
-        if(empty($navLinks['backLink']) || !empty($start)) {
-            /*nếu là trang đầu tiên giới thiệu về bài test*/
-            if(isset($SESSION->attemptIdArr)) {
-                unset($SESSION->attemptIdArr);
-            }
-            $btnLabel = get_string("starttest", "smartcom");
-        } else {
-            $btnLabel = get_string("next", "smartcom");
-        }
-        echo "<a href='$nextLink'>" . $btnLabel . "</a>";
-        echo "</div>" ;
-    }
-}
+} 
+
+//else  {
+//    /*danhut added: print next button for testdescription resource*/
+//    $navLinks = navmenu($course, $cm, '', true);
+//    $nextLink = $navLinks['nextLink'];
+//    if(!empty($nextLink)) {
+//        echo "<div class=\"submitbtns mdl-align $resource->lotype\">\n";
+//        $start = optional_param('start'); 
+//        if(empty($navLinks['backLink']) || !empty($start)) {
+//            /*nếu là trang đầu tiên giới thiệu về bài test*/
+//            if(isset($SESSION->attemptIdArr)) {
+//                unset($SESSION->attemptIdArr);
+//            }
+//            $btnLabel = get_string("starttest", "smartcom");
+//        } else {
+//            $btnLabel = get_string("next", "smartcom");
+//        }
+//        echo "<a href='$nextLink'>" . $btnLabel . "</a>";
+//        echo "</div>" ;
+//    }
+//}
                                             
 echo '                                      </td>
                                         </tr>
@@ -319,23 +321,23 @@ function display_test_description($course, $cm, $resource, $formatoptions) {
 	print_simple_box(format_text($resource->alltext, FORMAT_HTML, $formatoptions, $course->id), "center clearfix", "", "", "20");
 	
 	/*danhut added: print next button for testdescription resource*/
-	$navLinks = navmenu($course, $cm, '', true);
-	$nextLink = $navLinks['nextLink'];
-	if(!empty($nextLink)) {
-		echo "<div class=\"submitbtns mdl-align $resource->lotype\">\n";
-		$start = optional_param('start');
-		if(empty($navLinks['backLink']) || !empty($start)) {
-			/*nếu là trang đầu tiên giới thiệu về bài test*/
-			if(isset($SESSION->attemptIdArr)) {
-				unset($SESSION->attemptIdArr);
-			}
-			$btnLabel = get_string("starttest", "smartcom");
-		} else {
-			$btnLabel = get_string("next", "smartcom");
-		}
-		echo "<a href='$nextLink'>" . $btnLabel . "</a>";
-		echo "</div>" ;
-	}	
+//	$navLinks = navmenu($course, $cm, '', true);
+//	$nextLink = $navLinks['nextLink'];
+//	if(!empty($nextLink)) {
+//		echo "<div class=\"submitbtns mdl-align $resource->lotype\">\n";
+//		$start = optional_param('start');
+//		if(empty($navLinks['backLink']) || !empty($start)) {
+//			/*nếu là trang đầu tiên giới thiệu về bài test*/
+//			if(isset($SESSION->attemptIdArr)) {
+//				unset($SESSION->attemptIdArr);
+//			}
+//			$btnLabel = get_string("starttest", "smartcom");
+//		} else {
+//			$btnLabel = get_string("next", "smartcom");
+//		}
+//		echo "<a href='$nextLink'>" . $btnLabel . "</a>";
+//		echo "</div>" ;
+//	}	
 	print_container_end();
 	echo '</td>';
 	echo '</tr></table>';
