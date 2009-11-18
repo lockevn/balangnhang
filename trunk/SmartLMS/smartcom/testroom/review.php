@@ -115,6 +115,7 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
 	if(!empty($courseArr) && !is_array($courseArr)) {		
 		/*xóa session*/
 		unset($SESSION->attemptIdArr);
+		
 		redirect($CFG->wwwroot . '/course/view.php?id=' . $courseArr);
 	}
 		
@@ -181,6 +182,9 @@ require_once($CFG->dirroot.'/smartcom/testroom/lib.php');
             
         </table>
         ';
+	
+	
+	
 	print_footer($course);
 	
 
