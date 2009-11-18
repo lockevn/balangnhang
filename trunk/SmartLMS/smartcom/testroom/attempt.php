@@ -59,6 +59,18 @@
     	|| $timeup) {
     	$finishattempt = 1;
     }
+    
+    /*đánh dấu page hiện tại của quiz đang làm*/
+    if(!isset($SESSION->currentQuizPageArr) 
+    	|| empty($SESSION->currentQuizPageArr)) {
+    	$currentQuizPageArr = array();	     	    	
+    }
+    else {
+    	$currentQuizPageArr = $SESSION->currentQuizPageArr;
+    }
+    
+    $currentQuizPageArr[$quiz->id] = $page;
+    $SESSION->currentQuizPageArr = $currentQuizPageArr;
     	       
     require_login($course->id, false, $cm);
     $coursecontext = get_context_instance(CONTEXT_COURSE, $cm->course); // course context
@@ -84,7 +96,7 @@
     $attempt = quiz_get_user_attempt_unfinished($quiz->id, $USER->id);
 
     $newattempt = false;
-    if (!$attempt) {
+    if (!$attempt || ((time() - $attempt->timestart) > $quiz->timelimit * 60 )) {
     	// Delete any previous preview attempts belonging to this user.
     	if ($oldattempts = get_records_select('quiz_attempts', "quiz = '$quiz->id'
     	AND userid = '$USER->id' AND preview = 1")) {
@@ -293,8 +305,8 @@
         } else {
         	$attemptIdArr = $SESSION->attemptIdArr;
         }
-        if(!in_array($attempt->id, $attemptIdArr)) {
-        	$attemptIdArr[] = $attempt->id;
+        if(!in_array($quiz->id, array_keys($attemptIdArr))) {
+        	$attemptIdArr[$quiz->id] = $attempt->id;
         }
         $SESSION->attemptIdArr = $attemptIdArr;
         /*đánh dấu đã hoàn thành quiz này, để 0 thể quay về đc bằng 1 attempt khác trong cùng 1 session*/
