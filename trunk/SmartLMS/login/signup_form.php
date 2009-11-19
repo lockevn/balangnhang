@@ -47,11 +47,11 @@ class login_signup_form extends moodleform {
 
         $mform->setType('firstname', PARAM_TEXT);
         $mform->addRule('firstname', get_string('missingfirstname'), 'required', null, 'server');
-        $mform->addRule('firstname', get_string('alphanumerical'), 'alphanumeric', null, 'server');
+        $mform->addRule('firstname', get_string('alphanumerical'), 'nopunctuation', null, 'server');
 
         $mform->setType('lastname', PARAM_TEXT);
         $mform->addRule('lastname', get_string('missinglastname'), 'required', null, 'server');
-        $mform->addRule('lastname', get_string('alphanumerical'), 'alphanumeric', null, 'server');
+        $mform->addRule('lastname', get_string('alphanumerical'), 'nopunctuation', null, 'server');
 
         $provinces = get_list_of_provinces();
         $default_province[''] = get_string('selectaprovince');
