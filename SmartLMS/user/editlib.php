@@ -93,11 +93,11 @@ function useredit_shared_definition(&$mform) {
 
     $mform->addRule('firstname', $strrequired, 'required', null, 'client');
     $mform->setType('firstname', PARAM_NOTAGS);
-    $mform->addRule('firstname', get_string('alphanumerical'), 'alphanumeric', null, 'client');
+    $mform->addRule('firstname', get_string('alphanumerical'), 'nopunctuation', null, 'client');
 
     $mform->addRule('lastname', $strrequired, 'required', null, 'client');
     $mform->setType('lastname', PARAM_NOTAGS);
-    $mform->addRule('lastname', get_string('alphanumerical'), 'alphanumeric', null, 'client');
+    $mform->addRule('lastname', get_string('alphanumerical'), 'nopunctuation', null, 'client');
 
     // Do not show email field if change confirmation is pending
     if ($CFG->emailchangeconfirmation && !empty($user->preference_newemail)) {
