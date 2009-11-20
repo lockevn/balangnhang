@@ -190,18 +190,18 @@ echo '
 	 * End Forum Intro
 	 */							
 echo '							</div>
-								<div class="titleicon"><a href=""><img src="/theme/menu_horizontal/template/images/BT_GT.JPG" /></a></div>
-								<div class="titleicon"><a href=""><img src="/theme/menu_horizontal/template/images/BT_LT.JPG" /></a></div>
+								<div class="titleicon"><a href=""><img src="' .$CFG->themewww.'/'.current_theme(). '/template/images/BT_GT.JPG" /></a></div>
+								<div class="titleicon"><a href=""><img src="' .$CFG->themewww.'/'.current_theme(). '/template/images/BT_LT.JPG" /></a></div>
 							</td></tr>';
 
 echo '							
 							<tr>
-								<td valign="top" width="5px"><img src="/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
+								<td valign="top" width="5px"><img src="' .$CFG->themewww.'/'.current_theme(). '/template/images/BG1_L.jpg" /></td>
 								<td valign="top" width="100%">
-									<table cellpadding="10px" cellspacing="0" width="100%" style="background:url(/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
+									<table cellpadding="10px" cellspacing="0" width="100%" style="background:url(' .$CFG->themewww.'/'.current_theme(). '/template/images/BG1_M.jpg) top repeat-x" height="100px">
 										<tr>
 											<td>
-												<table cellpadding="10px" cellspacing="0" width="100%" style="background:url(/theme/menu_horizontal/template/images/BG1_M.jpg) top repeat-x" height="100px">
+												<table cellpadding="10px" cellspacing="0" width="100%" style="background:url(' .$CFG->themewww.'/'.current_theme(). '/template/images/BG1_M.jpg) top repeat-x" height="100px">
 													<tr>
 														<td valign="top">
 															<table cellpadding="0" cellspacing="0" width="100%">
