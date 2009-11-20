@@ -3555,8 +3555,8 @@ function check_theme_arrows() {
 		}
         
         //muinx add
-        $THEME->rarrow = '<img src="'.$CFG->themewww.'/'.current_theme().'/'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG" />';
-        $THEME->larrow = '<img src="'.$CFG->themewww.'/'.current_theme().'/'. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG" />';
+        $THEME->rarrow = '<img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BT_GT.JPG" />';
+        $THEME->larrow = '<img src="'.$CFG->themewww.'/'.current_theme().'/template/images/BT_LT.JPG" />';
         
 	}
 }
