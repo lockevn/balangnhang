@@ -12,7 +12,7 @@ $numOfFail = 0;
 if(isset($_SESSION['prepaidcard_end_user_deposit']))
 {
 	$numOfFail = $_SESSION['prepaidcard_end_user_deposit'];
-	if($numOfFail > 3)
+	if($numOfFail > 100)
 	{
 		echo -$numOfFail;
 		die();
