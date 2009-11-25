@@ -647,9 +647,12 @@ class default_questiontype {
         if ($question->options->answers) {
             foreach ($question->options->answers as $answer) {
                 if (((int) $answer->fraction) === 1) {
-                    return array('' => addslashes($answer->answer));
+                    
+                    $answerStr .= addslashes($answer->answer) . '/';
                 }
             }
+            $answerStr = rtrim($answerStr, '/');
+            return array('' => $answerStr);
         }
         return null;
     }
