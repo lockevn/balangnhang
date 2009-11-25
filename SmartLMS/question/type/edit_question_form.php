@@ -309,17 +309,6 @@ class question_edit_form extends moodleform {
         if (empty($question->image)){
             unset($question->image);
         }
-        
-        /*danhut added*/
-        $formatoptions = new stdClass;
-        $formatoptions->noclean = true;
-        $formatoptions->para = false;
-        
-        $tmp = str_replace('  ', '&nbsp; ', $question->questiontext);
-        $question->questiontext = format_text($tmp,
-                         $question->questiontextformat,
-                         $formatoptions);
-           /**********/
 		                     
 
         // Set any options.
