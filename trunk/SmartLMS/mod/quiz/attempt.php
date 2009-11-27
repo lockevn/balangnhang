@@ -121,10 +121,11 @@
                 print_header('', '', '', 'quizpassword');
             }
 
-            if (trim(strip_tags($quiz->intro))) {
-                $formatoptions->noclean = true;
-                print_box(format_text($quiz->intro, FORMAT_MOODLE, $formatoptions), 'generalbox', 'intro');
-            }
+//            if (trim(strip_tags($quiz->intro))) {
+//                $formatoptions->noclean = true;
+//                $formatoptions->para    = false;
+//                print_box(format_text($quiz->intro, FORMAT_MOODLE, $formatoptions), 'generalbox', 'intro');
+//            }
             print_box_start('generalbox', 'passwordbox');
             if (!empty($enteredpassword)) {
                 echo '<p class="notifyproblem">', get_string('passworderror', 'quiz'), '</p>';
@@ -491,7 +492,7 @@ echo '
                                         <tr><td height="30px" ><span class="title">';
 // heading
 if ($ispreviewing) {
-        echo strtoupper(get_string('previewquiz', 'quiz', format_string($quiz->name)));
+        echo get_string('previewquiz', 'quiz', format_string($quiz->name));
 } else {
     if ($quiz->attempts != 1) {
         echo $quiz->name. ' - '. $strattemptnum ;
@@ -513,7 +514,7 @@ echo '
     if (trim(strip_tags($quiz->intro))) {
             $formatoptions->noclean = true;
             $formatoptions->para    = false;
-            echo '<i>'. $quiz->intro . '</i>';
+            echo format_text($quiz->intro, FORMAT_MOODLE, $formatoptions);
         }
     }
                                             
@@ -540,7 +541,6 @@ if ($ispreviewing) {
         notify(get_string('subnetnotice', 'quiz'));
     }
 }
-
 echo '
                                                 </td>
                                         </tr>
