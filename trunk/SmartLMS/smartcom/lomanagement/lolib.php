@@ -514,7 +514,7 @@ function course_content_structure($course, $lotype, $category, $cm=NULL, $target
 	$menu = array();
 	$menustyle = array();
 
-	$sections = get_records('course_sections','course',$course->id,'section','section,visible,summary');
+	$sections = get_records('course_sections','course',$course->id,'section','section,visible,summary,label');
 
 	if (!empty($THEME->makenavmenulist)) {   /// A hack to produce an XHTML navmenu list for use in themes
 		$THEME->navmenulist = navmenulist($course, $sections, $modinfo, $strsection, $strjumpto, $width, $cm);
@@ -575,9 +575,9 @@ function course_content_structure($course, $lotype, $category, $cm=NULL, $target
 					$menu[] = '--'.$strsection ." ". $mod->sectionnum;
 				} else {
 					if (strlen($thissection->summary) < ($width-3)) {
-						$menu[] = '--'.$thissection->summary;
+						$menu[] = '--' . $thissection->label . " - " .$thissection->summary;
 					} else {
-						$menu[] = '--'.substr($thissection->summary, 0, $width).'...';
+						$menu[] = '--'. $thissection->label . " - " .substr($thissection->summary, 0, $width).'...';
 					}
 				}
 				$section = $mod->sectionnum;
