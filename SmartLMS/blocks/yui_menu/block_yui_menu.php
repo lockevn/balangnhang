@@ -260,7 +260,8 @@ class yui_menu_item {
     }
     function icon() {
         $ico = htmlspecialchars($this->icon_url);
-        return "<img src='$ico' alt='' />";
+        //return "<img src='$ico' alt='' />";
+        return "";
     }
     
     function html() {
