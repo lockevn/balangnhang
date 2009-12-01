@@ -732,6 +732,6 @@ function finish_page($course, $pageblocks, $menu) {
         echo '</td>';
     }
     /*end of danhut added*/
-    echo '</tr></table>';    
+    echo '</tr></table>sssssssss';    
 }
 ?>
