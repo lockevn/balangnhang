@@ -400,12 +400,12 @@ class embedded_cloze_qtype extends default_questiontype {
                     }
                     
                     //---Edit answer text size of multianswer question(text question)(@author: nttuyen)
-                    $size = $size + rand(0,$size*0.15);
+                    //$size = $size + rand(0,$size*0.15);
                     //$size > 60 ? $size = 60 : $size = $size;
-                    if($size < 10) {
-                    	$size = 10;
-                    } else if($size < 30){
-                    	$size = 30;
+                    if($size == 1) {
+                    	$size = 5;
+                    } else if($size <= 20) {
+                    	$size = 20;
                     } else {
                     	$size = 60;
                     }
