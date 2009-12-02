@@ -65,7 +65,19 @@ if ($heading || $home) {  // This is what gets printed on any other page with a 
         
             <div style="float:left; margin-left:30px"><img src="<?= $CFG->themewww.'/'.current_theme() ?>/template/images/Logo.jpg" /></div>
             <div class="menu1"><a href=""><img src="<?= $CFG->themewww.'/'.current_theme() . '/template/images/'.$prefix.'MN1_7.jpg'?>" /></a></div>
-            <div class="menu1"><?php include_once($CFG->dirroot.'/mod/studynotes/ext/overlay_snippet.php');?></div>            
+            <div class="menu1">
+            	<?php 
+				if(!empty($USER->id)) {
+            		include_once($CFG->dirroot.'/mod/studynotes/ext/overlay_snippet.php');
+				}
+            	else { ?>
+					<a href="/mod/studynotes/view.php"
+						id="mediabirdLink"><img src="<?= $CFG->themewww.'/'.current_theme() . '/template/images/' . $prefix . 'MN1_6.jpg' ?>"
+						alt="Smartnotes" /></a>
+				<?php }
+            		?>
+            
+            </div>            
             <div class="menu1"><a href="<?= $CFG->wwwroot.'/message/index.php'?>">
             	<img src="<?= $CFG->themewww.'/'.current_theme() . '/template/images/'.$prefix.'MN1_5.jpg'?>" /></a></div>
             <div class="menu1"><a href="<?= $CFG->wwwroot.'/mod/forum/view.php?id=7118'?>">
