@@ -398,8 +398,19 @@ class embedded_cloze_qtype extends default_questiontype {
                     if (strlen(trim($response))> $size ){
                             $size = strlen(trim($response))+1;
                     }
+                    
+                    //---Edit answer text size of multianswer question(text question)(@author: nttuyen)
                     $size = $size + rand(0,$size*0.15);
-                    $size > 60 ? $size = 60 : $size = $size;
+                    //$size > 60 ? $size = 60 : $size = $size;
+                    if($size < 10) {
+                    	$size = 10;
+                    } else if($size < 30){
+                    	$size = 30;
+                    } else {
+                    	$size = 60;
+                    }
+                    //---(/END)Edit answer text size of multianswer question(text question)(@author: nttuyen)
+                    
                     $styleinfo = "size=\"$size\"";
                     /**
                     * Uncomment the following lines if you want to limit for small sizes.
