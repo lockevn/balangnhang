@@ -6882,7 +6882,7 @@ function print_tabs($tabrows, $selected=NULL, $inactive=NULL, $activated=NULL, $
                     }
                 </style>
         ';
-	$output =  $style. "\n\n".'<div class="tabtree">'.$output.'</div><div class="clearer"><span></span></div>'."\n\n";
+	$output =  $style. "\n\n".'<div class="tabtree" style="clear:both;">'.$output.'</div><div class="clearer"><span></span></div>'."\n\n";
 
 	/// We're done!
 
