@@ -274,15 +274,15 @@ class yui_menu_item_link extends yui_menu_item {
     public $url;
     public $title;
     
-    function __construct($plugin, $text, $url, $icon, $title = null) {
+    function __construct($plugin, $text, $url, $icon, $title = null) {    	
         $this->link_url = $url;
         if (isset($title)) $this->title = $title;
         parent::__construct($plugin, $text, $icon, $title);
     }
     
     function html() {
-        // required parameters
-        $url = htmlspecialchars($this->link_url);
+        // required parameters        
+       	$url = htmlspecialchars($this->link_url);
         $txt = htmlspecialchars($this->text);
         // optional title attribute
         if (isset($this->title)) {
@@ -290,6 +290,9 @@ class yui_menu_item_link extends yui_menu_item {
         } else {
             $title = '';
         }
-        return "<a href='$url'$title>$txt</a>";
+        if(!empty($url)) 
+        	return "<a href='$url'$title>$txt</a>";
+        else
+        	return $txt;
     }
 }

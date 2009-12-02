@@ -25,7 +25,8 @@ class yui_menu_plugin_outline extends yui_menu_plugin {
         }
         $outline = new yui_menu_item_link($this,
             get_string('outline', 'block_yui_menu'),
-            "{$CFG->wwwroot}/course/view.php?id={$COURSE->id}&$viewall",
+            //"{$CFG->wwwroot}/course/view.php?id={$COURSE->id}&$viewall",
+            "",
             "{$CFG->wwwroot}/blocks/yui_menu/icons/viewall.gif");
         $outline->children = $this->sections($block->config);
         $list[$this->id] = $outline;
@@ -212,8 +213,11 @@ class yui_menu_plugin_outline extends yui_menu_plugin {
                 /*trim chracter + */
                 if($mod->modname == 'label') {
                 	$text = trim($text, '+');
+                	$url = "";
                 }
-                $url = "{$CFG->wwwroot}/mod/{$mod->modname}/view.php?id={$mod->id}";
+                if($mod->modname != 'label') {
+                	$url = "{$CFG->wwwroot}/mod/{$mod->modname}/view.php?id={$mod->id}";
+                }                
                 $name = "yui_menu_mod_{$mod->modname}_$modnumber";
                 // figure out if it is the current page
                 $pageurl = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
