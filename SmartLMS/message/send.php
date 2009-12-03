@@ -89,6 +89,27 @@ if (has_capability('moodle/site:sendmessage', get_context_instance(CONTEXT_SYSTE
         add_to_log(SITEID, 'message', 'write', 'history.php?user1='.$user->id.'&amp;user2='.$USER->id.'#m'.$messageid, $user->id);
     }
 
+    //@nttuyen: write js code for: ENTER key to send message
+    ?>
+    <script src="http://www.google.com/jsapi"></script>
+    <script>
+	  // Load jQuery
+	  google.load("jquery", "1.3.2");
+	  function onload() {
+		  jQuery("#edit-message").keypress(function (e){
+			  if(e.which == 13) {
+				  jQuery("#edit-message").attr("readonly", "readonly");
+				  jQuery("#editing").submit();
+			  } else {
+				  return true;
+			  }
+		  });
+	  }
+	  google.setOnLoadCallback(onload);
+	</script>
+    <?php
+    //END @nttuyen: write js code for: ENTER key to send message
+    
     echo '<title> </title></head>';
 
 
