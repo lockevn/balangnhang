@@ -56,7 +56,15 @@
     		redirect($CFG->wwwroot . '/smartcom/testroom/attempt.php?q=' . $quiz->id . '&page=' . $page);
     	}
     }
-        
+
+    //@nttuyen: always forward to attemp.php page
+    if(has_capability('mod/quiz:attempt', $context)) {
+    	redirect($CFG->wwwroot . '/mod/quiz/attempt.php?id=' . $cm->id);
+   	} else {
+   		error("Sorry, you don't have permission to attemp this quiz!");
+   	}
+   	//END @nttuyen: forward to attemp.php
+    
     /*danhut added: if student is 1st time enter this exercise then forward to attempt.php page*/
     $attempts = quiz_get_user_attempts($quiz->id, $USER->id);
     $unfinished = false;
@@ -69,7 +77,7 @@
     	!has_capability('moodle/course:manageactivities', $context) && 
     	has_capability('mod/quiz:attempt', $context)) {
     		redirect($CFG->wwwroot . '/mod/quiz/attempt.php?id=' . $cm->id);
-    	}
+   	}
 
     // if no questions have been set up yet redirect to edit.php
     if (!$quiz->questions and has_capability('mod/quiz:manage', $context)) {
