@@ -10,6 +10,8 @@
     
     http://code.google.com/apis/visualization/documentation/gallery/columnchart.html
     
+    http://code.google.com/p/flot/
+    
     
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript">
@@ -35,11 +37,10 @@
         data.setValue(3, 2, 540);
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-        chart.draw(data, {width: 400, height: 240, is3D: true, title: 'Company Performance'});
+        chart.draw(data, {width: 700, height: 400, is3D: true, title: 'Player Performance'});
       }
     </script>
 
     <div id="chart_div"></div>
-
 
 </asp:Content>
