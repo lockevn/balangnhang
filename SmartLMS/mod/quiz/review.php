@@ -168,8 +168,9 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
     if(!empty($activityArr)) {
     	printSectionActivities($activityArr, $COURSE->id, $cm->id, $USER->id);
     }
-    $menu = navmenu($course, $cm);
-	echo $menu;
+    /*danhut: xác định link của item tiếp theo*/
+    $menu = navmenu($course, $cm, '', true);
+	//echo $menu;
     
 	/*end of added*/
 	
@@ -394,7 +395,19 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 
 	// print javascript button to close the window, if necessary
 	if (!$isteacher) {
-		include('attempt_close_js.php');
+		//include('attempt_close_js.php');
+//		echo "nextlink: " . $menu['nextLink'];
+		//print_single_button($menu['nextLink'], "", get_string('finishreview', 'quiz'));
+//		echo "<input type='button' 
+//			onclick='
+//				function onclick(event) 
+//				{     
+//					window.location = \"" . $menu['nextLink'] . "\"; 
+//				}' 
+//			class='cls_button' value='" . get_string('finishreview', 'quiz') ."' />";
+		echo "<input type='button' 
+			onclick=\"location.href='" . $menu['nextLink'] . "';\"				
+			class='cls_button' value='" . get_string('finishreview', 'quiz') ."' />";
 	}
 ?>
                     </td>
@@ -407,7 +420,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/mod/smartcom/locallib.php");
 </table>
 <?php 
 	/*danhut added*/
-		finish_page($course, $pageblocks, $menu);
+		finish_page($course, $pageblocks);
    /*end of danhut added*/
 /*******************/
 // LOCKEVN: add for auto suggestion after finish final exam
@@ -447,12 +460,12 @@ if (empty($popup)) {
 }
 
 
-function finish_page($course, $pageblocks, $menu) {
+function finish_page($course, $pageblocks) {
 	global $THEME;
 	global $PAGE;
 	global $CFG;
 	print_container_end();
-	echo $menu;
+	//echo $menu;
 	echo '</td>';
 	$blocks_preferred_width = bounded_number(180, blocks_preferred_width($pageblocks[BLOCK_POS_RIGHT]), 210);
 	/*danhut added: print right blocks*/
