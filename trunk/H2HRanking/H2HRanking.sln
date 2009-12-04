@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H2HRanking", "H2HRanking\H2HRanking.csproj", "{FA197A99-1818-455B-A43C-8D10096472E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H2HRanking.Tests", "H2HRanking.Tests\H2HRanking.Tests.csproj", "{21F71A8E-0FB8-4785-BAD6-09E77347EE3E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA197A99-1818-455B-A43C-8D10096472E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA197A99-1818-455B-A43C-8D10096472E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA197A99-1818-455B-A43C-8D10096472E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA197A99-1818-455B-A43C-8D10096472E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21F71A8E-0FB8-4785-BAD6-09E77347EE3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21F71A8E-0FB8-4785-BAD6-09E77347EE3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21F71A8E-0FB8-4785-BAD6-09E77347EE3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21F71A8E-0FB8-4785-BAD6-09E77347EE3E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
