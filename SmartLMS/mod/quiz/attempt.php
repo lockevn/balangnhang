@@ -690,7 +690,13 @@ echo '
                             </td>
                             <td align="right" valign="top" width="270px" style="font-weight:bold; padding-top: 10px;">';
 /*danhut: print list of lecture: "Xem lai bai giang Grammar 1 2 3 ..."*/
-    $lectureList = getLectureListOfCurrentQuiz($cm->id, $activityArr);
+	/*danhut: get the selected activity*/
+	foreach($activityArr as $selectedActivity) {
+		if($selectedActivity->selected == 1) {
+			break;
+		}
+	}
+    $lectureList = getLectureListOfCurrentQuiz($cm->id, $selectedActivity);
     printLectureListOfCurrentQuiz($lectureList);
 echo '                                
                         </td></tr></table>
@@ -732,6 +738,6 @@ function finish_page($course, $pageblocks, $menu) {
         echo '</td>';
     }
     /*end of danhut added*/
-    echo '</tr></table>sssssssss';    
+    echo '</tr></table>';    
 }
 ?>

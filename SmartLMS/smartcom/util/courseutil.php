@@ -518,19 +518,19 @@ function getLectureListOfCurrentLecture($cmid, $selectedActivity) {
  * $activityArr['vocab'][]
  * $activityArr['listening'][]
  */
-function getLectureListOfCurrentQuiz($cmid, $activityArr) {
-	if(empty($cmid) || empty($activityArr)) {
+function getLectureListOfCurrentQuiz($cmid, $selectedActivity) {
+	if(empty($cmid)) {
 		return false;
 	}
 	$lectureArr = array();
-	foreach($activityArr as $selectedActivity) {
+	//foreach($activityArr as $selectedActivity) {
 		$lectureArr[$selectedActivity->name] = array();
 		foreach($selectedActivity->los as $lo) {
 			if($lo->type == "lecture") {
 				$lectureArr[$selectedActivity->name][] = $lo;
 			}
 		}
-	}
+	//}
 	return $lectureArr;
 
 }
