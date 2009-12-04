@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<script language="jscript">
+
+function callBack()
+{
+switchType(window.document.getElementById('src').value);
+
+}
+
+</script>
+	<title>{$lang_media_title}</title>
+	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="jscripts/media.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/validate.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/editable_selects.js"></script>
+	<link href="css/media.css" rel="stylesheet" type="text/css" />
+	<base target="_self" />
+<meta name="generator" content="Namo WebEditor">
+</head>
+<body onload="tinyMCEPopup.executeOnLoad('init();');">
+    <form>
+		
+
+		
+
+					<table border="0" cellpadding="4" cellspacing="0">
+							<tr>
+							<td><label for="src">{$lang_media_file}</label></td>
+							  <td>
+									<table border="0" cellspacing="0" cellpadding="0">
+									  <tr>
+										<td width="190"><input id="src" name="src" type="text" value="" onchange="switchType(this.value);generatePreview();" /></td>
+										<td id="filebrowsercontainer" width="30"><input size="20" id="filebrowser" type="button" onclick="
+									  ; window.open('../../../../upload.jsp','name','height=170,width=360,left='+(screen.width/2-180)+',top='+(screen.height/2-85));" value="Upload"></td>
+									  </tr>
+									</table>
+								</td>
+							</tr>
+					</table>
+		
+
+		
+				    <p align="left"><input type="button" id="insert" name="insert" value="{$lang_insert}" onclick="tinyMCE.selectedInstance.execCommand('mceInsertContent', false, 'Hello Media');
+" />
+			
+				<input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" />
+</p>
+			
+	</form>
+</body>
+</html>
