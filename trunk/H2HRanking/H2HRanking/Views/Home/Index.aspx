@@ -90,4 +90,7 @@
     <p>
         Link gốc để bàn luận tại đây <a href="http://www.facebook.com/home.php#/note.php?note_id=313833165503&comments" title="Facebook thread">Facebook note</a>.
     </p>
+    <p>
+    http://david-burger.blogspot.com/2009/03/display-google-docs-spreadsheet-data-on.html
+    </p>
 </asp:Content>
