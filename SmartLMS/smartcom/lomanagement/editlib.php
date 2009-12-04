@@ -1088,7 +1088,7 @@ function lo_showbank($tabname, $contexts, $pageurl, $cm, $page, $perpage, $cat, 
     }
     lo_category_form($contexts->having_one_edit_tab_cap($tabname), $pageurl, $cat, $recurse, $showhidden, $showquestiontext, $lotype);
 
-    // continues with list of questions
+    // continues with list of los
     lo_list($contexts->having_one_edit_tab_cap($tabname), $pageurl, $cat, isset($cm) ? $cm : null,
             $recurse, $page, $perpage, $showhidden, $showquestiontext,
             $contexts->having_cap('moodle/question:add'));
