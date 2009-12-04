@@ -12,7 +12,7 @@
     <p>
          - Dựa trên phong độ hiện thời của các tay vợt - Dựa trên kết quả các trận đấu đơn đã từng diễn ra - Dựa trên đánh giá khách quan của hội đồng II/ 
     </p>
-    <h3>Bảng xếp hạng</h3>
+    <h3>Bảng xếp hạng http://spreadsheets.google.com/tq?tqx=out:html&tq=select%20A,B,C,D,E,F&key=0AvktwobpLx2CdGstTnJTMXQybFdmcjhBMnZJLWFuU3c</h3>
     <p>
      1. Hữu Định (tuy xuất hiện vài lần nhưng anh em nhất trí bình bầu là minh chủ võ lâm) 
     </p>
@@ -65,7 +65,7 @@
         18. Thành Trung Tin1K45 (sân Láng Hạ) 
     </p>
     <p>
-        19. Bùi Minh Tiến VEGA (sân nào không rõ)
+        19. Bùi Minh Tiến VEGA (sân bóng nào không rõ)
     </p>
     <p>
         20. DânHut (sân Phó Đức Chính) 
