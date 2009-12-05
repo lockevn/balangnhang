@@ -66,13 +66,20 @@ tinyMCE.init({
 
 	// Drop lists for link/image/media/template dialogs
 	template_external_list_url : "js/template_list.js",
-	external_link_list_url : "js/link_list.js",
+	//external_link_list_url : "js/link_list.js",
+	external_link_list_url : "<?= $CFG->wwwroot ?>/lib/editor/tiny_mce/link.php?id=<?=$COURSE->id?>",
 	external_image_list_url : "js/image_list.js",
 	media_external_list_url : "js/media_list.js",
 
+	//execcommand_callback : "myCustomExecCommandHandler",
+	
+	relative_urls : false,
+	remove_script_host : true,
+	document_base_url : "<?= $CFG->wwwroot ?>",
+	
 	// Replace values for the template plugin
 	template_replace_values : {
-		username : "Some User",
+		username : "nttuyen",
 		staffid : "991234"
 	}
 });
