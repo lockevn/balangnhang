@@ -403,9 +403,11 @@ function insertAction() {
 	// Create new anchor elements
 	if (elm == null) {
 		inst.getDoc().execCommand("unlink", false, null);
+		
 		tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
 
 		elementArray = tinymce.grep(inst.dom.select("a"), function(n) {return inst.dom.getAttrib(n, 'href') == '#mce_temp_url#';});
+		
 		for (i=0; i<elementArray.length; i++)
 			setAllAttribs(elm = elementArray[i]);
 	} else
@@ -427,7 +429,6 @@ function setAllAttribs(elm) {
 	var formObj = document.forms[0];
 	var href = formObj.href.value;
 	var target = getSelectValue(formObj, 'targetlist');
-
 	setAttrib(elm, 'href', href);
 	setAttrib(elm, 'title');
 	setAttrib(elm, 'target', target == '_self' ? '' : target);
