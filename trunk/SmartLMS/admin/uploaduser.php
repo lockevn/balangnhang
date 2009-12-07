@@ -259,9 +259,9 @@ if ($formdata = $mform->is_cancelled()) {
 
         // normalize username
         $user->username = $textlib->strtolower($user->username);
-        if (empty($CFG->extendedusernamechars)) {
-            $user->username = eregi_replace('[^(-\.[:alnum:])]', '', $user->username);
-        }
+//        if (empty($CFG->extendedusernamechars)) {
+//            $user->username = eregi_replace('[^(-\.[:alnum:])]', '', $user->username);
+//        }
         if (empty($user->username)) {
             $upt->track('status', get_string('missingfield', 'error', 'username'), 'error');
             $upt->track('username', $errorstr, 'error');
