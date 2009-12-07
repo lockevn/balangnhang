@@ -24,7 +24,7 @@
     settings += " width=470,";
     settings += " height=400,";
 
-    var newwin = window.open(tinyMCEPopup.getParam("external_link_list_url"),"",""+ settings +" left="+ lx +", top="+ tx +"");
+    var newwin = window.open(tinyMCEPopup.getParam("external_link_list_url") + "&filter=link&field_id=href","",""+ settings +" left="+ lx +", top="+ tx +"");
     return false;
 }
 </script>
@@ -52,7 +52,7 @@
 								<tr>
 								  <td>
 								  	<input id="href" name="href" type="text" class="mceFocus" value="" onchange="selectByValue(this.form,'linklisthref',this.value);" />
-								  	<input type="button" id="broswer" name="browser" value="browser" onclick="return onBrowse();"/>
+								  	<input type="button" id="broswer" name="browser" value="browse" onclick="return onBrowse();"/>
 								  </td>
 								  <td id="hrefbrowsercontainer">&nbsp;</td>
 								</tr>

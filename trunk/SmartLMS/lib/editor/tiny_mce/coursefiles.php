@@ -24,8 +24,21 @@
     $save    = optional_param('save', 0, PARAM_BOOL);
     $text    = optional_param('text', '', PARAM_RAW);
     $confirm = optional_param('confirm', 0, PARAM_BOOL);
-
-
+    
+    //@nttuyen: Edit for embed to flash
+    $filter = optional_param('filter', '', PARAM_TEXT);
+    global $field_id;
+    $field_id = optional_param('field_id', '', PARAM_TEXT);
+	session_start();
+    if($field_id == '') {
+    	$field_id = $_SESSION['ADMIN_CHOICE_FILE_FIELD_ID'];
+    } else {
+    	$_SESSION['ADMIN_CHOICE_FILE_FIELD_ID'] = $field_id;
+    }
+	echo "filter: ".$filter."   Field: ".$field_id."\n";
+	//END @nttuyen: Edit for embed to flash
+	
+	
     if (! $course = get_record("course", "id", $id) ) {
         error("That's an invalid course id");
     }
@@ -82,7 +95,8 @@
                         switch(field) {
                             case "url" :
                                 //upper.document.getElementById('f_href').value = value;
-                                upper.opener.document.getElementById('href').value = value;
+                                //<?php global $field_id; echo "\n";?>
+                                upper.opener.document.getElementById('<?php echo $field_id;?>').value = value;
                                 upper.close();
                                 break;
                             //case "imodified" : upper.document.getElementById('imodified').value = value; break;
@@ -95,7 +109,7 @@
                 if ( window.tinyMCE != "undefined" || window.TinyMCE != "undefined" ) {
                     //upper.opener.Dialog._return(params.url);
                     //upper.close();
-                    alert("Error in tinyMCE");
+                    alert("Error in tinyMCE" + e);
                 } else {
                     alert("Something odd just occurred!!!");
                 }

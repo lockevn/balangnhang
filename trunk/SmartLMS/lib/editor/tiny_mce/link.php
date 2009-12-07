@@ -2,6 +2,8 @@
     require("../../../config.php");
 
     $id = optional_param('id', SITEID, PARAM_INT);
+    $filter = optional_param('filter', SITEID, PARAM_TEXT);
+    $field_id = optional_param('field_id', SITEID, PARAM_TEXT);
 
     require_course_login($id);
     @header('Content-Type: text/html; charset=utf-8');
@@ -86,7 +88,7 @@ form { margin-bottom: 1px; margin-top: 1px; }
 
         <div class="space"></div>
         <?php print(has_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id)))?
-        "<iframe id=\"fbrowser\" name=\"fbrowser\" src=\"./coursefiles.php?id=".$id."\" width=\"420\" height=\"180\"></iframe>":
+        "<iframe id=\"fbrowser\" name=\"fbrowser\" src=\"./coursefiles.php?id=".$id."&filter=".$filter."&field_id=".$field_id."\" width=\"420\" height=\"180\"></iframe>":
         ""; ?>
         <p>
         </p>
