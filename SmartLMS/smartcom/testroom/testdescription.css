@@ -1,0 +1,133 @@
+.boldNormal {
+	-x-system-font:none;
+	color:#333333;
+	font-family:Arial;
+	font-size:12px;
+	font-size-adjust:none;
+	font-stretch:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:bold;
+	line-height:normal;
+}
+.box-top {
+	background: url(/smartcom/testroom/images/wCorner1.gif) no-repeat left top;
+}
+.box-top .right{
+	
+	background: url(/smartcom/testroom/images/signupCorner2.gif) no-repeat right top;
+}
+.box-top .right .center{
+	border-top: 1px solid #ccc;
+	height: 10px;
+	margin: 0 10px;
+}
+.box-bottom {
+	background: url(/smartcom/testroom/images/wCorner3.gif) no-repeat left bottom;
+}
+.box-bottom .right{
+	
+	background: url(/smartcom/testroom/images/wCorner4.gif) no-repeat right bottom;
+}
+.box-bottom .right .center{
+	border-bottom: 1px solid #ccc;
+	height: 10px;
+	margin: 0 10px;
+}
+.box-content {
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	
+}
+.redbox-top {
+	background: url(/smartcom/testroom/images/rCorner1.gif) no-repeat left top;
+}
+.redbox-top .right{
+	
+	background: url(/smartcom/testroom/images/rCorner2.gif) no-repeat right top;
+}
+.redbox-top .right .center{
+	background: #B50102;
+	height: 10px;
+	margin: 0 10px;
+}
+.redbox-bottom {
+	background: url(/smartcom/testroom/images/rCorner3.gif) no-repeat left bottom;
+}
+.redbox-bottom .right{
+	
+	background: url(/smartcom/testroom/images/rCorner4.gif) no-repeat right bottom;
+}
+.redbox-bottom .right .center{
+	background: #B50102;
+	height: 10px;
+	margin: 0 10px;
+}
+.redbox-content {
+	background: #B50102;
+	text-align: center;
+}
+
+.greenbox-top {
+	background: url(/smartcom/testroom/images/gCorner5.gif) no-repeat left top;
+}
+.greenbox-top .right{
+	
+	background: url(/smartcom/testroom/images/gCorner6.gif) no-repeat right top;
+}
+.greenbox-top .right .center{
+	background: #38721E;
+	height: 10px;
+	margin: 0 10px;
+}
+.greenbox-bottom {
+	background: url(/smartcom/testroom/images/gCorner7.gif) no-repeat left bottom;
+}
+.greenbox-bottom .right{
+	
+	background: url(/smartcom/testroom/images/gCorner8.gif) no-repeat right bottom;
+}
+.greenbox-bottom .right .center{
+	background: #38721E;
+	height: 10px;
+	margin: 0 10px;
+}
+.greenbox-content {
+	background: #38721E;
+	text-align: center;
+}
+
+.clock-box {
+	background: url(/smartcom/testroom/images/leftClockBar.gif) no-repeat left top;
+	width: 200px;
+}
+.clock-box .right{
+	
+	background: url(/smartcom/testroom/images/rightClockBar.gif) no-repeat right top;
+}
+.clock-box .right .center{
+	background: url(/smartcom/testroom/images/clockbarbg.gif) top;
+	height: 29px;
+	margin: 0 42px 0 10px;
+}
+
+.green-button {
+	background: url(/smartcom/testroom/images/leftEntranceTab.gif) no-repeat left top;
+	width: 200px;
+}
+.green-button .right{
+	
+	background: url(/smartcom/testroom/images/rightEntranceTab.gif) no-repeat right top;
+}
+.green-button .right .center{
+	background: #38721E;
+	height: 25px;
+	margin: 0 10px 0 10px;
+	text-transform: uppercase;
+	color: #fff;
+	line-height: 25px;
+	font-weight: bold;
+	text-align: center;
+	font-size: 12px;
+	
+}
