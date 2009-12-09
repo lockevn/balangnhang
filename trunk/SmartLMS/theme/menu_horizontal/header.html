@@ -39,6 +39,16 @@
 	var CURRENT_USERID = "<?=$USER->id?>";
 	var CURRENT_COURSEID = "<?=$COURSE->id?>";    
 	</script>
+	
+	<!-- mp3 player -->
+	<script type="text/javascript" src="<?= $CFG->wwwroot ?>/filter/audio-player/audio-player.js"></script>  
+    <script type="text/javascript">  
+           AudioPlayer.setup("<?= $CFG->wwwroot ?>/filter/audio-player/player.swf", {  
+                   width: 130,
+                   animation: "no"  
+               });  
+    </script>  
+           
 	<?php include("$CFG->javascript"); ?>
     <link href="<?php echo $CFG->themewww.'/'.current_theme() ?>/template/css/main.css" rel="stylesheet" type="text/css" />
 </head>
@@ -70,6 +80,10 @@ tinyMCE.init({
 	external_link_list_url : "<?= $CFG->wwwroot ?>/lib/editor/tiny_mce/link.php?id=<?=$COURSE->id?>",
 	external_image_list_url : "js/image_list.js",
 	media_external_list_url : "js/media_list.js",
+	
+	/*do not add <p> */
+	force_p_newlines : false,
+	
 
 	forced_root_block : "",
 
