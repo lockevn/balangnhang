@@ -105,32 +105,48 @@ function mediaplugin_filter_mp3_callback($link) {
     global $CFG, $THEME;
 
     $autoPlay  = empty($link[2]) ? 'no' : 'yes';
-    if (!empty($THEME->filter_mediaplugin_colors)) {
-        $c = $THEME->filter_mediaplugin_colors . '&autoPlay=' . $autoPlay;   // You can set this up in your theme/xxx/config.php
-        
-    } else {
-        $c = 'bgColour=000000&btnColour=ffffff&btnBorderColour=cccccc&iconColour=000000&'.
-             'iconOverColour=00cc00&trackColour=cccccc&handleColour=ffffff&loaderColour=ffffff'.
-             //'&waitForPlay=yes' . '&autoPlay=' . $autoPlay ;
-             '&autoPlay=' . $autoPlay ;
-    }
-    $c = htmlentities($c);
+//    if (!empty($THEME->filter_mediaplugin_colors)) {
+//        $c = $THEME->filter_mediaplugin_colors . '&autoPlay=' . $autoPlay;   // You can set this up in your theme/xxx/config.php
+//        
+//    } else {
+//        $c = 'bgColour=000000&btnColour=ffffff&btnBorderColour=cccccc&iconColour=000000&'.
+//             'iconOverColour=00cc00&trackColour=cccccc&handleColour=ffffff&loaderColour=ffffff'.
+//             //'&waitForPlay=yes' . '&autoPlay=' . $autoPlay ;
+//             '&autoPlay=' . $autoPlay ;
+//    }
+//    $c = htmlentities($c);
 
     static $count = 0;
     $count++;
     $id = 'filter_mp3_'.time().$count; //we need something unique because it might be stored in text cache
 
     $url = addslashes_js($link[1]);
+    
+    $mp3player = '   
+    		<div id= "mp3player' . $id . '">Flash player plugin is missing</div>		 
+           <script type="text/javascript">  
+           	AudioPlayer.embed(
+           		"mp3player' . $id . '", 
+           		{
+           		soundFile: "' . $CFG->wwwroot. $url .'",
+           		autostart: "' . $autoPlay . '",
+           		noinfo: "yes"
+           		}           		
+           	);  
+           </script>';
+    return $link[0] . $mp3player;
+    
 
-    return $link[0].
-'<span class="mediaplugin mediaplugin_mp3" id="'.$id.'">('.get_string('mp3audio', 'mediaplugin').')</span>
-<script type="text/javascript">
-//<![CDATA[
-  var FO = { movie:"'.$CFG->wwwroot.'/filter/mediaplugin/mp3player.swf?src='.$url.'",
-    width:"90", height:"15", majorversion:"6", build:"40", flashvars:"'.$c.'", quality: "high" };
-  UFO.create(FO, "'.$id.'");
-//]]>
-</script>';
+
+//    return $link[0].
+//'<span class="mediaplugin mediaplugin_mp3" id="'.$id.'">('.get_string('mp3audio', 'mediaplugin').')</span>
+//<script type="text/javascript">
+////<![CDATA[
+//  var FO = { movie:"'.$CFG->wwwroot.'/filter/mediaplugin/mp3player.swf?src='.$url.'",
+//    width:"90", height:"15", majorversion:"6", build:"40", flashvars:"'.$c.'", quality: "high" };
+//  UFO.create(FO, "'.$id.'");
+////]]>
+//</script>';
 }
 
 function mediaplugin_filter_swf_callback($link) {
