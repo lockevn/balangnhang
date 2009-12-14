@@ -771,6 +771,7 @@ function displaydir ($wdir) {
             echo "<td align=\"left\" nowrap=\"nowrap\">";
             $ffurl = get_file_url($id.$fileurl);
             $ffurl = str_replace("%2F", "/", $ffurl);
+            $ffurl = str_replace($CFG->wwwroot, "", $ffurl);
             link_to_popup_window ($ffurl, "display",
                                   "<img src=\"$CFG->pixpath/f/$icon\" class=\"icon\" alt=\"$strfile\" />",
                                   480, 640);
