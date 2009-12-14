@@ -1,0 +1,15 @@
+@CHARSET "utf-8";
+.panel_wrapper {
+	height: 180pt;
+}
+
+.smartaudio_preview {
+	height: 150px;
+}
+
+.mce_audio_file{
+	width: 180pt;
+}
+.size {
+	width: 50pt;
+}

@@ -134,7 +134,8 @@ function mediaplugin_filter_mp3_callback($link) {
            		}           		
            	);  
            </script>';
-    return $link[0] . $mp3player;
+    //return $link[0] . $mp3player;
+    return $mp3player;
     
 
 
