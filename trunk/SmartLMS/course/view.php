@@ -332,7 +332,7 @@ function showCourseContentDetail($courseId = null, $sectionId = null)
                     Status
                 </td>
                 <td align="center" class="courseBB" background="'.$CFG->themewww.'/'.current_theme().'/template/images/TB1_HD.jpg">
-                    Result
+                    Result (%)
                 </td>
             </tr>';
         
@@ -360,7 +360,7 @@ function showCourseContentDetail($courseId = null, $sectionId = null)
                     <img title="'.$grade->status.'" src="'.$CFG->themewww.'/'.current_theme().'/template/images/'.$grade->status.'.gif" />
                 </td>
                 <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                    '.$gradePercent.'
+                    '.number_format($gradePercent, 1, '.', '').'
                 </td>
             </tr>';       
             
