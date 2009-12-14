@@ -344,7 +344,7 @@ function showCourseContentDetail($courseId = null, $sectionId = null)
             
             //print_r($grade);
             $gradePercent = ($grade->avg)*100;
-            
+            $number_format = $gradePercent == 0 ? '0' : number_format($gradePercent, 1, '.', '');
             $str .= '
             <tr valign="middle">
                 <td height="44px" width="40px" align="center" bgcolor="#EEEEEE" style="font-weight:bold;">
@@ -360,7 +360,7 @@ function showCourseContentDetail($courseId = null, $sectionId = null)
                     <img title="'.$grade->status.'" src="'.$CFG->themewww.'/'.current_theme().'/template/images/'.$grade->status.'.gif" />
                 </td>
                 <td align="center" bgcolor="#FFFFFF" class="courseBB">
-                    '.number_format($gradePercent, 1, '.', '').'
+                    '.$number_format.'
                 </td>
             </tr>';       
             
