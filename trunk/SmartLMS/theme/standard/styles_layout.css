@@ -2628,7 +2628,7 @@ body.notes .notesgroup {
 }
 .que .answer {
   float: left;
-  width: 83%;
+  width: 100%;
   margin-bottom: 0.5em;
 }
 .que .submit {
