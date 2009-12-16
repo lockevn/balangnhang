@@ -22,4 +22,7 @@ $string['tocontent'] = 'Tới nội dung chính';
 $string['tonavigation'] = 'Tới điều hướng';
 $string['youarehere'] = 'Bạn đang ở đây';
 
+$string['next'] = 'Sau';
+$string['prev'] = 'Trước';
+
 ?>

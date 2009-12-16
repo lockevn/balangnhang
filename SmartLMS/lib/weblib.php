@@ -5481,23 +5481,33 @@ function navmenu($course, $cm=NULL, $targetwindow='self', $getNavLinks=false) {
 	$nextmodStr = '';
 	if ($backmod) {
 		$backtext= get_string('activityprev', 'access');
+		$back= get_string('prev', 'access');
+//		$backmodStr = '<div class="titleicon"><form action="'.$CFG->wwwroot.'/mod/'.$backmod->modname.'/view.php" '.
+//                   'onclick="this.target=\''.$CFG->framename.'\';"'.'><fieldset class="invisiblefieldset">'.
+//                   '<input type="hidden" name="id" value="'.$backmod->id.'" />'.
+//                   '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG) 
+//                   								no-repeat top center; width:15px ; height:15px ; border: none;" 
+//                   			type="submit" title="'.$backtext.'">'. //link_arrow_left($backtext, $url='', $accesshide=true).
+//                   '</button></fieldset></form></div>';
+
 		$backmodStr = '<div class="titleicon"><form action="'.$CFG->wwwroot.'/mod/'.$backmod->modname.'/view.php" '.
-                   'onclick="this.target=\''.$CFG->framename.'\';"'.'><fieldset class="invisiblefieldset">'.
-                   '<input type="hidden" name="id" value="'.$backmod->id.'" />'.
-                   '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_LT.JPG) 
-                   								no-repeat top center; width:15px ; height:15px ; border: none;" 
-                   			type="submit" title="'.$backtext.'">'. //link_arrow_left($backtext, $url='', $accesshide=true).
-                   '</button></fieldset></form></div>';
+                   'onsubmit="this.target=\''.$CFG->framename.'\';"'.'><fieldset class="invisiblefieldset">'.
+                   '<input type="hidden" name="id" value="'.$backmod->id.'" />'.                    
+                   '</fieldset>' .
+                   '<input class="cls_button_smaller"
+                   			value="' . $back . '" 
+                   			type="submit" title="'.$backtext.'"> </button>'. 
+					'</form></div>';
 	}
 	if ($nextmod) {
 		$nexttext= get_string('activitynext', 'access');
+		$next= get_string('next', 'access');
 		$nextmodStr = '<div class="titleicon"><form action="'.$CFG->wwwroot.'/mod/'.$nextmod->modname.'/view.php"  '.
-                   'onclick="this.target=\''.$CFG->framename.'\';"'.'><fieldset class="invisiblefieldset">'.
-                   '<input type="hidden" name="id" value="'.$nextmod->id.'" />'.
-                   '<button style="background: url('. $CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_GT.JPG) 
-                   								no-repeat top center; width:15px ; height:15px ; border: none;" 
-                   			type="submit" title="'.$nexttext.'">'. //link_arrow_right($nexttext, $url='', $accesshide=true).
-                   '</button></fieldset></form></div>';
+                   'onsubmit="this.target=\''.$CFG->framename.'\';"'.'><fieldset class="invisiblefieldset">'.
+                   '<input type="hidden" name="id" value="'.$nextmod->id.'" />'.                   
+                   '</fieldset>'.
+				 	'<input class="cls_button_smaller" value="' . $next . '"  type="submit" title="'.$nexttext.'"></button>'.                   			
+                   '</form></div>';
 	}
 
 	

@@ -27,4 +27,6 @@ $string['tonavigation'] = 'Go to navigation';
 $string['youarehere'] = 'You are here';
 /*danhut added*/
 $string['week'] = 'Week';
+$string['next'] = 'Next';
+$string['prev'] = 'Previous';
 ?>
