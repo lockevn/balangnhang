@@ -1146,6 +1146,16 @@ table.quizreviewsummary td.cell {
     width:86px;
 }
 
+.cls_button_smaller {
+    background: url(template/images/BT_Background_Smaller.jpg) no-repeat;
+    border: none;
+    height: 28px;
+    color: #FFF;
+    width:69px;
+    line-height: 28px; 
+    text-align: center ! important;
+}
+
 .global_search {
     float:right;
     font-size: 12px;
