@@ -50,17 +50,32 @@ class block_online_support extends block_base {
 		$str .= '}';
 		$str .= '</script>';*/
 		 
-        $str .= '<div style="display: block; width:200px; margin-left:10px; padding-left: 10px;">';
+        //$str .= '<div style="display: block; width:200px; margin-left:10px; padding-left: 10px;">';
         
-        $str .= '<p>Demo online</p>';
-        $str .= '<p><a href="#" onclick = "window.open(\'http://localhost/message/discussion.php?id=22\',\'Chat\', \'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,width=470,height=400\'); return false;" target="_blank">Chat with teacher</a></p>';
+        //$str .= '<p>Demo online</p>';
+        //$str .= '<p><a href="#" onclick = "window.open(\'http://localhost/message/discussion.php?id=22\',\'Chat\', \'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,width=470,height=400\'); return false;" target="_blank">Chat with teacher</a></p>';
         
         //$teachers = get_list_teacher();
         //foreach($teachers as $teacher) {
         //	$str .= '<a href="http://localhost/message/discussion.php?id='.$teacher['id'].'" target="_blank">'.$teacher['name'].'</a><br/>';
         //}
         
+        //$str .= '</div>';
+        
+        $str = "";
+        $str .= '<div style="display: block; width:200px; padding-left: 10px;">';
+        $teachers = $this->get_support_teachers();
+        foreach($teachers as $teacher) {    	
+        	$str .= "<div style=\"padding: 5px 0;\"><a href=\"#\" onclick = \"window.open('" .$CFG->wwwroot. "/message/discussion.php?id=22','Chat', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,width=470,height=400'); return false;\" target = \"_blank\"><img align=\"absmiddle\" src=\"".$CFG->wwwroot."/user/pix.php?file=/$teacher->id/f1.jpg\" width=\"100\" height=\"100\" /></a>&nbsp;&nbsp;<a class = \"courseRB\" href=\"#\" onclick = \"window.open('" .$CFG->wwwroot. "/message/discussion.php?id=22','Chat', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,width=470,height=400'); return false;\" target = \"_blank\">$teacher->username</a></div>";
+        }
         $str .= '</div>';
+        $this->content->text = $str;
+        
+        $this->content->footer = '';               
+
+        return $this->content;
+        
+        
         $this->content->text = $str;
         
         $this->content->footer = '';               
@@ -68,8 +83,21 @@ class block_online_support extends block_base {
         return $this->content;
     }
     
-    function get_list_teacher() {
-    	$teachers = array(array('id'=> 1, 'name'=>'Demo'));
+    function get_support_teachers() {
+    	global $CFG;
+    	$sql = "SELECT u.id id, u.username username
+				FROM " . $CFG->prefix . "user u 
+				WHERE u.id = 22";
+    	$results = get_records_sql($sql);
+    	
+    	$teachers = array();
+    	if(!empty($results)) {
+    		foreach($results as $result) {
+    			$teachers[] = $result;
+    		}
+    	}
+    	
+    	return $teachers;
     }
     
 	function preferred_width() {
