@@ -345,6 +345,7 @@ function showCourseContentDetail($courseId = null, $sectionId = null)
             //print_r($grade);
             $gradePercent = ($grade->avg)*100;
             $number_format = $gradePercent == 0 ? '0' : number_format($gradePercent, 1, '.', '');
+            $number_format = str_replace(".0", "", $number_format);
             $str .= '
             <tr valign="middle">
                 <td height="44px" width="40px" align="center" bgcolor="#EEEEEE" style="font-weight:bold;">
