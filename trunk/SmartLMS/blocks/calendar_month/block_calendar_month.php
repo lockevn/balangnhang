@@ -72,6 +72,8 @@ class block_calendar_month extends block_base {
             $this->content->text .= calendar_overlib_html();
             $this->content->text .= calendar_top_controls('course', array('id' => $courseshown, 'm' => $cal_m, 'y' => $cal_y));
             $this->content->text .= calendar_get_mini($courses, $group, $user, $cal_m, $cal_y);
+            /*danhut added: add a details link*/
+            $this->content->text .= '<a href="'. calendar_get_link_href(CALENDAR_URL.'view.php?view=month&amp;course='.$COURSE->id.'&amp;', 1, $cal_m, $cal_y) . '"><b>'. get_string("schedule", "calendar") . '</b></a>';
             $this->content->text .= '<h3 class="eventskey">'.get_string('eventskey', 'calendar').'</h3>';
             $this->content->text .= '<div class="filters">'.calendar_filter_controls('course', '', $COURSE).'</div>';
             
