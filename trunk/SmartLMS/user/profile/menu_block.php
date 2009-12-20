@@ -4,7 +4,7 @@
 /// We also assume that $user, $course, $currenttab have been set
 echo '<table cellpadding="0" cellspacing="0" width="100%">
     <tr><td height="30px">
-        <div class="title">PERSONAL MENU</div>
+        <div class="title">'. get_string("personal_menu") . '</div>
         <div class="titleicon"><a href=""><img src="'.$CFG->wwwroot.'/theme/menu_horizontal/template/images/BT_ST.JPG" /></a></div>
     </td></tr>
     <tr><td height="1px" bgcolor="#CCCCCC"></td></tr>
@@ -102,7 +102,7 @@ echo '<table cellpadding="0" cellspacing="0" width="100%">
         $personalcontext = get_context_instance(CONTEXT_USER, $user->id);
 
         if ($user->id == $USER->id || has_capability('moodle/user:viewdetails', $coursecontext) || has_capability('moodle/user:viewdetails', $personalcontext) ) { 
-            $toprow[] = new tabobject('profile', $CFG->wwwroot.'/user/view.php?id='.$user->id.'&amp;course='.$course->id, get_string('profile'));
+            $toprow[] = new tabobject('profile', $CFG->wwwroot.'/user/view.php?id='.$user->id.'&amp;course='.$course->id, get_string('profile_lowercase'));
         }
 
 

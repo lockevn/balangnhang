@@ -205,11 +205,13 @@ echo '
                     <!-------------------------------------------------------------------->
                     <div class="newsarea">
                         <table cellpadding="0" cellspacing="0" width="100%" border="0">
-                            <tr><td height="30px" colspan="3">
-                                <div class="title">';
-                                echo strtoupper(fullname($user, has_capability('moodle/site:viewfullnames', get_context_instance(CONTEXT_COURSE, $course->id))));
-echo '                            
-                                    \'S'. strtoupper(get_string('profile')). 
+                            <tr><td height="30px" colspan="3">' .
+//                                <div class="title">';
+                                //echo strtoupper(fullname($user, has_capability('moodle/site:viewfullnames', get_context_instance(CONTEXT_COURSE, $course->id))));
+//								echo '                            
+//                                    \'S'. strtoupper(get_string('profile')).
+							'<div class="title"> '. 
+								(get_string('profile')).
                                 '</div>
                             </td></tr>
                             <tr>
