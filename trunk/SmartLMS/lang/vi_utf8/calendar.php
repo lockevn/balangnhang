@@ -117,4 +117,10 @@ $string['timeforward'] = 'tiếp tới';
 $string['timerewind'] = 'lùi lại';
 $string['first'] = 'đầu';
 $string['last'] = 'cuối';
+$string['schedule'] = 'Lập lịch cá nhân';
+
+$string['calendar_details'] = 'Trang viết lịch chi tiết';
+
+
+
 ?>

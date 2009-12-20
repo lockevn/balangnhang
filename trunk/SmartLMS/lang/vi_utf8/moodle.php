@@ -1135,5 +1135,14 @@ $string['yourlastlogin'] = 'Đăng nhập cuối cùng của bạn là';
 $string['yourself'] = 'chính mình';
 $string['yourteacher'] = '$a của bạn';
 $string['zippingbackup'] = 'Đóng gói sao lưu';
+$string['profile'] = 'TỔNG QUAN THÔNG TIN CÁ NHÂN';
+$string['profile_lowercase'] = 'Tổng quan thông tin cá nhân';
+$string['personal_menu'] = 'THÔNG TIN CÁ NHÂN';
+$string['personal_menu_lowercase'] = 'Thông tin cá nhân';
+
+
+
+
+
 
 ?>
