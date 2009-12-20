@@ -241,7 +241,7 @@ class block_admin extends block_list {
 
     /// Link to the user own profile (except guests)
         if (!isguestuser() and isloggedin()) {
-            $this->content->items[]='<a href="'.$CFG->wwwroot.'/user/view.php?id='.$USER->id.'&amp;course='.$COURSE->id.'">'.get_string('profile').'</a>';
+            $this->content->items[]='<a href="'.$CFG->wwwroot.'/user/view.php?id='.$USER->id.'&amp;course='.$COURSE->id.'">'.get_string('personal_menu_lowercase').'</a>';
             $this->content->icons[]='<img src="'.$CFG->pixpath.'/i/IC5.JPG" alt="" />';
                 
     /// My course link
