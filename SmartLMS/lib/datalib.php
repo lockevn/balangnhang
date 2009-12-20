@@ -823,7 +823,7 @@ function get_my_courses($userid, $sort='visible DESC,sortorder ASC', $fields=NUL
 	}
 
 	$basefields = array('id', 'category', 'sortorder',
-						'shortname', 'fullname', 'idnumber',
+						'shortname', 'fullname', 'idnumber', 'format', 
 						'teacher', 'teachers', 'student', 'students',
 						'guest', 'startdate', 'visible',
 						'newsitems',  'cost', 'enrol',
@@ -907,7 +907,7 @@ function get_my_courses($userid, $sort='visible DESC,sortorder ASC', $fields=NUL
 					  ON c.category=cc.id
 					JOIN {$CFG->prefix}context ctx
 					  ON (c.id=ctx.instanceid AND ctx.contextlevel=".CONTEXT_COURSE.")
-					WHERE c.id IN ($courseids)
+					WHERE c.id IN ($courseids) AND c.format <> 'testroom' 
 					$orderby";
 			$rs = get_recordset_sql($sql);
 			$courses = array();
