@@ -548,7 +548,7 @@ function isTicketRequired($userid, $courseid) {
 		return false;
 	}
 	
-	$result = get_record_select("role_assignments", "contextid=$context->id AND userid=$userid AND roleid >= 5", "id");
+	$result = get_record_select("role_assignments", "contextid=$context->id AND userid=$userid AND roleid > 5", "id");
 	if(!empty($result) && !empty($course->cost) && $course->cost > 0) {
 		return $course->cost;
 	}
