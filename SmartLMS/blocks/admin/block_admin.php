@@ -275,6 +275,13 @@ class block_admin extends block_list {
 //            } 
 //        } 
 
+        ///My blog link
+        if(has_capability('mod/oublog:post', $context)) {
+        	$this->content->items[]='<a href="'.$CFG->wwwroot.'/mod/oublog/view.php">'.get_string('myblog', 'smartcom').'</a>';
+        	$this->content->icons[]='<img src="'.$CFG->pixpath.'/i/IC2.JPG" class="icon" alt="My Blog" />';
+        	
+        }
+
         return $this->content;
     }
 
