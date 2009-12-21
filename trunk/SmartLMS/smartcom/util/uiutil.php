@@ -42,6 +42,21 @@ function printSupportToolMenuBar($courseid) {
 		$str .= "<div class='menu2'><a href='$link'><img src='$CFG->themewww/".current_theme() ."/template/images/". $prefix . "MN2_3.jpg' /></a></div>";
 		$str .= "<div class='menu2split'></div>";
 		
+		/*course blog link*/
+		if(!empty($cmList['oublog'])) {
+			$cm = $cmList['oublog'];
+			$link = "$CFG->wwwroot/mod/$cm->modulename/view.php?id=$cm->id";
+			$str .= "<div class='menu2' style='font-color:white;'><a href='$link'>Course blog</a></div>";
+			$str .= "<div class='menu2split'></div>";
+		}
+		else {
+			$link = "#";
+		}		
+//		$str .= "<div class='menu2'><a href='$link'><img src='$CFG->themewww/".current_theme() ."/template/images/". $prefix . "MN2_3.jpg' /></a></div>";
+//$str .= "<div class='menu2'><a href='$link'>CourseBlog</a></div>";
+//		$str .= "<div class='menu2split'></div>";
+		
+		
 		/*course chatroom link*/
 		if(!empty($cmList['chat'])) {
 			$cm = $cmList['chat'];
