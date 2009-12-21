@@ -6,6 +6,7 @@ class MemcachedUtil {
 	public static $RECOMMEND_COURSE_KEY = "RECOMMEND_COURSE_KEY_";
 	public static $COURSE_SUPPORT_TOOL_KEY = "COURSE_SUPPORT_TOOL_KEY_";
 	public static $COURSE_SECTION_KEY = "COURSE_SECTION_";
+	public static $TEACHER_SUPPORT_KEY="TEACHER_SUPPORT_KEY";
 }
 
 ?>
