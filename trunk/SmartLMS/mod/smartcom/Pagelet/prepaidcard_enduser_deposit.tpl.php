@@ -10,7 +10,7 @@
             <div class="newsarea">
                 <table cellpadding="0" cellspacing="0" width="100%" border="0">
                     <tr><td height="30px" colspan="3">
-                        <div class="title">NẠP THẺ</div>
+                        <div class="title"><?=get_string("topup_title", "ticket_buy") ?></div>
                     </td></tr>
                     <tr>
                         <td valign="top" width="5px"><img src="<?php echo $CFG->wwwroot ?>/theme/menu_horizontal/template/images/BG1_L.jpg" /></td>
@@ -19,11 +19,11 @@
                                 <tr>
                                     <td height="30px">
                                         <?php if($this->state === 'depositok'): ?>
-                                            <div class="info">Deposit OK!</div> 
+                                            <div class="info"><?=get_string("deposit_success", "ticket_buy") ?></div> 
                                         <?php elseif($this->state === 'depositfail'):  ?>
-                                            <div class="info">Deposit Fail! Please use correct card code. Nhập sai quá 3 lần thì tài khoản của bạn sẽ bị khoá.</div> 
+                                            <div class="info"><?=get_string("deposit_fail", "ticket_buy") ?></div> 
                                         <?php else:  ?>    
-                                            <div class="info">Scratch your prepaid card, provide the secret code here</div> 
+                                            <div class="info"><?=get_string("topup_guide", "ticket_buy") ?></div> 
                                         <?php endif;  ?>
                                         
                                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -34,14 +34,14 @@
                                 </tr>
                                 <tr>
                                     <td height="20px">
-                                        <b>Deposit SmartCom prepaid card to account</b>
+                                        <b><?=get_string("topup_info", "ticket_buy") ?></b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td valign="top">
                                         <table cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td height="30px" width="80px">User name:</td>
+                                                <td height="30px" width="80px">Username:</td>
                                                 <td><a href=""><?=$USER->username ?></a></td>
                                             </tr>
                                             <tr>
@@ -60,7 +60,7 @@
             
             <!-------------------------------------------------------------------->
             <div class="newsarea">
-                <input class="cls_button_small" type='button' id='send' value = 'Send'>
+                <input class="cls_button_small" type='button' id='send' value = 'Submit'>
             </div>
             <br />
             <div id='sendResult'></div>
@@ -90,19 +90,19 @@ $(document).ready(function(){
                 response = parseInt(response);
                 if(response == 0)
                 {
-                    $("#sendResult").html('Nap the thanh cong');
+                    $("#sendResult").html('<?=get_string("deposit_success", "ticket_buy") ?>');
                 }
                 else if(response == -1)
                 {
-                    $("#sendResult").html('System Database is temporary unavailable');   
+                    $("#sendResult").html('<?=get_string("system_not_available", "ticket_buy") ?>');   
                 }
                 else if(response > 0)
                 {
-                    $("#sendResult").html('Wrong code, please try again. You have provided wrong code ' + response + ' times');
+                    $("#sendResult").html('<?=get_string("deposit_fail", "ticket_buy") ?>');
                 }
                 else
                 {
-                    $("#sendResult").html('Account locked');
+                    $("#sendResult").html('<?=get_string("account_locked", "ticket_buy") ?>');
                 }
                 
                 $("#sendResult").fadeOut(8888);
