@@ -105,4 +105,6 @@ to be allocated the most appropriate course. <br><br>Alternatively, you can choo
 
 $string['news'] = 'LATEST NEWS';
 
+$string['myblog'] = 'My blog';
+
 ?>
