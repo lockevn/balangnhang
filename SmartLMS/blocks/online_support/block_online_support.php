@@ -36,7 +36,7 @@ class block_online_support extends block_base {
 	        $str .= '<div style="display: block; width:200px; padding-left: 10px;">';
 	        $teachers = $this->get_support_teachers();
 	        foreach($teachers as $teacher) {    	
-	        	$str .= "<div style=\"padding: 5px 0;\"><a href=\"#\" onclick = \"window.open('" .$CFG->wwwroot. "/message/discussion.php?id=22','Chat', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,width=470,height=400'); return false;\" target = \"_blank\"><img align=\"absmiddle\" src=\"".$CFG->wwwroot."/user/pix.php?file=/$teacher->id/f1.jpg\" width=\"100\" height=\"100\" /></a>&nbsp;&nbsp;<a class = \"courseRB\" href=\"#\" onclick = \"window.open('" .$CFG->wwwroot. "/message/discussion.php?id=22','Chat', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,width=470,height=400'); return false;\" target = \"_blank\">$teacher->username</a></div>";
+	        	$str .= "<div style=\"padding: 5px 0;\"><a href=\"#\" onclick = \"window.open('" .$CFG->wwwroot. "/message/discussion.php?id=$teacher->id','Chat', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,width=470,height=400'); return false;\" target = \"_blank\"><img align=\"absmiddle\" src=\"".$CFG->wwwroot."/user/pix.php?file=/$teacher->id/f1.jpg\" width=\"100\" height=\"100\" /></a>&nbsp;&nbsp;<a class = \"courseRB\" href=\"#\" onclick = \"window.open('" .$CFG->wwwroot. "/message/discussion.php?id=$teacher->id','Chat', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,width=470,height=400'); return false;\" target = \"_blank\">$teacher->username</a></div>";
 	        }
 	        $str .= '</div>';
 	        $this->content->text = $str;
@@ -71,7 +71,7 @@ class block_online_support extends block_base {
     		}
     	}
     	$context = get_context_instance(CONTEXT_COURSE, $COURSE->id);
-    	$teachers = get_users_by_capability($context, 'mod/smartcom:sendnotification', 'u.id id, u.username username');
+    	$teachers = get_users_by_capability($context, 'mod/smartcom:sendnotification', 'u.id id, u.username username', '', '', '', '', '', false);
     	
     	if(!empty($memcached)) {
     		$memcached->set(MemcachedUtil::$TEACHER_SUPPORT_KEY, $teachers, 1);
