@@ -5,7 +5,7 @@ require_once(ABSPATH.'lib/datalib.php');
 
 define('AJAX_CALL',true);
 require_login();
-$context = get_context_instance(CONTEXT_SYSTEM);
+$context = get_context_instance(CONTEXT_COURSE);
 require_capability('mod/smartcom:sendnotification', $context);
 
 

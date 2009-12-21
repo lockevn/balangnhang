@@ -1,26 +1,27 @@
 <? global $USER, $SESSION; ?>
-<? print_heading(get_string('modulenameplural', 'smartcom') . ' buying ticket to learn'); ?>
+<? print_heading(get_string('buy_ticket', 'ticket_buy')); ?>
 	
 	
-<div>Buying ticket for <strong><?=$this->course->fullname ?></strong>, you will spend <?= (int)($this->course->cost) ?> coin(s) in your account:</div> 
-<a id="linkbacktowork" href="<?= $SESSION->wantsurl ?>" >Continue as Expired Student</a>
+<div><?= get_string("course_name", "ticket_buy") ?><strong><?=$this->course->fullname ?></strong></div>
+<div><?= get_string("course_cost", "ticket_buy") ?><strong><?= (int)($this->course->cost) ?> (VND) </strong></div> 
+<br>
 
 <?php if(empty($this->accountinfo)): ?>
-<div class="error">You do not have account balance (do not have any coin) in Smartcom system. Please buy our prepaidcard and go <a href="/mod/smartcom/index.php?courseid=1&submodule=prepaidcard_enduser_deposit">PrepaidCard Deposit page</a> to deposit</div>
+<div class="error"><?= get_string("empty_account", "ticket_buy") ?></div>
 <?php else:  ?>
-<div>Current account name is: <strong><?=$this->accountinfo->username ?></strong></div>
-<div>Current account money is: <?=$this->accountinfo->coinvalue ?> coin(s)</div>
-<div>Current account expire date is: <?=$this->accountinfo->expiredate ?></div>
-<div>Remain account money after buying ticket is: <?=$this->accountinfo->coinvalue - (int)($this->course->cost) ?> coin(s)</div>
-<div>Acccount expire date is not changed</div>
+<div><?= get_string("account_name", "ticket_buy") ?><strong><?=$this->accountinfo->username ?></strong></div>
+<div><?= get_string("account_balance", "ticket_buy") ?><strong><?=$this->accountinfo->coinvalue ?> (VND)</strong></div>
+<div><?= get_string("account_expiredate", "ticket_buy") ?><strong><?=$this->accountinfo->expiredate ?></strong></div>
+<div><?= get_string("account_remain", "ticket_buy") ?><strong><?=$this->accountinfo->coinvalue - (int)($this->course->cost) ?> (VND)</strong></div>
+<!-- <div>Acccount expire date is not changed</div>-->
 
-<input type='button' id='buy' value='I understand and agree to buy ticket'><span id='buyResult'></span>
+<input type='button' id='buy' value='<?= get_string("accept_buy_ticket", "ticket_buy")?>'><span id='buyResult'></span>
 
 <script type="text/javascript" >
 $(document).ready(function(){
 	$("#buy").click(function(){
 		
-		$("#buyResult").show().html('Processing, please wait ...');		
+		$("#buyResult").show().html('<?= get_string("processing", "ticket_buy") ?>');		
 		$.blockUI();
 		$.get(
 			'/mod/smartcom/api/ticket_buy.php', 
@@ -32,20 +33,27 @@ $(document).ready(function(){
 				$.unblockUI();
 				if(response === 'ok')
 				{
-					$("#buyResult").html('You can continue! Redirecting ...');
+					$("#buyResult").html('<?= get_string("successful", "ticket_buy") ?>');
 					window.status = "";
-					window.location = $('#linkbacktowork').attr('href');
+					window.location = '<?= $SESSION->wantsurl ?>';
 					return true;
 				}
 				else
 				{
-					$("#buyResult").html('Error, you can not buy ticket. Your account is locked, or lack of coin(s) or expired');
+					$("#buyResult").html('<?= get_string("error", "ticket_buy") ?>');
 					return false;
 				}
 			},
 			"text"
 		);		
 	});
+	
+	$("#linkbacktowork").click(function(){
+	window.location = '<?= $SESSION->wantsurl ?>';
+	});
+	
+	
 });
 </script>
 <?php endif;  ?>
+<input type='button' id='linkbacktowork' value='<?= get_string("cancel_buy_ticket", "ticket_buy")?>'>
