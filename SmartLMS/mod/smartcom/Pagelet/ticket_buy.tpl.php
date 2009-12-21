@@ -8,6 +8,8 @@
 
 <?php if(empty($this->accountinfo)): ?>
 <div class="error"><?= get_string("empty_account", "ticket_buy") ?></div>
+<br>
+<input type='button' id='topup' value='<?= get_string("topup", "ticket_buy")?>'>
 <?php else:  ?>
 <div><?= get_string("account_name", "ticket_buy") ?><strong><?=$this->accountinfo->username ?></strong></div>
 <div><?= get_string("account_balance", "ticket_buy") ?><strong><?=$this->accountinfo->coinvalue ?> (VND)</strong></div>
@@ -16,7 +18,7 @@
 <!-- <div>Acccount expire date is not changed</div>-->
 
 <input type='button' id='buy' value='<?= get_string("accept_buy_ticket", "ticket_buy")?>'><span id='buyResult'></span>
-
+<?php endif;  ?>
 <script type="text/javascript" >
 $(document).ready(function(){
 	$("#buy").click(function(){
@@ -52,8 +54,12 @@ $(document).ready(function(){
 	window.location = '<?= $SESSION->wantsurl ?>';
 	});
 	
+	$("#topup").click(function(){
+	window.location = '/mod/smartcom/index.php?courseid=1&submodule=prepaidcard_enduser_deposit';
+	});	
+	
 	
 });
 </script>
-<?php endif;  ?>
+
 <input type='button' id='linkbacktowork' value='<?= get_string("cancel_buy_ticket", "ticket_buy")?>'>
