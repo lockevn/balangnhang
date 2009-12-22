@@ -62,7 +62,6 @@ class block_online_support extends block_base {
 		}
 		
 		$timefrom = 100 * floor((time()-$timetoshowusers) / 100); // Round to nearest 100 seconds for better query cache
-    	$timefrom = 0;
 		$context = get_context_instance(CONTEXT_COURSE, $COURSE->id);
     	$teachers = get_users_by_capability($context, 'mod/smartcom:sendnotification', 'u.id id, u.username username', '', '', '', '', '', false);
     	$result = array();
