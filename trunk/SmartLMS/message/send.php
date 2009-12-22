@@ -95,9 +95,35 @@ if (has_capability('moodle/site:sendmessage', get_context_instance(CONTEXT_SYSTE
     <script>
 	  // Load jQuery
 	  google.load("jquery", "1.3.2");
+	  /*
+	  function checkEnter(e) {
+		  var characterCode;
+		  if(e && e.which){
+			e = e;
+			characterCode = e.which;
+		  } else {
+			  e = event;
+			  characterCode = e.keyCode;
+		  }
+		  if(characterCode == 13 || characterCode == 10) {
+			  jQuery("#edit-message").attr("readonly", "readonly");
+			  jQuery("#editing").submit();
+		  } else {
+			  return true;
+		  }
+	  }
+	  */
 	  function onload() {
 		  jQuery("#edit-message").keypress(function (e){
-			  if(e.which == 13) {
+			  var characterCode;
+			  if(e && e.which){
+				e = e;
+				characterCode = e.which;
+			  } else {
+				  e = event;
+				  characterCode = e.keyCode;
+			  }
+			  if(characterCode == 13 || characterCode == 10) {
 				  jQuery("#edit-message").attr("readonly", "readonly");
 				  jQuery("#editing").submit();
 			  } else {
@@ -106,6 +132,7 @@ if (has_capability('moodle/site:sendmessage', get_context_instance(CONTEXT_SYSTE
 		  });
 	  }
 	  google.setOnLoadCallback(onload);
+	  
 	</script>
     <?php
     //END @nttuyen: write js code for: ENTER key to send message
@@ -113,7 +140,7 @@ if (has_capability('moodle/site:sendmessage', get_context_instance(CONTEXT_SYSTE
     echo '<title> </title></head>';
 
 
-    echo '<body class="message course-1" id="message-send">';
+    echo '<body class="message course-1" id="message-send" onload="onload();">';
     echo '<center>';
     echo '<form id="editing" method="post" action="send.php">';
     echo '<div>';
