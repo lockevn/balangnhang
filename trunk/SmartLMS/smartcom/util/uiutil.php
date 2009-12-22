@@ -46,7 +46,7 @@ function printSupportToolMenuBar($courseid) {
 		if(!empty($cmList['oublog'])) {
 			$cm = $cmList['oublog'];
 			$link = "$CFG->wwwroot/mod/$cm->modulename/view.php?id=$cm->id";
-			$str .= "<div class='menu2' style='font-color:white;'><a href='$link'>Course blog</a></div>";
+			$str .= "<div class='menu2' style='font-color:white;'><a href='$link'><img src='$CFG->themewww/".current_theme() ."/template/images/". $prefix . "MN2_blog.jpg' /></a></div>";
 			$str .= "<div class='menu2split'></div>";
 		}
 		else {
