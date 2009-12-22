@@ -224,6 +224,10 @@ echo '
 * Print user image                                            
 */
 print_user_picture($user, $course->id, $user->picture, 100, false, false);
+//@nttuyen: add 'change avatar' link
+echo '<br/>';
+global $USER;
+echo "<center><b><a href=$CFG->wwwroot/user/edit.php?id=$USER->id&amp;course=$course->id>". get_string('userchangavatar') ."</a></b></center>";
 echo '                                            
                                             </td>
                                             </td>
@@ -523,7 +527,8 @@ if (is_mnet_remote_user($user)) {
             }
         }
 
-        if ($canunenrol) {
+        //@nttuyen: remove button: 'remove course'
+        /*if ($canunenrol) {
             echo '<form action="'.$CFG->wwwroot.'/course/unenrol.php" method="get">';
             echo '<div>';
             echo '<input type="hidden" name="id" value="'.$course->id.'" />';
@@ -531,7 +536,7 @@ if (is_mnet_remote_user($user)) {
             echo '<input class="cls_button" type="submit" value="'.s(get_string('unenrolme', '', $course->shortname)).'" />';
             echo '</div>';
             echo '</form>';
-        }
+        }*/
     }
 
     if (!$user->deleted and $USER->id != $user->id  && empty($USER->realuser) && has_capability('moodle/user:loginas', $coursecontext) &&
@@ -546,7 +551,8 @@ if (is_mnet_remote_user($user)) {
         echo '</form>';
     }
 
-    if (!$user->deleted and !empty($CFG->messaging) and !isguest() and has_capability('moodle/site:sendmessage', get_context_instance(CONTEXT_SYSTEM))) {
+    //@nttuyen: remove message button
+    /*if (!$user->deleted and !empty($CFG->messaging) and !isguest() and has_capability('moodle/site:sendmessage', get_context_instance(CONTEXT_SYSTEM))) {
         if (!empty($USER->id) and ($USER->id == $user->id)) {
             if ($countmessages = count_records('message', 'useridto', $user->id)) {
                 $messagebuttonname = get_string("messages", "message")."($countmessages)";
@@ -566,7 +572,7 @@ if (is_mnet_remote_user($user)) {
             echo "</div>";
             echo "</form>";
         }
-    }
+    }*/
     // Authorize.net: User Payments
     if ($course->enrol == 'authorize' || (empty($course->enrol) && $CFG->enrol == 'authorize')) {
         echo "<form action=\"../enrol/authorize/index.php\" method=\"get\">";
