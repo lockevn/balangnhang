@@ -275,7 +275,7 @@
                             <tr><td height="30px" colspan="3">
                                 <div>' . print_heading_block(get_string('topicoutline', "format_topicstree")) . '</div>
                                 <div class="selectcourse">
-                                    <select name="current_course" style="width:225px; height:21px" onchange="location.href=this.value">';
+                                    ' . get_string('courseselect') . ': <select name="current_course" style="width:225px; height:21px" onchange="location.href=this.value">';
     									if(!empty($myCourseList)) {
     										foreach($myCourseList as $course)
     										{

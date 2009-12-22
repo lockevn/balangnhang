@@ -812,6 +812,8 @@ function print_overview($courses) {
         }
         print_heading('<a title="'. format_string($course->fullname).'" '.$linkcss.' href="'.$CFG->wwwroot.'/course/view.php?id='.$course->id.'">'. format_string($course->fullname).'</a>');
         echo "<a href='$CFG->wwwroot/smartcom/resume/view.php?id=$course->id'>" . get_string('resume_course','resume') . "</a>";
+        echo "    |   ";
+        echo "<a href='$CFG->wwwroot/course/unenrol.php?id=$course->id&amp;user=$USER->id'>" . get_string('remove_course','resume') . "</a>";
         if (array_key_exists($course->id,$htmlarray)) {
             foreach ($htmlarray[$course->id] as $modname => $html) {
                 echo $html;
