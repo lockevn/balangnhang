@@ -28,7 +28,29 @@ function init() {
         $str = "";
         $str .= '<div style="display: block; width:200px; padding-left: 10px;">';
         $str .= '<applet id="applet" archive="'.$CFG->wwwroot.'/mod/nanogong/nanogong.jar" code="gong.NanoGong" width="180" height="40"></applet>';
-        $str .= '<span><a href="#">'. get_string('block_recorder_jre_need', 'block_recorder') . '</a></span>';
+        ?>
+        <script>
+        var interval = 0;
+        function appletCheck() {
+            if(document.applet) {
+		        if(!document.applet.isActive()) {
+		        	jQuery("#jre_download").html("<a href=\"<?php echo $CFG->wwwroot ?>/blocks/recorder/jre_6.17.exe\"><?php echo get_string('block_recorder_jre_need', 'block_recorder')?></a>");
+	                return;
+	            } else {
+	            	//jQuery("#jre_download").html("<a href=\"<?php echo $CFG->wwwroot ?>/blocks/recorder/jre_6.17.exe\"><?php echo get_string('block_recorder_jre_need', 'block_recorder')?></a>");
+	               return;
+	            }
+            } else {
+            	setTimeout("appletCheck();", 1000);
+            }
+        }
+        (function timedAppletCheck(){
+            interval = setTimeout("appletCheck();", 1000);
+        })();
+        
+        </script>
+        <?php 
+        $str .= '<br/><span id = "jre_download"></span>';
         $str .= '</div>';
         
         $this->content->text = $str;
@@ -43,23 +65,6 @@ function init() {
         $this->content->footer = '';               
 
         return $this->content;
-    }
-    
-    function get_support_teachers() {
-    	global $CFG;
-    	$sql = "SELECT u.id id, u.username username
-				FROM " . $CFG->prefix . "user u 
-				WHERE u.id = 22";
-    	$results = get_records_sql($sql);
-    	
-    	$teachers = array();
-    	if(!empty($results)) {
-    		foreach($results as $result) {
-    			$teachers[] = $result;
-    		}
-    	}
-    	
-    	return $teachers;
     }
     
 	function preferred_width() {
