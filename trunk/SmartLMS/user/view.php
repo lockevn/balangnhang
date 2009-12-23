@@ -227,7 +227,8 @@ print_user_picture($user, $course->id, $user->picture, 100, false, false);
 //@nttuyen: add 'change avatar' link
 echo '<br/>';
 global $USER;
-echo "<center><b><a href=$CFG->wwwroot/user/edit.php?id=$USER->id&amp;course=$course->id>". get_string('userchangavatar') ."</a></b></center>";
+echo "<center><b><a href=$CFG->wwwroot/user/edit.php?id=$USER->id&amp;course=$course->id#newimg>". get_string('userchangavatar') ."</a></b></center>";
+//@nttuyen: END add 'change avatar' link
 echo '                                            
                                             </td>
                                             </td>
