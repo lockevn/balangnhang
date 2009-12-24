@@ -44,7 +44,16 @@
     }
 
     require_login($course);
-    require_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id));
+    //@nttuyen: Edit for student upload file
+    //require_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id));
+    global $workdir;
+    $workdir = "$course->id";
+    if(!has_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id)) 
+    	&& has_capability('moodle/course:uploadfile', get_context_instance(CONTEXT_COURSE, $id))) {
+        $workdir = "user/0/$USER->id";
+    }
+    //@nttuyen: END Edit for student upload file
+    
 
     function html_footer() {
         echo "\n\n</body>\n</html>";
@@ -52,7 +61,7 @@
 
     function html_header($course, $wdir, $formfield=""){
 
-        global $CFG;
+        global $CFG, $USER;
 
         ?>
         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -197,9 +206,23 @@
         <?php
     }
 
-    if (! $basedir = make_upload_directory("$course->id")) {
-        error("The site administrator needs to fix the file permissions");
+    //@nttuyen: edit for student enable to uplodat file
+    global $basedir, $workdir;
+    if(has_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id))
+    	|| has_capability('moodle/course:uploadfile', get_context_instance(CONTEXT_COURSE, $id)) ) {
+    		
+    	if (! $basedir = make_upload_directory($workdir)) {
+	        error("The site administrator needs to fix the file permissions");
+	    }
     }
+    if(has_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id))) {
+	    	
+    }
+    //if (! $basedir = make_upload_directory("$course->id")) {
+	//        error("The site administrator needs to fix the file permissions");
+	//}
+    //@nttuyen: END edit for student enable to uplodat file
+    
 
     $baseweb = $CFG->wwwroot;
 
@@ -365,7 +388,8 @@
                 $name = clean_filename($name);
                 if (file_exists("$basedir$wdir/$name")) {
                     echo "Error: $name already exists!";
-                } else if (! make_upload_directory("$course->id/$wdir/$name")) {
+                //} else if (! make_upload_directory("$course->id/$wdir/$name")) {
+                } else if (! make_upload_directory("$workdir/$wdir/$name")) {
                     echo "Error: could not create $name";
                 }
                 displaydir($wdir);
@@ -769,7 +793,8 @@ function displaydir ($wdir) {
                 print_cell("center", "<input type=\"checkbox\" name=\"file$count\" value=\"$fileurl\" onclick=\";return set_rename('$file');\" />");
             }
             echo "<td align=\"left\" nowrap=\"nowrap\">";
-            $ffurl = get_file_url($id.$fileurl);
+            global $workdir;
+            $ffurl = get_file_url($workdir.$fileurl);
             $ffurl = str_replace("%2F", "/", $ffurl);
             $ffurl = str_replace($CFG->wwwroot, "", $ffurl);
             link_to_popup_window ($ffurl, "display",
