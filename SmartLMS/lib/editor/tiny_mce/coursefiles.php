@@ -46,11 +46,18 @@
     require_login($course);
     //@nttuyen: Edit for student upload file
     //require_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id));
-    global $workdir;
-    $workdir = "$course->id";
-    if(!has_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id)) 
+    global $workdir, $USER, $CFG;
+    if(has_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id))) {
+    	$workdir = "$course->id";
+    } else if(!has_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id)) 
     	&& has_capability('moodle/course:uploadfile', get_context_instance(CONTEXT_COURSE, $id))) {
-        $workdir = "user/0/$USER->id";
+    		$workdir = str_replace("$CFG->dataroot/", "", make_user_directory($USER->id, true));
+        //$workdir = "user/0/$USER->id";
+    } else {
+    	error("You have no-permission to uploadfile");
+    }
+    if($workdir == "" || $workdir == "/") {
+    	error("You have no-permission to uploadfile");
     }
     //@nttuyen: END Edit for student upload file
     
@@ -211,12 +218,9 @@
     if(has_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id))
     	|| has_capability('moodle/course:uploadfile', get_context_instance(CONTEXT_COURSE, $id)) ) {
     		
-    	if (! $basedir = make_upload_directory($workdir)) {
-	        error("The site administrator needs to fix the file permissions");
-	    }
-    }
-    if(has_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id))) {
-	    	
+	    	if (! $basedir = make_upload_directory($workdir)) {
+		        error("The site administrator needs to fix the file permissions");
+		    }
     }
     //if (! $basedir = make_upload_directory("$course->id")) {
 	//        error("The site administrator needs to fix the file permissions");
@@ -684,7 +688,7 @@ function get_image_size($filepath) {
 function displaydir ($wdir) {
 //  $wdir == / or /a or /a/b/c/d  etc
 
-    global $basedir;
+    global $basedir, $workdir;
     global $usecheckboxes;
     global $id;
     global $USER, $CFG;
@@ -797,6 +801,8 @@ function displaydir ($wdir) {
             $ffurl = get_file_url($workdir.$fileurl);
             $ffurl = str_replace("%2F", "/", $ffurl);
             $ffurl = str_replace($CFG->wwwroot, "", $ffurl);
+            ///file.php?file=/user/
+            $ffurl = str_replace("/file.php?file=/$workdir/", "/user/pix.php?file=/$USER->id/", $ffurl);
             link_to_popup_window ($ffurl, "display",
                                   "<img src=\"$CFG->pixpath/f/$icon\" class=\"icon\" alt=\"$strfile\" />",
                                   480, 640);

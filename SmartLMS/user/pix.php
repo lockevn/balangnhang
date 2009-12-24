@@ -29,6 +29,18 @@
                 send_file($pathname, $image);
             }
         }
+    } else {
+    	$size = count($args);
+    	$userid   = (integer)$args[0];
+    	$path = "";
+    	for($i = 1; $i < $size - 1; $i++) {
+    		$path .= "/$args[$i]";
+    	}
+    	$image = $args[$size - 1];
+    	$pathname = make_user_directory($userid, true) . $path . "/$image";
+    	if (file_exists($pathname) and !is_dir($pathname)) {
+            send_file($pathname, $image);
+        }
     }
 
     // picture was deleted - use default instead
