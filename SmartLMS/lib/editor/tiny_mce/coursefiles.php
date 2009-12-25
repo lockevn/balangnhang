@@ -46,11 +46,11 @@
     require_login($course);
     //@nttuyen: Edit for student upload file
     //require_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id));
-    global $workdir, $USER, $CFG;
+    global $workdir, $USER, $CFG, $cm;
+    echo "CM: $cm->id";
     if(has_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id))) {
     	$workdir = "$course->id";
-    } else if(!has_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id)) 
-    	&& has_capability('moodle/course:uploadfile', get_context_instance(CONTEXT_COURSE, $id))) {
+    } else if(has_capability('moodle/course:uploadfile', get_context_instance(CONTEXT_USER, $USER->id))) {
     		$workdir = str_replace("$CFG->dataroot/", "", make_user_directory($USER->id, true));
         //$workdir = "user/0/$USER->id";
     } else {
@@ -214,9 +214,9 @@
     }
 
     //@nttuyen: edit for student enable to uplodat file
-    global $basedir, $workdir;
+    global $basedir, $workdir, $cm;
     if(has_capability('moodle/course:managefiles', get_context_instance(CONTEXT_COURSE, $id))
-    	|| has_capability('moodle/course:uploadfile', get_context_instance(CONTEXT_COURSE, $id)) ) {
+    	|| has_capability('moodle/course:uploadfile', get_context_instance(CONTEXT_USER, $USER->id)) ) {
     		
 	    	if (! $basedir = make_upload_directory($workdir)) {
 		        error("The site administrator needs to fix the file permissions");
@@ -802,7 +802,9 @@ function displaydir ($wdir) {
             $ffurl = str_replace("%2F", "/", $ffurl);
             $ffurl = str_replace($CFG->wwwroot, "", $ffurl);
             ///file.php?file=/user/
-            $ffurl = str_replace("/file.php?file=/$workdir/", "/user/pix.php?file=/$USER->id/", $ffurl);
+            if(strpos($ffurl, 'file=/user/')) {
+            	$ffurl = str_replace("/file.php?file=/$workdir/", "/user/pix.php?file=/$USER->id/", $ffurl);
+            }
             link_to_popup_window ($ffurl, "display",
                                   "<img src=\"$CFG->pixpath/f/$icon\" class=\"icon\" alt=\"$strfile\" />",
                                   480, 640);
