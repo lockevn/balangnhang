@@ -405,16 +405,19 @@ pre tab</pre>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#txtStartDate").datepicker();
-        $("#dialog").dialog();
 
-        $('.cf', '#container').not('.drop + .cf').each(function (index, DOMelement) {
-            $(DOMelement).before($('<div class="newdrop">NEWDROP</div>'));
-        });
 
-        if ($(':last-child', '#container').is('.drop') == false) {
-            $('<div class="newdroplast">NEWDROP LASSSSSSST</div>').appendTo($('#container'));
-        }
+
+//        $("#txtStartDate").datepicker();
+//        $("#dialog").dialog();
+
+//        $('.cf', '#container').not('.drop + .cf').each(function (index, DOMelement) {
+//            $(DOMelement).before($('<div class="newdrop">NEWDROP</div>'));
+//        });
+
+//        if ($(':last-child', '#container').is('.drop') == false) {
+//            $('<div class="newdroplast">NEWDROP LASSSSSSST</div>').appendTo($('#container'));
+//        }
     }
 );
 </script>
