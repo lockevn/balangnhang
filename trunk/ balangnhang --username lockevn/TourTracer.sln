@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourTracer", "TourTracer\TourTracer.csproj", "{DBD5A997-C301-458B-8A2B-10E0D347558B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DBD5A997-C301-458B-8A2B-10E0D347558B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBD5A997-C301-458B-8A2B-10E0D347558B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBD5A997-C301-458B-8A2B-10E0D347558B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBD5A997-C301-458B-8A2B-10E0D347558B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
